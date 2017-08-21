@@ -7,7 +7,8 @@
 graph(id = NULL, clickData = NULL, hoverData = NULL,
   clear_on_unhover = NULL, selectedData = NULL, relayoutData = NULL,
   figure = NULL, style = NULL, animate = NULL, animation_options = NULL,
-  dashEvents = NULL, setProps = NULL, dashFireEvent = NULL)
+  config = NULL, dashEvents = NULL, setProps = NULL,
+  dashFireEvent = NULL)
 }
 \arguments{
 \item{id}{(required)}
@@ -30,6 +31,8 @@ graph(id = NULL, clickData = NULL, hoverData = NULL,
 
 \item{animation_options}{Beta: Object containing animation settings. Only applies if `animate` is `true`}
 
+\item{config}{Plotly.js config options. See https://plot.ly/javascript/configuration-options/ for more info.}
+
 \item{dashEvents}{}
 
 \item{setProps}{Function that updates the state tree.}
@@ -37,5 +40,5 @@ graph(id = NULL, clickData = NULL, hoverData = NULL,
 \item{dashFireEvent}{Function that fires events}
 }
 \description{
-graph component
+
 }

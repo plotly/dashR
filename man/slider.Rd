@@ -2,13 +2,12 @@
 % Please edit documentation in R/components.R
 \name{slider}
 \alias{slider}
-\title{slider component 
-A numerical slider with a single handle.}
+\title{slider component}
 \usage{
 slider(id = NULL, className = NULL, disabled = NULL, dots = NULL,
   included = NULL, marks = NULL, min = NULL, max = NULL, step = NULL,
-  labels = NULL, value = NULL, vertical = NULL, fireEvent = NULL,
-  setProps = NULL, dashEvents = NULL)
+  labels = NULL, value = NULL, vertical = NULL, updatemode = NULL,
+  fireEvent = NULL, setProps = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{id}{}
@@ -35,6 +34,8 @@ slider(id = NULL, className = NULL, disabled = NULL, dots = NULL,
 
 \item{vertical}{If true, the slider will be vertical}
 
+\item{updatemode}{Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.}
+
 \item{fireEvent}{Dash-assigned callback that gets fired when the checkbox item gets selected.}
 
 \item{setProps}{Dash-assigned callback that gets fired when the value changes.}
@@ -42,6 +43,5 @@ slider(id = NULL, className = NULL, disabled = NULL, dots = NULL,
 \item{dashEvents}{}
 }
 \description{
-slider component 
-A numerical slider with a single handle.
+A slider component with a single handle.
 }

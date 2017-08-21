@@ -2,8 +2,7 @@
 % Please edit documentation in R/components.R
 \name{markdown}
 \alias{markdown}
-\title{markdown component 
-A component that renders Markdown text as specified by the CommonMark spec.}
+\title{markdown component}
 \usage{
 markdown(id = NULL, className = NULL, containerProps = NULL,
   children = NULL)
@@ -18,6 +17,5 @@ markdown(id = NULL, className = NULL, containerProps = NULL,
 \item{children}{A markdown string that adhreres to the CommonMark spec}
 }
 \description{
-markdown component 
 A component that renders Markdown text as specified by the CommonMark spec.
 }

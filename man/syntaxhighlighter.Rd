@@ -2,8 +2,7 @@
 % Please edit documentation in R/components.R
 \name{syntaxhighlighter}
 \alias{syntaxhighlighter}
-\title{syntaxhighlighter component 
-A component for pretty printing code.}
+\title{syntaxhighlighter component}
 \usage{
 syntaxhighlighter(id = NULL, children = NULL, language = NULL,
   theme = NULL, customStyle = NULL, codeTagProps = NULL,
@@ -39,6 +38,5 @@ syntaxhighlighter(id = NULL, children = NULL, language = NULL,
 \item{lineStyle}{inline style to be passed to the span wrapping each line if wrapLines is true. Can be either an object or a function that recieves current line number as argument and returns style object.}
 }
 \description{
-syntaxhighlighter component 
 A component for pretty printing code.
 }

@@ -2,14 +2,13 @@
 % Please edit documentation in R/components.R
 \name{rangeslider}
 \alias{rangeslider}
-\title{rangeslider component 
-A double slider with two handles. Used for specifying a range of numerical values.}
+\title{rangeslider component}
 \usage{
 rangeslider(id = NULL, allowCross = NULL, className = NULL,
   count = NULL, disabled = NULL, dots = NULL, included = NULL,
   marks = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL,
-  labels = NULL, value = NULL, vertical = NULL, fireEvent = NULL,
-  setProps = NULL, dashEvents = NULL)
+  labels = NULL, value = NULL, vertical = NULL, updatemode = NULL,
+  fireEvent = NULL, setProps = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{id}{}
@@ -42,6 +41,8 @@ rangeslider(id = NULL, allowCross = NULL, className = NULL,
 
 \item{vertical}{If true, the slider will be vertical}
 
+\item{updatemode}{Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.}
+
 \item{fireEvent}{Dash-assigned callback that gets fired when the checkbox item gets selected.}
 
 \item{setProps}{Dash-assigned callback that gets fired when the value changes.}
@@ -49,6 +50,5 @@ rangeslider(id = NULL, allowCross = NULL, className = NULL,
 \item{dashEvents}{}
 }
 \description{
-rangeslider component 
 A double slider with two handles. Used for specifying a range of numerical values.
 }

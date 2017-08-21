@@ -5,7 +5,9 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsiev
 Description: Build dash web apps from R
 Depends: R (>= 3.4.1)
 Imports:
-  fiery
+  fiery,
+  routr,
+  reqres
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

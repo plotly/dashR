@@ -2,8 +2,7 @@
 % Please edit documentation in R/components.R
 \name{radioitems}
 \alias{radioitems}
-\title{radioitems component 
-RadioItems is a component that encapsulates several radio item inputs. The values and labels of the RadioItems is specified in the `options` property and the seleced item is specified with the `value` property. Each radio item is rendered as an input with a surrounding label.}
+\title{radioitems component}
 \usage{
 radioitems(id = NULL, inputStyle = NULL, inputClassName = NULL,
   labelStyle = NULL, labelClassName = NULL, options = NULL,
@@ -31,6 +30,5 @@ radioitems(id = NULL, inputStyle = NULL, inputClassName = NULL,
 \item{dashEvents}{}
 }
 \description{
-radioitems component 
 RadioItems is a component that encapsulates several radio item inputs. The values and labels of the RadioItems is specified in the `options` property and the seleced item is specified with the `value` property. Each radio item is rendered as an input with a surrounding label.
 }

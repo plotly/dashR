@@ -2,8 +2,7 @@
 % Please edit documentation in R/components.R
 \name{interval}
 \alias{interval}
-\title{interval component 
-A component that repeatedly fires an event ("interval") with a fixed time delay between each event. Interval is good for triggering a component on a recurring basis. The time delay is set with the property "interval" in milliseconds.}
+\title{interval component}
 \usage{
 interval(id = NULL, interval = NULL, fireEvent = NULL, setProps = NULL,
   dashEvents = NULL)
@@ -20,6 +19,5 @@ interval(id = NULL, interval = NULL, fireEvent = NULL, setProps = NULL,
 \item{dashEvents}{}
 }
 \description{
-interval component 
 A component that repeatedly fires an event ("interval") with a fixed time delay between each event. Interval is good for triggering a component on a recurring basis. The time delay is set with the property "interval" in milliseconds.
 }

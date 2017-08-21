@@ -2,8 +2,7 @@
 % Please edit documentation in R/components.R
 \name{checklist}
 \alias{checklist}
-\title{checklist component 
-Checklist is a component that encapsulates several checkboxes. The values and labels of the checklist is specified in the `options` property and the checked items are specified with the `values` property. Each checkbox is rendered as an input with a surrounding label.}
+\title{checklist component}
 \usage{
 checklist(id = NULL, inputStyle = NULL, inputClassName = NULL,
   labelStyle = NULL, labelClassName = NULL, options = NULL,
@@ -31,6 +30,5 @@ checklist(id = NULL, inputStyle = NULL, inputClassName = NULL,
 \item{dashEvents}{}
 }
 \description{
-checklist component 
 Checklist is a component that encapsulates several checkboxes. The values and labels of the checklist is specified in the `options` property and the checked items are specified with the `values` property. Each checkbox is rendered as an input with a surrounding label.
 }

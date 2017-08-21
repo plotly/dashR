@@ -2,17 +2,18 @@
 % Please edit documentation in R/components.R
 \name{dropdown}
 \alias{dropdown}
-\title{dropdown component 
-Dropdown is an interactive dropdown element for selecting one or more items. The values and labels of the dropdown items are specified in the `options` property and the selected item(s) are specified with the `value` property.  Use a dropdown when you have many options (more than 5) or when you are constrained for space. Otherwise, you can use RadioItems or a Checklist, which have the benefit of showing the users all of the items at once.}
+\title{dropdown component}
 \usage{
-dropdown(id = NULL, className = NULL, disabled = NULL, multi = NULL,
-  options = NULL, placeholder = NULL, value = NULL, setProps = NULL,
-  dashEvents = NULL)
+dropdown(id = NULL, className = NULL, clearable = NULL, disabled = NULL,
+  multi = NULL, options = NULL, placeholder = NULL, searchable = NULL,
+  value = NULL, setProps = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{id}{}
 
 \item{className}{}
+
+\item{clearable}{Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.}
 
 \item{disabled}{If true, the option is disabled}
 
@@ -22,6 +23,8 @@ dropdown(id = NULL, className = NULL, disabled = NULL, multi = NULL,
 
 \item{placeholder}{The grey, default text shown when no option is selected}
 
+\item{searchable}{Whether to enable the searching feature or not}
+
 \item{value}{The value of the input. If `multi` is false (the default) then value is just a string that corresponds to the values provided in the `options` property. If `multi` is true, then multiple values can be selected at once, and `value` is an array of items with values corresponding to those in the `options` prop.}
 
 \item{setProps}{Dash-assigned callback that gets fired when the input changes}
@@ -29,6 +32,5 @@ dropdown(id = NULL, className = NULL, disabled = NULL, multi = NULL,
 \item{dashEvents}{}
 }
 \description{
-dropdown component 
 Dropdown is an interactive dropdown element for selecting one or more items. The values and labels of the dropdown items are specified in the `options` property and the selected item(s) are specified with the `value` property.  Use a dropdown when you have many options (more than 5) or when you are constrained for space. Otherwise, you can use RadioItems or a Checklist, which have the benefit of showing the users all of the items at once.
 }

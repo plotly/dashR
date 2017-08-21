@@ -1,0 +1,365 @@
+#' checklist component 
+#' @description Checklist is a component that encapsulates several checkboxes. The values and labels of the checklist is specified in the `options` property and the checked items are specified with the `values` property. Each checkbox is rendered as an input with a surrounding label. 
+#' 
+#' @export
+#' @param id   
+#' @param inputStyle The style of the <input> checkbox element  
+#' @param inputClassName The class of the <input> checkbox element  
+#' @param labelStyle The style of the <label> that wraps the checkbox input  and the option's label  
+#' @param labelClassName The class of the <label> that wraps the checkbox input  and the option's label  
+#' @param options An array of options  
+#' @param values The currently selected value  
+#' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents  
+core_checklist <- function(id = NULL, inputStyle = NULL, inputClassName = NULL, labelStyle = NULL, labelClassName = NULL, options = NULL, values = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, inputStyle=inputStyle, inputClassName=inputClassName, labelStyle=labelStyle, labelClassName=labelClassName, options=options, values=values, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'checklist')
+   )
+}
+#' datepickerrange component 
+#' @description DatePickerRange is a tailor made component designed for selecting timespan across multiple days off of a calendar.  The DatePicker integrates well with the Python datetime module with the startDate and endDate being returned in a string format suitable for creating datetime objects.  This component is based off of Airbnb's react-dates react component which can be found here: https://github.com/airbnb/react-dates 
+#' 
+#' @export
+#' @param id   
+#' @param start_date Specifies the starting date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param end_date Specifies the ending date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param min_date_allowed Specifies the lowest selectable date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param max_date_allowed Specifies the highest selectable date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param initial_visible_month Specifies the month that is initially presented when the user opens the calendar. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param start_date_placeholder_text Text that will be displayed in the first input box of the date picker when no date is selected. Default value is 'Start Date'  
+#' @param end_date_placeholder_text Text that will be displayed in the second input box of the date picker when no date is selected. Default value is 'End Date'  
+#' @param day_size Size of rendered calendar days, higher number means bigger day size and larger calendar overall  
+#' @param calendar_orientation Orientation of calendar, either vertical or horizontal. Valid options are 'vertical' or 'horizontal'.  
+#' @param is_RTL Determines whether the calendar and days operate from left to right or from right to left  
+#' @param reopen_calendar_on_clear If True, the calendar will automatically open when cleared  
+#' @param number_of_months_shown Number of calendar months that are shown when calendar is opened  
+#' @param with_portal If True, calendar will open in a screen overlay portal, not supported on vertical calendar  
+#' @param with_full_screen_portal If True, calendar will open in a full screen overlay portal, will take precedent over 'withPortal' if both are set to true, not supported on vertical calendar  
+#' @param first_day_of_week Specifies what day is the first day of the week, values must be from [0, ..., 6] with 0 denoting Sunday and 6 denoting Saturday  
+#' @param minimum_nights Specifies a minimum number of nights that must be selected between the startDate and the endDate  
+#' @param stay_open_on_select If True the calendar will not close when the user has selected a value and will wait until the user clicks off the calendar  
+#' @param show_outside_days If True the calendar will display days that rollover into the next month  
+#' @param month_format Specifies the format that the month will be displayed in the calendar, valid formats are variations of "MM YY". For example: "MM YY" renders as '05 97' for May 1997 "MMMM, YYYY" renders as 'May, 1997' for May 1997 "MMM, YY" renders as 'Sep, 97' for September 1997  
+#' @param display_format Specifies the format that the selected dates will be displayed valid formats are variations of "MM YY DD". For example: "MM YY DD" renders as '05 10 97' for May 10th 1997 "MMMM, YY" renders as 'May, 1997' for May 10th 1997 "M, D, YYYY" renders as '07, 10, 1997' for September 10th 1997 "MMMM" renders as 'May' for May 10 1997  
+#' @param disabled If True, no dates can be selected.  
+#' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
+core_datepickerrange <- function(id = NULL, start_date = NULL, end_date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, start_date_placeholder_text = NULL, end_date_placeholder_text = NULL, day_size = NULL, calendar_orientation = NULL, is_RTL = NULL, reopen_calendar_on_clear = NULL, number_of_months_shown = NULL, with_portal = NULL, with_full_screen_portal = NULL, first_day_of_week = NULL, minimum_nights = NULL, stay_open_on_select = NULL, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = NULL, clearable = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, start_date=start_date, end_date=end_date, min_date_allowed=min_date_allowed, max_date_allowed=max_date_allowed, initial_visible_month=initial_visible_month, start_date_placeholder_text=start_date_placeholder_text, end_date_placeholder_text=end_date_placeholder_text, day_size=day_size, calendar_orientation=calendar_orientation, is_RTL=is_RTL, reopen_calendar_on_clear=reopen_calendar_on_clear, number_of_months_shown=number_of_months_shown, with_portal=with_portal, with_full_screen_portal=with_full_screen_portal, first_day_of_week=first_day_of_week, minimum_nights=minimum_nights, stay_open_on_select=stay_open_on_select, show_outside_days=show_outside_days, month_format=month_format, display_format=display_format, disabled=disabled, clearable=clearable, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'datepickerrange')
+   )
+}
+#' datepickersingle component 
+#' @description DatePickerRange is a tailor made component designed for selecting a single day off of a calendar.  The DatePicker integrates well with the Python datetime module with the startDate and endDate being returned in a string format suitable for creating datetime objects.  This component is based off of Airbnb's react-dates react component which can be found here: https://github.com/airbnb/react-dates 
+#' 
+#' @export
+#' @param id   
+#' @param date Specifies the starting date for the component, best practice is to pass value via datetime object  
+#' @param min_date_allowed Specifies the lowest selectable date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param max_date_allowed Specifies the highest selectable date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param initial_visible_month Specifies the month that is initially presented when the user opens the calendar. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
+#' @param day_size Size of rendered calendar days, higher number means bigger day size and larger calendar overall  
+#' @param calendar_orientation Orientation of calendar, either vertical or horizontal. Valid options are 'vertical' or 'horizontal'.  
+#' @param is_RTL Determines whether the calendar and days operate from left to right or from right to left  
+#' @param placeholder Text that will be displayed in the input box of the date picker when no date is selected. Default value is 'Start Date'  
+#' @param reopen_calendar_on_clear If True, the calendar will automatically open when cleared  
+#' @param number_of_months_shown Number of calendar months that are shown when calendar is opened  
+#' @param with_portal If True, calendar will open in a screen overlay portal, not supported on vertical calendar  
+#' @param with_full_screen_portal If True, calendar will open in a full screen overlay portal, will take precedent over 'withPortal' if both are set to True, not supported on vertical calendar  
+#' @param first_day_of_week Specifies what day is the first day of the week, values must be from [0, ..., 6] with 0 denoting Sunday and 6 denoting Saturday  
+#' @param stay_open_on_select If True the calendar will not close when the user has selected a value and will wait until the user clicks off the calendar  
+#' @param show_outside_days If True the calendar will display days that rollover into the next month  
+#' @param month_format Specifies the format that the month will be displayed in the calendar, valid formats are variations of "MM YY". For example: "MM YY" renders as '05 97' for May 1997 "MMMM, YYYY" renders as 'May, 1997' for May 1997 "MMM, YY" renders as 'Sep, 97' for September 1997  
+#' @param display_format Specifies the format that the selected dates will be displayed valid formats are variations of "MM YY DD". For example: "MM YY DD" renders as '05 10 97' for May 10th 1997 "MMMM, YY" renders as 'May, 1997' for May 10th 1997 "M, D, YYYY" renders as '07, 10, 1997' for September 10th 1997 "MMMM" renders as 'May' for May 10 1997  
+#' @param disabled If True, no dates can be selected.  
+#' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
+core_datepickersingle <- function(id = NULL, date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, day_size = NULL, calendar_orientation = NULL, is_RTL = NULL, placeholder = NULL, reopen_calendar_on_clear = NULL, number_of_months_shown = NULL, with_portal = NULL, with_full_screen_portal = NULL, first_day_of_week = NULL, stay_open_on_select = NULL, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = NULL, clearable = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, date=date, min_date_allowed=min_date_allowed, max_date_allowed=max_date_allowed, initial_visible_month=initial_visible_month, day_size=day_size, calendar_orientation=calendar_orientation, is_RTL=is_RTL, placeholder=placeholder, reopen_calendar_on_clear=reopen_calendar_on_clear, number_of_months_shown=number_of_months_shown, with_portal=with_portal, with_full_screen_portal=with_full_screen_portal, first_day_of_week=first_day_of_week, stay_open_on_select=stay_open_on_select, show_outside_days=show_outside_days, month_format=month_format, display_format=display_format, disabled=disabled, clearable=clearable, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'datepickersingle')
+   )
+}
+#' dropdown component 
+#' @description Dropdown is an interactive dropdown element for selecting one or more items. The values and labels of the dropdown items are specified in the `options` property and the selected item(s) are specified with the `value` property.  Use a dropdown when you have many options (more than 5) or when you are constrained for space. Otherwise, you can use RadioItems or a Checklist, which have the benefit of showing the users all of the items at once. 
+#' 
+#' @export
+#' @param id   
+#' @param className   
+#' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
+#' @param disabled If true, the option is disabled  
+#' @param multi If true, the user can select multiple values  
+#' @param options   
+#' @param placeholder The grey, default text shown when no option is selected  
+#' @param searchable Whether to enable the searching feature or not  
+#' @param value The value of the input. If `multi` is false (the default) then value is just a string that corresponds to the values provided in the `options` property. If `multi` is true, then multiple values can be selected at once, and `value` is an array of items with values corresponding to those in the `options` prop.  
+#' @param setProps Dash-assigned callback that gets fired when the input changes  
+#' @param dashEvents  
+core_dropdown <- function(id = NULL, className = NULL, clearable = NULL, disabled = NULL, multi = NULL, options = NULL, placeholder = NULL, searchable = NULL, value = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, className=className, clearable=clearable, disabled=disabled, multi=multi, options=options, placeholder=placeholder, searchable=searchable, value=value, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'dropdown')
+   )
+}
+#' graph component 
+#' @description  
+#' 
+#' @export
+#' @param id  (required) 
+#' @param clickData Data from latest click event  
+#' @param hoverData Data from latest hover event  
+#' @param clear_on_unhover If True, `clear_on_unhover` will clear the `hoverData` property when the user "unhovers" from a point. If False, then the `hoverData` property will be equal to the data from the last point that was hovered over.  
+#' @param selectedData Data from latest select event  
+#' @param relayoutData Data from latest relayout event which occurs when the user zooms or pans on the plot  
+#' @param figure Plotly `figure` object. See schema: https://plot.ly/javascript/reference  
+#' @param style Generic style overrides on the plot div  
+#' @param animate Beta: If true, animate between updates using plotly.js's `animate` function  
+#' @param animation_options Beta: Object containing animation settings. Only applies if `animate` is `true`  
+#' @param config Plotly.js config options. See https://plot.ly/javascript/configuration-options/ for more info.  
+#' @param dashEvents   
+#' @param setProps Function that updates the state tree.  
+#' @param dashFireEvent Function that fires events 
+core_graph <- function(id = NULL, clickData = NULL, hoverData = NULL, clear_on_unhover = NULL, selectedData = NULL, relayoutData = NULL, figure = NULL, style = NULL, animate = NULL, animation_options = NULL, config = NULL, dashEvents = NULL, setProps = NULL, dashFireEvent = NULL) {
+   structure(
+     list(id=id, clickData=clickData, hoverData=hoverData, clear_on_unhover=clear_on_unhover, selectedData=selectedData, relayoutData=relayoutData, figure=figure, style=style, animate=animate, animation_options=animation_options, config=config, dashEvents=dashEvents, setProps=setProps, dashFireEvent=dashFireEvent),
+     class = c('component', 'core', 'graph')
+   )
+}
+#' input component 
+#' @description A basic HTML input control for entering text, numbers, or passwords.  Note that checkbox and radio types are supported through the Checklist and RadioItems component. Dates, times, and file uploads are also supported through separate components. 
+#' 
+#' @export
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param value The value of the input  
+#' @param style The input's inline styles  
+#' @param className The class of the input element  
+#' @param type The type of control to render.  
+#' @param autocomplete This attribute indicates whether the value of the control can be automatically completed by the browser.  
+#' @param autofocus The element should be automatically focused after the page loaded.  
+#' @param inputmode   
+#' @param list Identifies a list of pre-defined options to suggest to the user. The value must be the id of a <datalist> element in the same document. The browser displays only options that are valid values for this input element. This attribute is ignored when the type attribute's value is hidden, checkbox, radio, file, or a button type.  
+#' @param max The maximum (numeric or date-time) value for this item, which must not be less than its minimum (min attribute) value.  
+#' @param maxlength If the value of the type attribute is text, email, search, password, tel, or url, this attribute specifies the maximum number of characters (in UTF-16 code units) that the user can enter. For other control types, it is ignored. It can exceed the value of the size attribute. If it is not specified, the user can enter an unlimited number of characters. Specifying a negative number results in the default behavior (i.e. the user can enter an unlimited number of characters). The constraint is evaluated only when the value of the attribute has been changed.  
+#' @param min The minimum (numeric or date-time) value for this item, which must not be greater than its maximum (max attribute) value.  
+#' @param minlength If the value of the type attribute is text, email, search, password, tel, or url, this attribute specifies the minimum number of characters (in Unicode code points) that the user can enter. For other control types, it is ignored.  
+#' @param multiple This Boolean attribute indicates whether the user can enter more than one value. This attribute applies when the type attribute is set to email or file, otherwise it is ignored.  
+#' @param name The name of the control, which is submitted with the form data.  
+#' @param pattern A regular expression that the control's value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is text, search, tel, url, email, or password, otherwise it is ignored. The regular expression language is the same as JavaScript RegExp algorithm, with the 'u' parameter that makes it treat the pattern as a sequence of unicode code points. The pattern is not surrounded by forward slashes.  
+#' @param placeholder A hint to the user of what can be entered in the control . The placeholder text must not contain carriage returns or line-feeds. Note: Do not use the placeholder attribute instead of a <label> element, their purposes are different. The <label> attribute describes the role of the form element (i.e. it indicates what kind of information is expected), and the placeholder attribute is a hint about the format that the content should take. There are cases in which the placeholder attribute is never displayed to the user, so the form must be understandable without it.  
+#' @param readonly This attribute indicates that the user cannot modify the value of the control. The value of the attribute is irrelevant. If you need read-write access to the input value, do not add the "readonly" attribute. It is ignored if the value of the type attribute is hidden, range, color, checkbox, radio, file, or a button type (such as button or submit).  
+#' @param required This attribute specifies that the user must fill in a value before submitting a form. It cannot be used when the type attribute is hidden, image, or a button type (submit, reset, or button). The :optional and :required CSS pseudo-classes will be applied to the field as appropriate.  
+#' @param selectionDirection The direction in which selection occurred. This is "forward" if the selection was made from left-to-right in an LTR locale or right-to-left in an RTL locale, or "backward" if the selection was made in the opposite direction. On platforms on which it's possible this value isn't known, the value can be "none"; for example, on macOS, the default direction is "none", then as the user begins to modify the selection using the keyboard, this will change to reflect the direction in which the selection is expanding.  
+#' @param selectionEnd The offset into the element's text content of the last selected character. If there's no selection, this value indicates the offset to the character following the current text input cursor position (that is, the position the next character typed would occupy).  
+#' @param selectionStart The offset into the element's text content of the first selected character. If there's no selection, this value indicates the offset to the character following the current text input cursor position (that is, the position the next character typed would occupy).  
+#' @param size The initial size of the control. This value is in pixels unless the value of the type attribute is text or password, in which case it is an integer number of characters. Starting in, this attribute applies only when the type attribute is set to text, search, tel, url, email, or password, otherwise it is ignored. In addition, the size must be greater than zero. If you do not specify a size, a default value of 20 is used.' simply states "the user agent should ensure that at least that many characters are visible", but different characters can have different widths in certain fonts. In some browsers, a certain string with x characters will not be entirely visible even if size is defined to at least x.  
+#' @param spellcheck Setting the value of this attribute to true indicates that the element needs to have its spelling and grammar checked. The value default indicates that the element is to act according to a default behavior, possibly based on the parent element's own spellcheck value. The value false indicates that the element should not be checked.  
+#' @param step Works with the min and max attributes to limit the increments at which a numeric or date-time value can be set. It can be the string any or a positive floating point number. If this attribute is not set to any, the control accepts only values at multiples of the step value greater than the minimum.  
+#' @param fireEvent Dash-assigned callback that gets fired when the input changes.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents  
+core_input <- function(id = NULL, value = NULL, style = NULL, className = NULL, type = NULL, autocomplete = NULL, autofocus = NULL, inputmode = NULL, list = NULL, max = NULL, maxlength = NULL, min = NULL, minlength = NULL, multiple = NULL, name = NULL, pattern = NULL, placeholder = NULL, readonly = NULL, required = NULL, selectionDirection = NULL, selectionEnd = NULL, selectionStart = NULL, size = NULL, spellcheck = NULL, step = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, value=value, style=style, className=className, type=type, autocomplete=autocomplete, autofocus=autofocus, inputmode=inputmode, list=list, max=max, maxlength=maxlength, min=min, minlength=minlength, multiple=multiple, name=name, pattern=pattern, placeholder=placeholder, readonly=readonly, required=required, selectionDirection=selectionDirection, selectionEnd=selectionEnd, selectionStart=selectionStart, size=size, spellcheck=spellcheck, step=step, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'input')
+   )
+}
+#' interval component 
+#' @description A component that repeatedly fires an event ("interval") with a fixed time delay between each event. Interval is good for triggering a component on a recurring basis. The time delay is set with the property "interval" in milliseconds. 
+#' 
+#' @export
+#' @param id   
+#' @param interval This component will fire an event every `interval` milliseconds with the event name `setInterval`  
+#' @param fireEvent Dash assigned callback  
+#' @param setProps Dash assigned callback  
+#' @param dashEvents  
+core_interval <- function(id = NULL, interval = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, interval=interval, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'interval')
+   )
+}
+#' link component 
+#' @description  
+#' 
+#' @export
+#' @param href   
+#' @param refresh   
+#' @param className   
+#' @param style   
+#' @param id   
+#' @param children  
+core_link <- function(href = NULL, refresh = NULL, className = NULL, style = NULL, id = NULL, children = NULL) {
+   structure(
+     list(href=href, refresh=refresh, className=className, style=style, id=id, children=children),
+     class = c('component', 'core', 'link')
+   )
+}
+#' location component 
+#' @description  
+#' 
+#' @export
+#' @param id  (required) 
+#' @param pathname   
+#' @param refresh  
+core_location <- function(id = NULL, pathname = NULL, refresh = NULL) {
+   structure(
+     list(id=id, pathname=pathname, refresh=refresh),
+     class = c('component', 'core', 'location')
+   )
+}
+#' markdown component 
+#' @description A component that renders Markdown text as specified by the CommonMark spec. 
+#' 
+#' @export
+#' @param id   
+#' @param className Class name of the container element  
+#' @param containerProps An object containing custom element props to put on the container element such as id or style  
+#' @param children A markdown string that adhreres to the CommonMark spec 
+core_markdown <- function(id = NULL, className = NULL, containerProps = NULL, children = NULL) {
+   structure(
+     list(id=id, className=className, containerProps=containerProps, children=children),
+     class = c('component', 'core', 'markdown')
+   )
+}
+#' radioitems component 
+#' @description RadioItems is a component that encapsulates several radio item inputs. The values and labels of the RadioItems is specified in the `options` property and the seleced item is specified with the `value` property. Each radio item is rendered as an input with a surrounding label. 
+#' 
+#' @export
+#' @param id   
+#' @param inputStyle The style of the <input> radio element  
+#' @param inputClassName The class of the <input> radio element  
+#' @param labelStyle The style of the <label> that wraps the radio input  and the option's label  
+#' @param labelClassName The class of the <label> that wraps the radio input  and the option's label  
+#' @param options An array of options  
+#' @param value The currently selected value  
+#' @param fireEvent Dash-assigned callback that gets fired when the radio item gets selected.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents  
+core_radioitems <- function(id = NULL, inputStyle = NULL, inputClassName = NULL, labelStyle = NULL, labelClassName = NULL, options = NULL, value = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, inputStyle=inputStyle, inputClassName=inputClassName, labelStyle=labelStyle, labelClassName=labelClassName, options=options, value=value, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'radioitems')
+   )
+}
+#' rangeslider component 
+#' @description A double slider with two handles. Used for specifying a range of numerical values. 
+#' 
+#' @export
+#' @param id   
+#' @param allowCross allowCross could be set as true to allow those handles to cross.  
+#' @param className Additional CSS class for the root DOM node  
+#' @param count Determine how many ranges to render, and multiple handles will be rendered (number + 1).  
+#' @param disabled If true, the handles can't be moved.  
+#' @param dots When the step value is greater than 1, you can set the dots to true if you want to render the slider with dots.  
+#' @param included If the value is true, it means a continuous value is included. Otherwise, it is an independent value.  
+#' @param marks Marks on the slider. The key determines the position, and the value determines what will show. If you want to set the style of a specific mark point, the value should be an object which contains style and label properties.  
+#' @param min Minimum allowed value of the slider  
+#' @param max Maximum allowed value of the slider  
+#' @param pushable pushable could be set as true to allow pushing of surrounding handles when moving an handle. When set to a number, the number will be the minimum ensured distance between handles.  
+#' @param step Value by which increments or decrements are made  
+#' @param labels Key-values pairs describing the labels  
+#' @param value The value of the input  
+#' @param vertical If true, the slider will be vertical  
+#' @param updatemode Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.  
+#' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents  
+core_rangeslider <- function(id = NULL, allowCross = NULL, className = NULL, count = NULL, disabled = NULL, dots = NULL, included = NULL, marks = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL, labels = NULL, value = NULL, vertical = NULL, updatemode = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, allowCross=allowCross, className=className, count=count, disabled=disabled, dots=dots, included=included, marks=marks, min=min, max=max, pushable=pushable, step=step, labels=labels, value=value, vertical=vertical, updatemode=updatemode, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'rangeslider')
+   )
+}
+#' slider component 
+#' @description A slider component with a single handle. 
+#' 
+#' @export
+#' @param id   
+#' @param className Additional CSS class for the root DOM node  
+#' @param disabled If true, the handles can't be moved.  
+#' @param dots When the step value is greater than 1, you can set the dots to true if you want to render the slider with dots.  
+#' @param included If the value is true, it means a continuous value is included. Otherwise, it is an independent value.  
+#' @param marks Marks on the slider. The key determines the position, and the value determines what will show. If you want to set the style of a specific mark point, the value should be an object which contains style and label properties.  
+#' @param min Minimum allowed value of the slider  
+#' @param max Maximum allowed value of the slider  
+#' @param step Value by which increments or decrements are made  
+#' @param labels Key-values pairs describing the labels  
+#' @param value The value of the input  
+#' @param vertical If true, the slider will be vertical  
+#' @param updatemode Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.  
+#' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param dashEvents  
+core_slider <- function(id = NULL, className = NULL, disabled = NULL, dots = NULL, included = NULL, marks = NULL, min = NULL, max = NULL, step = NULL, labels = NULL, value = NULL, vertical = NULL, updatemode = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, className=className, disabled=disabled, dots=dots, included=included, marks=marks, min=min, max=max, step=step, labels=labels, value=value, vertical=vertical, updatemode=updatemode, fireEvent=fireEvent, setProps=setProps, dashEvents=dashEvents),
+     class = c('component', 'core', 'slider')
+   )
+}
+#' syntaxhighlighter component 
+#' @description A component for pretty printing code. 
+#' 
+#' @export
+#' @param id   
+#' @param children The text to display and highlight  
+#' @param language the language to highlight code in.  
+#' @param theme theme: light or dark  
+#' @param customStyle prop that will be combined with the top level style on the pre tag, styles here will overwrite earlier styles.  
+#' @param codeTagProps props that will be spread into the <code> tag that is the direct parent of the highlighted code elements. Useful for styling/assigning classNames.  
+#' @param useInlineStyles if this prop is passed in as false, react syntax highlighter will not add style objects to elements, and will instead append classNames. You can then style the code block by using one of the CSS files provided by highlight.js.  
+#' @param showLineNumbers if this is enabled line numbers will be shown next to the code block.  
+#' @param startingLineNumber if showLineNumbers is enabled the line numbering will start from here.  
+#' @param lineNumberContainerStyle the line numbers container default to appearing to the left with 10px of right padding. You can use this to override those styles.  
+#' @param lineNumberStyle inline style to be passed to the span wrapping each number. Can be either an object or a function that recieves current line number as argument and returns style object.  
+#' @param wrapLines a boolean value that determines whether or not each line of code should be wrapped in a parent element. defaults to false, when false one can not take action on an element on the line level. You can see an example of what this enables here  
+#' @param lineStyle inline style to be passed to the span wrapping each line if wrapLines is true. Can be either an object or a function that recieves current line number as argument and returns style object. 
+core_syntaxhighlighter <- function(id = NULL, children = NULL, language = NULL, theme = NULL, customStyle = NULL, codeTagProps = NULL, useInlineStyles = NULL, showLineNumbers = NULL, startingLineNumber = NULL, lineNumberContainerStyle = NULL, lineNumberStyle = NULL, wrapLines = NULL, lineStyle = NULL) {
+   structure(
+     list(id=id, children=children, language=language, theme=theme, customStyle=customStyle, codeTagProps=codeTagProps, useInlineStyles=useInlineStyles, showLineNumbers=showLineNumbers, startingLineNumber=startingLineNumber, lineNumberContainerStyle=lineNumberContainerStyle, lineNumberStyle=lineNumberStyle, wrapLines=wrapLines, lineStyle=lineStyle),
+     class = c('component', 'core', 'syntaxhighlighter')
+   )
+}
+#' textarea component 
+#' @description A basic HTML textarea for entering multiline text. 
+#' 
+#' @export
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param value The value of the textarea  
+#' @param autoFocus The element should be automatically focused after the page loaded.  
+#' @param cols Defines the number of columns in a textarea.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param maxLength Defines the maximum number of characters allowed in the element.  
+#' @param minLength Defines the minimum number of characters allowed in the element.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param placeholder Provides a hint to the user of what can be entered in the field.  
+#' @param readOnly Indicates whether the element can be edited.  
+#' @param required Indicates whether this element is required to fill out or not.  
+#' @param rows Defines the number of rows in a text area.  
+#' @param wrap Indicates whether the text should be wrapped.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param setProps Dash-assigned callback that gets fired when the value changes.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+core_textarea <- function(id = NULL, value = NULL, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, setProps = NULL, fireEvent = NULL, dashEvents = NULL) {
+   structure(
+     list(id=id, value=value, autoFocus=autoFocus, cols=cols, disabled=disabled, form=form, maxLength=maxLength, minLength=minLength, name=name, placeholder=placeholder, readOnly=readOnly, required=required, rows=rows, wrap=wrap, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, setProps=setProps, fireEvent=fireEvent, dashEvents=dashEvents),
+     class = c('component', 'core', 'textarea')
+   )
+}
