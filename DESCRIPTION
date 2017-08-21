@@ -1,9 +1,11 @@
-Package: rash
-Title: An R interface to dash
+Package: dasher
+Title: An R implementation of dash
 Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
 Description: Build dash web apps from R
 Depends: R (>= 3.4.1)
+Imports:
+  fiery
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
