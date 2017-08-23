@@ -1,41 +1,39 @@
 #' Generate a Dash server
 #'
-#' The Dash generator inherits from the [fiery::Fire] class.
+#' Description coming soon
 #'
-#' @usage NULL
-#' @format NULL
+#' @usage app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/", csrf_protect = TRUE)
 #'
-#' @section Initialization:
-#' A new 'Dash'-object is initialized using the `new()` method on the generator:
-#'
-#' \strong{Usage}
-#' \tabular{l}{
-#'  `app <- Dash$new(name = "dash", url_base_pathname = "/", csrf_protect = TRUE)`
-#' }
-#'
-#' \strong{Arguments}
+#' @section Arguments:
 #' \tabular{lll}{
-#'  `host` \tab  \tab A string overriding the default host (see the *Fields* section below)\cr
-#'  `port` \tab  \tab An integer overriding the default port (see the *Fields* section below)
+#'   `name` \tab  \tab The name of the Dash application.\cr
+#'   `server` \tab  \tab The web server which powers the application. Currently only [fiery::Fire] objects are allowed.\cr
+#'   `url_base_pathname` \tab  \tab The base path for locating the Dash application.\cr
+#'   `csrf_protect` \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
 #' }
 #'
 #' @section Fields:
 #' \describe{
-#'  \item{`name`}{A name for the dash server.}
-#'  \item{`url_base_pathname`}{a path for prepending to dash endpoints.}
-#'  \item{`csrf_protect``}{prevent cross-site request forgery (CSRF)}
+#'  \item{`server`}{A [fiery::Fire] object}
 #' }
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{}
+#'   \item{`layout_set(...)`}{Set the layout (i.e., user interface). Should be a collection of [components]}
+#'   \item{`layout_get()`}{Retrieves the layout (i.e., user interface).}
+#'   \item{`config_set(suppress_callback_exceptions, permissions_cache_expiry)`}{Set the config.}
+#'   \item{`config_get()`}{Get the config.}
+#'   \item{`callback(output, input, state)`}{Define the dependency graph (i.e., input/output relationships).}
+#'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{Launch the application. See [fiery::Fire] methods for a description of the arguments}
 #' }
 #'
 #' @export
 #' @docType class
+#' @format An [R6::R6Class] generator object
+#' @author Carson Sievert
+#' @seealso <https://plot.ly/dash/>
 #'
 #' @examples
-#'
 #'
 #' # hello dash!
 #' app <- dasher::Dash$new()
@@ -62,26 +60,45 @@ Dash <- R6::R6Class(
     # Yes, I've ignored filename/sharing/app_url in this method...
     # @chriddyp mentioned they are being deprecated/moved to http://github.com/plotly/dash-auth
     # @thomasp85: does/will fiery have support for CSRF? http://flask-seasurf.readthedocs.io/en/latest/
-    name = NULL,
     server = NULL,
-    url_base_pathname = NULL,
-    csrf_protect = NULL,
     initialize = function(name = "dash", server = fiery::Fire$new(),
                           url_base_pathname = '/', csrf_protect = TRUE) {
-      self$name <- name
+
+      if (!inherits(server, "Fire"))  {
+        stop("Only fiery webservers are supported at the moment", call. = FALSE)
+      }
+
       self$server <- server
-      self$url_base_pathname <- url_base_pathname
-      self$csrf_protect <- csrf_protect
-    },
-    layout_set = function(...) {
-      private$ui <- html_div(
-        list(...), id = "react-entry-point"
-      )
+      private$name <- name
+      private$url_base_pathname <- url_base_pathname
+      private$csrf_protect <- csrf_protect
+
     },
     layout_get = function() {
-      private$ui
+
+      private$layout
+
     },
-    add_callback = function() {
+    layout_set = function(...) {
+
+      private$layout <- html_div(list(...), id = "react-entry-point")
+
+    },
+    config_get = function() {
+
+      private$config
+
+    },
+    config_set = function(suppress_callback_exceptions = NULL, permissions_cache_expiry = NULL) {
+
+      private$config$suppress_callback_exceptions <-
+          suppress_callback_exceptions %||% private$config$suppress_callback_exceptions
+
+      private$config$permissions_cache_expiry <-
+        permissions_cache_expiry %||% private$config$permissions_cache_expiry
+
+    },
+    callback = function(output, input, state) {
       stop("Not yet implemented")
     },
     run_server = function(block = TRUE, showcase = FALSE, ...) {
@@ -90,17 +107,16 @@ Dash <- R6::R6Class(
   ),
 
   private = list(
-    ui = welcome_page()
+    name = NULL,
+    url_base_pathname = NULL,
+    csrf_protect = NULL,
+    layout = welcome_page(),
+    config = list(
+      suppress_callback_exceptions = FALSE,
+      permissions_cache_expiry = 5 * 60
+    )
   )
 
-  #active = list(
-  #  config = function(supress_callback_exceptions) {
-  #    if (!missing(supress_callback_exceptions)) {
-  #      self$config$supress_callback_exceptions <- supress_callback_exceptions
-  #    }
-  #    self
-  #  }
-  #)
 )
 
 

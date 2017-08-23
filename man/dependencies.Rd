@@ -5,7 +5,7 @@
 \alias{deps_output}
 \alias{deps_input}
 \alias{deps_state}
-\title{Trigger callbacks via dependency definitions}
+\title{Input/Output/State definitions}
 \usage{
 deps_output(component_id = NULL, component_property = NULL)
 
@@ -14,7 +14,7 @@ deps_input(component_id = NULL, component_property = "value")
 deps_state(component_id = NULL, component_property = "value")
 }
 \description{
-Use in conjunction with the \code{callback}
+Use in conjunction with the \code{callback()} method from the \link[dasher:Dash]{dasher::Dash} class.
 }
 \author{
 Carson Sievert

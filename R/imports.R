@@ -3,4 +3,5 @@
 #' @importFrom routr Route
 #' @importFrom htmltools htmlDependency
 #' @importFrom jsonlite toJSON
+#' @import assertthat
 NULL

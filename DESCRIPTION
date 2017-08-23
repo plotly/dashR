@@ -8,7 +8,8 @@ Imports:
   fiery,
   routr,
   htmltools,
-  jsonlite
+  jsonlite,
+  assertthat
 Suggests:
   testthat,
   knitr,

@@ -1,6 +1,6 @@
 # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dependencies.py
 
-#' Trigger callbacks via dependency definitions
+#' Input/Output/State definitions
 #'
 #' Use in conjunction with the `callback()` method from the [dasher::Dash] class.
 #'
@@ -8,7 +8,6 @@
 #' @author Carson Sievert
 #' @param component_id
 #' @param component_property
-
 
 
 #' @rdname dependencies

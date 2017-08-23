@@ -4,43 +4,43 @@
 \name{Dash}
 \alias{Dash}
 \title{Generate a Dash server}
+\format{An \link[R6:R6Class]{R6::R6Class} generator object}
+\usage{
+app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/", csrf_protect = TRUE)
+}
 \description{
-The Dash generator inherits from the \link[fiery:Fire]{fiery::Fire} class.
+Description coming soon
 }
-\section{Initialization}{
+\section{Arguments}{
 
-A new 'Dash'-object is initialized using the \code{new()} method on the generator:
-
-\strong{Usage}
-\tabular{l}{
-\code{app <- Dash$new(name = "dash", url_base_pathname = "/", csrf_protect = TRUE)}
-}
-
-\strong{Arguments}
 \tabular{lll}{
-\code{host} \tab  \tab A string overriding the default host (see the \emph{Fields} section below)\cr
-\code{port} \tab  \tab An integer overriding the default port (see the \emph{Fields} section below)
+\code{name} \tab  \tab The name of the Dash application.\cr
+\code{server} \tab  \tab The web server which powers the application. Currently only \link[fiery:Fire]{fiery::Fire} objects are allowed.\cr
+\code{url_base_pathname} \tab  \tab The base path for locating the Dash application.\cr
+\code{csrf_protect} \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
 }
 }
 
 \section{Fields}{
 
 \describe{
-\item{\code{name}}{A name for the dash server.}
-\item{\code{url_base_pathname}}{a path for prepending to dash endpoints.}
-\item{`csrf_protect``}{prevent cross-site request forgery (CSRF)}
+\item{\code{server}}{A \link[fiery:Fire]{fiery::Fire} object}
 }
 }
 
 \section{Methods}{
 
 \describe{
-\item{}
+\item{\code{layout_set(...)}}{Set the layout (i.e., user interface). Should be a collection of \link{components}}
+\item{\code{layout_get()}}{Retrieves the layout (i.e., user interface).}
+\item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{Set the config.}
+\item{\code{config_get()}}{Get the config.}
+\item{\code{callback(output, input, state)}}{Define the dependency graph (i.e., input/output relationships).}
+\item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments}
 }
 }
 
 \examples{
-
 
 # hello dash!
 app <- dasher::Dash$new()
@@ -59,5 +59,11 @@ app$layout_set(
 app$layout_get()
 
 
+}
+\seealso{
+\url{https://plot.ly/dash/}
+}
+\author{
+Carson Sievert
 }
 \keyword{datasets}
