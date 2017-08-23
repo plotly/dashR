@@ -1,4 +1,4 @@
 # dasher
 
-An R interface and backend for [dash-based](https://github.com/plotly/dash-renderer) web applications.
+An R implementation of the [dash](https://github.com/plotly/dash-renderer) protocol for authoring reactive web applications
 
