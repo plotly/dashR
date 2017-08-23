@@ -37,9 +37,7 @@
 #'
 #' # hello dash!
 #' app <- dasher::Dash$new()
-#' \dontrun{
-#' app$run_server()
-#' }
+#' app$run_server(showcase = TRUE)
 #'
 #'
 #' # use the layout_set method to define your UI
@@ -64,14 +62,98 @@ Dash <- R6::R6Class(
     initialize = function(name = "dash", server = fiery::Fire$new(),
                           url_base_pathname = '/', csrf_protect = TRUE) {
 
+      private$name <- name
+      private$url_base_pathname <- url_base_pathname
+      private$csrf_protect <- csrf_protect
+
       if (!inherits(server, "Fire"))  {
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
       }
 
+      # ------------------------------------------------------------------------
+      # define & register routes on the server
+      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L88-L124
+      # ------------------------------------------------------------------------
+
+      route <- routr::Route$new()
+
+      dash_login <- paste0(url_base_pathname, "_dash-login")
+      route$add_handler("post", dash_login, function(request, response, keys, ...) {
+        response$status <- 500L
+        response$body <- list(
+          h1 = "Not yet implemented"
+        )
+        FALSE
+      })
+
+      dash_layout <- paste0(url_base_pathname, "_dash-layout")
+      route$add_handler("get", dash_layout, function(request, response, keys, ...) {
+        response$status <- 200L
+        # TODO: use listviewer::jsonedit() instead?
+        response$body <- list(p = to_JSON(private$layout, pretty = TRUE))
+        FALSE
+      })
+
+      dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
+      route$add_handler("get", dash_deps, function(request, response, keys, ...) {
+        response$status <- 500L
+        response$body <- list(
+          h1 = "Not yet implemented"
+        )
+        FALSE
+      })
+
+      dash_update <- paste0(url_base_pathname, "_dash-update-component")
+      route$add_handler("post", dash_update, function(request, response, keys, ...) {
+        response$status <- 500L
+        response$body <- list(
+          h1 = "Not yet implemented"
+        )
+        FALSE
+      })
+
+      dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
+      route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+        response$status <- 500L
+        response$body <- list(
+          h1 = "Not yet implemented"
+        )
+        FALSE
+      })
+
+      dash_routes <- paste0(url_base_pathname, "_dash-routes")
+      route$add_handler("get", dash_routes, function(request, response, keys, ...) {
+        response$status <- 500L
+        response$body <- list(
+          h1 = "Not yet implemented"
+        )
+        FALSE
+      })
+
+      catch_all <- paste0(url_base_pathname, "*")
+      route$add_handler("get", catch_all, function(request, response, keys, ...) {
+        response$status <- 200L
+        response$body <- list(
+          h1 = "blah"
+        )
+        FALSE
+      })
+
+      # register the routes with the server
+      router <- routr::RouteStack$new()
+      # TODO: is using the app name in this way a good idea?
+      router$add_route(route, name)
+      server$attach(router)
+
+      # --------------------------------------------------------------------
+      # When the server boots, serve all the assets and what-not
+      # --------------------------------------------------------------------
+
+      #server$on("start", function(server, ...) {
+      #  private$layout
+      #})
+
       self$server <- server
-      private$name <- name
-      private$url_base_pathname <- url_base_pathname
-      private$csrf_protect <- csrf_protect
 
     },
     layout_get = function() {
