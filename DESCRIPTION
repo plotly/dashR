@@ -1,14 +1,33 @@
 Package: dasher
-Title: An R implementation of dash
+Title: An implementation of the dash protocol for authoring reactive web applications
 Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
-Description: Build dash web apps from R
-Depends: R (>= 3.4.1)
+Description: An implementation of the dash protocol for authoring reactive web applications
 Imports:
+  R6,
   fiery,
   routr,
-  reqres
+  htmltools,
+  jsonlite
+Suggests:
+  testthat,
+  knitr,
+  rmarkdown,
+  plotly
+Collate:
+  'utils.R'
+  'components-core.R'
+  'components-html.R'
+  'dependencies.R'
+  'dash-package.R'
+  'dash.R'
+  'imports.R'
+  'print.R'
+  'routes.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/plotly/dasher
+BugReports: https://github.com/plotly/dasher/issues

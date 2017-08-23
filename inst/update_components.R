@@ -18,19 +18,23 @@ core <- rapply(core, rm_linebreaks, classes = "character", how = "replace")
 
 # helper to get the actual name of the component from a component's filename
 component_name <- function(x) {
-  tolower(strsplit(basename(x), "\\.")[[1]][1])
+  strsplit(basename(x), "\\.")[[1]][1]
 }
 
+
 # delete the current component definitions
-unlink("R/core_components.R")
+unlink("R/components-core.R")
 
 # auto-generate roxygen documentation and exported function for each *core* component
 for (i in seq_along(core)) {
   component <- core[[i]]
   componentName <- component_name(names(core)[[i]])
   props <- component$props
+  # we'll use ... for children instead
+  props <- props[!names(props) %in% "children"]
   header <- glue(
-    "#' {title} component {linebreak}#' @description {description} {linebreak}#' {linebreak}#' @export",
+    "#' {title} core component {linebreak}#' @description {description} {linebreak}#' {linebreak}#' @export",
+    "{linebreak} #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.",
     title = componentName,
     description = component$description,
     linebreak = "\n"
@@ -42,27 +46,38 @@ for (i in seq_along(core)) {
     required = ifelse(sapply(props, "[[", "required"), "(required)", ""),
     linebreak = "\n"
   )
-  # TODO: automatic argument value checking?
+  # analogous to https://github.com/plotly/dash/blob/064c811/dash/development/base_component.py#L28-L37
+  # TODO: how to incorporate required field? Also, automatic argument value checking?
   func <- glue(
     "
 
-    core_*{name}* <- function(*{params}* = NULL) {
-       structure(
-         list(*{params2}*),
-         class = c('component', 'core', '*{name}*')
+    core_*{name}* <- function(..., *{params}* = NULL) {
+
+       component <- list(
+         props = list(
+           children = assert_valid_children(...),
+           *{params2}*
+         ),
+         type = '*{type}*',
+         namespace = 'dash_core_components'
        )
+
+       component$props <- filter_null(component$props)
+
+       structure(component, class = c('dash_component', 'core', '*{name}*', 'list'))
     }
 
     ",
-    name = componentName,
+    name = tolower(componentName),
     params = paste(names(props), collapse = " = NULL, "),
-    params2 = paste(names(props), names(props), sep = "=", collapse = ", "),
+    params2 = paste(names(props), names(props), sep = "=", collapse = ", \n\t\t\t\t"),
+    type = componentName,
     .open = "*{", .close = "}*"
   )
 
-  cat(header, file = "R/core_components.R", append = TRUE)
-  cat(body, file = "R/core_components.R", append = TRUE)
-  cat(func, file = "R/core_components.R", append = TRUE)
+  cat(header, file = "R/components-core.R", append = TRUE)
+  cat(body, file = "R/components-core.R", append = TRUE)
+  cat(func, file = "R/components-core.R", append = TRUE)
 }
 
 
@@ -77,7 +92,7 @@ html <- fromJSON(
 html <- rapply(html, rm_linebreaks, classes = "character", how = "replace")
 
 # delete the current component definitions
-unlink("R/html_components.R")
+unlink("R/components-html.R")
 
 
 # auto-generate roxygen documentation and exported function for each *core* component
@@ -85,10 +100,13 @@ for (i in seq_along(html)) {
   component <- html[[i]]
   componentName <- component_name(names(html)[[i]])
   props <- component$props
+  # we'll use ... for children instead
+  props <- props[!names(props) %in% "children"]
   header <- glue(
-    "#' {title} component {linebreak}#' @description {description} {linebreak}#' {linebreak}#' @export",
-    title = componentName,
-    description = component$description,
+    "#' {title} html component {linebreak}#' @description {description} {linebreak}#' {linebreak}#' @export",
+    "{linebreak} #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.",
+    title = tolower(componentName),
+    description = if (nchar(component$description) > 0) component$description else paste0("See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/", tolower(componentName), ">"),
     linebreak = "\n"
   )
   body <- glue(
@@ -102,21 +120,31 @@ for (i in seq_along(html)) {
   func <- glue(
     "
 
-    html_*{name}* <- function(*{params}* = NULL) {
-    structure(
-    list(*{params2}*),
-    class = c('component', 'html', '*{name}*')
-    )
+    html_*{name}* <- function(..., *{params}* = NULL) {
+
+      component <- list(
+         props = list(
+           children = assert_valid_children(...),
+           *{params2}*
+         ),
+         type = '*{type}*',
+         namespace = 'dash_html_components'
+       )
+
+      component$props <- filter_null(component$props)
+
+      structure(component, class = c('dash_component', 'html', '*{name}*', 'list'))
     }
 
     ",
-    name = componentName,
+    name = tolower(componentName),
     params = paste(names(props), collapse = " = NULL, "),
-    params2 = paste(names(props), names(props), sep = "=", collapse = ", "),
+    params2 = paste(names(props), names(props), sep = "=", collapse = ", \n\t\t\t\t"),
+    type = componentName,
     .open = "*{", .close = "}*"
   )
 
-  cat(header, file = "R/html_components.R", append = TRUE)
-  cat(body, file = "R/html_components.R", append = TRUE)
-  cat(func, file = "R/html_components.R", append = TRUE)
+  cat(header, file = "R/components-html.R", append = TRUE)
+  cat(body, file = "R/components-html.R", append = TRUE)
+  cat(func, file = "R/components-html.R", append = TRUE)
 }

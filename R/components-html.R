@@ -1,0 +1,7200 @@
+#' a html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param download Indicates that the hyperlink is to be used for downloading a resource.  
+#' @param href The URL of a linked resource.  
+#' @param hrefLang Specifies the language of the linked resource.  
+#' @param media Specifies a hint of the media for which the linked resource was designed.  
+#' @param rel Specifies the relationship of the target object to the link object.  
+#' @param shape   
+#' @param target   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_a <- function(..., id = NULL, n_clicks = NULL, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				download=download, 
+				href=href, 
+				hrefLang=hrefLang, 
+				media=media, 
+				rel=rel, 
+				shape=shape, 
+				target=target, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'A',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'a', 'list'))
+}
+#' abbr html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_abbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Abbr',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'abbr', 'list'))
+}
+#' acronym html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_acronym <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Acronym',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'acronym', 'list'))
+}
+#' address html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_address <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Address',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'address', 'list'))
+}
+#' applet html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/applet> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param alt Alternative text in case an image can't be displayed.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_applet <- function(..., id = NULL, n_clicks = NULL, alt = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				alt=alt, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Applet',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'applet', 'list'))
+}
+#' area html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/area> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param alt Alternative text in case an image can't be displayed.  
+#' @param coords A set of values specifying the coordinates of the hot-spot region.  
+#' @param download Indicates that the hyperlink is to be used for downloading a resource.  
+#' @param href The URL of a linked resource.  
+#' @param hrefLang Specifies the language of the linked resource.  
+#' @param media Specifies a hint of the media for which the linked resource was designed.  
+#' @param rel Specifies the relationship of the target object to the link object.  
+#' @param shape   
+#' @param target   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_area <- function(..., id = NULL, n_clicks = NULL, alt = NULL, coords = NULL, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				alt=alt, 
+				coords=coords, 
+				download=download, 
+				href=href, 
+				hrefLang=hrefLang, 
+				media=media, 
+				rel=rel, 
+				shape=shape, 
+				target=target, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Area',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'area', 'list'))
+}
+#' article html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_article <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Article',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'article', 'list'))
+}
+#' aside html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_aside <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Aside',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'aside', 'list'))
+}
+#' audio html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoPlay The audio or video should play as soon as possible.  
+#' @param controls Indicates whether the browser should show playback controls to the user.  
+#' @param crossOrigin How the element handles cross-origin requests  
+#' @param loop Indicates whether the media should start playing from the start when it's finished.  
+#' @param preload Indicates whether the whole resource, parts of it or nothing should be preloaded.  
+#' @param src The URL of the embeddable content.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_audio <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, controls = NULL, crossOrigin = NULL, loop = NULL, preload = NULL, src = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoPlay=autoPlay, 
+				controls=controls, 
+				crossOrigin=crossOrigin, 
+				loop=loop, 
+				preload=preload, 
+				src=src, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Audio',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'audio', 'list'))
+}
+#' b html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_b <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'B',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'b', 'list'))
+}
+#' base html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param href The URL of a linked resource.  
+#' @param target   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_base <- function(..., id = NULL, n_clicks = NULL, href = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				href=href, 
+				target=target, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Base',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'base', 'list'))
+}
+#' basefont html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/basefont> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_basefont <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Basefont',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'basefont', 'list'))
+}
+#' bdi html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_bdi <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Bdi',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'bdi', 'list'))
+}
+#' bdo html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdo> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_bdo <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Bdo',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'bdo', 'list'))
+}
+#' big html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/big> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_big <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Big',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'big', 'list'))
+}
+#' blink html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_blink <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Blink',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'blink', 'list'))
+}
+#' blockquote html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param cite Contains a URI which points to the source of the quote or change.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_blockquote <- function(..., id = NULL, n_clicks = NULL, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				cite=cite, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Blockquote',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'blockquote', 'list'))
+}
+#' br html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_br <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Br',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'br', 'list'))
+}
+#' button html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoFocus The element should be automatically focused after the page loaded.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param formAction Indicates the action of the element, overriding the action defined in the <form>.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param type Defines the type of the element.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_button <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disabled = NULL, form = NULL, formAction = NULL, name = NULL, type = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoFocus=autoFocus, 
+				disabled=disabled, 
+				form=form, 
+				formAction=formAction, 
+				name=name, 
+				type=type, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Button',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'button', 'list'))
+}
+#' canvas html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_canvas <- function(..., id = NULL, n_clicks = NULL, height = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				height=height, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Canvas',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'canvas', 'list'))
+}
+#' caption html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_caption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Caption',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'caption', 'list'))
+}
+#' center html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/center> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_center <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Center',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'center', 'list'))
+}
+#' cite html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_cite <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Cite',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'cite', 'list'))
+}
+#' code html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_code <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Code',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'code', 'list'))
+}
+#' col html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param span   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_col <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				span=span, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Col',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'col', 'list'))
+}
+#' colgroup html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/colgroup> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param span   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_colgroup <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				span=span, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Colgroup',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'colgroup', 'list'))
+}
+#' command html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/command> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param checked Indicates whether the element should be checked on page load.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param icon Specifies a picture which represents the command.  
+#' @param radioGroup   
+#' @param type Defines the type of the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_command <- function(..., id = NULL, n_clicks = NULL, checked = NULL, disabled = NULL, icon = NULL, radioGroup = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				checked=checked, 
+				disabled=disabled, 
+				icon=icon, 
+				radioGroup=radioGroup, 
+				type=type, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Command',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'command', 'list'))
+}
+#' content html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/content> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_content <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Content',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'content', 'list'))
+}
+#' data html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/data> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_data <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Data',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'data', 'list'))
+}
+#' datalist html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_datalist <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Datalist',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'datalist', 'list'))
+}
+#' dd html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dd',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dd', 'list'))
+}
+#' del html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/del> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param cite Contains a URI which points to the source of the quote or change.  
+#' @param dateTime Indicates the date and time associated with the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_del <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				cite=cite, 
+				dateTime=dateTime, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Del',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'del', 'list'))
+}
+#' details html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param open Indicates whether the details will be shown on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_details <- function(..., id = NULL, n_clicks = NULL, open = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				open=open, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Details',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'details', 'list'))
+}
+#' dfn html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dfn <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dfn',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dfn', 'list'))
+}
+#' dialog html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dialog <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dialog',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dialog', 'list'))
+}
+#' dir html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dir> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dir <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dir',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dir', 'list'))
+}
+#' div html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_div <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Div',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'div', 'list'))
+}
+#' dl html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dl <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dl',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dl', 'list'))
+}
+#' dt html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_dt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Dt',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'dt', 'list'))
+}
+#' element html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/element> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_element <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Element',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'element', 'list'))
+}
+#' em html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_em <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Em',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'em', 'list'))
+}
+#' embed html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/embed> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param src The URL of the embeddable content.  
+#' @param type Defines the type of the element.  
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_embed <- function(..., id = NULL, n_clicks = NULL, height = NULL, src = NULL, type = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				height=height, 
+				src=src, 
+				type=type, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Embed',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'embed', 'list'))
+}
+#' fieldset html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_fieldset <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				disabled=disabled, 
+				form=form, 
+				name=name, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Fieldset',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'fieldset', 'list'))
+}
+#' figcaption html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_figcaption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Figcaption',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'figcaption', 'list'))
+}
+#' figure html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_figure <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Figure',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'figure', 'list'))
+}
+#' font html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/font> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_font <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Font',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'font', 'list'))
+}
+#' footer html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_footer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Footer',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'footer', 'list'))
+}
+#' form html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accept List of types the server accepts, typically a file type.  
+#' @param acceptCharset List of supported charsets.  
+#' @param action The URI of a program that processes the information submitted via the form.  
+#' @param autoComplete Indicates whether controls in this form can by default have their values automatically completed by the browser.  
+#' @param encType Defines the content type of the form date when the method is POST.  
+#' @param method Defines which HTTP method to use when submitting the form. Can be GET (default) or POST.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param noValidate This attribute indicates that the form shouldn't be validated when submitted.  
+#' @param target   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_form <- function(..., id = NULL, n_clicks = NULL, accept = NULL, acceptCharset = NULL, action = NULL, autoComplete = NULL, encType = NULL, method = NULL, name = NULL, noValidate = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accept=accept, 
+				acceptCharset=acceptCharset, 
+				action=action, 
+				autoComplete=autoComplete, 
+				encType=encType, 
+				method=method, 
+				name=name, 
+				noValidate=noValidate, 
+				target=target, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Form',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'form', 'list'))
+}
+#' frame html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frame> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_frame <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Frame',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'frame', 'list'))
+}
+#' frameset html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_frameset <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Frameset',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'frameset', 'list'))
+}
+#' h1 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h1> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h1 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H1',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h1', 'list'))
+}
+#' h2 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h2> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h2 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H2',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h2', 'list'))
+}
+#' h3 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h3> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h3 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H3',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h3', 'list'))
+}
+#' h4 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h4> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h4 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H4',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h4', 'list'))
+}
+#' h5 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h5> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h5 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H5',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h5', 'list'))
+}
+#' h6 html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/h6> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_h6 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'H6',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'h6', 'list'))
+}
+#' header html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_header <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Header',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'header', 'list'))
+}
+#' hgroup html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hgroup> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_hgroup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Hgroup',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'hgroup', 'list'))
+}
+#' hr html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_hr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Hr',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'hr', 'list'))
+}
+#' i html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_i <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'I',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'i', 'list'))
+}
+#' iframe html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param sandbox   
+#' @param seamless   
+#' @param src The URL of the embeddable content.  
+#' @param srcDoc   
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_iframe <- function(..., id = NULL, n_clicks = NULL, height = NULL, name = NULL, sandbox = NULL, seamless = NULL, src = NULL, srcDoc = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				height=height, 
+				name=name, 
+				sandbox=sandbox, 
+				seamless=seamless, 
+				src=src, 
+				srcDoc=srcDoc, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Iframe',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'iframe', 'list'))
+}
+#' img html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param alt Alternative text in case an image can't be displayed.  
+#' @param crossOrigin How the element handles cross-origin requests  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param sizes   
+#' @param src The URL of the embeddable content.  
+#' @param srcSet   
+#' @param useMap   
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_img <- function(..., id = NULL, n_clicks = NULL, alt = NULL, crossOrigin = NULL, height = NULL, sizes = NULL, src = NULL, srcSet = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				alt=alt, 
+				crossOrigin=crossOrigin, 
+				height=height, 
+				sizes=sizes, 
+				src=src, 
+				srcSet=srcSet, 
+				useMap=useMap, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Img',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'img', 'list'))
+}
+#' ins html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ins> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param cite Contains a URI which points to the source of the quote or change.  
+#' @param dateTime Indicates the date and time associated with the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_ins <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				cite=cite, 
+				dateTime=dateTime, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Ins',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'ins', 'list'))
+}
+#' isindex html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/isindex> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_isindex <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Isindex',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'isindex', 'list'))
+}
+#' kbd html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_kbd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Kbd',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'kbd', 'list'))
+}
+#' keygen html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/keygen> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoFocus The element should be automatically focused after the page loaded.  
+#' @param challenge A challenge string that is submitted along with the public key.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param keyType Specifies the type of key generated.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_keygen <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, challenge = NULL, disabled = NULL, form = NULL, keyType = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoFocus=autoFocus, 
+				challenge=challenge, 
+				disabled=disabled, 
+				form=form, 
+				keyType=keyType, 
+				name=name, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Keygen',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'keygen', 'list'))
+}
+#' label html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param htmlFor Describes elements which belongs to this one.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_label <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				htmlFor=htmlFor, 
+				form=form, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Label',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'label', 'list'))
+}
+#' legend html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_legend <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Legend',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'legend', 'list'))
+}
+#' li html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_li <- function(..., id = NULL, n_clicks = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Li',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'li', 'list'))
+}
+#' link html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param crossOrigin How the element handles cross-origin requests  
+#' @param href The URL of a linked resource.  
+#' @param hrefLang Specifies the language of the linked resource.  
+#' @param integrity Security Feature that allows browsers to verify what they fetch.     MDN Link  
+#' @param media Specifies a hint of the media for which the linked resource was designed.  
+#' @param rel Specifies the relationship of the target object to the link object.  
+#' @param sizes   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_link <- function(..., id = NULL, n_clicks = NULL, crossOrigin = NULL, href = NULL, hrefLang = NULL, integrity = NULL, media = NULL, rel = NULL, sizes = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				crossOrigin=crossOrigin, 
+				href=href, 
+				hrefLang=hrefLang, 
+				integrity=integrity, 
+				media=media, 
+				rel=rel, 
+				sizes=sizes, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Link',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'link', 'list'))
+}
+#' listing html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/listing> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_listing <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Listing',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'listing', 'list'))
+}
+#' main html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_main <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Main',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'main', 'list'))
+}
+#' mapel html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mapel> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_mapel <- function(..., id = NULL, n_clicks = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				name=name, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'MapEl',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'mapel', 'list'))
+}
+#' mark html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_mark <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Mark',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'mark', 'list'))
+}
+#' marquee html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param loop Indicates whether the media should start playing from the start when it's finished.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_marquee <- function(..., id = NULL, n_clicks = NULL, loop = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				loop=loop, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Marquee',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'marquee', 'list'))
+}
+#' menu html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/menu> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param type Defines the type of the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_menu <- function(..., id = NULL, n_clicks = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				type=type, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Menu',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'menu', 'list'))
+}
+#' menuitem html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/menuitem> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_menuitem <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Menuitem',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'menuitem', 'list'))
+}
+#' meta html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param charSet Declares the character encoding of the page or script.  
+#' @param content A value associated with http-equiv or name depending on the context.  
+#' @param httpEquiv   
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_meta <- function(..., id = NULL, n_clicks = NULL, charSet = NULL, content = NULL, httpEquiv = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				charSet=charSet, 
+				content=content, 
+				httpEquiv=httpEquiv, 
+				name=name, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Meta',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'meta', 'list'))
+}
+#' meter html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param high Indicates the lower bound of the upper range.  
+#' @param low Indicates the upper bound of the lower range.  
+#' @param max Indicates the maximum value allowed.  
+#' @param min Indicates the minimum value allowed.  
+#' @param optimum Indicates the optimal numeric value.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_meter <- function(..., id = NULL, n_clicks = NULL, form = NULL, high = NULL, low = NULL, max = NULL, min = NULL, optimum = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				form=form, 
+				high=high, 
+				low=low, 
+				max=max, 
+				min=min, 
+				optimum=optimum, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Meter',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'meter', 'list'))
+}
+#' multicol html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/multicol> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_multicol <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Multicol',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'multicol', 'list'))
+}
+#' nav html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_nav <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Nav',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'nav', 'list'))
+}
+#' nextid html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nextid> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_nextid <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Nextid',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'nextid', 'list'))
+}
+#' noembed html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noembed> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_noembed <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Noembed',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'noembed', 'list'))
+}
+#' noscript html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_noscript <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Noscript',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'noscript', 'list'))
+}
+#' objectel html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/objectel> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param type Defines the type of the element.  
+#' @param useMap   
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_objectel <- function(..., id = NULL, n_clicks = NULL, form = NULL, height = NULL, name = NULL, type = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				form=form, 
+				height=height, 
+				name=name, 
+				type=type, 
+				useMap=useMap, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'ObjectEl',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'objectel', 'list'))
+}
+#' ol html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param reversed Indicates whether the list should be displayed in a descending order instead of a ascending.  
+#' @param start Defines the first number if other than 1.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_ol <- function(..., id = NULL, n_clicks = NULL, reversed = NULL, start = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				reversed=reversed, 
+				start=start, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Ol',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'ol', 'list'))
+}
+#' optgroup html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_optgroup <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				disabled=disabled, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Optgroup',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'optgroup', 'list'))
+}
+#' option html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param selected Defines a value which will be selected on page load.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_option <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, selected = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				disabled=disabled, 
+				selected=selected, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Option',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'option', 'list'))
+}
+#' output html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/output> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param htmlFor Describes elements which belongs to this one.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_output <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				htmlFor=htmlFor, 
+				form=form, 
+				name=name, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Output',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'output', 'list'))
+}
+#' p html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_p <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'P',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'p', 'list'))
+}
+#' param html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/param> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_param <- function(..., id = NULL, n_clicks = NULL, name = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				name=name, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Param',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'param', 'list'))
+}
+#' plaintext html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/plaintext> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_plaintext <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Plaintext',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'plaintext', 'list'))
+}
+#' pre html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_pre <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Pre',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'pre', 'list'))
+}
+#' progress html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param max Indicates the maximum value allowed.  
+#' @param value Defines a default value which will be displayed in the element on page load.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_progress <- function(..., id = NULL, n_clicks = NULL, form = NULL, max = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				form=form, 
+				max=max, 
+				value=value, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Progress',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'progress', 'list'))
+}
+#' q html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param cite Contains a URI which points to the source of the quote or change.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_q <- function(..., id = NULL, n_clicks = NULL, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				cite=cite, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Q',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'q', 'list'))
+}
+#' rp html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rp> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_rp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Rp',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'rp', 'list'))
+}
+#' rt html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rt> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_rt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Rt',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'rt', 'list'))
+}
+#' rtc html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_rtc <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Rtc',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'rtc', 'list'))
+}
+#' ruby html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_ruby <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Ruby',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'ruby', 'list'))
+}
+#' s html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_s <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'S',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 's', 'list'))
+}
+#' samp html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/samp> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_samp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Samp',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'samp', 'list'))
+}
+#' script html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param async Indicates that the script should be executed asynchronously.  
+#' @param charSet Declares the character encoding of the page or script.  
+#' @param crossOrigin How the element handles cross-origin requests  
+#' @param defer Indicates that the script should be executed after the page has been parsed.  
+#' @param integrity Security Feature that allows browsers to verify what they fetch.     MDN Link  
+#' @param src The URL of the embeddable content.  
+#' @param type Defines the type of the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_script <- function(..., id = NULL, n_clicks = NULL, async = NULL, charSet = NULL, crossOrigin = NULL, defer = NULL, integrity = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				async=async, 
+				charSet=charSet, 
+				crossOrigin=crossOrigin, 
+				defer=defer, 
+				integrity=integrity, 
+				src=src, 
+				type=type, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Script',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'script', 'list'))
+}
+#' section html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_section <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Section',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'section', 'list'))
+}
+#' select html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoFocus The element should be automatically focused after the page loaded.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param multiple Indicates whether multiple values can be entered in an input of the type email or file.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param required Indicates whether this element is required to fill out or not.  
+#' @param size Defines the width of the element (in pixels). If the element's type attribute is text or password then it's the number of characters.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_select <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disabled = NULL, form = NULL, multiple = NULL, name = NULL, required = NULL, size = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoFocus=autoFocus, 
+				disabled=disabled, 
+				form=form, 
+				multiple=multiple, 
+				name=name, 
+				required=required, 
+				size=size, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Select',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'select', 'list'))
+}
+#' shadow html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/shadow> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_shadow <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Shadow',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'shadow', 'list'))
+}
+#' slot html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_slot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Slot',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'slot', 'list'))
+}
+#' small html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_small <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Small',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'small', 'list'))
+}
+#' source html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param media Specifies a hint of the media for which the linked resource was designed.  
+#' @param sizes   
+#' @param src The URL of the embeddable content.  
+#' @param type Defines the type of the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_source <- function(..., id = NULL, n_clicks = NULL, media = NULL, sizes = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				media=media, 
+				sizes=sizes, 
+				src=src, 
+				type=type, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Source',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'source', 'list'))
+}
+#' spacer html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/spacer> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_spacer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Spacer',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'spacer', 'list'))
+}
+#' span html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_span <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Span',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'span', 'list'))
+}
+#' strike html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strike> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_strike <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Strike',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'strike', 'list'))
+}
+#' strong html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_strong <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Strong',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'strong', 'list'))
+}
+#' sub html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sub> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_sub <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Sub',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'sub', 'list'))
+}
+#' summary html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_summary <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Summary',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'summary', 'list'))
+}
+#' sup html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/sup> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_sup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Sup',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'sup', 'list'))
+}
+#' table html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param summary   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_table <- function(..., id = NULL, n_clicks = NULL, summary = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				summary=summary, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Table',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'table', 'list'))
+}
+#' tbody html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_tbody <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Tbody',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'tbody', 'list'))
+}
+#' td html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param colSpan The colspan attribute defines the number of columns a cell should span.  
+#' @param headers IDs of the <th> elements which applies to this element.  
+#' @param rowSpan Defines the number of rows a table cell should span over.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_td <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL, rowSpan = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				colSpan=colSpan, 
+				headers=headers, 
+				rowSpan=rowSpan, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Td',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'td', 'list'))
+}
+#' template html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_template <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Template',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'template', 'list'))
+}
+#' textarea html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoFocus The element should be automatically focused after the page loaded.  
+#' @param cols Defines the number of columns in a textarea.  
+#' @param disabled Indicates whether the user can interact with the element.  
+#' @param form Indicates the form that is the owner of the element.  
+#' @param maxLength Defines the maximum number of characters allowed in the element.  
+#' @param minLength Defines the minimum number of characters allowed in the element.  
+#' @param name Name of the element. For example used by the server to identify the fields in form submits.  
+#' @param placeholder Provides a hint to the user of what can be entered in the field.  
+#' @param readOnly Indicates whether the element can be edited.  
+#' @param required Indicates whether this element is required to fill out or not.  
+#' @param rows Defines the number of rows in a text area.  
+#' @param wrap Indicates whether the text should be wrapped.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_textarea <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoFocus=autoFocus, 
+				cols=cols, 
+				disabled=disabled, 
+				form=form, 
+				maxLength=maxLength, 
+				minLength=minLength, 
+				name=name, 
+				placeholder=placeholder, 
+				readOnly=readOnly, 
+				required=required, 
+				rows=rows, 
+				wrap=wrap, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Textarea',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'textarea', 'list'))
+}
+#' tfoot html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_tfoot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Tfoot',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'tfoot', 'list'))
+}
+#' th html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param colSpan The colspan attribute defines the number of columns a cell should span.  
+#' @param headers IDs of the <th> elements which applies to this element.  
+#' @param rowSpan Defines the number of rows a table cell should span over.  
+#' @param scope   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_th <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL, rowSpan = NULL, scope = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				colSpan=colSpan, 
+				headers=headers, 
+				rowSpan=rowSpan, 
+				scope=scope, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Th',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'th', 'list'))
+}
+#' thead html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_thead <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Thead',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'thead', 'list'))
+}
+#' time html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param dateTime Indicates the date and time associated with the element.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_time <- function(..., id = NULL, n_clicks = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				dateTime=dateTime, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Time',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'time', 'list'))
+}
+#' title html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_title <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Title',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'title', 'list'))
+}
+#' tr html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_tr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Tr',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'tr', 'list'))
+}
+#' track html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param default Indicates that the track should be enabled unless the user's preferences indicate something different.  
+#' @param kind Specifies the kind of text track.  
+#' @param label Specifies a user-readable title of the text track.  
+#' @param src The URL of the embeddable content.  
+#' @param srcLang   
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_track <- function(..., id = NULL, n_clicks = NULL, default = NULL, kind = NULL, label = NULL, src = NULL, srcLang = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				default=default, 
+				kind=kind, 
+				label=label, 
+				src=src, 
+				srcLang=srcLang, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Track',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'track', 'list'))
+}
+#' tt html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tt> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_tt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Tt',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'tt', 'list'))
+}
+#' u html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/u> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_u <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'U',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'u', 'list'))
+}
+#' ul html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_ul <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Ul',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'ul', 'list'))
+}
+#' var html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/var> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_var <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Var',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'var', 'list'))
+}
+#' video html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param autoPlay The audio or video should play as soon as possible.  
+#' @param controls Indicates whether the browser should show playback controls to the user.  
+#' @param crossOrigin How the element handles cross-origin requests  
+#' @param height Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.  
+#' @param loop Indicates whether the media should start playing from the start when it's finished.  
+#' @param muted Indicates whether the audio will be initially silenced on page load.  
+#' @param poster A URL indicating a poster frame to show until the user plays or seeks.  
+#' @param preload Indicates whether the whole resource, parts of it or nothing should be preloaded.  
+#' @param src The URL of the embeddable content.  
+#' @param width For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_video <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, controls = NULL, crossOrigin = NULL, height = NULL, loop = NULL, muted = NULL, poster = NULL, preload = NULL, src = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				autoPlay=autoPlay, 
+				controls=controls, 
+				crossOrigin=crossOrigin, 
+				height=height, 
+				loop=loop, 
+				muted=muted, 
+				poster=poster, 
+				preload=preload, 
+				src=src, 
+				width=width, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Video',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'video', 'list'))
+}
+#' wbr html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_wbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Wbr',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'wbr', 'list'))
+}
+#' xmp html component 
+#' @description See <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/xmp> 
+#' 
+#' @export
+ #' @param ... children of the component. Either other components or [htmltools::tags()] are allowed.
+#' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
+#' @param n_clicks An integer that represents the number of times that this element has been clicked on.  
+#' @param accessKey Defines a keyboard shortcut to activate or add focus to the element.  
+#' @param className Often used with CSS to style elements with common properties.  
+#' @param contentEditable Indicates whether the element's content is editable.  
+#' @param contextMenu Defines the ID of a <menu> element which will serve as the element's context menu.  
+#' @param dir Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)  
+#' @param draggable Defines whether the element can be dragged.  
+#' @param hidden Prevents rendering of given element, while keeping child elements, e.g. script elements, active.  
+#' @param lang Defines the language used in the element.  
+#' @param spellCheck Indicates whether spell checking is allowed for the element.  
+#' @param style Defines CSS styles which will override styles previously set.  
+#' @param tabIndex Overrides the browser's default tab order and follows the one specified instead.  
+#' @param title Text to be displayed in a tooltip when hovering over the element.  
+#' @param fireEvent A callback for firing events to dash.  
+#' @param dashEvents  
+html_xmp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+
+  component <- list(
+     props = list(
+       children = assert_valid_children(...),
+       id=id, 
+				n_clicks=n_clicks, 
+				accessKey=accessKey, 
+				className=className, 
+				contentEditable=contentEditable, 
+				contextMenu=contextMenu, 
+				dir=dir, 
+				draggable=draggable, 
+				hidden=hidden, 
+				lang=lang, 
+				spellCheck=spellCheck, 
+				style=style, 
+				tabIndex=tabIndex, 
+				title=title, 
+				fireEvent=fireEvent, 
+				dashEvents=dashEvents
+     ),
+     type = 'Xmp',
+     namespace = 'dash_html_components'
+   )
+
+  component$props <- filter_null(component$props)
+
+  structure(component, class = c('dash_component', 'html', 'xmp', 'list'))
+}
