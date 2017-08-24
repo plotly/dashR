@@ -27,14 +27,12 @@ app$layout_set(
   core_input(id = 'inputID', value = 'initial value', type = "text"),
   html_div(id = 'outputID')
 )
-
+ 
 app$callback(
-  function(x) {
-    paste("You've entered:", x)
-  },
+  function(x) paste("You've entered:", x),
   output("inputID"),
   input("outputID")
-})
+)
 
 app$run_server(showcase = TRUE)
 ```

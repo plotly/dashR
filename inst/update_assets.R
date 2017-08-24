@@ -95,13 +95,13 @@ htmlify_contents <- function(contents) {
       htmltools::htmlDependency(
         name = info[[1]],
         version = sub(".min.js", "", info[[2]]),
-        src = "lib", stylesheet = x$name
+        src = "/lib", stylesheet = x$name
       )
     } else {
       htmltools::htmlDependency(
         name = info[[1]],
         version = sub(".css", "", info[[2]]),
-        src = "lib", script = x$name
+        src = "/lib", script = x$name
       )
     }
   })
@@ -111,7 +111,7 @@ htmlify_config <- function(config) {
   htmltools::htmlDependency(
     name = config$name,
     version = config$version,
-    src = "lib", script = basename(config$bundle)
+    src = "/lib", script = basename(config$bundle)
   )
 }
 

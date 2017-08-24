@@ -76,6 +76,7 @@ Dash <- R6::R6Class(
       router <- routr::RouteStack$new()
       # TODO: does this need to respect `url_base_pathname`?
       dasher_resources <- ressource_route('/' = system.file(package = 'dasher'))
+      #dasher_resources <- ressource_route('/_dasher-resources' = system.file(package = 'dasher'))
       router$add_route(dasher_resources, 'dasher_resources', after = 1)
 
       # ------------------------------------------------------------------------
@@ -113,6 +114,7 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(url_base_pathname, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
+        browser()
         response$status <- 500L
         response$body <- list(
           h1 = "Not yet implemented"
@@ -286,14 +288,14 @@ Dash <- R6::R6Class(
             <div id="react-entry-point">
               <div class="_dash-loading">Loading...</div>
             </div>
-          </body>
 
-          <footer>
-            <script id="_dash-config" type="application/json"> %s </script>
-            %s
-            %s
-            %s
-          </footer>
+            <footer>
+              <script id="_dash-config" type="application/json"> %s </script>
+              %s
+              %s
+              %s
+            </footer>
+          </body>
         </html>',
         private$name, to_JSON(config),
         # react/react-dom *always* needs to be loaded first
