@@ -88,13 +88,9 @@ welcome_page <- function() {
   )
 }
 
-
-
 # @param names a character string matching the names
 # @param whether to point to an external CDN rather local files
 render_dependencies <- function(names = NULL, external = FALSE) {
-
-  render_fun <- getFromNamespace("renderDependencies", asNamespace("htmltools"))
 
   # deps is an internal list of HTML dependency objects generated in inst/update_assets.R
   all_names <- sapply(deps, `[[`, "name")
@@ -109,5 +105,6 @@ render_dependencies <- function(names = NULL, external = FALSE) {
     stop("not yet implemented")
   }
 
-  render_fun(depz)
+  # TODO: why does the default for `encodeFunc` not work?
+  htmltools::renderDependencies(depz, encodeFunc = identity)
 }

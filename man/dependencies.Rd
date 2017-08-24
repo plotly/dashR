@@ -7,14 +7,15 @@
 \alias{state}
 \title{Input/Output/State definitions}
 \usage{
-output(component_id = NULL, component_property = "children")
+output(id = NULL, property = "children")
 
-input(component_id = NULL, component_property = "value")
+input(id = NULL, property = "value")
 
-state(component_id = NULL, component_property = "value")
+state(id = NULL, property = "value")
 }
 \description{
-Use in conjunction with the \code{callback()} method from the \link[dasher:Dash]{dasher::Dash} class.
+Use in conjunction with the \code{callback()} method from the \link[dasher:Dash]{dasher::Dash} class
+to define the update logic in your application.
 }
 \author{
 Carson Sievert

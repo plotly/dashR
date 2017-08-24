@@ -76,6 +76,7 @@ Dash <- R6::R6Class(
       router <- routr::RouteStack$new()
       # TODO: does this need to respect `url_base_pathname`?
       dasher_resources <- ressource_route('/' = system.file(package = 'dasher'))
+      #dasher_resources <- ressource_route('/_dasher-resources' = system.file(package = 'dasher'))
       router$add_route(dasher_resources, 'dasher_resources', after = 1)
 
       # ------------------------------------------------------------------------
@@ -103,16 +104,25 @@ Dash <- R6::R6Class(
         FALSE
       })
 
+      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
       dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
+
+        outputs <- strsplit(names(private$callback_map), "\\.")
+        new_map <- Map(function(x, y) {
+          x[["output"]] <- list(id = y[[1]], property = y[[2]])
+          x
+        }, private$callback_map, outputs)
+
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(private$callback_map)
+        response$body <- to_JSON(setNames(new_map, NULL))
         FALSE
       })
 
       dash_update <- paste0(url_base_pathname, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
+        browser()
         response$status <- 500L
         response$body <- list(
           h1 = "Not yet implemented"
@@ -231,9 +241,7 @@ Dash <- R6::R6Class(
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
       # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
       outputID <- paste(unlist(output), collapse = ".")
-      private$callback_map[[outputID]] <- setNames(
-        list(list(inputs = inputs, state = states)), outputID
-      )
+      private$callback_map[[outputID]] <- list(inputs = inputs, state = states)
       private$callback_fun[[outputID]] <- fun
 
     },
@@ -286,14 +294,14 @@ Dash <- R6::R6Class(
             <div id="react-entry-point">
               <div class="_dash-loading">Loading...</div>
             </div>
-          </body>
 
-          <footer>
-            <script id="_dash-config" type="application/json"> %s </script>
-            %s
-            %s
-            %s
-          </footer>
+            <footer>
+              <script id="_dash-config" type="application/json"> %s </script>
+              %s
+              %s
+              %s
+            </footer>
+          </body>
         </html>',
         private$name, to_JSON(config),
         # react/react-dom *always* needs to be loaded first
