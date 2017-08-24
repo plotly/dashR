@@ -44,9 +44,7 @@ Description coming soon
 
 # hello dash!
 app <- dasher::Dash$new()
-\dontrun{
-app$run_server()
-}
+app$run_server(showcase = TRUE)
 
 
 # use the layout_set method to define your UI

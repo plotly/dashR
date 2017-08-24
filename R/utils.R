@@ -90,5 +90,25 @@ welcome_page <- function() {
 }
 
 
-# 🙈🙊
-render_dependencies <- getFromNamespace("renderDependencies", asNamespace("htmltools"))
+
+# @param names a character string matching the names
+# @param whether to point to an external CDN rather local files
+render_dependencies <- function(names = NULL, external = FALSE) {
+
+  render_fun <- getFromNamespace("renderDependencies", asNamespace("htmltools"))
+
+  # deps is an internal list of HTML dependency objects generated in inst/update_assets.R
+  all_names <- sapply(deps, `[[`, "name")
+  names <- names %||% all_names
+
+  depz <- list()
+  for (i in seq_along(names)) {
+    depz[[i]] <- which(all_names %in% names[[i]])
+  }
+
+  if (external) {
+    stop("not yet implemented")
+  }
+
+  render_fun(depz)
+}

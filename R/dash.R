@@ -212,19 +212,13 @@ Dash <- R6::R6Class(
     ),
 
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
-    # I'm not sure why @chriddyp feels the need to put *all* the scripts in the footer..
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
-      # *always* include react & react-dom in the header
-      nms <- sapply(deps, "[[", "name")
-      react <- render_dependencies(deps[nms %in% c("react", "react-dom")])
-
-      # TODO: come up with an automated way to determine component dependent dependencies
-      components <- render_dependencies(deps[nms %in% c("dash-core-components", "dash-html-components")])
-
-      # and always include dash-renderer in the footer
-      dash_renderer <- render_dependencies(deps[nms %in% "dash-renderer"])
+      config <- c(
+        private$config,
+        list(url_base_pathname = private$url_base_pathname)
+      )
 
       sprintf(
         '<!DOCTYPE html>
@@ -232,8 +226,6 @@ Dash <- R6::R6Class(
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
-            %s
-            %s
           </head>
 
           <body>
@@ -245,9 +237,17 @@ Dash <- R6::R6Class(
           <footer>
             <script id="_dash-config" type="application/json"> %s </script>
             %s
+            %s
+            %s
           </footer>
         </html>',
-        private$name, react, components, to_JSON(private$config), dash_renderer
+        private$name, to_JSON(config),
+        # react/react-dom *always* needs to be loaded first
+        render_dependencies(c("react", "react-dom")),
+        # TODO: come up with an automated way to determine component dependent dependencies
+        render_dependencies(c("dash-html-components", "dash-core-components")),
+        # dash-renderer *always* goes last
+        render_dependencies("dash-renderer")
       )
     }
 
