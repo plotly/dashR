@@ -51,7 +51,8 @@ assert_no_names <- function(x) {
 assert_is_valid_type <- function(x) {
 
   # TODO: should we allow shiny/htmltools tags?
-  if (is.component(x) || inherits(x, "shiny.tag")) {
+  #if (is.component(x) || inherits(x, "shiny.tag")) {
+  if (is.component(x)) {
     return(TRUE)
   }
 
@@ -72,7 +73,6 @@ to_JSON <- function(x, ...) {
                    null = "null", na = "null", ...)
 }
 
-
 filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
@@ -88,3 +88,7 @@ welcome_page <- function() {
     "If you see this message, you may not have yet specified a layout in your application."
   )
 }
+
+
+# 🙈🙊
+render_dependencies <- getFromNamespace("renderDependencies", asNamespace("htmltools"))

@@ -24,7 +24,6 @@ Collate:
   'dash.R'
   'imports.R'
   'print.R'
-  'routes.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

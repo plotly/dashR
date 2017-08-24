@@ -57,7 +57,6 @@ Dash <- R6::R6Class(
     # see https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L29-L35
     # Yes, I've ignored filename/sharing/app_url in this method...
     # @chriddyp mentioned they are being deprecated/moved to http://github.com/plotly/dash-auth
-    # @thomasp85: does/will fiery have support for CSRF? http://flask-seasurf.readthedocs.io/en/latest/
     server = NULL,
     initialize = function(name = "dash", server = fiery::Fire$new(),
                           url_base_pathname = '/', csrf_protect = TRUE) {
@@ -69,6 +68,15 @@ Dash <- R6::R6Class(
       if (!inherits(server, "Fire"))  {
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
       }
+
+      # first, add a route to package resources, as described in
+      # http://www.data-imaginist.com/2017/Introducing-routr/
+      # @thomasp85 any ideas why this doesn't seem to work?
+
+      router <- routr::RouteStack$new()
+      # TODO: does this need to respect `url_base_pathname`?
+      dasher_resources <- ressource_route('/' = system.file(package = 'dasher'))
+      router$add_route(dasher_resources, 'dasher_resources', after = 1)
 
       # ------------------------------------------------------------------------
       # define & register routes on the server
@@ -86,11 +94,12 @@ Dash <- R6::R6Class(
         FALSE
       })
 
+      # TODO: listviewer::jsonedit() instead of plain JSON?
       dash_layout <- paste0(url_base_pathname, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
-        # TODO: use listviewer::jsonedit() instead?
-        response$body <- list(p = to_JSON(private$layout, pretty = TRUE))
+        response$type <- 'json'
+        response$body <- to_JSON(private$layout, pretty = TRUE)
         FALSE
       })
 
@@ -133,14 +142,13 @@ Dash <- R6::R6Class(
       catch_all <- paste0(url_base_pathname, "*")
       route$add_handler("get", catch_all, function(request, response, keys, ...) {
         response$status <- 200L
-        response$body <- list(
-          h1 = "blah"
-        )
+        # TODO: there must be a way to do this without writing to disk...
+        index <- tempfile(fileext = ".html")
+        cat(private$index(), file = index)
+        response$file <- index
         FALSE
       })
 
-      # register the routes with the server
-      router <- routr::RouteStack$new()
       # TODO: is using the app name in this way a good idea?
       router$add_route(route, name)
       server$attach(router)
@@ -193,12 +201,62 @@ Dash <- R6::R6Class(
     url_base_pathname = NULL,
     csrf_protect = NULL,
     layout = welcome_page(),
+    # TODO: what is going to be the official interface for some of these options?
     config = list(
       suppress_callback_exceptions = FALSE,
-      permissions_cache_expiry = 5 * 60
-    )
+      permissions_cache_expiry = 5 * 60,
+      plotly_domain = Sys.getenv("plotly_domain", "https://plot.ly"),
+      fid = NULL,
+      oauth_client_id = 'RcXzjux4DGfb8bWG9UNGpJUGsTaS0pUVHoEf7Ecl',
+      redirect_uri = 'http://localhost:9595'
+    ),
+
+    # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
+    # I'm not sure why @chriddyp feels the need to put *all* the scripts in the footer..
+    # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
+    index = function() {
+
+      # *always* include react & react-dom in the header
+      nms <- sapply(deps, "[[", "name")
+      react <- render_dependencies(deps[nms %in% c("react", "react-dom")])
+
+      # TODO: come up with an automated way to determine component dependent dependencies
+      components <- render_dependencies(deps[nms %in% c("dash-core-components", "dash-html-components")])
+
+      # and always include dash-renderer in the footer
+      dash_renderer <- render_dependencies(deps[nms %in% "dash-renderer"])
+
+      sprintf(
+        '<!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8"/>
+            <title>%s</title>
+            %s
+            %s
+          </head>
+
+          <body>
+            <div id="react-entry-point">
+              <div class="_dash-loading">Loading...</div>
+            </div>
+          </body>
+
+          <footer>
+            <script id="_dash-config" type="application/json"> %s </script>
+            %s
+          </footer>
+        </html>',
+        private$name, react, components, to_JSON(private$config), dash_renderer
+      )
+    }
+
   )
 
 )
+
+
+
+
 
 
