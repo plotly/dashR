@@ -142,10 +142,8 @@ Dash <- R6::R6Class(
       catch_all <- paste0(url_base_pathname, "*")
       route$add_handler("get", catch_all, function(request, response, keys, ...) {
         response$status <- 200L
-        # TODO: there must be a way to do this without writing to disk...
-        index <- tempfile(fileext = ".html")
-        cat(private$index(), file = index)
-        response$file <- index
+        response$type <- 'html'
+        response$body <- private$index()
         FALSE
       })
 
@@ -188,11 +186,28 @@ Dash <- R6::R6Class(
         permissions_cache_expiry %||% private$config$permissions_cache_expiry
 
     },
-    callback = function(output, input, state) {
-      stop("Not yet implemented")
+    callback = function(function_definition = NULL, output = NULL, input = NULL, state = NULL) {
+
+      if (!is.function(function_definition)) {
+        stop("function_definition must be a valid R function", call. = FALSE)
+      }
+
+
+      # output is requires
+      if (!is.output(output)) {
+        stop("output must be a output object created by deps_output()", call. = FALSE)
+      }
+
+      # ensure we have a *list* of inputs
+      if (is.input(input)) {
+        input <- list(input)
+      }
+
     },
     run_server = function(block = TRUE, showcase = FALSE, ...) {
+
       self$server$ignite(block = block, showcase = showcase, ...)
+
     }
   ),
 

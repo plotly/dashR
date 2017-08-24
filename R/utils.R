@@ -6,17 +6,16 @@ is.fire <- function(x) {
   inherits(x, "Fire")
 }
 
-is.component <- function(x) {
-  inherits(x, "component")
-}
+# components
+is.component <- function(x) inherits(x, "component")
+is.html_component <- function(x) inherits(x, c("component", "html"))
+is.core_component <- function(x) inherits(x, c("component", "core"))
 
-is.html_component <- function(x) {
-  inherits(x, c("component", "html"))
-}
-
-is.core_component <- function(x) {
-  inherits(x, c("component", "core"))
-}
+# dependencies
+is.dependency <- function(x) inherits(x, "dash_dependency")
+is.output <- function(x) is.dependency(x) && inherits(x, "output")
+is.input <- function(x) is.dependency(x) && inherits(x, "input")
+is.state <- function(x) is.dependency(x) && inherits(x, "state")
 
 
 # ----------------------------------------------------------------------------
@@ -103,7 +102,7 @@ render_dependencies <- function(names = NULL, external = FALSE) {
 
   depz <- list()
   for (i in seq_along(names)) {
-    depz[[i]] <- which(all_names %in% names[[i]])
+    depz[[i]] <- deps[[which(all_names %in% names[[i]])]]
   }
 
   if (external) {
