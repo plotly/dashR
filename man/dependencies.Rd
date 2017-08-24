@@ -2,16 +2,16 @@
 % Please edit documentation in R/dependencies.R
 \name{dependencies}
 \alias{dependencies}
-\alias{deps_output}
-\alias{deps_input}
-\alias{deps_state}
+\alias{output}
+\alias{input}
+\alias{state}
 \title{Input/Output/State definitions}
 \usage{
-deps_output(component_id = NULL, component_property = NULL)
+output(component_id = NULL, component_property = "children")
 
-deps_input(component_id = NULL, component_property = "value")
+input(component_id = NULL, component_property = "value")
 
-deps_state(component_id = NULL, component_property = "value")
+state(component_id = NULL, component_property = "value")
 }
 \description{
 Use in conjunction with the \code{callback()} method from the \link[dasher:Dash]{dasher::Dash} class.

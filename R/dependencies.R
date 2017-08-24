@@ -2,44 +2,45 @@
 
 #' Input/Output/State definitions
 #'
-#' Use in conjunction with the `callback()` method from the [dasher::Dash] class.
+#' Use in conjunction with the `callback()` method from the [dasher::Dash] class
+#' to define the update logic in your application.
 #'
 #' @name dependencies
 #' @author Carson Sievert
-#' @param component_id
-#' @param component_property
+#' @param id
+#' @param property
 
 
 #' @rdname dependencies
 #' @export
-deps_output <- function(component_id = NULL, component_property = NULL) {
+output <- function(id = NULL, property = "children") {
   structure(
-    dependency(component_id, component_property),
+    dependency(id, property),
     class = c("dash_dependency", "output")
   )
 }
 
 #' @rdname dependencies
 #' @export
-deps_input <- function(component_id = NULL, component_property = "value") {
+input <- function(id = NULL, property = "value") {
   structure(
-    dependency(component_id, component_property),
+    dependency(id, property),
     class = c("dash_dependency", "input")
   )
 }
 
 #' @rdname dependencies
 #' @export
-deps_state <- function(component_id = NULL, component_property = "value") {
+state <- function(id = NULL, property = "value") {
   structure(
-    dependency(component_id, component_property),
+    dependency(id, property),
     class = c("dash_dependency", "state")
   )
 }
 
-dependency <- function(component_id = NULL, component_property = NULL) {
+dependency <- function(id = NULL, property = NULL) {
   list(
-    component_id = component_id,
-    component_property = component_property
+    id = id,
+    property = property
   )
 }

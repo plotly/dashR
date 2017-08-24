@@ -105,10 +105,9 @@ Dash <- R6::R6Class(
 
       dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
-        response$status <- 500L
-        response$body <- list(
-          h1 = "Not yet implemented"
-        )
+        response$status <- 200L
+        response$type <- 'json'
+        response$body <- to_JSON(private$callback_map)
         FALSE
       })
 
@@ -162,6 +161,7 @@ Dash <- R6::R6Class(
       self$server <- server
 
     },
+
     layout_get = function() {
 
       private$layout
@@ -186,24 +186,62 @@ Dash <- R6::R6Class(
         permissions_cache_expiry %||% private$config$permissions_cache_expiry
 
     },
-    callback = function(function_definition = NULL, output = NULL, input = NULL, state = NULL) {
+    # TODO: make this the 'default' callback method, but provide specialized methods that know
+    # how to "containerize" special types of output (e.g., callback_plot(), callback_print(), etc)
+    callback = function(fun = NULL, output = NULL, inputs = NULL, states = NULL) {
 
-      if (!is.function(function_definition)) {
-        stop("function_definition must be a valid R function", call. = FALSE)
+      if (!is.function(fun)) {
+        stop("fun must be a valid R function", call. = FALSE)
       }
 
+      # caching on the filesytem should ensure memoization works across sessions?
+      # or at least at some point in the future?
+      # https://github.com/r-lib/memoise/issues/29
+      #fm <- memoise::memoise(
+      #  fun, cache = memoise::cache_filesystem()
+      #)
 
-      # output is requires
+      # a *single* output is required
       if (!is.output(output)) {
-        stop("output must be a output object created by deps_output()", call. = FALSE)
+        stop("The `output` argument must be a result of the output() function", call. = FALSE)
       }
 
       # ensure we have a *list* of inputs
-      if (is.input(input)) {
-        input <- list(input)
+      if (is.null(inputs) || is.input(inputs)) inputs <- list(inputs)
+      is_input <- vapply(inputs, is.input, logical(1))
+      if (!all(is_input)) {
+        stop("The `inputs` argument must be a list of input() objects", call. = FALSE)
       }
 
+      # states is optional
+      if (!is.null(states)) {
+        # but, when specified, must be a list
+        if (is.state(states)) states <- list(states)
+        is_state <- vapply(inputs, is.state, logical(1))
+        if (!all(is_state)) {
+          stop("The `states` argument must be a list of state() objects", call. = FALSE)
+        }
+      }
+
+      # TODO: verify the component_values are valid given the layout
+      # available_events <- c("children", names(formals(match.fun("html_a")))[-1])
+
+
+      # store the callback mapping/function so we may access it later
+      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
+      # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
+      outputID <- paste(unlist(output), collapse = ".")
+      private$callback_map[[outputID]] <- setNames(
+        list(list(inputs = inputs, state = states)), outputID
+      )
+      private$callback_fun[[outputID]] <- fun
+
     },
+
+    # TODO: the dream!?! Have users just write an expression that reference inputs/outputs?
+    #callback_ = function(expr) {
+    #  eval(expr)
+    #},
     run_server = function(block = TRUE, showcase = FALSE, ...) {
 
       self$server$ignite(block = block, showcase = showcase, ...)
@@ -225,7 +263,8 @@ Dash <- R6::R6Class(
       oauth_client_id = 'RcXzjux4DGfb8bWG9UNGpJUGsTaS0pUVHoEf7Ecl',
       redirect_uri = 'http://localhost:9595'
     ),
-
+    callback_map = list(),
+    callback_fun = list(),
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {

@@ -9,7 +9,8 @@ Imports:
   routr,
   htmltools,
   jsonlite,
-  assertthat
+  assertthat,
+  memoise
 Suggests:
   testthat,
   knitr,
