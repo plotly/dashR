@@ -18,7 +18,7 @@ test_that("Can set/get layout", {
   expect_identical(l1, welcome_page())
 
 
-  d$layout_set(html_div("A div"))
+  d$layout_set(html_div("A div", id = "An id"))
   l2 <- d$layout_get()
   expect_is(l2, c("dash_component", "html", "Div"))
   expect_true(!identical(l1, l2))

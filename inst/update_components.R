@@ -65,7 +65,7 @@ for (i in seq_along(core)) {
 
        component$props <- filter_null(component$props)
 
-       structure(component, class = c('dash_component', 'core', '*{name}*', 'list'))
+       structure(component, class = c('dash_component', 'dash_core', 'dash_*{name}*', 'list'))
     }
 
     ",
@@ -135,7 +135,7 @@ for (i in seq_along(html)) {
 
       component$props <- filter_null(component$props)
 
-      structure(component, class = c('dash_component', 'html', '*{name}*', 'list'))
+      structure(component, class = c('dash_component', 'dash_html', 'dash_*{name}*', 'list'))
     }
 
     ",

@@ -179,7 +179,26 @@ Dash <- R6::R6Class(
     },
     layout_set = function(...) {
 
-      private$layout <- html_div(list(...), id = "react-entry-point")
+      private$layout <- html_div(...)
+
+      # verify that layout ids are unique
+      layout_flat <- rapply(private$layout, I)
+      idx <- grep("id$", names(layout_flat))
+      if (!length(idx)) {
+        warning(
+          "No ids were found in the layout. ",
+          "Component ids are critical for targetting callbacks in your application",
+          call. = FALSE
+        )
+      }
+      ids <- as.character(layout_flat[idx])
+      duped <- anyDuplicated(ids)
+      if (duped) {
+        stop(
+          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", ids[duped]),
+          call. = FALSE
+        )
+      }
 
     },
     config_get = function() {
@@ -201,7 +220,7 @@ Dash <- R6::R6Class(
     callback = function(fun = NULL, output = NULL, inputs = NULL, states = NULL) {
 
       if (!is.function(fun)) {
-        stop("fun must be a valid R function", call. = FALSE)
+        stop("The `fun` argument must be an R function", call. = FALSE)
       }
 
       # caching on the filesytem should ensure memoization works across sessions?
@@ -233,8 +252,62 @@ Dash <- R6::R6Class(
         }
       }
 
-      # TODO: verify the component_values are valid given the layout
-      # available_events <- c("children", names(formals(match.fun("html_a")))[-1])
+      # verify that output/input/state IDs provided exists in the layout
+      layout_flat <- rapply(private$layout, I)
+      layout_ids <- layout_flat[grep("id$", names(layout_flat))]
+      callback_ids <- unlist(c(output$id, sapply(inputs, "[[", "id"), sapply(states, "[[", "id")))
+      illegal_ids <- setdiff(callback_ids, layout_ids)
+      if (length(illegal_ids)) {
+        stop(
+          sprintf(
+            "The following id(s) do not match any in the layout: '%s'",
+            paste(illegal_ids, collapse = "', '")
+          ),
+          call. = FALSE
+        )
+      }
+
+      # verify that properties attached to output/inputs/state value are valid
+      # first, for a given id, we must infer the component type
+
+
+      for (i in seq_along(inputs)) {
+
+
+
+      }
+
+      # @param layout
+      # @param component a component (should be a dependency)
+      validate_dependency <- function(layout, dependency) {
+        if (!is.dependency(dependency)) {
+          stop("`dependency` must be a dependency object", call. = FALSE)
+        }
+
+        type <- component_infer_type(private$layout, dependency$id)
+        valid_props <- infer_props(type)
+
+        if (!isTRUE(dependency$property %in% valid_props)) {
+          stop(
+            sprintf(
+              "The %s property '%s' is not a valid property for '%s' components. Try one of the folllowing: '%s'",
+              class(dependency)[2], dependency$property, type,
+              paste(valid_props, collapse = "', '")
+            ),
+            call. = FALSE
+          )
+        }
+
+        TRUE
+      }
+
+      validate_dependency(private$layout, output)
+      for (i in seq_along(inputs)) {
+        validate_dependency(private$layout, inputs[[i]])
+      }
+      for (i in seq_along(states)) {
+        validate_dependency(private$layout, states[[i]])
+      }
 
 
       # store the callback mapping/function so we may access it later

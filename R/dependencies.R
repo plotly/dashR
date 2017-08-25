@@ -39,6 +39,7 @@ state <- function(id = NULL, property = "value") {
 }
 
 dependency <- function(id = NULL, property = NULL) {
+  if (is.null(id)) stop("Must specify an id", call. = FALSE)
   list(
     id = id,
     property = property
