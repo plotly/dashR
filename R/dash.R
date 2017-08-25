@@ -108,9 +108,21 @@ Dash <- R6::R6Class(
       dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
+        # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
+        if (!length(private$callback_map)) {
+          response$status <- 200L
+          response$type <- 'json'
+          response$body <- to_JSON(list())
+          return(FALSE)
+        }
+
         outputs <- strsplit(names(private$callback_map), "\\.")
         new_map <- Map(function(x, y) {
           x[["output"]] <- list(id = y[[1]], property = y[[2]])
+          # IMPORTANT: if state/events don't exist, they *must* be an empty array
+          # (i.e., null/missing won't work) or else the dash-renderer throws a fit
+          x[["state"]] <- x[["state"]] %||% list()
+          x[["events"]] <- x[["events"]] %||% list()
           x
         }, private$callback_map, outputs)
 
@@ -123,6 +135,8 @@ Dash <- R6::R6Class(
       dash_update <- paste0(url_base_pathname, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
         browser()
+        # why is request$body empty?
+
         response$status <- 500L
         response$body <- list(
           h1 = "Not yet implemented"

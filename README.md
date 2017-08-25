@@ -30,8 +30,8 @@ app$layout_set(
  
 app$callback(
   function(x) paste("You've entered:", x),
-  output("inputID"),
-  input("outputID")
+  output("outputID"),
+  input("inputID")
 )
 
 app$run_server(showcase = TRUE)
