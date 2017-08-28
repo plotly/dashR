@@ -153,15 +153,6 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      dash_routes <- paste0(url_base_pathname, "_dash-routes")
-      route$add_handler("get", dash_routes, function(request, response, keys, ...) {
-        response$status <- 500L
-        response$body <- list(
-          h1 = "Not yet implemented"
-        )
-        FALSE
-      })
-
       catch_all <- paste0(url_base_pathname, "*")
       route$add_handler("get", catch_all, function(request, response, keys, ...) {
         response$status <- 200L

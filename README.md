@@ -7,7 +7,7 @@ An R implementation of the [dash](https://github.com/plotly/dash-renderer) proto
 **dasher** isn't yet available on CRAN, but you may install the development version with:
 
 ```r
-devtools::install_github("plotly/dasher")
+devtools::install_github('plotly/dasher')
 ```
 
 ## Getting Started
@@ -24,14 +24,14 @@ Similar to [dash](https://github.com/plotly/dash), every **dasher** application 
 
 ```r
 app$layout_set(
-  core_input(id = 'inputID', value = 'initial value', type = "text"),
+  core_input(id = 'inputID', value = 'initial value', type = 'text'),
   html_div(id = 'outputID')
 )
  
 app$callback(
-  function(x) paste("You've entered:", x),
-  output("outputID"),
-  input("inputID")
+  function(x) paste('You've entered:', x),
+  output('outputID'),
+  input('inputID')
 )
 
 app$run_server(showcase = TRUE)
