@@ -134,14 +134,31 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(url_base_pathname, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
-        browser()
-        # why is request$body empty?
 
-        response$status <- 500L
-        response$body <- list(
-          h1 = "Not yet implemented"
+        # TODO: why is the request body empty? Is it ever not empty?
+        # How do we know what input values have changed?
+        print(request$body %||% "null body")
+
+        outputID <- names(private$callback_map)[[1]]
+        outputComponent <- private$callback_map[[outputID]]
+        inputs <- outputComponent$inputs
+        # TODO: get the current input value(s)
+        output_value <- do.call(outputComponent$callback, list(Sys.time()))
+
+        # have to format the response body like this
+        # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
+        resp <- list(
+          response = list(
+            props = list(children = output_value)
+          )
         )
+
+        response$status <- 200L
+        response$type <- 'json'
+        response$body <- to_JSON(resp)
         FALSE
+
+
       })
 
       dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
@@ -257,7 +274,10 @@ Dash <- R6::R6Class(
         }
       }
 
+      # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
+      # -----------------------------------------------------------------------
+
       layout_flat <- rapply(private$layout, I)
       layout_ids <- layout_flat[grep("id$", names(layout_flat))]
       callback_ids <- unlist(c(output$id, sapply(inputs, "[[", "id"), sapply(states, "[[", "id")))
@@ -272,15 +292,10 @@ Dash <- R6::R6Class(
         )
       }
 
+      # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
       # first, for a given id, we must infer the component type
-
-
-      for (i in seq_along(inputs)) {
-
-
-
-      }
+      # ----------------------------------------------------------------------
 
       # @param layout
       # @param component a component (should be a dependency)
@@ -314,24 +329,17 @@ Dash <- R6::R6Class(
         validate_dependency(private$layout, states[[i]])
       }
 
-
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
       # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
       outputID <- paste(unlist(output), collapse = ".")
-      private$callback_map[[outputID]] <- list(inputs = inputs, state = states)
-      private$callback_fun[[outputID]] <- fun
+      private$callback_map[[outputID]] <- list(
+        inputs = inputs, state = states, callback = fun
+      )
 
     },
-
-    # TODO: the dream!?! Have users just write an expression that reference inputs/outputs?
-    #callback_ = function(expr) {
-    #  eval(expr)
-    #},
     run_server = function(block = TRUE, showcase = FALSE, ...) {
-
       self$server$ignite(block = block, showcase = showcase, ...)
-
     }
   ),
 
@@ -394,9 +402,6 @@ Dash <- R6::R6Class(
   )
 
 )
-
-
-
 
 
 
