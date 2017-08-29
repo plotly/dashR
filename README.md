@@ -24,14 +24,15 @@ Similar to [dash](https://github.com/plotly/dash), every **dasher** application 
 
 ```r
 app$layout_set(
-  core_input(id = 'inputID', value = 'initial value', type = 'text'),
-  html_div(id = 'outputID')
+  core_input(id = "inputID", value = "initial value", type = "text"),
+  html_div(id = "outputID")
 )
- 
+
 app$callback(
-  function(x) paste('You've entered:', x),
-  output('outputID'),
-  input('inputID')
+  function(x = input("inputID"), y = input("inputID", "type")) {
+    sprintf("You've entered: '%s' into a '%s' input control", x, y)
+  },
+  output("outputID")
 )
 
 app$run_server(showcase = TRUE)
