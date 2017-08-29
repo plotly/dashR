@@ -121,8 +121,9 @@ Dash <- R6::R6Class(
           x[["output"]] <- list(id = y[[1]], property = y[[2]])
           # IMPORTANT: if state/events don't exist, they *must* be an empty array
           # (i.e., null/missing won't work) or else the dash-renderer throws a fit
-          x[["state"]] <- x[["state"]] %||% list()
-          x[["events"]] <- x[["events"]] %||% list()
+          x[["state"]] <- setNames(x[["state"]] %||% list(), NULL)
+          x[["events"]] <- setNames(x[["events"]] %||% list(), NULL)
+          x[["inputs"]] <- setNames(x[["inputs"]] %||% list(), NULL)
           x
         }, private$callback_map, outputs)
 
@@ -141,28 +142,34 @@ Dash <- R6::R6Class(
         success <- request$parse(reqres::default_parsers["application/json"])
         if (!success) stop("Failed to parse body", call. = FALSE)
 
-        # get the callback for this particular output
+        # get the callback associated with this particular output
         outputID <- with(request$body$output, paste(id, property, sep = "."))
         outputComponent <- private$callback_map[[outputID]]
-        if (!length(outputComponent)) {
-          stop(
-            "Couldn't find output component. If you see this error, ",
-            "please report it -> https://github.com/plotly/dasher",
-            call. = FALSE
-          )
-        }
+        if (!length(outputComponent)) stop_report("Couldn't find output component.")
 
-        # TODO:
-        # (1) Use tidyeval to ensure we're evaluating in correct context!?
-        # (2) what if there are no inputs?
+
+        # compute the new output value, if necessary
+
+        # TODO: this is almost certainly the wrong way to perform evaluation
+        # (1) Leverage tidyeval (or similar) to ensure evaluation happens in proper envir
+        # (2) Leverage memoise (or similar) to cache redundant computations
         input_values <- request$body$inputs[["value"]]
-        output_value <- do.call(outputComponent$callback, list(input_values))
+        args <- formals(outputComponent$callback)
+        if (length(args) != length(input_values)) stop_report("Malformed input definition.")
+
+        output_value <- do.call(
+          outputComponent$callback,
+          args = setNames(as.list(input_values), names(args))
+        )
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = list(children = output_value)
+            props = setNames(
+              list(format_output_value(output_value)),
+              request$body$output$property
+            )
           )
         )
 
@@ -172,6 +179,7 @@ Dash <- R6::R6Class(
         FALSE
       })
 
+      # TODO: is this endpoint really necessary?
       dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         response$status <- 500L
@@ -255,39 +263,26 @@ Dash <- R6::R6Class(
     },
     # TODO: make this the 'default' callback method, but provide specialized methods that know
     # how to "containerize" special types of output (e.g., callback_plot(), callback_print(), etc)
-    callback = function(fun = NULL, output = NULL, inputs = NULL, states = NULL) {
+    callback = function(fun = NULL, output = NULL, envir = parent.frame()) {
 
-      if (!is.function(fun)) {
-        stop("The `fun` argument must be an R function", call. = FALSE)
-      }
-
-      # caching on the filesytem should ensure memoization works across sessions?
-      # or at least at some point in the future?
-      # https://github.com/r-lib/memoise/issues/29
-      #fm <- memoise::memoise(
-      #  fun, cache = memoise::cache_filesystem()
-      #)
+      if (!is.function(fun)) stop("The `fun` argument must be an R function", call. = FALSE)
 
       # a *single* output is required
-      if (!is.output(output)) {
-        stop("The `output` argument must be a result of the output() function", call. = FALSE)
-      }
+      if (!is.output(output)) stop("The `output` argument must be a result of the `output()`` function", call. = FALSE)
 
-      # ensure we have a *list* of inputs
-      if (is.null(inputs) || is.input(inputs)) inputs <- list(inputs)
-      is_input <- vapply(inputs, is.input, logical(1))
-      if (!all(is_input)) {
-        stop("The `inputs` argument must be a list of input() objects", call. = FALSE)
-      }
-
-      # states is optional
-      if (!is.null(states)) {
-        # but, when specified, must be a list
-        if (is.state(states)) states <- list(states)
-        is_state <- vapply(inputs, is.state, logical(1))
-        if (!all(is_state)) {
-          stop("The `states` argument must be a list of state() objects", call. = FALSE)
-        }
+      # TODO: do we ever have to worry about the eval envir here?
+      inputz <- lapply(formals(fun), eval)
+      is_inputy <- vapply(inputz, function(x) is.input(x) || is.state(x), logical(1))
+      if (!all(is_inputy)) {
+        stop(
+          "Argument values of callback function (`fun`) must be input/state",
+          "objects created via `input()`/`state()`. \n\n",
+          sprint(
+            "I found a problem with these arguments: '%s'",
+            paste(names(inputz)[!is_inputy], collapse = "', '")
+          ),
+          call. = FALSE
+        )
       }
 
       # -----------------------------------------------------------------------
@@ -296,7 +291,7 @@ Dash <- R6::R6Class(
 
       layout_flat <- rapply(private$layout, I)
       layout_ids <- layout_flat[grep("id$", names(layout_flat))]
-      callback_ids <- unlist(c(output$id, sapply(inputs, "[[", "id"), sapply(states, "[[", "id")))
+      callback_ids <- unlist(c(output$id, sapply(inputz, "[[", "id")))
       illegal_ids <- setdiff(callback_ids, layout_ids)
       if (length(illegal_ids)) {
         stop(
@@ -338,11 +333,8 @@ Dash <- R6::R6Class(
       }
 
       validate_dependency(private$layout, output)
-      for (i in seq_along(inputs)) {
-        validate_dependency(private$layout, inputs[[i]])
-      }
-      for (i in seq_along(states)) {
-        validate_dependency(private$layout, states[[i]])
+      for (i in seq_along(inputz)) {
+        validate_dependency(private$layout, inputz[[i]])
       }
 
       # store the callback mapping/function so we may access it later
@@ -350,7 +342,9 @@ Dash <- R6::R6Class(
       # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
       outputID <- paste(unlist(output), collapse = ".")
       private$callback_map[[outputID]] <- list(
-        inputs = inputs, state = states, callback = fun
+        callback = fun,
+        inputs = inputz[is_inputy],
+        state = inputz[!is_inputy]
       )
 
     },
@@ -401,6 +395,7 @@ Dash <- R6::R6Class(
               <script id="_dash-config" type="application/json"> %s </script>
               %s
               %s
+              <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
               %s
             </footer>
           </body>

@@ -9,12 +9,12 @@ Imports:
   routr,
   reqres,
   jsonlite,
-  htmltools
+  htmltools,
+  plotly
 Suggests:
   testthat,
   knitr,
-  rmarkdown,
-  plotly
+  rmarkdown
 Collate:
   'utils.R'
   'components-core.R'
@@ -23,6 +23,7 @@ Collate:
   'dash-package.R'
   'dash.R'
   'imports.R'
+  'format-output-value.R'
   'print.R'
 License: MIT + file LICENSE
 Encoding: UTF-8

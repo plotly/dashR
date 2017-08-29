@@ -89,7 +89,7 @@ assert_is_valid_type <- function(x) {
 # ----------------------------------------------------------------------------
 
 "%||%" <- function(x, y) {
-  if (is.null(x)) y else x
+  if (length(x)) x else y
 }
 
 # same as plotly:::to_JSON
@@ -114,6 +114,17 @@ welcome_page <- function() {
   )
 }
 
+stop_report <- function(msg = "") {
+  stop(
+    msg, "\n\n",
+    "Please let us know about this error via ",
+    "https://github.com/plotly/dasher/issues/new",
+    call. = FALSE
+  )
+}
+
+# Render (internal) HTML dependencies
+
 # @param names a character string matching the names
 # @param whether to point to an external CDN rather local files
 render_dependencies <- function(names = NULL, external = FALSE) {
@@ -133,4 +144,17 @@ render_dependencies <- function(names = NULL, external = FALSE) {
 
   # TODO: why does the default for `encodeFunc` not work?
   htmltools::renderDependencies(depz, encodeFunc = identity)
+}
+
+
+# get dependencies from an htmlwidget object
+# https://github.com/ramnathv/htmlwidgets/pull/255
+
+widget_dependencies <- function(w) {
+  if (!inherits(w, "htmlwidget")) {
+    warning("Expected an htmlwidget object", call. = FALSE)
+    return(NULL)
+  }
+
+  htmlwidgets::getDependency(class(w)[1], package = attr(w, "package"))
 }
