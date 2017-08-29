@@ -7,10 +7,9 @@ Imports:
   R6,
   fiery,
   routr,
-  htmltools,
+  reqres,
   jsonlite,
-  assertthat,
-  memoise
+  htmltools
 Suggests:
   testthat,
   knitr,

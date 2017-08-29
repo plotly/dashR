@@ -135,15 +135,28 @@ Dash <- R6::R6Class(
       dash_update <- paste0(url_base_pathname, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
 
-        # TODO: why is the request body empty? Is it ever not empty?
-        # How do we know what input values have changed?
-        print(request$body %||% "null body")
+        # request body must be parsed on demand (to avoid errors by odd formats)
+        # http://www.data-imaginist.com/2017/Introducing-reqres/
+        if (!request$is("json")) stop("Expected a JSON request", call. = FALSE)
+        success <- request$parse(reqres::default_parsers["application/json"])
+        if (!success) stop("Failed to parse body", call. = FALSE)
 
-        outputID <- names(private$callback_map)[[1]]
+        # get the callback for this particular output
+        outputID <- with(request$body$output, paste(id, property, sep = "."))
         outputComponent <- private$callback_map[[outputID]]
-        inputs <- outputComponent$inputs
-        # TODO: get the current input value(s)
-        output_value <- do.call(outputComponent$callback, list(Sys.time()))
+        if (!length(outputComponent)) {
+          stop(
+            "Couldn't find output component. If you see this error, ",
+            "please report it -> https://github.com/plotly/dasher",
+            call. = FALSE
+          )
+        }
+
+        # TODO:
+        # (1) Use tidyeval to ensure we're evaluating in correct context!?
+        # (2) what if there are no inputs?
+        input_values <- request$body$inputs[["value"]]
+        output_value <- do.call(outputComponent$callback, list(input_values))
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -157,8 +170,6 @@ Dash <- R6::R6Class(
         response$type <- 'json'
         response$body <- to_JSON(resp)
         FALSE
-
-
       })
 
       dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
@@ -182,13 +193,18 @@ Dash <- R6::R6Class(
       router$add_route(route, name)
       server$attach(router)
 
-      # --------------------------------------------------------------------
-      # When the server boots, serve all the assets and what-not
-      # --------------------------------------------------------------------
-
-      #server$on("start", function(server, ...) {
-      #  private$layout
-      #})
+      # -----------------------------------------------------------------
+      # Some simple HTTP request logging
+      # TODO: provide an option to turn this on/off?
+      # -----------------------------------------------------------------
+      server$on("after-request", function(server, id, request, ...) {
+        msg <- sprintf(
+          '%s - - [%s]  "%s %s HTTP/1.1" %s',
+          request$host, Sys.time(), request$method,
+          request$path, request$response$status
+        )
+        cat(msg, "\n")
+      })
 
       self$server <- server
 
