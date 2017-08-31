@@ -19,11 +19,11 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout_set(...)`}{Set the layout (i.e., user interface). Should be a collection of [components]}
-#'   \item{`layout_get()`}{Retrieves the layout (i.e., user interface).}
+#'   \item{`layout_set(...)`}{Set the layout (i.e., user interface).}
+#'   \item{`layout_get()`}{Retrieves the layout.}
+#'   \item{`callback(fun, output)`}{Callback function to execute when relevant inputs change.}
 #'   \item{`config_set(suppress_callback_exceptions, permissions_cache_expiry)`}{Set the config.}
 #'   \item{`config_get()`}{Get the config.}
-#'   \item{`callback(output, input, state)`}{Define the dependency graph (i.e., input/output relationships).}
 #'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{Launch the application. See [fiery::Fire] methods for a description of the arguments}
 #' }
 #'
@@ -38,7 +38,6 @@
 #' # hello dash!
 #' app <- dasher::Dash$new()
 #' app$run_server(showcase = TRUE)
-#'
 #'
 #' # use the layout_set method to define your UI
 #' app$layout_set(
@@ -71,31 +70,28 @@ Dash <- R6::R6Class(
 
       # first, add a route to package resources, as described in
       # http://www.data-imaginist.com/2017/Introducing-routr/
-      # @thomasp85 any ideas why this doesn't seem to work?
-
       router <- routr::RouteStack$new()
       # TODO: does this need to respect `url_base_pathname`?
       dasher_resources <- ressource_route('/' = system.file(package = 'dasher'))
-      #dasher_resources <- ressource_route('/_dasher-resources' = system.file(package = 'dasher'))
       router$add_route(dasher_resources, 'dasher_resources', after = 1)
 
       # ------------------------------------------------------------------------
       # define & register routes on the server
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L88-L124
       # ------------------------------------------------------------------------
-
       route <- routr::Route$new()
 
       dash_login <- paste0(url_base_pathname, "_dash-login")
       route$add_handler("post", dash_login, function(request, response, keys, ...) {
-        response$status <- 500L
+
+
+
         response$body <- list(
           h1 = "Not yet implemented"
         )
         FALSE
       })
 
-      # TODO: listviewer::jsonedit() instead of plain JSON?
       dash_layout <- paste0(url_base_pathname, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
@@ -104,7 +100,6 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
       dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
@@ -116,8 +111,9 @@ Dash <- R6::R6Class(
           return(FALSE)
         }
 
+        # client wants the mapping formatted this way -- https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
         outputs <- strsplit(names(private$callback_map), "\\.")
-        new_map <- Map(function(x, y) {
+        payload <- Map(function(x, y) {
           x[["output"]] <- list(id = y[[1]], property = y[[2]])
           # IMPORTANT: if state/events don't exist, they *must* be an empty array
           # (i.e., null/missing won't work) or else the dash-renderer throws a fit
@@ -129,7 +125,7 @@ Dash <- R6::R6Class(
 
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(setNames(new_map, NULL))
+        response$body <- to_JSON(setNames(payload, NULL))
         FALSE
       })
 
@@ -147,9 +143,7 @@ Dash <- R6::R6Class(
         outputComponent <- private$callback_map[[outputID]]
         if (!length(outputComponent)) stop_report("Couldn't find output component.")
 
-
         # compute the new output value, if necessary
-
         # TODO: this is almost certainly the wrong way to perform evaluation
         # (1) Leverage tidyeval (or similar) to ensure evaluation happens in proper envir
         # (2) Leverage memoise (or similar) to cache redundant computations
@@ -193,6 +187,7 @@ Dash <- R6::R6Class(
       route$add_handler("get", catch_all, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'html'
+        # TODO: generate the index page on server start?
         response$body <- private$index()
         FALSE
       })
@@ -202,17 +197,21 @@ Dash <- R6::R6Class(
       server$attach(router)
 
       # -----------------------------------------------------------------
-      # Some simple HTTP request logging
-      # TODO: provide an option to turn this on/off?
+      # Some simple HTTP request logging (flask does this automatically)
       # -----------------------------------------------------------------
-      server$on("after-request", function(server, id, request, ...) {
-        msg <- sprintf(
-          '%s - - [%s]  "%s %s HTTP/1.1" %s',
-          request$host, Sys.time(), request$method,
-          request$path, request$response$status
-        )
-        cat(msg, "\n")
-      })
+      reporter <- getOption("dasher.http.reporter",
+        function(server, id, request, ...) {
+          msg <- sprintf(
+            '%s - - [%s]  "%s %s HTTP/1.1" %s',
+            request$host, Sys.time(), request$method,
+            request$path, request$response$status
+          )
+          cat(msg, "\n")
+        })
+
+      if (is.function(reporter)) {
+        server$on("after-request", reporter)
+      }
 
       self$server <- server
 
@@ -228,8 +227,8 @@ Dash <- R6::R6Class(
       private$layout <- html_div(...)
 
       # verify that layout ids are unique
-      layout_flat <- rapply(private$layout, I)
-      idx <- grep("id$", names(layout_flat))
+      private$layout_flat <- rapply(private$layout, I)
+      idx <- grep("id$", names(private$layout_flat))
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
@@ -237,7 +236,7 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
-      ids <- as.character(layout_flat[idx])
+      ids <- as.character(private$layout_flat[idx])
       duped <- anyDuplicated(ids)
       if (duped) {
         stop(
@@ -245,6 +244,17 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
+
+    },
+    css_get = function() {
+
+      # TODO: should this return a list of htmlDependency objects?
+      private$css
+
+    },
+    css_set = function() {
+
+      # TODO: implement
 
     },
     config_get = function() {
@@ -289,10 +299,9 @@ Dash <- R6::R6Class(
       # verify that output/input/state IDs provided exists in the layout
       # -----------------------------------------------------------------------
 
-      layout_flat <- rapply(private$layout, I)
-      layout_ids <- layout_flat[grep("id$", names(layout_flat))]
+      ids <- private$layout_flat[grep("id$", names(private$layout_flat))]
       callback_ids <- unlist(c(output$id, sapply(inputz, "[[", "id")))
-      illegal_ids <- setdiff(callback_ids, layout_ids)
+      illegal_ids <- setdiff(callback_ids, ids)
       if (length(illegal_ids)) {
         stop(
           sprintf(
@@ -343,8 +352,8 @@ Dash <- R6::R6Class(
       outputID <- paste(unlist(output), collapse = ".")
       private$callback_map[[outputID]] <- list(
         callback = fun,
-        inputs = inputz[is_inputy],
-        state = inputz[!is_inputy]
+        inputs = inputz[vapply(inputz, is.input, logical(1))],
+        state = inputz[vapply(inputz, is.state, logical(1))]
       )
 
     },
@@ -358,6 +367,9 @@ Dash <- R6::R6Class(
     url_base_pathname = NULL,
     csrf_protect = NULL,
     layout = welcome_page(),
+    layout_flat = rapply(welcome_page(), I),
+    # TODO: include @chriddyp's CSS by default? https://codepen.io/chriddyp/pen/bWLwgP.css
+    css = NULL,
     # TODO: what is going to be the official interface for some of these options?
     config = list(
       suppress_callback_exceptions = FALSE,
@@ -368,7 +380,9 @@ Dash <- R6::R6Class(
       redirect_uri = 'http://localhost:9595'
     ),
     callback_map = list(),
-    callback_fun = list(),
+
+
+
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
@@ -377,6 +391,8 @@ Dash <- R6::R6Class(
         private$config,
         list(url_base_pathname = private$url_base_pathname)
       )
+
+      namespaces <- private$layout_flat[grep("namespace$", names(private$layout_flat))]
 
       sprintf(
         '<!DOCTYPE html>
@@ -403,8 +419,12 @@ Dash <- R6::R6Class(
         private$name, to_JSON(config),
         # react/react-dom *always* needs to be loaded first
         render_dependencies(c("react", "react-dom")),
-        # TODO: come up with an automated way to determine component dependent dependencies
-        render_dependencies(c("dash-html-components", "dash-core-components")),
+        render_dependencies(gsub("_", "-", unique(namespaces))),
+        # TODO: how to handle custom components? Just have folks
+        # 'dynamically' register them?
+        # https://plot.ly/dash/plugins
+        # TODO: what should we do about plotly/htmlwidgets?
+
         # dash-renderer *always* goes last
         render_dependencies("dash-renderer")
       )

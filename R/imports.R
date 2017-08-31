@@ -4,4 +4,6 @@
 #' @importFrom reqres default_parsers
 #' @importFrom htmltools htmlDependency renderDependencies
 #' @importFrom jsonlite toJSON
+#' @importFrom digest sha1
+#' @importFrom plotly api plotly_build
 NULL

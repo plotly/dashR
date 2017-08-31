@@ -48,7 +48,6 @@ infer_props <- function(type) {
 # Component children assertion
 # ----------------------------------------------------------------------------
 
-
 assert_valid_children <- function(...) {
 
   kids <- list(...)
@@ -85,6 +84,30 @@ assert_is_valid_type <- function(x) {
 }
 
 # ----------------------------------------------------------------------------
+# Security stuff
+# ----------------------------------------------------------------------------
+
+# https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L165-L176
+create_access_codes <- function() {
+  now <- Sys.time()
+  list(
+    access_granted = new_token(),
+    expiration = list(
+
+    )
+  )
+}
+
+
+new_token <- function() {
+  digest::sha1(new_id())
+}
+
+new_id <- function() {
+  basename(tempfile(""))
+}
+
+# ----------------------------------------------------------------------------
 # Other helpers
 # ----------------------------------------------------------------------------
 
@@ -101,6 +124,10 @@ to_JSON <- function(x, ...) {
 filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
+}
+
+tryNULL <- function(expr) {
+  tryCatch(expr, error = function(e) NULL)
 }
 
 setdiffsym <- function(x, y) {
