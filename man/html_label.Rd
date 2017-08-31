@@ -4,7 +4,7 @@
 \alias{html_label}
 \title{label html component}
 \usage{
-html_label(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = NULL,
+html_label(..., id = NULL, n_clicks = 0, htmlFor = NULL, form = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

@@ -4,9 +4,9 @@
 \alias{html_script}
 \title{script html component}
 \usage{
-html_script(..., id = NULL, n_clicks = NULL, async = NULL,
-  charSet = NULL, crossOrigin = NULL, defer = NULL, integrity = NULL,
-  src = NULL, type = NULL, accessKey = NULL, className = NULL,
+html_script(..., id = NULL, n_clicks = 0, async = NULL, charSet = NULL,
+  crossOrigin = NULL, defer = NULL, integrity = NULL, src = NULL,
+  type = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,
   style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL,

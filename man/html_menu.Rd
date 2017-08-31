@@ -4,11 +4,11 @@
 \alias{html_menu}
 \title{menu html component}
 \usage{
-html_menu(..., id = NULL, n_clicks = NULL, type = NULL,
-  accessKey = NULL, className = NULL, contentEditable = NULL,
-  contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
-  lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,
-  title = NULL, fireEvent = NULL, dashEvents = NULL)
+html_menu(..., id = NULL, n_clicks = 0, type = NULL, accessKey = NULL,
+  className = NULL, contentEditable = NULL, contextMenu = NULL,
+  dir = NULL, draggable = NULL, hidden = NULL, lang = NULL,
+  spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL,
+  fireEvent = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{...}{children of the component. Either other components or \code{\link[htmltools:tags]{htmltools::tags()}} are allowed.}

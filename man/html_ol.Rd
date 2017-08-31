@@ -4,7 +4,7 @@
 \alias{html_ol}
 \title{ol html component}
 \usage{
-html_ol(..., id = NULL, n_clicks = NULL, reversed = NULL, start = NULL,
+html_ol(..., id = NULL, n_clicks = 0, reversed = NULL, start = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

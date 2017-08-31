@@ -4,7 +4,7 @@
 \alias{html_ins}
 \title{ins html component}
 \usage{
-html_ins(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NULL,
+html_ins(..., id = NULL, n_clicks = 0, cite = NULL, dateTime = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

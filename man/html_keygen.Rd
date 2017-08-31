@@ -4,7 +4,7 @@
 \alias{html_keygen}
 \title{keygen html component}
 \usage{
-html_keygen(..., id = NULL, n_clicks = NULL, autoFocus = NULL,
+html_keygen(..., id = NULL, n_clicks = 0, autoFocus = NULL,
   challenge = NULL, disabled = NULL, form = NULL, keyType = NULL,
   name = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,

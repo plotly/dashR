@@ -31,11 +31,11 @@ Description coming soon
 \section{Methods}{
 
 \describe{
-\item{\code{layout_set(...)}}{Set the layout (i.e., user interface). Should be a collection of \link{components}}
-\item{\code{layout_get()}}{Retrieves the layout (i.e., user interface).}
+\item{\code{layout_set(...)}}{Set the layout (i.e., user interface).}
+\item{\code{layout_get()}}{Retrieves the layout.}
+\item{\code{callback(fun, output)}}{Callback function to execute when relevant inputs change.}
 \item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{Set the config.}
 \item{\code{config_get()}}{Get the config.}
-\item{\code{callback(output, input, state)}}{Define the dependency graph (i.e., input/output relationships).}
 \item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments}
 }
 }
@@ -45,7 +45,6 @@ Description coming soon
 # hello dash!
 app <- dasher::Dash$new()
 app$run_server(showcase = TRUE)
-
 
 # use the layout_set method to define your UI
 app$layout_set(

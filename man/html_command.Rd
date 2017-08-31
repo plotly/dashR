@@ -4,7 +4,7 @@
 \alias{html_command}
 \title{command html component}
 \usage{
-html_command(..., id = NULL, n_clicks = NULL, checked = NULL,
+html_command(..., id = NULL, n_clicks = 0, checked = NULL,
   disabled = NULL, icon = NULL, radioGroup = NULL, type = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,

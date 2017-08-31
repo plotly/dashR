@@ -4,7 +4,7 @@
 \alias{html_option}
 \title{option html component}
 \usage{
-html_option(..., id = NULL, n_clicks = NULL, disabled = NULL,
+html_option(..., id = NULL, n_clicks = 0, disabled = NULL,
   selected = NULL, value = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

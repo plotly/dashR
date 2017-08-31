@@ -5,10 +5,22 @@
 \title{Graph core component}
 \usage{
 core_graph(..., id = NULL, clickData = NULL, hoverData = NULL,
-  clear_on_unhover = NULL, selectedData = NULL, relayoutData = NULL,
-  figure = NULL, style = NULL, className = NULL, animate = NULL,
-  animation_options = NULL, config = NULL, dashEvents = NULL,
-  setProps = NULL, dashFireEvent = NULL)
+  clear_on_unhover = FALSE, selectedData = NULL, relayoutData = NULL,
+  figure = list(data = list(), layout = list()), style = NULL,
+  className = NULL, animate = FALSE, animation_options = list(frame =
+  list(redraw = FALSE), transition = list(duration = 750, ease =
+  "cubic-in-out")), config = list(staticPlot = FALSE, editable = FALSE, edits
+  = list(annotationPosition = FALSE, annotationTail = FALSE, annotationText =
+  FALSE, axisTitleText = FALSE, colorbarPosition = FALSE, colorbarTitleText =
+  FALSE, legendPosition = FALSE, legendText = FALSE, shapePosition = FALSE,
+  titleText = FALSE), autosizable = FALSE, queueLength = 0, fillFrame = FALSE,
+  frameMargins = 0, scrollZoom = FALSE, doubleClick = "reset+autosize", showTips
+  = TRUE, showAxisDragHandles = TRUE, showAxisRangeEntryBoxes = TRUE, showLink =
+  FALSE,      sendData = TRUE, linkText = "Edit chart", showSources = FALSE,
+  displayModeBar = "hover", modeBarButtonsToRemove = list(), modeBarButtonsToAdd
+  = list(), modeBarButtons = FALSE, displaylogo = TRUE, plotGlPixelRatio = 2,
+  topojsonURL = "https://cdn.plot.ly/", mapboxAccessToken = NULL),
+  dashEvents = NULL, setProps = NULL, dashFireEvent = NULL)
 }
 \arguments{
 \item{...}{children of the component. Either other components or \link[htmltools:tags]{htmltools::tags} are allowed.}

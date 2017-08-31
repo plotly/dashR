@@ -4,7 +4,7 @@
 \alias{html_progress}
 \title{progress html component}
 \usage{
-html_progress(..., id = NULL, n_clicks = NULL, form = NULL, max = NULL,
+html_progress(..., id = NULL, n_clicks = 0, form = NULL, max = NULL,
   value = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

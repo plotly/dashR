@@ -4,7 +4,7 @@
 \alias{html_fieldset}
 \title{fieldset html component}
 \usage{
-html_fieldset(..., id = NULL, n_clicks = NULL, disabled = NULL,
+html_fieldset(..., id = NULL, n_clicks = 0, disabled = NULL,
   form = NULL, name = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

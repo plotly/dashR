@@ -4,7 +4,7 @@
 \alias{core_link}
 \title{Link core component}
 \usage{
-core_link(..., href = NULL, refresh = NULL, className = NULL,
+core_link(..., href = NULL, refresh = FALSE, className = NULL,
   style = NULL, id = NULL)
 }
 \arguments{

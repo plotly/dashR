@@ -8,7 +8,7 @@ core_rangeslider(..., id = NULL, marks = NULL, value = NULL,
   allowCross = NULL, className = NULL, count = NULL, disabled = NULL,
   dots = NULL, included = NULL, min = NULL, max = NULL,
   pushable = NULL, step = NULL, labels = NULL, vertical = NULL,
-  updatemode = NULL, fireEvent = NULL, setProps = NULL,
+  updatemode = "mouseup", fireEvent = NULL, setProps = NULL,
   dashEvents = NULL)
 }
 \arguments{

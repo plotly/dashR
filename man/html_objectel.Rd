@@ -4,13 +4,12 @@
 \alias{html_objectel}
 \title{objectel html component}
 \usage{
-html_objectel(..., id = NULL, n_clicks = NULL, form = NULL,
-  height = NULL, name = NULL, type = NULL, useMap = NULL,
-  width = NULL, accessKey = NULL, className = NULL,
-  contentEditable = NULL, contextMenu = NULL, dir = NULL,
-  draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,
-  style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL,
-  dashEvents = NULL)
+html_objectel(..., id = NULL, n_clicks = 0, form = NULL, height = NULL,
+  name = NULL, type = NULL, useMap = NULL, width = NULL,
+  accessKey = NULL, className = NULL, contentEditable = NULL,
+  contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
+  lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,
+  title = NULL, fireEvent = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{...}{children of the component. Either other components or \code{\link[htmltools:tags]{htmltools::tags()}} are allowed.}

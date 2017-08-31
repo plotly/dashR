@@ -4,7 +4,7 @@
 \alias{core_interval}
 \title{Interval core component}
 \usage{
-core_interval(..., id = NULL, interval = NULL, fireEvent = NULL,
+core_interval(..., id = NULL, interval = 1000, fireEvent = NULL,
   setProps = NULL, dashEvents = NULL)
 }
 \arguments{

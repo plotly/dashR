@@ -4,9 +4,9 @@
 \alias{core_radioitems}
 \title{RadioItems core component}
 \usage{
-core_radioitems(..., id = NULL, options = NULL, value = NULL,
-  style = NULL, className = NULL, inputStyle = NULL,
-  inputClassName = NULL, labelStyle = NULL, labelClassName = NULL,
+core_radioitems(..., id = NULL, options = list(), value = NULL,
+  style = NULL, className = NULL, inputStyle = list(),
+  inputClassName = "", labelStyle = list(), labelClassName = "",
   fireEvent = NULL, setProps = NULL, dashEvents = NULL)
 }
 \arguments{

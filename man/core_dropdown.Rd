@@ -5,8 +5,8 @@
 \title{Dropdown core component}
 \usage{
 core_dropdown(..., id = NULL, options = NULL, value = NULL,
-  className = NULL, clearable = NULL, disabled = NULL, multi = NULL,
-  placeholder = NULL, searchable = NULL, setProps = NULL,
+  className = NULL, clearable = TRUE, disabled = FALSE, multi = FALSE,
+  placeholder = NULL, searchable = TRUE, setProps = NULL,
   dashEvents = NULL)
 }
 \arguments{

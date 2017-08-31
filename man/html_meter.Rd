@@ -4,7 +4,7 @@
 \alias{html_meter}
 \title{meter html component}
 \usage{
-html_meter(..., id = NULL, n_clicks = NULL, form = NULL, high = NULL,
+html_meter(..., id = NULL, n_clicks = 0, form = NULL, high = NULL,
   low = NULL, max = NULL, min = NULL, optimum = NULL, value = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,

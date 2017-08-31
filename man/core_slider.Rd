@@ -7,7 +7,7 @@
 core_slider(..., id = NULL, marks = NULL, value = NULL,
   className = NULL, disabled = NULL, dots = NULL, included = NULL,
   min = NULL, max = NULL, step = NULL, labels = NULL, vertical = NULL,
-  updatemode = NULL, fireEvent = NULL, setProps = NULL,
+  updatemode = "mouseup", fireEvent = NULL, setProps = NULL,
   dashEvents = NULL)
 }
 \arguments{

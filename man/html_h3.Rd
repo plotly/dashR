@@ -4,7 +4,7 @@
 \alias{html_h3}
 \title{h3 html component}
 \usage{
-html_h3(..., id = NULL, n_clicks = NULL, accessKey = NULL,
+html_h3(..., id = NULL, n_clicks = 0, accessKey = NULL,
   className = NULL, contentEditable = NULL, contextMenu = NULL,
   dir = NULL, draggable = NULL, hidden = NULL, lang = NULL,
   spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL,

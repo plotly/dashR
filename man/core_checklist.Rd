@@ -4,9 +4,9 @@
 \alias{core_checklist}
 \title{Checklist core component}
 \usage{
-core_checklist(..., id = NULL, options = NULL, values = NULL,
-  className = NULL, style = NULL, inputStyle = NULL,
-  inputClassName = NULL, labelStyle = NULL, labelClassName = NULL,
+core_checklist(..., id = NULL, options = list(), values = NULL,
+  className = NULL, style = NULL, inputStyle = list(),
+  inputClassName = "", labelStyle = list(), labelClassName = "",
   fireEvent = NULL, setProps = NULL, dashEvents = NULL)
 }
 \arguments{

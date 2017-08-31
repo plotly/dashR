@@ -4,7 +4,7 @@
 \alias{html_li}
 \title{li html component}
 \usage{
-html_li(..., id = NULL, n_clicks = NULL, value = NULL, accessKey = NULL,
+html_li(..., id = NULL, n_clicks = 0, value = NULL, accessKey = NULL,
   className = NULL, contentEditable = NULL, contextMenu = NULL,
   dir = NULL, draggable = NULL, hidden = NULL, lang = NULL,
   spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL,

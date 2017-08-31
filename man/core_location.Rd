@@ -4,7 +4,7 @@
 \alias{core_location}
 \title{Location core component}
 \usage{
-core_location(..., id = NULL, pathname = NULL, refresh = NULL)
+core_location(..., id = NULL, pathname = NULL, refresh = TRUE)
 }
 \arguments{
 \item{...}{children of the component. Either other components or \link[htmltools:tags]{htmltools::tags} are allowed.}

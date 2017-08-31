@@ -4,8 +4,8 @@
 \alias{html_output}
 \title{output html component}
 \usage{
-html_output(..., id = NULL, n_clicks = NULL, htmlFor = NULL,
-  form = NULL, name = NULL, accessKey = NULL, className = NULL,
+html_output(..., id = NULL, n_clicks = 0, htmlFor = NULL, form = NULL,
+  name = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,
   style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL,

@@ -4,7 +4,7 @@
 \alias{html_a}
 \title{a html component}
 \usage{
-html_a(..., id = NULL, n_clicks = NULL, download = NULL, href = NULL,
+html_a(..., id = NULL, n_clicks = 0, download = NULL, href = NULL,
   hrefLang = NULL, media = NULL, rel = NULL, shape = NULL,
   target = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,

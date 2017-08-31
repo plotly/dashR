@@ -4,7 +4,7 @@
 \alias{html_th}
 \title{th html component}
 \usage{
-html_th(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL,
+html_th(..., id = NULL, n_clicks = 0, colSpan = NULL, headers = NULL,
   rowSpan = NULL, scope = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

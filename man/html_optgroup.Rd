@@ -4,7 +4,7 @@
 \alias{html_optgroup}
 \title{optgroup html component}
 \usage{
-html_optgroup(..., id = NULL, n_clicks = NULL, disabled = NULL,
+html_optgroup(..., id = NULL, n_clicks = 0, disabled = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

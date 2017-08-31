@@ -4,7 +4,7 @@
 \alias{html_iframe}
 \title{iframe html component}
 \usage{
-html_iframe(..., id = NULL, n_clicks = NULL, height = NULL, name = NULL,
+html_iframe(..., id = NULL, n_clicks = 0, height = NULL, name = NULL,
   sandbox = NULL, seamless = NULL, src = NULL, srcDoc = NULL,
   width = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,

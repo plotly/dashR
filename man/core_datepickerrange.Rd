@@ -7,14 +7,14 @@
 core_datepickerrange(..., id = NULL, start_date = NULL, end_date = NULL,
   min_date_allowed = NULL, max_date_allowed = NULL,
   initial_visible_month = NULL, start_date_placeholder_text = NULL,
-  end_date_placeholder_text = NULL, day_size = NULL,
-  calendar_orientation = NULL, is_RTL = NULL,
-  reopen_calendar_on_clear = NULL, number_of_months_shown = NULL,
-  with_portal = NULL, with_full_screen_portal = NULL,
-  first_day_of_week = NULL, minimum_nights = NULL,
-  stay_open_on_select = NULL, show_outside_days = NULL,
-  month_format = NULL, display_format = NULL, disabled = NULL,
-  clearable = NULL, setProps = NULL, dashEvents = NULL)
+  end_date_placeholder_text = NULL, day_size = 39,
+  calendar_orientation = "horizontal", is_RTL = FALSE,
+  reopen_calendar_on_clear = FALSE, number_of_months_shown = 1,
+  with_portal = FALSE, with_full_screen_portal = FALSE,
+  first_day_of_week = 0, minimum_nights = NULL,
+  stay_open_on_select = FALSE, show_outside_days = NULL,
+  month_format = NULL, display_format = NULL, disabled = FALSE,
+  clearable = FALSE, setProps = NULL, dashEvents = NULL)
 }
 \arguments{
 \item{...}{children of the component. Either other components or \link[htmltools:tags]{htmltools::tags} are allowed.}

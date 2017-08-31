@@ -4,7 +4,7 @@
 \alias{html_form}
 \title{form html component}
 \usage{
-html_form(..., id = NULL, n_clicks = NULL, accept = NULL,
+html_form(..., id = NULL, n_clicks = 0, accept = NULL,
   acceptCharset = NULL, action = NULL, autoComplete = NULL,
   encType = NULL, method = NULL, name = NULL, noValidate = NULL,
   target = NULL, accessKey = NULL, className = NULL,

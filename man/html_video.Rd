@@ -4,7 +4,7 @@
 \alias{html_video}
 \title{video html component}
 \usage{
-html_video(..., id = NULL, n_clicks = NULL, autoPlay = NULL,
+html_video(..., id = NULL, n_clicks = 0, autoPlay = NULL,
   controls = NULL, crossOrigin = NULL, height = NULL, loop = NULL,
   muted = NULL, poster = NULL, preload = NULL, src = NULL,
   width = NULL, accessKey = NULL, className = NULL,

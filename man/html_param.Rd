@@ -4,7 +4,7 @@
 \alias{html_param}
 \title{param html component}
 \usage{
-html_param(..., id = NULL, n_clicks = NULL, name = NULL, value = NULL,
+html_param(..., id = NULL, n_clicks = 0, name = NULL, value = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

@@ -4,7 +4,7 @@
 \alias{html_source}
 \title{source html component}
 \usage{
-html_source(..., id = NULL, n_clicks = NULL, media = NULL, sizes = NULL,
+html_source(..., id = NULL, n_clicks = 0, media = NULL, sizes = NULL,
   src = NULL, type = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

@@ -4,7 +4,7 @@
 \alias{html_button}
 \title{button html component}
 \usage{
-html_button(..., id = NULL, n_clicks = NULL, autoFocus = NULL,
+html_button(..., id = NULL, n_clicks = 0, autoFocus = NULL,
   disabled = NULL, form = NULL, formAction = NULL, name = NULL,
   type = NULL, value = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,

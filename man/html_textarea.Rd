@@ -4,7 +4,7 @@
 \alias{html_textarea}
 \title{textarea html component}
 \usage{
-html_textarea(..., id = NULL, n_clicks = NULL, autoFocus = NULL,
+html_textarea(..., id = NULL, n_clicks = 0, autoFocus = NULL,
   cols = NULL, disabled = NULL, form = NULL, maxLength = NULL,
   minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL,
   required = NULL, rows = NULL, wrap = NULL, accessKey = NULL,

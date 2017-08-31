@@ -4,7 +4,7 @@
 \alias{html_base}
 \title{base html component}
 \usage{
-html_base(..., id = NULL, n_clicks = NULL, href = NULL, target = NULL,
+html_base(..., id = NULL, n_clicks = 0, href = NULL, target = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

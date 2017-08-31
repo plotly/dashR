@@ -4,7 +4,7 @@
 \alias{html_track}
 \title{track html component}
 \usage{
-html_track(..., id = NULL, n_clicks = NULL, default = NULL, kind = NULL,
+html_track(..., id = NULL, n_clicks = 0, default = NULL, kind = NULL,
   label = NULL, src = NULL, srcLang = NULL, accessKey = NULL,
   className = NULL, contentEditable = NULL, contextMenu = NULL,
   dir = NULL, draggable = NULL, hidden = NULL, lang = NULL,

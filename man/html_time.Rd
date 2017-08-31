@@ -4,7 +4,7 @@
 \alias{html_time}
 \title{time html component}
 \usage{
-html_time(..., id = NULL, n_clicks = NULL, dateTime = NULL,
+html_time(..., id = NULL, n_clicks = 0, dateTime = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

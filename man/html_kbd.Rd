@@ -4,7 +4,7 @@
 \alias{html_kbd}
 \title{kbd html component}
 \usage{
-html_kbd(..., id = NULL, n_clicks = NULL, accessKey = NULL,
+html_kbd(..., id = NULL, n_clicks = 0, accessKey = NULL,
   className = NULL, contentEditable = NULL, contextMenu = NULL,
   dir = NULL, draggable = NULL, hidden = NULL, lang = NULL,
   spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL,

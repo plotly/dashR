@@ -4,7 +4,7 @@
 \alias{html_td}
 \title{td html component}
 \usage{
-html_td(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL,
+html_td(..., id = NULL, n_clicks = 0, colSpan = NULL, headers = NULL,
   rowSpan = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

@@ -4,7 +4,7 @@
 \alias{html_table}
 \title{table html component}
 \usage{
-html_table(..., id = NULL, n_clicks = NULL, summary = NULL,
+html_table(..., id = NULL, n_clicks = 0, summary = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

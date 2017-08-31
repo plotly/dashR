@@ -4,9 +4,9 @@
 \alias{html_link}
 \title{link html component}
 \usage{
-html_link(..., id = NULL, n_clicks = NULL, crossOrigin = NULL,
-  href = NULL, hrefLang = NULL, integrity = NULL, media = NULL,
-  rel = NULL, sizes = NULL, accessKey = NULL, className = NULL,
+html_link(..., id = NULL, n_clicks = 0, crossOrigin = NULL, href = NULL,
+  hrefLang = NULL, integrity = NULL, media = NULL, rel = NULL,
+  sizes = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,
   style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL,

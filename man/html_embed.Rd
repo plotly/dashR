@@ -4,7 +4,7 @@
 \alias{html_embed}
 \title{embed html component}
 \usage{
-html_embed(..., id = NULL, n_clicks = NULL, height = NULL, src = NULL,
+html_embed(..., id = NULL, n_clicks = 0, height = NULL, src = NULL,
   type = NULL, width = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
   draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL,

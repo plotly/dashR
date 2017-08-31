@@ -4,7 +4,7 @@
 \alias{html_marquee}
 \title{marquee html component}
 \usage{
-html_marquee(..., id = NULL, n_clicks = NULL, loop = NULL,
+html_marquee(..., id = NULL, n_clicks = 0, loop = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

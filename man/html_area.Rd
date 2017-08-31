@@ -4,7 +4,7 @@
 \alias{html_area}
 \title{area html component}
 \usage{
-html_area(..., id = NULL, n_clicks = NULL, alt = NULL, coords = NULL,
+html_area(..., id = NULL, n_clicks = 0, alt = NULL, coords = NULL,
   download = NULL, href = NULL, hrefLang = NULL, media = NULL,
   rel = NULL, shape = NULL, target = NULL, accessKey = NULL,
   className = NULL, contentEditable = NULL, contextMenu = NULL,

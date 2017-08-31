@@ -4,7 +4,7 @@
 \alias{html_audio}
 \title{audio html component}
 \usage{
-html_audio(..., id = NULL, n_clicks = NULL, autoPlay = NULL,
+html_audio(..., id = NULL, n_clicks = 0, autoPlay = NULL,
   controls = NULL, crossOrigin = NULL, loop = NULL, preload = NULL,
   src = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,

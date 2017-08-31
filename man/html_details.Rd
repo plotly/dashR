@@ -4,7 +4,7 @@
 \alias{html_details}
 \title{details html component}
 \usage{
-html_details(..., id = NULL, n_clicks = NULL, open = NULL,
+html_details(..., id = NULL, n_clicks = 0, open = NULL,
   accessKey = NULL, className = NULL, contentEditable = NULL,
   contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL,
   lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL,

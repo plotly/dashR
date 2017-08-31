@@ -4,7 +4,7 @@
 \alias{html_select}
 \title{select html component}
 \usage{
-html_select(..., id = NULL, n_clicks = NULL, autoFocus = NULL,
+html_select(..., id = NULL, n_clicks = 0, autoFocus = NULL,
   disabled = NULL, form = NULL, multiple = NULL, name = NULL,
   required = NULL, size = NULL, accessKey = NULL, className = NULL,
   contentEditable = NULL, contextMenu = NULL, dir = NULL,
