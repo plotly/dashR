@@ -17,7 +17,7 @@
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_checklist <- function(..., id = NULL, options = NULL, values = NULL, className = NULL, style = NULL, inputStyle = NULL, inputClassName = NULL, labelStyle = NULL, labelClassName = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_checklist <- function(..., id = NULL, options = list(), values = NULL, className = NULL, style = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -75,7 +75,7 @@ core_checklist <- function(..., id = NULL, options = NULL, values = NULL, classN
 #' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
-core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, start_date_placeholder_text = NULL, end_date_placeholder_text = NULL, day_size = NULL, calendar_orientation = NULL, is_RTL = NULL, reopen_calendar_on_clear = NULL, number_of_months_shown = NULL, with_portal = NULL, with_full_screen_portal = NULL, first_day_of_week = NULL, minimum_nights = NULL, stay_open_on_select = NULL, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = NULL, clearable = NULL, setProps = NULL, dashEvents = NULL) {
+core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, start_date_placeholder_text = NULL, end_date_placeholder_text = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, minimum_nights = NULL, stay_open_on_select = FALSE, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -143,7 +143,7 @@ core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = N
 #' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
-core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, day_size = NULL, calendar_orientation = NULL, is_RTL = NULL, placeholder = NULL, reopen_calendar_on_clear = NULL, number_of_months_shown = NULL, with_portal = NULL, with_full_screen_portal = NULL, first_day_of_week = NULL, stay_open_on_select = NULL, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = NULL, clearable = NULL, setProps = NULL, dashEvents = NULL) {
+core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, placeholder = NULL, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, stay_open_on_select = FALSE, show_outside_days = TRUE, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -197,7 +197,7 @@ core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed 
 #' @param searchable Whether to enable the searching feature or not  
 #' @param setProps Dash-assigned callback that gets fired when the input changes  
 #' @param dashEvents  
-core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, className = NULL, clearable = NULL, disabled = NULL, multi = NULL, placeholder = NULL, searchable = NULL, setProps = NULL, dashEvents = NULL) {
+core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, className = NULL, clearable = TRUE, disabled = FALSE, multi = FALSE, placeholder = NULL, searchable = TRUE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -244,7 +244,8 @@ core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, classNam
 #' @param dashEvents   
 #' @param setProps Function that updates the state tree.  
 #' @param dashFireEvent Function that fires events 
-core_graph <- function(..., id = NULL, clickData = NULL, hoverData = NULL, clear_on_unhover = NULL, selectedData = NULL, relayoutData = NULL, figure = NULL, style = NULL, className = NULL, animate = NULL, animation_options = NULL, config = NULL, dashEvents = NULL, setProps = NULL, dashFireEvent = NULL) {
+core_graph <- function(..., id = NULL, clickData = NULL, hoverData = NULL, clear_on_unhover = FALSE, selectedData = NULL, relayoutData = NULL, figure = list(data = list(), layout = list()), style = NULL, className = NULL, animate = FALSE, animation_options = list(frame = list(redraw = FALSE), transition = list(duration = 750, ease = "cubic-in-out")), config = list(staticPlot = FALSE, editable = FALSE, edits = list(annotationPosition = FALSE, annotationTail = FALSE, annotationText = FALSE, axisTitleText = FALSE, colorbarPosition = FALSE, colorbarTitleText = FALSE, legendPosition = FALSE, legendText = FALSE, shapePosition = FALSE, titleText = FALSE), autosizable = FALSE, queueLength = 0, fillFrame = FALSE, frameMargins = 0, scrollZoom = FALSE, doubleClick = "reset+autosize", showTips = TRUE, showAxisDragHandles = TRUE, showAxisRangeEntryBoxes = TRUE, showLink = FALSE, 
+    sendData = TRUE, linkText = "Edit chart", showSources = FALSE, displayModeBar = "hover", modeBarButtonsToRemove = list(), modeBarButtonsToAdd = list(), modeBarButtons = FALSE, displaylogo = TRUE, plotGlPixelRatio = 2, topojsonURL = "https://cdn.plot.ly/", mapboxAccessToken = NULL), dashEvents = NULL, setProps = NULL, dashFireEvent = NULL) {
 
    component <- list(
      props = list(
@@ -362,7 +363,7 @@ core_input <- function(..., id = NULL, value = NULL, style = NULL, className = N
 #' @param fireEvent Dash assigned callback  
 #' @param setProps Dash assigned callback  
 #' @param dashEvents  
-core_interval <- function(..., id = NULL, interval = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_interval <- function(..., id = NULL, interval = 1000, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -393,7 +394,7 @@ core_interval <- function(..., id = NULL, interval = NULL, fireEvent = NULL, set
 #' @param className   
 #' @param style   
 #' @param id  
-core_link <- function(..., href = NULL, refresh = NULL, className = NULL, style = NULL, id = NULL) {
+core_link <- function(..., href = NULL, refresh = FALSE, className = NULL, style = NULL, id = NULL) {
 
    component <- list(
      props = list(
@@ -422,7 +423,7 @@ core_link <- function(..., href = NULL, refresh = NULL, className = NULL, style 
 #' @param id  (required) 
 #' @param pathname   
 #' @param refresh  
-core_location <- function(..., id = NULL, pathname = NULL, refresh = NULL) {
+core_location <- function(..., id = NULL, pathname = NULL, refresh = TRUE) {
 
    component <- list(
      props = list(
@@ -485,7 +486,7 @@ core_markdown <- function(..., id = NULL, className = NULL, containerProps = NUL
 #' @param fireEvent Dash-assigned callback that gets fired when the radio item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_radioitems <- function(..., id = NULL, options = NULL, value = NULL, style = NULL, className = NULL, inputStyle = NULL, inputClassName = NULL, labelStyle = NULL, labelClassName = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_radioitems <- function(..., id = NULL, options = list(), value = NULL, style = NULL, className = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -537,7 +538,7 @@ core_radioitems <- function(..., id = NULL, options = NULL, value = NULL, style 
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCross = NULL, className = NULL, count = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCross = NULL, className = NULL, count = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
@@ -593,7 +594,7 @@ core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCr
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(

@@ -2,7 +2,10 @@
 # from dash's component metadata
 
 library(jsonlite)
+library(V8)
 library(glue)
+ct <- v8()
+
 
 # -----------------------------------------------------------------------------
 # First, handle the core components
@@ -47,12 +50,24 @@ for (i in seq_along(core)) {
     required = ifelse(sapply(props, "[[", "required"), "(required)", ""),
     linebreak = "\n"
   )
+  # get the default value for each prop
+  # TODO: what is x$defaultValue$computed for?
+  defaultValues <- lapply(props, function(x) {
+    val <- x$defaultValue$value
+    if (is.null(val)) return(val)
+    # https://github.com/jeroen/jsonlite/issues/197
+    ct$assign("val", JS(val))
+    val <- ct$get("val")
+    # character strings need to be quoted
+    if (!is.character(val)) return(val)
+    sprintf("'%s'", val)
+  })
   # analogous to https://github.com/plotly/dash/blob/064c811/dash/development/base_component.py#L28-L37
   # TODO: how to incorporate required field? Also, automatic argument value checking?
   func <- glue(
     "
 
-    core_*{name}* <- function(..., *{params}* = NULL) {
+    core_*{name}* <- function(..., *{params}*) {
 
        component <- list(
          props = list(
@@ -70,7 +85,7 @@ for (i in seq_along(core)) {
 
     ",
     name = tolower(componentName),
-    params = paste(names(props), collapse = " = NULL, "),
+    params = paste(names(defaultValues), "=", defaultValues, collapse = ", "),
     params2 = paste(names(props), names(props), sep = "=", collapse = ", \n\t\t\t\t"),
     type = componentName,
     .open = "*{", .close = "}*"
@@ -118,11 +133,23 @@ for (i in seq_along(html)) {
     required = ifelse(sapply(props, "[[", "required"), "(required)", ""),
     linebreak = "\n"
   )
+  # get the default value for each prop
+  # TODO: what is x$defaultValue$computed for?
+  defaultValues <- lapply(props, function(x) {
+    val <- x$defaultValue$value
+    if (is.null(val)) return(val)
+    # https://github.com/jeroen/jsonlite/issues/197
+    ct$assign("val", JS(val))
+    val <- ct$get("val")
+    # character strings need to be quoted
+    if (!is.character(val)) return(val)
+    sprintf("'%s'", val)
+  })
   # TODO: automatic argument value checking?
   func <- glue(
     "
 
-    html_*{name}* <- function(..., *{params}* = NULL) {
+    html_*{name}* <- function(..., *{params}*) {
 
       component <- list(
          props = list(
@@ -140,7 +167,7 @@ for (i in seq_along(html)) {
 
     ",
     name = tolower(componentName),
-    params = paste(names(props), collapse = " = NULL, "),
+    params = paste(names(defaultValues), "=", defaultValues, collapse = ", "),
     params2 = paste(names(props), names(props), sep = "=", collapse = ", \n\t\t\t\t"),
     type = componentName,
     .open = "*{", .close = "}*"

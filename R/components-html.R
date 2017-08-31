@@ -28,7 +28,7 @@
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_a <- function(..., id = NULL, n_clicks = NULL, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_a <- function(..., id = NULL, n_clicks = 0, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -88,7 +88,7 @@ html_a <- function(..., id = NULL, n_clicks = NULL, download = NULL, href = NULL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_abbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_abbr <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -141,7 +141,7 @@ html_abbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_acronym <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_acronym <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -194,7 +194,7 @@ html_acronym <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_address <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_address <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -248,7 +248,7 @@ html_address <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_applet <- function(..., id = NULL, n_clicks = NULL, alt = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_applet <- function(..., id = NULL, n_clicks = 0, alt = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -311,7 +311,7 @@ html_applet <- function(..., id = NULL, n_clicks = NULL, alt = NULL, accessKey =
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_area <- function(..., id = NULL, n_clicks = NULL, alt = NULL, coords = NULL, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_area <- function(..., id = NULL, n_clicks = 0, alt = NULL, coords = NULL, download = NULL, href = NULL, hrefLang = NULL, media = NULL, rel = NULL, shape = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -373,7 +373,7 @@ html_area <- function(..., id = NULL, n_clicks = NULL, alt = NULL, coords = NULL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_article <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_article <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -426,7 +426,7 @@ html_article <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_aside <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_aside <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -485,7 +485,7 @@ html_aside <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_audio <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, controls = NULL, crossOrigin = NULL, loop = NULL, preload = NULL, src = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_audio <- function(..., id = NULL, n_clicks = 0, autoPlay = NULL, controls = NULL, crossOrigin = NULL, loop = NULL, preload = NULL, src = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -544,7 +544,7 @@ html_audio <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, control
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_b <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_b <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -599,7 +599,7 @@ html_b <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_base <- function(..., id = NULL, n_clicks = NULL, href = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_base <- function(..., id = NULL, n_clicks = 0, href = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -654,7 +654,7 @@ html_base <- function(..., id = NULL, n_clicks = NULL, href = NULL, target = NUL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_basefont <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_basefont <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -707,7 +707,7 @@ html_basefont <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_bdi <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_bdi <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -760,7 +760,7 @@ html_bdi <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_bdo <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_bdo <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -813,7 +813,7 @@ html_bdo <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_big <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_big <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -866,7 +866,7 @@ html_big <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_blink <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_blink <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -920,7 +920,7 @@ html_blink <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_blockquote <- function(..., id = NULL, n_clicks = NULL, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_blockquote <- function(..., id = NULL, n_clicks = 0, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -974,7 +974,7 @@ html_blockquote <- function(..., id = NULL, n_clicks = NULL, cite = NULL, access
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_br <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_br <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1034,7 +1034,7 @@ html_br <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_button <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disabled = NULL, form = NULL, formAction = NULL, name = NULL, type = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_button <- function(..., id = NULL, n_clicks = 0, autoFocus = NULL, disabled = NULL, form = NULL, formAction = NULL, name = NULL, type = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1096,7 +1096,7 @@ html_button <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disab
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_canvas <- function(..., id = NULL, n_clicks = NULL, height = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_canvas <- function(..., id = NULL, n_clicks = 0, height = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1151,7 +1151,7 @@ html_canvas <- function(..., id = NULL, n_clicks = NULL, height = NULL, width = 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_caption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_caption <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1204,7 +1204,7 @@ html_caption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_center <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_center <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1257,7 +1257,7 @@ html_center <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_cite <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_cite <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1310,7 +1310,7 @@ html_cite <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_code <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_code <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1364,7 +1364,7 @@ html_code <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_col <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_col <- function(..., id = NULL, n_clicks = 0, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1419,7 +1419,7 @@ html_col <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKey = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_colgroup <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_colgroup <- function(..., id = NULL, n_clicks = 0, span = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1478,7 +1478,7 @@ html_colgroup <- function(..., id = NULL, n_clicks = NULL, span = NULL, accessKe
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_command <- function(..., id = NULL, n_clicks = NULL, checked = NULL, disabled = NULL, icon = NULL, radioGroup = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_command <- function(..., id = NULL, n_clicks = 0, checked = NULL, disabled = NULL, icon = NULL, radioGroup = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1536,7 +1536,7 @@ html_command <- function(..., id = NULL, n_clicks = NULL, checked = NULL, disabl
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_content <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_content <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1589,7 +1589,7 @@ html_content <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_data <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_data <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1642,7 +1642,7 @@ html_data <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_datalist <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_datalist <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1695,7 +1695,7 @@ html_datalist <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dd <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1750,7 +1750,7 @@ html_dd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_del <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_del <- function(..., id = NULL, n_clicks = 0, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1806,7 +1806,7 @@ html_del <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NU
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_details <- function(..., id = NULL, n_clicks = NULL, open = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_details <- function(..., id = NULL, n_clicks = 0, open = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1860,7 +1860,7 @@ html_details <- function(..., id = NULL, n_clicks = NULL, open = NULL, accessKey
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dfn <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dfn <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1913,7 +1913,7 @@ html_dfn <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dialog <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dialog <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -1966,7 +1966,7 @@ html_dialog <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dir <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dir <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2019,7 +2019,7 @@ html_dir <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_div <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_div <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2072,7 +2072,7 @@ html_div <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dl <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dl <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2125,7 +2125,7 @@ html_dl <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_dt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_dt <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2178,7 +2178,7 @@ html_dt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_element <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_element <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2231,7 +2231,7 @@ html_element <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_em <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_em <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2288,7 +2288,7 @@ html_em <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_embed <- function(..., id = NULL, n_clicks = NULL, height = NULL, src = NULL, type = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_embed <- function(..., id = NULL, n_clicks = 0, height = NULL, src = NULL, type = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2348,7 +2348,7 @@ html_embed <- function(..., id = NULL, n_clicks = NULL, height = NULL, src = NUL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_fieldset <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_fieldset <- function(..., id = NULL, n_clicks = 0, disabled = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2404,7 +2404,7 @@ html_fieldset <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, form
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_figcaption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_figcaption <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2457,7 +2457,7 @@ html_figcaption <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, c
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_figure <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_figure <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2510,7 +2510,7 @@ html_figure <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_font <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_font <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2563,7 +2563,7 @@ html_font <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_footer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_footer <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2625,7 +2625,7 @@ html_footer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_form <- function(..., id = NULL, n_clicks = NULL, accept = NULL, acceptCharset = NULL, action = NULL, autoComplete = NULL, encType = NULL, method = NULL, name = NULL, noValidate = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_form <- function(..., id = NULL, n_clicks = 0, accept = NULL, acceptCharset = NULL, action = NULL, autoComplete = NULL, encType = NULL, method = NULL, name = NULL, noValidate = NULL, target = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2687,7 +2687,7 @@ html_form <- function(..., id = NULL, n_clicks = NULL, accept = NULL, acceptChar
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_frame <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_frame <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2740,7 +2740,7 @@ html_frame <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_frameset <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_frameset <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2793,7 +2793,7 @@ html_frameset <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h1 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h1 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2846,7 +2846,7 @@ html_h1 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h2 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h2 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2899,7 +2899,7 @@ html_h2 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h3 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h3 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -2952,7 +2952,7 @@ html_h3 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h4 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h4 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3005,7 +3005,7 @@ html_h4 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h5 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h5 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3058,7 +3058,7 @@ html_h5 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_h6 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_h6 <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3111,7 +3111,7 @@ html_h6 <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_header <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_header <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3164,7 +3164,7 @@ html_header <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_hgroup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_hgroup <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3217,7 +3217,7 @@ html_hgroup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_hr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_hr <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3270,7 +3270,7 @@ html_hr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_i <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_i <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3330,7 +3330,7 @@ html_i <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_iframe <- function(..., id = NULL, n_clicks = NULL, height = NULL, name = NULL, sandbox = NULL, seamless = NULL, src = NULL, srcDoc = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_iframe <- function(..., id = NULL, n_clicks = 0, height = NULL, name = NULL, sandbox = NULL, seamless = NULL, src = NULL, srcDoc = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3398,7 +3398,7 @@ html_iframe <- function(..., id = NULL, n_clicks = NULL, height = NULL, name = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_img <- function(..., id = NULL, n_clicks = NULL, alt = NULL, crossOrigin = NULL, height = NULL, sizes = NULL, src = NULL, srcSet = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_img <- function(..., id = NULL, n_clicks = 0, alt = NULL, crossOrigin = NULL, height = NULL, sizes = NULL, src = NULL, srcSet = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3461,7 +3461,7 @@ html_img <- function(..., id = NULL, n_clicks = NULL, alt = NULL, crossOrigin = 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_ins <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_ins <- function(..., id = NULL, n_clicks = 0, cite = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3516,7 +3516,7 @@ html_ins <- function(..., id = NULL, n_clicks = NULL, cite = NULL, dateTime = NU
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_isindex <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_isindex <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3569,7 +3569,7 @@ html_isindex <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_kbd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_kbd <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3628,7 +3628,7 @@ html_kbd <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_keygen <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, challenge = NULL, disabled = NULL, form = NULL, keyType = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_keygen <- function(..., id = NULL, n_clicks = 0, autoFocus = NULL, challenge = NULL, disabled = NULL, form = NULL, keyType = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3689,7 +3689,7 @@ html_keygen <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, chall
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_label <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_label <- function(..., id = NULL, n_clicks = 0, htmlFor = NULL, form = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3744,7 +3744,7 @@ html_label <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_legend <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_legend <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3798,7 +3798,7 @@ html_legend <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_li <- function(..., id = NULL, n_clicks = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_li <- function(..., id = NULL, n_clicks = 0, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3859,7 +3859,7 @@ html_li <- function(..., id = NULL, n_clicks = NULL, value = NULL, accessKey = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_link <- function(..., id = NULL, n_clicks = NULL, crossOrigin = NULL, href = NULL, hrefLang = NULL, integrity = NULL, media = NULL, rel = NULL, sizes = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_link <- function(..., id = NULL, n_clicks = 0, crossOrigin = NULL, href = NULL, hrefLang = NULL, integrity = NULL, media = NULL, rel = NULL, sizes = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3919,7 +3919,7 @@ html_link <- function(..., id = NULL, n_clicks = NULL, crossOrigin = NULL, href 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_listing <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_listing <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -3972,7 +3972,7 @@ html_listing <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_main <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_main <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4026,7 +4026,7 @@ html_main <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_mapel <- function(..., id = NULL, n_clicks = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_mapel <- function(..., id = NULL, n_clicks = 0, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4080,7 +4080,7 @@ html_mapel <- function(..., id = NULL, n_clicks = NULL, name = NULL, accessKey =
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_mark <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_mark <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4134,7 +4134,7 @@ html_mark <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_marquee <- function(..., id = NULL, n_clicks = NULL, loop = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_marquee <- function(..., id = NULL, n_clicks = 0, loop = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4189,7 +4189,7 @@ html_marquee <- function(..., id = NULL, n_clicks = NULL, loop = NULL, accessKey
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_menu <- function(..., id = NULL, n_clicks = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_menu <- function(..., id = NULL, n_clicks = 0, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4243,7 +4243,7 @@ html_menu <- function(..., id = NULL, n_clicks = NULL, type = NULL, accessKey = 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_menuitem <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_menuitem <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4300,7 +4300,7 @@ html_menuitem <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_meta <- function(..., id = NULL, n_clicks = NULL, charSet = NULL, content = NULL, httpEquiv = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_meta <- function(..., id = NULL, n_clicks = 0, charSet = NULL, content = NULL, httpEquiv = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4364,7 +4364,7 @@ html_meta <- function(..., id = NULL, n_clicks = NULL, charSet = NULL, content =
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_meter <- function(..., id = NULL, n_clicks = NULL, form = NULL, high = NULL, low = NULL, max = NULL, min = NULL, optimum = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_meter <- function(..., id = NULL, n_clicks = 0, form = NULL, high = NULL, low = NULL, max = NULL, min = NULL, optimum = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4424,7 +4424,7 @@ html_meter <- function(..., id = NULL, n_clicks = NULL, form = NULL, high = NULL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_multicol <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_multicol <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4477,7 +4477,7 @@ html_multicol <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_nav <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_nav <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4530,7 +4530,7 @@ html_nav <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_nextid <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_nextid <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4583,7 +4583,7 @@ html_nextid <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_noembed <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_noembed <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4636,7 +4636,7 @@ html_noembed <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_noscript <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_noscript <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4695,7 +4695,7 @@ html_noscript <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_objectel <- function(..., id = NULL, n_clicks = NULL, form = NULL, height = NULL, name = NULL, type = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_objectel <- function(..., id = NULL, n_clicks = 0, form = NULL, height = NULL, name = NULL, type = NULL, useMap = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4756,7 +4756,7 @@ html_objectel <- function(..., id = NULL, n_clicks = NULL, form = NULL, height =
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_ol <- function(..., id = NULL, n_clicks = NULL, reversed = NULL, start = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_ol <- function(..., id = NULL, n_clicks = 0, reversed = NULL, start = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4812,7 +4812,7 @@ html_ol <- function(..., id = NULL, n_clicks = NULL, reversed = NULL, start = NU
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_optgroup <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_optgroup <- function(..., id = NULL, n_clicks = 0, disabled = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4869,7 +4869,7 @@ html_optgroup <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, acce
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_option <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, selected = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_option <- function(..., id = NULL, n_clicks = 0, disabled = NULL, selected = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4928,7 +4928,7 @@ html_option <- function(..., id = NULL, n_clicks = NULL, disabled = NULL, select
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_output <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_output <- function(..., id = NULL, n_clicks = 0, htmlFor = NULL, form = NULL, name = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -4984,7 +4984,7 @@ html_output <- function(..., id = NULL, n_clicks = NULL, htmlFor = NULL, form = 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_p <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_p <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5039,7 +5039,7 @@ html_p <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_param <- function(..., id = NULL, n_clicks = NULL, name = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_param <- function(..., id = NULL, n_clicks = 0, name = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5094,7 +5094,7 @@ html_param <- function(..., id = NULL, n_clicks = NULL, name = NULL, value = NUL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_plaintext <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_plaintext <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5147,7 +5147,7 @@ html_plaintext <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cl
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_pre <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_pre <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5203,7 +5203,7 @@ html_pre <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_progress <- function(..., id = NULL, n_clicks = NULL, form = NULL, max = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_progress <- function(..., id = NULL, n_clicks = 0, form = NULL, max = NULL, value = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5260,7 +5260,7 @@ html_progress <- function(..., id = NULL, n_clicks = NULL, form = NULL, max = NU
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_q <- function(..., id = NULL, n_clicks = NULL, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_q <- function(..., id = NULL, n_clicks = 0, cite = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5314,7 +5314,7 @@ html_q <- function(..., id = NULL, n_clicks = NULL, cite = NULL, accessKey = NUL
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_rp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_rp <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5367,7 +5367,7 @@ html_rp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_rt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_rt <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5420,7 +5420,7 @@ html_rt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_rtc <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_rtc <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5473,7 +5473,7 @@ html_rtc <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_ruby <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_ruby <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5526,7 +5526,7 @@ html_ruby <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_s <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_s <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5579,7 +5579,7 @@ html_s <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_samp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_samp <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5639,7 +5639,7 @@ html_samp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_script <- function(..., id = NULL, n_clicks = NULL, async = NULL, charSet = NULL, crossOrigin = NULL, defer = NULL, integrity = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_script <- function(..., id = NULL, n_clicks = 0, async = NULL, charSet = NULL, crossOrigin = NULL, defer = NULL, integrity = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5699,7 +5699,7 @@ html_script <- function(..., id = NULL, n_clicks = NULL, async = NULL, charSet =
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_section <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_section <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5759,7 +5759,7 @@ html_section <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_select <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disabled = NULL, form = NULL, multiple = NULL, name = NULL, required = NULL, size = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_select <- function(..., id = NULL, n_clicks = 0, autoFocus = NULL, disabled = NULL, form = NULL, multiple = NULL, name = NULL, required = NULL, size = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5819,7 +5819,7 @@ html_select <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, disab
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_shadow <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_shadow <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5872,7 +5872,7 @@ html_shadow <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_slot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_slot <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5925,7 +5925,7 @@ html_slot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_small <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_small <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -5982,7 +5982,7 @@ html_small <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_source <- function(..., id = NULL, n_clicks = NULL, media = NULL, sizes = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_source <- function(..., id = NULL, n_clicks = 0, media = NULL, sizes = NULL, src = NULL, type = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6039,7 +6039,7 @@ html_source <- function(..., id = NULL, n_clicks = NULL, media = NULL, sizes = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_spacer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_spacer <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6092,7 +6092,7 @@ html_spacer <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_span <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_span <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6145,7 +6145,7 @@ html_span <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNa
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_strike <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_strike <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6198,7 +6198,7 @@ html_strike <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_strong <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_strong <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6251,7 +6251,7 @@ html_strong <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, class
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_sub <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_sub <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6304,7 +6304,7 @@ html_sub <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_summary <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_summary <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6357,7 +6357,7 @@ html_summary <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, clas
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_sup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_sup <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6411,7 +6411,7 @@ html_sup <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_table <- function(..., id = NULL, n_clicks = NULL, summary = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_table <- function(..., id = NULL, n_clicks = 0, summary = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6465,7 +6465,7 @@ html_table <- function(..., id = NULL, n_clicks = NULL, summary = NULL, accessKe
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_tbody <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_tbody <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6521,7 +6521,7 @@ html_tbody <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_td <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL, rowSpan = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_td <- function(..., id = NULL, n_clicks = 0, colSpan = NULL, headers = NULL, rowSpan = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6577,7 +6577,7 @@ html_td <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_template <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_template <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6642,7 +6642,7 @@ html_template <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, cla
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_textarea <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_textarea <- function(..., id = NULL, n_clicks = 0, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6707,7 +6707,7 @@ html_textarea <- function(..., id = NULL, n_clicks = NULL, autoFocus = NULL, col
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_tfoot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_tfoot <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6764,7 +6764,7 @@ html_tfoot <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_th <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = NULL, rowSpan = NULL, scope = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_th <- function(..., id = NULL, n_clicks = 0, colSpan = NULL, headers = NULL, rowSpan = NULL, scope = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6821,7 +6821,7 @@ html_th <- function(..., id = NULL, n_clicks = NULL, colSpan = NULL, headers = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_thead <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_thead <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6875,7 +6875,7 @@ html_thead <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_time <- function(..., id = NULL, n_clicks = NULL, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_time <- function(..., id = NULL, n_clicks = 0, dateTime = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6929,7 +6929,7 @@ html_time <- function(..., id = NULL, n_clicks = NULL, dateTime = NULL, accessKe
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_title <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_title <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -6982,7 +6982,7 @@ html_title <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classN
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_tr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_tr <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7040,7 +7040,7 @@ html_tr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_track <- function(..., id = NULL, n_clicks = NULL, default = NULL, kind = NULL, label = NULL, src = NULL, srcLang = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_track <- function(..., id = NULL, n_clicks = 0, default = NULL, kind = NULL, label = NULL, src = NULL, srcLang = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7098,7 +7098,7 @@ html_track <- function(..., id = NULL, n_clicks = NULL, default = NULL, kind = N
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_tt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_tt <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7151,7 +7151,7 @@ html_tt <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_u <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_u <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7204,7 +7204,7 @@ html_u <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className 
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_ul <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_ul <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7257,7 +7257,7 @@ html_ul <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_var <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_var <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7320,7 +7320,7 @@ html_var <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_video <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, controls = NULL, crossOrigin = NULL, height = NULL, loop = NULL, muted = NULL, poster = NULL, preload = NULL, src = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_video <- function(..., id = NULL, n_clicks = 0, autoPlay = NULL, controls = NULL, crossOrigin = NULL, height = NULL, loop = NULL, muted = NULL, poster = NULL, preload = NULL, src = NULL, width = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7383,7 +7383,7 @@ html_video <- function(..., id = NULL, n_clicks = NULL, autoPlay = NULL, control
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_wbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_wbr <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
@@ -7436,7 +7436,7 @@ html_wbr <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, classNam
 #' @param title Text to be displayed in a tooltip when hovering over the element.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-html_xmp <- function(..., id = NULL, n_clicks = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
+html_xmp <- function(..., id = NULL, n_clicks = 0, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, fireEvent = NULL, dashEvents = NULL) {
 
   component <- list(
      props = list(
