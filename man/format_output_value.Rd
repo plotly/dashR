@@ -12,7 +12,11 @@ format_output_value(x, ...)
 \item{...}{additional arugments. Currently unused.}
 }
 \description{
+This function is not intended for direct use by users, but has been exported
+for development purposes.
+}
+\details{
 This (generic) function is called on the output value of callback
 function(s) -- effectively providing a way for developers to provide
-a more official way to leverage custom objects in a dash application.
+a bridge between an R object and (an existing) suitable dash component.
 }

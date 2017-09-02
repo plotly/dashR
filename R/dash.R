@@ -246,21 +246,20 @@ Dash <- R6::R6Class(
       }
 
     },
-    css_get = function() {
-
-      # TODO: should this return a list of htmlDependency objects?
-      private$css
-
+    dependencies_get = function() {
+      private$dependencies
     },
-    css_set = function() {
-
-      # TODO: implement
-
+    dependencies_add = function(x) {
+      if (!inherit(x, "html_dependency")) {
+        stop("Must be a `htmltools::htmlDependency()` object", call. = FALSE)
+      }
+      private$dependencies <- c(private$dependencies, x)
+    },
+    dependencies_clear = function(x) {
+      private$dependencies <- list()
     },
     config_get = function() {
-
       private$config
-
     },
     config_set = function(suppress_callback_exceptions = NULL, permissions_cache_expiry = NULL) {
 
@@ -369,7 +368,7 @@ Dash <- R6::R6Class(
     layout = welcome_page(),
     layout_flat = rapply(welcome_page(), I),
     # TODO: include @chriddyp's CSS by default? https://codepen.io/chriddyp/pen/bWLwgP.css
-    css = NULL,
+    dependencies = NULL,
     # TODO: what is going to be the official interface for some of these options?
     config = list(
       suppress_callback_exceptions = FALSE,
@@ -387,12 +386,34 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
+      # dash-renderer needs this configuration (JSON object)
       config <- c(
         private$config,
         list(url_base_pathname = private$url_base_pathname)
       )
 
-      namespaces <- private$layout_flat[grep("namespace$", names(private$layout_flat))]
+      # react always comes after that
+      react <- deps[sapply(deps, "[[", "name") %in% c("react", "react-dom")]
+
+      # grab all the unique component namespaces
+      idx <- grep("namespace$", names(private$layout_flat))
+      namespaces <- gsub("_", "-", unique(private$layout_flat[idx]))
+
+      # might need dash html/core component
+      dash_components <- deps[sapply(deps, "[[", "name") %in% namespaces]
+
+      # might need additional (dependencies)
+      idx <- grepl("^htmlwidget", namespaces)
+      htmlwidgetDependencies <- if (any(idx)) {
+        htmlwidgetNames <- strsplit(namespaces[idx], "-")
+        allDependencies <- Reduce(c, lapply(htmlwidgetNames, function(x) {
+          htmlwidgets::getDependency(x[[2]], x[[3]])
+        }))
+        htmltools::resolveDependencies(allDependencies)
+      }
+
+      # dash renderer always goes last
+      dash_renderer <- deps[sapply(deps, "[[", "name") %in% "dash-renderer"]
 
       sprintf(
         '<!DOCTYPE html>
@@ -400,6 +421,7 @@ Dash <- R6::R6Class(
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
+            %s
           </head>
 
           <body>
@@ -411,22 +433,22 @@ Dash <- R6::R6Class(
               <script id="_dash-config" type="application/json"> %s </script>
               %s
               %s
-              <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+              %s
+              <script src="inst/src/Htmlwidget.React.js"> </script>
               %s
             </footer>
           </body>
         </html>',
-        private$name, to_JSON(config),
-        # react/react-dom *always* needs to be loaded first
-        render_dependencies(c("react", "react-dom")),
-        render_dependencies(gsub("_", "-", unique(namespaces))),
-        # TODO: how to handle custom components? Just have folks
-        # 'dynamically' register them?
+        private$name,
+        render_dependencies(private$dependencies),
+        to_JSON(config),
+        render_dependencies(react),
+        render_dependencies(dash_components),
+        render_dependencies(htmlwidgetDependencies),
+        # TODO: support custom components!
+        # Should folks'dynamically' register them *after* dasher has been installed?
         # https://plot.ly/dash/plugins
-        # TODO: what should we do about plotly/htmlwidgets?
-
-        # dash-renderer *always* goes last
-        render_dependencies("dash-renderer")
+        render_dependencies(dash_renderer)
       )
     }
 

@@ -1,6 +1,6 @@
 context("callback")
 
-test_that("Referencing component properties that don't exist throws errror", {
+test_that("Callback inputs must be well-defined", {
 
   app <- Dash$new()
 
@@ -8,6 +8,11 @@ test_that("Referencing component properties that don't exist throws errror", {
   app$layout_set(
     core_slider(id = "x"),
     html_div(id = "y")
+  )
+
+  expect_error(
+    app$callback(identity, output("y")),
+    "'nonsense' is not a valid property for 'html_div' components"
   )
 
   expect_error(

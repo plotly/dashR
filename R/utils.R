@@ -30,7 +30,7 @@ component_infer_type <- function(component, id) {
     )
   }
   if (identical(id, component$props$id))  {
-    prefix <- if (is.html_component(component)) "html_" else "core_"
+    prefix <- if (is.html_component(component)) "html_" else if (is.core_component(component)) "core_" else ""
     return(paste0(prefix, tolower(component$type)))
   }
 
@@ -154,23 +154,14 @@ stop_report <- function(msg = "") {
 
 # @param names a character string matching the names
 # @param whether to point to an external CDN rather local files
-render_dependencies <- function(names = NULL, external = FALSE) {
-
-  # deps is an internal list of HTML dependency objects generated in inst/update_assets.R
-  all_names <- sapply(deps, `[[`, "name")
-  names <- names %||% all_names
-
-  depz <- list()
-  for (i in seq_along(names)) {
-    depz[[i]] <- deps[[which(all_names %in% names[[i]])]]
-  }
+render_dependencies <- function(dependencies = NULL, external = FALSE) {
 
   if (external) {
     stop("not yet implemented")
   }
 
   # TODO: why does the default for `encodeFunc` not work?
-  htmltools::renderDependencies(depz, encodeFunc = identity)
+  htmltools::renderDependencies(dependencies, encodeFunc = identity)
 }
 
 
@@ -183,5 +174,8 @@ widget_dependencies <- function(w) {
     return(NULL)
   }
 
-  htmlwidgets::getDependency(class(w)[1], package = attr(w, "package"))
+  c(
+    htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
+    w$dependencies
+  )
 }

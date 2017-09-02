@@ -10,12 +10,14 @@ Imports:
   reqres,
   jsonlite,
   htmltools,
+  digest,
   plotly
 Suggests:
   testthat,
   knitr,
   rmarkdown
 Collate:
+  'dependency-manager.R'
   'utils.R'
   'components-core.R'
   'components-html.R'
