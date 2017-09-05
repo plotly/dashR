@@ -94,14 +94,18 @@ htmlify_contents <- function(contents) {
     if (is_css) {
       htmltools::htmlDependency(
         name = info[[1]],
-        version = sub(".min.js", "", info[[2]]),
-        src = "/lib", stylesheet = x$name
+        stylesheet = x$name,
+        version = strextract(info[[2]], .standard_regexps()$valid_package_version),
+        src = "/lib",
+        package = "dasher"
       )
     } else {
       htmltools::htmlDependency(
         name = info[[1]],
-        version = sub(".css", "", info[[2]]),
-        src = "/lib", script = x$name
+        script = x$name,
+        version = strextract(info[[2]], .standard_regexps()$valid_package_version),
+        src = "/lib",
+        package = "dasher"
       )
     }
   })
@@ -110,8 +114,10 @@ htmlify_contents <- function(contents) {
 htmlify_config <- function(config) {
   htmltools::htmlDependency(
     name = config$name,
+    script = basename(config$bundle),
     version = config$version,
-    src = "/lib", script = basename(config$bundle)
+    src = "/lib",
+    package = "dasher"
   )
 }
 

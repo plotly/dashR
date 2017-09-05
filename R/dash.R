@@ -68,12 +68,8 @@ Dash <- R6::R6Class(
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
       }
 
-      # first, add a route to package resources, as described in
       # http://www.data-imaginist.com/2017/Introducing-routr/
       router <- routr::RouteStack$new()
-      # TODO: does this need to respect `url_base_pathname`?
-      dasher_resources <- ressource_route('/' = system.file(package = 'dasher'))
-      router$add_route(dasher_resources, 'dasher_resources', after = 1)
 
       # ------------------------------------------------------------------------
       # define & register routes on the server
@@ -185,13 +181,20 @@ Dash <- R6::R6Class(
         response$status <- 200L
         response$type <- 'html'
         # TODO: generate the index page on server start?
-        response$body <- private$index()
+        response$body <- private$index_html
         FALSE
       })
 
       # TODO: is using the app name in this way a good idea?
       router$add_route(route, name)
       server$attach(router)
+
+
+      server$on("start", function(server, ...) {
+
+        private$index_html <- private$index()
+
+      })
 
       # -----------------------------------------------------------------
       # Some simple HTTP request logging (flask does this automatically)
@@ -351,43 +354,53 @@ Dash <- R6::R6Class(
       redirect_uri = 'http://localhost:9595'
     ),
     callback_map = list(),
-
-
-
+    index_html = NULL,
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
-      # dash-renderer needs this configuration (JSON object)
-      config <- c(
-        private$config,
-        list(url_base_pathname = private$url_base_pathname)
-      )
-
       # grab all the unique component namespaces
-      idx <- grep("namespace$", names(private$layout_flat))
-      namespaces <- gsub("_", "-", unique(private$layout_flat[idx]))
+      layout_nms <- names(private$layout_flat)
 
-      # might need dash html/core component
-      dash_components <- deps[grep("component", namespaces, value = T, fixed = T)]
-
-      # might need additional (dependencies)
-      idx <- grepl("^htmlwidget", namespaces)
-      htmlwidgetDependencies <- if (any(idx)) {
-        htmlwidgetNames <- strsplit(namespaces[idx], "-")
-        allDependencies <- Reduce(c, lapply(htmlwidgetNames, function(x) {
-          htmlwidgets::getDependency(x[[2]], x[[3]])
-        }))
-        htmltools::resolveDependencies(allDependencies)
+      # leverage the component's namespace (defined in R/components-htmlwidget.R)
+      # to automatically find/include htmlwidget dependencies
+      widgetNames <- grep("htmlwidgetInfo.name", layout_nms, fixed = TRUE)
+      widgetPkgs <- grep("htmlwidgetInfo.package", layout_nms, fixed = TRUE)
+      htmlwidgetDeps <- if (length(widgetPkgs)) {
+        nms <- private$layout_flat[widgetNames]
+        pkgs <- private$layout_flat[widgetPkgs]
+        c(
+          list(htmlwidgets_react()),
+          Reduce(c, Map(htmlwidgets::getDependency, nms, pkgs))
+        )
       }
 
+      # collect all the dependencies, order them sensibly, and 'resolve' (i.e. remove old duplicates)
+      # TODO: support custom components!
+      # Should folks 'dynamically' register them *after* dasher has been installed?
+      # https://plot.ly/dash/plugins
+
+      namespaces <- private$layout_flat[grep("namespace$", layout_nms)]
+      hasCore <- any(grepl('dash_core_component', namespaces, fixed = TRUE))
+      allDeps <- c(
+        deps[c("react", "react-dom", "dash-html-component")],
+        if (hasCore) deps["dash-core-component"],
+        htmlwidgetDeps,
+        private$dependencies,
+        deps["dash-renderer"]
+      )
+
+      allDeps <- resolve_dependencies(allDeps)
+      # register a resource route with the server (this might/should modify the file paths associated with the dependencies)
+      allDeps <- registerDependencies(self, allDeps)
+
+      # index.html source
       sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
-            %s
           </head>
 
           <body>
@@ -398,22 +411,13 @@ Dash <- R6::R6Class(
             <footer>
               <script id="_dash-config" type="application/json"> %s </script>
               %s
-              %s
-
-              %s
             </footer>
           </body>
         </html>',
         private$name,
-        render_dependencies(private$dependencies),
-        to_JSON(config),
-        render_dependencies(deps[c("react", "react-dom")]),
-        render_dependencies(dash_components),
-        #render_dependencies(htmlwidgetDependencies),
-        # TODO: support custom components!
-        # Should folks'dynamically' register them *after* dasher has been installed?
-        # https://plot.ly/dash/plugins
-        render_dependencies(deps["dash-renderer"])
+        # dash-renderer needs these config settings (JSON object)
+        to_JSON(c(private$config, list(url_base_pathname = private$url_base_pathname))),
+        render_dependencies(allDeps)
       )
     }
 
@@ -430,8 +434,8 @@ validate_dependency <- function(layout, dependency) {
   if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
-  type <- component_infer_type(layout, dependency$id)
-  valid_props <- infer_props(type)
+  type <- component_type_given_id(layout, dependency$id)
+  valid_props <- component_props_given_type(type)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
     stop(
@@ -446,4 +450,34 @@ validate_dependency <- function(layout, dependency) {
 
   TRUE
 }
+
+# register a resource route pointing to a collection of HTML dependencies
+
+# NOTE: this implementation assumes htmltools::resolveDependencies()
+# has already been used to resolve paths and duplicates
+registerDependencies <- function(app, dependencies) {
+  assert_that(inherits(app, "Dash"))
+  #assert_that(inherits(dependencies, "html_dependencies"))
+
+  # TODO: implement this field!
+  if (isTRUE(app$serve_locally)) return(app)
+
+  # copy all the HTML dependencies to a temporary directory
+  # which will be used for serving those (local) resources
+  # note, this is similar to what happens inside htmltools::save_html()
+  libdir <- tempdir()
+  dependencies <- lapply(dependencies, function(dep) {
+    dep <- htmltools::copyDependencyToDir(dep, libdir, FALSE)
+    htmltools::makeDependencyRelative(dep, libdir, FALSE)
+  })
+
+  # create and register a new routestack with the server
+  router <- routr::RouteStack$new()
+  route <- routr::ressource_route('/' = libdir)
+  router$add_route(route, "dasher-resources", after = 1)
+  app$server$attach(router, force = TRUE)
+
+  dependencies
+}
+
 

@@ -22,7 +22,7 @@ is.layout <- function(x) inherits(x, "dash_layout")
 
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
-component_infer_type <- function(component, id) {
+component_type_given_id <- function(component, id) {
 
   if (!is.component(component))  {
     stop(
@@ -36,12 +36,12 @@ component_infer_type <- function(component, id) {
     return(paste0(prefix, tolower(component$type)))
   }
 
-  unlist(lapply(component$props$children, component_infer_type, id))
+  unlist(lapply(component$props$children, component_type_given_id, id))
 }
 
 # once we know the component type, return the valid properties
 # TODO: throw an informative error if type is not referring a component function
-infer_props <- function(type) {
+component_props_given_type <- function(type) {
   c("children", names(formals(match.fun(type)))[-1])
 }
 
@@ -94,9 +94,7 @@ create_access_codes <- function() {
   now <- Sys.time()
   list(
     access_granted = new_token(),
-    expiration = list(
-
-    )
+    expiration = list()
   )
 }
 
@@ -110,7 +108,73 @@ new_id <- function() {
 }
 
 # ----------------------------------------------------------------------------
-# Other helpers
+# HTML dependency helpers
+# ----------------------------------------------------------------------------
+
+# Render HTML dependencies ()
+
+# @param dependencies a list of HTML dependencies
+# @param external point to an external CDN rather local files?
+render_dependencies <- function(dependencies = list(), external = FALSE) {
+
+  dependencies <- filter_null(dependencies)
+
+  if (external) {
+    stop("not yet implemented")
+  }
+
+  # TODO: why does the default for `encodeFunc` not work?
+  htmltools::renderDependencies(dependencies, encodeFunc = identity)
+}
+
+# TODO: This is the exact same as htmltools::resolveDependencies,
+# but by manually copying, it allows pkgload:::shim_system.file() to work
+# it's magic and find files in dev mode (i.e., pkgload::load_all())
+resolve_dependencies <- function (dependencies, resolvePackageDir = TRUE) {
+  deps <- dependencies[!sapply(dependencies, is.null)]
+  depnames <- sapply(deps, `[[`, "name")
+  depvers <- numeric_version(sapply(deps, `[[`, "version"))
+  return(lapply(unique(depnames), function(depname) {
+    sorted <- order(ifelse(depnames == depname, TRUE, NA),
+                    depvers, na.last = NA, decreasing = TRUE)
+    dep <- deps[[sorted[[1]]]]
+    if (resolvePackageDir && !is.null(dep$package)) {
+      dir <- dep$src$file
+      if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
+      dep$package <- NULL
+    }
+    dep
+  }))
+}
+
+
+# get dependencies from an htmlwidget object
+# https://github.com/ramnathv/htmlwidgets/pull/255
+widget_dependencies <- function(w) {
+  if (!inherits(w, "htmlwidget")) {
+    warning("Expected an htmlwidget object", call. = FALSE)
+    return(NULL)
+  }
+
+  c(
+    htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
+    w$dependencies
+  )
+}
+
+htmlwidgets_react <- function() {
+  htmltools::htmlDependency(
+    name = "htmlwidgets-react",
+    version = packageVersion("dasher"),
+    package = "dasher",
+    src = c(file = "/lib"),
+    script = "htmlwidgets-react.js"
+  )
+}
+
+
+# ----------------------------------------------------------------------------
+# Other (generic) helpers
 # ----------------------------------------------------------------------------
 
 "%||%" <- function(x, y) {
@@ -149,37 +213,5 @@ stop_report <- function(msg = "") {
     "Please let us know about this error via ",
     "https://github.com/plotly/dasher/issues/new",
     call. = FALSE
-  )
-}
-
-# Render (internal) HTML dependencies
-
-# @param names a character string matching the names
-# @param whether to point to an external CDN rather local files
-render_dependencies <- function(dependencies = list(), external = FALSE) {
-
-  dependencies <- filter_null(dependencies)
-
-  if (external) {
-    stop("not yet implemented")
-  }
-
-  # TODO: why does the default for `encodeFunc` not work?
-  htmltools::renderDependencies(dependencies, encodeFunc = identity)
-}
-
-
-# get dependencies from an htmlwidget object
-# https://github.com/ramnathv/htmlwidgets/pull/255
-
-widget_dependencies <- function(w) {
-  if (!inherits(w, "htmlwidget")) {
-    warning("Expected an htmlwidget object", call. = FALSE)
-    return(NULL)
-  }
-
-  c(
-    htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
-    w$dependencies
   )
 }

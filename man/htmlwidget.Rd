@@ -4,15 +4,17 @@
 \alias{htmlwidget}
 \title{Htmlwidget component}
 \usage{
-htmlwidget(id = NULL)
+htmlwidget(id = NULL, name = NULL, package = name)
 }
 \arguments{
 \item{id}{a string used for the react container (around the htmlwidget container).}
 
-\item{name}{}
+\item{name}{the name of the htmlwidget}
+
+\item{package}{the htmlwidget's package name}
 }
 \description{
-TBD
+Htmlwidget component
 }
 \author{
 Carson Sievert

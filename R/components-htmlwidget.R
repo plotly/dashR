@@ -21,9 +21,9 @@ htmlwidget <- function(id = NULL, name = NULL, package = name) {
       id = id
     ),
     type = "Htmlwidget",
-    # NOTE: we rely on this namespace to get dependencies in private$index()
-    # TODO: will this pose any issues for dash-renderer?
-    namespace = paste("htmlwidget", package, name, sep = "_")
+    namespace = "dash_htmlwidget_components",
+    # should help throw an informative error for us (if the package/widget doesn't exist)
+    htmlwidgetInfo = list(name = name, package = package)
   )
 
   structure(component, class = c('dash_component', 'dash_htmlwidget'))

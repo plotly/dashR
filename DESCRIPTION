@@ -17,8 +17,10 @@ Suggests:
   knitr,
   rmarkdown
 Collate:
+  'plotly-api.R'
   'dependency-manager.R'
   'utils.R'
+  'components-htmlwidget.R'
   'components-core.R'
   'components-html.R'
   'dependencies.R'

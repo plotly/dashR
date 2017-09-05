@@ -1,23 +1,38 @@
 // htmlwidgets isn't on npm, so we do some hackery to make sure it exists
 // TODO: look into maybe importing from htmlwidgets.js
 var HTMLWidgets = window.HTMLwidgets || {};
-
 if (Object.keys(HTMLWidgets).length) {
   throw new Error("HTMLWidgets library not found");
 }
 
+// because
 var React = window.React || {};
-
 if (Object.keys(HTMLWidgets).length) {
   throw new Error("React library not found.");
 }
 
+// register the component with dash-renderer
+// https://github.com/plotly/dash-renderer/blob/b11b5e25df642ea13d5456f1d8187d2af9314be5/src/registry.js
+var ns = "dash_htmlwidget_components";
+var componentName = "Htmlwidget";
 
-// style somewhat adopted from https://github.com/plotly/dash-core-components/blob/master/src/components/Graph.react.js
-React.createClass({
+// I feel sorry for front-end web developers...
+// http://blog.krawaller.se/posts/5-reasons-not-to-use-es6-classes-in-react/
+window[ns][componentName] = React.createClass({
 
-  constructor(props) {
-    super(props);
+  propTypes: {
+    id: React.PropTypes.string.isRequired,
+
+    // The htmlwidget's 'data', see http://www.htmlwidgets.org/develop_intro.html
+    x: React.PropTypes.object.isRequired,
+
+    style: React.PropTypes.string,
+
+    className: React.PropTypes.string
+  },
+
+  constructor: function(props) {
+    console.log("Setting up your widget", props);
 
     // query the htmlwidget DOM container
     this.el = this.querySelector("." + props.name);
@@ -36,35 +51,25 @@ React.createClass({
     // basically, allows one to call `method()` instead of `this.method()`, I think?
     // https://facebook.github.io/react/docs/handling-events.html
     // this.bindEvents = this.bindEvents.bind(this);
-  }
+  },
 
-  componentDidMount() {
+  // https://facebook.github.io/react/docs/react-component.html
+  componentDidMount: function() {
     // TODO:
     // (1) where is x coming from?
     // (2) how to implement sizingPolicy?
     // (3) how to ensure additional dependencies are included properly, like this
     // https://github.com/ramnathv/htmlwidgets/blob/6f4101d0/inst/www/htmlwidgets.js#L492
     HTMLWidgets.renderValue(this.el, this.props.x, this.instance);
-  }
+  },
 
-  render() {
+  render: function() {
     return (
-        <div id={this.props.id} style={this.props.style} class={this.props.className}> </div>
+        <div id={this.props.id} style={this.props.style} class={this.props.className} />
     );
   }
 
 });
-
-Htmlwidget.propTypes = {
-  id: PropTypes.string.isRequired,
-
-  // The htmlwidget's 'data', see http://www.htmlwidgets.org/develop_intro.html
-  x: PropTypes.object.isRequired,
-
-  style: PropTypes.string,
-
-  className: PropTypes.string
-}
 
 
 /*
