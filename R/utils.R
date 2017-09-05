@@ -2,9 +2,8 @@
 # Class assertion
 # ----------------------------------------------------------------------------
 
-is.fire <- function(x) {
-  inherits(x, "Fire")
-}
+# fiery server
+is.fire <- function(x) inherits(x, "Fire")
 
 # components
 is.component <- function(x) inherits(x, "dash_component")
@@ -16,6 +15,9 @@ is.dependency <- function(x) inherits(x, "dash_dependency")
 is.output <- function(x) is.dependency(x) && inherits(x, "output")
 is.input <- function(x) is.dependency(x) && inherits(x, "input")
 is.state <- function(x) is.dependency(x) && inherits(x, "state")
+
+# layout
+is.layout <- function(x) inherits(x, "dash_layout")
 
 
 # search through a component (a recursive data structure) for a component with
@@ -154,7 +156,9 @@ stop_report <- function(msg = "") {
 
 # @param names a character string matching the names
 # @param whether to point to an external CDN rather local files
-render_dependencies <- function(dependencies = NULL, external = FALSE) {
+render_dependencies <- function(dependencies = list(), external = FALSE) {
+
+  dependencies <- filter_null(dependencies)
 
   if (external) {
     stop("not yet implemented")

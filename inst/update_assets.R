@@ -126,6 +126,7 @@ config_deps <- lapply(
 )
 
 deps <- c(content_deps, config_deps)
-
+# use names for easy querying
+deps <- setNames(deps, sapply(deps, "[[", "name"))
 devtools::use_data(deps, overwrite = T, internal = T)
 

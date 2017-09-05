@@ -83,9 +83,6 @@ Dash <- R6::R6Class(
 
       dash_login <- paste0(url_base_pathname, "_dash-login")
       route$add_handler("post", dash_login, function(request, response, keys, ...) {
-
-
-
         response$body <- list(
           h1 = "Not yet implemented"
         )
@@ -214,20 +211,21 @@ Dash <- R6::R6Class(
       }
 
       self$server <- server
-
     },
 
     layout_get = function() {
-
       private$layout
-
     },
     layout_set = function(...) {
 
-      private$layout <- html_div(...)
+      # store the layout and a (flattened) vector form since we query the
+      # vector names several times to verify ID naming (among other things)
+      container <- html_div(...)
+      oldClass(container) <- c("dash_layout", oldClass(container))
+      private$layout <- container
+      private$layout_flat <- rapply(private$layout, I)
 
       # verify that layout ids are unique
-      private$layout_flat <- rapply(private$layout, I)
       idx <- grep("id$", names(private$layout_flat))
       if (!length(idx)) {
         warning(
@@ -297,7 +295,6 @@ Dash <- R6::R6Class(
       # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
       # -----------------------------------------------------------------------
-
       ids <- private$layout_flat[grep("id$", names(private$layout_flat))]
       callback_ids <- unlist(c(output$id, sapply(inputz, "[[", "id")))
       illegal_ids <- setdiff(callback_ids, ids)
@@ -313,33 +310,7 @@ Dash <- R6::R6Class(
 
       # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
-      # first, for a given id, we must infer the component type
       # ----------------------------------------------------------------------
-
-      # @param layout
-      # @param component a component (should be a dependency)
-      validate_dependency <- function(layout, dependency) {
-        if (!is.dependency(dependency)) {
-          stop("`dependency` must be a dependency object", call. = FALSE)
-        }
-
-        type <- component_infer_type(private$layout, dependency$id)
-        valid_props <- infer_props(type)
-
-        if (!isTRUE(dependency$property %in% valid_props)) {
-          stop(
-            sprintf(
-              "The %s property '%s' is not a valid property for '%s' components. Try one of the folllowing: '%s'",
-              class(dependency)[2], dependency$property, type,
-              paste(valid_props, collapse = "', '")
-            ),
-            call. = FALSE
-          )
-        }
-
-        TRUE
-      }
-
       validate_dependency(private$layout, output)
       for (i in seq_along(inputz)) {
         validate_dependency(private$layout, inputz[[i]])
@@ -351,6 +322,7 @@ Dash <- R6::R6Class(
       outputID <- paste(unlist(output), collapse = ".")
       private$callback_map[[outputID]] <- list(
         callback = fun,
+        envir = envir,
         inputs = inputz[vapply(inputz, is.input, logical(1))],
         state = inputz[vapply(inputz, is.state, logical(1))]
       )
@@ -392,15 +364,12 @@ Dash <- R6::R6Class(
         list(url_base_pathname = private$url_base_pathname)
       )
 
-      # react always comes after that
-      react <- deps[sapply(deps, "[[", "name") %in% c("react", "react-dom")]
-
       # grab all the unique component namespaces
       idx <- grep("namespace$", names(private$layout_flat))
       namespaces <- gsub("_", "-", unique(private$layout_flat[idx]))
 
       # might need dash html/core component
-      dash_components <- deps[sapply(deps, "[[", "name") %in% namespaces]
+      dash_components <- deps[grep("component", namespaces, value = T, fixed = T)]
 
       # might need additional (dependencies)
       idx <- grepl("^htmlwidget", namespaces)
@@ -411,9 +380,6 @@ Dash <- R6::R6Class(
         }))
         htmltools::resolveDependencies(allDependencies)
       }
-
-      # dash renderer always goes last
-      dash_renderer <- deps[sapply(deps, "[[", "name") %in% "dash-renderer"]
 
       sprintf(
         '<!DOCTYPE html>
@@ -433,8 +399,7 @@ Dash <- R6::R6Class(
               <script id="_dash-config" type="application/json"> %s </script>
               %s
               %s
-              %s
-              <script src="inst/src/Htmlwidget.React.js"> </script>
+
               %s
             </footer>
           </body>
@@ -442,13 +407,13 @@ Dash <- R6::R6Class(
         private$name,
         render_dependencies(private$dependencies),
         to_JSON(config),
-        render_dependencies(react),
+        render_dependencies(deps[c("react", "react-dom")]),
         render_dependencies(dash_components),
-        render_dependencies(htmlwidgetDependencies),
+        #render_dependencies(htmlwidgetDependencies),
         # TODO: support custom components!
         # Should folks'dynamically' register them *after* dasher has been installed?
         # https://plot.ly/dash/plugins
-        render_dependencies(dash_renderer)
+        render_dependencies(deps["dash-renderer"])
       )
     }
 
@@ -457,4 +422,28 @@ Dash <- R6::R6Class(
 )
 
 
+
+# verify that properties attached to output/inputs/state value are valid
+# @param layout
+# @param component a component (should be a dependency)
+validate_dependency <- function(layout, dependency) {
+  if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
+  if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
+
+  type <- component_infer_type(layout, dependency$id)
+  valid_props <- infer_props(type)
+
+  if (!isTRUE(dependency$property %in% valid_props)) {
+    stop(
+      sprintf(
+        "The %s property '%s' is not a valid property for '%s' components. Try one of the folllowing: '%s'",
+        class(dependency)[2], dependency$property, type,
+        paste(valid_props, collapse = "', '")
+      ),
+      call. = FALSE
+    )
+  }
+
+  TRUE
+}
 
