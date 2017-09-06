@@ -18,6 +18,7 @@ Description coming soon
 \code{server} \tab  \tab The web server which powers the application. Currently only \link[fiery:Fire]{fiery::Fire} objects are allowed.\cr
 \code{url_base_pathname} \tab  \tab The base path for locating the Dash application.\cr
 \code{csrf_protect} \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
+\code{serve_locally} \tab  \tab Whether to serve HTML dependencies using local files or via a URL
 }
 }
 
@@ -31,12 +32,36 @@ Description coming soon
 \section{Methods}{
 
 \describe{
-\item{\code{layout_set(...)}}{Set the layout (i.e., user interface).}
-\item{\code{layout_get()}}{Retrieves the layout.}
-\item{\code{callback(fun, output)}}{Callback function to execute when relevant inputs change.}
-\item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{Set the config.}
-\item{\code{config_get()}}{Get the config.}
-\item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments}
+\item{\code{layout_set(...)}}{
+Set the layout (i.e., user interface).
+}
+\item{\code{layout_get()}}{
+Retrieves the layout.
+}
+\item{\code{callback(fun, output)}}{
+Callback function to execute when relevant inputs change.
+}
+\item{\code{dependencies_set(dependencies = NULL, section = NULL, priority = NULL)}}{
+Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
+The \code{dependencies} argument accepts \link[htmltools:htmlDependency]{htmltools::htmlDependency} or
+\link[htmltools:htmlDependencies]{htmltools::htmlDependencies}. The \code{section} argument determines whether
+your dependencies are placed inside \code{<head>} or \code{<footer>}. The \code{priority}
+argument controls the order of the dependencies within a \code{section} (lower
+numbers are granted higher priority). If provided, the \code{section} and \code{priority}
+arguments should either be of length 1 or the same length as \code{dependencies}.
+}
+\item{\code{dependencies_get(all = FALSE)}}{
+Retrieve (just user-defined or all) HTML dependencies.
+}
+\item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{
+Set the config.
+}
+\item{\code{config_get()}}{
+Get the config.
+}
+\item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{
+Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments
+}
 }
 }
 

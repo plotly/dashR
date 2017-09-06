@@ -10,6 +10,7 @@
 #'   `server` \tab  \tab The web server which powers the application. Currently only [fiery::Fire] objects are allowed.\cr
 #'   `url_base_pathname` \tab  \tab The base path for locating the Dash application.\cr
 #'   `csrf_protect` \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
+#'   `serve_locally` \tab  \tab Whether to serve HTML dependencies using local files or via a URL
 #' }
 #'
 #' @section Fields:
@@ -19,12 +20,36 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout_set(...)`}{Set the layout (i.e., user interface).}
-#'   \item{`layout_get()`}{Retrieves the layout.}
-#'   \item{`callback(fun, output)`}{Callback function to execute when relevant inputs change.}
-#'   \item{`config_set(suppress_callback_exceptions, permissions_cache_expiry)`}{Set the config.}
-#'   \item{`config_get()`}{Get the config.}
-#'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{Launch the application. See [fiery::Fire] methods for a description of the arguments}
+#'   \item{`layout_set(...)`}{
+#'     Set the layout (i.e., user interface).
+#'   }
+#'   \item{`layout_get()`}{
+#'     Retrieves the layout.
+#'   }
+#'   \item{`callback(fun, output)`}{
+#'     Callback function to execute when relevant inputs change.
+#'   }
+#'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
+#'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
+#'     The `dependencies` argument accepts [htmltools::htmlDependency] or
+#'     [htmltools::htmlDependencies]. The `section` argument determines whether
+#'     your dependencies are placed inside `<head>` or `<footer>`. The `priority`
+#'     argument controls the order of the dependencies within a `section` (lower
+#'     numbers are granted higher priority). If provided, the `section` and `priority`
+#'     arguments should either be of length 1 or the same length as `dependencies`.
+#'   }
+#'   \item{`dependencies_get(all = FALSE)`}{
+#'     Retrieve (just user-defined or all) HTML dependencies.
+#'   }
+#'   \item{`config_set(suppress_callback_exceptions, permissions_cache_expiry)`}{
+#'     Set the config.
+#'   }
+#'   \item{`config_get()`}{
+#'     Get the config.
+#'   }
+#'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{
+#'     Launch the application. See [fiery::Fire] methods for a description of the arguments
+#'   }
 #' }
 #'
 #' @export
@@ -53,16 +78,19 @@
 Dash <- R6::R6Class(
   'Dash',
   public = list(
-    # see https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L29-L35
-    # Yes, I've ignored filename/sharing/app_url in this method...
-    # @chriddyp mentioned they are being deprecated/moved to http://github.com/plotly/dash-auth
+    # expose the fiery server in case users want to add/customize things downstream
     server = NULL,
+
+    # TODO: what is this static_folder argument? Do we need one?
+    # https://github.com/plotly/dash/blob/31315d6/dash/dash.py#L25
     initialize = function(name = "dash", server = fiery::Fire$new(),
-                          url_base_pathname = '/', csrf_protect = TRUE) {
+                          url_base_pathname = '/', csrf_protect = TRUE,
+                          serve_locally = TRUE) {
 
       private$name <- name
       private$url_base_pathname <- url_base_pathname
       private$csrf_protect <- csrf_protect
+      private$serve_locally <- serve_locally
 
       if (!inherits(server, "Fire"))  {
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
@@ -189,11 +217,17 @@ Dash <- R6::R6Class(
       router$add_route(route, name)
       server$attach(router)
 
-
+      # generate index page on server start...
+      # Why? Well, if we do it inside the GET /* handler, we have to map
+      # a resource route inside another route, which leads to weird errors
       server$on("start", function(server, ...) {
 
-        private$index_html <- private$index()
+        # register a resource route pointing the dependencies on the server
+        # note that registration will modify the source path to be relative to
+        # the resource route
+        private$dependencies_compute_and_register()
 
+        private$index_html <- private$index()
       })
 
       # -----------------------------------------------------------------
@@ -216,6 +250,9 @@ Dash <- R6::R6Class(
       self$server <- server
     },
 
+    # ------------------------------------------------------------------------
+    # dash layout methods
+    # ------------------------------------------------------------------------
     layout_get = function() {
       private$layout
     },
@@ -245,34 +282,40 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
+    },
 
-    },
-    dependencies_get = function() {
-      private$dependencies
-    },
-    dependencies_add = function(x) {
-      if (!inherit(x, "html_dependency")) {
-        stop("Must be a `htmltools::htmlDependency()` object", call. = FALSE)
+    # ------------------------------------------------------------------------
+    # HTML dependency management
+    # ------------------------------------------------------------------------
+    dependencies_get = function(all = TRUE) {
+      if (!all) {
+        return(private$dependencies_user)
       }
-      private$dependencies <- c(private$dependencies, x)
+      private$dependencies_compute_all()
+      private$dependencies_all
     },
-    dependencies_clear = function(x) {
-      private$dependencies <- list()
+    dependencies_set = function(dependencies = NULL, section = NULL, priority = NULL) {
+      private$dependencies_user <- dependency_tbl(dependencies, section, priority)
     },
+
+    # ------------------------------------------------------------------------
+    # dash configuration management
+    # ------------------------------------------------------------------------
     config_get = function() {
       private$config
     },
+    # TODO: implement these new config params
+    # https://github.com/plotly/dash/blob/31315d66/dash/dash.py#L51-L52
     config_set = function(suppress_callback_exceptions = NULL, permissions_cache_expiry = NULL) {
-
       private$config$suppress_callback_exceptions <-
           suppress_callback_exceptions %||% private$config$suppress_callback_exceptions
-
       private$config$permissions_cache_expiry <-
         permissions_cache_expiry %||% private$config$permissions_cache_expiry
-
     },
-    # TODO: make this the 'default' callback method, but provide specialized methods that know
-    # how to "containerize" special types of output (e.g., callback_plot(), callback_print(), etc)
+
+    # ------------------------------------------------------------------------
+    # callback registration
+    # ------------------------------------------------------------------------
     callback = function(fun = NULL, output = NULL, envir = parent.frame()) {
 
       if (!is.function(fun)) stop("The `fun` argument must be an R function", call. = FALSE)
@@ -329,21 +372,26 @@ Dash <- R6::R6Class(
         inputs = inputz[vapply(inputz, is.input, logical(1))],
         state = inputz[vapply(inputz, is.state, logical(1))]
       )
-
     },
+
+    # ------------------------------------------------------------------------
+    # convenient fiery wrappers
+    # ------------------------------------------------------------------------
     run_server = function(block = TRUE, showcase = FALSE, ...) {
       self$server$ignite(block = block, showcase = showcase, ...)
     }
   ),
 
   private = list(
+    # initialize parameters
+    # TODO: should these be exposed as fields?
     name = NULL,
     url_base_pathname = NULL,
     csrf_protect = NULL,
+    serve_locally = FALSE,
+
     layout = welcome_page(),
     layout_flat = rapply(welcome_page(), I),
-    # TODO: include @chriddyp's CSS by default? https://codepen.io/chriddyp/pen/bWLwgP.css
-    dependencies = NULL,
     # TODO: what is going to be the official interface for some of these options?
     config = list(
       suppress_callback_exceptions = FALSE,
@@ -353,54 +401,105 @@ Dash <- R6::R6Class(
       oauth_client_id = 'RcXzjux4DGfb8bWG9UNGpJUGsTaS0pUVHoEf7Ecl',
       redirect_uri = 'http://localhost:9595'
     ),
+    # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
-    index_html = NULL,
-    # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
-    # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
-    index = function() {
 
-      # grab all the unique component namespaces
+    # user defined dependencies
+    dependencies_user = dependency_tbl(),
+
+    # internal + user dependencies
+    # TODO: include @chriddyp's CSS by default? https://codepen.io/chriddyp/pen/bWLwgP.css
+    dependencies_all = dependency_tbl(),
+
+    # compute/resolve all HTML dependencies and store in `private$dependencies_all`
+    dependencies_compute_all = function() {
+      # these dependencies are *always* included, no matter what
+      # note how the low priority on dash-renderer should ensure it comes last
+      allDeps <- dependency_tbl(
+        deps[c("react", "react-dom", "dash-html-components", "dash-renderer")],
+        section = "footer", priority = c(1:3, 9999)
+      )
+
+      # tack on user-defined dependencies
+      allDeps <- rbind(allDeps, private$dependencies_user)
+
+      # search the layout names for 'special' components (e.g., core, htmlwidgets)
       layout_nms <- names(private$layout_flat)
+
+      namespaces <- private$layout_flat[grep("namespace$", layout_nms)]
+      hasCore <- any(grepl('dash_core_component', namespaces, fixed = TRUE))
+
+      if (hasCore) {
+        allDeps <- rbind(allDeps, dependency_tbl(deps["dash-core-components"], "footer", 4))
+      }
 
       # leverage the component's namespace (defined in R/components-htmlwidget.R)
       # to automatically find/include htmlwidget dependencies
       widgetNames <- grep("htmlwidgetInfo.name", layout_nms, fixed = TRUE)
       widgetPkgs <- grep("htmlwidgetInfo.package", layout_nms, fixed = TRUE)
-      htmlwidgetDeps <- if (length(widgetPkgs)) {
+      if (length(widgetPkgs)) {
         nms <- private$layout_flat[widgetNames]
         pkgs <- private$layout_flat[widgetPkgs]
-        c(
-          list(htmlwidgets_react()),
-          Reduce(c, Map(htmlwidgets::getDependency, nms, pkgs))
+        htmlwidgetDeps <- dependency_tbl(
+          Reduce(c, Map(widget_dependency, nms, pkgs)), "header"
         )
+        # this needs to appear after React & htmlwidgets.js, but before dash-renderer
+        htmlwidgetReact <- dependency_tbl(htmlwidgets_react(), "footer", 9000)
+        allDeps <- rbind(allDeps, htmlwidgetDeps, htmlwidgetReact)
       }
 
-      # collect all the dependencies, order them sensibly, and 'resolve' (i.e. remove old duplicates)
-      # TODO: support custom components!
+      # TODO: how to support custom components?
       # Should folks 'dynamically' register them *after* dasher has been installed?
       # https://plot.ly/dash/plugins
 
-      namespaces <- private$layout_flat[grep("namespace$", layout_nms)]
-      hasCore <- any(grepl('dash_core_component', namespaces, fixed = TRUE))
-      allDeps <- c(
-        deps[c("react", "react-dom", "dash-html-component")],
-        if (hasCore) deps["dash-core-component"],
-        htmlwidgetDeps,
-        private$dependencies,
-        deps["dash-renderer"]
-      )
+      # remove old (duplicated) dependencies & order remaining sensibly
+      private$dependencies_all <- resolve_dependencies(allDeps)
+    },
+    dependencies_compute_and_register = function() {
 
-      allDeps <- resolve_dependencies(allDeps)
-      # register a resource route with the server (this might/should modify the file paths associated with the dependencies)
-      allDeps <- registerDependencies(self, allDeps)
+      private$dependencies_compute_all()
 
-      # index.html source
+      if (!isTRUE(private$serve_locally)) return(TRUE)
+
+      #browser()
+      # copy all the HTML dependencies to a temporary directory
+      # which will be used for serving those (local) resources
+      # note, this is similar to what happens inside htmltools::save_html()
+      libdir <- tempdir()
+      private$dependencies_all$dependencies <- lapply(
+        private$dependencies_all$dependencies,
+        function(dep) {
+          dep <- htmltools::copyDependencyToDir(dep, libdir, FALSE)
+          htmltools::makeDependencyRelative(dep, libdir, FALSE)
+      })
+
+
+      # create and register a new routestack with the server
+      router <- routr::RouteStack$new()
+      route <- routr::ressource_route('/' = libdir)
+      router$add_route(route, "dasher-resources", after = 1)
+      self$server$attach(router, force = TRUE)
+    },
+
+    index_html = NULL,
+    # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
+    # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
+    index = function() {
+
+      tbl <- private$dependencies_all
+      # order dependencies by priority
+      tbl <- tbl[order(tbl$section, tbl$priority, decreasing = FALSE), ]
+
+      deps_header <- tbl[tbl$section %in% "header", ]
+      deps_footer <- tbl[tbl$section %in% "footer", ]
+
       sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
+            %s
           </head>
 
           <body>
@@ -415,14 +514,13 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
+        render_dependencies(deps_header, local = private$serve_locally),
         # dash-renderer needs these config settings (JSON object)
         to_JSON(c(private$config, list(url_base_pathname = private$url_base_pathname))),
-        render_dependencies(allDeps)
+        render_dependencies(deps_footer, local = private$serve_locally)
       )
     }
-
   )
-
 )
 
 
@@ -455,7 +553,7 @@ validate_dependency <- function(layout, dependency) {
 
 # NOTE: this implementation assumes htmltools::resolveDependencies()
 # has already been used to resolve paths and duplicates
-registerDependencies <- function(app, dependencies) {
+dependencies_register <- function(app, dependencies) {
   assert_that(inherits(app, "Dash"))
   #assert_that(inherits(dependencies, "html_dependencies"))
 

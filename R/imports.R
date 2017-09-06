@@ -7,4 +7,5 @@
 #' @importFrom digest sha1
 #' @importFrom plotly api plotly_build
 #' @importFrom assertthat assert_that
+#' @importFrom tibble tibble
 NULL

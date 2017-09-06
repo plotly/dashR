@@ -19,6 +19,8 @@ is.state <- function(x) is.dependency(x) && inherits(x, "state")
 # layout
 is.layout <- function(x) inherits(x, "dash_layout")
 
+# for flagging dependencies to be place in the header
+is.header <- function(x) inherits(x, "header")
 
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
@@ -111,55 +113,98 @@ new_id <- function() {
 # HTML dependency helpers
 # ----------------------------------------------------------------------------
 
-# Render HTML dependencies ()
+# Create a tidy html dependency data structure
+#
+# A building block for adding/getting/computing/rendering dependencies
+#
+# @param dependencies a list-column of [htmltools::htmlDependencies]
+# @param section place dependency in <head> or <footer>?
+# @param priority used to rank dependencies within a section
+# @return a tibble with a special 'dash_html_dependencies' class
 
+dependency_tbl <- function(dependencies = NULL, section = NULL, priority = NULL) {
+
+  if (!length(dependencies)) return(dependency_tbl_empty())
+
+  # do a sensible thing if just a single dependency is provided
+  if (inherits(dependencies, "html_dependency")) {
+    dependencies <- list(dependencies)
+  }
+
+  # ensure we have a list of htmltools::htmlDependency
+  is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
+  if (any(!is_dep)) {
+    stop("`dependencies` must be a *list* of htmlDependency(s)", call. = FALSE)
+  }
+
+  # if section is specified, make sure it is done properly
+  if (any(!section %in% c("header", "footer"))) {
+    stop("`section` must have a value of 'header' or 'footer'", call. = FALSE)
+  }
+
+  tbl <- tibble::tibble(
+    dependencies = dependencies,
+    section = section %||% factor("footer", levels = c("header", "footer")),
+    priority = priority %||% seq_along(dependencies)
+  )
+  oldClass(tbl) <- c(oldClass(tbl), "dash_html_dependencies")
+
+  # name might be missing
+  tbl$name <- vapply(tbl$dependencies, function(x) x$name %||% NA_character_, character(1))
+
+  tbl
+}
+
+
+dependency_tbl_empty <- function() {
+  tbl <- tibble::tibble(
+    dependencies = list(),
+    section = factor(character(0), levels = c("header", "footer")),
+    priority = integer(0)
+  )
+  oldClass(tbl) <- c(oldClass(tbl), "dash_html_dependencies")
+  tbl
+}
+
+
+# A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(dependencies = list(), external = FALSE) {
+render_dependencies <- function(tbl, local = TRUE) {
 
-  dependencies <- filter_null(dependencies)
-
-  if (external) {
-    stop("not yet implemented")
+  if (!local) {
+    tbl$dependencies <- lapply(tbl$dependencies, function(dep) {
+      dep$src$file <- NULL
+      dep
+    })
   }
 
   # TODO: why does the default for `encodeFunc` not work?
-  htmltools::renderDependencies(dependencies, encodeFunc = identity)
+  htmltools::renderDependencies(tbl$dependencies, encodeFunc = identity)
 }
 
-# TODO: This is the exact same as htmltools::resolveDependencies,
-# but by manually copying, it allows pkgload:::shim_system.file() to work
+# Similar to htmltools::resolveDependencies(), but works on dependency tibbles,
+# and allows pkgload:::shim_system.file() to work
 # it's magic and find files in dev mode (i.e., pkgload::load_all())
-resolve_dependencies <- function (dependencies, resolvePackageDir = TRUE) {
-  deps <- dependencies[!sapply(dependencies, is.null)]
-  depnames <- sapply(deps, `[[`, "name")
-  depvers <- numeric_version(sapply(deps, `[[`, "version"))
-  return(lapply(unique(depnames), function(depname) {
-    sorted <- order(ifelse(depnames == depname, TRUE, NA),
-                    depvers, na.last = NA, decreasing = TRUE)
-    dep <- deps[[sorted[[1]]]]
-    if (resolvePackageDir && !is.null(dep$package)) {
-      dir <- dep$src$file
-      if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
-      dep$package <- NULL
+resolve_dependencies <- function(tbl, resolvePackageDir = TRUE) {
+
+  versions <- numeric_version(sapply(tbl$dependencies, `[[`, "version"))
+  tbl <- tbl[order(tbl$name, versions, decreasing = TRUE), ]
+  tbl <- tbl[!duplicated(tbl$name), ]
+
+  tbl$dependencies <- lapply(tbl$dependencies, function(dep) {
+    if (resolvePackageDir && !is.null(dep$package) && !is.null(dep$src$file)) {
+      dep$src$file <- system.file(dep$src$file, package = dep$package)
     }
     dep
-  }))
+  })
+
+  tbl
 }
 
 
-# get dependencies from an htmlwidget object
-# https://github.com/ramnathv/htmlwidgets/pull/255
-widget_dependencies <- function(w) {
-  if (!inherits(w, "htmlwidget")) {
-    warning("Expected an htmlwidget object", call. = FALSE)
-    return(NULL)
-  }
-
-  c(
-    htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
-    w$dependencies
-  )
+widget_dependency <- function(name = NULL, package = name) {
+  htmlwidgets::getDependency(name, package)
 }
 
 htmlwidgets_react <- function() {
@@ -171,6 +216,20 @@ htmlwidgets_react <- function() {
     script = "htmlwidgets-react.js"
   )
 }
+
+# # get dependencies from an htmlwidget object
+# # https://github.com/ramnathv/htmlwidgets/pull/255
+# widget_dependencies <- function(w) {
+#   if (!inherits(w, "htmlwidget")) {
+#     warning("Expected an htmlwidget object", call. = FALSE)
+#     return(NULL)
+#   }
+#
+#   c(
+#     htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
+#     w$dependencies
+#   )
+# }
 
 
 # ----------------------------------------------------------------------------
