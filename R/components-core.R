@@ -4,7 +4,7 @@
 #' @description Checklist is a component that encapsulates several checkboxes. The values and labels of the checklist is specified in the `options` property and the checked items are specified with the `values` property. Each checkbox is rendered as an input with a surrounding label. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param options An array of options  
 #' @param values The currently selected value  
@@ -17,11 +17,10 @@
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_checklist <- function(..., id = NULL, options = list(), values = NULL, className = NULL, style = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_checklist <- function(id = NULL, options = list(), values = NULL, className = NULL, style = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				options=options, 
 				values=values, 
@@ -49,7 +48,7 @@ core_checklist <- function(..., id = NULL, options = list(), values = NULL, clas
 #' @description DatePickerRange is a tailor made component designed for selecting timespan across multiple days off of a calendar.  The DatePicker integrates well with the Python datetime module with the startDate and endDate being returned in a string format suitable for creating datetime objects.  This component is based off of Airbnb's react-dates react component which can be found here: https://github.com/airbnb/react-dates 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param start_date Specifies the starting date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
 #' @param end_date Specifies the ending date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
@@ -75,11 +74,10 @@ core_checklist <- function(..., id = NULL, options = list(), values = NULL, clas
 #' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
-core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, start_date_placeholder_text = NULL, end_date_placeholder_text = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, minimum_nights = NULL, stay_open_on_select = FALSE, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
+core_datepickerrange <- function(id = NULL, start_date = NULL, end_date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, start_date_placeholder_text = NULL, end_date_placeholder_text = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, minimum_nights = NULL, stay_open_on_select = FALSE, show_outside_days = NULL, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				start_date=start_date, 
 				end_date=end_date, 
@@ -120,7 +118,7 @@ core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = N
 #' @description DatePickerRange is a tailor made component designed for selecting a single day off of a calendar.  The DatePicker integrates well with the Python datetime module with the startDate and endDate being returned in a string format suitable for creating datetime objects.  This component is based off of Airbnb's react-dates react component which can be found here: https://github.com/airbnb/react-dates 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param date Specifies the starting date for the component, best practice is to pass value via datetime object  
 #' @param min_date_allowed Specifies the lowest selectable date for the component. Accepts datetime.datetime objects or strings in the format 'YYYY-MM-DD'  
@@ -143,11 +141,10 @@ core_datepickerrange <- function(..., id = NULL, start_date = NULL, end_date = N
 #' @param clearable Whether or not the dropdown is "clearable", that is, whether or not a small "x" appears on the right of the dropdown that removes the selected value.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents Dash-assigned callback that gets fired when the value changes. 
-core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, placeholder = NULL, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, stay_open_on_select = FALSE, show_outside_days = TRUE, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
+core_datepickersingle <- function(id = NULL, date = NULL, min_date_allowed = NULL, max_date_allowed = NULL, initial_visible_month = NULL, day_size = 39, calendar_orientation = 'horizontal', is_RTL = FALSE, placeholder = NULL, reopen_calendar_on_clear = FALSE, number_of_months_shown = 1, with_portal = FALSE, with_full_screen_portal = FALSE, first_day_of_week = 0, stay_open_on_select = FALSE, show_outside_days = TRUE, month_format = NULL, display_format = NULL, disabled = FALSE, clearable = FALSE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				date=date, 
 				min_date_allowed=min_date_allowed, 
@@ -185,7 +182,7 @@ core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed 
 #' @description Dropdown is an interactive dropdown element for selecting one or more items. The values and labels of the dropdown items are specified in the `options` property and the selected item(s) are specified with the `value` property.  Use a dropdown when you have many options (more than 5) or when you are constrained for space. Otherwise, you can use RadioItems or a Checklist, which have the benefit of showing the users all of the items at once. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param options An array of options  
 #' @param value The value of the input. If `multi` is false (the default) then value is just a string that corresponds to the values provided in the `options` property. If `multi` is true, then multiple values can be selected at once, and `value` is an array of items with values corresponding to those in the `options` prop.  
@@ -197,11 +194,10 @@ core_datepickersingle <- function(..., id = NULL, date = NULL, min_date_allowed 
 #' @param searchable Whether to enable the searching feature or not  
 #' @param setProps Dash-assigned callback that gets fired when the input changes  
 #' @param dashEvents  
-core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, className = NULL, clearable = TRUE, disabled = FALSE, multi = FALSE, placeholder = NULL, searchable = TRUE, setProps = NULL, dashEvents = NULL) {
+core_dropdown <- function(id = NULL, options = NULL, value = NULL, className = NULL, clearable = TRUE, disabled = FALSE, multi = FALSE, placeholder = NULL, searchable = TRUE, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				options=options, 
 				value=value, 
@@ -228,7 +224,7 @@ core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, classNam
 #' @description  
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id  (required) 
 #' @param clickData Data from latest click event  
 #' @param hoverData Data from latest hover event  
@@ -244,12 +240,11 @@ core_dropdown <- function(..., id = NULL, options = NULL, value = NULL, classNam
 #' @param dashEvents   
 #' @param setProps Function that updates the state tree.  
 #' @param dashFireEvent Function that fires events 
-core_graph <- function(..., id = NULL, clickData = NULL, hoverData = NULL, clear_on_unhover = FALSE, selectedData = NULL, relayoutData = NULL, figure = list(data = list(), layout = list()), style = NULL, className = NULL, animate = FALSE, animation_options = list(frame = list(redraw = FALSE), transition = list(duration = 750, ease = "cubic-in-out")), config = list(staticPlot = FALSE, editable = FALSE, edits = list(annotationPosition = FALSE, annotationTail = FALSE, annotationText = FALSE, axisTitleText = FALSE, colorbarPosition = FALSE, colorbarTitleText = FALSE, legendPosition = FALSE, legendText = FALSE, shapePosition = FALSE, titleText = FALSE), autosizable = FALSE, queueLength = 0, fillFrame = FALSE, frameMargins = 0, scrollZoom = FALSE, doubleClick = "reset+autosize", showTips = TRUE, showAxisDragHandles = TRUE, showAxisRangeEntryBoxes = TRUE, showLink = FALSE, 
+core_graph <- function(id = NULL, clickData = NULL, hoverData = NULL, clear_on_unhover = FALSE, selectedData = NULL, relayoutData = NULL, figure = list(data = list(), layout = list()), style = NULL, className = NULL, animate = FALSE, animation_options = list(frame = list(redraw = FALSE), transition = list(duration = 750, ease = "cubic-in-out")), config = list(staticPlot = FALSE, editable = FALSE, edits = list(annotationPosition = FALSE, annotationTail = FALSE, annotationText = FALSE, axisTitleText = FALSE, colorbarPosition = FALSE, colorbarTitleText = FALSE, legendPosition = FALSE, legendText = FALSE, shapePosition = FALSE, titleText = FALSE), autosizable = FALSE, queueLength = 0, fillFrame = FALSE, frameMargins = 0, scrollZoom = FALSE, doubleClick = "reset+autosize", showTips = TRUE, showAxisDragHandles = TRUE, showAxisRangeEntryBoxes = TRUE, showLink = FALSE, 
     sendData = TRUE, linkText = "Edit chart", showSources = FALSE, displayModeBar = "hover", modeBarButtonsToRemove = list(), modeBarButtonsToAdd = list(), modeBarButtons = FALSE, displaylogo = TRUE, plotGlPixelRatio = 2, topojsonURL = "https://cdn.plot.ly/", mapboxAccessToken = NULL), dashEvents = NULL, setProps = NULL, dashFireEvent = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				clickData=clickData, 
 				hoverData=hoverData, 
@@ -280,7 +275,7 @@ core_graph <- function(..., id = NULL, clickData = NULL, hoverData = NULL, clear
 #' @description A basic HTML input control for entering text, numbers, or passwords.  Note that checkbox and radio types are supported through the Checklist and RadioItems component. Dates, times, and file uploads are also supported through separate components. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
 #' @param value The value of the input  
 #' @param style The input's inline styles  
@@ -309,11 +304,10 @@ core_graph <- function(..., id = NULL, clickData = NULL, hoverData = NULL, clear
 #' @param fireEvent Dash-assigned callback that gets fired when the input changes.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_input <- function(..., id = NULL, value = NULL, style = NULL, className = NULL, type = NULL, autocomplete = NULL, autofocus = NULL, inputmode = NULL, list = NULL, max = NULL, maxlength = NULL, min = NULL, minlength = NULL, multiple = NULL, name = NULL, pattern = NULL, placeholder = NULL, readonly = NULL, required = NULL, selectionDirection = NULL, selectionEnd = NULL, selectionStart = NULL, size = NULL, spellcheck = NULL, step = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_input <- function(id = NULL, value = NULL, style = NULL, className = NULL, type = NULL, autocomplete = NULL, autofocus = NULL, inputmode = NULL, list = NULL, max = NULL, maxlength = NULL, min = NULL, minlength = NULL, multiple = NULL, name = NULL, pattern = NULL, placeholder = NULL, readonly = NULL, required = NULL, selectionDirection = NULL, selectionEnd = NULL, selectionStart = NULL, size = NULL, spellcheck = NULL, step = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				value=value, 
 				style=style, 
@@ -357,19 +351,20 @@ core_input <- function(..., id = NULL, value = NULL, style = NULL, className = N
 #' @description A component that repeatedly fires an event ("interval") with a fixed time delay between each event. Interval is good for triggering a component on a recurring basis. The time delay is set with the property "interval" in milliseconds. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param interval This component will fire an event every `interval` milliseconds with the event name `setInterval`  
+#' @param disabled If True, the interval will no longer trigger an event.  
 #' @param fireEvent Dash assigned callback  
 #' @param setProps Dash assigned callback  
 #' @param dashEvents  
-core_interval <- function(..., id = NULL, interval = 1000, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_interval <- function(id = NULL, interval = 1000, disabled = NULL, fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				interval=interval, 
+				disabled=disabled, 
 				fireEvent=fireEvent, 
 				setProps=setProps, 
 				dashEvents=dashEvents
@@ -388,22 +383,23 @@ core_interval <- function(..., id = NULL, interval = 1000, fireEvent = NULL, set
 #' @description  
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ #' @param ... children of the component.
 #' @param href   
 #' @param refresh   
 #' @param className   
 #' @param style   
-#' @param id  
-core_link <- function(..., href = NULL, refresh = FALSE, className = NULL, style = NULL, id = NULL) {
+#' @param id   
+#' @param children  
+core_link <- function(..., href = NULL, refresh = FALSE, className = NULL, style = NULL, id = NULL, children = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
-       href=href, 
+       children = assert_valid_children(...), href=href, 
 				refresh=refresh, 
 				className=className, 
 				style=style, 
-				id=id
+				id=id, 
+				children=children
      ),
      type = 'Link',
      namespace = 'dash_core_components'
@@ -419,15 +415,14 @@ core_link <- function(..., href = NULL, refresh = FALSE, className = NULL, style
 #' @description  
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id  (required) 
 #' @param pathname   
 #' @param refresh  
-core_location <- function(..., id = NULL, pathname = NULL, refresh = TRUE) {
+core_location <- function(id = NULL, pathname = NULL, refresh = TRUE) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				pathname=pathname, 
 				refresh=refresh
@@ -446,18 +441,19 @@ core_location <- function(..., id = NULL, pathname = NULL, refresh = TRUE) {
 #' @description A component that renders Markdown text as specified by the CommonMark spec. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ #' @param ... children of the component.
 #' @param id   
 #' @param className Class name of the container element  
-#' @param containerProps An object containing custom element props to put on the container element such as id or style 
-core_markdown <- function(..., id = NULL, className = NULL, containerProps = NULL) {
+#' @param containerProps An object containing custom element props to put on the container element such as id or style  
+#' @param children A markdown string that adhreres to the CommonMark spec 
+core_markdown <- function(..., id = NULL, className = NULL, containerProps = NULL, children = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
-       id=id, 
+       children = assert_valid_children(...), id=id, 
 				className=className, 
-				containerProps=containerProps
+				containerProps=containerProps, 
+				children=children
      ),
      type = 'Markdown',
      namespace = 'dash_core_components'
@@ -473,7 +469,7 @@ core_markdown <- function(..., id = NULL, className = NULL, containerProps = NUL
 #' @description RadioItems is a component that encapsulates several radio item inputs. The values and labels of the RadioItems is specified in the `options` property and the seleced item is specified with the `value` property. Each radio item is rendered as an input with a surrounding label. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param options An array of options  
 #' @param value The currently selected value  
@@ -486,11 +482,10 @@ core_markdown <- function(..., id = NULL, className = NULL, containerProps = NUL
 #' @param fireEvent Dash-assigned callback that gets fired when the radio item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_radioitems <- function(..., id = NULL, options = list(), value = NULL, style = NULL, className = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_radioitems <- function(id = NULL, options = list(), value = NULL, style = NULL, className = NULL, inputStyle = list(), inputClassName = '', labelStyle = list(), labelClassName = '', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				options=options, 
 				value=value, 
@@ -518,7 +513,7 @@ core_radioitems <- function(..., id = NULL, options = list(), value = NULL, styl
 #' @description A double slider with two handles. Used for specifying a range of numerical values. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param marks Marks on the slider. The key determines the position, and the value determines what will show. If you want to set the style of a specific mark point, the value should be an object which contains style and label properties.  
 #' @param value The value of the input  
@@ -532,17 +527,15 @@ core_radioitems <- function(..., id = NULL, options = list(), value = NULL, styl
 #' @param max Maximum allowed value of the slider  
 #' @param pushable pushable could be set as true to allow pushing of surrounding handles when moving an handle. When set to a number, the number will be the minimum ensured distance between handles.  
 #' @param step Value by which increments or decrements are made  
-#' @param labels Key-values pairs describing the labels  
 #' @param vertical If true, the slider will be vertical  
 #' @param updatemode Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.  
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCross = NULL, className = NULL, count = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_rangeslider <- function(id = NULL, marks = NULL, value = NULL, allowCross = NULL, className = NULL, count = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, pushable = NULL, step = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				marks=marks, 
 				value=value, 
@@ -556,7 +549,6 @@ core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCr
 				max=max, 
 				pushable=pushable, 
 				step=step, 
-				labels=labels, 
 				vertical=vertical, 
 				updatemode=updatemode, 
 				fireEvent=fireEvent, 
@@ -577,7 +569,7 @@ core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCr
 #' @description A slider component with a single handle. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id   
 #' @param marks Marks on the slider. The key determines the position, and the value determines what will show. If you want to set the style of a specific mark point, the value should be an object which contains style and label properties.  
 #' @param value The value of the input  
@@ -588,17 +580,15 @@ core_rangeslider <- function(..., id = NULL, marks = NULL, value = NULL, allowCr
 #' @param min Minimum allowed value of the slider  
 #' @param max Maximum allowed value of the slider  
 #' @param step Value by which increments or decrements are made  
-#' @param labels Key-values pairs describing the labels  
 #' @param vertical If true, the slider will be vertical  
 #' @param updatemode Determines when the component should update its value. If `mouseup`, then the slider will only trigger its value when the user has finished dragging the slider. If `drag`, then the slider will update its value continuously as it is being dragged. Only use `drag` if your updates are fast.  
 #' @param fireEvent Dash-assigned callback that gets fired when the checkbox item gets selected.  
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param dashEvents  
-core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, step = NULL, labels = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
+core_slider <- function(id = NULL, marks = NULL, value = NULL, className = NULL, disabled = NULL, dots = NULL, included = NULL, min = NULL, max = NULL, step = NULL, vertical = NULL, updatemode = 'mouseup', fireEvent = NULL, setProps = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				marks=marks, 
 				value=value, 
@@ -609,7 +599,6 @@ core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = 
 				min=min, 
 				max=max, 
 				step=step, 
-				labels=labels, 
 				vertical=vertical, 
 				updatemode=updatemode, 
 				fireEvent=fireEvent, 
@@ -630,8 +619,9 @@ core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = 
 #' @description A component for pretty printing code. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ #' @param ... children of the component.
 #' @param id   
+#' @param children The text to display and highlight  
 #' @param language the language to highlight code in.  
 #' @param theme theme: light or dark  
 #' @param customStyle prop that will be combined with the top level style on the pre tag, styles here will overwrite earlier styles.  
@@ -643,12 +633,12 @@ core_slider <- function(..., id = NULL, marks = NULL, value = NULL, className = 
 #' @param lineNumberStyle inline style to be passed to the span wrapping each number. Can be either an object or a function that recieves current line number as argument and returns style object.  
 #' @param wrapLines a boolean value that determines whether or not each line of code should be wrapped in a parent element. defaults to false, when false one can not take action on an element on the line level. You can see an example of what this enables here  
 #' @param lineStyle inline style to be passed to the span wrapping each line if wrapLines is true. Can be either an object or a function that recieves current line number as argument and returns style object. 
-core_syntaxhighlighter <- function(..., id = NULL, language = NULL, theme = NULL, customStyle = NULL, codeTagProps = NULL, useInlineStyles = NULL, showLineNumbers = NULL, startingLineNumber = NULL, lineNumberContainerStyle = NULL, lineNumberStyle = NULL, wrapLines = NULL, lineStyle = NULL) {
+core_syntaxhighlighter <- function(..., id = NULL, children = NULL, language = NULL, theme = NULL, customStyle = NULL, codeTagProps = NULL, useInlineStyles = NULL, showLineNumbers = NULL, startingLineNumber = NULL, lineNumberContainerStyle = NULL, lineNumberStyle = NULL, wrapLines = NULL, lineStyle = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
-       id=id, 
+       children = assert_valid_children(...), id=id, 
+				children=children, 
 				language=language, 
 				theme=theme, 
 				customStyle=customStyle, 
@@ -675,7 +665,7 @@ core_syntaxhighlighter <- function(..., id = NULL, language = NULL, theme = NULL
 #' @description A basic HTML textarea for entering multiline text. 
 #' 
 #' @export
- #' @param ... children of the component. Either other components or [htmltools::tags] are allowed.
+ 
 #' @param id The ID of this component, used to identify dash components in callbacks. The ID needs to be unique across all of the components in an app.  
 #' @param value The value of the textarea  
 #' @param autoFocus The element should be automatically focused after the page loaded.  
@@ -705,11 +695,10 @@ core_syntaxhighlighter <- function(..., id = NULL, language = NULL, theme = NULL
 #' @param setProps Dash-assigned callback that gets fired when the value changes.  
 #' @param fireEvent A callback for firing events to dash.  
 #' @param dashEvents  
-core_textarea <- function(..., id = NULL, value = NULL, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, setProps = NULL, fireEvent = NULL, dashEvents = NULL) {
+core_textarea <- function(id = NULL, value = NULL, autoFocus = NULL, cols = NULL, disabled = NULL, form = NULL, maxLength = NULL, minLength = NULL, name = NULL, placeholder = NULL, readOnly = NULL, required = NULL, rows = NULL, wrap = NULL, accessKey = NULL, className = NULL, contentEditable = NULL, contextMenu = NULL, dir = NULL, draggable = NULL, hidden = NULL, lang = NULL, spellCheck = NULL, style = NULL, tabIndex = NULL, title = NULL, setProps = NULL, fireEvent = NULL, dashEvents = NULL) {
 
    component <- list(
      props = list(
-       children = assert_valid_children(...),
        id=id, 
 				value=value, 
 				autoFocus=autoFocus, 

@@ -13,7 +13,7 @@ if (Object.keys(HTMLWidgets).length) {
 
 // register the component with dash-renderer
 // https://github.com/plotly/dash-renderer/blob/b11b5e25df642ea13d5456f1d8187d2af9314be5/src/registry.js
-var ns = "dash_htmlwidget_components";
+var ns = "dash_html_components";
 var componentName = "Htmlwidget";
 
 // I feel sorry for front-end web developers...
