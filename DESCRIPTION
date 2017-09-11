@@ -8,9 +8,9 @@ Imports:
   fiery,
   routr,
   reqres,
+  htmltools,
   jsonlite,
   tibble,
-  htmltools,
   digest,
   plotly
 Suggests:
