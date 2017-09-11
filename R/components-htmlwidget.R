@@ -21,7 +21,7 @@ htmlwidget <- function(id = NULL, name = NULL, package = name) {
       id = id
     ),
     type = "Htmlwidget",
-    namespace = "dash_htmlwidget_components",
+    namespace = "dash_html_components",
     # should help throw an informative error for us (if the package/widget doesn't exist)
     htmlwidgetInfo = list(name = name, package = package)
   )

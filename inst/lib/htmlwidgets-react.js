@@ -56,6 +56,7 @@ window[ns][componentName] = React.createClass({
   },
 
   render: function() {
+    console.log("Setting up your widget");
     var props = {id: this.props.id, style: this.props.style, class: this.props.className};
     return React.createElement('div', props);
   }

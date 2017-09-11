@@ -45,21 +45,37 @@ ReactSelect$name <- "ReactSelect"
 ReactVSelect$name <- "ReactVSelect"
 ReactV$name <- "ReactV"
 
+
 # TODO: download these from repos or just provide a helper to create dependencies from the included files?
 DashCore <- download_files("dash-core-components", "dash_core_components/bundle.js")
 
+# collect all the dependencies
 depList <- list(
   react = React,
   `react-dom` = ReactDom,
   `dash-html-components` = DashHTML,
-  `dash-core-components` = DashCore,
   `dash-core-components` = RCSlider,
   `dash-core-components` = ReactDates,
   `dash-core-components` = ReactSelect,
   `dash-core-components` = ReactVSelect,
   `dash-core-components` = ReactV,
+  `dash-core-components` = DashCore,
+  `dash-htmlwidget-components` = htmltools::htmlDependency(
+    name = "htmlwidgets-react",
+    version = packageVersion("dasher"),
+    package = "dasher",
+    src = c(file = here::here("inst", "lib")),
+    script = "htmlwidgets-react.js"
+  ),
   `dash-renderer` = DashRenderer
 )
+
+# we don't know the full path yet...
+depList <- lapply(depList, function(d) {
+  d$package <- "dasher"
+  d$src$file <- htmltools:::relativeTo(here::here("inst"), d$src$file)
+  d
+})
 
 deps <- dasher:::dependency_tbl(
   depList, section = "footer",

@@ -16,11 +16,8 @@ is.output <- function(x) is.dependency(x) && inherits(x, "output")
 is.input <- function(x) is.dependency(x) && inherits(x, "input")
 is.state <- function(x) is.dependency(x) && inherits(x, "state")
 
-# layout
+# layout is really a special type of component
 is.layout <- function(x) inherits(x, "dash_layout")
-
-# for flagging dependencies to be place in the header
-is.header <- function(x) inherits(x, "header")
 
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
@@ -171,16 +168,13 @@ dependency_tbl_empty <- function() {
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
 render_dependencies <- function(tbl, local = TRUE) {
-
-  if (!local) {
-    tbl$dependencies <- lapply(tbl$dependencies, function(dep) {
-      dep$src$file <- NULL
-      dep
-    })
-  }
-
-  # TODO: why does the default for `encodeFunc` not work?
-  htmltools::renderDependencies(tbl$dependencies, encodeFunc = identity)
+  htmltools::renderDependencies(
+    tbl$dependencies,
+    if (local) "file" else "href",
+    # TODO: why does the default for `encodeFunc` not work?
+    # htmltools::renderDependencies(tbl$dependencies)
+    encodeFunc = identity
+  )
 }
 
 # Similar to htmltools::resolveDependencies(), but works on dependency tibbles,
@@ -195,6 +189,7 @@ resolve_dependencies <- function(tbl, resolvePackageDir = TRUE) {
   tbl$dependencies <- lapply(tbl$dependencies, function(dep) {
     if (resolvePackageDir && !is.null(dep$package) && !is.null(dep$src$file)) {
       dep$src$file <- system.file(dep$src$file, package = dep$package)
+      dep$package <- NULL
     }
     dep
   })
@@ -205,16 +200,6 @@ resolve_dependencies <- function(tbl, resolvePackageDir = TRUE) {
 
 widget_dependency <- function(name = NULL, package = name) {
   htmlwidgets::getDependency(name, package)
-}
-
-htmlwidgets_react <- function() {
-  htmltools::htmlDependency(
-    name = "htmlwidgets-react",
-    version = packageVersion("dasher"),
-    package = "dasher",
-    src = c(file = "/lib"),
-    script = "htmlwidgets-react.js"
-  )
 }
 
 # # get dependencies from an htmlwidget object

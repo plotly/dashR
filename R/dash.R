@@ -377,6 +377,8 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
+
+    # TODO: how to run on multiple processes?
     run_server = function(block = TRUE, showcase = FALSE, ...) {
       self$server$ignite(block = block, showcase = showcase, ...)
     }
@@ -413,24 +415,18 @@ Dash <- R6::R6Class(
 
     # compute/resolve all HTML dependencies and store in `private$dependencies_all`
     dependencies_compute_all = function() {
-      # these dependencies are *always* included, no matter what
-      # note how the low priority on dash-renderer should ensure it comes last
-      allDeps <- dependency_tbl(
-        deps[c("react", "react-dom", "dash-html-components", "dash-renderer")],
-        section = "footer", priority = c(1:3, 9999)
-      )
 
-      # tack on user-defined dependencies
-      allDeps <- rbind(allDeps, private$dependencies_user)
+      # tack on user-defined dependencies to internal dependencies (i.e., `deps`)
+      allDeps <- rbind(deps, private$dependencies_user)
 
       # search the layout names for 'special' components (e.g., core, htmlwidgets)
       layout_nms <- names(private$layout_flat)
-
       namespaces <- private$layout_flat[grep("namespace$", layout_nms)]
       hasCore <- any(grepl('dash_core_component', namespaces, fixed = TRUE))
 
-      if (hasCore) {
-        allDeps <- rbind(allDeps, dependency_tbl(deps["dash-core-components"], "footer", 4))
+      # remove core component dependencies
+      if (!hasCore) {
+        allDeps <- allDeps[!names(allDeps$dependencies) %in% "dash-core-components", ]
       }
 
       # leverage the component's namespace (defined in R/components-htmlwidget.R)
@@ -443,16 +439,16 @@ Dash <- R6::R6Class(
         htmlwidgetDeps <- dependency_tbl(
           Reduce(c, Map(widget_dependency, nms, pkgs)), "header"
         )
-        # this needs to appear after React & htmlwidgets.js, but before dash-renderer
-        htmlwidgetReact <- dependency_tbl(htmlwidgets_react(), "footer", 9000)
-        allDeps <- rbind(allDeps, htmlwidgetDeps, htmlwidgetReact)
+        allDeps <- rbind(allDeps, htmlwidgetDeps)
+      } else {
+        allDeps <- allDeps[!allDeps$name %in% "htmlwidgets-react", ]
       }
 
       # TODO: how to support custom components?
       # Should folks 'dynamically' register them *after* dasher has been installed?
       # https://plot.ly/dash/plugins
 
-      # remove old (duplicated) dependencies & order remaining sensibly
+      # remove old (duplicated) dependencies
       private$dependencies_all <- resolve_dependencies(allDeps)
     },
     dependencies_compute_and_register = function() {
@@ -461,20 +457,22 @@ Dash <- R6::R6Class(
 
       if (!isTRUE(private$serve_locally)) return(TRUE)
 
-      #browser()
       # copy all the HTML dependencies to a temporary directory
       # which will be used for serving those (local) resources
       # note, this is similar to what happens inside htmltools::save_html()
       libdir <- tempdir()
+
       private$dependencies_all$dependencies <- lapply(
         private$dependencies_all$dependencies,
         function(dep) {
-          dep <- htmltools::copyDependencyToDir(dep, libdir, FALSE)
-          htmltools::makeDependencyRelative(dep, libdir, FALSE)
+          dep <- htmltools::copyDependencyToDir(dep, libdir)
+          htmltools::makeDependencyRelative(dep, libdir)
       })
 
+      message("Mounting dependencies in this directory:\n", libdir, "\n")
 
       # create and register a new routestack with the server
+      # note that resoure routes are designed to serve directories (not individual files)
       router <- routr::RouteStack$new()
       route <- routr::ressource_route('/' = libdir)
       router$add_route(route, "dasher-resources", after = 1)
