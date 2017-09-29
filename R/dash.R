@@ -26,7 +26,7 @@
 #'   \item{`layout_get()`}{
 #'     Retrieves the layout.
 #'   }
-#'   \item{`callback(fun, output)`}{
+#'   \item{`callback(func, output)`}{
 #'     Callback function to execute when relevant inputs change.
 #'   }
 #'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
@@ -160,22 +160,24 @@ Dash <- R6::R6Class(
         if (!success) stop("Failed to parse body", call. = FALSE)
 
         # get the callback associated with this particular output
-        outputID <- with(request$body$output, paste(id, property, sep = "."))
-        outputComponent <- private$callback_map[[outputID]]
-        if (!length(outputComponent)) stop_report("Couldn't find output component.")
+        wrapper <- private$callback_map[[
+          with(request$body$output, paste(id, property, sep = "."))
+        ]]
+        if (!length(wrapper)) stop_report("Couldn't find output component.")
 
         # compute the new output value, if necessary
-        # TODO: this is almost certainly the wrong way to perform evaluation
-        # (1) Leverage tidyeval (or similar) to ensure evaluation happens in proper envir
-        # (2) Leverage memoise (or similar) to cache redundant computations
-        input_values <- request$body$inputs[["value"]]
-        args <- formals(outputComponent$callback)
-        if (length(args) != length(input_values)) stop_report("Malformed input definition.")
+        inputValMap <- as.data.frame(request$body$inputs)
+        for (i in seq_along(wrapper$inputs)) {
+          input <- wrapper$inputs[[i]]
+          idx <- inputValMap$id %in% input$id & inputValMap$property %in% input$property
+          if (sum(idx) != 1) warning("Unexpected behavior. Please report to https://github.com/plotly/dasher")
+          newValue <- setNames(list(inputValMap[idx, "value"]), names(wrapper$inputs)[[i]])
+          formals(wrapper$func) <- modifyList(formals(wrapper$func), newValue)
+        }
 
-        output_value <- do.call(
-          outputComponent$callback,
-          args = setNames(as.list(input_values), names(args))
-        )
+        # TODO: is this a bad idea?
+        environment(wrapper$closure)$func <- wrapper$func
+        output_value <- wrapper$closure()
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -316,33 +318,24 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(fun = NULL, output = NULL, envir = parent.frame()) {
+    callback = function(func = NULL, output = NULL, envir = parent.frame()) {
 
-      if (!is.function(fun)) stop("The `fun` argument must be an R function", call. = FALSE)
+      # turn bare R functions into a "wrapper" so eval logic is consistent
+      wrapper <- if (is.wrapper(func)) func else wrappify(func)
 
-      # a *single* output is required
-      if (!is.output(output)) stop("The `output` argument must be a result of the `output()`` function", call. = FALSE)
-
-      # TODO: do we ever have to worry about the eval envir here?
-      inputz <- lapply(formals(fun), eval)
-      is_inputy <- vapply(inputz, function(x) is.input(x) || is.state(x), logical(1))
-      if (!all(is_inputy)) {
-        stop(
-          "Argument values of callback function (`fun`) must be input/state",
-          "objects created via `input()`/`state()`. \n\n",
-          sprint(
-            "I found a problem with these arguments: '%s'",
-            paste(names(inputz)[!is_inputy], collapse = "', '")
-          ),
-          call. = FALSE
-        )
-      }
+      # argument type checking
+      assertthat::assert_that(is.output(output))
+      assertthat::assert_that(is.environment(envir))
 
       # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
       # -----------------------------------------------------------------------
       ids <- private$layout_flat[grep("id$", names(private$layout_flat))]
-      callback_ids <- unlist(c(output$id, sapply(inputz, "[[", "id")))
+      callback_ids <- unlist(c(
+        output$id,
+        sapply(wrapper$inputs, "[[", "id"),
+        sapply(wrapper$states, "[[", "id")
+      ))
       illegal_ids <- setdiff(callback_ids, ids)
       if (length(illegal_ids)) {
         stop(
@@ -357,21 +350,17 @@ Dash <- R6::R6Class(
       # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
       # ----------------------------------------------------------------------
-      validate_dependency(private$layout, output)
-      for (i in seq_along(inputz)) {
-        validate_dependency(private$layout, inputz[[i]])
-      }
+      # TODO: need to rethink this...how to support it generally for any transpiled package?
+      #validate_dependency(private$layout, output)
+      #for (i in seq_along(inputz)) {
+      #  validate_dependency(private$layout, inputz[[i]])
+      #}
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
       # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
       outputID <- paste(unlist(output), collapse = ".")
-      private$callback_map[[outputID]] <- list(
-        callback = fun,
-        envir = envir,
-        inputs = inputz[vapply(inputz, is.input, logical(1))],
-        state = inputz[vapply(inputz, is.state, logical(1))]
-      )
+      private$callback_map[[outputID]] <- wrapper
     },
 
     # ------------------------------------------------------------------------
@@ -461,15 +450,9 @@ Dash <- R6::R6Class(
       # which will be used for serving those (local) resources
       # note, this is similar to what happens inside htmltools::save_html()
       libdir <- tempdir()
-
-      private$dependencies_all$dependencies <- lapply(
-        private$dependencies_all$dependencies,
-        function(dep) {
-          dep <- htmltools::copyDependencyToDir(dep, libdir)
-          htmltools::makeDependencyRelative(dep, libdir)
-      })
-
-      message("Mounting dependencies in this directory:\n", libdir, "\n")
+      private$dependencies_all$dependencies <- resourcify(
+        private$dependencies_all$dependencies, libdir
+      )
 
       # create and register a new routestack with the server
       # note that resoure routes are designed to serve directories (not individual files)
@@ -530,13 +513,14 @@ validate_dependency <- function(layout, dependency) {
   if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
+
   type <- component_type_given_id(layout, dependency$id)
   valid_props <- component_props_given_type(type)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
     stop(
       sprintf(
-        "The %s property '%s' is not a valid property for '%s' components. Try one of the folllowing: '%s'",
+        "The %s property '%s' is not a valid property for '%s' components. Try one of the following: '%s'",
         class(dependency)[2], dependency$property, type,
         paste(valid_props, collapse = "', '")
       ),

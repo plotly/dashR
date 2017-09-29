@@ -45,57 +45,43 @@ component_props_given_type <- function(type) {
 }
 
 
-# ----------------------------------------------------------------------------
-# Component children assertion
-# ----------------------------------------------------------------------------
+assert_fun_is_callback <- function(fun = NULL) {
 
-assert_valid_children <- function(...) {
+  assertthat::assert_that(is.function(fun))
 
-  kids <- list(...)
-  if (length(kids) == 0) return(NULL)
+  # TODO: do we ever have to worry about the eval envir here?
+  inputz <- lapply(formals(fun), eval)
+  is_inputy <- vapply(inputz, function(x) is.input(x) || is.state(x), logical(1))
 
-  assert_no_names(kids)
-  #kids[vapply(kids, assert_is_valid_type, logical(1))]
-}
-
-
-assert_no_names <- function(x) {
-  nms <- names(x)
-  if (!is.null(nms)) {
+  # TODO: relax this assumption!!
+  if (!all(is_inputy)) {
     stop(
-      sprintf(
-        "Didn't recognize the following named arguments: '%s'",
-        paste(nms, collapse = "', '")
+      "Argument values of callback function (`fun`) must be input/state",
+      "objects created via `input()`/`state()`. \n\n",
+      sprint(
+        "I found a problem with these arguments: '%s'",
+        paste(names(inputz)[!is_inputy], collapse = "', '")
       ),
       call. = FALSE
     )
   }
-  setNames(x, NULL)
+
+  invisible(TRUE)
 }
 
-assert_is_valid_type <- function(x) {
-
-  # TODO: should we allow shiny/htmltools tags?
-  #if (is.component(x) || inherits(x, "shiny.tag")) {
-  if (is.component(x)) {
-    return(TRUE)
-  }
-
-  stop("Didn't recognize object of class: ", class(x), call. = FALSE)
-}
 
 # ----------------------------------------------------------------------------
 # Security stuff
 # ----------------------------------------------------------------------------
 
 # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L165-L176
-create_access_codes <- function() {
-  now <- Sys.time()
-  list(
-    access_granted = new_token(),
-    expiration = list()
-  )
-}
+#create_access_codes <- function() {
+#  now <- Sys.time()
+#  list(
+#    access_granted = new_token(),
+#    expiration = list()
+#  )
+#}
 
 
 new_token <- function() {
@@ -197,6 +183,12 @@ resolve_dependencies <- function(tbl, resolvePackageDir = TRUE) {
   tbl
 }
 
+resourcify <- function(dependencies, libdir = tempdir()) {
+  lapply(dependencies, function(dep) {
+    dep <- htmltools::copyDependencyToDir(dep, libdir)
+    htmltools::makeDependencyRelative(dep, libdir)
+  })
+}
 
 widget_dependency <- function(name = NULL, package = name) {
   htmlwidgets::getDependency(name, package)

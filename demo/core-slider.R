@@ -18,7 +18,7 @@ app$layout_set(
 
 app$callback(
   function(x = input("slider")) {
-    # be careful about type coercion in `[[`!!!
+    # careful, [['3']] is different from [[3]]!
     sprintf("Current value of '%s' maps to '%s'", x, marks[[as.character(x)]])
   },
   output("outputID")
