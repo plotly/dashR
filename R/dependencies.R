@@ -7,8 +7,8 @@
 #'
 #' @name dependencies
 #' @author Carson Sievert
-#' @param id
-#' @param property
+#' @param id a component id
+#' @param property the component property to use
 
 
 #' @rdname dependencies

@@ -3,6 +3,9 @@ Title: An implementation of the dash protocol for authoring reactive web applica
 Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
 Description: An implementation of the dash protocol for authoring reactive web applications
+Depends:
+  dashHtmlComponents,
+  dashCoreComponents
 Imports:
   R6,
   fiery,
@@ -14,16 +17,18 @@ Imports:
   digest,
   plotly
 Suggests:
+  dashTranspileR,
+  dashHtmlwidgetComponent,
   testthat,
   knitr,
-  rmarkdown
+  rmarkdown,
+  htmlwidgets,
+  Cairo,
+  svglite
 Collate:
   'plotly-api.R'
-  'dependency-manager.R'
   'utils.R'
   'components-htmlwidget.R'
-  'components-core.R'
-  'components-html.R'
   'dependencies.R'
   'dash-package.R'
   'dash.R'
@@ -37,3 +42,8 @@ RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dasher
 BugReports: https://github.com/plotly/dasher/issues
+Remotes:
+  plotly/dashTranspileR,
+  plotly/dashHtmlComponents,
+  plotly/dashCoreComponents,
+  plotly/dashHtmlwidgetComponent
