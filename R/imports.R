@@ -8,4 +8,5 @@
 #' @importFrom plotly api plotly_build
 #' @importFrom assertthat assert_that
 #' @importFrom tibble tibble
+#' @importFrom base64enc base64encode
 NULL

@@ -17,7 +17,7 @@
 wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...) {
 
   device <- if (cairo && system.file(package = "Cairo") != "") {
-    Cairo::Cairo
+    Cairo::CairoPNG
   } else if (capabilities("png")) {
     grDevices::png
   } else if (capabilities("jpeg")) {
@@ -43,9 +43,10 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
       height <- height %||% 480
       device(filename = tmpfile, width = width, height = height, ...)
       func()
-      on.exit(grDevices::dev.off(), add = TRUE)
-      # TODO: base64enc::base64encode()?
-      html_img(src = basename(tmpfile))
+      grDevices::dev.off()
+      html_img(
+        src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile))
+      )
     }
   )
 }

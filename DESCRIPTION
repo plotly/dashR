@@ -15,6 +15,7 @@ Imports:
   jsonlite,
   tibble,
   digest,
+  base64enc,
   plotly
 Suggests:
   dashTranspileR,
