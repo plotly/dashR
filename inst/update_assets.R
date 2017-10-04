@@ -1,13 +1,9 @@
 # devtools::install_github('cpsievert/runpkg')
 library(runpkg)
-options(runpkg.path = here::here("inst", "lib"))
-
-# ------------------------------------------------------------------------
-# dash-html-components (easy, no extras!)
-# ------------------------------------------------------------------------
-
-(tblHTML <- ls_("dash-html-components", "dash_html_components"))
-DashHTML <- download_files("dash-html-components", "dash_html_components/bundle.js")
+options(
+  runpkg.path = here::here("inst", "lib"),
+  htmltools.dir.version = FALSE
+)
 
 # ------------------------------------------------------------------------
 # dash-renderer (harder, react/react-dom is an extra?)
@@ -21,66 +17,26 @@ DashHTML <- download_files("dash-html-components", "dash_html_components/bundle.
 react <- sub(".js|.min.js", "", grep("^react@", tblDashRenderer$Name, value = T))
 reactdom <- sub(".js|.min.js", "", grep("^react-dom@", tblDashRenderer$Name, value = T))
 
-# download
+# important that we download these separately since component bundles
+# need to be inserted between react and the renderer
+# https://github.com/plotly/dash/blob/4c19dd18/dash/dash.py#L234-L239
 React <- download_files(react, "dist/react.min.js")
 ReactDom <- download_files(reactdom, "dist/react-dom.min.js")
 DashRenderer <- download_files("dash-renderer", "dash_renderer/bundle.js")
-
-# ------------------------------------------------------------------------
-# dash-core-components (many extras)
-# ------------------------------------------------------------------------
-
-(tblCore <- ls_("dash-core-components", "dash_core_components"))
-
-RCSlider <- download_files("dash-core-components", "dash_core_components/rc-slider@6.1.2.css")
-ReactDates <- download_files("dash-core-components", "dash_core_components/rc-slider@6.1.2.css")
-ReactSelect <- download_files("dash-core-components", "dash_core_components/react-select@1.0.0-rc.3.min.css")
-ReactVSelect <- download_files("dash-core-components", "dash_core_components/react-virtualized-select@3.1.0.css")
-ReactV <- download_files("dash-core-components", "dash_core_components/react-virtualized@9.9.0.css")
-
-# since these are different dependencies over-ride the default 'dash-core-components'
-RCSlider$name <- "RCSlider"
-ReactDates$name <- "ReactDates"
-ReactSelect$name <- "ReactSelect"
-ReactVSelect$name <- "ReactVSelect"
-ReactV$name <- "ReactV"
-
-
-# TODO: download these from repos or just provide a helper to create dependencies from the included files?
-DashCore <- download_files("dash-core-components", "dash_core_components/bundle.js")
 
 # collect all the dependencies
 depList <- list(
   react = React,
   `react-dom` = ReactDom,
-  `dash-html-components` = DashHTML,
-  `dash-core-components` = RCSlider,
-  `dash-core-components` = ReactDates,
-  `dash-core-components` = ReactSelect,
-  `dash-core-components` = ReactVSelect,
-  `dash-core-components` = ReactV,
-  `dash-core-components` = DashCore,
-  `dash-htmlwidget-components` = htmltools::htmlDependency(
-    name = "htmlwidgets-react",
-    version = packageVersion("dasher"),
-    package = "dasher",
-    src = c(file = here::here("inst", "lib")),
-    script = "htmlwidgets-react.js"
-  ),
   `dash-renderer` = DashRenderer
 )
 
 # we don't know the full path yet...
-depList <- lapply(depList, function(d) {
+deps <- lapply(depList, function(d) {
   d$package <- "dasher"
   d$src$file <- htmltools:::relativeTo(here::here("inst"), d$src$file)
   d
 })
-
-deps <- dasher:::dependency_tbl(
-  depList, section = "footer",
-  priority = seq(9001, 9000 + length(depList))
-)
 
 devtools::use_data(deps, overwrite = T, internal = T)
 

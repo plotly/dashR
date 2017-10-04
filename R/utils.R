@@ -96,94 +96,39 @@ new_id <- function() {
 # HTML dependency helpers
 # ----------------------------------------------------------------------------
 
-# Create a tidy html dependency data structure
-#
-# A building block for adding/getting/computing/rendering dependencies
-#
-# @param dependencies a list-column of [htmltools::htmlDependencies]
-# @param section place dependency in <head> or <footer>?
-# @param priority used to rank dependencies within a section
-# @return a tibble with a special 'dash_html_dependencies' class
-
-dependency_tbl <- function(dependencies = NULL, section = NULL, priority = NULL) {
-
-  if (!length(dependencies)) return(dependency_tbl_empty())
-
-  # do a sensible thing if just a single dependency is provided
-  if (inherits(dependencies, "html_dependency")) {
-    dependencies <- list(dependencies)
-  }
-
-  # ensure we have a list of htmltools::htmlDependency
-  is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
-  if (any(!is_dep)) {
-    stop("`dependencies` must be a *list* of htmlDependency(s)", call. = FALSE)
-  }
-
-  # if section is specified, make sure it is done properly
-  if (any(!section %in% c("header", "footer"))) {
-    stop("`section` must have a value of 'header' or 'footer'", call. = FALSE)
-  }
-
-  tbl <- tibble::tibble(
-    dependencies = dependencies,
-    section = section %||% factor("footer", levels = c("header", "footer")),
-    priority = priority %||% seq_along(dependencies)
-  )
-  oldClass(tbl) <- c(oldClass(tbl), "dash_html_dependencies")
-
-  # name might be missing
-  tbl$name <- vapply(tbl$dependencies, function(x) x$name %||% NA_character_, character(1))
-
-  tbl
-}
-
-
-dependency_tbl_empty <- function() {
-  tbl <- tibble::tibble(
-    dependencies = list(),
-    section = factor(character(0), levels = c("header", "footer")),
-    priority = integer(0)
-  )
-  oldClass(tbl) <- c(oldClass(tbl), "dash_html_dependencies")
-  tbl
-}
-
 
 # A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(tbl, local = TRUE) {
+render_dependencies <- function(x, local = TRUE) {
+  # TODO: the default `encodeFunc` doesn't seem to work?
   htmltools::renderDependencies(
-    tbl$dependencies,
-    if (local) "file" else "href",
-    # TODO: why does the default for `encodeFunc` not work?
-    # htmltools::renderDependencies(tbl$dependencies)
-    encodeFunc = identity
+    x, if (local) "file" else "href", encodeFunc = identity
   )
 }
 
-# Similar to htmltools::resolveDependencies(), but works on dependency tibbles,
-# and allows pkgload:::shim_system.file() to work
-# it's magic and find files in dev mode (i.e., pkgload::load_all())
-resolve_dependencies <- function(tbl, resolvePackageDir = TRUE) {
+# Similar to htmltools::resolveDependencies(), but allows
+# pkgload:::shim_system.file() to work it's magic in dev mode
+# (i.e., pkgload::load_all())
+resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
 
-  versions <- numeric_version(sapply(tbl$dependencies, `[[`, "version"))
-  tbl <- tbl[order(tbl$name, versions, decreasing = TRUE), ]
-  tbl <- tbl[!duplicated(tbl$name), ]
+  x <- htmltools::resolveDependencies(x, FALSE)
 
-  tbl$dependencies <- lapply(tbl$dependencies, function(dep) {
-    if (resolvePackageDir && !is.null(dep$package) && !is.null(dep$src$file)) {
-      dep$src$file <- system.file(dep$src$file, package = dep$package)
+  if (resolvePackageDir) {
+    x <- lapply(x, function(dep) {
+      if (is.null(dep$package)) return(dep)
+      dir <- dep$src$file
+      if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
       dep$package <- NULL
-    }
-    dep
-  })
+      dep
+    })
+  }
 
-  tbl
+  x
 }
 
 resourcify <- function(dependencies, libdir = tempdir()) {
+
   lapply(dependencies, function(dep) {
     dep <- htmltools::copyDependencyToDir(dep, libdir)
     htmltools::makeDependencyRelative(dep, libdir)
@@ -215,6 +160,10 @@ widget_dependency <- function(name = NULL, package = name) {
 
 "%||%" <- function(x, y) {
   if (length(x)) x else y
+}
+
+compact <- function(x) {
+  Filter(Negate(is.null), x)
 }
 
 # same as plotly:::to_JSON

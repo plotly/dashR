@@ -5,7 +5,8 @@ Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsiev
 Description: An implementation of the dash protocol for authoring reactive web applications
 Depends:
   dashHtmlComponents,
-  dashCoreComponents
+  dashCoreComponents,
+  dashHtmlwidgetComponent
 Imports:
   R6,
   fiery,
@@ -19,7 +20,6 @@ Imports:
   plotly
 Suggests:
   dashTranspileR,
-  dashHtmlwidgetComponent,
   testthat,
   knitr,
   rmarkdown,
@@ -29,13 +29,13 @@ Suggests:
 Collate:
   'plotly-api.R'
   'utils.R'
-  'components-htmlwidget.R'
   'dependencies.R'
   'dash-package.R'
   'dash.R'
   'imports.R'
   'format-output-value.R'
   'print.R'
+  'wrappers.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

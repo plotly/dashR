@@ -210,7 +210,6 @@ Dash <- R6::R6Class(
       route$add_handler("get", catch_all, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'html'
-        # TODO: generate the index page on server start?
         response$body <- private$index_html
         FALSE
       })
@@ -227,8 +226,6 @@ Dash <- R6::R6Class(
         # register a resource route pointing the dependencies on the server
         # note that registration will modify the source path to be relative to
         # the resource route
-        private$dependencies_compute_and_register()
-
         private$index_html <- private$index()
       })
 
@@ -289,15 +286,31 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # HTML dependency management
     # ------------------------------------------------------------------------
-    dependencies_get = function(all = TRUE) {
-      if (!all) {
-        return(private$dependencies_user)
-      }
-      private$dependencies_compute_all()
-      private$dependencies_all
+    dependencies_get = function() {
+      private$dependencies_user
     },
-    dependencies_set = function(dependencies = NULL, section = NULL, priority = NULL) {
-      private$dependencies_user <- dependency_tbl(dependencies, section, priority)
+    dependencies_set = function(dependencies = NULL) {
+
+      if (is.null(dependencies)) {
+        if (length(private$dependencies_user)) {
+          message("Removing previously specified HTML dependencies")
+          private$dependencies_user <- NULL
+        }
+        return(NULL)
+      }
+
+      # do a sensible thing if just a single dependency is provided
+      if (inherits(dependencies, "html_dependency")) {
+        dependencies <- list(dependencies)
+      }
+
+      # ensure we have a list of htmltools::htmlDependency
+      is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
+      if (any(!is_dep)) {
+        stop("`dependencies` must be a *list* of htmltools::htmlDependency objects", call. = FALSE)
+      }
+
+      private$dependencies_user <- dependencies
     },
 
     # ------------------------------------------------------------------------
@@ -319,6 +332,10 @@ Dash <- R6::R6Class(
     # callback registration
     # ------------------------------------------------------------------------
     callback = function(func = NULL, output = NULL, envir = parent.frame()) {
+
+      if (identical(private$layout, welcome_page())) {
+        stop("The layout must be set before definind any callbacks", call. = FALSE)
+      }
 
       # turn bare R functions into a "wrapper" so eval logic is consistent
       wrapper <- if (is.wrapper(func)) func else wrappify(func)
@@ -395,64 +412,23 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
-    # user defined dependencies
-    dependencies_user = dependency_tbl(),
-
-    # internal + user dependencies
-    # TODO: include @chriddyp's CSS by default? https://codepen.io/chriddyp/pen/bWLwgP.css
-    dependencies_all = dependency_tbl(),
-
-    # compute/resolve all HTML dependencies and store in `private$dependencies_all`
-    dependencies_compute_all = function() {
-
-      # tack on user-defined dependencies to internal dependencies (i.e., `deps`)
-      allDeps <- rbind(deps, private$dependencies_user)
-
-      # search the layout names for 'special' components (e.g., core, htmlwidgets)
+    # compute HTML dependencies based on the current layout
+    dependencies_layout = function() {
+      # What "component packages" (i.e., components created via dashTranspileR)
+      # are we working with?
       layout_nms <- names(private$layout_flat)
-      namespaces <- private$layout_flat[grep("namespace$", layout_nms)]
-      hasCore <- any(grepl('dash_core_component', namespaces, fixed = TRUE))
-
-      # remove core component dependencies
-      if (!hasCore) {
-        allDeps <- allDeps[!names(allDeps$dependencies) %in% "dash-core-components", ]
-      }
-
-      # leverage the component's namespace (defined in R/components-htmlwidget.R)
-      # to automatically find/include htmlwidget dependencies
-      widgetNames <- grep("htmlwidgetInfo.name", layout_nms, fixed = TRUE)
-      widgetPkgs <- grep("htmlwidgetInfo.package", layout_nms, fixed = TRUE)
-      if (length(widgetPkgs)) {
-        nms <- private$layout_flat[widgetNames]
-        pkgs <- private$layout_flat[widgetPkgs]
-        htmlwidgetDeps <- dependency_tbl(
-          Reduce(c, Map(widget_dependency, nms, pkgs)), "header"
-        )
-        allDeps <- rbind(allDeps, htmlwidgetDeps)
-      } else {
-        allDeps <- allDeps[!allDeps$name %in% "htmlwidgets-react", ]
-      }
-
-      # TODO: how to support custom components?
-      # Should folks 'dynamically' register them *after* dasher has been installed?
-      # https://plot.ly/dash/plugins
-
-      # remove old (duplicated) dependencies
-      private$dependencies_all <- resolve_dependencies(allDeps)
+      pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
+      lapply(pkgs, function(pkg) {
+        readRDS(system.file("data", "dependencies.rds", package = pkg))
+      })
     },
-    dependencies_compute_and_register = function() {
 
-      private$dependencies_compute_all()
+    # copy HTML dependencies to a resource route
+    dependencies_register = function(dependencies) {
 
-      if (!isTRUE(private$serve_locally)) return(TRUE)
-
-      # copy all the HTML dependencies to a temporary directory
-      # which will be used for serving those (local) resources
-      # note, this is similar to what happens inside htmltools::save_html()
+      # resourcify makes the source file path relative to the libdir
       libdir <- tempdir()
-      private$dependencies_all$dependencies <- resourcify(
-        private$dependencies_all$dependencies, libdir
-      )
+      dependencies <- resourcify(dependencies, libdir)
 
       # create and register a new routestack with the server
       # note that resoure routes are designed to serve directories (not individual files)
@@ -460,6 +436,8 @@ Dash <- R6::R6Class(
       route <- routr::ressource_route('/' = libdir)
       router$add_route(route, "dasher-resources", after = 1)
       self$server$attach(router, force = TRUE)
+
+      dependencies
     },
 
     index_html = NULL,
@@ -467,12 +445,36 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
-      tbl <- private$dependencies_all
-      # order dependencies by priority
-      tbl <- tbl[order(tbl$section, tbl$priority, decreasing = FALSE), ]
+      # collect and resolve dependencies
+      depsAll <- c(
+        deps[c("react", "react-dom")],
+        private$dependencies_layout(),
+        private$dependencies_user,
+        deps["dash-renderer"]
+      )
 
-      deps_header <- tbl[tbl$section %in% "header", ]
-      deps_footer <- tbl[tbl$section %in% "footer", ]
+      # normalizes local paths and keeps newer versions of duplicates
+      depsAll <- resolve_dependencies(depsAll)
+
+      # register a resource route for dependencies (if necessary)
+      if (isTRUE(private$serve_locally)) {
+        depsAll<- private$dependencies_register(depsAll)
+      }
+
+      # styleheets always go in header
+      depsCSS <- compact(lapply(depsAll, function(dep) {
+        if (is.null(dep$stylesheet)) return(NULL)
+        dep$script <- NULL
+        dep
+      }))
+
+      # scripts go after dash-renderer dependencies (i.e., React),
+      # but before dash-renderer itself
+      depsScripts <- compact(lapply(depsAll, function(dep) {
+        if (is.null(dep$script)) return(NULL)
+        dep$stylesheet <- NULL
+        dep
+      }))
 
       sprintf(
         '<!DOCTYPE html>
@@ -495,10 +497,10 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        render_dependencies(deps_header, local = private$serve_locally),
+        render_dependencies(depsCSS, local = private$serve_locally),
         # dash-renderer needs these config settings (JSON object)
         to_JSON(c(private$config, list(url_base_pathname = private$url_base_pathname))),
-        render_dependencies(deps_footer, local = private$serve_locally)
+        render_dependencies(depsScripts, local = private$serve_locally)
       )
     }
   )
