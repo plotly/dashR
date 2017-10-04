@@ -1,12 +1,9 @@
 # IDEA: provide a suite of "wrapper" functions that make it easier to do common things like display graphics (a la renderPlot)
 
-# PROBLEM: how do we execute the callback function *inside* wrapper functions?
 
-
-#' Wrap results
+#' Wrap results into a png image
 #'
-#'
-#' @param func a callback function, that when called, produces a graph
+#' @param func a function, that when called, produces the side-effect of drawing
 #' @param width width in pixels
 #' @param height height in pixels
 #' @param cairo Use the Cairo package (if installed).
@@ -14,6 +11,7 @@
 #'
 #' @export
 #' @author Carson Sievert
+#' @example demo/wrap-ggplot2.R
 wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...) {
 
   device <- if (cairo && system.file(package = "Cairo") != "") {
@@ -45,7 +43,9 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
       func()
       grDevices::dev.off()
       html_img(
-        src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile))
+        src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile)),
+        width = width,
+        height = height
       )
     }
   )
@@ -55,7 +55,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
 #' @export
 wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
 
-  if (system.file(package = "svglite") != "") {
+  if (system.file(package = "svglite") == "") {
     stop("This function requires the svglite package", call. = FALSE)
   }
 
@@ -70,13 +70,19 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
       height <- height %||% 480
       svglite::svglite(file = tmpfile, width = width, height = height, ...)
       func()
-      on.exit(grDevices::dev.off(), add = TRUE)
-      # TODO: base64enc::base64encode()?
-      html_img(src = basename(tmpfile))
+      grDevices::dev.off()
+      html_embed(
+        src = basename(tmpfile),
+        width = width,
+        height = height
+      )
     }
   )
 
 }
+
+
+
 
 
 
