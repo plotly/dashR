@@ -412,6 +412,8 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
+    dependencies_user = NULL,
+
     # compute HTML dependencies based on the current layout
     dependencies_layout = function() {
       # What "component packages" (i.e., components created via dashTranspileR)
@@ -458,7 +460,7 @@ Dash <- R6::R6Class(
 
       # register a resource route for dependencies (if necessary)
       if (isTRUE(private$serve_locally)) {
-        depsAll<- private$dependencies_register(depsAll)
+        depsAll <- private$dependencies_register(depsAll)
       }
 
       # styleheets always go in header
