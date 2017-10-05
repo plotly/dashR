@@ -257,7 +257,8 @@ Dash <- R6::R6Class(
       # -----------------------------------------------------------------
       # Some simple HTTP request logging (flask does this automatically)
       # -----------------------------------------------------------------
-      reporter <- getOption("dasher.http.reporter",
+      reporter <- getOption(
+        "dasher.http.reporter",
         function(server, id, request, ...) {
           msg <- sprintf(
             '%s - - [%s]  "%s %s HTTP/1.1" %s',
@@ -348,7 +349,7 @@ Dash <- R6::R6Class(
     # https://github.com/plotly/dash/blob/31315d66/dash/dash.py#L51-L52
     config_set = function(suppress_callback_exceptions = NULL, permissions_cache_expiry = NULL) {
       private$config$suppress_callback_exceptions <-
-          suppress_callback_exceptions %||% private$config$suppress_callback_exceptions
+        suppress_callback_exceptions %||% private$config$suppress_callback_exceptions
       private$config$permissions_cache_expiry <-
         permissions_cache_expiry %||% private$config$permissions_cache_expiry
     },
@@ -393,10 +394,9 @@ Dash <- R6::R6Class(
       # verify that properties attached to output/inputs/state value are valid
       # ----------------------------------------------------------------------
       # TODO: need to rethink this...how to support it generally for any transpiled package?
-      #validate_dependency(private$layout, output)
-      #for (i in seq_along(inputz)) {
-      #  validate_dependency(private$layout, inputz[[i]])
-      #}
+      validate_dependency(private$layout, output)
+      lapply(wrapper$inputs, function(i) validate_dependency(private$layout, i))
+      lapply(wrapper$state, function(s) validate_dependency(private$layout, s))
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
@@ -475,8 +475,8 @@ Dash <- R6::R6Class(
       # collect and resolve dependencies
       depsAll <- c(
         deps[c("react", "react-dom")],
-        private$dependencies_layout(),
         private$dependencies_user,
+        private$dependencies_layout(),
         deps["dash-renderer"]
       )
 
@@ -542,16 +542,13 @@ validate_dependency <- function(layout, dependency) {
   if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
-
-  type <- component_type_given_id(layout, dependency$id)
-  valid_props <- component_props_given_type(type)
+  valid_props <- component_props_given_id(layout, dependency$id)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
     stop(
       sprintf(
-        "The %s property '%s' is not a valid property for '%s' components. Try one of the following: '%s'",
-        class(dependency)[2], dependency$property, type,
-        paste(valid_props, collapse = "', '")
+        "'%s' is not a valid property for the component with id '%s'. Try one of the following: '%s'",
+        dependency$property, dependency$id, paste(valid_props, collapse = "', '")
       ),
       call. = FALSE
     )
