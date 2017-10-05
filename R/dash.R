@@ -165,15 +165,40 @@ Dash <- R6::R6Class(
         ]]
         if (!length(wrapper)) stop_report("Couldn't find output component.")
 
-        # compute the new output value, if necessary
-        inputValMap <- as.data.frame(request$body$inputs)
-        for (i in seq_along(wrapper$inputs)) {
-          input <- wrapper$inputs[[i]]
-          idx <- inputValMap$id %in% input$id & inputValMap$property %in% input$property
-          if (sum(idx) != 1) warning("Unexpected behavior. Please report to https://github.com/plotly/dasher")
-          newValue <- setNames(list(inputValMap[idx, "value"]), names(wrapper$inputs)[[i]])
-          formals(wrapper$func) <- modifyList(formals(wrapper$func), newValue)
+        # helper function to update formal arguments of the callback function with their new value
+        update_formals <- function(wrapper, request, type = c("inputs", "state")) {
+          type <- match.arg(type)
+          currentValues <- as.data.frame(request$body[[type]])
+          currentValues$key <- with(currentValues, paste0(id, ".", property))
+          for (i in seq_along(wrapper[[type]])) {
+            depObj <- wrapper[[type]][[i]]
+            key <- with(depObj, paste0(id, ".", property))
+            idx <- match(key, currentValues[["key"]])
+            if (is.na(idx)) {
+              warning(type, " ", key, " not found.", call. = FALSE)
+              next
+            }
+            # NOTE: length(idx) > 1 should never happen because ids are guaranteed to be unique at this point
+            currentVal <- currentValues[idx, ]
+            # this can happen if property is mis-specified
+            if (!"value" %in% names(currentVal)) {
+              warning(
+                "No value computed for ", type, " with id.property of '",
+                currentVal[["key"]], "'.",
+                call. = FALSE
+              )
+              next
+            }
+            formals(wrapper$func) <- modifyList(
+              formals(wrapper$func),
+              setNames(list(currentVal[["value"]]), names(wrapper[[type]])[[i]])
+            )
+          }
+          wrapper
         }
+
+        wrapper <- update_formals(wrapper, request, "inputs")
+        wrapper <- update_formals(wrapper, request, "state")
 
         # TODO: is this a bad idea?
         environment(wrapper$closure)$func <- wrapper$func
@@ -351,7 +376,7 @@ Dash <- R6::R6Class(
       callback_ids <- unlist(c(
         output$id,
         sapply(wrapper$inputs, "[[", "id"),
-        sapply(wrapper$states, "[[", "id")
+        sapply(wrapper$state, "[[", "id")
       ))
       illegal_ids <- setdiff(callback_ids, ids)
       if (length(illegal_ids)) {

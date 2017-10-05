@@ -101,7 +101,7 @@ wrappify <- function(func = NULL, closure = function() { func() }) {
       func = func,
       closure = closure,
       inputs = args[vapply(args, is.input, logical(1))],
-      states = args[vapply(args, is.state, logical(1))]
+      state = args[vapply(args, is.state, logical(1))]
     ),
     class = "dasher_wrapper"
   )
