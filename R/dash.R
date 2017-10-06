@@ -162,13 +162,15 @@ Dash <- R6::R6Class(
         # get the callback associated with this particular output
         wrapper <- private$callback_map[[
           with(request$body$output, paste(id, property, sep = "."))
-        ]]
+          ]]
         if (!length(wrapper)) stop_report("Couldn't find output component.")
 
         # helper function to update formal arguments of the callback function with their new value
         update_formals <- function(wrapper, request, type = c("inputs", "state")) {
           type <- match.arg(type)
           currentValues <- as.data.frame(request$body[[type]])
+          # nothing to do...
+          if (nrow(currentValues) == 0) return(wrapper)
           currentValues$key <- with(currentValues, paste0(id, ".", property))
           for (i in seq_along(wrapper[[type]])) {
             depObj <- wrapper[[type]][[i]]
@@ -178,7 +180,8 @@ Dash <- R6::R6Class(
               warning(type, " ", key, " not found.", call. = FALSE)
               next
             }
-            # NOTE: length(idx) > 1 should never happen because ids are guaranteed to be unique at this point
+            # NOTE: length(idx) > 1 should never happen because layout ids
+            # are guaranteed to be unique at this point
             currentVal <- currentValues[idx, ]
             # this can happen if property is mis-specified
             if (!"value" %in% names(currentVal)) {
@@ -210,7 +213,7 @@ Dash <- R6::R6Class(
           response = list(
             props = setNames(
               list(format_output_value(output_value)),
-              request$body$output$property
+              if (inherits(output_value, "htmlwidget")) "x" else request$body$output$property
             )
           )
         )
@@ -436,7 +439,7 @@ Dash <- R6::R6Class(
     ),
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
-
+    # field for tracking HTML dependencies defined by the user
     dependencies_user = NULL,
 
     # compute HTML dependencies based on the current layout
@@ -446,7 +449,7 @@ Dash <- R6::R6Class(
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
       lapply(pkgs, function(pkg) {
-        readRDS(system.file("data", "dependencies.rds", package = pkg))
+        readRDS(system.file("lib", "dependencies.rds", package = pkg))
       })
     },
 
