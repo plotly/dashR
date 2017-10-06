@@ -9,12 +9,13 @@ app$layout_set(
 
 app$callback(
   function() plot_ly(),
-  output(id = 'plot')
+  # TODO: change x to value!?
+  output(id = 'plot', property = "x")
 )
 
 # TODO: better way to incorporate print time dependencies?
 app$dependencies_get()
-app$dependencies_set(plotly::plot_ly()$dependencies, "header", 4:7)
+app$dependencies_set(plotly::plot_ly()$dependencies)
 app$dependencies_get()
 
 app$run_server(showcase = TRUE)

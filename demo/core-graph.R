@@ -2,7 +2,7 @@ library(dasher)
 
 app <- Dash$new()
 
-# marks currently requires a named list
+# use a named list to control marks
 # TODO: make a PR to dash-core-components to do this automatically
 marks <- setNames(
   as.list(letters),
@@ -19,7 +19,7 @@ app$layout_set(
 
 app$callback(
   function(x = input("slider")) {
-    # careful, in this case, [[3]] is different from [["3"]]!
+    # careful, [['3']] is different from [[3]]!
     sprintf("Current value of '%s' maps to '%s'", x, marks[[as.character(x)]])
   },
   output("outputID")
