@@ -44,7 +44,7 @@ Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dasher
 BugReports: https://github.com/plotly/dasher/issues
 Remotes:
+  plotly/dash-html-components@R,
+  plotly/dash-core-components@R,
   plotly/dashTranspileR,
-  plotly/dashHtmlComponents,
-  plotly/dashCoreComponents,
   plotly/dashHtmlwidgetComponent

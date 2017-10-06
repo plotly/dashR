@@ -449,7 +449,7 @@ Dash <- R6::R6Class(
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
       lapply(pkgs, function(pkg) {
-        readRDS(system.file("lib", "dependencies.rds", package = pkg))
+        readRDS(system.file("dasher_deps.rds", package = pkg))
       })
     },
 
