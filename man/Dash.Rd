@@ -6,7 +6,7 @@
 \title{Generate a Dash server}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/", csrf_protect = TRUE)
+app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/")
 }
 \description{
 Description coming soon
@@ -17,7 +17,6 @@ Description coming soon
 \code{name} \tab  \tab The name of the Dash application.\cr
 \code{server} \tab  \tab The web server which powers the application. Currently only \link[fiery:Fire]{fiery::Fire} objects are allowed.\cr
 \code{url_base_pathname} \tab  \tab The base path for locating the Dash application.\cr
-\code{csrf_protect} \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
 \code{serve_locally} \tab  \tab Whether to serve HTML dependencies using local files or via a URL
 }
 }
