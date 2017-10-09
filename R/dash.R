@@ -77,18 +77,23 @@
 Dash <- R6::R6Class(
   'Dash',
   public = list(
-    # expose the fiery server in case users want to add/customize things downstream
+    # expose initialize arguments in case you want to modify them downstream
+    name = "dash",
     server = NULL,
+    serve_locally = TRUE,
+    url_base_pathname = '/',
+
 
     # TODO: what is this static_folder argument? Do we need one?
     # https://github.com/plotly/dash/blob/31315d6/dash/dash.py#L25
     initialize = function(name = "dash", server = fiery::Fire$new(),
-                          url_base_pathname = '/',
-                          serve_locally = TRUE) {
+                          url_base_pathname = '/', serve_locally = TRUE) {
 
-      private$name <- name
-      private$url_base_pathname <- url_base_pathname
-      private$serve_locally <- serve_locally
+      # Since these are fields (i.e., can be over-ridden later on),
+      # we check these arguments at print time
+      self$name <- name
+      self$serve_locally <- serve_locally
+      self$url_base_pathname <- url_base_pathname
 
       if (!inherits(server, "Fire"))  {
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
@@ -394,14 +399,12 @@ Dash <- R6::R6Class(
       # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
       # ----------------------------------------------------------------------
-      # TODO: need to rethink this...how to support it generally for any transpiled package?
       validate_dependency(private$layout, output)
       lapply(wrapper$inputs, function(i) validate_dependency(private$layout, i))
       lapply(wrapper$state, function(s) validate_dependency(private$layout, s))
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      # TODO: leverage tidyeval to ensure we're evaluating things in proper envir?
       outputID <- paste(unlist(output), collapse = ".")
       private$callback_map[[outputID]] <- wrapper
     },
@@ -409,7 +412,6 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-
     # TODO: how to run on multiple processes?
     run_server = function(block = TRUE, showcase = FALSE, ...) {
       self$server$ignite(block = block, showcase = showcase, ...)
@@ -417,12 +419,6 @@ Dash <- R6::R6Class(
   ),
 
   private = list(
-    # initialize parameters
-    # TODO: should these be exposed as fields?
-    name = NULL,
-    url_base_pathname = NULL,
-    serve_locally = FALSE,
-
     layout = welcome_page(),
     layout_flat = rapply(welcome_page(), I),
     # TODO: what is going to be the official interface for some of these options?
@@ -472,6 +468,11 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
+      # make sure fields are of the right type
+      assertthat::assert_that(is.character(self$name))
+      assertthat::assert_that(is.logical(self$serve_locally))
+      assertthat::assert_that(is.character(self$url_base_pathname))
+
       # collect and resolve dependencies
       depsAll <- c(
         deps[c("react", "react-dom")],
@@ -484,7 +485,7 @@ Dash <- R6::R6Class(
       depsAll <- resolve_dependencies(depsAll)
 
       # register a resource route for dependencies (if necessary)
-      if (isTRUE(private$serve_locally)) {
+      if (isTRUE(self$serve_locally)) {
         depsAll <- private$dependencies_register(depsAll)
       }
 
@@ -523,11 +524,11 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
-        private$name,
-        render_dependencies(depsCSS, local = private$serve_locally),
+        self$name,
+        render_dependencies(depsCSS, local = self$serve_locally),
         # dash-renderer needs these config settings (JSON object)
-        to_JSON(c(private$config, list(url_base_pathname = private$url_base_pathname))),
-        render_dependencies(depsScripts, local = private$serve_locally)
+        to_JSON(c(private$config, list(url_base_pathname = self$url_base_pathname))),
+        render_dependencies(depsScripts, local = self$serve_locally)
       )
     }
   )
