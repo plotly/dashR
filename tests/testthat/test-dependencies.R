@@ -1,20 +1,25 @@
 context("html-dependencies")
 
-test_that("Can set/get dependencies", {
+test_that("Can set/get/render (external) dependencies", {
 
   app <- Dash$new()
-  depsBasic <- app$dependencies_get(all = TRUE)
+  default <- app$dependencies_get()
+  expect_null(default)
 
-  # the core components shouldn't included by default, but we could add it!
-  app$dependencies_set(deps[["dash-core-components"]])
-  depsWithCore <- app$dependencies_get(all = TRUE)
-  expect_equal(nrow(depsBasic) + 1, nrow(depsWithCore))
-
-  # we reference these variables internally in the package several times
-  expect_identical(
-    names(dependency_tbl()), c('dependencies', 'section', 'priority')
+  # add the dash styleguide
+  dash_css <- htmltools::htmlDependency(
+    name = "dash-css",
+    version = "1.0.0",
+    src = c(href = "https://codepen.io/chriddyp/pen"),
+    stylesheet = "bWLwgP.css"
   )
-  expect_identical(names(deps), c('dependencies', 'section', 'priority', 'name'))
-  expect_true("dash-core-components" %in% names(deps$dependencies))
+  app$dependencies_set(dash_css)
+
+  expect_equal(
+    as.character(render_dependencies(app$dependencies_get(), local = FALSE)),
+    '<link href="https://codepen.io/chriddyp/pen/bWLwgP.css" rel="stylesheet" />'
+  )
+
+  # TODO: render DOM and ensure css get placed in <head>
 
 })

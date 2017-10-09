@@ -84,8 +84,6 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
 
 
 
-
-
 wrappify <- function(func = NULL, closure = function() { func() }) {
 
   assertthat::assert_that(is.function(func))
@@ -93,8 +91,12 @@ wrappify <- function(func = NULL, closure = function() { func() }) {
 
   if (is.wrapper(func)) stop("Wrapping a wrapper is not (yet) supported", call. = FALSE)
 
-  # TODO: more careful evaluation?
-  args <- lapply(formals(func), eval)
+  # identify input/state arguments
+  args <- lapply(formals(func), function(x) {
+    # missing arguments produce an error when evaluated
+    val <- tryNULL(eval(x))
+    if (is.state(val) || is.input(val)) val else x
+  })
 
   structure(
     list(

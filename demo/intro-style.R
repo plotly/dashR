@@ -21,8 +21,8 @@ app$callback(
 app$run_server(showcase = TRUE)
 
 
-# However, for better performance, you should place CSS in the HEAD of the
-# document by using app$dependencies_set()
+# For better performance, consider placing CSS in the <head> of the HTML
+# document (via app$dependencies_set(), which automatically places css in <head>)
 dash_css <- htmltools::htmlDependency(
   name = "dash-css",
   version = "1.0.0",

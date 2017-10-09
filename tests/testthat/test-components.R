@@ -8,18 +8,14 @@ test_that("Component constructors behave as intended", {
   # (3) namespace: is this a core/html component?
 
   expect_component_names <- function(component) {
-    diff <- setdiffsym(names(component), c("props", "type", "namespace"))
+    diff <- setdiffsym(names(component), c("props", "type", "namespace", "propNames", "package"))
     expect_length(diff, 0)
   }
 
   expect_component_names(html_a())
   expect_component_names(core_dropdown())
 
-  # if no 'props' are specified, they should be of length 0
-  expect_length(html_h1()$props, 0)
-  expect_length(core_checklist()$props, 0)
 
-  #
   expect_equal(
     html_h2("A header")$props$children[[1]], "A header"
   )
@@ -37,7 +33,7 @@ test_that("Component constructors behave as intended", {
 test_that("Giving nonsense arguments to components yields error", {
 
   expect_error(
-    core_checklist(nonsense = "string"),
+    html_a(nonsense = "string"),
     "Didn't recognize the following named arguments: 'nonsense'",
     fixed = TRUE
   )

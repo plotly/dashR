@@ -4,15 +4,9 @@ test_that("Callback inputs must be well-defined", {
 
   app <- Dash$new()
 
-
   app$layout_set(
     core_slider(id = "x"),
     html_div(id = "y")
-  )
-
-  expect_error(
-    app$callback(identity, output("y")),
-    "'nonsense' is not a valid property for 'html_div' components"
   )
 
   expect_error(
@@ -22,7 +16,7 @@ test_that("Callback inputs must be well-defined", {
       },
       output("y", "nonsense")
     ),
-    "'nonsense' is not a valid property for 'html_div' components"
+    "'nonsense' is not a valid property for the component with id 'y'"
   )
 
   expect_error(
@@ -32,7 +26,7 @@ test_that("Callback inputs must be well-defined", {
       },
       output("y")
     ),
-    "'gobble-gobble' is not a valid property for 'core_slider' components"
+    "'gobble-gobble' is not a valid property for the component with id 'x'"
   )
 
 })
