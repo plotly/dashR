@@ -21,18 +21,17 @@ is.component <- function(x) inherits(x, "dash_component")
 # a given id and return the component's type
 component_props_given_id <- function(component, id) {
 
-  if (!is.component(component))  {
-    stop(
-      "Either no id of value '", id,
-      "' exists or the `component` argument is not a component",
-      call. = FALSE
-    )
-  }
-  if (identical(id, component$props$id))  {
-    return(component$propNames)
+  is_component <- is.component(component)
+
+  is_match <- if (is_component) isTRUE(component$props$id == id) else FALSE
+
+  props <- if (is_match) component$propNames else ""
+
+  if (is_component && !is_match) {
+    return(unlist(lapply(component$props$children, component_props_given_id, id)))
   }
 
-  unlist(lapply(component$props$children, component_props_given_id, id))
+  props
 }
 
 
