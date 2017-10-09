@@ -2,14 +2,13 @@
 #'
 #' Description coming soon
 #'
-#' @usage app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/", csrf_protect = TRUE)
+#' @usage app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/")
 #'
 #' @section Arguments:
 #' \tabular{lll}{
 #'   `name` \tab  \tab The name of the Dash application.\cr
 #'   `server` \tab  \tab The web server which powers the application. Currently only [fiery::Fire] objects are allowed.\cr
 #'   `url_base_pathname` \tab  \tab The base path for locating the Dash application.\cr
-#'   `csrf_protect` \tab  \tab Whether to protect the Dash application from CSRF vulnerabilities.
 #'   `serve_locally` \tab  \tab Whether to serve HTML dependencies using local files or via a URL
 #' }
 #'
@@ -84,12 +83,11 @@ Dash <- R6::R6Class(
     # TODO: what is this static_folder argument? Do we need one?
     # https://github.com/plotly/dash/blob/31315d6/dash/dash.py#L25
     initialize = function(name = "dash", server = fiery::Fire$new(),
-                          url_base_pathname = '/', csrf_protect = TRUE,
+                          url_base_pathname = '/',
                           serve_locally = TRUE) {
 
       private$name <- name
       private$url_base_pathname <- url_base_pathname
-      private$csrf_protect <- csrf_protect
       private$serve_locally <- serve_locally
 
       if (!inherits(server, "Fire"))  {
@@ -203,7 +201,8 @@ Dash <- R6::R6Class(
         wrapper <- update_formals(wrapper, request, "inputs")
         wrapper <- update_formals(wrapper, request, "state")
 
-        # TODO: is this a bad idea?
+        # overwrite the func definition in the closure's environment
+        # effectively replacing the func's arguments with the new values
         environment(wrapper$closure)$func <- wrapper$func
         output_value <- wrapper$closure()
 
@@ -360,7 +359,7 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(func = NULL, output = NULL, envir = parent.frame()) {
+    callback = function(func = NULL, output = NULL) {
 
       if (identical(private$layout, welcome_page())) {
         stop("The layout must be set before definind any callbacks", call. = FALSE)
@@ -371,7 +370,6 @@ Dash <- R6::R6Class(
 
       # argument type checking
       assertthat::assert_that(is.output(output))
-      assertthat::assert_that(is.environment(envir))
 
       # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
@@ -423,7 +421,6 @@ Dash <- R6::R6Class(
     # TODO: should these be exposed as fields?
     name = NULL,
     url_base_pathname = NULL,
-    csrf_protect = NULL,
     serve_locally = FALSE,
 
     layout = welcome_page(),
