@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-I'm super excited to announce a new R package, [dasher](https://github.com/plotly/dasher), which is essentially the R version of [dash](https://plot.ly/dash/). With dasher, you can build reactive web applications entirely in R using a framework very similar to dash. in a syntax that looks and feels very similar to dash. 
+I'm super excited to announce a new R package, [dasher](https://github.com/plotly/dasher), which is essentially  [dash](https://plot.ly/dash/) for R. With dasher, you can build reactive web applications entirely in R using an API that looks nearly identical to the dash (python) version. That means, if you already know dash, and want/need to leverage R (rather python) functionality, it's straight-forward to translate your existing knowledge/applications from dash to dasher (or vice versa). Dasher also offers some functionality that is unique to R, such as automatic rendering of [htmlwidgets](http://www.htmlwidgets.org/).
 
 ## Hello world example
 
@@ -27,6 +27,10 @@ I'm super excited to announce a new R package, [dasher](https://github.com/plotl
   * Do a benchmark?
 * Easy to create/leverage custom components
   * Do an example of creating R package from https://github.com/plotly/dash-table-experiments
+  
+### Dash components -- write once, use everywhere
+
+
 
 ### Web server exposed as first-class citizen
 
