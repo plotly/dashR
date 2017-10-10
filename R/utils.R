@@ -91,7 +91,9 @@ new_id <- function() {
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
 render_dependencies <- function(x, local = TRUE) {
-  # TODO: the default `encodeFunc` doesn't seem to work?
+  # TODO:
+  # (1) Fail gracefully if file/href doesn't exist and something that does?
+  # (2) the default `encodeFunc` doesn't seem to work?
   htmltools::renderDependencies(
     x, if (local) "file" else "href", encodeFunc = identity
   )

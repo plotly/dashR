@@ -138,13 +138,15 @@ Dash <- R6::R6Class(
         # client wants the mapping formatted this way -- https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
         outputs <- strsplit(names(private$callback_map), "\\.")
         payload <- Map(function(x, y) {
-          x[["output"]] <- list(id = y[[1]], property = y[[2]])
-          # IMPORTANT: if state/events don't exist, they *must* be an empty array
-          # (i.e., null/missing won't work) or else the dash-renderer throws a fit
-          x[["state"]] <- setNames(x[["state"]] %||% list(), NULL)
-          x[["events"]] <- setNames(x[["events"]] %||% list(), NULL)
-          x[["inputs"]] <- setNames(x[["inputs"]] %||% list(), NULL)
-          x
+          # IMPORTANT: if state/events don't exist, dash-renderer wants them
+          # to be an empty array (i.e., null/missing won't work)
+          list(
+            output = list(id = y[[1]], property = y[[2]]),
+            inputs = setNames(x[["inputs"]] %||% list(), NULL),
+            state = setNames(x[["state"]] %||% list(), NULL),
+            # TODO: Chris mentioned that events might be deprecated?
+            events = setNames(x[["events"]] %||% list(), NULL)
+          )
         }, private$callback_map, outputs)
 
         response$status <- 200L
