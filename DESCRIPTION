@@ -15,6 +15,7 @@ Imports:
   htmltools,
   jsonlite,
   tibble,
+  assertthat,
   digest,
   base64enc,
   plotly
