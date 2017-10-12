@@ -20,13 +20,20 @@
 #' @section Methods:
 #' \describe{
 #'   \item{`layout_set(...)`}{
-#'     Set the layout (i.e., user interface).
+#'     Set the layout (i.e., user interface). The layout should be either a
+#'     collection of dash components (e.g., [core_slider], [html_div], etc) or
+#'     a function which returns a collection of components.
 #'   }
-#'   \item{`layout_get()`}{
-#'     Retrieves the layout.
+#'   \item{`layout_get(render = TRUE)`}{
+#'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
+#'     the result of the function (rather than the function itself) is returned.
 #'   }
 #'   \item{`callback(func, output)`}{
-#'     Callback function to execute when relevant inputs change.
+#'     A callback function defintion. The `func` argument accepts any R function
+#'     and `output` defines which layout component property owns the results
+#'     (via an [output] object). To define how/when the callback is re-executed,
+#'     [input] object(s) should be provided as argument value(s) in the function
+#'     provided to `func`.
 #'   }
 #'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
 #'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
@@ -83,8 +90,7 @@ Dash <- R6::R6Class(
     serve_locally = TRUE,
     url_base_pathname = '/',
 
-
-    # TODO: what is this static_folder argument? Do we need one?
+    # TODO: what is this static_folder argument? Let's just have folks use routr::ressource_route()?
     # https://github.com/plotly/dash/blob/31315d6/dash/dash.py#L25
     initialize = function(name = "dash", server = fiery::Fire$new(),
                           url_base_pathname = '/', serve_locally = TRUE) {
@@ -110,9 +116,8 @@ Dash <- R6::R6Class(
 
       dash_login <- paste0(url_base_pathname, "_dash-login")
       route$add_handler("post", dash_login, function(request, response, keys, ...) {
-        response$body <- list(
-          h1 = "Not yet implemented"
-        )
+        response$status <- 500L
+        response$body <- "Not yet implemented"
         FALSE
       })
 
@@ -120,7 +125,7 @@ Dash <- R6::R6Class(
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(private$layout, pretty = TRUE)
+        response$body <- to_JSON(private$layout_render(), pretty = TRUE)
         FALSE
       })
 
@@ -234,56 +239,25 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      # TODO: is this endpoint really necessary?
+      # TODO: once implemented in dash-renderer, leverage this endpoint so
+      # we can dynamically load dependencies during `_dash-update-component`
+      # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
       dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         response$status <- 500L
-        response$body <- list(
-          h1 = "Not yet implemented"
-        )
+        response$body <- "Not yet implemented"
         FALSE
       })
 
-      catch_all <- paste0(url_base_pathname, "*")
-      route$add_handler("get", catch_all, function(request, response, keys, ...) {
+      route$add_handler("get", url_base_pathname, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'html'
-        response$body <- private$index_html
+        response$body <- private$index()
         FALSE
       })
 
-      # TODO: is using the app name in this way a good idea?
-      router$add_route(route, name)
+      router$add_route(route, "dasher-endpoints")
       server$attach(router)
-
-      # generate index page on server start...
-      # Why? Well, if we do it inside the GET /* handler, we have to map
-      # a resource route inside another route, which leads to weird errors
-      server$on("start", function(server, ...) {
-
-        # register a resource route pointing the dependencies on the server
-        # note that registration will modify the source path to be relative to
-        # the resource route
-        private$index_html <- private$index()
-      })
-
-      # -----------------------------------------------------------------
-      # Some simple HTTP request logging (flask does this automatically)
-      # -----------------------------------------------------------------
-      reporter <- getOption(
-        "dasher.http.reporter",
-        function(server, id, request, ...) {
-          msg <- sprintf(
-            '%s - - [%s]  "%s %s HTTP/1.1" %s',
-            request$host, Sys.time(), request$method,
-            request$path, request$response$status
-          )
-          cat(msg, "\n")
-        })
-
-      if (is.function(reporter)) {
-        server$on("after-request", reporter)
-      }
 
       self$server <- server
     },
@@ -291,35 +265,11 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # dash layout methods
     # ------------------------------------------------------------------------
-    layout_get = function() {
-      private$layout
+    layout_get = function(render = TRUE) {
+      if (render) private$layout_render() else private$layout
     },
     layout_set = function(...) {
-
-      # store the layout and a (flattened) vector form since we query the
-      # vector names several times to verify ID naming (among other things)
-      container <- html_div(...)
-      oldClass(container) <- c("dash_layout", oldClass(container))
-      private$layout <- container
-      private$layout_flat <- rapply(private$layout, I)
-
-      # verify that layout ids are unique
-      idx <- grep("id$", names(private$layout_flat))
-      if (!length(idx)) {
-        warning(
-          "No ids were found in the layout. ",
-          "Component ids are critical for targetting callbacks in your application",
-          call. = FALSE
-        )
-      }
-      ids <- as.character(private$layout_flat[idx])
-      duped <- anyDuplicated(ids)
-      if (duped) {
-        stop(
-          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", ids[duped]),
-          call. = FALSE
-        )
-      }
+      private$layout <- if (is.function(..1)) ..1 else list(...)
     },
 
     # ------------------------------------------------------------------------
@@ -372,8 +322,10 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     callback = function(func = NULL, output = NULL) {
 
-      if (identical(private$layout, welcome_page())) {
-        stop("The layout must be set before definind any callbacks", call. = FALSE)
+      # TODO: cache layouts so we don't have to do this for every callback...
+      layout <- private$layout_render()
+      if (identical(layout, welcome_page())) {
+        stop("The layout must be set before defining any callbacks", call. = FALSE)
       }
 
       # turn bare R functions into a "wrapper" so eval logic is consistent
@@ -405,9 +357,9 @@ Dash <- R6::R6Class(
       # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
       # ----------------------------------------------------------------------
-      validate_dependency(private$layout, output)
-      lapply(wrapper$inputs, function(i) validate_dependency(private$layout, i))
-      lapply(wrapper$state, function(s) validate_dependency(private$layout, s))
+      validate_dependency(layout, output)
+      lapply(wrapper$inputs, function(i) validate_dependency(layout, i))
+      lapply(wrapper$state, function(s) validate_dependency(layout, s))
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
@@ -426,7 +378,51 @@ Dash <- R6::R6Class(
 
   private = list(
     layout = welcome_page(),
-    layout_flat = rapply(welcome_page(), I),
+    layout_flat = NULL,
+    layout_render = function() {
+      # assuming private$layout is either a function or a list of components...
+      layout <- if (is.function(private$layout)) private$layout() else private$layout
+
+      # accomodate functions that return a single component
+      if (is.component(layout)) layout <- list(layout)
+
+      # at this point we should be working with a list of components
+      is_component <- vapply(layout, is.component, logical(1))
+      if (!all(is_component)) {
+        stop(
+          'Layout must be a collection of dash components ',
+          'or a function that returns a collection of components.',
+          call. = FALSE
+        )
+      }
+      # ensure everything is wrapped up in a container div
+      # TODO: is this necessary?
+      layout <- html_div(children = layout, id = "dasher-layout-container")
+      # store the layout as a (flattened) vector form since we query the
+      # vector names several times to verify ID naming (among other things)
+      private$layout_flat <- rapply(layout, I)
+
+      # verify that layout ids are unique
+      idx <- grep("id$", names(private$layout_flat))
+      if (!length(idx)) {
+        warning(
+          "No ids were found in the layout. ",
+          "Component ids are critical for targetting callbacks in your application",
+          call. = FALSE
+        )
+      }
+      ids <- as.character(private$layout_flat[idx])
+      duped <- anyDuplicated(ids)
+      if (duped) {
+        stop(
+          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", ids[duped]),
+          call. = FALSE
+        )
+      }
+      # return the computed layout
+      oldClass(layout) <- c("dash_layout", oldClass(layout))
+      layout
+    },
     # TODO: what is going to be the official interface for some of these options?
     config = list(
       suppress_callback_exceptions = FALSE,
@@ -445,6 +441,7 @@ Dash <- R6::R6Class(
     dependencies_layout = function() {
       # What "component packages" (i.e., components created via dashTranspileR)
       # are we working with?
+      private$layout_render() # TODO: avoid calling this twice
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
       lapply(pkgs, function(pkg) {
@@ -455,21 +452,27 @@ Dash <- R6::R6Class(
     # copy HTML dependencies to a resource route
     dependencies_register = function(dependencies) {
 
-      # resourcify makes the source file path relative to the libdir
+      # copy dependencies to temp dir and make their file path relative to it
       libdir <- tempdir()
       dependencies <- resourcify(dependencies, libdir)
 
-      # create and register a new routestack with the server
-      # note that resoure routes are designed to serve directories (not individual files)
-      router <- routr::RouteStack$new()
-      route <- routr::ressource_route('/' = libdir)
-      router$add_route(route, "dasher-resources", after = 1)
-      self$server$attach(router, force = TRUE)
+      # dash endpoints should already be registered at this point...
+      # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
+      routrs <- self$server$plugins
+      if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
+
+      # register a route to dependencies on the server (if it doesn't already exist)
+      dash_router <- routrs[["request_routr"]]
+      if (!dash_router$has_route("dasher-resources")) {
+        # resource routes are designed to serve directories (not individual files)
+        resources <- routr::ressource_route('/' = libdir)
+        dash_router$add_route(resources, "dasher-resources")
+        self$server$attach(dash_router, force = TRUE)
+      }
 
       dependencies
     },
 
-    index_html = NULL,
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
@@ -542,6 +545,8 @@ Dash <- R6::R6Class(
 
 
 
+
+
 # verify that properties attached to output/inputs/state value are valid
 # @param layout
 # @param component a component (should be a dependency)
@@ -563,34 +568,3 @@ validate_dependency <- function(layout, dependency) {
 
   TRUE
 }
-
-# register a resource route pointing to a collection of HTML dependencies
-
-# NOTE: this implementation assumes htmltools::resolveDependencies()
-# has already been used to resolve paths and duplicates
-dependencies_register <- function(app, dependencies) {
-  assert_that(inherits(app, "Dash"))
-  #assert_that(inherits(dependencies, "html_dependencies"))
-
-  # TODO: implement this field!
-  if (isTRUE(app$serve_locally)) return(app)
-
-  # copy all the HTML dependencies to a temporary directory
-  # which will be used for serving those (local) resources
-  # note, this is similar to what happens inside htmltools::save_html()
-  libdir <- tempdir()
-  dependencies <- lapply(dependencies, function(dep) {
-    dep <- htmltools::copyDependencyToDir(dep, libdir, FALSE)
-    htmltools::makeDependencyRelative(dep, libdir, FALSE)
-  })
-
-  # create and register a new routestack with the server
-  router <- routr::RouteStack$new()
-  route <- routr::ressource_route('/' = libdir)
-  router$add_route(route, "dasher-resources", after = 1)
-  app$server$attach(router, force = TRUE)
-
-  dependencies
-}
-
-

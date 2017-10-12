@@ -13,14 +13,24 @@ test_that("Can access fiery server within a dash app", {
 test_that("Can set/get layout", {
 
   d <- Dash$new()
-  l1 <- d$layout_get()
-  expect_is(l1, c("dash_component", "html"))
-  expect_identical(l1, welcome_page())
+  div <- html_div("A div", id = "An id")
 
+  # rendered layout is a single component
+  d$layout_set(div)
+  l <- d$layout_get()
+  expect_true(is.component(l))
+  expect_identical(l$props$children[[1]], div)
 
-  d$layout_set(html_div("A div", id = "An id"))
-  l2 <- d$layout_get()
-  expect_is(l2, c("dash_component", "html", "Div"))
-  expect_true(!identical(l1, l2))
+  # non-rendered layout is a list of components
+  l2 <- d$layout_get(render = FALSE)
+  expect_identical(l2[[1]], div)
+
+  # dynamic layouts
+  d$layout_set(function() { div })
+  l3 <- d$layout_get()
+  expect_identical(l, l3)
+
+  l4 <- d$layout_get(render = FALSE)
+  expect_is(l4, "function")
 
 })

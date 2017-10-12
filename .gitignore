@@ -4,6 +4,5 @@
 .DS_Store
 
 node_modules/
-prototype.R
 python/
 todo.txt

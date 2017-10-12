@@ -1,15 +1,13 @@
 context("layout")
 
-test_that("layout IDs must exist and be unique", {
+test_that("layout IDs must be unique", {
 
   app <- Dash$new()
 
-  expect_warning(
-    app$layout_set(html_div())
-  )
+  app$layout_set(html_a(id = "a"), html_a(id = "a"))
 
   expect_error(
-    app$layout_set(html_a(id = "a"), html_a(id = "a")),
+    app$layout_get(),
     "the following id was duplicated: 'a'"
   )
 
