@@ -105,13 +105,22 @@ Dash <- R6::R6Class(
         stop("Only fiery webservers are supported at the moment", call. = FALSE)
       }
 
-      # http://www.data-imaginist.com/2017/Introducing-routr/
-      router <- routr::RouteStack$new()
+      # ------------------------------------------------------------------------
+      # Set a sensible default logger
+      # TODO:
+      # (1) format console output -- https://github.com/thomasp85/fiery/issues/25
+      # (2) only set logger if the default is
+      # ------------------------------------------------------------------------
+      server$set_logger(fiery::logger_console("{event}: {message}"))
+      # Doesn't yet work https://github.com/thomasp85/fiery/issues/24
+      # server$access_log_format <- fiery::combined_log_format
 
       # ------------------------------------------------------------------------
       # define & register routes on the server
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L88-L124
+      # http://www.data-imaginist.com/2017/Introducing-routr/
       # ------------------------------------------------------------------------
+      router <- routr::RouteStack$new()
       route <- routr::Route$new()
 
       dash_login <- paste0(url_base_pathname, "_dash-login")

@@ -9,8 +9,8 @@ Depends:
   dashHtmlwidgetComponent
 Imports:
   R6,
-  fiery,
-  routr,
+  fiery (> 1.0.0),
+  routr (> 0.2.0),
   reqres,
   htmltools,
   jsonlite,
@@ -48,4 +48,6 @@ Remotes:
   plotly/dash-html-components@R,
   plotly/dash-core-components@R,
   plotly/dashTranspileR,
-  plotly/dashHtmlwidgetComponent
+  plotly/dashHtmlwidgetComponent,
+  thomasp85/routr,
+  thomasp85/fiery

@@ -94,6 +94,7 @@ wrappify <- function(func = NULL, closure = function() { func() }) {
   # identify input/state arguments
   args <- lapply(formals(func), function(x) {
     # missing arguments produce an error when evaluated
+    # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
     val <- tryNULL(eval(x))
     if (is.state(val) || is.input(val)) val else x
   })
