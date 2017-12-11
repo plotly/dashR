@@ -37,6 +37,7 @@ Collate:
   'format-output-value.R'
   'print.R'
   'wrappers.R'
+  'css.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
