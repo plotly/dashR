@@ -1,4 +1,4 @@
-# first example of https://plot.ly/dash/urls
+# R version of first example on https://plot.ly/dash/urls
 library(dasher)
 
 app <- Dash$new()
@@ -22,5 +22,4 @@ app$callback(
 )
 
 app$dependencies_set(dash_css())
-
 app$run_server(showcase = TRUE)

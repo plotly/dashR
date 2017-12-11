@@ -354,7 +354,8 @@ Dash <- R6::R6Class(
       ))
       illegal_ids <- setdiff(callback_ids, ids)
       if (length(illegal_ids)) {
-        stop(
+        # TODO: provide an option to suppress this (because demo/urls-02.R)
+        warning(
           sprintf(
             "The following id(s) do not match any in the layout: '%s'",
             paste(illegal_ids, collapse = "', '")
@@ -566,7 +567,7 @@ validate_dependency <- function(layout, dependency) {
   valid_props <- component_props_given_id(layout, dependency$id)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
-    stop(
+    warning(
       sprintf(
         "'%s' is not a valid property for the component with id '%s'. Try one of the following: '%s'",
         dependency$property, dependency$id, paste(valid_props, collapse = "', '")
