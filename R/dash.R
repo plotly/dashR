@@ -113,7 +113,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       server$set_logger(fiery::logger_console("{event}: {message}"))
       # Doesn't yet work https://github.com/thomasp85/fiery/issues/24
-      # server$access_log_format <- fiery::combined_log_format
+      server$access_log_format <- fiery::combined_log_format
 
       # ------------------------------------------------------------------------
       # define & register routes on the server
