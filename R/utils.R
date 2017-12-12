@@ -178,8 +178,8 @@ setdiffsym <- function(x, y) {
 }
 
 welcome_page <- function() {
-  dashHtmlComponents::html_div(
-    dashHtmlComponents::html_h2("Welcome to dash!"),
+  dashHtmlComponents::htmlDiv(
+    dashHtmlComponents::htmlH2("Welcome to dash!"),
     "If you see this message, you may not have yet specified a layout in your application."
   )
 }

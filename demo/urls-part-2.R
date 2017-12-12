@@ -4,47 +4,47 @@ library(dasher)
 app <- Dash$new()
 app$layout_set(
   # represents the URL bar, doesn't render anything
-  core_location('url', refresh = FALSE),
+  coreLocation('url', refresh = FALSE),
   # content will be rendered in this element
-  html_div(id = 'page-content')
+  htmlDiv(id = 'page-content')
 )
 
 # The 'home' page with links to other locations
-index_page <- html_div(
-  html_h2("Welcome, pick a page!"),
-  core_link('Go to Page 1', href = '/page-1'),
-  html_br(),
-  core_link('Go to Page 2', href = '/page-2')
+index_page <- htmlDiv(
+  htmlH2("Welcome, pick a page!"),
+  coreLink('Go to Page 1', href = '/page-1'),
+  htmlBr(),
+  coreLink('Go to Page 2', href = '/page-2')
 )
 
 # ui definition when visiting /page-1
-page_1_layout <- html_div(
-  html_h1('Page 1'),
-  core_dropdown(
+page1 <- htmlDiv(
+  htmlH1('Page 1'),
+  coreDropdown(
     id = 'page-1-dropdown',
     options = lapply(c('LA', 'NYC', 'MTL'), function(i) list(label = i, value = i)),
     value = 'LA'
   ),
-  html_div(id = 'page-1-content'),
-  html_br(),
-  core_link('Go to Page 2', href = '/page-2'),
-  html_br(),
-  core_link('Go back to home', href = '/')
+  htmlDiv(id = 'page-1-content'),
+  htmlBr(),
+  coreLink('Go to Page 2', href = '/page-2'),
+  htmlBr(),
+  coreLink('Go back to home', href = '/')
 )
 
 # ui definition when visiting /page-2
-page_2_layout <- html_div(
-  html_h1('Page 2'),
-  core_radioitems(
+page2 <- htmlDiv(
+  htmlH1('Page 2'),
+  coreRadioItems(
     id = 'page-2-radios',
     options = lapply(c('Orange', 'Blue', 'Red'), function(i) list(label = i, value = i)),
     value = 'Orange'
   ),
-  html_div(id = 'page-2-content'),
-  html_br(),
-  core_link('Go to Page 1', href = '/page-1'),
-  html_br(),
-  core_link('Go back to home', href = '/')
+  htmlDiv(id = 'page-2-content'),
+  htmlBr(),
+  coreLink('Go to Page 1', href = '/page-1'),
+  htmlBr(),
+  coreLink('Go back to home', href = '/')
 )
 
 app$callback(
@@ -61,7 +61,7 @@ app$callback(
 
 app$callback(
   function(pathname = input('url', 'pathname')) {
-    if ('/page-1' == pathname) page_1_layout else if ('/page-2' == pathname) page_2_layout else index_page
+    if ('/page-1' == pathname) page1 else if ('/page-2' == pathname) page2 else index_page
   }, output('page-content')
 )
 

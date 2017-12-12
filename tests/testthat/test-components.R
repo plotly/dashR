@@ -12,17 +12,17 @@ test_that("Component constructors behave as intended", {
     expect_length(diff, 0)
   }
 
-  expect_component_names(html_a())
-  expect_component_names(core_dropdown())
+  expect_component_names(htmlA())
+  expect_component_names(coreDropdown())
 
 
   expect_equal(
-    html_h2("A header")$props$children[[1]], "A header"
+    htmlH2("A header")$props$children[[1]], "A header"
   )
 
   # test akin to this one https://github.com/plotly/dash-renderer/blob/851d717b/tests/test_render.py#L25-L38
-  vals <- list("Basic string", 3.14, NULL, html_div("Just a test"))
-  prop_vals <- html_h2(vals)$props
+  vals <- list("Basic string", 3.14, NULL, htmlDiv("Just a test"))
+  prop_vals <- htmlH2(vals)$props
   expect_identical(prop_vals$children[[1]], vals)
 
   # TODO: test the rendered DOM!
@@ -33,7 +33,7 @@ test_that("Component constructors behave as intended", {
 test_that("Giving nonsense arguments to components yields error", {
 
   expect_error(
-    html_a(nonsense = "string"),
+    htmlA(nonsense = "string"),
     "Didn't recognize the following named arguments: 'nonsense'",
     fixed = TRUE
   )

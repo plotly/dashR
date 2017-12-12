@@ -33,7 +33,7 @@ Description coming soon
 \describe{
 \item{\code{layout_set(...)}}{
 Set the layout (i.e., user interface). The layout should be either a
-collection of dash components (e.g., \link{core_slider}, \link{html_div}, etc) or
+collection of dash components (e.g., \link{coreSlider}, \link{htmlDiv}, etc) or
 a function which returns a collection of components.
 }
 \item{\code{layout_get(render = TRUE)}}{
@@ -79,9 +79,9 @@ app$run_server(showcase = TRUE)
 
 # use the layout_set method to define your UI
 app$layout_set(
-  html_h2("Hello Dash"),
+  htmlH2("Hello Dash"),
   "Here is a slider",
-  core_slider()
+  coreSlider()
 )
 # retrieve the layout with layout_get()
 app$layout_get()

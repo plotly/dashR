@@ -3,9 +3,9 @@ library(dasher)
 app <- Dash$new()
 
 app$layout_set(
-  core_input(id = 'input-1', value = 'Montréal', type = "text"),
-  core_input(id = 'input-2', value = 'Canada', type = "text"),
-  html_div(id = 'output')
+  coreInput(id = 'input-1', value = 'Montréal', type = "text"),
+  coreInput(id = 'input-2', value = 'Canada', type = "text"),
+  htmlDiv(id = 'output')
 )
 
 app$callback(

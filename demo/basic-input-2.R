@@ -3,8 +3,8 @@ library(dasher)
 app <- Dash$new()
 
 app$layout_set(
-  core_input(id = 'inputID', value = 'initial value', type = "text"),
-  html_div(id = 'outputID')
+  coreInput(id = 'inputID', value = 'initial value', type = "text"),
+  htmlDiv(id = 'outputID')
 )
 
 # by default, input() accesses the value of a property named 'value',

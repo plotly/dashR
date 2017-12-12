@@ -24,8 +24,8 @@ Similar to [dash](https://github.com/plotly/dash), every **dasher** application 
 
 ```r
 app$layout_set(
-  core_input(id = "inputID", value = "initial value", type = "text"),
-  html_div(id = "outputID")
+  coreInput(id = "inputID", value = "initial value", type = "text"),
+  htmlDiv(id = "outputID")
 )
 
 app$callback(

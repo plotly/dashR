@@ -5,8 +5,8 @@ test_that("Callback inputs must be well-defined", {
   app <- Dash$new()
 
   app$layout_set(
-    core_slider(id = "x"),
-    html_div(id = "y")
+    coreSlider(id = "x"),
+    htmlDiv(id = "y")
   )
 
   expect_error(

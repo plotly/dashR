@@ -6,11 +6,11 @@ app <- Dash$new()
 nms <- names(mtcars)
 
 app$layout_set(
-  core_dropdown(
+  coreDropdown(
     id = "x", options = nms, value = nms[1],
     clearable = FALSE, placeholder = "Pick an x"
   ),
-  core_dropdown(
+  coreDropdown(
     id = "y", options = nms, value = nms[2],
     clearable = FALSE, placeholder = "Pick a y"
   ),

@@ -6,13 +6,13 @@ app <- Dash$new()
 
 marks <- c(10, 5000, 1e4)
 marks <- setNames(as.list(marks), marks)
-slider <- core_slider(
+slider <- coreSlider(
   id = 'n', min = 10, max = 1e4, value = 1000, marks = marks
 )
 
 app$layout_set(
-  html_div(id = 'plot'),
-  html_div(
+  htmlDiv(id = 'plot'),
+  htmlDiv(
     id = "slider",
     "Adjust slider to alter sample size:",
     slider,

@@ -2,18 +2,18 @@ library(dasher)
 
 app <- Dash$new()
 
-ui <- html_div(
-  html_label('Hours per Day'),
-  core_slider(id = 'hours', value = 5, min = 0, max = 24, step = 1),
+ui <- htmlDiv(
+  htmlLabel('Hours per Day'),
+  coreSlider(id = 'hours', value = 5, min = 0, max = 24, step = 1),
 
-  html_label('Rate'),
-  core_input(id = 'rate', value = 2, type = 'number'),
+  htmlLabel('Rate'),
+  coreInput(id = 'rate', value = 2, type = 'number'),
 
-  html_label('Amount per Day'),
-  html_div(id = 'amount'),
+  htmlLabel('Amount per Day'),
+  htmlDiv(id = 'amount'),
 
-  html_label('Amount per Week'),
-  html_div(id = 'amount-per-week'),
+  htmlLabel('Amount per Week'),
+  htmlDiv(id = 'amount-per-week'),
 
   style = list(
     padding = 60,

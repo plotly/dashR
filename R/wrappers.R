@@ -42,7 +42,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
       device(filename = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      html_img(
+      htmlImg(
         src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile)),
         width = width,
         height = height
@@ -71,7 +71,7 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
       svglite::svglite(file = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      html_embed(
+      htmlEmbed(
         src = basename(tmpfile),
         width = width,
         height = height

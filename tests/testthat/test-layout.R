@@ -4,7 +4,7 @@ test_that("layout IDs must be unique", {
 
   app <- Dash$new()
 
-  app$layout_set(html_a(id = "a"), html_a(id = "a"))
+  app$layout_set(htmlA(id = "a"), htmlA(id = "a"))
 
   expect_error(
     app$layout_get(),

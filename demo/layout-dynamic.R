@@ -4,7 +4,7 @@
 library(dasher)
 
 ui <- function() {
-  html_h1(paste("The time is:", Sys.time()))
+  htmlH1(paste("The time is:", Sys.time()))
 }
 
 app <- Dash$new()

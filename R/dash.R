@@ -21,7 +21,7 @@
 #' \describe{
 #'   \item{`layout_set(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of dash components (e.g., [core_slider], [html_div], etc) or
+#'     collection of dash components (e.g., [coreSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
@@ -72,9 +72,9 @@
 #'
 #' # use the layout_set method to define your UI
 #' app$layout_set(
-#'   html_h2("Hello Dash"),
+#'   htmlH2("Hello Dash"),
 #'   "Here is a slider",
-#'   core_slider()
+#'   coreSlider()
 #' )
 #' # retrieve the layout with layout_get()
 #' app$layout_get()
@@ -407,7 +407,9 @@ Dash <- R6::R6Class(
       }
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary?
-      layout <- html_div(children = layout, id = "dasher-layout-container")
+      layout <- dashHtmlComponents::htmlDiv(
+        children = layout, id = "dasher-layout-container"
+      )
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       private$layout_flat <- rapply(layout, I)

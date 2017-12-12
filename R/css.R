@@ -5,7 +5,7 @@
 #'
 #' @param external whether or not to use a local file.
 #' @export
-#' @example demo/intro-style.R
+#' @example demo/stylesheets.R
 
 
 # For better performance, consider placing CSS in the <head> of the HTML

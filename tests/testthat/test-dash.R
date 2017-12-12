@@ -13,7 +13,7 @@ test_that("Can access fiery server within a dash app", {
 test_that("Can set/get layout", {
 
   d <- Dash$new()
-  div <- html_div("A div", id = "An id")
+  div <- htmlDiv("A div", id = "An id")
 
   # rendered layout is a single component
   d$layout_set(div)
