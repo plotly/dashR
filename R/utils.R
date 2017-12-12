@@ -93,7 +93,7 @@ as_component <- function(x) {
     args <- c(x[["attribs"]] %||% list(), children = x[["children"]])
     return(do.call(htmlComponent, args))
   }
-  # TODO: is it well-defined what you'd want here? Perhaps tagList()
+  # TODO: is it well-defined what you'd want here? Perhaps tagList()?
   if (identical(class(x), "list")) {
     is_component <- vapply(x, is.component, logical(1))
     is_tag <- vapply(x, inherits, c("shiny.tag", "shiny.tag.list"), logical(1))
@@ -104,6 +104,7 @@ as_component <- function(x) {
         call. = FALSE
       )
     }
+    lapply(x, as_component)
   }
 
   x
