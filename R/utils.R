@@ -59,6 +59,55 @@ assert_fun_is_callback <- function(fun = NULL) {
   invisible(TRUE)
 }
 
+# ----------------------------------------------------------------------------
+# Mapping htmltools to dash components
+# ----------------------------------------------------------------------------
+
+# try our best to map htmltools to dash components
+as_component <- function(x) {
+  if (is.component(x)) {
+    # eventually, children should be able to hold components!
+    # therefore, htmltools tags could be put inside a component's children...
+    # https://github.com/plotly/dash-renderer/pull/26
+    #return(lapply(x[["props"]][["children"]], as_component))
+    return(x)
+  }
+  if (inherits(x, "shiny.tag.list")) {
+    return(lapply(x, as_component))
+  }
+  if (inherits(x, "shiny.tag")) {
+    # try to find an identical component (e.g. tags$a() -> htmlA())
+    # note that core components take precedence (e.g. tags$link() -> coreLink())
+    components_html <- ls(asNamespace("dashHtmlComponents"))
+    components_core <- ls(asNamespace("dashCoreComponents"))
+    is_html <- tolower(components_html) %in% paste0("html", x[["name"]])
+    is_core <- tolower(components_core) %in% paste0("core", x[["name"]])
+    component <- components_core[is_core] %||% components_html[is_html]
+    namespace <- if (grepl("^core", component)) "dashCoreComponents" else  "dashHtmlComponents"
+    htmlComponent <- tryCatch(
+      getFromNamespace(component, namespace),
+      error = function(e) {
+        stop(sprintf("Couldn't find a mapping for '%s' tags", x[["name"]]), call. = FALSE)
+      }
+    )
+    args <- c(x[["attribs"]] %||% list(), children = x[["children"]])
+    return(do.call(htmlComponent, args))
+  }
+  # TODO: is it well-defined what you'd want here? Perhaps tagList()
+  if (identical(class(x), "list")) {
+    is_component <- vapply(x, is.component, logical(1))
+    is_tag <- vapply(x, inherits, c("shiny.tag", "shiny.tag.list"), logical(1))
+    if (!all(is_component | is_tag)) {
+      stop(
+        'Layout must be a collection of dash components and/or ',
+        'htmltools tags (or a function that returns those things)',
+        call. = FALSE
+      )
+    }
+  }
+
+  x
+}
 
 # ----------------------------------------------------------------------------
 # Security stuff

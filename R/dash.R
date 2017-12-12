@@ -388,15 +388,13 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
-      # at this point we should be working with a list of components
-      is_component <- vapply(layout, is.component, logical(1))
-      if (!all(is_component)) {
-        stop(
-          'Layout must be a collection of dash components ',
-          'or a function that returns a collection of components.',
-          call. = FALSE
-        )
-      }
+      # at this point we should be working with a list of:
+      # (1) dash components
+      # (2) stuff built on htmltools
+      # this function ensures we have a list of dash components
+      layout <- lapply(layout, as_component)
+
+
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary?
       layout <- dashHtmlComponents::htmlDiv(
