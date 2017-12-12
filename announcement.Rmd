@@ -31,6 +31,12 @@ I'm super excited to announce a new R package, [dasher](https://github.com/plotl
 ### Dash components -- write once, use everywhere
 
 
+### Dash HTML components
+
+### Dash core components
+
+Talk about how this sort of thing is difficult in shiny <https://plot.ly/dash/urls> (versus shinyjs hacks, also <http://jaehyeon-kim.github.io/2016/06/Some-Thoughts-On-Shiny-Open-Source-Render-Multiple-Pages.html>)
+
 
 ### Web server exposed as first-class citizen
 
