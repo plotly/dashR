@@ -10,7 +10,7 @@
 
 # For better performance, consider placing CSS in the <head> of the HTML
 # document (via app$dependencies_set(), which automatically places css in <head>)
-dash_css <- function(name = "bWLwgP.css") {
+dash_css <- function(name = "bWLwgP") {
   htmltools::htmlDependency(
     name = "dash-css",
     version = "1.0.0",
@@ -19,7 +19,7 @@ dash_css <- function(name = "bWLwgP.css") {
       href = "https://codepen.io/chriddyp/pen",
       file = "lib/dash-css"
     ),
-    stylesheet = name,
+    stylesheet = paste0(name, ".css"),
     all_files = FALSE
   )
 }

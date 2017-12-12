@@ -1,12 +1,12 @@
 # The Dash stylesheet (not on npm)
 # note: if this updates, update dash_css() as well
-dashCSS <- "inst/lib/dash-css/bWLwgP.css"
-if (!file.exists(dashCSS)) {
-  dir.create(dirname(dashCSS), recursive = TRUE)
-  download.file(
-    paste0("https://codepen.io/chriddyp/pen/", basename(dashCSS)), dashCSS
-  )
-}
+dashCSS <- c(
+  "inst/lib/dash-css/bWLwgP.css",
+  "inst/lib/dash-css/LLYbXR.css"
+)
+download.file(
+  paste0("https://codepen.io/chriddyp/pen/", basename(dashCSS)), dashCSS
+)
 
 
 # devtools::install_github('cpsievert/runpkg')
