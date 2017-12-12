@@ -184,7 +184,8 @@ Dash <- R6::R6Class(
           ]]
         if (!length(wrapper)) stop_report("Couldn't find output component.")
 
-        # helper function to update formal arguments of the callback function with their new value
+        # helper function to update formal arguments of the callback function
+        # with their new prop value(s)
         update_formals <- function(wrapper, request, type = c("inputs", "state")) {
           type <- match.arg(type)
           currentValues <- as.data.frame(request$body[[type]])
@@ -201,20 +202,11 @@ Dash <- R6::R6Class(
             }
             # NOTE: length(idx) > 1 should never happen because layout ids
             # are guaranteed to be unique at this point
-            currentVal <- currentValues[idx, ]
-            # this can happen if property is mis-specified
-            if (!"value" %in% names(currentVal)) {
-              warning(
-                "No value computed for ", type, " with id.property of '",
-                currentVal[["key"]], "'.",
-                call. = FALSE
-              )
-              next
-            }
-            formals(wrapper$func) <- modifyList(
-              formals(wrapper$func),
-              setNames(list(currentVal[["value"]]), names(wrapper[[type]])[[i]])
-            )
+            prop_val <- currentValues[idx, ][["value"]]
+            prop_nm <- names(wrapper[[type]])[[i]]
+
+            # update the value of the formal argument with the new prop value
+            formals(wrapper$func)[prop_nm] <- setNames(list(prop_val), prop_nm)
           }
           wrapper
         }
