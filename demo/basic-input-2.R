@@ -7,6 +7,8 @@ app$layout_set(
   html_div(id = 'outputID')
 )
 
+# by default, input() accesses the value of a property named 'value',
+# but you can access the value of any other valid property (this case 'type')
 app$callback(
   function(x = input("inputID"), y = input("inputID", "type")) {
     sprintf("You've entered: '%s' into the '%s' input control", x, y)
