@@ -25,7 +25,7 @@ app$layout_set(
   )
 )
 
-# show/hide on radio button toggle
+# show/hide R logo on radio button toggle
 app$callback(
   function(toggle = input("toggle")) {
     display <- if (identical("Show", toggle)) "block" else "none"
@@ -34,7 +34,7 @@ app$callback(
   output("radio_container", "style")
 )
 
-# show/hide upon clicking button
+# show/hide R logo upon button click
 app$callback(
   function(n = input("button", "n_clicks")) {
     display <- if (isTRUE(n %% 2 == 1)) "block" else "none"
@@ -43,6 +43,7 @@ app$callback(
   output("button_container", "style")
 )
 
+# update button label sensibly upon button click
 app$callback(
   function(n = input("button", "n_clicks")) {
     if (isTRUE(n %% 2 == 1)) "Hide" else "Show"
