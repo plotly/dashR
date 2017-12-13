@@ -17,21 +17,25 @@ app$layout_set(
       textAlign = 'center',
       margin = '10px'
     ),
-    # Allow multiple files to be uploaded
     multiple = TRUE
   ),
   htmlDiv(id = 'output-image-upload')
 )
 
 parse_image <- function(contents, filename, time) {
-  browser()
   htmlDiv(
     htmlH5(filename),
     htmlH6(anytime::anytime(time)),
     htmlImg(src = contents),
     htmlHr(),
     htmlDiv('Raw Content'),
-    htmlPre(contents[0:200])
+    htmlPre(
+      paste0(substr(contents, 1, 200), "..."),
+      style = list(
+        whiteSpace = 'pre-wrap',
+        wordBreak = 'break-all'
+      )
+    )
   )
 }
 
