@@ -40,12 +40,14 @@ a function which returns a collection of components.
 Retrieves the layout. If render is \code{TRUE}, and the layout is a function,
 the result of the function (rather than the function itself) is returned.
 }
-\item{\code{callback(func, output)}}{
+\item{\code{callback(func = NULL, output = NULL, .dots = NULL)}}{
 A callback function defintion. The \code{func} argument accepts any R function
-and \code{output} defines which layout component property owns the results
-(via an \link{output} object). To define how/when the callback is re-executed,
-\link{input} object(s) should be provided as argument value(s) in the function
-provided to \code{func}.
+and \code{output} defines which layout component property should adopt the results
+(via an \link{output} object). To determine what events trigger this callback,
+provide \link{input} (and/or \link{state}) object(s) (which should reference
+layout components) as argument value(s) to \code{func}. When dealing with many
+arguments, it may be useful to create them programmatically and supply them
+as a list via \code{.dots} (see demo/input-argument-list.R)
 }
 \item{\code{dependencies_set(dependencies = NULL, section = NULL, priority = NULL)}}{
 Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).

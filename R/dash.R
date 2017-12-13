@@ -28,12 +28,14 @@
 #'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
 #'     the result of the function (rather than the function itself) is returned.
 #'   }
-#'   \item{`callback(func, output)`}{
+#'   \item{`callback(func = NULL, output = NULL, .dots = NULL)`}{
 #'     A callback function defintion. The `func` argument accepts any R function
-#'     and `output` defines which layout component property owns the results
-#'     (via an [output] object). To define how/when the callback is re-executed,
-#'     [input] object(s) should be provided as argument value(s) in the function
-#'     provided to `func`.
+#'     and `output` defines which layout component property should adopt the results
+#'     (via an [output] object). To determine what events trigger this callback,
+#'     provide [input] (and/or [state]) object(s) (which should reference
+#'     layout components) as argument value(s) to `func`. When dealing with many
+#'     arguments, it may be useful to create them programmatically and supply them
+#'     as a list via `.dots` (see demo/input-argument-list.R)
 #'   }
 #'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
 #'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
@@ -317,12 +319,23 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(func = NULL, output = NULL) {
+    callback = function(func = NULL, output = NULL, .dots = NULL) {
 
       # TODO: cache layouts so we don't have to do this for every callback...
       layout <- private$layout_render()
       if (identical(layout, welcome_page())) {
         stop("The layout must be set before defining any callbacks", call. = FALSE)
+      }
+
+      if (!is.null(.dots)) {
+        nms <- names(.dots)
+        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
+          stop("Every element of the `.dots` list must be named", call. = FALSE)
+        }
+        # TODO:
+        # (1) add the restriction that they must all be input/state objects?
+        # (2) does it matter whether or not .dots is `alist()`?
+        formals(func) <- c(formals(func), .dots)
       }
 
       # turn bare R functions into a "wrapper" so eval logic is consistent
