@@ -15,7 +15,7 @@ x <- seq(1, 10, length.out = 100)
 app$callback(
   function(n = input("interval-component", "n_intervals")) {
 
-    # TODO: what???
+    # TODO: why is this being called twice?
     print(n)
 
     list(
