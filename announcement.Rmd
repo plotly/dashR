@@ -37,10 +37,18 @@ I'm super excited to announce a new R package, [dasher](https://github.com/plotl
 
 Talk about how this sort of thing is difficult in shiny <https://plot.ly/dash/urls> (versus shinyjs hacks, also <http://jaehyeon-kim.github.io/2016/06/Some-Thoughts-On-Shiny-Open-Source-Render-Multiple-Pages.html>)
 
+### No global distinction between inputs and outputs
+
+Shiny makes a 'global' distinction between inputs and outputs. There are certain things you can do with input elements that you can't necessarily do with outputs (and vice versa). For example, you can't really (in a generalized sense) obtain a value/property from a shiny output and use it as an input value to another output. This is not the case in dash. It's true that, for a given callback, you need to define what layout elements are input(s) vs output, but the output for one callback might be the input for another callback. 
+
+### More transparent
+
+Market to developers here. For example, shiny adds/removes special class to DOM elements to achieve some of it's magic, making it difficult to customize styling and so forth...
+
 
 ### Web server exposed as first-class citizen
 
-
+Go into some custom/special things you can do via fiery/routr.
 
 
 
