@@ -1,3 +1,13 @@
+# Assets from dash-docs (for rendering tutorial site)
+docsCSS  <- c(
+  "inst/css/base.css",
+  "inst/css/custom.css"
+)
+download.file(
+  paste0("https://raw.githubusercontent.com/plotly/dash-docs/master/css/", basename(docsCSS)), docsCSS
+)
+
+
 # The Dash stylesheet (not on npm)
 # note: if this updates, update dash_css() as well
 dashCSS <- c(
@@ -7,6 +17,8 @@ dashCSS <- c(
 download.file(
   paste0("https://codepen.io/chriddyp/pen/", basename(dashCSS)), dashCSS
 )
+
+
 
 
 # devtools::install_github('cpsievert/runpkg')
