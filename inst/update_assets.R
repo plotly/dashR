@@ -1,26 +1,13 @@
-# Assets from dash-docs (for rendering tutorial site)
-docsCSS  <- c(
-  "inst/css/base.css",
-  "inst/css/custom.css"
-)
+# Grab all CSS files from https://github.com/plotly/dash-app-stylesheets
+contents <- gh::gh("/repos/plotly/dash-app-stylesheets/contents")
+files <- sapply(contents, "[[", "path")
 download.file(
-  paste0("https://raw.githubusercontent.com/plotly/dash-docs/master/css/", basename(docsCSS)), docsCSS
+  paste0("https://raw.githubusercontent.com/plotly/dash-app-stylesheets/master/", files),
+  paste0("inst/lib/dash-app-stylesheets/", sub("^dash-", "", files))
 )
 
 
-# The Dash stylesheet (not on npm)
-# note: if this updates, update dash_css() as well
-dashCSS <- c(
-  "inst/lib/dash-css/bWLwgP.css",
-  "inst/lib/dash-css/LLYbXR.css"
-)
-download.file(
-  paste0("https://codepen.io/chriddyp/pen/", basename(dashCSS)), dashCSS
-)
-
-
-
-
+# now, grab js/css dependencies for running dash-renderer
 # devtools::install_github('cpsievert/runpkg')
 library(runpkg)
 options(

@@ -1,6 +1,5 @@
 /* Table of contents
 ––––––––––––––––––––––––––––––––––––––––––––––––––
-- Plotly.js
 - Grid
 - Base Styles
 - Typography
@@ -16,21 +15,12 @@
 - Media Queries
 */
 
-/* PLotly.js 
+/* PLotly.js
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* plotly.js's modebar's z-index is 1001 by default
- * https://github.com/plotly/plotly.js/blob/7e4d8ab164258f6bd48be56589dacd9bdd7fded2/src/css/_modebar.scss#L5
- * In case a dropdown is above the graph, the dropdown's options
- * will be rendered below the modebar
- * Increase the select option's z-index
- */
-
-/* This was actually not quite right -
-   dropdowns were overlapping each other (edited October 26)
-
-.Select {
-    z-index: 1002;
-}*/
+/* plotly.js's modebar's z-index is outta the roof by default - lower it down */
+.js-plotly-plot .plotly .modebar {
+    z-index: 0 important!;
+}
 
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -54,35 +44,35 @@
     padding: 0; }
 }
 
-/* For devices larger than 550px */
-@media (min-width: 550px) {
+/* For devices larger than 750px */
+@media (min-width: 750px) {
   .container {
     width: 80%; }
   .column,
   .columns {
-    margin-left: 4%; }
+    margin-left: 1%; }
   .column:first-child,
   .columns:first-child {
     margin-left: 0; }
 
   .one.column,
-  .one.columns                    { width: 4.66666666667%; }
-  .two.columns                    { width: 13.3333333333%; }
-  .three.columns                  { width: 22%;            }
-  .four.columns                   { width: 30.6666666667%; }
-  .five.columns                   { width: 39.3333333333%; }
-  .six.columns                    { width: 48%;            }
-  .seven.columns                  { width: 56.6666666667%; }
-  .eight.columns                  { width: 65.3333333333%; }
-  .nine.columns                   { width: 74.0%;          }
-  .ten.columns                    { width: 82.6666666667%; }
-  .eleven.columns                 { width: 91.3333333333%; }
+  .one.columns                    { width: 7.41666666667%; }
+  .two.columns                    { width: 15.8333333333%; }
+  .three.columns                  { width: 24.25%;         }
+  .four.columns                   { width: 32.6666666667%; }
+  .five.columns                   { width: 41.0833333333%; }
+  .six.columns                    { width: 49.5%;          }
+  .seven.columns                  { width: 57.9166666667%; }
+  .eight.columns                  { width: 66.3333333333%; }
+  .nine.columns                   { width: 74.75%          }
+  .ten.columns                    { width: 83.1666666667%; }
+  .eleven.columns                 { width: 91.5833333333%; }
   .twelve.columns                 { width: 100%; margin-left: 0; }
 
-  .one-third.column               { width: 30.6666666667%; }
-  .two-thirds.column              { width: 65.3333333333%; }
+  .one-third.column               { width: 32.6666666667%; }
+  .two-thirds.column              { width: 66.3333333333%; }
 
-  .one-half.column                { width: 48%; }
+  .one-half.column                { width: 49.5%; }
 
   /* Offsets */
   .offset-by-one.column,
@@ -165,9 +155,9 @@ blockquote {
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
-  color: #1EAEDB; 
-  text-decoration: underline;
-  cursor: pointer;}
+  color: #1EAEDB;
+  cursor: pointer;
+  text-decoration: underline;}
 a:hover {
   color: #0FA0CE; }
 
@@ -249,7 +239,7 @@ select {
   border: 1px solid #D1D1D1;
   border-radius: 4px;
   box-shadow: none;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   font-family: inherit;
   font-size: inherit; /*https://stackoverflow.com/questions/6080413/why-doesnt-input-inherit-the-font-from-body*/}
 /* Removes awkward default styles on some inputs for iOS */
@@ -316,9 +306,6 @@ li {
 
 /* Tables
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-table {
-  border-collapse: collapse;
-}
 th,
 td {
   padding: 12px 15px;
@@ -402,7 +389,7 @@ there.
 @media (min-width: 400px) {}
 
 /* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {}
+@media (min-width: 750px) {}
 
 /* Larger than tablet */
 @media (min-width: 750px) {}
