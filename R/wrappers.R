@@ -11,7 +11,7 @@
 #'
 #' @export
 #' @author Carson Sievert
-#' @example demo/wrap-png-slider.R
+#' @example inst/tutorial/examples/wrap-png-slider.R
 wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...) {
 
   device <- if (cairo && system.file(package = "Cairo") != "") {

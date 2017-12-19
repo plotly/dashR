@@ -2,16 +2,20 @@
 % Please edit documentation in R/css.R
 \name{dash_css}
 \alias{dash_css}
-\title{Dash stylesheets}
+\title{Dash app stylesheets}
 \usage{
-dash_css(name = "bWLwgP")
+dash_css(filenames = "docs-base")
 }
 \arguments{
-\item{external}{whether or not to use a local file.}
+\item{filenames}{css filenames to use}
 }
 \description{
+Easily include 'official' Dash stylesheet in your dasher applications.
+Any of the
+}
+\details{
 Use the 'official' Dash stylesheet in your dasher applications
-\url{https://codepen.io/chriddyp/pen/bWLwgP}.
+\url{https://github.com/plotly/dash-app-stylesheets}.
 }
 \examples{
 library(dasher)
@@ -34,7 +38,7 @@ app$callback(
   output("outputID")
 )
 
-app$run_server(showcase = TRUE)
+# app$run_server(showcase = TRUE)
 
 
 # For better performance, consider placing CSS in the <head> of the HTML
@@ -44,5 +48,5 @@ app$layout_set(
   htmlDiv(id = 'outputID')
 )
 app$dependencies_set(dash_css())
-app$run_server(showcase = TRUE)
+app
 }
