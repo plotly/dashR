@@ -44,4 +44,4 @@ app$callback(
   output('graph-multiple-dropdowns', 'figure')
 )
 
-app$run_server(showcase = TRUE)
+app

@@ -21,4 +21,4 @@ app$callback(
   output("output-container")
 )
 
-app$run_server(showcase = TRUE)
+app

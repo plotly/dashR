@@ -51,4 +51,4 @@ app$callback(
   }, output("output-image-upload")
 )
 
-app$run_server(showcase = TRUE)
+app

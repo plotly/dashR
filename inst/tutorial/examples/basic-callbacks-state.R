@@ -47,4 +47,4 @@ app$callback(
   output("graph-id", "figure")
 )
 
-app$run_server(showcase = TRUE)
+app

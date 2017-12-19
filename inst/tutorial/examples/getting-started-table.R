@@ -29,4 +29,4 @@ app$layout_set(
 
 
 app$dependencies_set(dash_css())
-app$run_server(showcase = TRUE)
+app

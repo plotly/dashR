@@ -51,7 +51,7 @@ app$callback(
   output("button")
 )
 
-app$run_server(showcase = TRUE)
+app
 
 
 

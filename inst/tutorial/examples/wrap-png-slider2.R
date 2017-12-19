@@ -34,4 +34,4 @@ app$callback(
   output(id = 'plot')
 )
 
-app$run_server(showcase = TRUE)
+app

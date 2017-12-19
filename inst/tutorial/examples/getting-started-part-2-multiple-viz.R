@@ -92,4 +92,4 @@ app$callback(
   }, output("indicator-graphic", "figure")
 )
 
-app$run_server(showcase = TRUE)
+app

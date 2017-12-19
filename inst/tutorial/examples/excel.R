@@ -43,5 +43,5 @@ app$callback(
   output("amount-per-week")
 )
 
-app$dependencies_set(dash_css(c('bWLwgP', 'LLYbXR')))
-app$run_server(showcase = TRUE)
+app$dependencies_set(dash_css(c("docs-base", "docs-custom")))
+app

@@ -28,6 +28,5 @@ app$layout_set(
   )
 )
 
-# see demo/download-csv.R for an example of parsing upload content
-
-app$run_server(showcase = TRUE)
+# see download-csv.R for an example of parsing upload content
+app

@@ -13,4 +13,4 @@ app$callback(
   }, output("my-div")
 )
 
-app$run_server(showcase = TRUE)
+app

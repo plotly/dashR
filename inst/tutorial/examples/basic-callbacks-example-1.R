@@ -36,4 +36,4 @@ app$callback(
   output('section3-graph', 'figure')
 )
 
-app$run_server(showcase = TRUE)
+app

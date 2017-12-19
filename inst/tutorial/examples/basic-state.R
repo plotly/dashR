@@ -24,4 +24,4 @@ app$callback(
   output("output")
 )
 
-app$run_server(showcase = TRUE)
+app

@@ -16,4 +16,4 @@ if this is your first introduction to Markdown
 
 app$layout_set(md)
 
-app$run_server(showcase = TRUE)
+app

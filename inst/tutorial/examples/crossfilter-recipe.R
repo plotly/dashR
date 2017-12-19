@@ -176,4 +176,4 @@ app$callback(
 
 
 app$dependencies_set(dash_css())
-app$run_server(showcase = TRUE)
+app

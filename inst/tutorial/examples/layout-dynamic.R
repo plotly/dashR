@@ -9,4 +9,4 @@ ui <- function() {
 
 app <- Dash$new()
 app$layout_set(ui)
-app$run_server(showcase = TRUE)
+app

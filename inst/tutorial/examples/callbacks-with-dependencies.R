@@ -80,4 +80,4 @@ app$callback(
   }, output('display')
 )
 
-app$run_server(showcase = TRUE)
+app

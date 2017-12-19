@@ -35,4 +35,4 @@ app$callback(
   }, output("output-b")
 )
 
-app$run_server(showcase = TRUE)
+app

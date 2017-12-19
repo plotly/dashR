@@ -17,4 +17,4 @@ app$callback(
   output("output-container-button")
 )
 
-app$run_server(showcase = TRUE)
+app

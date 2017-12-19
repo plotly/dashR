@@ -56,4 +56,4 @@ app$callback(
   }, output("download-link", "href")
 )
 
-app$run_server(showcase = TRUE)
+app

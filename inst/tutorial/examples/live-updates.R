@@ -33,4 +33,4 @@ app$callback(
   }, output("live-update-graph", "figure")
 )
 
-app$run_server(showcase = TRUE)
+app

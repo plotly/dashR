@@ -19,4 +19,4 @@ app$layout_set(
   )
 )
 
-app$run_server(showcase = TRUE)
+app

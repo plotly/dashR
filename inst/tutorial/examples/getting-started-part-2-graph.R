@@ -57,4 +57,4 @@ app$callback(
   }, output("graph-with-slider", "figure")
 )
 
-app$run_server(showcase = TRUE)
+app

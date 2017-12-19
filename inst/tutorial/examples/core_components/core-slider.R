@@ -25,4 +25,4 @@ app$callback(
   output("outputID")
 )
 
-app$run_server(showcase = TRUE)
+app

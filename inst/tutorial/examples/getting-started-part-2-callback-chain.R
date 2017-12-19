@@ -39,4 +39,4 @@ app$callback(
   }, output("display-selected-values")
 )
 
-app$run_server(showcase = TRUE)
+app

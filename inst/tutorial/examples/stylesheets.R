@@ -18,7 +18,7 @@ app$callback(
   output("outputID")
 )
 
-app$run_server(showcase = TRUE)
+# app$run_server(showcase = TRUE)
 
 
 # For better performance, consider placing CSS in the <head> of the HTML
@@ -28,4 +28,4 @@ app$layout_set(
   htmlDiv(id = 'outputID')
 )
 app$dependencies_set(dash_css())
-app$run_server(showcase = TRUE)
+app

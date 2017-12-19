@@ -29,4 +29,4 @@ app$callback(
   output("output-container-date-picker-single")
 )
 
-app$run_server(showcase = TRUE)
+app

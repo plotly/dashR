@@ -30,4 +30,4 @@ app$dependencies_get()
 app$dependencies_set(plotly::plot_ly()$dependencies)
 app$dependencies_get()
 
-app$run_server(showcase = TRUE)
+app
