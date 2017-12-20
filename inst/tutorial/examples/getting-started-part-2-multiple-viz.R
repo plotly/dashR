@@ -48,7 +48,7 @@ app$layout_set(
   coreGraph(id = 'indicator-graphic'),
 
   coreSlider(
-    id = 'year-slider',
+    id = 'year-slider-2',
     min = min(years),
     max = max(years),
     value = max(years),
