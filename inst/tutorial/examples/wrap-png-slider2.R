@@ -4,10 +4,8 @@ library(MASS)
 
 app <- Dash$new()
 
-marks <- c(10, 5000, 1e4)
-marks <- setNames(as.list(marks), marks)
 slider <- coreSlider(
-  id = 'n', min = 10, max = 1e4, value = 1000, marks = marks
+  id = 'n', min = 10, max = 1e4, value = 1000, marks = c(10, 5000, 1e4)
 )
 
 app$layout_set(

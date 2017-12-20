@@ -6,14 +6,14 @@ app$layout_set(
 
   coreRadioItems(
     id = 'dropdown-a',
-    options = lapply(c('Canada', 'USA', 'Mexico'), function(x) list(label = x, value = x)),
+    options = c('Canada', 'USA', 'Mexico'),
     value = 'Canada'
   ),
   htmlDiv(id = 'output-a'),
 
   coreRadioItems(
     id = 'dropdown-b',
-    options = lapply(c('MTL', 'NYC', 'SF'), function(x) list(label = x, value = x)),
+    options = c('MTL', 'NYC', 'SF'),
     value = 'MTL'
   ),
   htmlDiv(id = 'output-b')

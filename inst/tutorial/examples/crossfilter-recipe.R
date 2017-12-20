@@ -12,19 +12,13 @@ app$layout_set(
     htmlLabel("Persistent selection?"),
     coreRadioItems(
       id = "persist",
-      options = list(
-        list(label = "yes", value = "yes"),
-        list(label = "no", value = "no")
-      ),
+      options = c("yes", "no"),
       value = "yes"
     ),
     htmlLabel("Selection sequence logic"),
     coreRadioItems(
       id = "logic",
-      options = list(
-        list(label = "union", value = "union"),
-        list(label = "intersection", value = "intersection")
-      ),
+      options = c("union", "intersection"),
       value = "intersection"
     )
   ),

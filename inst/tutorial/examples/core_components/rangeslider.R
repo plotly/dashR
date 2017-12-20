@@ -13,7 +13,7 @@ app$layout_set(
       min = min(marks),
       max = max(marks),
       step = 0.1,
-      marks = setNames(as.list(marks), marks),
+      marks = marks,
       value = c(2.5, 15),
       pushable = TRUE
     )
@@ -22,7 +22,6 @@ app$layout_set(
 
 app$callback(
   function(value = input("my-range-slider")) {
-    # TODO: should this be an integer vector?
     val <- value[[1]]
     sprintf("The min is %s and max is %s", min(val), max(val))
   },

@@ -2,27 +2,23 @@ library(dasher)
 
 app <- Dash$new()
 
-# marks currently requires a named list
-# TODO: make a PR to dash-core-components to do this automatically
-marks <- setNames(
-  as.list(letters),
-  rev(seq_along(letters))
-)
-
 app$layout_set(
-  htmlDiv(
-    coreSlider(id = 'slider', min = 1, max = 26, value = 3, marks = marks),
-    id = 'container', style = list(width = "50%")
+  coreSlider(
+    id = 'my-slider',
+    min = 0,
+    max = 20,
+    step = 0.5,
+    value = 10
   ),
-  htmlDiv(id = 'outputID', style = list(`margin-top` = 25))
+  htmlDiv(id = 'slider-output-container')
 )
 
 app$callback(
-  function(x = input("slider")) {
+  function(x = input("my-slider")) {
     # careful, in this case, [[3]] is different from [["3"]]!
-    sprintf("Current value of '%s' maps to '%s'", x, marks[[as.character(x)]])
+    paste("You have selected ", x)
   },
-  output("outputID")
+  output("slider-output-container")
 )
 
 app

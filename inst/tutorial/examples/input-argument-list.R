@@ -6,13 +6,12 @@ app <- Dash$new()
 
 # generate 10 random ids
 ids <- sapply(1:10, function(x) basename(tempfile("")))
-options <- lapply(letters, function(x) list(value = x, label = x))
 
 app$layout_set(
   htmlDiv(id = "all-ids"),
   htmlDiv(
     children = lapply(ids, function(x) {
-      coreDropdown(id = x, options = options, value = sample(letters, 1))
+      coreDropdown(id = x, options = letters, value = sample(letters, 1))
     })
   )
 )

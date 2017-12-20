@@ -10,7 +10,7 @@ app <- Dash$new()
 app$layout_set(
   coreDropdown(
     id = 'section3-dropdown',
-    options = Map(function(x, y) list(label = x, value = y), names(stocks), stocks, USE.NAMES = FALSE),
+    options = stocks,
     value = 'COKE'
   ),
   coreGraph(id = 'section3-graph')

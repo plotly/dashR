@@ -1,7 +1,6 @@
 library(dasher)
 # TODO: create this package from dash_table_experiments
 # library(dashTable)
-library(rio)
 
 app <- Dash$new()
 app$layout_set(

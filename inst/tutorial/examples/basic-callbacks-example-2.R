@@ -10,12 +10,12 @@ app <- Dash$new()
 app$layout_set(
   coreDropdown(
     id = 'ticker-id',
-    options = Map(function(x, y) list(label = x, value = y), names(stocks), stocks, USE.NAMES = FALSE),
+    options = stocks,
     value = 'COKE'
   ),
   coreDropdown(
     id = 'column-id',
-    options = lapply(c('Open', 'High', 'Low', 'Close', 'High - Low'), function(x) list(label = x, value = x)),
+    options = c('Open', 'High', 'Low', 'Close', 'High - Low'),
     value = 'Open'
   ),
 

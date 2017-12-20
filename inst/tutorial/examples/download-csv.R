@@ -6,15 +6,13 @@ library(dasher)
 # grab name/description for every dataset that ships with R
 dat <- data(package = "datasets")[["results"]]
 d <- dat[!duplicated(dat[, "Title"]), ]
-options <- Map(function(x, y) list(label = x, value = y), d[, "Title"], d[, "Item"])
 
 app <- Dash$new()
 
 app$layout_set(
   coreDropdown(
     id = "dataset",
-    # ensure options is converted to an array (not object) of objects
-    options = setNames(options, NULL),
+    options = setNames(d[, "Item"], d[, "Title"]),
     value = "iris"
   ),
   htmlA(

@@ -2,10 +2,10 @@ library(dasher)
 
 app <- Dash$new()
 
-options <- list(
-  list(label = 'New York City', value = 'NYC'),
-  list(label = 'Montréal', value = 'MTL'),
-  list(label = 'San Francisco', value = 'SF')
+options <- c(
+  `New York City` = 'NYC',
+  `Montréal` = 'MTL',
+  `San Francisco` = 'SF'
 )
 
 app$layout_set(
@@ -45,7 +45,7 @@ app$layout_set(
     coreSlider(
       min = 0,
       max = 9,
-      marks = setNames(as.list(1:6), 1:6),
+      marks = 1:6,
       value = 5
     )
 

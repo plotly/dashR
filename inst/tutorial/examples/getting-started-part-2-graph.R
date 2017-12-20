@@ -16,7 +16,7 @@ app$layout_set(
     max = max(years),
     value = min(years),
     step = NA,
-    marks = setNames(as.list(years), years)
+    marks = years
   )
 )
 

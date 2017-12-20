@@ -24,7 +24,7 @@ pageSubTitle <- htmlDiv(
 )
 
 graph <- coreGraph(
-  id = 'example-graph',
+  id = 'example-graph-2',
   figure = list(
     data = list(
       list(x = c(1, 2, 3), y = c(4, 1, 2), type = 'bar', name = 'SF'),

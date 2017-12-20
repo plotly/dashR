@@ -7,12 +7,9 @@ dat <- read.csv(
 
 years <- unique(dat$Year)
 indicators <- unique(dat$Indicator.Name)
-options_indicators <- lapply(indicators, function(i) {
-  list(label = i, value = i)
-})
-options_scale <- list(
-  list(label = "Linear", value = "linear"),
-  list(label = "Log", value = "log")
+scale <- c(
+  "Linear" = "linear",
+  "Log" = "log"
 )
 
 app <- Dash$new()
@@ -22,12 +19,12 @@ app$layout_set(
     style = list(width = '48%', display = 'inline-block'),
     coreDropdown(
       id = 'xaxis-column',
-      options = options_indicators,
+      options = indicators,
       value = 'Fertility rate, total (births per woman)'
     ),
     coreRadioItems(
       id = 'xaxis-type',
-      options = options_scale,
+      options = scale,
       value = 'linear',
       labelStyle = list(display = 'inline-block')
     )
@@ -37,12 +34,12 @@ app$layout_set(
     style = list(width = '48%', float = "right", display = 'inline-block'),
     coreDropdown(
       id = 'yaxis-column',
-      options = options_indicators,
+      options = indicators,
       value = 'Life expectancy at birth, total (years)'
     ),
     coreRadioItems(
       id = 'yaxis-type',
-      options = options_scale,
+      options = scale,
       value = 'linear',
       labelStyle = list(display = 'inline-block')
     )
@@ -56,7 +53,7 @@ app$layout_set(
     max = max(years),
     value = max(years),
     step = NA,
-    marks = setNames(as.list(years), years)
+    marks = years
   )
 )
 

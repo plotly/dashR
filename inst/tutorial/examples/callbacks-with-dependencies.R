@@ -17,7 +17,7 @@ app$layout_set(
   # Initial dropdown with initial state
   coreDropdown(
     id = 'cities-dropdown',
-    options = lapply(names(all_options), function(x) list(label = x, value = x)),
+    options = names(all_options),
     value = 'NYC'
   ),
 
@@ -43,6 +43,9 @@ app$callback(
   function(city = cities) {
     Sys.sleep(2)
     opts <- names(all_options[[city]])
+    # TODO: dash wants options as [{label: "foo", value: "bar"}]
+    # atomic vectors are mapped to this data structure in layout_set(),
+    # but we don't (yet) provide this mapping in a callback
     lapply(opts, function(x) list(label = x, value = x))
   }, output("category-dropdown", "options")
 )
@@ -50,7 +53,7 @@ app$callback(
 # Update the category dropdown's 'value' when its 'options' get changed
 app$callback(
   function(new_options = input('category-dropdown', 'options')) {
-    new_options[[1]]$value
+    new_options[[1]]
   }, output('category-dropdown', 'value')
 )
 
@@ -67,7 +70,7 @@ app$callback(
 # Update the sub-category dropdown's 'value' when its options change
 app$callback(
   function(new_options = input('sub-category-dropdown', 'options')) {
-    new_options[[1]]$value
+    new_options[[1]]
   }, output('sub-category-dropdown', 'value')
 )
 

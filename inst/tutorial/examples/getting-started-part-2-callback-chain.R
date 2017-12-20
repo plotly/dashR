@@ -10,7 +10,7 @@ app <- Dash$new()
 app$layout_set(
   coreRadioItems(
     id = 'countries',
-    options = lapply(names(all_options), function(x) list(label = x, value = x)),
+    options = names(all_options),
     value = 'America'
   ),
   htmlHr(),
@@ -22,6 +22,9 @@ app$layout_set(
 # update the (city) options based on the current country
 app$callback(
   function(country = input("countries")) {
+    # TODO: dash wants options as [{label: "foo", value: "bar"}]
+    # atomic vectors are mapped to this data structure in layout_set(),
+    # but we don't (yet) provide this mapping in a callback
     lapply(all_options[[country]], function(x) list(label = x, value = x))
   }, output("cities", "options")
 )

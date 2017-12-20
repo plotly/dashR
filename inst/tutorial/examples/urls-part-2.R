@@ -22,7 +22,7 @@ page1 <- htmlDiv(
   htmlH1('Page 1'),
   coreDropdown(
     id = 'page-1-dropdown',
-    options = lapply(c('LA', 'NYC', 'MTL'), function(i) list(label = i, value = i)),
+    options = c('LA', 'NYC', 'MTL'),
     value = 'LA'
   ),
   htmlDiv(id = 'page-1-content'),
@@ -37,7 +37,7 @@ page2 <- htmlDiv(
   htmlH1('Page 2'),
   coreRadioItems(
     id = 'page-2-radios',
-    options = lapply(c('Orange', 'Blue', 'Red'), function(i) list(label = i, value = i)),
+    options = c('Orange', 'Blue', 'Red'),
     value = 'Orange'
   ),
   htmlDiv(id = 'page-2-content'),

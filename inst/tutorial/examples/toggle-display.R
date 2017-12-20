@@ -7,7 +7,7 @@ app <- Dash$new()
 app$layout_set(
   coreRadioItems(
     id = 'toggle',
-    options = lapply(c("Show", "Hide"), function(i) list(label = i, value = i)),
+    options = c("Show", "Hide"),
     value = 'Hide'
   ),
   htmlDiv(
