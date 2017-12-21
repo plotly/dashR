@@ -21,6 +21,7 @@ Imports:
   plotly
 Suggests:
   dashTranspileR,
+  dashTable,
   testthat,
   knitr,
   rmarkdown,
@@ -49,6 +50,7 @@ BugReports: https://github.com/plotly/dasher/issues
 Remotes:
   plotly/dash-html-components@R,
   plotly/dash-core-components@R,
+  plotly/dash-table-experiments@R,
   plotly/dashTranspileR,
   plotly/dashHtmlwidgetComponent,
   thomasp85/routr,
