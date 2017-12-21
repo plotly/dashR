@@ -28,5 +28,5 @@ app$layout_set(
   )
 )
 
-# see download-csv.R for an example of parsing upload content
+# see upload-datafile.R or upload-image.R for examples of parsing upload content
 app

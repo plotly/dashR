@@ -1,6 +1,4 @@
 library(dasher)
-# TODO: create this package from dash_table_experiments
-# library(dashTable)
 
 app <- Dash$new()
 app$layout_set(
@@ -19,14 +17,35 @@ app$layout_set(
       margin = '10px'
     )
   ),
-  htmlDiv(id = "output-data-upload") #,htmlDiv(DataTable(rows = list(list())), style = list(display = "none"))
+  htmlDiv(id = "output-data-upload"),
+  htmlDiv(
+    style = list(display = "none"),
+    dashTable::DataTable(rows = list(list()))
+  )
 )
 
 parse <- function(contents, filename, modified) {
 
-  base64enc::base64decode(contents)
-}
+  res <- base64enc::base64decode(
+    sub("^data:.*;base64,", "", contents)
+  )
+  d <- read.csv(text = rawToChar(res))
 
+  htmlDiv(
+    htmlH5(filename),
+    htmlH6(anytime::anytime(modified)),
+    dashTable::DataTable(rows = d),
+    htmlHr(),
+    htmlDiv('Raw Content'),
+    htmlPre(
+      paste0(substr(contents, 1, 200), "..."),
+      style = list(
+        whiteSpace = 'pre-wrap',
+        wordBreak = 'break-all'
+      )
+    )
+  )
+}
 
 contents <- input("upload-data", "contents")
 filename <- input("upload-data", "filename")
@@ -34,8 +53,7 @@ modified <- input("upload-data", "last_modified")
 
 app$callback(
   function(contents = contents, filename = filename, modified = modified) {
-    browser()
-
+    Map(parse, contents, filename, modified)
   },
   output("output-data-upload")
 )
