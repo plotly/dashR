@@ -14,13 +14,13 @@ chapters <- list(
   `/dasher/interactive-graphing` = layout_get("state.R"),
   `/dasher/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
   `/dasher/dash-core-components` = layout_get("core-components.R"),
-  `/dasher/dash-html-components` = layout_get("html-components.R")
+  `/dasher/dash-html-components` = layout_get("html-components.R"),
   #`/dasher/external-resources` =
   #`/dasher/plugins` =
   #`/dasher/gallery` =
   #`/dasher/live-updates` =
   #`/dasher/performance` =
-  #`/dasher/urls` =
+  `/dasher/urls` = layout_get("urls.R")
   #`/dasher/deployment` =
   #`/dasher/deployment/on-premise` =
   #`/dasher/authentication` =
