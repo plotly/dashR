@@ -26,18 +26,12 @@ ui <- htmlDiv(
 )
 
 # Common figure generation function shared by both callbacks
-create_figure <- function(year, selectedData, hoverData, yaxis_column) {
+create_figure <- function(year, selectedData, yaxis_column) {
 
   d <- dat[dat$year == year, ]
 
-  # TODO: why can't it just be selectedData$points?
-  print(selectedData)
-  countries_select <- lapply(selectedData$points, "[[", "customdata")
-  countries_hover <- lapply(hoverData$points, "[[", "customdata")
-  countries_all <- unlist(c(countries_select, countries_hover))
-
-  opacities <- rep(1, nrow(d))
-  opacities[d$country %in% countries_all] <- 0.3
+  countries <- selectedData$points$customdata
+  opacities <- if (length(countries)) ifelse(d$country %in% countries, 1, 0.3) else 1
 
   traces <- d %>%
     split(.$continent) %>%
@@ -61,6 +55,7 @@ create_figure <- function(year, selectedData, hoverData, yaxis_column) {
     setNames(NULL)
 
   layout <- list(
+    title = "Click and drag on scatterplot to highlight countries",
     xaxis = list(
       title = 'GDP per Capita',
       type = 'log',
@@ -92,10 +87,9 @@ app$layout_set(ui)
 
 app$callback(
   function(year = input('year-slider'),
-           selectedData = input('graph-right', 'selectedData'),
-           hoverData = input('graph-right', 'hoverData')) {
+           selectedData = input('graph-right', 'selectedData')) {
 
-    fig <- create_figure(year, selectedData, hoverData, 'lifeExp')
+    fig <- create_figure(year, selectedData, 'lifeExp')
     fig$layout$yaxis <- list(
       title = 'Life Expectancy',
       range = c(10, 90),
@@ -107,10 +101,9 @@ app$callback(
 
 app$callback(
   function(year = input('year-slider'),
-           selectedData = input('graph-left', 'selectedData'),
-           hoverData = input('graph-left', 'hoverData')) {
+           selectedData = input('graph-left', 'selectedData')) {
 
-    fig <- create_figure(year, selectedData, hoverData, 'pop')
+    fig <- create_figure(year, selectedData, 'pop')
     fig$layout$yaxis <- list(
       title = 'Population',
       type = "log",

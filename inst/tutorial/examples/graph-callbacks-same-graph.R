@@ -88,4 +88,4 @@ app$callback(
   }, output('graph-with-history', 'figure')
 )
 
-app$run_server(showcase = TRUE)
+app
