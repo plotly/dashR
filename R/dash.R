@@ -132,7 +132,8 @@ Dash <- R6::R6Class(
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(private$layout_render(), pretty = TRUE)
+        lay <- private$layout_render()
+        response$body <- to_JSON(lay, pretty = TRUE)
         FALSE
       })
 
@@ -224,11 +225,7 @@ Dash <- R6::R6Class(
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = setNames(
-              list(output_value),
-              request$body$output$property
-              #if (inherits(output_value, "htmlwidget")) "x" else request$body$output$property
-            )
+            props = setNames(list(output_value), request$body$output$property)
           )
         )
 
