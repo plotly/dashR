@@ -37,7 +37,7 @@ app$layout_set(
 app$callback(
   function(hover = input('map', 'hoverData')) {
 
-    store <- hover$points[[1]]$customdata
+    store <- hover$points$customdata
     if (length(store) != 1) return()
 
     d <- dat[dat$storenum %in% store, ]

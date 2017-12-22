@@ -53,7 +53,7 @@ app$callback(
 # Update the category dropdown's 'value' when its 'options' get changed
 app$callback(
   function(new_options = input('category-dropdown', 'options')) {
-    new_options[[1]]
+    new_options
   }, output('category-dropdown', 'value')
 )
 
@@ -70,7 +70,7 @@ app$callback(
 # Update the sub-category dropdown's 'value' when its options change
 app$callback(
   function(new_options = input('sub-category-dropdown', 'options')) {
-    new_options[[1]]
+    new_options
   }, output('sub-category-dropdown', 'value')
 )
 

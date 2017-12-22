@@ -22,8 +22,7 @@ app$layout_set(
 
 app$callback(
   function(value = input("my-range-slider")) {
-    val <- value[[1]]
-    sprintf("The min is %s and max is %s", min(val), max(val))
+    sprintf("The min is %s and max is %s", min(value), max(value))
   },
   output("output-container")
 )

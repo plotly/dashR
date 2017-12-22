@@ -85,25 +85,25 @@ app$layout_set(
 
 app$callback(
   function(hoverData = input('basic-interactions', 'hoverData')) {
-    jsonlite::toJSON(hoverData, pretty = TRUE)
+    paste(utils::capture.output(hoverData), collapse = "\n")
   }, output('hover-data')
 )
 
 app$callback(
   function(clickData = input('basic-interactions', 'clickData')) {
-    jsonlite::toJSON(clickData, pretty = TRUE)
+    paste(utils::capture.output(clickData), collapse = "\n")
   }, output('click-data')
 )
 
 app$callback(
   function(selectedData = input('basic-interactions', 'selectedData')) {
-    jsonlite::toJSON(selectedData, pretty = TRUE)
+    paste(utils::capture.output(selectedData), collapse = "\n")
   }, output('selected-data')
 )
 
 app$callback(
   function(relayoutData = input('basic-interactions', 'relayoutData')) {
-    jsonlite::toJSON(relayoutData, pretty = TRUE)
+    paste(utils::capture.output(relayoutData), collapse = "\n")
   }, output('relayout-data')
 )
 

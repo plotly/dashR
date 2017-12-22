@@ -15,7 +15,7 @@ xControls <- htmlDiv(
   ),
   coreRadioItems(
     id = 'crossfilter-xaxis-type',
-    options = c('Linear', 'Log'),
+    options = c('Linear' = 'linear', 'Log' = 'log'),
     value = 'Linear',
     labelStyle = list(display = 'inline-block')
   )
@@ -30,7 +30,7 @@ yControls <- htmlDiv(
   ),
   coreRadioItems(
     id = 'crossfilter-yaxis-type',
-    options = c('Linear', 'Log'),
+    options = c('Linear' = 'linear', 'Log' = 'log'),
     value = 'Linear',
     labelStyle = list(display = 'inline-block')
   )
@@ -148,12 +148,12 @@ create_time_series <- function(dat, type, title) {
 app$callback(
   function(hoverData = hoverData, xVar = xVar, xType = xType) {
 
-    country <- hoverData[[1]]$points$text
+    country <- hoverData$points$text
 
     idx <- dat$Country.Name %in% country  &
       dat$Indicator.Name %in% xVar
 
-    title <- sprintf("  <b>%s</b> <br> %s", country, xVar[[1]])
+    title <- sprintf("  <b>%s</b> <br> %s", country, xVar)
 
     create_time_series(dat[idx, ], xType, title)
 
@@ -165,12 +165,12 @@ app$callback(
 app$callback(
   function(hoverData = hoverData, yVar = yVar, yType = yType) {
 
-    country <- hoverData[[1]]$points$text
+    country <- hoverData$points$text
 
     idx <- dat$Country.Name %in% country &
       dat$Indicator.Name %in% yVar
 
-    create_time_series(dat[idx, ], yType, yVar[[1]])
+    create_time_series(dat[idx, ], yType, yVar)
 
   }, output('y-time-series', 'figure')
 )

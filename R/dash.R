@@ -174,39 +174,40 @@ Dash <- R6::R6Class(
         # request body must be parsed on demand (to avoid errors by odd formats)
         # http://www.data-imaginist.com/2017/Introducing-reqres/
         if (!request$is("json")) stop("Expected a JSON request", call. = FALSE)
-        success <- request$parse(reqres::default_parsers["application/json"])
+
+        # Unlike `reqres::default_parsers["application/json"]`, we don't
+        # simplify the *entire* JSON blob, but we do simplify input/state value(s)
+        # https://gist.github.com/cpsievert/04d53edbe902ca86a41949e24e8b4af7
+        from_JSON <- function(raw, directives) {
+          jsonlite::fromJSON(rawToChar(raw), simplifyVector = FALSE)
+        }
+        success <- request$parse(list(`application/json` = from_JSON))
         if (!success) stop("Failed to parse body", call. = FALSE)
 
         # get the callback associated with this particular output
-        wrapper <- private$callback_map[[
-          with(request$body$output, paste(id, property, sep = "."))
-          ]]
+        thisOutput <- with(request$body$output, paste(id, property, sep = "."))
+        wrapper <- private$callback_map[[thisOutput]]
         if (!length(wrapper)) stop_report("Couldn't find output component.")
 
         # helper function to update formal arguments of the callback function
         # with their new prop value(s)
         update_formals <- function(wrapper, request, type = c("inputs", "state")) {
           type <- match.arg(type)
-          currentValues <- as.data.frame(request$body[[type]])
-          # nothing to do...
-          if (nrow(currentValues) == 0) return(wrapper)
-          currentValues$key <- with(currentValues, paste0(id, ".", property))
-          for (i in seq_along(wrapper[[type]])) {
-            depObj <- wrapper[[type]][[i]]
-            key <- with(depObj, paste0(id, ".", property))
-            idx <- match(key, currentValues[["key"]])
-            if (is.na(idx)) {
-              warning(type, " ", key, " not found.", call. = FALSE)
-              next
-            }
-            # NOTE: length(idx) > 1 should never happen because layout ids
-            # are guaranteed to be unique at this point
-            prop_val <- currentValues[idx, ][["value"]]
-            prop_nm <- names(wrapper[[type]])[[i]]
 
-            # update the value of the formal argument with the new prop value
-            formals(wrapper$func)[prop_nm] <- setNames(list(prop_val), prop_nm)
-          }
+          # put input/state info into more convenient data structures (if they exist)
+          ids <- sapply(request$body[[type]], "[[", "id")
+          if (!length(ids)) return(wrapper)
+          props <- sapply(request$body[[type]], "[[", "property")
+          # TODO: provide an option to simplify values?
+          values <- lapply(request$body[[type]], function(x) jsonlite:::simplify(x[["value"]]))
+          values_map <- setNames(values, paste0(ids, ".", props))
+
+          # map component key (ie, id.property) to the callback argument name
+          formal_map <- sapply(wrapper[[type]], "[[", "key")
+          names(values_map) <- names(formal_map)[match(names(values_map), formal_map)]
+
+          # note that a modifyList() strategy throws away NULL args, which is WRONG
+          formals(wrapper$func)[names(values_map)] <- values_map
           wrapper
         }
 
@@ -371,8 +372,7 @@ Dash <- R6::R6Class(
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      outputID <- paste(unlist(output), collapse = ".")
-      private$callback_map[[outputID]] <- wrapper
+      private$callback_map[[output[["key"]]]] <- wrapper
     },
 
     # ------------------------------------------------------------------------

@@ -16,11 +16,9 @@ app$layout_set(
 
 app$callback(
   function(value = input("my-range-slider")) {
-    # TODO: should this be an integer vector?
-    val <- value[[1]]
-    log_val <- round(10 ^ val, 1)
+    log_val <- round(10 ^ value, 1)
     list(
-      sprintf("Linear range: (%s, %s)", min(val), max(val)),
+      sprintf("Linear range: (%s, %s)", min(value), max(value)),
       htmlBr(),
       sprintf("Log range: (%s, %s)", min(log_val), max(log_val))
     )

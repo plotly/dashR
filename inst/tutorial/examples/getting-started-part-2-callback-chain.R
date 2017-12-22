@@ -32,7 +32,7 @@ app$callback(
 # when the country switches, set the cities to the first one
 app$callback(
   function(city_options = input("cities", "options")) {
-    city_options[[1]][["value"]][[1]]
+    city_options$value[[1]]
   }, output("cities", "value")
 )
 
