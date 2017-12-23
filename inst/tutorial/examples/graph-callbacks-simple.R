@@ -79,31 +79,29 @@ Clicking on legend items will also fire this event."),
 
 app <- Dash$new()
 
-app$layout_set(
-  graph, hover, click, selected, relayout
-)
+app$layout_set(graph, hover, click, selected, relayout)
 
-app$callback(
+app$callback_print(
   function(hoverData = input('basic-interactions', 'hoverData')) {
-    paste(utils::capture.output(hoverData), collapse = "\n")
+    hoverData
   }, output('hover-data')
 )
 
-app$callback(
+app$callback_print(
   function(clickData = input('basic-interactions', 'clickData')) {
-    paste(utils::capture.output(clickData), collapse = "\n")
+    clickData
   }, output('click-data')
 )
 
-app$callback(
+app$callback_print(
   function(selectedData = input('basic-interactions', 'selectedData')) {
-    paste(utils::capture.output(selectedData), collapse = "\n")
+    selectedData
   }, output('selected-data')
 )
 
-app$callback(
+app$callback_print(
   function(relayoutData = input('basic-interactions', 'relayoutData')) {
-    paste(utils::capture.output(relayoutData), collapse = "\n")
+    relayoutData
   }, output('relayout-data')
 )
 

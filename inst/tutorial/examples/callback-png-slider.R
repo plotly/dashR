@@ -21,16 +21,15 @@ app$layout_set(
   )
 )
 
-tip_plot <- function(span = input("sliderID")) {
-  gg <- ggplot(tips, aes(total_bill, tip)) +
-    geom_point() +
-    geom_smooth(color = "black", span = span)
-  print(gg)
-}
-
-app$callback(
-  wrap_png(tip_plot),
-  output(id = 'plotID')
+# TODO: support CSS width/height (e.g., width="50%")
+# this will require accessing width/height on the client
+app$callback_png(
+  function(span = input("sliderID")) {
+    gg <- ggplot(tips, aes(total_bill, tip)) +
+      geom_point() +
+      geom_smooth(color = "black", span = span)
+    print(gg)
+  }, output(id = 'plotID')
 )
 
 app
