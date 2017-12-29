@@ -10,10 +10,6 @@ dash_css(filenames = "docs-base")
 \item{filenames}{css filenames to use}
 }
 \description{
-Easily include 'official' Dash stylesheet in your dasher applications.
-Any of the
-}
-\details{
 Use the 'official' Dash stylesheet in your dasher applications
 \url{https://github.com/plotly/dash-app-stylesheets}.
 }
@@ -22,31 +18,11 @@ library(dasher)
 
 app <- Dash$new()
 
-# One way to include CSS to improve the sytle/look of your app is
-# to use htmlLink() to link to a stylesheet. Here we use the dash
-# styleguide https://codepen.io/chriddyp/pen/bWLwgP
-app$layout_set(
-  htmlLink(href = "https://codepen.io/chriddyp/pen/bWLwgP.css", rel = "stylesheet"),
-  coreInput(id = 'inputID', value = 'initial value', type = "text"),
-  htmlDiv(id = 'outputID')
-)
-
-app$callback(
-  function(x = input("inputID"), y = input("inputID", "type")) {
-    sprintf("You've entered: '\%s' into the '\%s' input control", x, y)
-  },
-  output("outputID")
-)
-
-# app$run_server(showcase = TRUE)
-
-
-# For better performance, consider placing CSS in the <head> of the HTML
-# document (via app$dependencies_set(), which automatically places css in <head>)
 app$layout_set(
   coreInput(id = 'inputID', value = 'initial value', type = "text"),
   htmlDiv(id = 'outputID')
 )
+
 app$dependencies_set(dash_css())
 app
 }

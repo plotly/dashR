@@ -1,6 +1,9 @@
 library(dasher)
 library(htmltools)
 
+# make sure we're using the tutorial directory as the working directory
+setwd(here::here("inst", "tutorial"))
+
 # import layout_get(), etc.
 source("tools.R")
 
@@ -10,12 +13,12 @@ chapters <- list(
   `/dasher/installation` = layout_get("installation.R"),
   `/dasher/getting-started` = layout_get("getting-started-part-1.R"),
   `/dasher/getting-started-part-2` = layout_get("getting-started-part-2.R"),
-  #`/dasher/state` = layout_get("state.R"),
-  `/dasher/interactive-graphing` = layout_get("state.R"),
+  `/dasher/state` = layout_get("state.R"),
+  `/dasher/interactive-graphing` = layout_get("graphing.R"),
   `/dasher/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
   `/dasher/dash-core-components` = layout_get("core-components.R"),
   `/dasher/dash-html-components` = layout_get("html-components.R"),
-  #`/dasher/external-resources` =
+  `/dasher/external-resources` = layout_get("external-css-and-js.R"),
   #`/dasher/plugins` =
   #`/dasher/gallery` =
   #`/dasher/live-updates` =

@@ -1,14 +1,11 @@
 #' Dash app stylesheets
 #'
-#' Easily include 'official' Dash stylesheet in your dasher applications.
-#' Any of the
-#'
 #' Use the 'official' Dash stylesheet in your dasher applications
 #' <https://github.com/plotly/dash-app-stylesheets>.
 #'
 #' @param filenames css filenames to use
 #' @export
-#' @example inst/tutorial/examples/stylesheets.R
+#' @example inst/tutorial/examples/style-dash-css.R
 #' @md
 #'
 
