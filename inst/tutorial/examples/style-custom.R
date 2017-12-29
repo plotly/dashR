@@ -4,24 +4,23 @@ library(htmltools)
 styleGuide <- "https://codepen.io/chriddyp/pen/bWLwgP.css"
 tmpDir <- tempdir()
 download.file(
-  styleGuide, file.path(tmpDir, basename(tmpCSS))
+  styleGuide, file.path(tmpDir, basename(styleGuide))
 )
 
 # create a htmlDependency() object representing the CSS dependency
 styleDep <- htmlDependency(
   name = "dash-style-guide",
   version = "0.0.1",
-  # defining both file and href enables both local and non-local rendering
+  # defining both file & href enables both local & remote rendering
   src = c(
-    href = dirname(styleGuide),
-    file = tmpDir
+    file = tmpDir,
+    href = dirname(styleGuide)
   ),
-  stylesheet = basename(tmpCSS),
+  stylesheet = basename(styleGuide),
   all_files = FALSE
 )
 
 library(dasher)
-
 app <- Dash$new()
 app$dependencies_set(styleDep)
 app$layout_set(
