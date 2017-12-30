@@ -19,15 +19,15 @@ chapters <- list(
   `/dasher/dash-core-components` = layout_get("core-components.R"),
   `/dasher/dash-html-components` = layout_get("html-components.R"),
   `/dasher/external-resources` = layout_get("external-css-and-js.R"),
-  #`/dasher/plugins` =
+  `/dasher/plugins` = layout_get("plugins.R"),
   #`/dasher/gallery` =
-  #`/dasher/live-updates` =
+  `/dasher/live-updates` = layout_get("live-updates.R"),
   #`/dasher/performance` =
-  `/dasher/urls` = layout_get("urls.R")
+  `/dasher/urls` = layout_get("urls.R"),
   #`/dasher/deployment` =
   #`/dasher/deployment/on-premise` =
   #`/dasher/authentication` =
-  #`/dasher/support` =
+  `/dasher/support` = layout_get("support.R")
 )
 
 coreDir <- here::here("inst", "tutorial", "examples", "core_components")
