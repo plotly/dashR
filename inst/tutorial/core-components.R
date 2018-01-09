@@ -8,12 +8,10 @@ ui <- htmlDiv(
   htmlH1('Dash Core Components'),
 
   coreMarkdown(
-    "
-Dasher ships with supercharged components for interactive user interfaces.
-A core set of components, written and maintained by the Dash team,
-is available in the `dash-core-components` library.
-The source is on GitHub at [plotly/dash-core-components](https://github.com/plotly/dash-core-components).
-"
+    "Dasher ships with supercharged components for interactive user interfaces.",
+    "A core set of components, written and maintained by the Dash team,",
+    "is available in the `dash-core-components` library.",
+    "The source is on GitHub at [plotly/dash-core-components](https://github.com/plotly/dash-core-components)."
   ),
   ComponentBlock(~ as.character(packageVersion("dashCoreComponents"))),
 
@@ -222,15 +220,14 @@ The source is on GitHub at [plotly/dash-core-components](https://github.com/plot
 
   htmlH3(coreLink('Markdown', href = '/dasher/dash-core-components/markdown')),
   ComponentBlock(
-    ~coreMarkdown("
-#### Dash and Markdown
-
-Dash supports [Markdown](http://commonmark.org/help).
-
-Markdown is a simple way to write and format text.
-It includes a syntax for things like **bold text** and *italics*,
-[links](http://commonmark.org/help), inline `code` snippets, lists,
-quotes, and more."
+    ~coreMarkdown(
+      "#### Dash and Markdown",
+      "Dash supports [Markdown](http://commonmark.org/help).",
+      "",
+      "Markdown is a simple way to write and format text.",
+      "It includes a syntax for things like **bold text** and *italics*,",
+      "[links](http://commonmark.org/help), inline `code` snippets, lists,",
+      "quotes, and more."
     )
   ),
 
@@ -242,19 +239,18 @@ quotes, and more."
 
   htmlH3('Interactive Tables'),
   coreMarkdown(
-    "
-               The `dash_html_components` library exposes all of the html tags.
-               This includes the `Table`, `Tr`, and `Tbody` tags that can be used
-               to create an html table. See
-               [Create Your First Dash App, Part 1](https://plot.ly/dasher/getting-started-part-1)
-               for an example.
-
-               Dash is currently incubating an interactive table component that provides
-               built-in filtering, row-selection, editing, and sorting.
-               Prototypes of this component are being developed in the
-               [`dash-table-experiments`](https://github.com/plotly/dash-table-experiments)
-               repository. Join the discussion in the
-               [Dash Community Forum](https://community.plot.ly/t/display-tables-in-dash/4707/38)."
+    "The `dash_html_components` library exposes all of the html tags.",
+    "This includes the `Table`, `Tr`, and `Tbody` tags that can be used",
+    "to create an html table. See",
+    "[Create Your First Dash App, Part 1](https://plot.ly/dasher/getting-started-part-1)",
+    "for an example.",
+    "",
+    "Dash is currently incubating an interactive table component that provides",
+    "built-in filtering, row-selection, editing, and sorting.",
+    "Prototypes of this component are being developed in the",
+    "[`dash-table-experiments`](https://github.com/plotly/dash-table-experiments)",
+    "repository. Join the discussion in the",
+    "[Dash Community Forum](https://community.plot.ly/t/display-tables-in-dash/4707/38)."
   ),
 
   htmlA(
@@ -267,14 +263,16 @@ quotes, and more."
   ),
 
   coreMarkdown(
-    "[View the Dash Table Experiments Project](https://github.com/plotly/dash-table-experiments) | [Join the discussion](https://community.plot.ly/t/display-tables-in-dash/4707/38)
+    "[View the Dash Table Experiments Project](https://github.com/plotly/dash-table-experiments)",
+    "| [Join the discussion](https://community.plot.ly/t/display-tables-in-dash/4707/38)"
+  ),
 
-               ***"),
+  htmlHr(),
 
   htmlH3(coreLink('Upload Component', href = '/dasher/dash-core-components/upload')),
   coreMarkdown(
-    "The `coreUpload` component allows users to upload files into your app through
-drag-and-drop or the system's native file explorer."
+    "The `coreUpload()` component allows users to upload files into your app through",
+    "drag-and-drop or the system's native file explorer."
   ),
 
   htmlA(
@@ -291,10 +289,10 @@ drag-and-drop or the system's native file explorer."
 
   htmlH3('Tabs'),
   coreMarkdown(
-    "The `coreTabs` component is currently available in the prerelease
-               channel of the `dash-core-components` package.
-               To try it out, see the tab component
-               [Pull Request on GitHub](https://github.com/plotly/dash-core-components/pull/74)."
+    "The `coreTabs` component is currently available in the prerelease",
+    "channel of the `dash-core-components` package.",
+    "To try it out, see the tab component",
+    "[Pull Request on GitHub](https://github.com/plotly/dash-core-components/pull/74)."
   ),
 
   htmlA(
@@ -315,14 +313,12 @@ drag-and-drop or the system's native file explorer."
     )
   ),
 
-  coreMarkdown("[Tab Component Pre-Release](https://github.com/plotly/dash-core-components/pull/74)
-
-               ***"
-  ),
-
+  coreMarkdown("[Tab Component Pre-Release](https://github.com/plotly/dash-core-components/pull/74)"),
+  htmlHr(),
   htmlH3('Graphs'),
   coreMarkdown(
-    "The `Graph` component shares the same syntax as the open-source `plotly.js` library. View the [plotly.js docs](https://plot.ly/javascript) to learn more."
+    "The `Graph` component shares the same syntax as the open-source `plotly.js`",
+    "library. View the [plotly.js docs](https://plot.ly/javascript) to learn more."
   ),
   ComponentBlock(
     ~coreGraph(

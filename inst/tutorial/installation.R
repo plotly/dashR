@@ -1,12 +1,10 @@
 library(dasher)
 
 ui <- htmlDiv(
+  htmlH2("## Dasher Installation"),
   coreMarkdown(
-    "
-## Dasher Installation
-
-**dasher** isn't yet available on CRAN, but you may install the development version with:
-"
+    "**dasher** isn't yet available on CRAN,",
+    "but you may install the development version with:"
   ),
   coreSyntaxHighlighter(
     language = "r",
