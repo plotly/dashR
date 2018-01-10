@@ -52,6 +52,4 @@ Remotes:
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
   plotly/dashTranspileR,
-  plotly/dashHtmlwidgetComponent,
-  thomasp85/routr,
-  thomasp85/fiery
+  plotly/dashHtmlwidgetComponent
