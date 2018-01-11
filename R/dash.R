@@ -2,19 +2,42 @@
 #'
 #' Description coming soon
 #'
-#' @usage app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/")
+#' @usage
+#' app <- Dash$new(
+#'   name = "dash",
+#'   server = fiery::Fire$new(),
+#'   static_folder = NULL,
+#'   serve_locally = TRUE,
+#'   routes_pathname_prefix = '/',
+#'   requests_pathname_prefix = '/'
+#' )
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab  \tab The name of the Dash application.\cr
-#'   `server` \tab  \tab The web server which powers the application. Currently only [fiery::Fire] objects are allowed.\cr
-#'   `url_base_pathname` \tab  \tab The base path for locating the Dash application.\cr
-#'   `serve_locally` \tab  \tab Whether to serve HTML dependencies using local files or via a URL
-#' }
+#'   `name` \tab \tab The name of the Dash application (placed in the `<title>`
+#'   of the HTML page).\cr
+#'   `server` \tab \tab The web server used to power the application.
+#'   Must be a [fiery::Fire] object.\cr
+#'   `static_folder` \tab \tab A character vector of directories for serving
+#'   with the application (the default, `NULL`, means don't serve additional
+#'   directories). If provided, the names attribute defines corresponding url
+#'   path, otherwise it defaults to '/'.\cr
+#'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
+#'   remotely (via URL).\cr
+#'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
+#'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
+#'   made by Dash's front-end.\cr
+#'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
+#'   possible layout mis-specifications when registering a callback. For an
+#'   example of when it is ok to suppress these callbacks, see
+#'   `runTutorial("urls-part-2.R")`
+#'  }
 #'
 #' @section Fields:
 #' \describe{
-#'  \item{`server`}{A [fiery::Fire] object}
+#'  \item{`server`}{A cloned (and modified) version of the [fiery::Fire] object
+#'  provided to the `server` argument (various routes will be added which enable
+#'  the dasher functionality).}
 #' }
 #'
 #' @section Methods:
@@ -60,12 +83,6 @@
 #'   \item{`dependencies_get(all = FALSE)`}{
 #'     Retrieve (just user-defined or all) HTML dependencies.
 #'   }
-#'   \item{`config_set(suppress_callback_exceptions, permissions_cache_expiry)`}{
-#'     Set the config.
-#'   }
-#'   \item{`config_get()`}{
-#'     Get the config.
-#'   }
 #'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. See [fiery::Fire] methods for a description of the arguments
 #'   }
@@ -97,26 +114,63 @@
 Dash <- R6::R6Class(
   'Dash',
   public = list(
-    # expose initialize arguments in case you want to modify them downstream
-    name = "dash",
+    # user-facing fields
     server = NULL,
-    serve_locally = TRUE,
-    url_base_pathname = '/',
+    # i.e., the Dash$new() method
+    initialize = function(name = "dash",
+                          server = fiery::Fire$new(),
+                          static_folder = NULL,
+                          serve_locally = TRUE,
+                          routes_pathname_prefix = '/',
+                          requests_pathname_prefix = '/',
+                          suppress_callback_exceptions = FALSE) {
 
-    # TODO: what is this static_folder argument? Let's just have folks use routr::ressource_route()?
-    # https://github.com/plotly/dash/blob/31315d6/dash/dash.py#L25
-    initialize = function(name = "dash", server = fiery::Fire$new(),
-                          url_base_pathname = '/', serve_locally = TRUE) {
+      # argument type checking
+      assertthat::assert_that(is.character(name))
+      assertthat::assert_that(inherits(server, "Fire"))
+      assertthat::assert_that(is.logical(serve_locally))
+      assertthat::assert_that(is.character(routes_pathname_prefix))
+      assertthat::assert_that(is.character(requests_pathname_prefix))
+      assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
-      # Since these are fields (i.e., can be over-ridden later on),
-      # we check these arguments at print time
-      self$name <- name
-      self$serve_locally <- serve_locally
-      self$url_base_pathname <- url_base_pathname
+      # save relevant args as private fields
+      private$name <- name
+      private$serve_locally <- serve_locally
+      private$routes_pathname_prefix <- routes_pathname_prefix
+      private$requests_pathname_prefix <- requests_pathname_prefix
+      private$suppress_callback_exceptions <- suppress_callback_exceptions
 
-      if (!inherits(server, "Fire"))  {
-        stop("Only fiery webservers are supported at the moment", call. = FALSE)
+      # produce a true copy of the fiery server, since we don't want our
+      # attachments/modifications having unintended side-effects
+      # https://github.com/thomasp85/fiery/issues/30
+      #server <- server$clone()
+
+      # ------------------------------------------------------------
+      # Initialize a route stack and register a static resource route
+      # ------------------------------------------------------------
+      router <- routr::RouteStack$new()
+
+      if (!is.null(static_folder)) {
+        static_folder_absolute <- normalizePath(static_folder, mustWork = TRUE)
+
+        # these should all be directories, right?
+        if (!all(dir_exists(static_folder_absolute))) {
+          warning(
+            "One or more of the following paths is not a directory, '%s'",
+            paste(static_folder, collapse = "', '"),
+            call. = FALSE
+          )
+        }
+
+        # default to '/' if no url path is specified (via name attribute)
+        static_folder_absolute <- setNames(
+          static_folder_absolute, names(static_folder) %||% "/"
+        )
+
+        static_route <- do.call(routr::resource_route, as.list(static_folder_absolute))
+        router$add_route(static_route, 'static_route')
       }
+
 
       # ------------------------------------------------------------------------
       # Set a sensible default logger
@@ -129,17 +183,16 @@ Dash <- R6::R6Class(
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L88-L124
       # http://www.data-imaginist.com/2017/Introducing-routr/
       # ------------------------------------------------------------------------
-      router <- routr::RouteStack$new()
       route <- routr::Route$new()
 
-      dash_login <- paste0(url_base_pathname, "_dash-login")
+      dash_login <- paste0(routes_pathname_prefix, "_dash-login")
       route$add_handler("post", dash_login, function(request, response, keys, ...) {
         response$status <- 500L
         response$body <- "Not yet implemented"
         FALSE
       })
 
-      dash_layout <- paste0(url_base_pathname, "_dash-layout")
+      dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'json'
@@ -148,7 +201,7 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      dash_deps <- paste0(url_base_pathname, "_dash-dependencies")
+      dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
@@ -179,7 +232,7 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      dash_update <- paste0(url_base_pathname, "_dash-update-component")
+      dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
 
         # request body must be parsed on demand (to avoid errors by odd formats)
@@ -230,6 +283,7 @@ Dash <- R6::R6Class(
         environment(wrapper$closure)$func <- wrapper$func
         output_value <- wrapper$closure()
 
+
         # provides a means for post-processing an R object of a special class
         output_value <- format_output_value(output_value)
 
@@ -250,14 +304,14 @@ Dash <- R6::R6Class(
       # TODO: once implemented in dash-renderer, leverage this endpoint so
       # we can dynamically load dependencies during `_dash-update-component`
       # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
-      dash_suite <- paste0(url_base_pathname, "_dash-component-suites")
+      dash_suite <- paste0(routes_pathname_prefix, "_dash-component-suites")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         response$status <- 500L
         response$body <- "Not yet implemented"
         FALSE
       })
 
-      route$add_handler("get", url_base_pathname, function(request, response, keys, ...) {
+      route$add_handler("get", routes_pathname_prefix, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'html'
         response$body <- private$index()
@@ -267,6 +321,7 @@ Dash <- R6::R6Class(
       router$add_route(route, "dasher-endpoints")
       server$attach(router)
 
+      # user-facing fields
       self$server <- server
     },
 
@@ -311,21 +366,6 @@ Dash <- R6::R6Class(
     },
 
     # ------------------------------------------------------------------------
-    # dash configuration management
-    # ------------------------------------------------------------------------
-    config_get = function() {
-      private$config
-    },
-    # TODO: implement these new config params
-    # https://github.com/plotly/dash/blob/31315d66/dash/dash.py#L51-L52
-    config_set = function(suppress_callback_exceptions = NULL, permissions_cache_expiry = NULL) {
-      private$config$suppress_callback_exceptions <-
-        suppress_callback_exceptions %||% private$config$suppress_callback_exceptions
-      private$config$permissions_cache_expiry <-
-        permissions_cache_expiry %||% private$config$permissions_cache_expiry
-    },
-
-    # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
     callback = function(func = NULL, output = NULL, .dots = NULL) {
@@ -358,6 +398,13 @@ Dash <- R6::R6Class(
   ),
 
   private = list(
+    # private fields defined on initiation
+    name = NULL,
+    serve_locally = NULL,
+    routes_pathname_prefix = NULL,
+    requests_pathname_prefix = NULL,
+    suppress_callback_exceptions = NULL,
+
     layout = welcome_page(),
     layout_flat = NULL,
     layout_render = function() {
@@ -378,9 +425,8 @@ Dash <- R6::R6Class(
       }
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary?
-      layout <- dashHtmlComponents::htmlDiv(
-        children = layout, id = "dasher-layout-container"
-      )
+      layout <- dashHtmlComponents::htmlDiv(children = layout, id = new_id())
+
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       private$layout_flat <- rapply(layout, I)
@@ -406,15 +452,10 @@ Dash <- R6::R6Class(
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
     },
-    # TODO: what is going to be the official interface for some of these options?
-    config = list(
-      suppress_callback_exceptions = FALSE,
-      permissions_cache_expiry = 5 * 60,
-      plotly_domain = Sys.getenv("plotly_domain", "https://plot.ly"),
-      fid = NULL,
-      oauth_client_id = 'RcXzjux4DGfb8bWG9UNGpJUGsTaS0pUVHoEf7Ecl',
-      redirect_uri = 'http://localhost:9595'
-    ),
+
+    # additional params that are passed onto dash-renderer (e.g. auth params)?
+    config = list(),
+
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
@@ -451,8 +492,7 @@ Dash <- R6::R6Class(
         sapply(wrapper$state, "[[", "id")
       ))
       illegal_ids <- setdiff(callback_ids, ids)
-      if (length(illegal_ids)) {
-        # TODO: provide an option to suppress this (because demo/urls-02.R)
+      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
         warning(
           sprintf(
             "The following id(s) do not match any in the layout: '%s'",
@@ -465,9 +505,11 @@ Dash <- R6::R6Class(
       # ----------------------------------------------------------------------
       # verify that properties attached to output/inputs/state value are valid
       # ----------------------------------------------------------------------
-      validate_dependency(layout, output)
-      lapply(wrapper$inputs, function(i) validate_dependency(layout, i))
-      lapply(wrapper$state, function(s) validate_dependency(layout, s))
+      if (!private$suppress_callback_exceptions) {
+        validate_dependency(layout, output)
+        lapply(wrapper$inputs, function(i) validate_dependency(layout, i))
+        lapply(wrapper$state, function(s) validate_dependency(layout, s))
+      }
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
@@ -507,7 +549,7 @@ Dash <- R6::R6Class(
       if (!dash_router$has_route("dasher-resources")) {
         # resource routes are designed to serve directories (not individual files)
         resources <- routr::ressource_route('/' = libdir)
-        dash_router$add_route(resources, "dasher-resources")
+        dash_router$add_route(resources, "dasher-resources", after = 1)
         self$server$attach(dash_router, force = TRUE)
       }
 
@@ -517,11 +559,6 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
-
-      # make sure fields are of the right type
-      assertthat::assert_that(is.character(self$name))
-      assertthat::assert_that(is.logical(self$serve_locally))
-      assertthat::assert_that(is.character(self$url_base_pathname))
 
       # collect and resolve dependencies
       depsAll <- c(
@@ -535,7 +572,7 @@ Dash <- R6::R6Class(
       depsAll <- resolve_dependencies(depsAll)
 
       # register a resource route for dependencies (if necessary)
-      if (isTRUE(self$serve_locally)) {
+      if (isTRUE(private$serve_locally)) {
         depsAll <- private$dependencies_register(depsAll)
       }
 
@@ -574,11 +611,14 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
-        self$name,
-        render_dependencies(depsCSS, local = self$serve_locally),
-        # dash-renderer needs these config settings (JSON object)
-        to_JSON(c(private$config, list(url_base_pathname = self$url_base_pathname))),
-        render_dependencies(depsScripts, local = self$serve_locally)
+        private$name,
+        render_dependencies(depsCSS, local = private$serve_locally),
+        # TODO: add config params here?
+        to_JSON(list(
+          routes_pathname_prefix = private$routes_pathname_prefix,
+          requests_pathname_prefix = private$requests_pathname_prefix
+        )),
+        render_dependencies(depsScripts, local = private$serve_locally)
       )
     }
   )
@@ -605,6 +645,7 @@ validate_dependency <- function(layout, dependency) {
       ),
       call. = FALSE
     )
+    return(FALSE)
   }
 
   TRUE

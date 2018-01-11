@@ -71,8 +71,7 @@ order to view the application.
     "
 library(dasher)
 
-app <- Dash$new()
-app$serve_locally <- FALSE
+app <- Dash$new(serve_locally = FALSE)
 "
   )
 )

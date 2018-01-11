@@ -25,7 +25,7 @@ component_props_given_id <- function(component, id) {
 
   is_match <- if (is_component) isTRUE(component$props$id == id) else FALSE
 
-  props <- if (is_match) component$propNames else ""
+  props <- if (is_match) component$propNames else props_empty()
 
   if (is_component && !is_match) {
     return(unlist(lapply(component$props$children, component_props_given_id, id)))
@@ -34,30 +34,7 @@ component_props_given_id <- function(component, id) {
   props
 }
 
-
-assert_fun_is_callback <- function(fun = NULL) {
-
-  assertthat::assert_that(is.function(fun))
-
-  # TODO: do we ever have to worry about the eval envir here?
-  inputz <- lapply(formals(fun), eval)
-  is_inputy <- vapply(inputz, function(x) is.input(x) || is.state(x), logical(1))
-
-  # TODO: relax this assumption!!
-  if (!all(is_inputy)) {
-    stop(
-      "Argument values of callback function (`fun`) must be input/state",
-      "objects created via `input()`/`state()`. \n\n",
-      sprint(
-        "I found a problem with these arguments: '%s'",
-        paste(names(inputz)[!is_inputy], collapse = "', '")
-      ),
-      call. = FALSE
-    )
-  }
-
-  invisible(TRUE)
-}
+props_empty <- function() NA
 
 
 # ----------------------------------------------------------------------------
@@ -164,9 +141,8 @@ to_JSON <- function(x, ...) {
                    null = "null", na = "null", ...)
 }
 
-filter_null <- function(x) {
-  if (length(x) == 0 || !is.list(x)) return(x)
-  x[!vapply(x, is.null, logical(1))]
+dir_exists <- function(paths) {
+  utils::file_test("-d", paths)
 }
 
 tryNULL <- function(expr) {

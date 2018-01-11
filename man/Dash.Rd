@@ -6,7 +6,14 @@
 \title{Generate a Dash server}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/")
+app <- Dash$new(
+  name = "dash",
+  server = fiery::Fire$new(),
+  static_folder = NULL,
+  serve_locally = TRUE,
+  routes_pathname_prefix = '/',
+  requests_pathname_prefix = '/'
+)
 }
 \description{
 Description coming soon
@@ -14,17 +21,32 @@ Description coming soon
 \section{Arguments}{
 
 \tabular{lll}{
-\code{name} \tab  \tab The name of the Dash application.\cr
-\code{server} \tab  \tab The web server which powers the application. Currently only \link[fiery:Fire]{fiery::Fire} objects are allowed.\cr
-\code{url_base_pathname} \tab  \tab The base path for locating the Dash application.\cr
-\code{serve_locally} \tab  \tab Whether to serve HTML dependencies using local files or via a URL
+\code{name} \tab \tab The name of the Dash application (placed in the \code{<title>}
+of the HTML page).\cr
+\code{server} \tab \tab The web server used to power the application.
+Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
+\code{static_folder} \tab \tab A character vector of directories for serving
+with the application (the default, \code{NULL}, means don't serve additional
+directories). If provided, the names attribute defines corresponding url
+path, otherwise it defaults to '/'.\cr
+\code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
+remotely (via URL).\cr
+\code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
+\code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
+made by Dash's front-end.\cr
+\code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
+possible layout mis-specifications when registering a callback. For an
+example of when it is ok to suppress these callbacks, see
+\code{runTutorial("urls-part-2.R")}
 }
 }
 
 \section{Fields}{
 
 \describe{
-\item{\code{server}}{A \link[fiery:Fire]{fiery::Fire} object}
+\item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
+provided to the \code{server} argument (various routes will be added which enable
+the dasher functionality).}
 }
 }
 
@@ -71,12 +93,6 @@ arguments should either be of length 1 or the same length as \code{dependencies}
 }
 \item{\code{dependencies_get(all = FALSE)}}{
 Retrieve (just user-defined or all) HTML dependencies.
-}
-\item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{
-Set the config.
-}
-\item{\code{config_get()}}{
-Get the config.
 }
 \item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments

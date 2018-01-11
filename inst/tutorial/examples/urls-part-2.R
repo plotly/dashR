@@ -1,7 +1,12 @@
 # R version of second example on https://plot.ly/dash/urls
 library(dasher)
 
-app <- Dash$new()
+# note how some callbacks in this app reference components that do not
+# exist in the layout template, but these components will be inserted via
+# other callbacks! In this case, the warnings that dasher throws about
+# missing component ids can be safely ignored
+app <- Dash$new(suppress_callback_exceptions = TRUE)
+
 app$layout_set(
   # represents the URL bar, doesn't render anything
   coreLocation('url', refresh = FALSE),
@@ -61,9 +66,13 @@ app$callback(
 
 app$callback(
   function(pathname = input('url', 'pathname')) {
-    if ('/page-1' == pathname) page1 else if ('/page-2' == pathname) page2 else index_page
+    if (identical('/page-1', pathname)) return(page1)
+    if (identical('/page-2', pathname)) return(page2)
+
+    index_page
   }, output('page-content')
 )
 
+# TODO: something wrong with the CSS for checkboxes here?
 app$dependencies_set(dash_css())
 app
