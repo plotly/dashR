@@ -92,22 +92,12 @@
 #' @docType class
 #' @format An [R6::R6Class] generator object
 #' @author Carson Sievert
-#' @seealso <https://plot.ly/dash/>
+#' @seealso <https://plot.ly/dasher/>
 #'
 #' @examples
 #'
-#' # hello dash!
-#' app <- dasher::Dash$new()
-#' app$run_server(showcase = TRUE)
-#'
-#' # use the layout_set method to define your UI
-#' app$layout_set(
-#'   htmlH2("Hello Dash"),
-#'   "Here is a slider",
-#'   coreSlider()
-#' )
-#' # retrieve the layout with layout_get()
-#' app$layout_get()
+#' app <- runTutorial("urls-part-2.R")
+#' app$server$stop()
 #'
 #'
 
@@ -282,7 +272,6 @@ Dash <- R6::R6Class(
         # effectively replacing the func's arguments with the new values
         environment(wrapper$closure)$func <- wrapper$func
         output_value <- wrapper$closure()
-
 
         # provides a means for post-processing an R object of a special class
         output_value <- format_output_value(output_value)

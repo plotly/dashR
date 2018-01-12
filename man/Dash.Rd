@@ -102,23 +102,13 @@ Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a descrip
 
 \examples{
 
-# hello dash!
-app <- dasher::Dash$new()
-app$run_server(showcase = TRUE)
-
-# use the layout_set method to define your UI
-app$layout_set(
-  htmlH2("Hello Dash"),
-  "Here is a slider",
-  coreSlider()
-)
-# retrieve the layout with layout_get()
-app$layout_get()
+app <- runTutorial("urls-part-2.R")
+app$server$stop()
 
 
 }
 \seealso{
-\url{https://plot.ly/dash/}
+\url{https://plot.ly/dasher/}
 }
 \author{
 Carson Sievert
