@@ -38,6 +38,11 @@
 #'  \item{`server`}{A cloned (and modified) version of the [fiery::Fire] object
 #'  provided to the `server` argument (various routes will be added which enable
 #'  the dasher functionality).}
+#'  \item{`config`}{A list of configuration options passed along to
+#'  dash-renderer. Users shouldn't need to alter any of these options
+#'  unless they are constructing their own authorization front-end or
+#'  otherwise need to know where the application is making API calls.
+#'  }
 #' }
 #'
 #' @section Methods:
@@ -126,9 +131,11 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
-      private$routes_pathname_prefix <- routes_pathname_prefix
-      private$requests_pathname_prefix <- requests_pathname_prefix
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+
+      # config options
+      self$config$routes_pathname_prefix <- routes_pathname_prefix
+      self$config$requests_pathname_prefix <- requests_pathname_prefix
 
       # produce a true copy of the fiery server, since we don't want our
       # attachments/modifications having unintended side-effects
@@ -289,6 +296,7 @@ Dash <- R6::R6Class(
         FALSE
       })
 
+
       route$add_handler("get", routes_pathname_prefix, function(request, response, keys, ...) {
         response$status <- 200L
         response$type <- 'html'
@@ -312,6 +320,8 @@ Dash <- R6::R6Class(
     layout_set = function(...) {
       private$layout <- if (is.function(..1)) ..1 else list(...)
     },
+
+    config = list(),
 
     # ------------------------------------------------------------------------
     # HTML dependency management
@@ -383,6 +393,7 @@ Dash <- R6::R6Class(
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
 
+    # layout stuff
     layout = welcome_page(),
     layout_flat = NULL,
     layout_render = function() {
@@ -430,9 +441,6 @@ Dash <- R6::R6Class(
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
     },
-
-    # additional params that are passed onto dash-renderer (e.g. auth params)?
-    config = list(),
 
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
@@ -591,11 +599,7 @@ Dash <- R6::R6Class(
         </html>',
         private$name,
         render_dependencies(depsCSS, local = private$serve_locally),
-        # TODO: add config params here?
-        to_JSON(list(
-          routes_pathname_prefix = private$routes_pathname_prefix,
-          requests_pathname_prefix = private$requests_pathname_prefix
-        )),
+        to_JSON(self$config),
         render_dependencies(depsScripts, local = private$serve_locally)
       )
     }
