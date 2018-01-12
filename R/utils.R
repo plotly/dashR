@@ -57,29 +57,6 @@ request_parse_json <- function(request) {
   request
 }
 
-
-# ----------------------------------------------------------------------------
-# Authentication helpers
-# ----------------------------------------------------------------------------
-
-# https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L165-L176
-#create_access_codes <- function() {
-#  now <- Sys.time()
-#  list(
-#    access_granted = new_token(),
-#    expiration = list()
-#  )
-#}
-
-
-new_token <- function() {
-  digest::sha1(new_id())
-}
-
-new_id <- function() {
-  basename(tempfile(""))
-}
-
 # ----------------------------------------------------------------------------
 # HTML dependency helpers
 # ----------------------------------------------------------------------------
