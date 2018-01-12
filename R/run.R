@@ -6,8 +6,9 @@
 #' @param ... other arguments passed onto the app's `run_server` method
 #' @export
 #' @md
+#' @return Returns the Dash app so that you can stop the server after viewing
+#' the application.
 #' @examples
-#'
 #' excel <- runTutorial("excel.R")
 #' excel$server$stop()
 #'

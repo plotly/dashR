@@ -15,11 +15,14 @@ runTutorial(name, block = FALSE, showcase = interactive(), ...)
 
 \item{...}{other arguments passed onto the app's \code{run_server} method}
 }
+\value{
+Returns the Dash app so that you can stop the server after viewing
+the application.
+}
 \description{
 Run a dasher example
 }
 \examples{
-
 excel <- runTutorial("excel.R")
 excel$server$stop()
 
