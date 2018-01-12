@@ -36,9 +36,30 @@ component_props_given_id <- function(component, id) {
 
 props_empty <- function() NA
 
+# ----------------------------------------------------------------------
+# HTTP helpers
+# ----------------------------------------------------------------------
+
+request_parse_json <- function(request) {
+  # request body must be parsed on demand (to avoid errors by odd formats)
+  # http://www.data-imaginist.com/2017/Introducing-reqres/
+  if (!request$is("json")) stop("Expected a JSON request", call. = FALSE)
+
+  # Unlike `reqres::default_parsers["application/json"]`, we don't
+  # simplify the *entire* JSON blob, but we do simplify input/state value(s)
+  # https://gist.github.com/cpsievert/04d53edbe902ca86a41949e24e8b4af7
+  from_JSON <- function(raw, directives) {
+    jsonlite::fromJSON(rawToChar(raw), simplifyVector = FALSE)
+  }
+  success <- request$parse(list(`application/json` = from_JSON))
+  if (!success) stop("Failed to parse body", call. = FALSE)
+
+  request
+}
+
 
 # ----------------------------------------------------------------------------
-# Security stuff
+# Authentication helpers
 # ----------------------------------------------------------------------------
 
 # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L165-L176

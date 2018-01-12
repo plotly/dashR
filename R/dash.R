@@ -225,18 +225,7 @@ Dash <- R6::R6Class(
       dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
 
-        # request body must be parsed on demand (to avoid errors by odd formats)
-        # http://www.data-imaginist.com/2017/Introducing-reqres/
-        if (!request$is("json")) stop("Expected a JSON request", call. = FALSE)
-
-        # Unlike `reqres::default_parsers["application/json"]`, we don't
-        # simplify the *entire* JSON blob, but we do simplify input/state value(s)
-        # https://gist.github.com/cpsievert/04d53edbe902ca86a41949e24e8b4af7
-        from_JSON <- function(raw, directives) {
-          jsonlite::fromJSON(rawToChar(raw), simplifyVector = FALSE)
-        }
-        success <- request$parse(list(`application/json` = from_JSON))
-        if (!success) stop("Failed to parse body", call. = FALSE)
+        request <- request_parse_json(request)
 
         # get the callback associated with this particular output
         thisOutput <- with(request$body$output, paste(id, property, sep = "."))
