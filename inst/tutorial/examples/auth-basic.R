@@ -1,11 +1,13 @@
 library(dasher)
+library(dashAuth)
 
-app <- Dash$new('auth')
-
+# the BasicAuth class wraps the Dash class (and exposes it in the app field)
+app <- Dash$new("auth")
+auth <- BasicAuth$new(app)
 # keep username/passwords out of source code repository - save in a file or a database
-app <- auth_basic(app, c("hello" = "world"))
+auth$add_user("hello", "world")
 
-app$layout_set(
+auth$app$layout_set(
   htmlDiv(
     className = 'container',
     htmlH1('Welcome to the app'),
@@ -19,7 +21,7 @@ app$layout_set(
   )
 )
 
-app$callback(
+auth$app$callback(
   function(value = input("dropdown")) {
     list(
       data = list(
@@ -33,6 +35,6 @@ app$callback(
   }, output("graph", "figure")
 )
 
-app$dependencies_set(dash_css())
+auth$app$dependencies_set(dash_css())
 
-app
+auth$app$run_server(showcase = TRUE)
