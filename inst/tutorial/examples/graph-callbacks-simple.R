@@ -38,9 +38,9 @@ hover <- htmlDiv(
   htmlDiv(
     className = 'three columns',
     coreMarkdown(
-      "**Hover Data**
-
-Mouse over values in the graph."
+      "**Hover Data**",
+      "",
+      "Mouse over values in the graph."
     )
   ),
   htmlPre(id = 'hover-data', style = styles$pre)
@@ -49,9 +49,9 @@ Mouse over values in the graph."
 click <- htmlDiv(
   className = 'three columns',
   coreMarkdown(
-    "**Click Data**
-
-Click on points in the graph."
+    "**Click Data**",
+    "",
+    "Click on points in the graph."
   ),
   htmlPre(id = 'click-data', style = styles$pre)
 )
@@ -59,9 +59,9 @@ Click on points in the graph."
 selected <- htmlDiv(
   className = 'three columns',
   coreMarkdown(
-    "**Selection Data**
-
-Choose the lasso or rectangle tool in the graph's menu bar and then select points in the graph."
+    "**Selection Data**",
+    "",
+    "Choose the lasso or rectangle tool in the graph's menu bar and then select points in the graph."
   ),
   htmlPre(id = 'selected-data', style = styles$pre)
 )
@@ -69,10 +69,11 @@ Choose the lasso or rectangle tool in the graph's menu bar and then select point
 relayout <- htmlDiv(
   className = 'three columns',
   coreMarkdown(
-    "**Zoom and Relayout Data**
-
-Click and drag on the graph to zoom or click on the zoom buttons in the graph's menu bar.
-Clicking on legend items will also fire this event."),
+    "**Zoom and Relayout Data**",
+    "",
+    "Click and drag on the graph to zoom or click on the zoom buttons in the",
+    "graph's menu bar. Clicking on legend items will also fire this event."
+  ),
   htmlPre(id = 'relayout-data', style = styles$pre)
 )
 
