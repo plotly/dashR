@@ -182,13 +182,6 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
-      dash_login <- paste0(routes_pathname_prefix, "_dash-login")
-      route$add_handler("post", dash_login, function(request, response, keys, ...) {
-        response$status <- 500L
-        response$body <- "Not yet implemented"
-        FALSE
-      })
-
       dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         response$status <- 200L
