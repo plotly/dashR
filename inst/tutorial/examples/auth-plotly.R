@@ -1,9 +1,11 @@
 library(dasher)
+library(dasherAuth)
 
-app <- Dash$new('auth')
+Sys.setenv('PLOTLY_USERNAME' = 'dash-test-user')
+Sys.setenv('PLOTLY_API_KEY' = '9kCBELqYp54Dygjn7zhH')
 
-# Modify these argument with your own info
-auth <- auth_plotly(
+app <- Dash$new()
+auth <- PlotlyAuth$new(
   app,
   'Dash Authentication Sample App',
   'private',

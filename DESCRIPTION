@@ -22,7 +22,7 @@ Imports:
 Suggests:
   dashTranspileR,
   dashTable,
-  dashAuth,
+  dasherAuth,
   testthat,
   knitr,
   rmarkdown,
@@ -53,5 +53,5 @@ Remotes:
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
   plotly/dashTranspileR,
-  plotly/dashAuth,
+  plotly/dasherAuth,
   plotly/dashHtmlwidgetComponent

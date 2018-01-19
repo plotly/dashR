@@ -1,5 +1,5 @@
 library(dasher)
-library(dashAuth)
+library(dasherAuth)
 
 # the BasicAuth class wraps the Dash class (and exposes it in the app field)
 app <- Dash$new("auth")
