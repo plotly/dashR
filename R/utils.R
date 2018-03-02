@@ -139,6 +139,11 @@ to_JSON <- function(x, ...) {
                    null = "null", na = "null", ...)
 }
 
+# same as plotly:::new_id
+new_id <- function() {
+  basename(tempfile(""))
+}
+
 dir_exists <- function(paths) {
   utils::file_test("-d", paths)
 }
