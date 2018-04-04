@@ -23,21 +23,40 @@ options(
 # we have more control over dependency ordering
 (tblDashRenderer <- ls_("dash-renderer", "dash_renderer"))
 
+#> Name                     Type      Size            Last Modified
+#> 1                                 ..                        -         -                        -
+#> 2                        __init__.py application/octet-stream   2.56 kB 2018-03-29T02:22:26.000Z
+#> 3                          bundle.js   application/javascript 299.67 kB 2018-03-30T16:00:04.000Z
+#> 4                      bundle.js.map         application/json   1.27 MB 2018-02-01T20:40:39.000Z
+#> 5            react-dom@15.4.2.min.js   application/javascript 123.89 kB 2017-03-08T21:59:34.000Z
+#> 6 react-dom@16.2.0.production.min.js   application/javascript   94.5 kB 2018-03-29T02:22:26.000Z
+#> 7                react@15.4.2.min.js   application/javascript   21.2 kB 2017-03-08T21:59:10.000Z
+#> 8     react@16.2.0.production.min.js   application/javascript   6.62 kB 2018-03-29T02:22:26.000Z
+#> 9                         version.py application/octet-stream      23 B 2018-03-29T18:28:16.000Z
+
 # get the relevant versions of react/react-dom
-react <- sub(".js|.min.js", "", grep("^react@", tblDashRenderer$Name, value = T))
-reactdom <- sub(".js|.min.js", "", grep("^react-dom@", tblDashRenderer$Name, value = T))
+# TODO: for now we're getting the 'production' version, but should
+# add support for specifying a supported version -- https://github.com/plotly/dash-renderer/blob/master/CHANGELOG.md#0120---2018-03-28
+#react <- sub(".production.min.js", "", grep("^react@.*production.min.js", tblDashRenderer$Name, value = T))
+#reactdom <- sub(".production.min.js", "", grep("^react-dom@.*production.min.js", tblDashRenderer$Name, value = T))
 
 # important that we download these separately since component bundles
 # need to be inserted between react and the renderer
 # https://github.com/plotly/dash/blob/4c19dd18/dash/dash.py#L234-L239
-React <- download_files(react, "dist/react.min.js")
-ReactDom <- download_files(reactdom, "dist/react-dom.min.js")
+React <- download_files("react@15.4.2", "dist/react.min.js")
+ReactDom <- download_files("react-dom@15.4.2", "dist/react-dom.min.js")
+# of course, there is a different path to the bundle :face_with_rolling_eyes:
+# https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py#L30
+ReactProd <- download_files("react@16.2.0", "umd/react.production.min.js")
+ReactDomProd <- download_files("react-dom@16.2.0", "umd/react-dom.production.min.js")
 DashRenderer <- download_files("dash-renderer", "dash_renderer/bundle.js")
 
 # collect all the dependencies
 depList <- list(
   react = React,
+  `react-prod` = ReactProd,
   `react-dom` = ReactDom,
+  `react-dom-prod` = ReactDomProd,
   `dash-renderer` = DashRenderer
 )
 

@@ -346,6 +346,19 @@ Dash <- R6::R6Class(
       private$dependencies_user <- dependencies
     },
 
+    react_version_set = function(version) {
+      versions <- private$react_versions()
+      idx <- versions %in% version
+      # needs to match one react & one react-dom version
+      if (sum(idx) != 2) {
+        stop(sprintf(
+          "React version '%s' is not supported. Supported versions include: '%s'",
+          version, paste(unique(versions), collapse = "', '")
+        ), call. = FALSE)
+      }
+      private$react_version <- version
+    },
+
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
@@ -535,13 +548,18 @@ Dash <- R6::R6Class(
       dependencies
     },
 
+    # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
+    react_version = "15.4.2",
+    react_deps = function() deps[grepl("^react", names(deps))],
+    react_versions = function() vapply(private$react_deps(), "[[", character(1), "version"),
+
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     index = function() {
 
       # collect and resolve dependencies
       depsAll <- c(
-        deps[c("react", "react-dom")],
+        private$react_deps()[private$react_versions() %in% private$react_version],
         private$dependencies_user,
         private$dependencies_layout(),
         deps["dash-renderer"]
