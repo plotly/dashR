@@ -184,10 +184,10 @@ Dash <- R6::R6Class(
 
       dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
-        response$status <- 200L
-        response$type <- 'json'
         lay <- private$layout_render()
         response$body <- to_JSON(lay, pretty = TRUE)
+        response$status <- 200L
+        response$type <- 'json'
         FALSE
       })
 
@@ -196,9 +196,9 @@ Dash <- R6::R6Class(
 
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
         if (!length(private$callback_map)) {
+          response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
-          response$body <- to_JSON(list())
           return(FALSE)
         }
 
@@ -216,9 +216,9 @@ Dash <- R6::R6Class(
           )
         }, private$callback_map, outputs)
 
+        response$body <- to_JSON(setNames(payload, NULL))
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(setNames(payload, NULL))
         FALSE
       })
 
@@ -273,9 +273,9 @@ Dash <- R6::R6Class(
           )
         )
 
+        response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
-        response$body <- to_JSON(resp)
         FALSE
       })
 
@@ -291,9 +291,9 @@ Dash <- R6::R6Class(
 
 
       route$add_handler("get", routes_pathname_prefix, function(request, response, keys, ...) {
+        response$body <- private$index()
         response$status <- 200L
         response$type <- 'html'
-        response$body <- private$index()
         FALSE
       })
 
