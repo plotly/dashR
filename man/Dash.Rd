@@ -47,6 +47,11 @@ example of when it is ok to suppress these callbacks, see
 \item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
 provided to the \code{server} argument (various routes will be added which enable
 the dasher functionality).}
+\item{\code{config}}{A list of configuration options passed along to
+dash-renderer. Users shouldn't need to alter any of these options
+unless they are constructing their own authorization front-end or
+otherwise need to know where the application is making API calls.
+}
 }
 }
 

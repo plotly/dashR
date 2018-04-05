@@ -14,20 +14,20 @@ app$layout_set(
     id = "y", options = nms, value = nms[2],
     clearable = FALSE, placeholder = "Pick a y"
   ),
-  htmlwidget(id = 'plot', name = "plotly")
+  # name of the htmlwidget is required!
+  # package name is only required if the widget name differs from the package name
+  Htmlwidget(id = 'plotID', name = "plotly")
 )
 
 app$callback(
   function(x = input("x"), y = input("y")) {
     plot_ly(x = mtcars[[x]], y = mtcars[[y]])
   },
-  # TODO: change x to value!?
-  output(id = 'plot', property = "x")
+  output(id = 'plotID', property = "widget")
 )
 
-# TODO: better way to incorporate print time dependencies?
-app$dependencies_get()
-app$dependencies_set(plotly::plot_ly()$dependencies)
-app$dependencies_get()
-
-app
+# plotly has 'run-time' dependencies that must be registered before
+# the application is launched. For other htmlwidgets, this may not
+# be necessary.
+app$dependencies_set(plot_ly()$dependencies)
+app$run_server()

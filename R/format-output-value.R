@@ -8,18 +8,37 @@
 #' a bridge between an R object and (an existing) suitable dash component.
 #'
 #' @param x the output value from a callback function
+#' @param user_deps user specified HTML dependencies
 #' @param ... additional arugments. Currently unused.
 #' @export
-format_output_value <- function(x, ...) {
+format_output_value <- function(x, user_deps, ...) {
   UseMethod("format_output_value")
 }
 
 #' @export
-format_output_value.htmlwidget <- function(x, ...) {
+format_output_value.htmlwidget <- function(x, user_deps, ...) {
 
+  # get the widget's name/package
+  # https://github.com/ramnathv/htmlwidgets/blob/160872d/R/htmlwidgets.R#L191-L192
+  name <- class(x)[1]
+  package <- attr(x, "package")
+
+  # elementId is ignored for reasons similar to shiny
   if (!is.null(x[["elementId"]])) {
     warning(
       "elementId is ignored by dash. It uses the id specified in `htmlwidget()`",
+      call. = FALSE
+    )
+  }
+
+  # until we can dynamically load component suites, run-time dependencies need to be provided
+  # before the application is launched
+  runTimeDeps <- setdiff(x[["dependencies"]], user_deps)
+  if (length(runTimeDeps)) {
+    stop(
+      sprintf("The htmlwidget '%s' from the '%s' package", name, package),
+      "has HTML dependencies that must be added to the dasher user_deps via the dependencies_set() method. Here are those dependencies:\n\n",
+      paste(utils::capture.output(print(runTimeDeps)), collapse = "\n"),
       call. = FALSE
     )
   }
@@ -28,22 +47,18 @@ format_output_value.htmlwidget <- function(x, ...) {
   # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L158
   create_payload <- getFromNamespace("createPayload", asNamespace("htmlwidgets"))
   resolve_sizing <- getFromNamespace("resolveSizing", asNamespace("htmlwidgets"))
+
   list(
-    x = create_payload(x),
-    # TODO: auto-magically handle this so user doesn't have to specify?
-    name = class(x)[1],
-    sizingPolicy = resolve_sizing(x, x$sizingPolicy, TRUE),
-    width = x$width,
-    height = x$height,
-    dependencies = resourcify(x$dependencies)
+    payload = create_payload(x),
+    sizingPolicy = resolve_sizing(x, x$sizingPolicy, TRUE)
   )
 }
 
 #' @export
-format_output_value.plotly <- function(x, ...) {
-  format_output_value.htmlwidget(plotly::plotly_build(x))
+format_output_value.plotly <- function(x, user_deps, ...) {
+  format_output_value.htmlwidget(plotly::plotly_build(x), user_deps, ...)
 }
 
 #' @export
-format_output_value.default <- function(x, ...) x
+format_output_value.default <- function(x, user_deps, ...) x
 

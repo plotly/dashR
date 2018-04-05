@@ -263,7 +263,7 @@ Dash <- R6::R6Class(
         output_value <- wrapper$closure()
 
         # provides a means for post-processing an R object of a special class
-        output_value <- format_output_value(output_value)
+        output_value <- format_output_value(output_value, private$dependencies_user)
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -409,7 +409,6 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
-      # at this point we should be working with a list of components
       is_component <- vapply(layout, is.component, logical(1))
       if (!all(is_component)) {
         stop(
@@ -418,6 +417,15 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
+      # register htmlwidget dependencies
+      is_widget <- vapply(layout, is.htmlwidget, logical(1))
+      widget_deps <- lapply(layout[is_widget], function(x) {
+        name <- x[["props"]][["name"]]
+        package <- x[["props"]][["package"]] %||% name
+        htmlwidgets::getDependency(name, package)
+      })
+      private$dependencies_widget <- Reduce(c, widget_deps)
+
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary?
       layout <- dashHtmlComponents::htmlDiv(children = layout, id = new_id())
@@ -511,6 +519,7 @@ Dash <- R6::R6Class(
 
     # field for tracking HTML dependencies defined by the user
     dependencies_user = NULL,
+    dependencies_widget = NULL,
 
     # compute HTML dependencies based on the current layout
     dependencies_layout = function() {
@@ -560,6 +569,7 @@ Dash <- R6::R6Class(
       # collect and resolve dependencies
       depsAll <- c(
         private$react_deps()[private$react_versions() %in% private$react_version],
+        private$dependencies_widget,
         private$dependencies_user,
         private$dependencies_layout(),
         deps["dash-renderer"]
