@@ -18,11 +18,6 @@ format_output_value <- function(x, user_deps, ...) {
 #' @export
 format_output_value.htmlwidget <- function(x, user_deps, ...) {
 
-  # get the widget's name/package
-  # https://github.com/ramnathv/htmlwidgets/blob/160872d/R/htmlwidgets.R#L191-L192
-  name <- class(x)[1]
-  package <- attr(x, "package")
-
   # elementId is ignored for reasons similar to shiny
   if (!is.null(x[["elementId"]])) {
     warning(
@@ -43,15 +38,10 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
     )
   }
 
-  # mimics some of the functionality in htmlwidgets:::toHTML()
-  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L158
-  create_payload <- getFromNamespace("createPayload", asNamespace("htmlwidgets"))
-  resolve_sizing <- getFromNamespace("resolveSizing", asNamespace("htmlwidgets"))
-
-  list(
-    payload = create_payload(x),
-    sizingPolicy = resolve_sizing(x, x$sizingPolicy, TRUE)
-  )
+  # same 'payload' that htmlwidgets attaches to the widget div
+  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
+  # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
+  getFromNamespace("createPayload", asNamespace("htmlwidgets"))(x)
 }
 
 #' @export
