@@ -41,12 +41,13 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
   # same 'payload' that htmlwidgets attaches to the widget div
   # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
   # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
-  getFromNamespace("createPayload", asNamespace("htmlwidgets"))(x)
+  getFromNamespace("createPayload", "htmlwidgets")(x)
 }
 
 #' @export
 format_output_value.plotly <- function(x, user_deps, ...) {
-  format_output_value.htmlwidget(plotly::plotly_build(x), user_deps, ...)
+  x <- getFromNamespace("plotly_build", "plotly")(x)
+  format_output_value.htmlwidget(x, user_deps, ...)
 }
 
 #' @export

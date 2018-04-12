@@ -9,6 +9,8 @@ create_or_overwrite_dash_app <- function(
   app_url = NULL
   ) {
 
+  try_library("plotly", "create_or_overwrite_dash_app")
+
   if (is.null(app_url)) {
     stop("`filename` and `app_url` must be non_NULL", call. = FALSE)
   }

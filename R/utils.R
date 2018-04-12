@@ -157,3 +157,12 @@ stop_report <- function(msg = "") {
     call. = FALSE
   )
 }
+
+try_library <- function(pkg, fun = NULL) {
+  if (system.file(package = pkg) != "") {
+    return(invisible())
+  }
+  stop("Package `", pkg, "` required", if (!is.null(fun))
+    paste0(" for `", fun, "`"), ".\n", "Please install and try again.",
+    call. = FALSE)
+}
