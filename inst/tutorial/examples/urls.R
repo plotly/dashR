@@ -1,5 +1,5 @@
 # R version of first example on https://plot.ly/dash/urls
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 app$layout_set(

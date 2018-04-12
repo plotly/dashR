@@ -1,6 +1,6 @@
 # Programmatically creating callback inputs
 
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 

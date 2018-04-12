@@ -153,7 +153,7 @@ stop_report <- function(msg = "") {
   stop(
     msg, "\n\n",
     "Please let us know about this error via ",
-    "https://github.com/plotly/dasher/issues/new",
+    "https://github.com/plotly/dashR/issues/new",
     call. = FALSE
   )
 }

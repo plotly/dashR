@@ -1,7 +1,7 @@
 library(runpkg)
 bs <- runpkg::download_files('bootstrap', 'dist/css/bootstrap.css')
 
-library(dasher)
+library(dashR)
 app <- Dash$new()
 app$dependencies_set(bs)
 

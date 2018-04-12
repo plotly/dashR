@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(modules)
 
 import("app", attach = "app")

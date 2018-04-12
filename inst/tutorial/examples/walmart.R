@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 dat <- read.csv(
   'https://raw.githubusercontent.com/plotly/datasets/master/1962_2006_walmart_store_openings.csv'

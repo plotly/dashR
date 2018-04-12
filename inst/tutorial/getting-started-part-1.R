@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # import Syntax() and Example()
 source("components.R")
@@ -21,7 +21,7 @@ ui <- htmlDiv(
   htmlH1("Tutorial - Part 1: App Layout"),
 
   coreMarkdown(
-    "This tutorial will walk you through the fundamentals of creating dasher",
+    "This tutorial will walk you through the fundamentals of creating dashR",
     sprintf("apps through %s self-contained apps.", length(examples))
   ),
 
@@ -34,7 +34,7 @@ ui <- htmlDiv(
     "  - Markdown",
     "  - Core Components",
     "  - Calling `help`",
-    "2. [Interactivity](/dasher/getting-started-part-2)",
+    "2. [Interactivity](/dashR/getting-started-part-2)",
     "  - Fundamentals",
     "  - Multiple Inputs",
     "  - Multiple Outputs",
@@ -83,8 +83,8 @@ ui <- htmlDiv(
     "1. The `layout` is composed of a tree of 'components' like `htmlDiv()`",
     "and `coreGraph()`.",
     "2. There is a component for every HTML tag.",
-    "The `htmlH1('Hello dasher')` component generates",
-    "a `<h1>Hello dasher</h1>` HTML element in your application.",
+    "The `htmlH1('Hello dashR')` component generates",
+    "a `<h1>Hello dashR</h1>` HTML element in your application.",
     "3. Not all components are pure HTML. The `core*()` components describe",
     "higher-level components that are interactive and are generated with",
     "JavaScript, HTML, and CSS through the React.js library.",
@@ -100,7 +100,7 @@ ui <- htmlDiv(
     "6. The fonts/styles in your application may look different than",
     "what is displayed here. This application is using a",
     "custom CSS stylesheet to modify the default styles of the elements.",
-    "You can learn more in the [css tutorial](/dasher/external-resources),",
+    "You can learn more in the [css tutorial](/dashR/external-resources),",
     "but for now you can add",
     "",
     "```",
@@ -159,7 +159,7 @@ ui <- htmlDiv(
   htmlH4("More about Visualization"),
 
   coreMarkdown(
-    "The dasher package provides a component called `coreGraph()`.",
+    "The dashR package provides a component called `coreGraph()`.",
 
     "`coreGraph()` renders interactive data visualizations using the open source",
     "[plotly.js](https://github.com/plotly/plotly.js) JavaScript graphing",
@@ -192,7 +192,7 @@ ui <- htmlDiv(
   htmlH4("Markdown"),
 
   coreMarkdown(
-    "While dasher provides `html*()` functions, which map directly to HTML tags,",
+    "While dashR provides `html*()` functions, which map directly to HTML tags,",
     "it's often tedious to write your copy in HTML.",
     "For writing blocks of text, you can use the `coreMarkdown()`."
   ),
@@ -215,7 +215,7 @@ ui <- htmlDiv(
   htmlP(
     "We'll see many of these components throughout the tutorial.
   You can view all of the available components in the",
-    coreLink('Core Components Gallery', href = '/dasher/dash-core-components')
+    coreLink('Core Components Gallery', href = '/dashR/dash-core-components')
   ),
 
   Syntax(
@@ -237,7 +237,7 @@ ui <- htmlDiv(
   htmlH3("Summary"),
 
   coreMarkdown(
-    "The `layout` of a dasher app describes what the app looks like.",
+    "The `layout` of a dashR app describes what the app looks like.",
     "The `layout` is a hierarchical tree of components.",
     "Functions of the form `html*()` (e.g. `htmlImg()`) refer to HTML",
     "tags and the named arguments describe the HTML attributes like `style`",
@@ -250,10 +250,10 @@ ui <- htmlDiv(
 
   htmlUl(
     htmlLi(
-      coreLink('Core components gallery', href = '/dasher/dash-core-components')
+      coreLink('Core components gallery', href = '/dashR/dash-core-components')
     ),
     htmlLi(
-      coreLink('HTML components gallery', href = '/dasher/dash-core-components')
+      coreLink('HTML components gallery', href = '/dashR/dash-core-components')
     )
   ),
 
@@ -263,7 +263,7 @@ ui <- htmlDiv(
 
   coreLink(
     'Dash Tutorial - Part 2: Basic Callbacks',
-    href = "/dasher/getting-started-part-2"
+    href = "/dashR/getting-started-part-2"
   )
 
 )

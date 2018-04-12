@@ -1,4 +1,4 @@
-#' Run a dasher example
+#' Run a dashR example
 #'
 #' @param name the example's name.
 #' @param block whether or not to block the R console.
@@ -15,7 +15,7 @@
 
 runTutorial <- function(name, block = FALSE, showcase = interactive(), ...) {
   # for now, just allow one to run tutorial examples
-  exdir <- system.file("tutorial", "examples", package = "dasher")
+  exdir <- system.file("tutorial", "examples", package = "dashR")
   exfiles <- list.files(exdir, recursive = TRUE)
 
   # throw an information warning if example isn't found.
@@ -35,7 +35,7 @@ runTutorial <- function(name, block = FALSE, showcase = interactive(), ...) {
   # now try to run the example (assuming it returns a Dasher app, which it should!)
   res <- source(file.path(exdir, name), local = TRUE, chdir = TRUE)
   if (!inherits(res$value, "Dash")) {
-    stop("File '", name, "' did not return a dasher app", call. = FALSE)
+    stop("File '", name, "' did not return a dashR app", call. = FALSE)
   }
   on.exit({
     res$value$run_server(block = block, showcase = showcase, ...)

@@ -1,5 +1,5 @@
 # adapted from  https://github.com/rstudio/ggvis/blob/master/demo/tourr.r
-library(dasher)
+library(dashR)
 library(tourr)
 
 mat <- rescale(as.matrix(flea[1:6]))

@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # i.e., import styles
 source("styles.R")

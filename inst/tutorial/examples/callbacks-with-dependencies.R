@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 all_options <- list(
   NYC = list(

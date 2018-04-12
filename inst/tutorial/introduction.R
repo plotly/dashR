@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 ui <- htmlDiv(
   htmlH2("Introduction to Dasher"),

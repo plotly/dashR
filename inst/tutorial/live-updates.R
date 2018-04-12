@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 source("styles.R")
 source("tools.R")
@@ -14,7 +14,7 @@ ui <- htmlDiv(
     "",
     "## The `coreInterval()` component",
     "",
-    "Components in dasher usually update through user interaction (e.g.,",
+    "Components in dashR usually update through user interaction (e.g.,",
     "selecting a dropdown, dragging a slider, hovering over points, etc).",
     "",
     "If you're building an app for monitoring, you may want to update",
@@ -43,7 +43,7 @@ ui <- htmlDiv(
     "For example, if your `app$layout_set()` looked like this:",
     "",
     "```",
-    "library(dasher)",
+    "library(dashR)",
     "",
     "app <- Dash$new()",
     "app$layout_set(",

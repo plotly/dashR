@@ -1,6 +1,6 @@
 #' Dash app stylesheets
 #'
-#' Use the 'official' Dash stylesheet in your dasher applications
+#' Use the 'official' Dash stylesheet in your dashR applications
 #' <https://github.com/plotly/dash-app-stylesheets>.
 #'
 #' @param filenames css filenames to use
@@ -14,7 +14,7 @@
 # document (via app$dependencies_set(), which automatically places css in <head>)
 dash_css <- function(filenames = "docs-base") {
 
-  cssDir <- system.file("lib", "dash-app-stylesheets", package = "dasher")
+  cssDir <- system.file("lib", "dash-app-stylesheets", package = "dashR")
   cssNames <- sub("\\.css$", "", list.files(cssDir))
   missingFiles <- setdiff(filenames, cssNames)
   if (length(missingFiles)) {
@@ -32,7 +32,7 @@ dash_css <- function(filenames = "docs-base") {
   htmltools::htmlDependency(
     name = "dash-app-stylesheets",
     version = "1.0.0",
-    package = "dasher",
+    package = "dashR",
     src = c(
       href = "https://cdn.rawgit.com/plotly/dash-app-stylesheets/master/",
       file = "lib/dash-app-stylesheets"

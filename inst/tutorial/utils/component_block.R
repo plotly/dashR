@@ -1,8 +1,8 @@
-library(dasher)
+library(dashR)
 
 #' A code block
 #'
-#' Insert a code chunk in a dasher application with it's result embedded afterwards.
+#' Insert a code chunk in a dashR application with it's result embedded afterwards.
 #'
 #' @param f a formula
 #' @param customStyle see [coreSyntaxHighlighter].

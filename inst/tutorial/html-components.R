@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # 'import' ComponentBlock() function
 source("utils/component_block.R")

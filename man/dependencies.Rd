@@ -19,7 +19,7 @@ state(id = NULL, property = "value")
 \item{property}{the component property to use}
 }
 \description{
-Use in conjunction with the \code{callback()} method from the \link[dasher:Dash]{dasher::Dash} class
+Use in conjunction with the \code{callback()} method from the \link[dashR:Dash]{dashR::Dash} class
 to define the update logic in your application.
 }
 \author{

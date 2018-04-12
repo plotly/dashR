@@ -1,5 +1,5 @@
 ---
-title: "On dasher: an R interface to the dash ecosystem"
+title: "On dashR: an R interface to the dash ecosystem"
 output: html_document
 ---
 
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-I'm super excited to announce a new R package, [dasher](https://github.com/plotly/dasher), which is essentially  [dash](https://plot.ly/dash/) for R. With dasher, you can build reactive web applications entirely in R using an API that looks nearly identical to the dash (python) version. That means, if you already know dash, and want/need to leverage R (rather python) functionality, it's straight-forward to translate your existing knowledge/applications from dash to dasher (or vice versa). Dasher also offers some functionality that is unique to R, such as automatic rendering of [htmlwidgets](http://www.htmlwidgets.org/).
+I'm super excited to announce a new R package, [dashR](https://github.com/plotly/dashR), which is essentially  [dash](https://plot.ly/dash/) for R. With dashR, you can build reactive web applications entirely in R using an API that looks nearly identical to the dash (python) version. That means, if you already know dash, and want/need to leverage R (rather python) functionality, it's straight-forward to translate your existing knowledge/applications from dash to dashR (or vice versa). Dasher also offers some functionality that is unique to R, such as automatic rendering of [htmlwidgets](http://www.htmlwidgets.org/).
 
 ## Hello world example
 
@@ -19,17 +19,17 @@ I'm super excited to announce a new R package, [dasher](https://github.com/plotl
 
 ```
 
-## But I already know shiny...why use dasher?
+## But I already know shiny...why use dashR?
 
-Let's address the elephant in the room. I've [developed shiny apps for over 5 years now](https://github.com/cpsievert/apps/graphs/contributors), so I am very much aware of how awesome shiny is, how huge the community is, and I sincerely hope shiny continues to thrive. That being said, there are numerous dasher features that should make it preferable in some contexts:
+Let's address the elephant in the room. I've [developed shiny apps for over 5 years now](https://github.com/cpsievert/apps/graphs/contributors), so I am very much aware of how awesome shiny is, how huge the community is, and I sincerely hope shiny continues to thrive. That being said, there are numerous dashR features that should make it preferable in some contexts:
 
 1. Agile development
 
-If you work with a team of software engineers and/or data scientists and/or consistently switch between R and python on your projects, then you'll appreciate the ability to quickly switch between an R (dasher) or python (dash) backend with nearly identical code. More specifically, changing from R to python (or vice versa) can be as easy as changing your callback function(s) since the underlying layout and reactivity model ([dash-renderer](https://github.com/plotly/dash-renderer)) is the same. In fact, I was able to port <https://plot.ly/dash> to <https://plot.ly/dasher> in the matter of days since it was a matter of porting a dash app to a dasher app (the most time intensive part was changing python/R specific details).
+If you work with a team of software engineers and/or data scientists and/or consistently switch between R and python on your projects, then you'll appreciate the ability to quickly switch between an R (dashR) or python (dash) backend with nearly identical code. More specifically, changing from R to python (or vice versa) can be as easy as changing your callback function(s) since the underlying layout and reactivity model ([dash-renderer](https://github.com/plotly/dash-renderer)) is the same. In fact, I was able to port <https://plot.ly/dash> to <https://plot.ly/dashR> in the matter of days since it was a matter of porting a dash app to a dashR app (the most time intensive part was changing python/R specific details).
   
 2. Powered by React
 
-React is an extremely popular JavaScript library for building scalable user interfaces (backed and used by Facebook). Each dasher/dash component is actually a wrapper around a React component (e.g. `coreSlider()` is [a wrapper](https://github.com/plotly/dash-core-components/blob/f1add73e/src/components/Slider.react.js#L2) around [rc-slider](https://www.npmjs.com/package/rc-slider)). Moreover, we've provided an [official guide](https://plot.ly/dasher/plugins) for bundling dasher (and dash) compatible React component(s) so that others can use your (or someone else's!) custom component via an R package. That means, you could publish a package (`foo`) with a component (`bar`) to [CRAN](https://cran.r-project.org/) so that others could use it by simply doing:
+React is an extremely popular JavaScript library for building scalable user interfaces (backed and used by Facebook). Each dashR/dash component is actually a wrapper around a React component (e.g. `coreSlider()` is [a wrapper](https://github.com/plotly/dash-core-components/blob/f1add73e/src/components/Slider.react.js#L2) around [rc-slider](https://www.npmjs.com/package/rc-slider)). Moreover, we've provided an [official guide](https://plot.ly/dashR/plugins) for bundling dashR (and dash) compatible React component(s) so that others can use your (or someone else's!) custom component via an R package. That means, you could publish a package (`foo`) with a component (`bar`) to [CRAN](https://cran.r-project.org/) so that others could use it by simply doing:
 
 ```r
 install.package("foo")

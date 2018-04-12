@@ -1,5 +1,5 @@
-library(dasher)
-library(dasherAuth)
+library(dashR)
+library(dashRAuth)
 
 Sys.setenv('PLOTLY_USERNAME' = 'dash-test-user')
 Sys.setenv('PLOTLY_API_KEY' = '9kCBELqYp54Dygjn7zhH')

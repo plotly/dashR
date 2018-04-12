@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # import Syntax() and Example()
 source("components.R")

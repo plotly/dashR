@@ -20,7 +20,7 @@ styleDep <- htmlDependency(
   all_files = FALSE
 )
 
-library(dasher)
+library(dashR)
 app <- Dash$new()
 app$dependencies_set(styleDep)
 app$layout_set(

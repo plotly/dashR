@@ -1,5 +1,5 @@
 # R version of https://plot.ly/dash/state
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 

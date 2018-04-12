@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 source("styles.R")
 

@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 ui <- coreMarkdown(
   "# Dasher Support and Contact",
@@ -16,7 +16,7 @@ ui <- coreMarkdown(
   "",
   "### Dasher Workshops",
   "",
-  "We regularly run workshops on both dasher and dash. Register and see more",
+  "We regularly run workshops on both dashR and dash. Register and see more",
   "information at <https://plotcon.plot.ly/workshops>.",
   "",
   "Last Fall's workshops sold out, so if you are interested,",
@@ -36,7 +36,7 @@ ui <- coreMarkdown(
   "and general questions.",
   "",
   "If you have found a bug, you can open an issue on GitHub at",
-  "[plotly/dasher](https://github.com/plotly/dasher).",
+  "[plotly/dashR](https://github.com/plotly/dashR).",
   "",
   "### Direct Contact",
   "",

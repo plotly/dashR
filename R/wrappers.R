@@ -122,9 +122,9 @@ wrap <- function(func = NULL, closure = function() { func() }) {
       inputs = args[vapply(args, is.input, logical(1))],
       state = args[vapply(args, is.state, logical(1))]
     ),
-    class = "dasher_wrapper"
+    class = "dashR_wrapper"
   )
 }
 
 
-is.wrapper <- function(x) inherits(x, "dasher_wrapper")
+is.wrapper <- function(x) inherits(x, "dashR_wrapper")
