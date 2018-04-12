@@ -100,30 +100,11 @@ resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
 }
 
 resourcify <- function(dependencies, libdir = tempdir()) {
-
   lapply(dependencies, function(dep) {
     dep <- htmltools::copyDependencyToDir(dep, libdir)
     htmltools::makeDependencyRelative(dep, libdir)
   })
 }
-
-widget_dependency <- function(name = NULL, package = name) {
-  htmlwidgets::getDependency(name, package)
-}
-
-# # get dependencies from an htmlwidget object
-# # https://github.com/ramnathv/htmlwidgets/pull/255
-# widget_dependencies <- function(w) {
-#   if (!inherits(w, "htmlwidget")) {
-#     warning("Expected an htmlwidget object", call. = FALSE)
-#     return(NULL)
-#   }
-#
-#   c(
-#     htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
-#     w$dependencies
-#   )
-# }
 
 
 # ----------------------------------------------------------------------------

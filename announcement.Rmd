@@ -58,6 +58,9 @@ TODO:
 * shiny uses web-sockets by default, which can make deployment difficult, especially in enterprise settings.
 
 4. Apps can be serialized as JSON
+  * saving and loading
+  
+5. True multi-page apps
 
 
 

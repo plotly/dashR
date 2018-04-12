@@ -21,7 +21,7 @@ ui <- htmlDiv(
     "components in your application every few seconds or minutes.",
     "",
     "The `coreInterval()` component allows you to update other components",
-    "on a predefined interval. The `n_interval` property of the `coreInterval()`",
+    "on a predefined interval. The `n_intervals` property of the `coreInterval()`",
     "component is an integer that is automatically incremented every time",
     "`interval` millseconds pass. You can listen to this variable inside a",
     "`callback()` method to fire it on a predefined interval."
