@@ -44,6 +44,7 @@ test_that("Can suppress warnings", {
     )
   )
 
+
   expect_silent(
     app$callback(
       function(x = input("x", "gobble-gobble")) x,

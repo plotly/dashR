@@ -4,7 +4,6 @@
 #' @importFrom routr Route RouteStack ressource_route
 #' @importFrom reqres default_parsers
 #' @importFrom htmltools htmlDependency renderDependencies copyDependencyToDir makeDependencyRelative validateCssUnit
-#' @importFrom htmlwidgets getDependency
 #' @importFrom jsonlite toJSON
 #' @importFrom digest sha1
 #' @importFrom assertthat assert_that
