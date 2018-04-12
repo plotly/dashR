@@ -1,58 +1,56 @@
-library(dasher)
+library(dashR)
 
 ui <- htmlDiv(
   htmlH1('Sharing State Between Callbacks'),
 
   coreMarkdown(
-    "
-One of the core Dash principles explained in the
-[Getting Started Guide on Callbacks](https://plot.ly/dash/getting-started-part-2)
-is that **Dash Callbacks must never modify variables outside of their
-scope**. It is not safe to modify any `global` variables.
-This chapter explains why and provides some alternative patterns for
-sharing state between callbacks.
-
-## Why Share State?
-
-In some apps, you may have multiple callbacks that depend on expensive data
-processing tasks like making SQL queries,
-running simulations, or downloading data.
-
-Rather than have each callback run the same expensive task,
-you can have one callback run the task and then share the
-results to the rest of the callbacks.
-"),
+    "One of the core Dash principles explained in the",
+    "[Getting Started Guide on Callbacks](https://plot.ly/dash/getting-started-part-2)",
+    "is that **Dash Callbacks must never modify variables outside of their",
+    "scope**. It is not safe to modify any `global` variables.",
+    "This chapter explains why and provides some alternative patterns for",
+    "sharing state between callbacks.",
+    "",
+    "## Why Share State?",
+    "",
+    "In some apps, you may have multiple callbacks that depend on expensive data",
+    "processing tasks like making SQL queries,",
+    "running simulations, or downloading data.",
+    "",
+    "Rather than have each callback run the same expensive task,",
+    "you can have one callback run the task and then share the",
+    "results to the rest of the callbacks."
+  ),
 
   coreMarkdown(
-    "
-## Why `global` variables will break your app
+    "## Why `global` variables will break your app",
+    "",
+    "Dash is designed to work in multi-user environments",
+    "where multiple people may view the application at the",
+    "same time and will have **independent sessions**.",
+    "",
+    "If your app uses modified `global` variables,",
+    "then one user's session could set the variable to one value",
+    "which would affect the next user's session.",
+    "",
+    "Dash is also designed to be able to run with **multiple python",
+    "workers** so that callbacks can be executed in parallel.",
+    "This is commonly done with `gunicorn` using syntax like",
+    "",
+    "```",
+    "$ gunicorn --workers 4 --threads 2 app:server",
+    "```",
+    "",
+    "When Dash apps run across multiple workers, their memory",
+    "_is not shared_. This means that if you modify a global",
+    "variable in one callback, that modification will not be",
+    "applied to the rest of the workers."
+  ),
 
-Dash is designed to work in multi-user environments
-where multiple people may view the application at the
-same time and will have **independent sessions**.
+  htmlHr(),
 
-If your app uses modified `global` variables,
-then one user's session could set the variable to one value
-which would affect the next user's session.
-
-Dash is also designed to be able to run with **multiple python
-workers** so that callbacks can be executed in parallel.
-This is commonly done with `gunicorn` using syntax like
-
-```
-$ gunicorn --workers 4 --threads 2 app:server
-```
-
-When Dash apps run across multiple workers, their memory
-_is not shared_. This means that if you modify a global
-variable in one callback, that modification will not be
-applied to the rest of the workers.
-")),
-
-htmlHr(),
-
-Syntax(
-  "df = pd.DataFrame({
+  Syntax(
+    "df = pd.DataFrame({
          'a': [1, 2, 3],
          'b': [4, 1, 4],
          'c': ['x', 'y', 'z'],
@@ -77,12 +75,12 @@ Syntax(
          global df = df[df['c'] == value]  # do not do this, this is not safe!
          return len(df)
          ",
-  "Here is an sketch of an app with a callback that modifies data out of it's scope.
+    "Here is an sketch of an app with a callback that modifies data out of it's scope.
 This type of pattern *will not work reliably* for the reasons outlined above."
-),
+  ),
 
-Syntax(
-  "df = pd.DataFrame({
+  Syntax(
+    "df = pd.DataFrame({
            'a': [1, 2, 3],
            'b': [4, 1, 4],
            'c': ['x', 'y', 'z'],
@@ -104,12 +102,12 @@ Syntax(
            filtered_df = df[df['c'] == value]
          return len(filtered_df)",
 
-  "To fix this example, simply re-assign the filter to a new variable inside the
+    "To fix this example, simply re-assign the filter to a new variable inside the
 callback or follow one of the strategies outlined in the next part of this guide."
-),
+  ),
 
-coreMarkdown(
-  "
+  coreMarkdown(
+    "
 ## Sharing Data Between Callbacks
 
 In order for to share data safely across multiple python
@@ -147,8 +145,8 @@ Your app likely won't be displaying 10MB of data,
 it will just be displaying a subset or an aggregation of it.
 "),
 
-Syntax(
-  "
+  Syntax(
+    "
          global_df = pd.read_csv('...')
            app.layout = htmlDiv([
            coreGraph(id='graph'),
@@ -184,17 +182,17 @@ Syntax(
            table = create_table(dff)
            return table"
 
-  "
+    "
 This example outlines how you can perform an expensive data processing
 step in one callback, serialize the output at JSON, and provide it
 as an input to the other callbacks. This example uses standard dash
 callbacks and stores the JSON-ified data inside a hidden div in
 the app.
 "),
-htmlHr(),
+  htmlHr(),
 
-coreMarkdown(
-"
+  coreMarkdown(
+    "
 ## Example 2 - Computing Aggregations Upfront
 
 Sending the computed data over the network can be expensive if
@@ -205,11 +203,11 @@ In many cases, your app will only display a subset or an aggregation
 of the computed or filtered data. In these cases, you could precompute
 your aggreations in your data processing callback and transport these
 aggregations to the remaining callbacks."
-),
+  ),
 
 
 
-Syntax(children=s('''
+  Syntax(children=s('''
                                                                                                @app.callback(
                                                                                                  Output('intermediate-value', 'children'),
                                                                                                  [Input('dropdown', 'value')])
@@ -219,43 +217,43 @@ Syntax(children=s('''
 
                                                                                                # a few filter steps that compute the data
                                                                                                # as it's needed in the future callbacks
-                  df_1 = cleaned_df[cleaned_df == 'apples']
-                  df_2 = cleaned_df[cleaned_df == 'oranges']
-                  df_3 = cleaned_df[cleaned_df == 'figs']
-                  return {
-                    'df_1': df_1.to_json(orient='split', date_format='iso'),
-                    'df_2': df_2.to_json(orient='split', date_format='iso'),
-                    'df_3': df_3.to_json(orient='split', date_format='iso'),
-                  }
+                    df_1 = cleaned_df[cleaned_df == 'apples']
+                    df_2 = cleaned_df[cleaned_df == 'oranges']
+                    df_3 = cleaned_df[cleaned_df == 'figs']
+                    return {
+                      'df_1': df_1.to_json(orient='split', date_format='iso'),
+                      'df_2': df_2.to_json(orient='split', date_format='iso'),
+                      'df_3': df_3.to_json(orient='split', date_format='iso'),
+                    }
 
-                  @app.callback(
-                    Output('graph', 'figure'),
-                    [Input('intermediate-value', 'children'])
-                     def update_graph_1(jsonified_cleaned_data):
-                       dff = pd.read_json(jsonified_cleaned_data['df_1'], orient='split')
-                     figure = create_figure_1(dff)
-                     return figure
+                    @app.callback(
+                      Output('graph', 'figure'),
+                      [Input('intermediate-value', 'children'])
+                       def update_graph_1(jsonified_cleaned_data):
+                         dff = pd.read_json(jsonified_cleaned_data['df_1'], orient='split')
+                       figure = create_figure_1(dff)
+                       return figure
 
-                     @app.callback(
-                       Output('graph', 'figure'),
-                       [Input('intermediate-value', 'children'])
-                        def update_graph_2(jsonified_cleaned_data):
-                          dff = pd.read_json(jsonified_cleaned_data['df_2'], orient='split')
-                        figure = create_figure_2(dff)
-                        return figure
+                       @app.callback(
+                         Output('graph', 'figure'),
+                         [Input('intermediate-value', 'children'])
+                          def update_graph_2(jsonified_cleaned_data):
+                            dff = pd.read_json(jsonified_cleaned_data['df_2'], orient='split')
+                          figure = create_figure_2(dff)
+                          return figure
 
-                        @app.callback(
-                          Output('graph', 'figure'),
-                          [Input('intermediate-value', 'children'])
-                           def update_graph_3(jsonified_cleaned_data):
-                             dff = pd.read_json(jsonified_cleaned_data['df_3'], orient='split')
-                           figure = create_figure_3(dff)
-                           return figure
-                           '''), summary='''Here's a simple example of how you might transport
+                          @app.callback(
+                            Output('graph', 'figure'),
+                            [Input('intermediate-value', 'children'])
+                             def update_graph_3(jsonified_cleaned_data):
+                               dff = pd.read_json(jsonified_cleaned_data['df_3'], orient='split')
+                             figure = create_figure_3(dff)
+                             return figure
+                             '''), summary='''Here's a simple example of how you might transport
                                                                                                         filtered or aggregated data to multiple callbacks.
                                                                                                         '''),
 
-                        coreMarkdown(s('''
+                          coreMarkdown(s('''
                                                                                                                     ***
 
                                                                                                                     ## Example 3 - Caching and Signaling
@@ -299,16 +297,16 @@ Syntax(children=s('''
                                                                                                                     computation has already been computed.
                                                                                                                     ''')),
 
-                        htmlDiv(
-                          children=htmlImg(
-                            src='https://user-images.githubusercontent.com/1280389/31468665-bf1b6026-aeac-11e7-9388-d9a5e71d964e.gif',
-                            alt='Example of a Dash App that uses Caching'
+                          htmlDiv(
+                            children=htmlImg(
+                              src='https://user-images.githubusercontent.com/1280389/31468665-bf1b6026-aeac-11e7-9388-d9a5e71d964e.gif',
+                              alt='Example of a Dash App that uses Caching'
+                            ),
+                            className="gallery"
                           ),
-                          className="gallery"
-                        ),
 
-                        Syntax(summary="Here's what this example looks like in code",
-                               children=s('''
+                          Syntax(summary="Here's what this example looks like in code",
+                                 children=s('''
                                                                                                                        import copy
                                                                                                                        import dash
                                                                                                                        from dash.dependencies import Input, Output
@@ -325,9 +323,9 @@ Syntax(children=s('''
                                                                                                                        app = dash.Dash(__name__)
                                                                                                                        CACHE_CONFIG = {
                                                                                                                        # try 'filesystem' if you don't want to setup redis
-                                          'CACHE_TYPE': 'redis',
-                                          'CACHE_REDIS_URL': os.environ.get('REDIS_URL', 'localhost:6379')
-                                          }
+                                            'CACHE_TYPE': 'redis',
+                                            'CACHE_REDIS_URL': os.environ.get('REDIS_URL', 'localhost:6379')
+                                            }
 cache = Cache()
 cache.init_app(app.server, config=CACHE_CONFIG)
 

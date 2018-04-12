@@ -1,4 +1,4 @@
 library(testthat)
-library(dasher)
+library(dashR)
 
-test_check("dasher")
+test_check("dashR")

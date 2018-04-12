@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(lubridate)
 
 app <- Dash$new()
@@ -14,7 +14,7 @@ app$layout_set(
 )
 
 # helper function for formatting date input values
-# note that dasher uses JSON to pass values from server to client
+# note that dashR uses JSON to pass values from server to client
 # and JSON has no native date-time data structure, so the client will
 # receive a string, which we convert to a date, then format.
 format_date <- function(x) {

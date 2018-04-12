@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(magrittr)
 
 dat <- read.csv(

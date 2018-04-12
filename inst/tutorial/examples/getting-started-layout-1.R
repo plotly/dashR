@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 

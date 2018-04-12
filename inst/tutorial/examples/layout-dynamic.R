@@ -1,7 +1,7 @@
 # By providing a function to layout_set
 # https://plot.ly/dash/live-updates
 
-library(dasher)
+library(dashR)
 
 ui <- function() {
   htmlH1(paste("The time is:", Sys.time()))

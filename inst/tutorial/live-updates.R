@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 source("styles.R")
 source("tools.R")
@@ -14,14 +14,14 @@ ui <- htmlDiv(
     "",
     "## The `coreInterval()` component",
     "",
-    "Components in dasher usually update through user interaction (e.g.,",
+    "Components in dashR usually update through user interaction (e.g.,",
     "selecting a dropdown, dragging a slider, hovering over points, etc).",
     "",
     "If you're building an app for monitoring, you may want to update",
     "components in your application every few seconds or minutes.",
     "",
     "The `coreInterval()` component allows you to update other components",
-    "on a predefined interval. The `n_interval` property of the `coreInterval()`",
+    "on a predefined interval. The `n_intervals` property of the `coreInterval()`",
     "component is an integer that is automatically incremented every time",
     "`interval` millseconds pass. You can listen to this variable inside a",
     "`callback()` method to fire it on a predefined interval."
@@ -43,7 +43,7 @@ ui <- htmlDiv(
     "For example, if your `app$layout_set()` looked like this:",
     "",
     "```",
-    "library(dasher)",
+    "library(dashR)",
     "",
     "app <- Dash$new()",
     "app$layout_set(",

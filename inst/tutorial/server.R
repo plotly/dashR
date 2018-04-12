@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(fiery)
 library(routr)
 
@@ -11,6 +11,6 @@ app <- Dash$new(
   name = "Dasher user guide",
   server = server,
   static_folder = c('/dash/static' = './static'),
-  routes_pathname_prefix = '/dasher/'
+  routes_pathname_prefix = '/dashR/'
 )
 app

@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 source("components.R")
 
@@ -7,8 +7,8 @@ ui <- htmlDiv(
   htmlH1("External CSS and JavaScript"),
 
   coreMarkdown(
-    "When a dasher app is launched, it automatically serves the",
-    "CSS/JS files required to render the layout. By default, dasher doesn't",
+    "When a dashR app is launched, it automatically serves the",
+    "CSS/JS files required to render the layout. By default, dashR doesn't",
     "make strong assumptions about styling, it's often useful to include additional",
     "stylesheets and/or scripts. The following sections show different ways to",
     "include 'external' CSS/JS file(s) using the application's",
@@ -19,7 +19,7 @@ ui <- htmlDiv(
 
   coreMarkdown(
     "The `dash_css()` function provides easy access to numerous stylesheets",
-    "maintained by plotly for use in dash and dasher applications.",
+    "maintained by plotly for use in dash and dashR applications.",
     "[See here](https://github.com/plotly/dash-app-stylesheets) for a full list",
     "of the available stylesheets."
   ),
@@ -51,7 +51,7 @@ ui <- htmlDiv(
   htmlH2("Local vs remote dependencies"),
 
   coreMarkdown(
-    "By default, dasher (tries to) include *local* CSS/JS files, but you also have",
+    "By default, dashR (tries to) include *local* CSS/JS files, but you also have",
     "the option of serving files *remotely* via an online cdn/url. Using remote files",
     "can make it quicker and easier to develop your application (no need to download",
     "and specify a path to the files), but will require an internet connection in",
@@ -60,7 +60,7 @@ ui <- htmlDiv(
 
   Syntax(
     "
-library(dasher)
+library(dashR)
 
 app <- Dash$new(serve_locally = FALSE)
 "

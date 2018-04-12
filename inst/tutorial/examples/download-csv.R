@@ -1,7 +1,7 @@
 # download any dataset (shipped in the datasets package) as a csv
 # solution based on https://community.plot.ly/t/download-raw-data/4700/8
 
-library(dasher)
+library(dashR)
 
 # grab name/description for every dataset that ships with R
 dat <- data(package = "datasets")[["results"]]

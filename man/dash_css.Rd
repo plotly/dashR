@@ -10,11 +10,11 @@ dash_css(filenames = "docs-base")
 \item{filenames}{css filenames to use}
 }
 \description{
-Use the 'official' Dash stylesheet in your dasher applications
+Use the 'official' Dash stylesheet in your dashR applications
 \url{https://github.com/plotly/dash-app-stylesheets}.
 }
 \examples{
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 

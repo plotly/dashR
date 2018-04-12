@@ -62,7 +62,7 @@ depList <- list(
 
 # we don't know the full path yet...
 deps <- lapply(depList, function(d) {
-  d$package <- "dasher"
+  d$package <- "dashR"
   d$src$file <- htmltools:::relativeTo(here::here("inst"), d$src$file)
   d
 })
@@ -176,7 +176,7 @@ devtools::use_data(deps, overwrite = T, internal = T)
 #         stylesheet = htmltools::urlEncodePath(x$name),
 #         version = strextract(info[[2]], .standard_regexps()$valid_package_version),
 #         src = "lib",
-#         package = "dasher"
+#         package = "dashR"
 #       )
 #     } else {
 #       htmltools::htmlDependency(
@@ -184,7 +184,7 @@ devtools::use_data(deps, overwrite = T, internal = T)
 #         script = htmltools::urlEncodePath(x$name),
 #         version = strextract(info[[2]], .standard_regexps()$valid_package_version),
 #         src = "lib",
-#         package = "dasher"
+#         package = "dashR"
 #       )
 #     }
 #   })
@@ -196,7 +196,7 @@ devtools::use_data(deps, overwrite = T, internal = T)
 #     script = htmltools::urlEncodePath(basename(config$bundle)),
 #     version = config$version,
 #     src = "lib",
-#     package = "dasher"
+#     package = "dashR"
 #   )
 # }
 #

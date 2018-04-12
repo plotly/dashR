@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 dat <- read.csv(
   'https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv'

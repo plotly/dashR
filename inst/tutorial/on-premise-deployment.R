@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 source("styles.R")
 
@@ -167,10 +167,10 @@ Plotly On-Premise's 'Create' menu.",
 
     deployment = list(
       htmlH4("Download the Sample App from GitHub"),
-      coreMarkdown("Clone the [Dasher On Premise Sample App](https://github.com/plotly/dasher-on-premise-sample-app) from GitHub."),
+      coreMarkdown("Clone the [Dasher On Premise Sample App](https://github.com/plotly/dashR-on-premise-sample-app) from GitHub."),
       if (is_windows) coreMarkdown('In Git Bash, run: '),
       coreSyntaxHighlighter(
-        "$ git clone https://github.com/plotly/dasher-on-premise-sample-app.git",
+        "$ git clone https://github.com/plotly/dashR-on-premise-sample-app.git",
         customStyle = styles$code_container
       ),
       htmlHr(),
@@ -180,7 +180,7 @@ Plotly On-Premise's 'Create' menu.",
 The following command will create a remote host to your new app on Plotly On-Premise.
 "),
       coreSyntaxHighlighter(
-        "$ cd dasher-on-premise-sample-app\n$ git remote add plotly dokku@your-dash-app-manager:your-dash-app-name",
+        "$ cd dashR-on-premise-sample-app\n$ git remote add plotly dokku@your-dash-app-manager:your-dash-app-name",
         customStyle = styles$code_container,
         language = 'r'
       ),
@@ -189,10 +189,10 @@ The following command will create a remote host to your new app on Plotly On-Pre
         "in the Dash app manager and `your-dash-app-manager` with the domain of the",
         "Dash App Manager.",
         "",
-        "For example, if your dasher app name was `my-first-dash-app`",
-        "and the domain of your organizations Dasher App Manager was `dasher.acme-corporation.com`,",
+        "For example, if your dashR app name was `my-first-dash-app`",
+        "and the domain of your organizations Dasher App Manager was `dashR.acme-corporation.com`,",
         "then this command would be",
-        "`git remote add plotly dokku@dasher.acme-corporation.com:my-first-dash-app`."
+        "`git remote add plotly dokku@dashR.acme-corporation.com:my-first-dash-app`."
       ),
       htmlHr(),
 

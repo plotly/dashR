@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(ggplot2)
 data(tips, package = "reshape2")
 

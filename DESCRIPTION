@@ -1,4 +1,4 @@
-Package: dasher
+Package: dashR
 Title: An implementation of the dash protocol for authoring reactive web applications
 Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
@@ -23,7 +23,7 @@ Imports:
 Suggests:
   dashTranspileR,
   dashTable,
-  dasherAuth,
+  dashRAuth,
   testthat,
   knitr,
   rmarkdown,
@@ -47,12 +47,12 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/plotly/dasher
-BugReports: https://github.com/plotly/dasher/issues
+URL: https://github.com/plotly/dashR
+BugReports: https://github.com/plotly/dashR/issues
 Remotes:
   plotly/dash-html-components@R,
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
   plotly/dashTranspileR,
-  plotly/dasherAuth,
+  plotly/dashRAuth,
   plotly/dashHtmlwidgetComponent

@@ -46,7 +46,7 @@ example of when it is ok to suppress these callbacks, see
 \describe{
 \item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
 provided to the \code{server} argument (various routes will be added which enable
-the dasher functionality).}
+the dashR functionality).}
 \item{\code{config}}{A list of configuration options passed along to
 dash-renderer. Users shouldn't need to alter any of these options
 unless they are constructing their own authorization front-end or
@@ -113,7 +113,7 @@ app$server$stop()
 
 }
 \seealso{
-\url{https://plot.ly/dasher/}
+\url{https://plot.ly/dashR/}
 }
 \author{
 Carson Sievert

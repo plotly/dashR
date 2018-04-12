@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # 'import' ComponentBlock() function
 source("utils/component_block.R")
@@ -16,7 +16,7 @@ ui <- htmlDiv(
   ComponentBlock(~ as.character(packageVersion("dashCoreComponents"))),
 
   htmlBr(),
-  htmlH3(coreLink('Dropdown', href = '/dasher/dash-core-components/dropdown')),
+  htmlH3(coreLink('Dropdown', href = '/dashR/dash-core-components/dropdown')),
   ComponentBlock(
     ~coreDropdown(
       options = c(
@@ -30,13 +30,13 @@ ui <- htmlDiv(
 
   coreLink(
     htmlA('More Dropdown Examples and Reference'),
-    href = "/dasher/dash-core-components/dropdown"
+    href = "/dashR/dash-core-components/dropdown"
   ),
 
   htmlHr(),
 
   htmlH3(
-    coreLink('Slider', href = '/dasher/dash-core-components/slider')
+    coreLink('Slider', href = '/dashR/dash-core-components/slider')
   ),
   ComponentBlock(
     ~coreSlider(
@@ -59,11 +59,11 @@ ui <- htmlDiv(
   htmlHr(),
   coreLink(
     htmlA('More Slider Examples and Reference'),
-    href = "/dasher/dash-core-components/slider"),
+    href = "/dashR/dash-core-components/slider"),
 
   htmlHr(),
 
-  htmlH3(coreLink('RangeSlider', href = '/dasher/dash-core-components/rangeslider')),
+  htmlH3(coreLink('RangeSlider', href = '/dashR/dash-core-components/rangeslider')),
   ComponentBlock(
     ~coreRangeSlider(
       count = 1,
@@ -85,11 +85,11 @@ ui <- htmlDiv(
 
   htmlHr(),
   coreLink(htmlA('More RangeSlider Examples and Reference'),
-           href = "/dasher/dash-core-components/rangeslider"),
+           href = "/dashR/dash-core-components/rangeslider"),
 
   htmlHr(),
 
-  htmlH3(coreLink('Input', href = '/dasher/dash-core-components/input')),
+  htmlH3(coreLink('Input', href = '/dashR/dash-core-components/input')),
   ComponentBlock(
     ~coreInput(
       placeholder = 'Enter a value...',
@@ -100,11 +100,11 @@ ui <- htmlDiv(
 
   htmlHr(),
   coreLink(htmlA('Input Reference'),
-           href = "/dasher/dash-core-components/input"),
+           href = "/dashR/dash-core-components/input"),
 
   htmlHr(),
 
-  htmlH3(coreLink('Textarea', href = '/dasher/dash-core-components/textarea')),
+  htmlH3(coreLink('Textarea', href = '/dashR/dash-core-components/textarea')),
   ComponentBlock(
     ~coreTextarea(
       placeholder = 'Enter a value...',
@@ -115,11 +115,11 @@ ui <- htmlDiv(
 
   htmlHr(),
   coreLink(htmlA('Textarea Reference'),
-           href = "/dasher/dash-core-components/textarea"),
+           href = "/dashR/dash-core-components/textarea"),
 
   htmlHr(),
 
-  htmlH3(coreLink('Checkboxes', href = '/dasher/dash-core-components/checklist')),
+  htmlH3(coreLink('Checkboxes', href = '/dashR/dash-core-components/checklist')),
   ComponentBlock(
     ~coreChecklist(
       options = c(
@@ -145,9 +145,9 @@ ui <- htmlDiv(
 
   htmlHr(),
   coreLink(htmlA('Checklist Properties'),
-           href = "/dasher/dash-core-components/checklist"),
+           href = "/dashR/dash-core-components/checklist"),
   htmlHr(),
-  htmlH3(coreLink('Radio Items', href = '/dasher/dash-core-components/radioitems')),
+  htmlH3(coreLink('Radio Items', href = '/dashR/dash-core-components/radioitems')),
   ComponentBlock(
     ~coreRadioItems(
       options = c(
@@ -172,7 +172,7 @@ ui <- htmlDiv(
   ),
   htmlHr(),
   coreLink(htmlA('RadioItems Reference'),
-           href = "/dasher/dash-core-components/radioitems"),
+           href = "/dashR/dash-core-components/radioitems"),
 
   htmlHr(),
 
@@ -187,13 +187,13 @@ ui <- htmlDiv(
 
   htmlA(
     "For more on `state()`, see the tutorial on ",
-    coreLink('Dasher State', href = '/dasher/state'),
+    coreLink('Dasher State', href = '/dashR/state'),
     '.'
   ),
 
   htmlHr(),
 
-  htmlH3(coreLink('DatePickerSingle', href = '/dasher/dash-core-components/datepickersingle')),
+  htmlH3(coreLink('DatePickerSingle', href = '/dashR/dash-core-components/datepickersingle')),
   ComponentBlock(
     ~coreDatePickerSingle(
       id = 'date-picker-single',
@@ -201,10 +201,10 @@ ui <- htmlDiv(
     )
   ),
   coreLink(htmlA('More DatePickerSingle Examples and Reference'),
-           href = "/dasher/dash-core-components/datepickersingle"),
+           href = "/dashR/dash-core-components/datepickersingle"),
   htmlHr(),
 
-  htmlH3(coreLink('DatePickerRange', href = '/dasher/dash-core-components/datepickerrange')),
+  htmlH3(coreLink('DatePickerRange', href = '/dashR/dash-core-components/datepickerrange')),
   ComponentBlock(
     ~coreDatePickerRange(
       id = 'date-picker-range',
@@ -214,11 +214,11 @@ ui <- htmlDiv(
   ),
   htmlHr(),
   coreLink(htmlA('More DatePickerRange Examples and Reference'),
-           href = "/dasher/dash-core-components/datepickerrange"),
+           href = "/dashR/dash-core-components/datepickerrange"),
 
   htmlHr(),
 
-  htmlH3(coreLink('Markdown', href = '/dasher/dash-core-components/markdown')),
+  htmlH3(coreLink('Markdown', href = '/dashR/dash-core-components/markdown')),
   ComponentBlock(
     ~coreMarkdown(
       "#### Dash and Markdown",
@@ -233,7 +233,7 @@ ui <- htmlDiv(
 
   htmlHr(),
   coreLink(htmlA('More Markdown Examples and Reference'),
-           href = "/dasher/dash-core-components/markdown"),
+           href = "/dashR/dash-core-components/markdown"),
 
   htmlHr(),
 
@@ -242,7 +242,7 @@ ui <- htmlDiv(
     "The `dash_html_components` library exposes all of the html tags.",
     "This includes the `Table`, `Tr`, and `Tbody` tags that can be used",
     "to create an html table. See",
-    "[Create Your First Dash App, Part 1](https://plot.ly/dasher/getting-started-part-1)",
+    "[Create Your First Dash App, Part 1](https://plot.ly/dashR/getting-started-part-1)",
     "for an example.",
     "",
     "Dash is currently incubating an interactive table component that provides",
@@ -269,7 +269,7 @@ ui <- htmlDiv(
 
   htmlHr(),
 
-  htmlH3(coreLink('Upload Component', href = '/dasher/dash-core-components/upload')),
+  htmlH3(coreLink('Upload Component', href = '/dashR/dash-core-components/upload')),
   coreMarkdown(
     "The `coreUpload()` component allows users to upload files into your app through",
     "drag-and-drop or the system's native file explorer."
@@ -285,7 +285,7 @@ ui <- htmlDiv(
   ),
 
   coreLink(htmlA('More Upload Examples and Reference'),
-           href = "/dasher/dash-core-components/upload"),
+           href = "/dashR/dash-core-components/upload"),
 
   htmlH3('Tabs'),
   coreMarkdown(

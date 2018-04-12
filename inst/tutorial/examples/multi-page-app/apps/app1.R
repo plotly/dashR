@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 layout <- htmlDiv(
   htmlH3('App 1'),

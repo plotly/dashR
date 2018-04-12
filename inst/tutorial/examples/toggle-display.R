@@ -1,6 +1,6 @@
 # Three ways to show/hide content via https://community.plot.ly/t/collapsible-div-in-dash/6634/4
 
-library(dasher)
+library(dashR)
 
 app <- Dash$new()
 

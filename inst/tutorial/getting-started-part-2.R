@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # import Syntax() and Example()
 source("components.R")
@@ -20,14 +20,14 @@ ui <- htmlDiv(
   htmlH1("Tutorial - Part 2: Interactivity"),
 
   coreMarkdown(
-    "This tutorial will walk you through the fundamentals of creating dasher",
+    "This tutorial will walk you through the fundamentals of creating dashR",
     sprintf("apps through '%s' self-contained apps.", length(exfiles))
   ),
 
   htmlHr(),
 
   coreMarkdown(
-    "1. [Dash App Layout](/dasher/getting-started-part-1)",
+    "1. [Dash App Layout](/dashR/getting-started-part-1)",
     "  - Generating HTML",
     "  - Data Visualization",
     "  - Markdown",
@@ -217,7 +217,7 @@ ui <- htmlDiv(
   htmlH3("Summary"),
 
   coreMarkdown(
-    "We've covered the fundamentals of callbacks in dasher. Dasher apps are built",
+    "We've covered the fundamentals of callbacks in dashR. Dasher apps are built",
     "off of a set of simple but powerful principles: declarative UIs that are",
     "customizable through reactive and functional R callbacks.",
     "Every element attribute of the declarative components can be updated through",

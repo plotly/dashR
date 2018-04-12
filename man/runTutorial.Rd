@@ -2,7 +2,7 @@
 % Please edit documentation in R/run.R
 \name{runTutorial}
 \alias{runTutorial}
-\title{Run a dasher example}
+\title{Run a dashR example}
 \usage{
 runTutorial(name, block = FALSE, showcase = interactive(), ...)
 }
@@ -20,7 +20,7 @@ Returns the Dash app so that you can stop the server after viewing
 the application.
 }
 \description{
-Run a dasher example
+Run a dashR example
 }
 \examples{
 excel <- runTutorial("excel.R")

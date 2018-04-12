@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 styles <- list(
   pre = list(

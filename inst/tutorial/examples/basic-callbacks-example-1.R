@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(quantmod)
 
 # download ticker data via quantmod

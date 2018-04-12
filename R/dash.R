@@ -37,7 +37,7 @@
 #' \describe{
 #'  \item{`server`}{A cloned (and modified) version of the [fiery::Fire] object
 #'  provided to the `server` argument (various routes will be added which enable
-#'  the dasher functionality).}
+#'  the dashR functionality).}
 #'  \item{`config`}{A list of configuration options passed along to
 #'  dash-renderer. Users shouldn't need to alter any of these options
 #'  unless they are constructing their own authorization front-end or
@@ -97,7 +97,7 @@
 #' @docType class
 #' @format An [R6::R6Class] generator object
 #' @author Carson Sievert
-#' @seealso <https://plot.ly/dasher/>
+#' @seealso <https://plot.ly/dashR/>
 #'
 #' @examples
 #'
@@ -297,7 +297,7 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-      router$add_route(route, "dasher-endpoints")
+      router$add_route(route, "dashR-endpoints")
       server$attach(router)
 
       # user-facing fields
@@ -535,7 +535,7 @@ Dash <- R6::R6Class(
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
       lapply(pkgs, function(pkg) {
-        readRDS(system.file("dasher_deps.rds", package = pkg))
+        readRDS(system.file("dashR_deps.rds", package = pkg))
       })
     },
 
@@ -553,10 +553,10 @@ Dash <- R6::R6Class(
 
       # register a route to dependencies on the server (if it doesn't already exist)
       dash_router <- routrs[["request_routr"]]
-      if (!dash_router$has_route("dasher-resources")) {
+      if (!dash_router$has_route("dashR-resources")) {
         # resource routes are designed to serve directories (not individual files)
         resources <- routr::ressource_route('/' = libdir)
-        dash_router$add_route(resources, "dasher-resources", after = 1)
+        dash_router$add_route(resources, "dashR-resources", after = 1)
         self$server$attach(dash_router, force = TRUE)
       }
 

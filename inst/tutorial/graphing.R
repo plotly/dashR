@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 # import Syntax() and Example()
 source("components.R")
@@ -109,7 +109,7 @@ updating time series when we hover over points in our scatter plot."
     "Callbacks with `state()`. State is useful for UIs that contain forms or buttons."
   ),
 
-  coreLink('Dash Tutorial Part 4. Callbacks With State', href = '/dasher/state')
+  coreLink('Dash Tutorial Part 4. Callbacks With State', href = '/dashR/state')
 
 )
 

@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 
 all_options <- list(
   America = c('New York City', 'San Francisco', 'Cincinnati'),

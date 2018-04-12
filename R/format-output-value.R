@@ -32,7 +32,7 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
   if (length(runTimeDeps)) {
     stop(
       sprintf("The htmlwidget '%s' from the '%s' package", name, package),
-      "has HTML dependencies that must be added to the dasher user_deps via the dependencies_set() method. Here are those dependencies:\n\n",
+      "has HTML dependencies that must be added to the dashR user_deps via the dependencies_set() method. Here are those dependencies:\n\n",
       paste(utils::capture.output(print(runTimeDeps)), collapse = "\n"),
       call. = FALSE
     )

@@ -1,9 +1,9 @@
 # R version of second example on https://plot.ly/dash/urls
-library(dasher)
+library(dashR)
 
 # note how some callbacks in this app reference components that do not
 # exist in the layout template, but these components will be inserted via
-# other callbacks! In this case, the warnings that dasher throws about
+# other callbacks! In this case, the warnings that dashR throws about
 # missing component ids can be safely ignored
 app <- Dash$new(suppress_callback_exceptions = TRUE)
 

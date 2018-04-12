@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(htmltools)
 
 # make sure we're using the tutorial directory as the working directory
@@ -8,36 +8,36 @@ setwd(here::here("inst", "tutorial"))
 source("tools.R")
 
 chapters <- list(
-  `/dasher/` = layout_get("home.R"),
-  `/dasher/introduction` = layout_get("introduction.R"),
-  `/dasher/installation` = layout_get("installation.R"),
-  `/dasher/getting-started` = layout_get("getting-started-part-1.R"),
-  `/dasher/getting-started-part-2` = layout_get("getting-started-part-2.R"),
-  `/dasher/state` = layout_get("state.R"),
-  #`/dasher/interactive-graphing` = layout_get("graphing.R"),
-  `/dasher/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
-  `/dasher/dash-core-components` = layout_get("core-components.R"),
-  `/dasher/dash-html-components` = layout_get("html-components.R"),
-  `/dasher/external-resources` = layout_get("external-css-and-js.R"),
-  `/dasher/plugins` = layout_get("plugins.R"),
-  #`/dasher/gallery` =
-  `/dasher/live-updates` = layout_get("live-updates.R"),
-  #`/dasher/performance` =
-  `/dasher/urls` = layout_get("urls.R"),
-  `/dasher/deployment` = layout_get("deployment.R"),
-  `/dasher/deployment/on-premise` = layout_get("on-premise-deployment.R"),
-  `/dasher/authentication` = layout_get("auth.R"),
-  `/dasher/support` = layout_get("support.R")
+  `/dashR/` = layout_get("home.R"),
+  `/dashR/introduction` = layout_get("introduction.R"),
+  `/dashR/installation` = layout_get("installation.R"),
+  `/dashR/getting-started` = layout_get("getting-started-part-1.R"),
+  `/dashR/getting-started-part-2` = layout_get("getting-started-part-2.R"),
+  `/dashR/state` = layout_get("state.R"),
+  #`/dashR/interactive-graphing` = layout_get("graphing.R"),
+  `/dashR/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
+  `/dashR/dash-core-components` = layout_get("core-components.R"),
+  `/dashR/dash-html-components` = layout_get("html-components.R"),
+  `/dashR/external-resources` = layout_get("external-css-and-js.R"),
+  `/dashR/plugins` = layout_get("plugins.R"),
+  #`/dashR/gallery` =
+  `/dashR/live-updates` = layout_get("live-updates.R"),
+  #`/dashR/performance` =
+  `/dashR/urls` = layout_get("urls.R"),
+  `/dashR/deployment` = layout_get("deployment.R"),
+  `/dashR/deployment/on-premise` = layout_get("on-premise-deployment.R"),
+  `/dashR/authentication` = layout_get("auth.R"),
+  `/dashR/support` = layout_get("support.R")
 )
 
 # tack on core component chapters
 coreDir <- here::here("inst", "tutorial", "examples", "core_components")
 for (i in dir(coreDir)) {
-  nm <- paste0("/dasher/dash-core-components/", i)
+  nm <- paste0("/dashR/dash-core-components/", i)
   chapters[[nm]] <- layout_get(i, coreDir)
 }
 
-# generate /dasher/static/sitemap.xml, as in dash-docs/tutorial/generate-sitemap.py
+# generate /dashR/static/sitemap.xml, as in dash-docs/tutorial/generate-sitemap.py
 urls <- sprintf("<url>\n<loc>https://plot.ly%s</loc>\n</url>", names(chapters))
 sitemap <- sprintf('
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
@@ -108,7 +108,7 @@ home <- htmlDiv(
 )
 
 # TODO: `url_base_pathname` doesn't seem to be working?
-app <- Dash$new(url_base_pathname = "/dasher/")
+app <- Dash$new(url_base_pathname = "/dashR/")
 app$layout_set(home)
 
 
@@ -123,7 +123,7 @@ app$callback(
       return(htmlDiv(
         htmlDiv(chapters[[pathname]]),
         htmlHr(),
-        coreLink(htmlA('Back to the Table of Contents'), href = '/dasher/')
+        coreLink(htmlA('Back to the Table of Contents'), href = '/dashR/')
       ))
     }
 

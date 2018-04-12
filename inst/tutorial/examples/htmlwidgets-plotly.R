@@ -1,4 +1,4 @@
-library(dasher)
+library(dashR)
 library(plotly)
 
 app <- Dash$new()
