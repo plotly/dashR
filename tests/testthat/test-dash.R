@@ -28,6 +28,9 @@ test_that("Can set/get layout", {
   # dynamic layouts
   d$layout_set(function() { div })
   l3 <- d$layout_get()
+
+  # TODO: this fails due to a random id being assigned to the app containter...
+  # this likely isn't the right behavior...
   expect_identical(l, l3)
 
   l4 <- d$layout_get(render = FALSE)
