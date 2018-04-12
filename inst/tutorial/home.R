@@ -99,12 +99,12 @@ ui <- htmlDiv(
     Chapter(
       'Dash HTML Components',
       '/dashR/dash-html-components',
-      "Dasher provides every HTML tag as R functions. This chapter explains how this works and the few important key differences between Dash HTML components and standard HTML."
+      "DashR provides every HTML tag as R functions. This chapter explains how this works and the few important key differences between Dash HTML components and standard HTML."
     ),
     Chapter(
       'Build Your Own Components',
       '/dashR/plugins',
-      "Dasher components are built with [React.js](https://reactjs.org/). Dasher provides a React → Dasher toolchain that generates a Dash-compatible interface to these components in R."
+      "DashR components are built with [React.js](https://reactjs.org/). DashR provides a React → DashR toolchain that generates a Dash-compatible interface to these components in R."
     )
   ),
 
@@ -128,7 +128,7 @@ ui <- htmlDiv(
     Chapter(
       'URL Routing and Multiple Apps',
       '/dashR/urls',
-      "Dasher provides two components (`coreLink()` and `coreLocation()`) that allow you to easily make fast multipage apps using its own 'Single Page App (SPA)' design pattern."
+      "DashR provides two components (`coreLink()` and `coreLocation()`) that allow you to easily make fast multipage apps using its own 'Single Page App (SPA)' design pattern."
     )
   ),
 

@@ -34,7 +34,7 @@ ui <- htmlDiv(
   coreMarkdown(
     "## Updates on Page Load",
     "",
-    "By default, Dasher stores the layout in memory. This ensures that the layout",
+    "By default, DashR stores the layout in memory. This ensures that the layout",
     "is only computed once, when the app starts.",
     "",
     "If you provide `app$layout_set()` to a function, then you can render a different",

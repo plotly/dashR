@@ -13,7 +13,7 @@ ui <- htmlDiv(
     "",
     "### Public apps",
     "",
-    "Dasher apps can be hosted on a variety of third-party services: Digital Ocean,",
+    "DashR apps can be hosted on a variety of third-party services: Digital Ocean,",
     "Heroku, Google Cloud, Amazon Web Services, Azure, and more.",
     "You can also deploy dashR apps directly on your own infrastructure. For details,",
     "see the deployment tutorial below.",
@@ -34,7 +34,7 @@ ui <- htmlDiv(
     "For existing customers, view the",
     "[tutorial on deploying Dash Apps on Plotly On-Premise](/dashR/deployment/on-premise).",
     "",
-    "### Dasher and fiery",
+    "### DashR and fiery",
     "",
     "Dash apps are web applications built on top of the fiery framework.",
     "The underlying server is available at `app$server`, that is:"

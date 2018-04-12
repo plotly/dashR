@@ -1,7 +1,7 @@
 library(dashR)
 
 ui <- htmlDiv(
-  htmlH2("## Dasher Installation"),
+  htmlH2("## DashR Installation"),
   coreMarkdown(
     "**dashR** isn't yet available on CRAN,",
     "but you may install the development version with:"
@@ -12,7 +12,7 @@ ui <- htmlDiv(
   ),
   htmlDiv(
     'Ready? Now, get started with the ',
-    coreLink('Dasher Tutorial - Part 1', href = '/dashR/getting-started'),
+    coreLink('DashR Tutorial - Part 1', href = '/dashR/getting-started'),
     '.'
   )
 )

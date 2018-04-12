@@ -86,7 +86,7 @@ home <- htmlDiv(
   htmlMeta(name = 'viewport', content = 'width=device-width, initial-scale=1.0'),
   htmlMeta(
     name = 'description',
-    content = 'Dasher User Guide and Documentation. Dasher is a R framework for building reactive web apps developed by Plotly.'
+    content = 'DashR User Guide and Documentation. DashR is a R framework for building reactive web apps developed by Plotly.'
   ),
   header,
   htmlDiv(

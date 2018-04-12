@@ -167,7 +167,7 @@ Plotly On-Premise's 'Create' menu.",
 
     deployment = list(
       htmlH4("Download the Sample App from GitHub"),
-      coreMarkdown("Clone the [Dasher On Premise Sample App](https://github.com/plotly/dashR-on-premise-sample-app) from GitHub."),
+      coreMarkdown("Clone the [DashR On Premise Sample App](https://github.com/plotly/dashR-on-premise-sample-app) from GitHub."),
       if (is_windows) coreMarkdown('In Git Bash, run: '),
       coreSyntaxHighlighter(
         "$ git clone https://github.com/plotly/dashR-on-premise-sample-app.git",
@@ -190,7 +190,7 @@ The following command will create a remote host to your new app on Plotly On-Pre
         "Dash App Manager.",
         "",
         "For example, if your dashR app name was `my-first-dash-app`",
-        "and the domain of your organizations Dasher App Manager was `dashR.acme-corporation.com`,",
+        "and the domain of your organizations DashR App Manager was `dashR.acme-corporation.com`,",
         "then this command would be",
         "`git remote add plotly dokku@dashR.acme-corporation.com:my-first-dash-app`."
       ),
@@ -211,7 +211,7 @@ The following command will create a remote host to your new app on Plotly On-Pre
 
       coreMarkdown(
         "After you have modified `config.R`, you are ready to upload",
-        "this folder to your Dasher On-Premise server.",
+        "this folder to your DashR On-Premise server.",
         "Files are transferred to the server using `git`:"
       ),
 
@@ -227,10 +227,10 @@ The following command will create a remote host to your new app on Plotly On-Pre
 
       coreMarkdown(
         "This commands will push the code in this folder to the",
-        "Dasher On-Premise server and while doing so, will install the",
+        "DashR On-Premise server and while doing so, will install the",
         "necessary R packages and run your application automatically.",
         "",
-        "Whenever you make changes to your Dasher code,",
+        "Whenever you make changes to your DashR code,",
         "you will need to run those `git` commands above.",
         "",
         "If you install any other R packages, do so in",
@@ -238,7 +238,7 @@ The following command will create a remote host to your new app on Plotly On-Pre
         "file will be installed automatically by the Plotly On-Premise",
         "server.",
         "",
-        "You can now modify `app.R` with your own custom Dasher",
+        "You can now modify `app.R` with your own custom DashR",
         "application code."
       )
     ),
@@ -273,10 +273,10 @@ The following command will create a remote host to your new app on Plotly On-Pre
 app <- Dash$new()
 
 app$layout_set(
-  htmlH1("Deploying Dasher Apps on Plotly On-Premise"),
+  htmlH1("Deploying DashR Apps on Plotly On-Premise"),
 
   coreMarkdown(
-    "By default, Dasher apps run on `localhost` - you can only access them on your",
+    "By default, DashR apps run on `localhost` - you can only access them on your",
     "own machine. With Plotly On-Premise, you can easily deploy your application",
     "to your organization's behind-the-firewall server.",
     "If you would like to learn more about Plotly On-Premise or start a trial,",

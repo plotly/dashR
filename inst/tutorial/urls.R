@@ -57,11 +57,11 @@ ui <- htmlDiv(
     "gracefully: as they are rendered, they will trigger the",
     "callbacks with their initial values.",
     "- Since we're adding callbacks to elements that don't exist in the layout,",
-    "Dasher will warn us that we might be doing something wrong.",
+    "DashR will warn us that we might be doing something wrong.",
     "Since we are adding the appropriate elements through a callback, we can safely",
     "ignore the warning.",
     "- You can modify this example to import the different page's `layout`s in different files.",
-    "- This Dasher Userguide that you're looking at is itself a multi-page Dash app, using",
+    "- This DashR Userguide that you're looking at is itself a multi-page Dash app, using",
     "rendered with these same principles."
   ),
 

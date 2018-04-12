@@ -16,7 +16,7 @@ pageTitle <- htmlH1(
 )
 
 pageSubTitle <- htmlDiv(
-  'Dasher: A web application framework for R.',
+  'DashR: A web application framework for R.',
   style = list(
     textAlign = 'center',
     color = colors$text

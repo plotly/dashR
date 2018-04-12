@@ -32,7 +32,7 @@ runTutorial <- function(name, block = FALSE, showcase = interactive(), ...) {
     return()
   }
 
-  # now try to run the example (assuming it returns a Dasher app, which it should!)
+  # now try to run the example (assuming it returns a DashR app, which it should!)
   res <- source(file.path(exdir, name), local = TRUE, chdir = TRUE)
   if (!inherits(res$value, "Dash")) {
     stop("File '", name, "' did not return a dashR app", call. = FALSE)

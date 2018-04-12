@@ -295,8 +295,8 @@ the properties change
     "`npm run publish-cran`. Note that the version of the R package derives from the",
     "version specified in the package.json file. By convention, dashR components",
     "should adhere to [semver](http://semver.org/). Finally, if you'd like, share",
-    "your component suite with other Dasher users in the",
-    "[Dasher community forum](https://community.plot.ly/c/dash)!"
+    "your component suite with other DashR users in the",
+    "[DashR community forum](https://community.plot.ly/c/dash)!"
   )
 
 )

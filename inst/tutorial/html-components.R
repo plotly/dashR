@@ -6,9 +6,9 @@ source("utils/component_block.R")
 ui <- htmlDiv(
 
   coreMarkdown(
-    "# Dasher HTML Components",
+    "# DashR HTML Components",
     "",
-    "Dasher is a web application framework that provides pure R abstraction",
+    "DashR is a web application framework that provides pure R abstraction",
     "around HTML, CSS, and JavaScript.",
     "",
     "Instead of writing HTML or using an HTML templating engine, you compose your",
@@ -66,7 +66,7 @@ ui <- htmlDiv(
     "If you're using HTML components, then you also access to properties like",
     "`style`, `class`, and `id`. All of these attributes are available as arguments.",
     "",
-    "The HTML elements and Dasher functions are mostly the same but there are",
+    "The HTML elements and DashR functions are mostly the same but there are",
     "a few key differences:",
     "    - The `style` property is a named list",
     "- Properties in the `style` dictionary are camelCased",

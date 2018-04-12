@@ -46,19 +46,19 @@ ui <- htmlDiv(
 
   coreMarkdown(
     "The [first part](/dash/getting-started) of this tutorial covered the `layout` of",
-    "Dasher apps. The `layout` of a Dasher app describes what the app looks like.",
+    "DashR apps. The `layout` of a DashR app describes what the app looks like.",
     "It is a hierarchical tree of components. The `dash_html_components` library",
     "provides classes for all of the HTML tags and the keyword arguments describe",
     "the HTML attributes like `style`, `className`, and `id`. The",
     "`dash_core_components` library generates higher-level components like",
     "controls and graphs.",
     "",
-    "The second part of the tutorial describes how to make your Dasher apps interactive.",
+    "The second part of the tutorial describes how to make your DashR apps interactive.",
     "",
     "Let's get started with a simple example."
   ),
 
-  htmlH4("Dasher App Layout", id = 'dash-app-layout'),
+  htmlH4("DashR App Layout", id = 'dash-app-layout'),
 
   Syntax(examples[[1]]$source),
 
@@ -69,7 +69,7 @@ ui <- htmlDiv(
     "right away. Let's break down what's happening here:",
     "               1. The inputs and outputs of our application interface are described",
     "declaratively through the `app$callback` method.",
-    "2. In Dasher, the inputs and outputs are the",
+    "2. In DashR, the inputs and outputs are the",
     "properties of a particular component. In this example,",
     "our input is the `value` property of the component that has the ID",
     "`'my-id'`. Our output is the `children` property of the",
@@ -147,7 +147,7 @@ ui <- htmlDiv(
     "",
     "#### Multiple inputs",
     "",
-    "In Dasher, an output can depend on multiple inputs.",
+    "In DashR, an output can depend on multiple inputs.",
     "Here's a simple example that binds 5 `input()`s",
     "(the `value` property of 2 `Dropdown` components, 2 `RadioItems` components,",
     "and 1 `Slider` component) to 1 Output component",
@@ -217,7 +217,7 @@ ui <- htmlDiv(
   htmlH3("Summary"),
 
   coreMarkdown(
-    "We've covered the fundamentals of callbacks in dashR. Dasher apps are built",
+    "We've covered the fundamentals of callbacks in dashR. DashR apps are built",
     "off of a set of simple but powerful principles: declarative UIs that are",
     "customizable through reactive and functional R callbacks.",
     "Every element attribute of the declarative components can be updated through",

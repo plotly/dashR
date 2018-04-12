@@ -8,7 +8,7 @@ library(routr)
 
 server <- Fire$new()
 app <- Dash$new(
-  name = "Dasher user guide",
+  name = "DashR user guide",
   server = server,
   static_folder = c('/dash/static' = './static'),
   routes_pathname_prefix = '/dashR/'

@@ -8,7 +8,7 @@ ui <- htmlDiv(
   htmlH1('Dash Core Components'),
 
   coreMarkdown(
-    "Dasher ships with supercharged components for interactive user interfaces.",
+    "DashR ships with supercharged components for interactive user interfaces.",
     "A core set of components, written and maintained by the Dash team,",
     "is available in the `dash-core-components` library.",
     "The source is on GitHub at [plotly/dash-core-components](https://github.com/plotly/dash-core-components)."
@@ -187,7 +187,7 @@ ui <- htmlDiv(
 
   htmlA(
     "For more on `state()`, see the tutorial on ",
-    coreLink('Dasher State', href = '/dashR/state'),
+    coreLink('DashR State', href = '/dashR/state'),
     '.'
   ),
 

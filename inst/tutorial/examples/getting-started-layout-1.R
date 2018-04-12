@@ -3,9 +3,9 @@ library(dashR)
 app <- Dash$new()
 
 app$layout_set(
-  htmlH1('Hello Dasher'),
+  htmlH1('Hello DashR'),
 
-  htmlDiv("Dasher: A web application framework for R."),
+  htmlDiv("DashR: A web application framework for R."),
 
   coreGraph(
     id = 'example-graph',
