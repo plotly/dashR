@@ -4,6 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
 Description: An implementation of the dash protocol for authoring reactive web applications
 Depends:
+  R (>= 3.0.1),
   dashHtmlComponents,
   dashCoreComponents,
   dashHtmlwidgetComponent
@@ -14,7 +15,6 @@ Imports:
   reqres,
   jsonlite,
   htmltools,
-  htmlwidgets,
   tibble,
   assertthat,
   digest,

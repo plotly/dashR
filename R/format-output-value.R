@@ -30,6 +30,10 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
   # before the application is launched
   runTimeDeps <- setdiff(x[["dependencies"]], user_deps)
   if (length(runTimeDeps)) {
+    # get the widget's name/package
+    # https://github.com/ramnathv/htmlwidgets/blob/160872d/R/htmlwidgets.R#L191-L192
+    name <- class(x)[1]
+    package <- attr(x, "package")
     stop(
       sprintf("The htmlwidget '%s' from the '%s' package", name, package),
       "has HTML dependencies that must be added to the dashR user_deps via the dependencies_set() method. Here are those dependencies:\n\n",
@@ -41,12 +45,12 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
   # same 'payload' that htmlwidgets attaches to the widget div
   # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
   # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
-  getFromNamespace("createPayload", "htmlwidgets")(x)
+  utils::getFromNamespace("createPayload", "htmlwidgets")(x)
 }
 
 #' @export
 format_output_value.plotly <- function(x, user_deps, ...) {
-  x <- getFromNamespace("plotly_build", "plotly")(x)
+  x <- utils::getFromNamespace("plotly_build", "plotly")(x)
   format_output_value.htmlwidget(x, user_deps, ...)
 }
 

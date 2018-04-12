@@ -25,7 +25,8 @@ create_or_overwrite_dash_app <- function(
   )
 
   # just like plotly:::api_lookup_file
-  file <- tryNULL(plotly::api(paste0("files/lookup?path=", filename)))
+  api <- utils::getFromNamespace("api", "plotly")
+  file <- tryNULL(api(paste0("files/lookup?path=", filename)))
 
   res <- if (is.null(file)) {
     # file likely doesn't exist, create a new one

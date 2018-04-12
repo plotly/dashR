@@ -13,7 +13,7 @@ wrap_print <- function(func = NULL, pre = TRUE, ...) {
     func, function() {
       res <- paste(utils::capture.output(func()), collapse = "\n")
       if (!pre) return(res)
-      htmlPre(res, ...)
+      dashHtmlComponents::htmlPre(res, ...)
     }
   )
 }
@@ -57,7 +57,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
       device(filename = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      htmlImg(
+      dashHtmlComponents::htmlImg(
         src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile)),
         width = width,
         height = height
@@ -85,7 +85,7 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
       svglite::svglite(file = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      htmlEmbed(
+      dashHtmlComponents::htmlEmbed(
         src = basename(tmpfile),
         width = width,
         height = height

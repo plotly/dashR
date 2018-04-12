@@ -19,7 +19,7 @@ dash_css <- function(filenames = "docs-base") {
   missingFiles <- setdiff(filenames, cssNames)
   if (length(missingFiles)) {
     stop(
-      sprint(
+      sprintf(
         "Couldn't find the css file(s) named: '%s' \n\n",
         paste(missingFiles, collapse = "', '")
       ),
