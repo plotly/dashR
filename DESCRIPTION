@@ -1,8 +1,8 @@
 Package: dashR
-Title: An implementation of the dash protocol for authoring reactive web applications
+Title: An interface to the dash ecosystem for authoring reactive web applications
 Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
-Description: An implementation of the dash protocol for authoring reactive web applications
+Description: An interface to the dash ecosystem for authoring reactive web applications.
 Depends:
   R (>= 3.0.1),
   dashHtmlComponents,
