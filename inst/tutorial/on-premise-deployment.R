@@ -139,6 +139,15 @@ Plotly On-Premise's 'Create' menu.",
         )
       },
 
+      if (is_windows) {
+        coreMarkdown(
+          "Please be careful not to save your SSH config as a .txt file as",
+          "it will not be recognized by Git when deploying your applications. If you are using",
+          "Notepad to create your SSH config, you can force the removal of the .txt extension",
+          "by naming the file 'config', including the quotes, in the Save As dialog box."
+        )
+      },
+
       htmlHr(),
 
       coreMarkdown("Next, proceed to Part 2 to intialize your app on Plotly On-Premise.")
