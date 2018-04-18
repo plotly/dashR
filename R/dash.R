@@ -182,6 +182,14 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
+      #index <- paste0(routes_pathname_prefix, "*")
+      route$add_handler("get", "*", function(request, response, keys, ...) {
+        response$body <- private$.index
+        response$status <- 200L
+        response$type <- 'html'
+        FALSE
+      })
+
       dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
         lay <- private$layout_render()
@@ -289,14 +297,6 @@ Dash <- R6::R6Class(
         FALSE
       })
 
-
-      #index <- paste0(routes_pathname_prefix, "*")
-      route$add_handler("get", "*", function(request, response, keys, ...) {
-        response$body <- private$.index
-        response$status <- 200L
-        response$type <- 'html'
-        FALSE
-      })
 
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
