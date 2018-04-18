@@ -187,7 +187,7 @@ Dash <- R6::R6Class(
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
-        FALSE
+        TRUE
       })
 
       dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
@@ -196,7 +196,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
-        FALSE
+        TRUE
       })
 
       dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
@@ -207,7 +207,7 @@ Dash <- R6::R6Class(
           response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
-          return(FALSE)
+          return(TRUE)
         }
 
         # client wants the mapping formatted this way -- https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
@@ -227,7 +227,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(setNames(payload, NULL))
         response$status <- 200L
         response$type <- 'json'
-        FALSE
+        TRUE
       })
 
       dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
@@ -284,7 +284,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
-        FALSE
+        TRUE
       })
 
       # TODO: once implemented in dash-renderer, leverage this endpoint so
@@ -294,7 +294,7 @@ Dash <- R6::R6Class(
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         response$status <- 500L
         response$body <- "Not yet implemented"
-        FALSE
+        TRUE
       })
 
 
