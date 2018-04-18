@@ -291,7 +291,7 @@ Dash <- R6::R6Class(
 
 
       route$add_handler("get", routes_pathname_prefix, function(request, response, keys, ...) {
-        response$body <- private$index()
+        response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
         FALSE
@@ -299,6 +299,10 @@ Dash <- R6::R6Class(
 
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
+
+      server$on("start", function(server, ...) {
+        private$index()
+      })
 
       # user-facing fields
       self$server <- server
@@ -571,6 +575,7 @@ Dash <- R6::R6Class(
 
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
+    .index = NULL,
     index = function() {
 
       # collect and resolve dependencies
@@ -605,7 +610,7 @@ Dash <- R6::R6Class(
         dep
       }))
 
-      sprintf(
+      private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
