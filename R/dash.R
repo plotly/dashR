@@ -164,7 +164,7 @@ Dash <- R6::R6Class(
           static_folder_absolute, names(static_folder) %||% "/"
         )
 
-        static_route <- do.call(routr::resource_route, as.list(static_folder_absolute))
+        static_route <- do.call(routr::ressource_route, as.list(static_folder_absolute))
         router$add_route(static_route, 'static_route')
       }
 
@@ -561,8 +561,9 @@ Dash <- R6::R6Class(
       dash_router <- routrs[["request_routr"]]
       if (!dash_router$has_route("dashR-resources")) {
         # resource routes are designed to serve directories (not individual files)
+        # TODO: should this respect routes prefix?
         resources <- routr::ressource_route('/' = libdir)
-        dash_router$add_route(resources, "dashR-resources", after = 1)
+        dash_router$add_route(resources, "dashR-resources")
         self$server$attach(dash_router, force = TRUE)
       }
 
