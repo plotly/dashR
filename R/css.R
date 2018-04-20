@@ -1,7 +1,8 @@
 #' Dash app stylesheets
 #'
 #' Use the 'official' Dash stylesheet in your dashR applications
-#' <https://github.com/plotly/dash-app-stylesheets>.
+#' <https://github.com/plotly/dash-app-stylesheets>. To learn how
+#' to use the default style ("docs-base"), see <https://codepen.io/chriddyp/pen/bWLwgP>
 #'
 #' @param filenames css filenames to use
 #' @export

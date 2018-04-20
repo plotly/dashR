@@ -11,7 +11,8 @@ dash_css(filenames = "docs-base")
 }
 \description{
 Use the 'official' Dash stylesheet in your dashR applications
-\url{https://github.com/plotly/dash-app-stylesheets}.
+\url{https://github.com/plotly/dash-app-stylesheets}. To learn how
+to use the default style ("docs-base"), see \url{https://codepen.io/chriddyp/pen/bWLwgP}
 }
 \examples{
 library(dashR)
