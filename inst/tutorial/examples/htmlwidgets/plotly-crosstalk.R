@@ -16,11 +16,19 @@ app$layout_set(
   Htmlwidget(id = 'plotID', widget = p),
   htmlDiv(id = 'event')
 )
+#app$callback(
+#  function(inputs = input("plotID", property = "ctSelection")) {
+#    if (!length(inputs)) "Click on line chart above." else inputs
+#  },
+#  output(id = 'event')
+#)
+
 app$callback(
-  function(inputs = input("plotID", property = "ctSelection")) {
+  function(inputs = ctSelection("plotID")) {
     if (!length(inputs)) "Click on line chart above." else inputs
   },
   output(id = 'event')
 )
+
 
 app$run_server()
