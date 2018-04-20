@@ -271,7 +271,7 @@ Dash <- R6::R6Class(
         output_value <- wrapper$closure()
 
         # provides a means for post-processing an R object of a special class
-        output_value <- format_output_value(output_value, private$dependencies_user)
+        output_value <- format_output_value(output_value, private$dependencies_widget)
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
