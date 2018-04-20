@@ -448,7 +448,7 @@ Dash <- R6::R6Class(
       private$layout_flat <- rapply(layout, I)
 
       # verify that layout ids are unique
-      idx <- grep("id$", names(private$layout_flat))
+      idx <- grep("props\\.id$", names(private$layout_flat))
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
