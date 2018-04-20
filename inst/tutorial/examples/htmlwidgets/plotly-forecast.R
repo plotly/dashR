@@ -47,7 +47,7 @@ app <- Dash$new()
 
 app$layout_set(
   htmlH2(id = "title"),
-  Htmlwidget(id = 'plotID', widget = base),
+  Htmlwidget(id = 'mainPlot', widget = base),
   dashCrosstalkComponent::Crosstalk("ctCity"),
   htmlDiv(
     className = "four columns",
@@ -72,7 +72,11 @@ app$layout_set(
       value = 48
     )
   ),
-  htmlDiv(id = "cityTitle", style = list(`margin-top` = "50px")),
+  htmlDiv(
+    id = "cityBanner",
+    className = "one row",
+    style = list(`margin-top` = "100px")
+  ),
   Htmlwidget(id = "cityPlot", widget = plotly_empty()),
   htmlDiv(id = "covariates")
 )
@@ -80,7 +84,7 @@ app$layout_set(
 app$callback(
   function(h = input("h"), levels = input("levels")) {
     paste0(
-      "Forecasting median house prices ", h, " months in advance at ",
+      "Forecast of median house prices ", h, " months in advance at ",
       min(levels), "% and ", max(levels), "% confidence"
     )
   },
@@ -91,30 +95,37 @@ app$callback(
   function(h = input("h"), levels = input("levels")) {
     add_forecast(base, m, h = h, levels = levels)
   },
-  output(id = 'plotID', property = "widget")
+  output(id = 'mainPlot', property = "widget")
 )
 
 app$callback(
   function(h = input("h"), levels = input("levels"), city = input("ctCity", "selection")) {
     if (!length(city)) return(NULL)
 
-    htmlDiv(
-      "Forecast specific to: ",
-      coreDropdown(
-        id = "cityWidget",
-        options = unique(txhousing$city),
-        value = city
+    list(
+      htmlDiv(
+        className = "four columns",
+        htmlH2("Forecast specific to: ")
+      ),
+      htmlDiv(
+        className = "six columns",
+        style = list(`margin-top` = "50px"),
+        coreDropdown(
+          id = "cityWidget",
+          options = unique(txhousing$city),
+          value = city
+        )
       )
     )
   },
-  output(id = 'cityTitle')
+  output(id = 'cityBanner')
 )
 
 app$callback(
   function(h = input("h"), levels = input("levels"), city = input("ctCity", "selection")) {
     if (!length(city)) return(NULL)
 
-    cityData <- subset(txhousing, city %in% city)
+    cityData <- txhousing[txhousing[["city"]] %in% city, ]
     series <- ts(cityData$median, frequency = 12, start = c(2000, 1), end = c(2015, 7))
     m <- ets(series)
 
@@ -125,5 +136,6 @@ app$callback(
   output(id = 'cityPlot', property = "widget")
 )
 
-app$dependencies_set(dash_css())
+css <- dash_css(c("docs-base", "loading-state"))
+app$dependencies_set(css)
 app$run_server()
