@@ -4,19 +4,15 @@ data(tips, package = "reshape2")
 
 app <- Dash$new()
 
-span_slider <- function(min = 0.1, max = 1.5, span = 0.1) {
-  coreSlider(
-    id = 'sliderID', min = min, max = max, step = span,
-    value = 0.8, marks = seq(min, max, by = span)
-  )
-}
-
 app$layout_set(
   htmlDiv(id = 'plotID'),
   htmlDiv(
     id = "sliderContainer",
     "Adjust slider to adjust loess span:",
-    span_slider(),
+    coreSlider(
+      id = 'sliderID', min = 0.1, max = 1.5, step = 0.1,
+      value = 0.8, marks = seq(0.1, 1.5, by = 0.1)
+    ),
     style = list(width = "50%")
   )
 )
