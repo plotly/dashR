@@ -18,17 +18,14 @@ format_output_value <- function(x, user_deps, ...) {
 #' @export
 format_output_value.htmlwidget <- function(x, user_deps, ...) {
 
-  # elementId is ignored for reasons similar to shiny
-  if (!is.null(x[["elementId"]])) {
-    warning(
-      "elementId is ignored by dash. It uses the id specified in `htmlwidget()`",
-      call. = FALSE
-    )
-  }
+  # same 'payload' that htmlwidgets attaches to the widget div
+  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
+  # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
+  payload <- dashHtmlwidgetComponent::widget_payload(x)
 
-  # until we can dynamically load component suites, run-time dependencies need to be provided
-  # before the application is launched
-  runTimeDeps <- setdiff(x[["dependencies"]], user_deps)
+  # check and see if we're missing any of the widget's run-time dependencies...
+  # someday we not have to worry about this -- https://github.com/plotly/dashHtmlwidgetComponent/issues/5
+  runTimeDeps <- setdiff(payload[["dependencies"]], user_deps)
   if (length(runTimeDeps)) {
     # get the widget's name/package
     # https://github.com/ramnathv/htmlwidgets/blob/160872d/R/htmlwidgets.R#L191-L192
@@ -42,16 +39,7 @@ format_output_value.htmlwidget <- function(x, user_deps, ...) {
     )
   }
 
-  # same 'payload' that htmlwidgets attaches to the widget div
-  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
-  # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
-  utils::getFromNamespace("createPayload", "htmlwidgets")(x)
-}
-
-#' @export
-format_output_value.plotly <- function(x, user_deps, ...) {
-  x <- utils::getFromNamespace("plotly_build", "plotly")(x)
-  format_output_value.htmlwidget(x, user_deps, ...)
+  payload
 }
 
 #' @export

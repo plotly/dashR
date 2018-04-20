@@ -434,7 +434,8 @@ Dash <- R6::R6Class(
         name <- w[["props"]][["name"]]
         package <- w[["props"]][["package"]] %||% name
         try_library("htmlwidgets", "Htmlwidget")
-        utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
+        deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
+        c(deps, w[["props"]][["widget"]][["dependencies"]])
       })
       private$dependencies_widget <- Reduce(c, widget_deps)
 
@@ -541,7 +542,9 @@ Dash <- R6::R6Class(
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
       lapply(pkgs, function(pkg) {
-        readRDS(system.file("dashR_deps.rds", package = pkg))
+        dep_file <- system.file("dashR_deps.rds", package = pkg)
+        if (dep_file == "") return(NULL)
+        readRDS(dep_file)
       })
     },
 

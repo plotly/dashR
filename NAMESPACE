@@ -2,7 +2,6 @@
 
 S3method(format_output_value,default)
 S3method(format_output_value,htmlwidget)
-S3method(format_output_value,plotly)
 S3method(print,dash_component)
 export(Dash)
 export(dash_css)
