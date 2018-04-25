@@ -19,8 +19,8 @@ app$layout_set(
 )
 
 app$callback(
-  function(inputs = input(sd$groupName(), "selection")) {
-    if (!length(inputs)) "Click on line chart above." else inputs
+  function(city = input(sd$groupName(), "selection")) {
+    if (!length(city)) "Click on line chart above." else city
   },
   output(id = 'event')
 )

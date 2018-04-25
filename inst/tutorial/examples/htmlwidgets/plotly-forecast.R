@@ -6,7 +6,7 @@ library(forecast)
 base <- txhousing %>%
   group_by(city) %>%
   crosstalk::SharedData$new(~city, "ctCity") %>%
-  plot_ly(x = ~date, y = ~median) %>%
+  plot_ly(x = ~date, y = ~median, hoverinfo = "x+y") %>%
   add_lines(alpha = 0.3) %>%
   add_annotations(
     text = "Each line is a city in Texas.\n Click to start a local analysis.",
@@ -47,7 +47,8 @@ app <- Dash$new()
 
 app$layout_set(
   htmlH2(id = "title"),
-  Htmlwidget(id = 'mainPlot', widget = base),
+  # TODO: why, if we supply base here (& click on a line), does the forecast disappear?
+  Htmlwidget(id = 'mainPlot', widget = add_forecast(base, m, h = 48, levels = c(80, 95))),
   dashCrosstalkComponent::Crosstalk("ctCity"),
   htmlDiv(
     className = "four columns",
@@ -77,7 +78,8 @@ app$layout_set(
     className = "one row",
     style = list(`margin-top` = "100px")
   ),
-  Htmlwidget(id = "cityPlot", widget = plotly_empty()),
+  # TODO: test this to make sure it works with or without a widget
+  Htmlwidget(id = "cityPlot", name = "plotly", package = "plotly"),
   htmlDiv(id = "covariates")
 )
 
@@ -93,6 +95,7 @@ app$callback(
 
 app$callback(
   function(h = input("h"), levels = input("levels")) {
+    print("re-forecast")
     add_forecast(base, m, h = h, levels = levels)
   },
   output(id = 'mainPlot', property = "widget")
