@@ -381,11 +381,6 @@ Dash <- R6::R6Class(
         output, .dots
       )
     },
-    # TODO: test this out before exposing
-    #callback_svg = function(func = NULL, output = NULL, .dots = NULL) {
-    #  private$callback(wrap_svg(), output, .dots)
-    #},
-
 
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
@@ -424,12 +419,6 @@ Dash <- R6::R6Class(
       }
       # register htmlwidget dependencies
       is_widget <- vapply(layout, is.htmlwidget, logical(1))
-      # make sure height/width translate to valid CSS props
-      layout[is_widget] <- lapply(layout[is_widget], function(w) {
-        w[["width"]] <- htmltools::validateCssUnit(w[["width"]])
-        w[["height"]] <- htmltools::validateCssUnit(w[["height"]])
-        w
-      })
       widget_deps <- lapply(layout[is_widget], function(w) {
         name <- w[["props"]][["name"]]
         package <- w[["props"]][["package"]] %||% name
