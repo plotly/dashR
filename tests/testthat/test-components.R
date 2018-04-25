@@ -1,5 +1,34 @@
 context("components")
 
+test_that("Components work recursively (components can be children of components)", {
+
+  # div inside a div
+  x <- htmlDiv(id = "one", htmlDiv(id = "two"))
+  expect_true(is.component(x))
+  expect_true(x$props$id == "one")
+  inner <- x$props$children[[1]]
+  expect_true(is.component(inner))
+  expect_true(inner$props$id == "two")
+
+  # slider inside a div
+  x <- htmlDiv(
+    coreSlider(
+      id = "h",
+      min = 1,
+      max = 100,
+      value = 48
+    )
+  )
+
+  expect_true(is.component(x))
+  slider <- x$props$children[[1]]
+  expect_true(is.component(slider))
+  expect_true(slider$props$id == "h")
+  expect_true(slider$props$min == 1)
+  expect_true(slider$props$max == 100)
+  expect_true(slider$props$value == 48)
+})
+
 test_that("Component constructors behave as intended", {
 
   # components have three main keys
