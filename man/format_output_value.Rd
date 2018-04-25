@@ -4,14 +4,14 @@
 \alias{format_output_value}
 \title{Format callback output}
 \usage{
-format_output_value(x, user_deps, ...)
+format_output_value(x, dependencies, ...)
 }
 \arguments{
 \item{x}{the output value from a callback function}
 
-\item{user_deps}{user specified HTML dependencies}
-
 \item{...}{additional arugments. Currently unused.}
+
+\item{user_deps}{user specified HTML dependencies}
 }
 \description{
 This function is not intended for direct use by users, but has been exported

@@ -34,8 +34,8 @@ format_output_value.htmlwidget <- function(x, dependencies, ...) {
   name <- class(x)[1]
   package <- attr(x, "package")
   stop(
-    sprintf("The htmlwidget '%s' from the '%s' package", name, package),
-    "has HTML dependencies must be added via the dependencies_set() method.",
+    sprintf("The htmlwidget '%s' from the '%s' package ", name, package),
+    "has HTML dependencies must be added via the dependencies_set() method. ",
     "Here are those dependencies:\n\n",
     paste(utils::capture.output(print(missingDependencies)), collapse = "\n"),
     call. = FALSE
