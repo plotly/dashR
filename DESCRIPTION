@@ -4,10 +4,9 @@ Version: 0.0.0.9000
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
 Description: An interface to the dash ecosystem for authoring reactive web applications.
 Depends:
-  R (>= 3.0.1),
+  R (>= 3.0.0),
   dashHtmlComponents,
-  dashCoreComponents,
-  dashHtmlwidgetComponent
+  dashCoreComponents
 Imports:
   R6,
   fiery (> 1.0.0),
@@ -19,17 +18,16 @@ Imports:
   digest,
   base64enc
 Suggests:
-  dashTranspileR,
-  dashTable,
+  dashHtmlwidgetComponent,
   dashCrosstalkComponent,
+  dashTable,
   dashAuthR,
+  dashTranspileR,
   plotly,
   testthat,
   knitr,
   rmarkdown,
-  htmlwidgets,
-  Cairo,
-  svglite
+  Cairo
 Collate:
   'plotly-api.R'
   'utils.R'
