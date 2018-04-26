@@ -15,7 +15,6 @@ Imports:
   reqres,
   jsonlite,
   htmltools,
-  tibble,
   assertthat,
   digest,
   base64enc

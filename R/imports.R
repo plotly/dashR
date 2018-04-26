@@ -7,7 +7,6 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom digest sha1
 #' @importFrom assertthat assert_that
-#' @importFrom tibble tibble
 #' @importFrom base64enc base64encode
 #' @importFrom utils getFromNamespace
 NULL
