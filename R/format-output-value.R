@@ -21,7 +21,7 @@ format_output_value.htmlwidget <- function(x, dependencies, ...) {
   # same 'payload' that htmlwidgets attaches to the widget div
   # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
   # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
-  payload <- dashHtmlwidgetComponent::widget_payload(x)
+  payload <- dashRwidgets::widget_payload(x)
 
   # return the payload if we aren't missing any dependencies...
   # (htmlwidget dependencies can't be completely determined until run/print time)
@@ -30,7 +30,7 @@ format_output_value.htmlwidget <- function(x, dependencies, ...) {
 
   # someday we might be able to register dependencies in a callback,
   # but for now, we throw an error
-  # https://github.com/plotly/dashHtmlwidgetComponent/issues/5
+  # https://github.com/plotly/dashRwidgets/issues/5
   name <- class(x)[1]
   package <- attr(x, "package")
   stop(

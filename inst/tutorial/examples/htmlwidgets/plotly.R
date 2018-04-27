@@ -9,7 +9,7 @@ nms <- names(mtcars)
 app$layout_set(
   # name of the htmlwidget is required!
   # package name is only required if the widget name differs from the package name
-  Htmlwidget(id = 'plotID', name = "plotly", width = "50%"),
+  htmlwidget(id = 'plotID', name = "plotly", width = "50%"),
   htmlLabel(
     "Pick an x",
     htmlDiv(

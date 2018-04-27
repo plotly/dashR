@@ -18,8 +18,8 @@ Imports:
   digest,
   base64enc
 Suggests:
-  dashHtmlwidgetComponent,
-  dashCrosstalkComponent,
+  dashRwidgets,
+  dashRcrosstalk,
   dashTable,
   dashAuthR,
   dashTranspileR,
@@ -52,5 +52,5 @@ Remotes:
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
   plotly/dashTranspileR,
-  plotly/dashHtmlwidgetComponent,
-  plotly/dashCrosstalkComponent
+  plotly/dashRwidgets,
+  plotly/dashRcrosstalk

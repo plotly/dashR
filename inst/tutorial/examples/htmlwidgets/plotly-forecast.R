@@ -48,7 +48,7 @@ app <- Dash$new()
 app$layout_set(
   htmlH2(id = "title"),
   # TODO: why, if we supply base here (& click on a line), does the forecast disappear?
-  Htmlwidget(id = 'mainPlot', widget = add_forecast(base, m, h = 48, levels = c(80, 95))),
+  htmlwidget(id = 'mainPlot', name = "plotly"),
   dashCrosstalkComponent::Crosstalk("ctCity"),
   htmlDiv(
     className = "four columns",
@@ -79,7 +79,7 @@ app$layout_set(
     style = list(`margin-top` = "100px")
   ),
   # TODO: test this to make sure it works with or without a widget
-  Htmlwidget(id = "cityPlot", name = "plotly", package = "plotly"),
+  htmlwidget(id = "cityPlot", name = "plotly"),
   htmlDiv(id = "covariates")
 )
 
@@ -95,7 +95,6 @@ app$callback(
 
 app$callback(
   function(h = input("h"), levels = input("levels")) {
-    print("re-forecast")
     add_forecast(base, m, h = h, levels = levels)
   },
   output(id = 'mainPlot', property = "widget")
@@ -139,6 +138,13 @@ app$callback(
   output(id = 'cityPlot', property = "widget")
 )
 
+#app$callback(
+#
+#)
+
+
+
 css <- dash_css(c("docs-base", "loading-state"))
-app$dependencies_set(css)
+pdeps <- plot_ly()[["dependencies"]]
+app$dependencies_set(c(list(css), pdeps))
 app$run_server()

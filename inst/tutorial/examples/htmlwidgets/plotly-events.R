@@ -1,6 +1,6 @@
 library(dashR)
 library(plotly)
-library(dashHtmlwidgetComponent)
+library(dashRwidgets)
 
 p <- plot_ly(mtcars, x = ~wt, y = ~mpg) %>%
   add_markers() %>%

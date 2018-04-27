@@ -422,7 +422,7 @@ Dash <- R6::R6Class(
       widget_deps <- lapply(layout[is_widget], function(w) {
         name <- w[["props"]][["name"]]
         package <- w[["props"]][["package"]] %||% name
-        try_library("htmlwidgets", "Htmlwidget")
+        try_library("htmlwidgets", "htmlwidget")
         deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
         c(deps, w[["props"]][["widget"]][["dependencies"]])
       })

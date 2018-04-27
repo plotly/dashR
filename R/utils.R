@@ -17,9 +17,9 @@ is.layout <- function(x) inherits(x, "dash_layout")
 # components (TODO: this should be exported by dashTranspileR!)
 is.component <- function(x) inherits(x, "dash_component")
 
-# helper to identify the special Htmlwidget() component
+# helper to identify the special htmlwidget() component
 is.htmlwidget <- function(x) {
-  is.component(x) && identical(x[["namespace"]], "dashHtmlwidgetComponent")
+  is.component(x) && identical(x[["namespace"]], "dashRwidgets")
 }
 
 # search through a component (a recursive data structure) for a component with
