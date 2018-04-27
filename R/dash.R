@@ -525,7 +525,7 @@ Dash <- R6::R6Class(
 
     # compute HTML dependencies based on the current layout
     dependencies_layout = function() {
-      # What "component packages" (i.e., components created via dashTranspileR)
+      # What "component packages" (i.e., components created via dashRtranspile)
       # are we working with?
       private$layout_render() # TODO: avoid calling this twice
       layout_nms <- names(private$layout_flat)

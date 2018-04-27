@@ -20,9 +20,9 @@ Imports:
 Suggests:
   dashRwidgets,
   dashRcrosstalk,
+  dashRauth,
+  dashRtranspile,
   dashTable,
-  dashAuthR,
-  dashTranspileR,
   plotly,
   testthat,
   knitr,
@@ -51,6 +51,6 @@ Remotes:
   plotly/dash-html-components@R,
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
-  plotly/dashTranspileR,
+  plotly/dashRtranspile,
   plotly/dashRwidgets,
   plotly/dashRcrosstalk

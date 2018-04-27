@@ -14,7 +14,7 @@ is.state <- function(x) is.dependency(x) && inherits(x, "state")
 # layout is really a special type of component
 is.layout <- function(x) inherits(x, "dash_layout")
 
-# components (TODO: this should be exported by dashTranspileR!)
+# components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
 
 # helper to identify the special htmlwidget() component
