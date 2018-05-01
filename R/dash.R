@@ -585,9 +585,7 @@ Dash <- R6::R6Class(
       depsAll <- resolve_dependencies(depsAll)
 
       # register a resource route for dependencies (if necessary)
-      if (isTRUE(private$serve_locally)) {
-        depsAll <- private$dependencies_register(depsAll)
-      }
+      depsAll <- private$dependencies_register(depsAll)
 
       # styleheets always go in header
       depsCSS <- compact(lapply(depsAll, function(dep) {

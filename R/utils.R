@@ -70,13 +70,24 @@ request_parse_json <- function(request) {
 # A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(x, local = TRUE) {
-  # TODO:
-  # (1) Fail gracefully if file/href doesn't exist and something that does?
-  # (2) the default `encodeFunc` doesn't seem to work?
-  htmltools::renderDependencies(
-    x, if (local) "file" else "href", encodeFunc = identity
-  )
+render_dependencies <- function(dependencies, local = TRUE) {
+  html <- sapply(dependencies, function(x) {
+    if (!inherits(x, "html_dependency")) stop("Must be an object of class 'html_dependency'")
+    srcs <- names(x[["src"]])
+    src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
+      message("No remote hyperlink found for HTML dependency '", x[["name"]], "'. Using local file instead.")
+      "file"
+    } else if (local && !"file" %in% srcs && "href" %in% srcs) {
+      message("No local file found for HTML dependency '", x[["name"]], "'. Using the remote hyperlink instead.")
+      "href"
+    } else if (!local) {
+      "href"
+    } else {
+      "file"
+    }
+    htmltools::renderDependencies(list(x), src, encodeFunc = identity)
+  })
+  paste(html, collapse = "\n")
 }
 
 # Similar to htmltools::resolveDependencies(), but allows
@@ -101,6 +112,7 @@ resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
 
 resourcify <- function(dependencies, libdir = tempdir()) {
   lapply(dependencies, function(dep) {
+    if (!length(dep[["src"]][["file"]])) return(dep)
     dep <- htmltools::copyDependencyToDir(dep, libdir)
     htmltools::makeDependencyRelative(dep, libdir)
   })
