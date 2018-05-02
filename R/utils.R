@@ -117,6 +117,7 @@ resourcify <- function(dependencies, libdir = tempdir()) {
     href <- dep[["src"]][["href"]]
     dep <- htmltools::copyDependencyToDir(dep, libdir)
     dep <- htmltools::makeDependencyRelative(dep, libdir)
+    dep[["src"]] <- as.list(dep[["src"]])
     dep[["src"]][["href"]] <- href
     dep
   })
