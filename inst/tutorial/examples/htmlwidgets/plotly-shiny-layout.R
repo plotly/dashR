@@ -1,5 +1,6 @@
 library(dashR)
 library(dashRwidgets)
+library(shiny)
 library(plotly)
 
 app <- Dash$new()
@@ -8,22 +9,14 @@ nms <- names(mtcars)
 
 # TODO: could we leverage a sidebarPanel here?
 app$layout_set(
-  # name of the htmlwidget is required!
-  # package name is only required if the widget name differs from the package name
-  htmlwidget(id = 'plotID', name = "plotly", width = "50%"),
-  htmlLabel(
-    "Pick an x",
-    htmlDiv(
+  sidebarLayout(
+    sidebarPanel(
       coreDropdown(id = "x", options = nms, value = nms[1], clearable = FALSE),
-      style = list(width = "100px", margin = "15px")
-    )
-  ),
-  htmlLabel(
-    "Pick a y",
-    htmlDiv(
-      coreDropdown(id = "y", options = nms, value = nms[2], clearable = FALSE),
-      style = list(width = "100px", margin = "15px")
-    )
+      coreDropdown(id = "y", options = nms, value = nms[2], clearable = FALSE)
+    ),
+    # name of the htmlwidget is required!
+    # package name is only required if the widget name differs from the package name
+    htmlwidget(id = 'plotID', name = "plotly", width = "50%")
   )
 )
 

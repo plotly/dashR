@@ -3,7 +3,7 @@
 #' @importFrom fiery Fire combined_log_format logger_console
 #' @importFrom routr Route RouteStack ressource_route
 #' @importFrom reqres default_parsers
-#' @importFrom htmltools htmlDependency htmlDependencies renderDependencies copyDependencyToDir makeDependencyRelative
+#' @importFrom htmltools htmlDependency htmlDependencies attachDependencies renderDependencies copyDependencyToDir makeDependencyRelative
 #' @importFrom jsonlite toJSON
 #' @importFrom digest sha1
 #' @importFrom assertthat assert_that
