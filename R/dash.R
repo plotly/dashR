@@ -411,14 +411,14 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
-      # before converting shiny.tags to components, extract their htmlDependencies
-      private$dependencies <- Reduce(c, lapply(layout, html_dependencies))
-
       # at this point we should be working with a list of:
       # (1) dash components
       # (2) stuff built on htmltools
       # this function ensures we have a list of dash components
       layout <- lapply(layout, as_component)
+
+      # before converting shiny.tags to components, extract their htmlDependencies
+      private$dependencies <- Reduce(c, lapply(layout, html_dependencies))
 
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary? If so, provide a way to set top-level id?

@@ -17,6 +17,12 @@ is.layout <- function(x) inherits(x, "dash_layout")
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
 
+# helper for identifying dashRwidgets::htmlwidget()
+is.htmlwidget <- function(x) {
+  if (!is.component(x)) return(FALSE)
+  identical(x[["package"]], "dashRwidgets") && identical(x[["type"]], "htmlwidget")
+}
+
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
 component_props_given_id <- function(component, id) {
@@ -54,45 +60,6 @@ component_contains_type <- function(component, package, type) {
 # ----------------------------------------------------------------------------
 # Mapping htmltools to dash components
 # ----------------------------------------------------------------------------
-
-# crawl a recursive list for shiny.tags and return their htmltools::htmlDependencies()
-# note how the recursive structuring of this function is versy similar to as_component
-html_dependencies <- function(x) {
-
-  if (is.component(x)) {
-    # a component's children could be holding tags
-    if ("children" %in% x[["propNames"]]) {
-      x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], html_dependencies)
-    }
-
-    # pick up on dashRwidgets::htmlwidget() dependencies
-    # note that name/package should be pre-populated and dashRwidgets imports htmlwidgets
-    is_widget <- identical("dashRwidgets", x[["package"]]) && identical("htmlwidget", x[["type"]])
-    if (is_widget) {
-      name <- x[["props"]][["name"]]
-      package <- x[["props"]][["package"]] %||% name
-      deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
-      return(c(deps, x[["props"]][["widget"]][["dependencies"]]))
-    }
-
-    return(NULL)
-  }
-
-  if (inherits(x, c("shiny.tag.list", "list"))) {
-    return(lapply(x, html_dependencies))
-  }
-
-  if (inherits(x, "shiny.tag")) {
-
-    if (length(x[["children"]])) {
-      x[["children"]] <- lapply(x[["children"]], html_dependencies)
-    }
-
-    return(htmltools::htmlDependencies(x))
-  }
-
-  NULL
-}
 
 # try our best to map htmltools to dash components
 as_component <- function(x) {
@@ -156,8 +123,30 @@ as_component <- function(x) {
   }
 
   # TODO: special handling for any other types of objects?
-
   x
+}
+
+# crawl a component for any htmltools::htmlDependencies()
+# yes, this allow you to htmltools::attachDependencies() to components
+# (which is actually what dashRwidget::htmlwidget() does)
+html_dependencies <- function(x) {
+  if (!is.component(x)) return(NULL)
+
+  if ("children" %in% x[["propNames"]]) {
+    x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], html_dependencies)
+  }
+
+  # https://github.com/plotly/dashRwidgets/blob/c6c6941/tools/transpile.R#L10
+  # https://github.com/plotly/dashRwidgets/blob/c6c6941/R/utils.R#L19
+  # TODO: perhaps dashRwidgets should automatically attachDependencies?
+  if (is.htmlwidget(x)) {
+    name <- x[["props"]][["name"]]
+    package <- x[["props"]][["package"]] %||% name
+    deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
+    x <- htmltools::attachDependencies(x, c(deps, x[["props"]][["widget"]][["dependencies"]]))
+  }
+
+  htmltools::htmlDependencies(x)
 }
 
 # ----------------------------------------------------------------------
