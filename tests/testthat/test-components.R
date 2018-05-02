@@ -60,11 +60,29 @@ test_that("Component constructors behave as intended", {
 
 
 test_that("Giving nonsense arguments to components yields error", {
-
   expect_error(
     htmlA(nonsense = "string"),
     "Didn't recognize the following named arguments: 'nonsense'",
     fixed = TRUE
   )
-
 })
+
+
+test_that("Can identify whether a component contains a component of a given type", {
+  g <- coreGraph()
+  s <- coreSlider()
+  expect_true(component_contains_type(g, "dashCoreComponents", "Graph"))
+  expect_false(component_contains_type(g, "dash", "Graph"))
+  expect_false(component_contains_type(s, "dashCoreComponents", "Graph"))
+  expect_true(component_contains_type(htmlDiv(s, htmlDiv(g)), "dashCoreComponents", "Graph"))
+})
+
+
+
+
+#test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
+#  app <- Dash$new()
+#  g <- coreGraph()
+#  app$layout_set(g)
+#  # TODO: render DOM and search for plotly.js bundle?
+#})
