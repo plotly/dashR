@@ -72,7 +72,7 @@ request_parse_json <- function(request) {
 # @param external point to an external CDN rather local files?
 render_dependencies <- function(dependencies, local = TRUE) {
   html <- sapply(dependencies, function(x) {
-    if (!inherits(x, "html_dependency")) stop("Must be an object of class 'html_dependency'")
+    assertthat::assert_that(inherits(x, "html_dependency"))
     srcs <- names(x[["src"]])
     src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
       message("No remote hyperlink found for HTML dependency '", x[["name"]], "'. Using local file instead.")
@@ -112,9 +112,13 @@ resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
 
 resourcify <- function(dependencies, libdir = tempdir()) {
   lapply(dependencies, function(dep) {
+    assertthat::assert_that(inherits(dep, "html_dependency"))
     if (!length(dep[["src"]][["file"]])) return(dep)
+    href <- dep[["src"]][["href"]]
     dep <- htmltools::copyDependencyToDir(dep, libdir)
-    htmltools::makeDependencyRelative(dep, libdir)
+    dep <- htmltools::makeDependencyRelative(dep, libdir)
+    dep[["src"]][["href"]] <- href
+    dep
   })
 }
 
