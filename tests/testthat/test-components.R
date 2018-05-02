@@ -78,11 +78,42 @@ test_that("Can identify whether a component contains a component of a given type
 })
 
 
-
-
 #test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
 #  app <- Dash$new()
 #  g <- coreGraph()
 #  app$layout_set(g)
 #  # TODO: render DOM and search for plotly.js bundle?
 #})
+
+library(htmltools)
+test_that("Can translate shiny.tags to components", {
+
+  expect_identical(
+    as_component(tags$div()),
+    htmlDiv()
+  )
+  expect_identical(
+    as_component(tags$div(tags$div())),
+    htmlDiv(htmlDiv())
+  )
+  expect_identical(
+    as_component(tags$div(id = "foo", tags$div(class = "bar"))),
+    htmlDiv(id = "foo", htmlDiv(className = "bar"))
+  )
+  expect_identical(
+    as_component(tags$div(style = "position: absolute", tags$div(class = "bar"))),
+    htmlDiv(style = list(position = "absolute"), htmlDiv(className = "bar"))
+  )
+  expect_identical(
+    as_component(tags$div(style = "position: absolute; width: 100%", tags$div(class = "bar"))),
+    htmlDiv(style = list(position = "absolute", width = "100%"), htmlDiv(className = "bar"))
+  )
+  tagz <- tagList(
+    tags$a(href = "/testing"),
+    tags$h1("a title")
+  )
+  expect_identical(
+    as_component(tagz),
+    list(htmlA(href = "/testing"), htmlH1("a title"))
+  )
+})

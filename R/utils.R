@@ -62,47 +62,61 @@ component_contains_type <- function(component, package, type) {
 
 # try our best to map htmltools to dash components
 as_component <- function(x) {
+
   if (is.component(x)) {
-    # eventually, children should be able to hold components!
-    # therefore, htmltools tags could be put inside a component's children...
-    # https://github.com/plotly/dash-renderer/pull/26
-    #return(lapply(x[["props"]][["children"]], as_component))
+    # a component's children could be holding tags
+    if ("children" %in% x[["propNames"]]) {
+      x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], as_component)
+    }
     return(x)
   }
-  if (inherits(x, "shiny.tag.list")) {
+
+  if (inherits(x, c("shiny.tag.list", "list"))) {
     return(lapply(x, as_component))
   }
+
   if (inherits(x, "shiny.tag")) {
-    # try to find an identical component (e.g. tags$a() -> htmlA())
-    # note that core components take precedence (e.g. tags$link() -> coreLink())
+
+    if (length(x[["children"]])) {
+      x[["children"]] <- lapply(x[["children"]], as_component)
+    }
+
+    # obtain the relevant dash-html-component function definiton
+    # (e.g. tags$a() -> htmlA())
     components_html <- ls(asNamespace("dashHtmlComponents"))
-    components_core <- ls(asNamespace("dashCoreComponents"))
-    is_html <- tolower(components_html) %in% paste0("html", x[["name"]])
-    is_core <- tolower(components_core) %in% paste0("core", x[["name"]])
-    component <- components_core[is_core] %||% components_html[is_html]
-    namespace <- if (grepl("^core", component)) "dashCoreComponents" else  "dashHtmlComponents"
+    is_html <- tolower(sub("^html", "", components_html)) %in% x[["name"]]
+    component <- components_html[is_html]
     htmlComponent <- tryCatch(
-      getFromNamespace(component, namespace),
+      getFromNamespace(component, "dashHtmlComponents"),
       error = function(e) {
         stop(sprintf("Couldn't find a mapping for '%s' tags", x[["name"]]), call. = FALSE)
       }
     )
-    args <- c(x[["attribs"]] %||% list(), children = x[["children"]])
+
+    # translate tag attributes to props (i.e., build the function arguments)
+    args <- x[["attribs"]] %||% list()
+
+    # class attribute -> className prop
+    args[["className"]] <- args[["class"]]
+    args[["class"]] <- NULL
+
+    # style attribute (string) -> style prop (list)
+    if (length(args[["style"]])) {
+      assertthat::assert_that(is.character(args[["style"]]))
+      assertthat::assert_that(length(args[["style"]]) == 1)
+      styles <- strsplit(strsplit(args[["style"]], ";")[[1]], ":")
+      if (!unique(lengths(styles)) == 2) stop("Malformed style attribute")
+      name <- str_trim(sapply(styles, `[[`, 1))
+      value <- str_trim(sapply(styles, `[[`, 2))
+      args[["style"]] <- setNames(as.list(value), name)
+    }
+
+    if (length(x[["children"]])) args[["children"]] <- x[["children"]]
+
     return(do.call(htmlComponent, args))
   }
-  # TODO: is it well-defined what you'd want here? Perhaps tagList()?
-  if (identical(class(x), "list")) {
-    is_component <- vapply(x, is.component, logical(1))
-    is_tag <- vapply(x, inherits, c("shiny.tag", "shiny.tag.list"), logical(1))
-    if (!all(is_component | is_tag)) {
-      stop(
-        'Layout must be a collection of dash components and/or ',
-        'htmltools tags (or a function that returns those things)',
-        call. = FALSE
-      )
-    }
-    lapply(x, as_component)
-  }
+
+  # TODO: special handling for any other types of objects?
 
   x
 }
@@ -219,6 +233,10 @@ dir_exists <- function(paths) {
 
 tryNULL <- function(expr) {
   tryCatch(expr, error = function(e) NULL)
+}
+
+str_trim <- function(x) {
+  sub("\\s+$", "", sub("^\\s+", "", x))
 }
 
 setdiffsym <- function(x, y) {

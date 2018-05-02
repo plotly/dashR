@@ -1,5 +1,5 @@
 # Example of using htmltools::tags in a dasher app -- based on demo/urls.R
-library(dasher)
+library(dashR)
 library(htmltools)
 
 app <- Dash$new()
@@ -12,11 +12,8 @@ app$layout_set(
   tags$link('Navigate to "/page-2"', href = '/page-2'),
 
   # content will be rendered in this element
-  tags$div(id = 'page-content')
+  htmlDiv(id = "container", "A simple container div", tags$div(id = 'page-content'))
 )
-
-# tags are mapped to components
-# app$layout_get()
 
 app$callback(
   function(pathname = input("url", "pathname")) {
