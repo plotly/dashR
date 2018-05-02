@@ -271,7 +271,7 @@ Dash <- R6::R6Class(
         output_value <- wrapper$closure()
 
         # provides a means for post-processing an R object of a special class
-        output_value <- format_output_value(output_value, private$dependencies_widget)
+        output_value <- format_output_value(output_value, self$dependencies_get())
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -325,17 +325,11 @@ Dash <- R6::R6Class(
     # HTML dependency management
     # ------------------------------------------------------------------------
     dependencies_get = function() {
-      private$dependencies_user
+      c(private$dependencies_user, private$dependencies)
     },
-    dependencies_set = function(dependencies = NULL) {
+    dependencies_set = function(dependencies = list(), add = TRUE) {
 
-      if (is.null(dependencies)) {
-        if (length(private$dependencies_user)) {
-          message("Removing previously specified HTML dependencies")
-          private$dependencies_user <- NULL
-        }
-        return(NULL)
-      }
+      if (!length(dependencies)) return()
 
       # do a sensible thing if just a single dependency is provided
       if (inherits(dependencies, "html_dependency")) {
@@ -346,6 +340,10 @@ Dash <- R6::R6Class(
       is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
       if (any(!is_dep)) {
         stop("`dependencies` must be a *list* of htmltools::htmlDependency objects", call. = FALSE)
+      }
+
+      if (add) {
+        dependencies <- c(private$dependencies_user, dependencies)
       }
 
       private$dependencies_user <- dependencies
@@ -399,9 +397,13 @@ Dash <- R6::R6Class(
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
 
+    # fields for tracking HTML dependencies
+    dependencies = list(),
+    dependencies_user = list(),
+
     # layout stuff
     layout = welcome_page(),
-    layout_flat = NULL,
+    layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
       layout <- if (is.function(private$layout)) private$layout() else private$layout
@@ -409,33 +411,26 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
+      # before converting shiny.tags to components, extract their htmlDependencies
+      private$dependencies <- Reduce(c, lapply(layout, html_dependencies))
+
       # at this point we should be working with a list of:
       # (1) dash components
       # (2) stuff built on htmltools
       # this function ensures we have a list of dash components
       layout <- lapply(layout, as_component)
 
-      # register htmlwidget dependencies
-      is_widget <- vapply(layout, is.htmlwidget, logical(1))
-      widget_deps <- lapply(layout[is_widget], function(w) {
-        name <- w[["props"]][["name"]]
-        package <- w[["props"]][["package"]] %||% name
-        try_library("htmlwidgets", "htmlwidget")
-        deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
-        c(deps, w[["props"]][["widget"]][["dependencies"]])
-      })
-      private$dependencies_widget <- Reduce(c, widget_deps)
-
       # ensure everything is wrapped up in a container div
-      # TODO: is this necessary?
+      # TODO: is this necessary? If so, provide a way to set top-level id?
       layout <- dashHtmlComponents::htmlDiv(children = layout, id = new_id())
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
-      private$layout_flat <- rapply(layout, I)
+      layout_flat <- rapply(layout, I)
+      layout_nms <- names(layout_flat)
 
       # verify that layout ids are unique
-      idx <- grep("props\\.id$", names(private$layout_flat))
+      idx <- grep("props\\.id$", layout_nms)
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
@@ -443,14 +438,36 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
-      ids <- as.character(private$layout_flat[idx])
-      duped <- anyDuplicated(ids)
+      private$layout_ids <- as.character(layout_flat[idx])
+      duped <- anyDuplicated(private$layout_ids)
       if (duped) {
         stop(
-          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", ids[duped]),
+          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", private$layout_ids[duped]),
           call. = FALSE
         )
       }
+
+      # obtain component dependencies
+      pkgs <- unique(layout_flat[grepl("package$", layout_nms)])
+      dashR_deps <- lapply(pkgs, function(pkg) {
+        dep_file <- system.file("dashR_deps.rds", package = pkg)
+        if (dep_file == "") return(NULL)
+        readRDS(dep_file)
+      })
+
+      # if core components are used, but no Graph() exists,
+      # don't include the plotly.js bundle
+      hasCore <- "dashCoreComponents" %in% pkgs
+      hasGraph <- component_contains_type(private$layout, "dashCoreComponents", "Graph")
+      if (hasCore && !hasGraph) {
+        idx <- which(pkgs %in% "dashCoreComponents")
+        scripts <- dashR_deps[[idx]][["script"]]
+        dashR_deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
+      }
+
+      # store component dependencies
+      private$dependencies <- c(private$dependencies %||% list(), dashR_deps)
+
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
@@ -485,13 +502,12 @@ Dash <- R6::R6Class(
       # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
       # -----------------------------------------------------------------------
-      ids <- private$layout_flat[grep("id$", names(private$layout_flat))]
       callback_ids <- unlist(c(
         output$id,
         sapply(wrapper$inputs, "[[", "id"),
         sapply(wrapper$state, "[[", "id")
       ))
-      illegal_ids <- setdiff(callback_ids, ids)
+      illegal_ids <- setdiff(callback_ids, private$layout_ids)
       if (length(illegal_ids) && !private$suppress_callback_exceptions) {
         warning(
           sprintf(
@@ -516,61 +532,7 @@ Dash <- R6::R6Class(
       private$callback_map[[output[["key"]]]] <- wrapper
     },
 
-
-    # field for tracking HTML dependencies defined by the user
-    dependencies_user = NULL,
-    dependencies_widget = NULL,
-
-    # compute HTML dependencies based on the current layout
-    dependencies_layout = function() {
-      # What "component packages" (i.e., components created via dashRtranspile)
-      # are we working with?
-      private$layout_render() # TODO: avoid calling this twice
-      layout_nms <- names(private$layout_flat)
-      pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
-      deps <- lapply(pkgs, function(pkg) {
-        dep_file <- system.file("dashR_deps.rds", package = pkg)
-        if (dep_file == "") return(NULL)
-        readRDS(dep_file)
-      })
-
-      # if core components are used, but no Graph() exists,
-      # don't include the plotly.js bundle
-      hasCore <- "dashCoreComponents" %in% pkgs
-      hasGraph <- component_contains_type(private$layout, "dashCoreComponents", "Graph")
-      if (hasCore && !hasGraph) {
-         idx <- which(pkgs %in% "dashCoreComponents")
-         scripts <- deps[[idx]][["script"]]
-         deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
-      }
-
-      deps
-    },
-
     # copy HTML dependencies to a resource route
-    dependencies_register = function(dependencies) {
-
-      # copy dependencies to temp dir and make their file path relative to it
-      libdir <- tempdir()
-      dependencies <- resourcify(dependencies, libdir)
-
-      # dash endpoints should already be registered at this point...
-      # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
-      routrs <- self$server$plugins
-      if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
-
-      # register a route to dependencies on the server (if it doesn't already exist)
-      dash_router <- routrs[["request_routr"]]
-      if (!dash_router$has_route("dashR-resources")) {
-        # resource routes are designed to serve directories (not individual files)
-        # TODO: should this respect routes prefix?
-        resources <- routr::ressource_route('/' = libdir)
-        dash_router$add_route(resources, "dashR-resources")
-        self$server$attach(dash_router, force = TRUE)
-      }
-
-      dependencies
-    },
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version = "15.4.2",
@@ -583,19 +545,18 @@ Dash <- R6::R6Class(
     index = function() {
 
       # collect and resolve dependencies
-      depsAll <- c(
+      depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version],
-        private$dependencies_widget,
+        private$dependencies,
         private$dependencies_user,
-        private$dependencies_layout(),
         deps["dash-renderer"]
-      )
+      ))
 
       # normalizes local paths and keeps newer versions of duplicates
       depsAll <- resolve_dependencies(depsAll)
 
       # register a resource route for dependencies (if necessary)
-      depsAll <- private$dependencies_register(depsAll)
+      depsAll <- register_dependencies(depsAll, self$server)
 
       # styleheets always go in header
       depsCSS <- compact(lapply(depsAll, function(dep) {

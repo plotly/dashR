@@ -17,11 +17,6 @@ is.layout <- function(x) inherits(x, "dash_layout")
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
 
-# helper to identify the special htmlwidget() component
-is.htmlwidget <- function(x) {
-  is.component(x) && identical(x[["namespace"]], "dashRwidgets")
-}
-
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
 component_props_given_id <- function(component, id) {
@@ -59,6 +54,45 @@ component_contains_type <- function(component, package, type) {
 # ----------------------------------------------------------------------------
 # Mapping htmltools to dash components
 # ----------------------------------------------------------------------------
+
+# crawl a recursive list for shiny.tags and return their htmltools::htmlDependencies()
+# note how the recursive structuring of this function is versy similar to as_component
+html_dependencies <- function(x) {
+
+  if (is.component(x)) {
+    # a component's children could be holding tags
+    if ("children" %in% x[["propNames"]]) {
+      x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], html_dependencies)
+    }
+
+    # pick up on dashRwidgets::htmlwidget() dependencies
+    # note that name/package should be pre-populated and dashRwidgets imports htmlwidgets
+    is_widget <- identical("dashRwidgets", x[["package"]]) && identical("htmlwidget", x[["type"]])
+    if (is_widget) {
+      name <- x[["props"]][["name"]]
+      package <- x[["props"]][["package"]] %||% name
+      deps <- utils::getFromNamespace("getDependency", "htmlwidgets")(name, package)
+      return(c(deps, x[["props"]][["widget"]][["dependencies"]]))
+    }
+
+    return(NULL)
+  }
+
+  if (inherits(x, c("shiny.tag.list", "list"))) {
+    return(lapply(x, html_dependencies))
+  }
+
+  if (inherits(x, "shiny.tag")) {
+
+    if (length(x[["children"]])) {
+      x[["children"]] <- lapply(x[["children"]], html_dependencies)
+    }
+
+    return(htmltools::htmlDependencies(x))
+  }
+
+  NULL
+}
 
 # try our best to map htmltools to dash components
 as_component <- function(x) {
@@ -156,21 +190,21 @@ request_parse_json <- function(request) {
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
 render_dependencies <- function(dependencies, local = TRUE) {
-  html <- sapply(dependencies, function(x) {
-    assertthat::assert_that(inherits(x, "html_dependency"))
-    srcs <- names(x[["src"]])
+  html <- sapply(dependencies, function(dep) {
+    assertthat::assert_that(inherits(dep, "html_dependency"))
+    srcs <- names(dep[["src"]])
     src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
-      message("No remote hyperlink found for HTML dependency '", x[["name"]], "'. Using local file instead.")
+      message("No remote hyperlink found for HTML dependency '", dep[["name"]], "'. Using local file instead.")
       "file"
     } else if (local && !"file" %in% srcs && "href" %in% srcs) {
-      message("No local file found for HTML dependency '", x[["name"]], "'. Using the remote hyperlink instead.")
+      message("No local file found for HTML dependency '", dep[["name"]], "'. Using the remote hyperlink instead.")
       "href"
     } else if (!local) {
       "href"
     } else {
       "file"
     }
-    htmltools::renderDependencies(list(x), src, encodeFunc = identity)
+    htmltools::renderDependencies(list(dep), src, encodeFunc = identity)
   })
   paste(html, collapse = "\n")
 }
@@ -178,12 +212,12 @@ render_dependencies <- function(dependencies, local = TRUE) {
 # Similar to htmltools::resolveDependencies(), but allows
 # pkgload:::shim_system.file() to work it's magic in dev mode
 # (i.e., pkgload::load_all())
-resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
+resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
 
-  x <- htmltools::resolveDependencies(x, FALSE)
+  dependencies <- htmltools::resolveDependencies(dependencies, FALSE)
 
   if (resolvePackageDir) {
-    x <- lapply(x, function(dep) {
+    dependencies <- lapply(dependencies, function(dep) {
       if (is.null(dep$package)) return(dep)
       dir <- dep$src$file
       if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
@@ -192,10 +226,34 @@ resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
     })
   }
 
-  x
+  dependencies
 }
 
-resourcify <- function(dependencies, libdir = tempdir()) {
+register_dependencies <- function(dependencies, server) {
+
+  # copy dependencies to temp dir and make their file path relative to it
+  libdir <- tempdir()
+  dependencies <- copy_dependencies(dependencies, libdir)
+
+  # dash endpoints should already be registered at this point...
+  # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
+  routrs <- server$plugins
+  if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
+
+  # register a route to dependencies on the server (if it doesn't already exist)
+  dash_router <- routrs[["request_routr"]]
+  if (!dash_router$has_route("dashR-resources")) {
+    # resource routes are designed to serve directories (not individual files)
+    # TODO: should this respect routes prefix?
+    resources <- routr::ressource_route('/' = libdir)
+    dash_router$add_route(resources, "dashR-resources")
+    server$attach(dash_router, force = TRUE)
+  }
+
+  dependencies
+}
+
+copy_dependencies <- function(dependencies, libdir = tempdir()) {
   lapply(dependencies, function(dep) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     if (!length(dep[["src"]][["file"]])) return(dep)
