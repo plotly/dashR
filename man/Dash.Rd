@@ -6,7 +6,14 @@
 \title{Generate a Dash server}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-app <- Dash$new(name = "dash", server = fiery::Fire$new(), url_base_pathname = "/")
+app <- Dash$new(
+  name = "dash",
+  server = fiery::Fire$new(),
+  static_folder = NULL,
+  serve_locally = TRUE,
+  routes_pathname_prefix = '/',
+  requests_pathname_prefix = '/'
+)
 }
 \description{
 Description coming soon
@@ -14,17 +21,37 @@ Description coming soon
 \section{Arguments}{
 
 \tabular{lll}{
-\code{name} \tab  \tab The name of the Dash application.\cr
-\code{server} \tab  \tab The web server which powers the application. Currently only \link[fiery:Fire]{fiery::Fire} objects are allowed.\cr
-\code{url_base_pathname} \tab  \tab The base path for locating the Dash application.\cr
-\code{serve_locally} \tab  \tab Whether to serve HTML dependencies using local files or via a URL
+\code{name} \tab \tab The name of the Dash application (placed in the \code{<title>}
+of the HTML page).\cr
+\code{server} \tab \tab The web server used to power the application.
+Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
+\code{static_folder} \tab \tab A character vector of directories for serving
+with the application (the default, \code{NULL}, means don't serve additional
+directories). If provided, the names attribute defines corresponding url
+path, otherwise it defaults to '/'.\cr
+\code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
+remotely (via URL).\cr
+\code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
+\code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
+made by Dash's front-end.\cr
+\code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
+possible layout mis-specifications when registering a callback. For an
+example of when it is ok to suppress these callbacks, see
+\code{runTutorial("urls-part-2.R")}
 }
 }
 
 \section{Fields}{
 
 \describe{
-\item{\code{server}}{A \link[fiery:Fire]{fiery::Fire} object}
+\item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
+provided to the \code{server} argument (various routes will be added which enable
+the dashR functionality).}
+\item{\code{config}}{A list of configuration options passed along to
+dash-renderer. Users shouldn't need to alter any of these options
+unless they are constructing their own authorization front-end or
+otherwise need to know where the application is making API calls.
+}
 }
 }
 
@@ -40,12 +67,25 @@ a function which returns a collection of components.
 Retrieves the layout. If render is \code{TRUE}, and the layout is a function,
 the result of the function (rather than the function itself) is returned.
 }
-\item{\code{callback(func, output)}}{
+\item{\code{callback(func = NULL, output = NULL, .dots = NULL)}}{
 A callback function defintion. The \code{func} argument accepts any R function
-and \code{output} defines which layout component property owns the results
-(via an \link{output} object). To define how/when the callback is re-executed,
-\link{input} object(s) should be provided as argument value(s) in the function
-provided to \code{func}.
+and \code{output} defines which layout component property should adopt the results
+(via an \link{output} object). To determine what events trigger this callback,
+provide \link{input} (and/or \link{state}) object(s) (which should reference
+layout components) as argument value(s) to \code{func}. When dealing with many
+arguments, it may be useful to create them programmatically and supply them
+as a list via \code{.dots}.
+}
+\item{\code{callback_print(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...)}}{
+Like \code{callback}, except the results from \code{func} are printed, captured, and
+(optionally) wrapped in a \link{htmlPre} component. This makes it easy to place
+R console output inside the \code{output} container. If \code{pre = TRUE} (the default),
+additional arguments (\code{...}) are passed onto \link{htmlPre}.
+}
+\item{\code{callback_png(func = NULL, output = NULL, .dots = NULL, width = NULL, height = NULL, cairo = TRUE, ...)}}{
+Like \code{callback}, except any graphics \code{func} may produce are captured and
+wrapped into a \link{htmlImg} component. This makes it easy to place results
+that an R graphics (png) device would give you inside the \code{output} container.
 }
 \item{\code{dependencies_set(dependencies = NULL, section = NULL, priority = NULL)}}{
 Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
@@ -59,12 +99,6 @@ arguments should either be of length 1 or the same length as \code{dependencies}
 \item{\code{dependencies_get(all = FALSE)}}{
 Retrieve (just user-defined or all) HTML dependencies.
 }
-\item{\code{config_set(suppress_callback_exceptions, permissions_cache_expiry)}}{
-Set the config.
-}
-\item{\code{config_get()}}{
-Get the config.
-}
 \item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments
 }
@@ -73,23 +107,13 @@ Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a descrip
 
 \examples{
 
-# hello dash!
-app <- dasher::Dash$new()
-app$run_server(showcase = TRUE)
-
-# use the layout_set method to define your UI
-app$layout_set(
-  htmlH2("Hello Dash"),
-  "Here is a slider",
-  coreSlider()
-)
-# retrieve the layout with layout_get()
-app$layout_get()
+app <- runTutorial("urls-part-2.R")
+app$server$stop()
 
 
 }
 \seealso{
-\url{https://plot.ly/dash/}
+\url{https://plot.ly/dashR/}
 }
 \author{
 Carson Sievert

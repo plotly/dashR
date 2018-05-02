@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+Makefile
+announcement\.Rmd
+python/
+r-finance
+r-finance 
+todo\.txt

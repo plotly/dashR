@@ -8,42 +8,40 @@
 #' a bridge between an R object and (an existing) suitable dash component.
 #'
 #' @param x the output value from a callback function
+#' @param user_deps user specified HTML dependencies
 #' @param ... additional arugments. Currently unused.
 #' @export
-format_output_value <- function(x, ...) {
+format_output_value <- function(x, dependencies, ...) {
   UseMethod("format_output_value")
 }
 
 #' @export
-format_output_value.htmlwidget <- function(x, ...) {
+format_output_value.htmlwidget <- function(x, dependencies, ...) {
 
-  if (!is.null(x[["elementId"]])) {
-    warning(
-      "elementId is ignored by dash. It uses the id specified in `htmlwidget()`",
-      call. = FALSE
-    )
-  }
+  # same 'payload' that htmlwidgets attaches to the widget div
+  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L241-L259
+  # https://github.com/ramnathv/htmlwidgets/blob/160872d/inst/www/htmlwidgets.js#L617-L626
+  payload <- dashRwidgets::widget_payload(x)
 
-  # mimics some of the functionality in htmlwidgets:::toHTML()
-  # https://github.com/ramnathv/htmlwidgets/blob/346f87c3/R/htmlwidgets.R#L158
-  create_payload <- getFromNamespace("createPayload", asNamespace("htmlwidgets"))
-  resolve_sizing <- getFromNamespace("resolveSizing", asNamespace("htmlwidgets"))
-  list(
-    x = create_payload(x),
-    # TODO: auto-magically handle this so user doesn't have to specify?
-    name = class(x)[1],
-    sizingPolicy = resolve_sizing(x, x$sizingPolicy, TRUE),
-    width = x$width,
-    height = x$height,
-    dependencies = resourcify(x$dependencies)
+  # return the payload if we aren't missing any dependencies...
+  # (htmlwidget dependencies can't be completely determined until run/print time)
+  missingDependencies <- setdiff(payload[["dependencies"]], dependencies)
+  if (!length(missingDependencies)) return(payload)
+
+  # someday we might be able to register dependencies in a callback,
+  # but for now, we throw an error
+  # https://github.com/plotly/dashRwidgets/issues/5
+  name <- class(x)[1]
+  package <- attr(x, "package")
+  stop(
+    sprintf("The htmlwidget '%s' from the '%s' package ", name, package),
+    "has HTML dependencies must be added via the dependencies_set() method. ",
+    "Here are those dependencies:\n\n",
+    paste(utils::capture.output(print(missingDependencies)), collapse = "\n"),
+    call. = FALSE
   )
 }
 
 #' @export
-format_output_value.plotly <- function(x, ...) {
-  format_output_value.htmlwidget(plotly::plotly_build(x))
-}
-
-#' @export
-format_output_value.default <- function(x, ...) x
+format_output_value.default <- function(x, user_deps, ...) x
 

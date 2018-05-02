@@ -14,8 +14,13 @@ is.state <- function(x) is.dependency(x) && inherits(x, "state")
 # layout is really a special type of component
 is.layout <- function(x) inherits(x, "dash_layout")
 
-# components (TODO: this should be exported by dashTranspileR!)
+# components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
+
+# helper to identify the special htmlwidget() component
+is.htmlwidget <- function(x) {
+  is.component(x) && identical(x[["namespace"]], "dashRwidgets")
+}
 
 # search through a component (a recursive data structure) for a component with
 # a given id and return the component's type
@@ -25,38 +30,30 @@ component_props_given_id <- function(component, id) {
 
   is_match <- if (is_component) isTRUE(component$props$id == id) else FALSE
 
-  props <- if (is_match) component$propNames else ""
+  props <- if (is_match) component$propNames else NA
 
   if (is_component && !is_match) {
-    return(unlist(lapply(component$props$children, component_props_given_id, id)))
+    if ("children" %in% names(component$props)) {
+      return(unlist(lapply(component$props$children, component_props_given_id, id)))
+    }
   }
 
   props
 }
 
+component_contains_type <- function(component, package, type) {
 
-assert_fun_is_callback <- function(fun = NULL) {
+  is_component <- is.component(component)
 
-  assertthat::assert_that(is.function(fun))
+  is_match <- if (is_component) isTRUE(component$type == type) && isTRUE(component$package == package) else FALSE
 
-  # TODO: do we ever have to worry about the eval envir here?
-  inputz <- lapply(formals(fun), eval)
-  is_inputy <- vapply(inputz, function(x) is.input(x) || is.state(x), logical(1))
-
-  # TODO: relax this assumption!!
-  if (!all(is_inputy)) {
-    stop(
-      "Argument values of callback function (`fun`) must be input/state",
-      "objects created via `input()`/`state()`. \n\n",
-      sprint(
-        "I found a problem with these arguments: '%s'",
-        paste(names(inputz)[!is_inputy], collapse = "', '")
-      ),
-      call. = FALSE
-    )
+  if (is_component && !is_match) {
+    if ("children" %in% names(component$props)) {
+      return(any(unlist(lapply(component$props$children, component_contains_type, package, type))))
+    }
   }
 
-  invisible(TRUE)
+  is_match
 }
 
 # ----------------------------------------------------------------------------
@@ -110,26 +107,25 @@ as_component <- function(x) {
   x
 }
 
-# ----------------------------------------------------------------------------
-# Security stuff
-# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# HTTP helpers
+# ----------------------------------------------------------------------
 
-# https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L165-L176
-#create_access_codes <- function() {
-#  now <- Sys.time()
-#  list(
-#    access_granted = new_token(),
-#    expiration = list()
-#  )
-#}
+request_parse_json <- function(request) {
+  # request body must be parsed on demand (to avoid errors by odd formats)
+  # http://www.data-imaginist.com/2017/Introducing-reqres/
+  if (!request$is("json")) stop("Expected a JSON request", call. = FALSE)
 
+  # Unlike `reqres::default_parsers["application/json"]`, we don't
+  # simplify the *entire* JSON blob, but we do simplify input/state value(s)
+  # https://gist.github.com/cpsievert/04d53edbe902ca86a41949e24e8b4af7
+  from_JSON <- function(raw, directives) {
+    jsonlite::fromJSON(rawToChar(raw), simplifyVector = FALSE)
+  }
+  success <- request$parse(list(`application/json` = from_JSON))
+  if (!success) stop("Failed to parse body", call. = FALSE)
 
-new_token <- function() {
-  digest::sha1(new_id())
-}
-
-new_id <- function() {
-  basename(tempfile(""))
+  request
 }
 
 # ----------------------------------------------------------------------------
@@ -140,13 +136,24 @@ new_id <- function() {
 # A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(x, local = TRUE) {
-  # TODO:
-  # (1) Fail gracefully if file/href doesn't exist and something that does?
-  # (2) the default `encodeFunc` doesn't seem to work?
-  htmltools::renderDependencies(
-    x, if (local) "file" else "href", encodeFunc = identity
-  )
+render_dependencies <- function(dependencies, local = TRUE) {
+  html <- sapply(dependencies, function(x) {
+    assertthat::assert_that(inherits(x, "html_dependency"))
+    srcs <- names(x[["src"]])
+    src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
+      message("No remote hyperlink found for HTML dependency '", x[["name"]], "'. Using local file instead.")
+      "file"
+    } else if (local && !"file" %in% srcs && "href" %in% srcs) {
+      message("No local file found for HTML dependency '", x[["name"]], "'. Using the remote hyperlink instead.")
+      "href"
+    } else if (!local) {
+      "href"
+    } else {
+      "file"
+    }
+    htmltools::renderDependencies(list(x), src, encodeFunc = identity)
+  })
+  paste(html, collapse = "\n")
 }
 
 # Similar to htmltools::resolveDependencies(), but allows
@@ -170,30 +177,17 @@ resolve_dependencies <- function(x, resolvePackageDir = TRUE) {
 }
 
 resourcify <- function(dependencies, libdir = tempdir()) {
-
   lapply(dependencies, function(dep) {
+    assertthat::assert_that(inherits(dep, "html_dependency"))
+    if (!length(dep[["src"]][["file"]])) return(dep)
+    href <- dep[["src"]][["href"]]
     dep <- htmltools::copyDependencyToDir(dep, libdir)
-    htmltools::makeDependencyRelative(dep, libdir)
+    dep <- htmltools::makeDependencyRelative(dep, libdir)
+    dep[["src"]] <- as.list(dep[["src"]])
+    dep[["src"]][["href"]] <- href
+    dep
   })
 }
-
-widget_dependency <- function(name = NULL, package = name) {
-  htmlwidgets::getDependency(name, package)
-}
-
-# # get dependencies from an htmlwidget object
-# # https://github.com/ramnathv/htmlwidgets/pull/255
-# widget_dependencies <- function(w) {
-#   if (!inherits(w, "htmlwidget")) {
-#     warning("Expected an htmlwidget object", call. = FALSE)
-#     return(NULL)
-#   }
-#
-#   c(
-#     htmlwidgets::getDependency(class(w)[1], package = attr(w, "package")),
-#     w$dependencies
-#   )
-# }
 
 
 # ----------------------------------------------------------------------------
@@ -214,9 +208,13 @@ to_JSON <- function(x, ...) {
                    null = "null", na = "null", ...)
 }
 
-filter_null <- function(x) {
-  if (length(x) == 0 || !is.list(x)) return(x)
-  x[!vapply(x, is.null, logical(1))]
+# same as plotly:::new_id
+new_id <- function() {
+  basename(tempfile(""))
+}
+
+dir_exists <- function(paths) {
+  utils::file_test("-d", paths)
 }
 
 tryNULL <- function(expr) {
@@ -238,7 +236,16 @@ stop_report <- function(msg = "") {
   stop(
     msg, "\n\n",
     "Please let us know about this error via ",
-    "https://github.com/plotly/dasher/issues/new",
+    "https://github.com/plotly/dashR/issues/new",
     call. = FALSE
   )
+}
+
+try_library <- function(pkg, fun = NULL) {
+  if (system.file(package = pkg) != "") {
+    return(invisible())
+  }
+  stop("Package `", pkg, "` required", if (!is.null(fun))
+    paste0(" for `", fun, "`"), ".\n", "Please install and try again.",
+    call. = FALSE)
 }

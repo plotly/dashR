@@ -2,7 +2,7 @@
 
 #' Input/Output/State definitions
 #'
-#' Use in conjunction with the `callback()` method from the [dasher::Dash] class
+#' Use in conjunction with the `callback()` method from the [dashR::Dash] class
 #' to define the update logic in your application.
 #'
 #' @name dependencies
@@ -42,6 +42,7 @@ dependency <- function(id = NULL, property = NULL) {
   if (is.null(id)) stop("Must specify an id", call. = FALSE)
   list(
     id = id,
-    property = property
+    property = property,
+    key = paste0(id, ".", property)
   )
 }

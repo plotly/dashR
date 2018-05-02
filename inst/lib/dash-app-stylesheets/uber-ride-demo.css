@@ -1,0 +1,131 @@
+.graphSlider .rc-slider{
+    margin-top: 5px;
+    position: relative;
+    bottom: 20px;
+    height: 14px;
+    padding: 5px 0;
+    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.graphSlider .rc-slider-dot-active{
+  border-color: #e9e9e9;
+  color: black;
+}
+
+.graphSlider .rc-slider-track{
+  background: none;
+}
+
+.graphSlider .rc-slider-mark-text{
+  color: #828282;
+}
+
+.graphSlider .rc-slider-handle{
+  margin-left: -10px;
+  margin-top: -8px;
+  width: 20px;
+  height: 20px;
+}
+
+.graphSlider .totalRides{
+    display: block;
+    z-index: 1;
+    position: relative;
+    top: 110px;
+    left: 20px;
+    color: white;
+    cursor: default;
+    margin-bottom: 0px;
+}
+
+.graphSlider .totalRideSelection{
+    display: inline-block;
+    margin-bottom: 0;
+    position: relative;
+    top: 108px;
+    left: 19px;
+    z-index: 1;
+    right: 133px;
+    color: white;
+}
+
+.graphSlider .dateValue{
+    position: relative;
+    display: block;
+    top: 785px;
+    left: 20px;
+    color: white;
+    cursor: default;
+    z-index: 1;
+    margin-bottom: 0px;
+}
+
+.graphSlider .graph .js-plotly-plot .cursor-pointer{
+  cursor: crosshair;
+}
+
+._dash-app-content {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+ /* bottom: 100px; */
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.mapControls{
+    display: inline;
+    position: absolute;
+    top: 140px;
+    left: 45%;
+    z-index: 1;
+    color: white;
+}
+
+.graphSlider h2{
+    top: 30px;
+    padding-left: 7px;
+    position: absolute;
+}
+
+.graphSlider .explanationParagraph{
+    margin: auto auto;
+    top: 75px;
+    padding-left: 11px;
+    position: absolute;
+}
+
+.source {
+  padding-top: 30px;
+}
+
+.popupAnnotation {
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    bottom: 250px;
+    padding-left: 15px;
+    color: white;
+    display: block;
+    cursor: default;
+    display: inline;
+}
+
+.Select{
+    padding-left: 10px;
+    /*padding-right: 9px;*/
+    z-index: 2;
+}
+
+.Select-menu-outer{
+  width: 99.5%;
+}
+
+.month-picker .Select-clear{
+  visibility: hidden;
+}

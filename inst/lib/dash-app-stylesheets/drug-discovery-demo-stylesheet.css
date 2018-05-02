@@ -1,0 +1,25 @@
+body{
+	background: whitesmoke;
+}
+
+.container{
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    max-width: 1200px;
+	 overflow: hidden;
+	 box-shadow: rgb(240, 240, 240) 5px 5px 5px 0px;
+}
+
+p{
+	overflow-x: hidden;
+}
+
+td{
+	 word-break: break-all;
+    font-size: 12px;
+}
+
+table{
+	width: 100%;
+}

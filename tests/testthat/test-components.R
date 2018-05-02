@@ -1,5 +1,34 @@
 context("components")
 
+test_that("Components work recursively (components can be children of components)", {
+
+  # div inside a div
+  x <- htmlDiv(id = "one", htmlDiv(id = "two"))
+  expect_true(is.component(x))
+  expect_true(x$props$id == "one")
+  inner <- x$props$children[[1]]
+  expect_true(is.component(inner))
+  expect_true(inner$props$id == "two")
+
+  # slider inside a div
+  x <- htmlDiv(
+    coreSlider(
+      id = "h",
+      min = 1,
+      max = 100,
+      value = 48
+    )
+  )
+
+  expect_true(is.component(x))
+  slider <- x$props$children[[1]]
+  expect_true(is.component(slider))
+  expect_true(slider$props$id == "h")
+  expect_true(slider$props$min == 1)
+  expect_true(slider$props$max == 100)
+  expect_true(slider$props$value == 48)
+})
+
 test_that("Component constructors behave as intended", {
 
   # components have three main keys
@@ -31,11 +60,29 @@ test_that("Component constructors behave as intended", {
 
 
 test_that("Giving nonsense arguments to components yields error", {
-
   expect_error(
     htmlA(nonsense = "string"),
     "Didn't recognize the following named arguments: 'nonsense'",
     fixed = TRUE
   )
-
 })
+
+
+test_that("Can identify whether a component contains a component of a given type", {
+  g <- coreGraph()
+  s <- coreSlider()
+  expect_true(component_contains_type(g, "dashCoreComponents", "Graph"))
+  expect_false(component_contains_type(g, "dash", "Graph"))
+  expect_false(component_contains_type(s, "dashCoreComponents", "Graph"))
+  expect_true(component_contains_type(htmlDiv(s, htmlDiv(g)), "dashCoreComponents", "Graph"))
+})
+
+
+
+
+#test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
+#  app <- Dash$new()
+#  g <- coreGraph()
+#  app$layout_set(g)
+#  # TODO: render DOM and search for plotly.js bundle?
+#})

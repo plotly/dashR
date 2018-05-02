@@ -1,17 +1,32 @@
 # IDEA: provide a suite of "wrapper" functions that make it easier to do common things like display graphics (a la renderPlot)
 
 
-#' Wrap results into a png image
-#'
-#' @param func a function, that when called, produces the side-effect of drawing
-#' @param width width in pixels
-#' @param height height in pixels
-#' @param cairo Use the Cairo package (if installed).
-#' @param ... arguments passed along to the graphics device
-#'
-#' @export
-#' @author Carson Sievert
-#' @example demo/wrap-png-slider.R
+# Show output of a function
+#
+# @param func a function, that when called, produces the side-effect of drawing
+# @param pre wrap the output in a [htmlPre] tag?
+# @param ... arguments passed along to [htmlPre] (if `pre` is `TRUE`)
+#
+# @example inst/tutorial/examples/graph-callbacks-simple.R
+wrap_print <- function(func = NULL, pre = TRUE, ...) {
+  wrap(
+    func, function() {
+      res <- paste(utils::capture.output(func()), collapse = "\n")
+      if (!pre) return(res)
+      dashHtmlComponents::htmlPre(res, ...)
+    }
+  )
+}
+
+# Wrap results into a png image
+#
+# @param func a function, that when called, produces the side-effect of drawing
+# @param width width in pixels
+# @param height height in pixels
+# @param cairo Use the Cairo package (if installed).
+# @param ... arguments passed along to the graphics device
+#
+# @example inst/tutorial/examples/callback-png-slider.R
 wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...) {
 
   device <- if (cairo && system.file(package = "Cairo") != "") {
@@ -32,7 +47,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
 
   tmpfile <- tempfile(fileext = ".png")
 
-  wrappify(
+  wrap(
     func, function() {
       # TODO:
       # (1) access clientWidth/clientHeight?
@@ -42,7 +57,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
       device(filename = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      htmlImg(
+      dashHtmlComponents::htmlImg(
         src = paste0("data:image/png;base64,", base64enc::base64encode(tmpfile)),
         width = width,
         height = height
@@ -51,8 +66,7 @@ wrap_png <- function(func = NULL, width = NULL, height = NULL, cairo = TRUE, ...
   )
 }
 
-#' @inheritParams wrap_png
-#' @export
+# @inheritParams wrap_png
 wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
 
   if (system.file(package = "svglite") == "") {
@@ -61,7 +75,7 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
 
   tmpfile <- tempfile(fileext = ".svg")
 
-  wrappify(
+  wrap(
     func, function() {
       # TODO:
       # (1) access clientWidth/clientHeight?
@@ -71,7 +85,7 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
       svglite::svglite(file = tmpfile, width = width, height = height, ...)
       func()
       grDevices::dev.off()
-      htmlEmbed(
+      dashHtmlComponents::htmlEmbed(
         src = basename(tmpfile),
         width = width,
         height = height
@@ -82,14 +96,16 @@ wrap_svg <- function(func = NULL, width = NULL, height = NULL, ...) {
 }
 
 
+wrap <- function(func = NULL, closure = function() { func() }) {
 
-
-wrappify <- function(func = NULL, closure = function() { func() }) {
-
+  # argument type checking
   assertthat::assert_that(is.function(func))
   assertthat::assert_that(is.function(closure))
+  if (is.wrapper(func)) stop("Can't wrap a wrapper", call. = FALSE)
 
-  if (is.wrapper(func)) stop("Wrapping a wrapper is not (yet) supported", call. = FALSE)
+  if (!length(grep("func()", body(closure), fixed = TRUE))) {
+    warning("closure should call func", call. = FALSE)
+  }
 
   # identify input/state arguments
   args <- lapply(formals(func), function(x) {
@@ -106,9 +122,9 @@ wrappify <- function(func = NULL, closure = function() { func() }) {
       inputs = args[vapply(args, is.input, logical(1))],
       state = args[vapply(args, is.state, logical(1))]
     ),
-    class = "dasher_wrapper"
+    class = "dashR_wrapper"
   )
 }
 
 
-is.wrapper <- function(x) inherits(x, "dasher_wrapper")
+is.wrapper <- function(x) inherits(x, "dashR_wrapper")
