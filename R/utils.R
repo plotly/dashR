@@ -30,16 +30,32 @@ component_props_given_id <- function(component, id) {
 
   is_match <- if (is_component) isTRUE(component$props$id == id) else FALSE
 
-  props <- if (is_match) component$propNames else props_empty()
+  props <- if (is_match) component$propNames else NA
 
   if (is_component && !is_match) {
-    return(unlist(lapply(component$props$children, component_props_given_id, id)))
+    if ("children" %in% names(component$props)) {
+      return(unlist(lapply(component$props$children, component_props_given_id, id)))
+    }
   }
 
   props
 }
 
-props_empty <- function() NA
+component_contains_type <- function(component, package, type) {
+
+  is_component <- is.component(component)
+
+  is_match <- if (is_component) isTRUE(component$type == type) && isTRUE(component$package == package) else FALSE
+
+  if (is_component && !is_match) {
+    if ("children" %in% names(component$props)) {
+      return(any(unlist(lapply(component$props$children, component_contains_type, package, type))))
+    }
+  }
+
+  is_match
+}
+
 
 # ----------------------------------------------------------------------
 # HTTP helpers

@@ -530,11 +530,23 @@ Dash <- R6::R6Class(
       private$layout_render() # TODO: avoid calling this twice
       layout_nms <- names(private$layout_flat)
       pkgs <- unique(private$layout_flat[grepl("package$", layout_nms)])
-      lapply(pkgs, function(pkg) {
+      deps <- lapply(pkgs, function(pkg) {
         dep_file <- system.file("dashR_deps.rds", package = pkg)
         if (dep_file == "") return(NULL)
         readRDS(dep_file)
       })
+
+      # if core components are used, but no Graph() exists,
+      # don't include the plotly.js bundle
+      hasCore <- "dashCoreComponents" %in% pkgs
+      hasGraph <- component_contains_type(private$layout, "dashCoreComponents", "Graph")
+      if (hasCore && !hasGraph) {
+         idx <- which(pkgs %in% "dashCoreComponents")
+         scripts <- deps[[idx]][["script"]]
+         deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
+      }
+
+      deps
     },
 
     # copy HTML dependencies to a resource route
