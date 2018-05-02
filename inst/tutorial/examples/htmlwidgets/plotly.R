@@ -32,11 +32,12 @@ app$callback(
     plot_ly(mtcars, x = as.formula(paste0("~", x)), y = as.formula(paste0("~", y))) %>%
       layout(title = paste(x, "vs", y))
   },
-  output(id = 'plotID', property = "payload")
+  output(id = 'plotID', property = "widget")
 )
 
 # plotly has 'run-time' dependencies that must be registered before
-# the application is launched. For other htmlwidgets, this may not
-# be necessary.
+# the application is launched. This is only necessary if you aren't
+# supplying a suitable htmlwidget object directly to the layout definition.
+# For other htmlwidgets, this may not be necessary.
 app$dependencies_set(plot_ly()$dependencies)
 app$run_server()
