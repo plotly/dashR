@@ -117,3 +117,14 @@ test_that("Can translate shiny.tags to components", {
     list(htmlA(href = "/testing"), htmlH1("a title"))
   )
 })
+
+test_that("Can translate arbitrary HTML string", {
+  skip_if_not_installed("dashDangerouslySetInnerHtml")
+
+  html <- "<div> 1 </div>"
+  expect_identical(
+    as_component(HTML(html)),
+    dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html))
+  )
+
+})

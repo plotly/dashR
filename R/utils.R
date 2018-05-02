@@ -116,6 +116,11 @@ as_component <- function(x) {
     return(do.call(htmlComponent, args))
   }
 
+  if (inherits(x, "html") && isTRUE(attr(x, "html"))) {
+    try_library("dashDangerouslySetInnerHtml", "HTML")
+    return(getFromNamespace("DangerouslySetInnerHTML", "dashDangerouslySetInnerHtml")(x))
+  }
+
   # TODO: special handling for any other types of objects?
 
   x
