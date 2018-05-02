@@ -2,6 +2,8 @@ library(dashR)
 
 app <- Dash$new()
 
+marks <- setNames(seq_along(letters), letters)
+
 app$layout_set(
   htmlDiv(
     id = 'container',
@@ -11,7 +13,7 @@ app$layout_set(
       min = 1,
       max = 26,
       value = 3,
-      marks = setNames(seq_along(letters), letters)
+      marks = marks
     )
   ),
   htmlDiv(id = 'outputID', style = list(`margin-top` = 25))

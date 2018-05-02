@@ -1,4 +1,5 @@
 library(dashR)
+library(dashRwidgets)
 library(plotly)
 
 app <- Dash$new()
