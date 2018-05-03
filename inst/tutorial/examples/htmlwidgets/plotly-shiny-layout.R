@@ -3,23 +3,19 @@ library(dashRwidgets)
 library(shiny)
 library(plotly)
 
-app <- Dash$new()
-
 nms <- names(mtcars)
-
-# TODO: could we leverage a sidebarPanel here?
-app$layout_set(
-  sidebarLayout(
-    sidebarPanel(
+ui <- fluidPage(
+  fluidRow(
+    column(3,
       coreDropdown(id = "x", options = nms, value = nms[1], clearable = FALSE),
       coreDropdown(id = "y", options = nms, value = nms[2], clearable = FALSE)
     ),
-    # name of the htmlwidget is required!
-    # package name is only required if the widget name differs from the package name
-    htmlwidget(id = 'plotID', name = "plotly", width = "50%")
+    column(6, htmlwidget(id = 'plotID', name = "plotly"))
   )
 )
 
+app <- Dash$new()
+app$layout_set(ui)
 app$callback(
   function(x = input("x"), y = input("y")) {
     plot_ly(mtcars, x = as.formula(paste0("~", x)), y = as.formula(paste0("~", y))) %>%
