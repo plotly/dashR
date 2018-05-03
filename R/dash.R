@@ -415,10 +415,7 @@ Dash <- R6::R6Class(
       # (1) dash components
       # (2) stuff built on htmltools
       # this function ensures we have a list of dash components
-      layout <- lapply(layout, as_component)
-
-      # before converting shiny.tags to components, extract their htmlDependencies
-      private$dependencies <- Reduce(c, lapply(layout, html_dependencies))
+      layout <- lapply(layout, private$componentify)
 
       # ensure everything is wrapped up in a container div
       # TODO: is this necessary? If so, provide a way to set top-level id?
@@ -466,12 +463,103 @@ Dash <- R6::R6Class(
       }
 
       # store component dependencies
-      private$dependencies <- c(private$dependencies %||% list(), dashR_deps)
+      private$dependencies <- c(private$dependencies, dashR_deps)
+
+      # bootstrap JavaScript requires jQuery
+      # TODO: handle non-minified version as well
+      scripts <- basename(unlist(lapply(private$dependencies, "[[", "script")))
+      if ("bootstrap.min.js" %in% scripts) {
+        private$dependencies <- c(list(jquery_shiny()), private$dependencies)
+      }
 
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
     },
+
+    componentify = function(x) {
+
+      # register add any relevant HTML dependencies
+      private$dependencies <- c(private$dependencies, htmltools::htmlDependencies(x))
+
+      if (is.component(x)) {
+        # a component's children could be holding tags
+        if ("children" %in% x[["propNames"]]) {
+          x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], private$componentify)
+        }
+
+        # register HTML dependencies tied to dashRwidgets::htmlwidget
+        # https://github.com/plotly/dashRwidgets/blob/c6c6941/tools/transpile.R#L10
+        # https://github.com/plotly/dashRwidgets/blob/c6c6941/R/utils.R#L19
+        # TODO: perhaps dashRwidgets should automatically attachDependencies?
+        if (is.htmlwidget(x)) {
+          name <- x[["props"]][["name"]]
+          package <- x[["props"]][["package"]] %||% name
+          widget_deps <- c(
+            utils::getFromNamespace("getDependency", "htmlwidgets")(name, package),
+            x[["props"]][["widget"]][["dependencies"]]
+            )
+          private$dependencies <- c(private$dependencies, widget_deps)
+        }
+
+        return(x)
+      }
+
+      if (inherits(x, c("shiny.tag.list", "list"))) {
+        components <- lapply(compact(x), private$componentify)
+        return(htmlDiv(id = paste0("shiny-tag-list-", new_id()), children = components))
+      }
+
+      if (inherits(x, "shiny.tag")) {
+
+        if (length(x[["children"]])) {
+          x[["children"]] <- lapply(x[["children"]], private$componentify)
+        }
+
+        # obtain the relevant dash-html-component function definiton
+        # (e.g. tags$a() -> htmlA())
+        components_html <- ls(asNamespace("dashHtmlComponents"))
+        is_html <- tolower(sub("^html", "", components_html)) %in% x[["name"]]
+        component <- components_html[is_html]
+        htmlComponent <- tryCatch(
+          getFromNamespace(component, "dashHtmlComponents"),
+          error = function(e) {
+            stop(sprintf("Couldn't find a mapping for '%s' tags", x[["name"]]), call. = FALSE)
+          }
+        )
+
+        # translate tag attributes to props (i.e., build the function arguments)
+        args <- x[["attribs"]] %||% list()
+
+        # class attribute -> className prop
+        args[["className"]] <- args[["class"]]
+        args[["class"]] <- NULL
+
+        # style attribute (string) -> style prop (list)
+        if (length(args[["style"]])) {
+          assertthat::assert_that(is.character(args[["style"]]))
+          assertthat::assert_that(length(args[["style"]]) == 1)
+          styles <- strsplit(strsplit(args[["style"]], ";")[[1]], ":")
+          if (!unique(lengths(styles)) == 2) stop("Malformed style attribute")
+          name <- str_trim(sapply(styles, `[[`, 1))
+          value <- str_trim(sapply(styles, `[[`, 2))
+          args[["style"]] <- setNames(as.list(value), name)
+        }
+
+        if (length(x[["children"]])) args[["children"]] <- x[["children"]]
+
+        return(do.call(htmlComponent, args))
+      }
+
+      # translate htmltools::HTML() to dashDangerouslySetInnerHtml::DangerouslySetInnerHTML()
+      if (inherits(x, "html") && isTRUE(attr(x, "html"))) {
+        try_library("dashDangerouslySetInnerHtml", "HTML")
+        return(getFromNamespace("DangerouslySetInnerHTML", "dashDangerouslySetInnerHtml")(x))
+      }
+
+      x
+    },
+
 
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
