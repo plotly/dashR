@@ -519,7 +519,7 @@ Dash <- R6::R6Class(
         # obtain the relevant dash-html-component function definiton
         # (e.g. tags$a() -> htmlA())
         components_html <- ls(asNamespace("dashHtmlComponents"))
-        is_html <- tolower(sub("^html", "", components_html)) %in% x[["name"]]
+        is_html <- tolower(sub("^html", "", components_html)) %in% sub("body", "div", x[["name"]])
         component <- components_html[is_html]
         htmlComponent <- tryCatch(
           getFromNamespace(component, "dashHtmlComponents"),
