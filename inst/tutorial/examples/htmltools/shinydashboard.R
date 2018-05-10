@@ -1,6 +1,6 @@
 library(dashR)
 library(dashRwidgets)
-library(shiny)
+library(shinydashboard)
 library(plotly)
 
 # TODO: perhaps if we were to place shinydashboard js in the head (like shiny does) this would work?
