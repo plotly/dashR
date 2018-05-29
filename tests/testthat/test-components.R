@@ -77,6 +77,15 @@ test_that("Can identify whether a component contains a component of a given type
   expect_true(component_contains_type(htmlDiv(s, htmlDiv(g)), "dashCoreComponents", "Graph"))
 })
 
+test_that("wildcard attributes work with children", {
+  s1 <- htmlSpan("hmm", className = "value-output", `data-icon` = "fa-pencil")
+  s2 <- htmlSpan(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
+
+  expect_equal(s1$props$children, list("hmm"))
+  expect_equal(s1$props$`data-icon`, "fa-pencil")
+  expect_equal(s2$props$children, list("hmm"))
+  expect_equal(s2$props$`data-icon`, "fa-pencil")
+})
 
 #test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
 #  app <- Dash$new()
@@ -125,6 +134,16 @@ test_that("Can translate arbitrary HTML string", {
   expect_identical(
     as_component(HTML(html)),
     dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html))
+  )
+
+})
+
+
+test_that("Can retrieve htmlDependencies from shiny.tags", {
+
+  expect_identical(
+    html_dependencies(attachDependencies(tags$div(), deps)),
+    deps
   )
 
 })
