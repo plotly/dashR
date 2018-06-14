@@ -1,7 +1,7 @@
 library(dashR)
 
 ui <- htmlDiv(
-  htmlH2("## DashR Installation"),
+  htmlH2("DashR Installation"),
   coreMarkdown(
     "**dashR** isn't yet available on CRAN,",
     "but you may install the development version with:"

@@ -126,7 +126,7 @@ ui <- htmlDiv(
         'New York City' = 'NYC',
         'Montréal' = 'MTL',
         'San Francisco' = 'SF'
-      )
+      ),
       values = c('MTL', 'SF')
     )
   ),

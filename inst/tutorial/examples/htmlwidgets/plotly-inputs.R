@@ -1,4 +1,3 @@
-# devtools::install_github('ropensci/plotly@setProps')
 library(dashR)
 library(dashRwidgets)
 library(plotly)

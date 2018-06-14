@@ -41,7 +41,7 @@ ui <- htmlDiv(
     "Note that we're triggering the callback by listening to the",
     "`n_clicks` property of the `htmlButton` component. `n_clicks` is a",
     "property that gets incremented every time the component has been",
-    "clicked on. It is available in every `html*()` component.",
+    "clicked on. It is available in every `html*()` component."
   )
 )
 
