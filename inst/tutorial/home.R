@@ -10,8 +10,7 @@ styles <- list(
 Chapter <- function(name, href = NULL, caption = NULL) {
   linkComponent <- if (startsWith(href, 'http')) htmlA else coreLink
   htmlDiv(
-    #TODO: what is up with htmlLi()?
-    linkComponent(name, href = href, style = list(paddingLeft = 0)),
+    htmlLi(linkComponent(name, href = href, style = list(paddingLeft = 0), id = href)),
     if (!is.null(caption)) {
       htmlSmall(
         style = list(display = 'block', marginTop = '-10px'),
