@@ -28,5 +28,5 @@ RUN useradd docker \
     && addgroup docker staff
 
 # Copy over dashR source and run the tutorial
-ADD inst/docker/base/app.R /home/docker/dashR-example-app.R
+ADD ./app.R /home/docker/dashR-example-app.R
 CMD Rscript /home/docker/dashR-example-app.R
