@@ -17,8 +17,9 @@ ARG GITHUB_PAT
 ## install dashR from GitHub
 RUN Rscript -e "install.packages('remotes'); remotes::install_github('plotly/dashR')"
 
-## Assuming the fiery server wants to run on this port
-EXPOSE 8080
+## Default to running on 8080 but respect PORT variable (relevant for heroku)
+ENV PORT=${PORT:-8080}
+EXPOSE $PORT
 
 ## Create a default user (docker). Same as rocker-org/r-base
 ## https://github.com/rocker-org/rocker/blob/bdea37/r-base/Dockerfile#L10

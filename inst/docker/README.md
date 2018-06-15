@@ -26,14 +26,17 @@ docker run --user=docker -p 8080:8080 cpsievert/dashr-base
 
 ## Deploying to heroku
 
+First, [login with `heroku container:login`, not `heroku login`](https://github.com/fiorix/freegeoip/issues/171#issuecomment-299704440) 🙄 
+
+```shell
+heroku container:login
+```
+
 <https://devcenter.heroku.com/articles/container-registry-and-runtime>
 
 ```shell
 cd inst/docker/base
-heroku container:push web
+heroku container:push web --arg GITHUB_PAT='myToken'
 heroku container:release web
+heroku open
 ```
-
-<https://dashr-base.herokuapp.com/>
-
-Although the container runs fine, the app doesn't run on heroku. I'm guessing it has something to do with <https://github.com/plotly/dashR/issues/22>
