@@ -1,4 +1,4 @@
-FROM cpsievert/dashr-base
+FROM dashr-base
 MAINTAINER Carson Sievert "cpsievert1@gmail.com"
 
 ## install dashR tutorial dependencies
