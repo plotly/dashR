@@ -318,6 +318,12 @@ Dash <- R6::R6Class(
     layout_set = function(...) {
       private$layout <- if (is.function(..1)) ..1 else list(...)
     },
+    head = function(...) {
+      private$head <- if (is.function(..1)) ..1 else list(...)
+    },
+    footer = function(...) {
+      private$footer <- if (is.function(..1)) ..1 else list(...)
+    },
 
     config = list(),
 
