@@ -8,5 +8,4 @@ RUN apt-get update && apt-get install -y \
 RUN Rscript -e "remotes::install_github('ropensci/plotly')"
 
 # Copy over dashR source and run the tutorial
-ADD ./app.R /home/docker/dashR-plotly-app.R
-CMD Rscript /home/docker/dashR-plotly-app.R
+CMD ["Rscript", "-e", "app <- source(system.file('tutorial', 'examples', 'htmlwidgets', 'plotly-inputs.R', package = 'dashR')); app$value$run_heroku()"]

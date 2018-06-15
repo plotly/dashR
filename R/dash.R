@@ -91,6 +91,11 @@
 #'   \item{`run_server(block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. See [fiery::Fire] methods for a description of the arguments
 #'   }
+#'   \item{`run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)`}{
+#'     Sets the server's host and port to suitable values for running on heroku.
+#'     Arguments provided to `...` are passed onto `run_server()`.
+#'   }
+#'
 #' }
 #'
 #' @export
@@ -383,9 +388,13 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    # TODO: how to run on multiple processes?
     run_server = function(block = TRUE, showcase = FALSE, ...) {
       self$server$ignite(block = block, showcase = showcase, ...)
+    },
+    run_heroku = function(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...) {
+      self$server$host <- host
+      self$server$port <- as.numeric(port)
+      self$run_server(...)
     }
   ),
 

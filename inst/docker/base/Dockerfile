@@ -28,6 +28,4 @@ RUN useradd docker \
     && chown docker:docker /home/docker \
     && addgroup docker staff
 
-# Copy over dashR source and run the tutorial
-ADD ./app.R /home/docker/dashR-example-app.R
-CMD Rscript /home/docker/dashR-example-app.R
+CMD ["Rscript", "-e", "app <- source(system.file('tutorial', 'examples', 'urls.R', package = 'dashR')); app$value$run_heroku()"]
