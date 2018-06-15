@@ -1,6 +1,7 @@
-# devtools::install_github('cpsievert/leaflet@setProps')
 library(dashR)
 library(dashRwidgets)
+# currently requires a fork of leaflet
+# devtools::install_github('cpsievert/leaflet@setProps')
 library(leaflet)
 
 p <- leaflet(quakes) %>% addTiles() %>% addMarkers()
