@@ -2,19 +2,24 @@
 
 ## Building images
 
-Since **dashR** is still a private repo, you currently need to pass in proper GH creds to build images. Currently we support two images: base and tutorial. The base image is meant to be a minimal image for running dashR whereas the tutorial image is specifically for running the dashR tutorial site. Here's how to build the base image:
+There are currently 3 images: 
+
+* dashr-base: A minimal image for running **dashR** apps
+* dashr-plotly: A minimal image for running **plotly** inside **dashR** apps
+* dashr-tutorial: An image for running the **dashR** tutorial site
+
+Since **dashR** is still a private repo, you currently need to pass in proper GH creds to build the base image.
 
 ```shell
-docker build --build-arg GITHUB_PAT='myToken' inst/docker/base . -t cpsievert/dashr-base
+docker build --build-arg GITHUB_PAT='myToken' -f inst/docker/base . -t cpsievert/dashr-base
 ```
 
-And the tutorial:
+These creds aren't needed for the others:
 
 ```shell
+docker build -f inst/docker/plotly/Dockerfile . -t cpsievert/dashr-plotly
 docker build -f inst/docker/tutorial/Dockerfile . -t cpsievert/dashr-tutorial
 ```
-
-TODO: we should do something similar for plotly/dashRauth, but perhaps those Dockerfiles should live in that repo?
 
 ## Running containers
 
@@ -40,3 +45,5 @@ heroku container:push web --arg GITHUB_PAT='myToken'
 heroku container:release web
 heroku open
 ```
+
+TODO: is it possible to deploy multiple apps (via containers) from the same GH repo?
