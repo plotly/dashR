@@ -77,8 +77,15 @@ test_that("Can identify whether a component contains a component of a given type
   expect_true(component_contains_type(htmlDiv(s, htmlDiv(g)), "dashCoreComponents", "Graph"))
 })
 
+test_that("wildcard attributes work with children", {
+  s1 <- htmlSpan("hmm", className = "value-output", `data-icon` = "fa-pencil")
+  s2 <- htmlSpan(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
 
-
+  expect_equal(s1$props$children, list("hmm"))
+  expect_equal(s1$props$`data-icon`, "fa-pencil")
+  expect_equal(s2$props$children, list("hmm"))
+  expect_equal(s2$props$`data-icon`, "fa-pencil")
+})
 
 #test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
 #  app <- Dash$new()
@@ -86,3 +93,57 @@ test_that("Can identify whether a component contains a component of a given type
 #  app$layout_set(g)
 #  # TODO: render DOM and search for plotly.js bundle?
 #})
+
+library(htmltools)
+test_that("Can translate shiny.tags to components", {
+
+  expect_identical(
+    as_component(tags$div()),
+    htmlDiv()
+  )
+  expect_identical(
+    as_component(tags$div(tags$div())),
+    htmlDiv(htmlDiv())
+  )
+  expect_identical(
+    as_component(tags$div(id = "foo", tags$div(class = "bar"))),
+    htmlDiv(id = "foo", htmlDiv(className = "bar"))
+  )
+  expect_identical(
+    as_component(tags$div(style = "position: absolute", tags$div(class = "bar"))),
+    htmlDiv(style = list(position = "absolute"), htmlDiv(className = "bar"))
+  )
+  expect_identical(
+    as_component(tags$div(style = "position: absolute; width: 100%", tags$div(class = "bar"))),
+    htmlDiv(style = list(position = "absolute", width = "100%"), htmlDiv(className = "bar"))
+  )
+  tagz <- tagList(
+    tags$a(href = "/testing"),
+    tags$h1("a title")
+  )
+  expect_identical(
+    as_component(tagz),
+    list(htmlA(href = "/testing"), htmlH1("a title"))
+  )
+})
+
+test_that("Can translate arbitrary HTML string", {
+  skip_if_not_installed("dashDangerouslySetInnerHtml")
+
+  html <- "<div> 1 </div>"
+  expect_identical(
+    as_component(HTML(html)),
+    dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html))
+  )
+
+})
+
+
+test_that("Can retrieve htmlDependencies from shiny.tags", {
+
+  expect_identical(
+    html_dependencies(attachDependencies(tags$div(), deps)),
+    deps
+  )
+
+})

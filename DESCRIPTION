@@ -22,6 +22,7 @@ Suggests:
   dashRcrosstalk,
   dashRauth,
   dashRtranspile,
+  dashDangerouslySetInnerHtml,
   dashTable,
   plotly,
   testthat,
@@ -51,6 +52,7 @@ Remotes:
   plotly/dash-html-components@R,
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
+  plotly/dash-dangerously-set-inner-html@R,
   plotly/dashRtranspile,
   plotly/dashRwidgets,
   plotly/dashRcrosstalk
