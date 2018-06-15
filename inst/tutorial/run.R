@@ -107,7 +107,7 @@ home <- htmlDiv(
   #htmlDiv(DataTable(), style = list(display = 'none'))
 )
 
-f <- fiery::Fire$new(port = "0.0.0.0", port = as.integer(Sys.getenv('PORT', 8080)))
+f <- fiery::Fire$new(host = "0.0.0.0", port = as.integer(Sys.getenv('PORT', 8080)))
 app <- Dash$new(server = f)
 app$layout_set(home)
 
