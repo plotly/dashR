@@ -4,7 +4,9 @@ library(plotly)
 
 p <- plot_ly(mtcars, x = ~wt, y = ~mpg, key = row.names(mtcars))
 
-app <- Dash$new()
+app <- Dash$new(
+  server = Fire$new(host = '0.0.0.0', port = as.integer(Sys.getenv('PORT', 8080)))
+)
 
 app$layout_set(
   htmlwidget(id = 'plotID', widget = p),

@@ -233,9 +233,8 @@ ui <- htmlDiv(
 
   coreLink(
     htmlA('Part 3 - Interactive Graphing'),
-    href = '/dash/interactive-graphing')
-)
-
+    href = '/dash/interactive-graphing'
+  )
 )
 
 

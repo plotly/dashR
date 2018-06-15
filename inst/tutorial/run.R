@@ -8,36 +8,36 @@ setwd(here::here("inst", "tutorial"))
 source("tools.R")
 
 chapters <- list(
-  `/dashR/` = layout_get("home.R"),
-  `/dashR/introduction` = layout_get("introduction.R"),
-  `/dashR/installation` = layout_get("installation.R"),
-  `/dashR/getting-started` = layout_get("getting-started-part-1.R"),
-  `/dashR/getting-started-part-2` = layout_get("getting-started-part-2.R"),
-  `/dashR/state` = layout_get("state.R"),
-  #`/dashR/interactive-graphing` = layout_get("graphing.R"),
-  `/dashR/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
-  `/dashR/dash-core-components` = layout_get("core-components.R"),
-  `/dashR/dash-html-components` = layout_get("html-components.R"),
-  `/dashR/external-resources` = layout_get("external-css-and-js.R"),
-  `/dashR/plugins` = layout_get("plugins.R"),
-  #`/dashR/gallery` =
-  `/dashR/live-updates` = layout_get("live-updates.R"),
-  #`/dashR/performance` =
-  `/dashR/urls` = layout_get("urls.R"),
-  `/dashR/deployment` = layout_get("deployment.R"),
-  `/dashR/deployment/on-premise` = layout_get("on-premise-deployment.R"),
-  `/dashR/authentication` = layout_get("auth.R"),
-  `/dashR/support` = layout_get("support.R")
+  `/` = layout_get("home.R"),
+  `/introduction` = layout_get("introduction.R"),
+  `/installation` = layout_get("installation.R"),
+  `/getting-started` = layout_get("getting-started-part-1.R"),
+  `/getting-started-part-2` = layout_get("getting-started-part-2.R"),
+  `/state` = layout_get("state.R"),
+  #`/interactive-graphing` = layout_get("graphing.R"),
+  #`/sharing-data-between-callbacks` = layout_get("sharing-state.R"),
+  `/dash-core-components` = layout_get("core-components.R"),
+  `/dash-html-components` = layout_get("html-components.R"),
+  `/external-resources` = layout_get("external-css-and-js.R"),
+  `/plugins` = layout_get("plugins.R"),
+  #`/gallery` =
+  `/live-updates` = layout_get("live-updates.R"),
+  #`/performance` =
+  `/urls` = layout_get("urls.R"),
+  `/deployment` = layout_get("deployment.R"),
+  `/deployment/on-premise` = layout_get("on-premise-deployment.R"),
+  #`/authentication` = layout_get("auth.R"),
+  `/support` = layout_get("support.R")
 )
 
 # tack on core component chapters
 coreDir <- here::here("inst", "tutorial", "examples", "core_components")
 for (i in dir(coreDir)) {
-  nm <- paste0("/dashR/dash-core-components/", i)
+  nm <- paste0("/dash-core-components/", i)
   chapters[[nm]] <- layout_get(i, coreDir)
 }
 
-# generate /dashR/static/sitemap.xml, as in dash-docs/tutorial/generate-sitemap.py
+# generate /static/sitemap.xml, as in dash-docs/tutorial/generate-sitemap.py
 urls <- sprintf("<url>\n<loc>https://plot.ly%s</loc>\n</url>", names(chapters))
 sitemap <- sprintf('
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
@@ -72,7 +72,7 @@ header <- htmlDiv(
   )
 )
 
-title <- 'Dash User Guide and Documentation - Dash by Plotly'
+title <- 'DashR User Guide and Documentation - DashR by Plotly'
 
 home <- htmlDiv(
   htmlLink(
@@ -107,10 +107,9 @@ home <- htmlDiv(
   #htmlDiv(DataTable(), style = list(display = 'none'))
 )
 
-# TODO: `url_base_pathname` doesn't seem to be working?
-app <- Dash$new(url_base_pathname = "/dashR/")
+f <- fiery::Fire$new(port = "0.0.0.0", port = as.integer(Sys.getenv('PORT', 8080)))
+app <- Dash$new(server = f)
 app$layout_set(home)
-
 
 app$callback(
   function(pathname = input('location', 'pathname')) {
@@ -123,7 +122,7 @@ app$callback(
       return(htmlDiv(
         htmlDiv(chapters[[pathname]]),
         htmlHr(),
-        coreLink(htmlA('Back to the Table of Contents'), href = '/dashR/')
+        coreLink(htmlA('Back to the Table of Contents'), href = '/')
       ))
     }
 
@@ -134,4 +133,4 @@ app$callback(
 )
 
 app$dependencies_set(dash_css(c("docs-base", "docs-custom")))
-app$run_server(showcase = TRUE)
+app$run_server()

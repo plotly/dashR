@@ -10,8 +10,7 @@ styles <- list(
 Chapter <- function(name, href = NULL, caption = NULL) {
   linkComponent <- if (startsWith(href, 'http')) htmlA else coreLink
   htmlDiv(
-    #TODO: what is up with htmlLi()?
-    linkComponent(name, href = href, style = list(paddingLeft = 0)),
+    htmlLi(linkComponent(name, href = href, style = list(paddingLeft = 0), id = href)),
     if (!is.null(caption)) {
       htmlSmall(
         style = list(display = 'block', marginTop = '-10px'),
@@ -34,56 +33,56 @@ Section <- function(title, ..., description = NULL, headerStyle = list()) {
 
 ui <- htmlDiv(
   className = 'toc',
-  htmlH1('Dash User Guide'),
+  htmlH1('DashR User Guide'),
 
   Section(
-    "What's Dash?",
-    Chapter('Introduction', '/dashR/introduction'),
+    "What's DashR?",
+    Chapter('Introduction', '/introduction'),
     # TODO: change this to the dashR announcement!
     Chapter('Announcement', 'https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503'),
-    Chapter('Dash App Gallery', '/dashR/gallery'),
+    Chapter('DashR App Gallery', '/gallery'),
     Chapter('Winter 2018 Workshops', 'https://plotcon.plot.ly/workshops')
   ),
 
 
   Section(
-    'Dash Tutorial',
+    'DashR Tutorial',
     Chapter(
       'Part 1. Installation',
-      '/dashR/installation'
+      '/installation'
     ),
     Chapter(
-      'Part 2. The Dash Layout',
-      '/dashR/getting-started',
-      "The Dash `layout` describes what your app will look like and is
-      composed of a set of declarative Dash components."
+      'Part 2. The DashR Layout',
+      '/getting-started',
+      "The DashR `layout` describes what your app will look like and is
+      composed of a set of declarative DashR components."
     ),
     Chapter(
       'Part 3. Basic Callbacks',
-      '/dashR/getting-started-part-2',
-      "Dash apps are made interactive through Dash Callbacks: R functions that
+      '/getting-started-part-2',
+      "DashR apps are made interactive through callbacks: R functions that
        are automatically called whenever an input component's property changes.
        Callbacks can be chained, allowing one update in the UI to trigger several
       updates across the app."
     ),
     Chapter(
-      'Part 4. Callbacks With State',
-      '/dashR/state',
+      'Part 4. Callbacks with State',
+      '/state',
       "Callbacks fire when their `input()` argument value(s) change. Use
-      `state()` in conjunction with `input()` to isolate
-      the `Inputs` change. `State` is useful for UIs that contain
+      `state()` in conjunction with `input()` to pass in extra values whenever
+      relevant `input()`s change. `state()` is useful for UIs that contain
       forms or buttons."
     ),
     Chapter(
       'Part 5. Interactive Graphing and Crossfiltering',
-      '/dashR/interactive-graphing',
-      "Bind interactivity to the Dash `Graph` component whenever you hover,
+      '/interactive-graphing',
+      "Bind interactivity to the DashR `coreGraph()` component whenever you hover,
       click, or select points on your chart."
     ),
     Chapter(
       'Part 6. Sharing Data Between Callbacks',
-      '/dashR/sharing-data-between-callbacks',
-      "`global` variables will break your Dash apps. However, there
+      '/sharing-data-between-callbacks',
+      "`global` variables will break your DashR apps. However, there
       are other ways to share data between callbacks. This chapter is
       useful for callbacks that run expensive data processing tasks or
       process large data."
@@ -93,18 +92,18 @@ ui <- htmlDiv(
   Section(
     'Component Libraries',
     Chapter(
-      'Dash Core Components',
-      '/dashR/dash-core-components',
-      "The Dash Core Component library contains a set of higher-level components like sliders, graphs, dropdowns, tables, and more."),
+      'DashR Core Components',
+      '/dash-core-components',
+      "The DashR Core Component library contains a set of higher-level components like sliders, graphs, dropdowns, tables, and more."),
     Chapter(
-      'Dash HTML Components',
-      '/dashR/dash-html-components',
-      "DashR provides every HTML tag as R functions. This chapter explains how this works and the few important key differences between Dash HTML components and standard HTML."
+      'DashR HTML Components',
+      '/dash-html-components',
+      "DashR exposes every HTML tag as an R function. This chapter explains how this works and the few important key differences between standard HTML and DashR's HTML components."
     ),
     Chapter(
       'Build Your Own Components',
-      '/dashR/plugins',
-      "DashR components are built with [React.js](https://reactjs.org/). DashR provides a React → DashR toolchain that generates a Dash-compatible interface to these components in R."
+      '/plugins',
+      "DashR components are built with [React.js](https://reactjs.org/). Learn about the React → Dash/DashR toolchain that allows you leverage any dash-compatible React component in both and Python (Dash) and R (DashR)"
     )
   ),
 
@@ -112,49 +111,49 @@ ui <- htmlDiv(
     'Advanced Usage',
     Chapter(
       'Performance',
-      '/dashR/performance',
-      "There are two main ways to speed up dash apps: caching and using WebGL chart types."
+      '/performance',
+      "There are two main ways to speed up your app: caching and using WebGL chart types."
     ),
     Chapter(
       'Live Updates',
-      '/dashR/live-updates',
+      '/live-updates',
       "Update your apps on page load or on a predefined interval (e.g. every 30 seconds)."
     ),
     Chapter(
       'External CSS and JS',
-      '/dashR/external-resources',
+      '/external-resources',
       "Learn how to append your own CSS styleseets or JS scripts to your apps."
     ),
     Chapter(
       'URL Routing and Multiple Apps',
-      '/dashR/urls',
+      '/urls',
       "DashR provides two components (`coreLink()` and `coreLocation()`) that allow you to easily make fast multipage apps using its own 'Single Page App (SPA)' design pattern."
     )
   ),
 
   Section(
     'Production',
-    Chapter('Authentication', '/dashR/authentication'),
-    Chapter('Deployment', '/dashR/deployment')
+    Chapter('Authentication', '/authentication'),
+    Chapter('Deployment', '/deployment')
   ),
 
   Section(
     'Getting Help',
-    Chapter('FAQ', 'https://community.plot.ly/c/dash'),
-    Chapter('Support and Contact', href = '/dashR/support')
+    Chapter('FAQ', 'https://community.plot.ly/c/dashR'),
+    Chapter('Support and Contact', href = '/support')
   ),
 
   Section(
     'Plotly On-Premises',
-    description = "Plotly On-Premises is Plotly's commercial offering for hosting and sharing Dash apps.",
+    description = "Plotly On-Premises is Plotly's commercial offering for hosting and sharing DashR apps.",
     headerStyle = list(color = '#0D76BF'),
     Chapter(
       'About Plotly On-Premises',
       'https://plot.ly/products/on-premise'
     ),
     Chapter(
-      'Deploying Dash Apps on Plotly On-Premises',
-      '/dashR/deployment/on-premise'
+      'Deploying DashR Apps on Plotly On-Premises',
+      '/deployment/on-premise'
     )
   )
 )
