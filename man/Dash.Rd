@@ -99,8 +99,15 @@ arguments should either be of length 1 or the same length as \code{dependencies}
 \item{\code{dependencies_get(all = FALSE)}}{
 Retrieve (just user-defined or all) HTML dependencies.
 }
-\item{\code{run_server(block = TRUE, showcase = FALSE, ...)}}{
-Launch the application. See \link[fiery:Fire]{fiery::Fire} methods for a description of the arguments
+\item{\code{run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)}}{
+Launch the application. If provided, \code{host}/\code{port} set
+the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web
+server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
+to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
+}
+\item{\code{run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)}}{
+Like \code{run_server()} but sets sensible \code{host}/\code{port} defaults
+for running the app on Heroku.
 }
 }
 }
