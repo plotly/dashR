@@ -41,6 +41,7 @@ Collate:
   'wrappers.R'
   'css.R'
   'run.R'
+  'heroku.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
