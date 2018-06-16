@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
 ## TODO: remove when we release dashR
 ARG GITHUB_PAT
 
+## In case we need to reinstall dashR
+## https://stackoverflow.com/questions/35134713/disable-cache-for-specific-run-commands
+ARG CACHEBUST
+
 ## install dashR from GitHub
 RUN Rscript -e "install.packages('remotes'); remotes::install_github('plotly/dashR')"
 
@@ -28,4 +32,4 @@ RUN useradd docker \
     && chown docker:docker /home/docker \
     && addgroup docker staff
 
-CMD ["Rscript", "-e", "app <- source(system.file('tutorial', 'examples', 'urls.R', package = 'dashR')); app$value$run_heroku()"]
+CMD ["Rscript", "-e", "source(system.file('tutorial', 'examples', 'urls.R', package = 'dashR'))$value$run_heroku()"]

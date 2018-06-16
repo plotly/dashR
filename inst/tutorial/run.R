@@ -107,8 +107,7 @@ home <- htmlDiv(
   #htmlDiv(DataTable(), style = list(display = 'none'))
 )
 
-f <- fiery::Fire$new(host = "0.0.0.0", port = as.integer(Sys.getenv('PORT', 8080)))
-app <- Dash$new(server = f)
+app <- Dash$new()
 app$layout_set(home)
 
 app$callback(
@@ -133,4 +132,4 @@ app$callback(
 )
 
 app$dependencies_set(dash_css(c("docs-base", "docs-custom")))
-app$run_server()
+app$run_heroku()

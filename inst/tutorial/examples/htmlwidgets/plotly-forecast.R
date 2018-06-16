@@ -78,7 +78,6 @@ app <- Dash$new()
 app$layout_set(
   htmlH2(id = "title"),
   htmlDiv(id = "currentCity", `data-current-city` = NULL),
-  # TODO: why, if we supply base here (& click on a line), does the forecast disappear?
   htmlwidget(id = 'mainPlot', widget = base),
   htmlDiv(
     className = "three columns",
