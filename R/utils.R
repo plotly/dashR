@@ -126,30 +126,6 @@ resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
   dependencies
 }
 
-register_dependencies <- function(dependencies, server) {
-
-  # copy dependencies to temp dir and make their file path relative to it
-  libdir <- tempdir()
-  dependencies <- copy_dependencies(dependencies, libdir)
-
-  # dash endpoints should already be registered at this point...
-  # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
-  routrs <- server$plugins
-  if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
-
-  # register a route to dependencies on the server (if it doesn't already exist)
-  dash_router <- routrs[["request_routr"]]
-  if (!dash_router$has_route("dashR-resources")) {
-    # resource routes are designed to serve directories (not individual files)
-    # TODO: should this respect routes prefix?
-    resources <- routr::ressource_route('/' = libdir)
-    dash_router$add_route(resources, "dashR-resources")
-    server$attach(dash_router, force = TRUE)
-  }
-
-  dependencies
-}
-
 copy_dependencies <- function(dependencies, libdir = tempdir()) {
   lapply(dependencies, function(dep) {
     assertthat::assert_that(inherits(dep, "html_dependency"))

@@ -634,6 +634,29 @@ Dash <- R6::R6Class(
     },
 
     # copy HTML dependencies to a resource route
+    register_dependencies = function(dependencies) {
+
+      # copy dependencies to temp dir and make their file path relative to it
+      libdir <- tempdir()
+      dependencies <- copy_dependencies(dependencies, libdir)
+
+      # dash endpoints should already be registered at this point...
+      # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
+      routrs <- self$server$plugins
+      if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
+
+      # register a route to dependencies on the server (if it doesn't already exist)
+      dash_router <- routrs[["request_routr"]]
+      if (!dash_router$has_route("dashR-resources")) {
+        # resource routes are designed to serve directories (not individual files)
+        # TODO: should this respect routes prefix?
+        resources <- routr::ressource_route('/' = libdir)
+        dash_router$add_route(resources, "dashR-resources")
+        self$server$attach(dash_router, force = TRUE)
+      }
+
+      dependencies
+    },
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version = "15.4.2",
@@ -657,7 +680,7 @@ Dash <- R6::R6Class(
       depsAll <- resolve_dependencies(depsAll)
 
       # register a resource route for dependencies (if necessary)
-      depsAll <- register_dependencies(depsAll, self$server)
+      depsAll <- private$register_dependencies(depsAll)
 
       # styleheets always go in header
       depsCSS <- compact(lapply(depsAll, function(dep) {
