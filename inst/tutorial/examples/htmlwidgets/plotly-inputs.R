@@ -42,4 +42,4 @@ app$callback_print(
   output(id = 'bounds')
 )
 
-app$run_server()
+app

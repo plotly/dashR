@@ -162,4 +162,4 @@ app$callback(
 css <- dash_css(c("docs-base", "loading-state"))
 pdeps <- plot_ly()[["dependencies"]]
 app$dependencies_set(c(list(css), pdeps))
-app$run_server()
+app
