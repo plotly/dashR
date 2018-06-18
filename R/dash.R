@@ -649,19 +649,19 @@ Dash <- R6::R6Class(
 
       # Register a resource route for each dependency -- unless one already exists
       for (i in seq_along(dependencies)) {
-        local_path <- dependencies[[i]][["src"]][["file"]]
-        rel_path <- basename(local_path)
-        if (dash_router$has_route(rel_path)) next
+        dep <- dependencies[[i]]
+        dep_key <- paste(dep[["name"]], dep[["version"]], sep = "@")
+        if (dash_router$has_route(dep_key)) next
 
         # create/attach the resource mapping
-        resource_map <- setNames(local_path, rel_path)
+        local_path <- dep[["src"]][["file"]]
+        resource_map <- setNames(local_path, dep_key)
         rroute <- do.call(routr::ressource_route, as.list(resource_map))
-        dash_router$add_route(rroute, rel_path)
+        dash_router$add_route(rroute, dep_key)
         self$server$attach(dash_router, force = TRUE)
 
-        # make the dependency's local path relative
-        # so that downstream dependency rendering works
-        dependencies[[i]][["src"]][["file"]] <- rel_path
+        # make the dependency's local path relative for downstream rendering
+        dependencies[[i]][["src"]][["file"]] <- dep_key
       }
 
       dependencies
