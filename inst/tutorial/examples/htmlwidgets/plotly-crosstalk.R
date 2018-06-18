@@ -36,12 +36,4 @@ app$callback(
   output(id = 'brushColor')
 )
 
-#app$callback(
-#  function(opts = input("ct", "plotlyCrosstalkOpts")) {
-#    print(opts)
-#    opts
-#  },
-#  output(id = 'opts')
-#)
-
-app$run_server()
+app

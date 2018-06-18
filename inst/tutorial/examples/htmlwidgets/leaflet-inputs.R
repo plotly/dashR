@@ -73,4 +73,4 @@ app$callback_print(
   output(id = 'marker-mouseout')
 )
 
-app$run_server()
+app

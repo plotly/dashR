@@ -39,4 +39,4 @@ app$callback_print(
   }, output('relayout-data')
 )
 
-app$run_server()
+app

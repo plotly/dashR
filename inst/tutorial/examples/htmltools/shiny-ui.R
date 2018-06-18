@@ -29,4 +29,4 @@ app$callback(
 # like so (other htmlwidgets may not have 'run-time' dependencies, in which case,
 # this won't be necessary):
 app$dependencies_set(plot_ly()$dependencies)
-app$run_server()
+app

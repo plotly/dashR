@@ -22,4 +22,4 @@ app$callback(
   }, output('page-content')
 )
 
-app$run_server(showcase = TRUE)
+app
