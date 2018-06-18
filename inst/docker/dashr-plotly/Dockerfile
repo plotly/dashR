@@ -5,6 +5,8 @@ MAINTAINER Carson Sievert "cpsievert1@gmail.com"
 RUN apt-get update && apt-get install -y \
     libssl-dev
 
+ARG CACHEBUST
+
 RUN Rscript -e "remotes::install_github('ropensci/plotly')"
 
 # Copy over dashR source and run the tutorial
