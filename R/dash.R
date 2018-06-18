@@ -155,10 +155,10 @@ Dash <- R6::R6Class(
       router <- routr::RouteStack$new()
 
       if (!is.null(static_folder)) {
-        static_folder_absolute <- normalizePath(static_folder, mustWork = TRUE)
+        local_path <- normalizePath(static_folder, mustWork = TRUE)
 
         # these should all be directories, right?
-        if (!all(dir_exists(static_folder_absolute))) {
+        if (!all(dir_exists(local_path))) {
           warning(
             "One or more of the following paths is not a directory, '%s'",
             paste(static_folder, collapse = "', '"),
@@ -167,11 +167,9 @@ Dash <- R6::R6Class(
         }
 
         # default to '/' if no url path is specified (via name attribute)
-        static_folder_absolute <- setNames(
-          static_folder_absolute, names(static_folder) %||% "/"
-        )
+        resource_map <- setNames(local_path, names(static_folder) %||% "/")
 
-        static_route <- do.call(routr::ressource_route, as.list(static_folder_absolute))
+        static_route <- do.call(routr::ressource_route, as.list(resource_map))
         router$add_route(static_route, 'static_route')
       }
 
@@ -633,26 +631,37 @@ Dash <- R6::R6Class(
       private$callback_map[[output[["key"]]]] <- wrapper
     },
 
-    # copy HTML dependencies to a resource route
+    # Create resource route(s) pointing to (local) HTML dependencies
     register_dependencies = function(dependencies) {
 
-      # copy dependencies to temp dir and make their file path relative to it
-      libdir <- tempdir()
-      dependencies <- copy_dependencies(dependencies, libdir)
+      # filter out non-local dependencies
+      dependencies <- compact(lapply(dependencies, function(dep) {
+        assertthat::assert_that(inherits(dep, "html_dependency"))
+        if (is.null(dep[["src"]][["file"]])) NULL else dep
+      }))
 
-      # dash endpoints should already be registered at this point...
-      # TODO: provide a more uniquely identifiable name https://github.com/thomasp85/routr/issues/6
+      # Basic dash endpoints should already be registered at this point,
+      # so we query that RouteStack and add routes for each dependency
+      # TODO: does make more sense to have different RouteStack(s)?
       routrs <- self$server$plugins
-      if (!"request_routr" %in% names(routrs)) stop("Something unexpected happened.")
-
-      # register a route to dependencies on the server (if it doesn't already exist)
+      if (!"request_routr" %in% names(routrs)) stop("Couldn't find dashR endpoints.")
       dash_router <- routrs[["request_routr"]]
-      if (!dash_router$has_route("dashR-resources")) {
-        # resource routes are designed to serve directories (not individual files)
-        # TODO: should this respect routes prefix?
-        resources <- routr::ressource_route('/' = libdir)
-        dash_router$add_route(resources, "dashR-resources")
+
+      # Register a resource route for each dependency -- unless one already exists
+      for (i in seq_along(dependencies)) {
+        local_path <- dependencies[[i]][["src"]][["file"]]
+        rel_path <- basename(local_path)
+        if (dash_router$has_route(rel_path)) next
+
+        # create/attach the resource mapping
+        resource_map <- setNames(local_path, rel_path)
+        rroute <- do.call(routr::ressource_route, as.list(resource_map))
+        dash_router$add_route(rroute, rel_path)
         self$server$attach(dash_router, force = TRUE)
+
+        # make the dependency's local path relative
+        # so that downstream dependency rendering works
+        dependencies[[i]][["src"]][["file"]] <- rel_path
       }
 
       dependencies

@@ -11,7 +11,6 @@
 #' system command.
 #'
 #' @param name a name for (a new) Heroku app.
-#' @param
 #' @export
 #' @author Carson Sievert
 #' @references \url{https://github.com/plotly/dashR/tree/master/inst/heroku}
@@ -69,6 +68,7 @@ heroku_app_deploy <- function(name = NULL) {
 #' current directory.
 #' dashR app to Heroku via [the R buildpack](https://github.com/virtualstaticvoid/heroku-buildpack-r/tree/heroku-16).
 #'
+#' @param overwite whether or not to overwrite existing `Aptfile`/`init.R`/`run.R` files.
 #' @export
 #' @author Carson Sievert
 heroku_app_template <- function(overwrite = FALSE) {

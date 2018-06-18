@@ -6,6 +6,9 @@
 \usage{
 heroku_app_template(overwrite = FALSE)
 }
+\arguments{
+\item{overwite}{whether or not to overwrite existing \code{Aptfile}/\code{init.R}/\code{run.R} files.}
+}
 \description{
 This function copies files for Heroku deployment of a dashR app to the
 current directory.

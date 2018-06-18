@@ -126,19 +126,6 @@ resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
   dependencies
 }
 
-copy_dependencies <- function(dependencies, libdir = tempdir()) {
-  lapply(dependencies, function(dep) {
-    assertthat::assert_that(inherits(dep, "html_dependency"))
-    if (!length(dep[["src"]][["file"]])) return(dep)
-    href <- dep[["src"]][["href"]]
-    dep <- htmltools::copyDependencyToDir(dep, libdir)
-    dep <- htmltools::makeDependencyRelative(dep, libdir)
-    dep[["src"]] <- as.list(dep[["src"]])
-    dep[["src"]][["href"]] <- href
-    dep
-  })
-}
-
 jquery_shiny <- function() {
   htmlDependency(
     "jquery", "1.12.4",
