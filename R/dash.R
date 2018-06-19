@@ -187,8 +187,8 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
-      index <- paste0(routes_pathname_prefix, "*")
-      route$add_handler("get", index, function(request, response, keys, ...) {
+      dash_index <- routes_pathname_prefix
+      route$add_handler("get", dash_index, function(request, response, keys, ...) {
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
