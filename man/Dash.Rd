@@ -44,13 +44,23 @@ example of when it is ok to suppress these callbacks, see
 \section{Fields}{
 
 \describe{
-\item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
+\item{\code{server}}{
+A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
 provided to the \code{server} argument (various routes will be added which enable
-the dashR functionality).}
-\item{\code{config}}{A list of configuration options passed along to
-dash-renderer. Users shouldn't need to alter any of these options
-unless they are constructing their own authorization front-end or
-otherwise need to know where the application is making API calls.
+the dashR functionality).
+}
+\item{\code{config}}{
+A list of configuration options passed along to dash-renderer.
+Users shouldn't need to alter any of these options unless they are
+constructing their own authorization front-end or otherwise need to know
+where the application is making API calls.
+}
+\item{\code{excludePlotlyBundle}}{
+Whether or not to exclude the plotly.js bundle when "core components" exist,
+but \link[dashCoreComponents:coreGraph]{dashCoreComponents::coreGraph} is not provided to the \code{layout_set()}
+method (i.e., the initial layout).
+The only time \code{excludePlotlyBundle} should be \code{TRUE} is if you don't want
+a \code{coreGraph()} in the initial layout, but want to insert one via a callback.
 }
 }
 }

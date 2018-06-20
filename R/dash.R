@@ -35,13 +35,23 @@
 #'
 #' @section Fields:
 #' \describe{
-#'  \item{`server`}{A cloned (and modified) version of the [fiery::Fire] object
+#'  \item{`server`}{
+#'  A cloned (and modified) version of the [fiery::Fire] object
 #'  provided to the `server` argument (various routes will be added which enable
-#'  the dashR functionality).}
-#'  \item{`config`}{A list of configuration options passed along to
-#'  dash-renderer. Users shouldn't need to alter any of these options
-#'  unless they are constructing their own authorization front-end or
-#'  otherwise need to know where the application is making API calls.
+#'  the dashR functionality).
+#'  }
+#'  \item{`config`}{
+#'  A list of configuration options passed along to dash-renderer.
+#'  Users shouldn't need to alter any of these options unless they are
+#'  constructing their own authorization front-end or otherwise need to know
+#'  where the application is making API calls.
+#'  }
+#'  \item{`exclude_plotly_bundle`}{
+#'  Whether or not to exclude the plotly.js bundle when "core components" exist,
+#'  but [dashCoreComponents::coreGraph] is not provided to the `layout_set()`
+#'  method (i.e., the initial layout).
+#'  The only time `exclude_plotly_bundle` should be `TRUE` is if you don't want
+#'  a `coreGraph()` in the initial layout, but want to insert one via a callback.
 #'  }
 #' }
 #'
@@ -118,6 +128,8 @@ Dash <- R6::R6Class(
   public = list(
     # user-facing fields
     server = NULL,
+    config = list(),
+
     # i.e., the Dash$new() method
     initialize = function(name = "dash",
                           server = fiery::Fire$new(),
@@ -125,7 +137,8 @@ Dash <- R6::R6Class(
                           serve_locally = TRUE,
                           routes_pathname_prefix = '/',
                           requests_pathname_prefix = '/',
-                          suppress_callback_exceptions = FALSE) {
+                          suppress_callback_exceptions = FALSE,
+                          exclude_plotly_bundle = TRUE) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
@@ -134,11 +147,13 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(routes_pathname_prefix))
       assertthat::assert_that(is.character(requests_pathname_prefix))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
+      assertthat::assert_that(is.logical(exclude_plotly_bundle))
 
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+      private$exclude_plotly_bundle <- exclude_plotly_bundle
 
       # config options
       self$config$routes_pathname_prefix <- routes_pathname_prefix
@@ -324,8 +339,6 @@ Dash <- R6::R6Class(
       private$layout <- if (is.function(..1)) ..1 else list(...)
     },
 
-    config = list(),
-
     # ------------------------------------------------------------------------
     # HTML dependency management
     # ------------------------------------------------------------------------
@@ -407,6 +420,7 @@ Dash <- R6::R6Class(
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
+    exclude_plotly_bundle = TRUE,
 
     # fields for tracking HTML dependencies
     dependencies = list(),
@@ -428,8 +442,9 @@ Dash <- R6::R6Class(
       # this function ensures we have a list of dash components
       layout <- lapply(layout, private$componentify)
 
-      # ensure everything is wrapped up in a container div
-      # TODO: is this necessary? If so, provide a way to set top-level id?
+      # Wrap everything up in a container div. This eases the design of
+      # some helper functions (e.g. component_props_given_id()), but isn't
+      # necessary for rendering...perhaps we should un-div
       layout <- dashHtmlComponents::htmlDiv(children = layout, id = new_id())
 
       # store the layout as a (flattened) vector form since we query the
@@ -455,7 +470,8 @@ Dash <- R6::R6Class(
         )
       }
 
-      # obtain component dependencies
+      # load package-level HTML dependencies
+      # note that this rds file is created by dashRtranspile
       pkgs <- unique(layout_flat[grepl("package$", layout_nms)])
       dashR_deps <- lapply(pkgs, function(pkg) {
         dep_file <- system.file("dashR_deps.rds", package = pkg)
@@ -463,17 +479,19 @@ Dash <- R6::R6Class(
         readRDS(dep_file)
       })
 
-      # if core components are used, but no Graph() exists,
+      # if core components are used, but no coreGraph() exists,
       # don't include the plotly.js bundle
-      hasCore <- "dashCoreComponents" %in% pkgs
-      hasGraph <- component_contains_type(private$layout, "dashCoreComponents", "Graph")
-      if (hasCore && !hasGraph) {
-        idx <- which(pkgs %in% "dashCoreComponents")
-        scripts <- dashR_deps[[idx]][["script"]]
-        dashR_deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
+      if (private$exclude_plotly_bundle) {
+        hasCore <- "dashCoreComponents" %in% pkgs
+        hasGraph <- component_contains_type(layout, "dashCoreComponents", "Graph")
+        if (hasCore && !hasGraph) {
+          idx <- which(pkgs %in% "dashCoreComponents")
+          scripts <- dashR_deps[[idx]][["script"]]
+          dashR_deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
+        }
       }
 
-      # store component dependencies
+      # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, dashR_deps)
 
       # bootstrap JavaScript requires jQuery
