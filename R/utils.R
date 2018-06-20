@@ -11,11 +11,17 @@ is.output <- function(x) is.dependency(x) && inherits(x, "output")
 is.input <- function(x) is.dependency(x) && inherits(x, "input")
 is.state <- function(x) is.dependency(x) && inherits(x, "state")
 
-# layout is really a special type of component
-is.layout <- function(x) inherits(x, "dash_layout")
-
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
+
+# layout is really a special type of component
+is.layout <- function(x) {
+  is.component(x) && identical(x[["props"]][["id"]], layout_container_id())
+}
+
+layout_container_id <- function() {
+  "_dashR-layout-container"
+}
 
 # helper for identifying dashRwidgets::htmlwidget()
 is.htmlwidget <- function(x) {

@@ -442,10 +442,10 @@ Dash <- R6::R6Class(
       # this function ensures we have a list of dash components
       layout <- lapply(layout, private$componentify)
 
-      # Wrap everything up in a container div. This eases the design of
-      # some helper functions (e.g. component_props_given_id()), but isn't
-      # necessary for rendering...perhaps we should un-div
-      layout <- dashHtmlComponents::htmlDiv(children = layout, id = new_id())
+      # Put the list of components into a container div. I'm pretty sure dash
+      # requires the layout to be one component, but R folks are used to
+      # being able to supply "components" to ...
+      layout <- dashHtmlComponents::htmlDiv(children = layout, id = layout_container_id())
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
