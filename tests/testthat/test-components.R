@@ -87,43 +87,34 @@ test_that("wildcard attributes work with children", {
   expect_equal(s2$props$`data-icon`, "fa-pencil")
 })
 
-#test_that("core component plotly.js bundle isn't included unless Graph() is provided", {
-#  app <- Dash$new()
-#  g <- coreGraph()
-#  app$layout_set(g)
-#  # TODO: render DOM and search for plotly.js bundle?
-#})
-
 library(htmltools)
 test_that("Can translate shiny.tags to components", {
 
-  expect_identical(
-    as_component(tags$div()),
-    htmlDiv()
+  layout_ <- function(x) {
+    app <- Dash$new()
+    app$layout_set(x)
+    app$layout_get()
+  }
+
+  expect_same <- function(x, y) {
+    suppressWarnings(expect_equivalent(layout_(x), layout_(y)))
+  }
+
+  expect_same(tags$div("b"), htmlDiv("b"))
+  expect_same(
+    tags$div(tags$div("b")), htmlDiv(htmlDiv("b"))
   )
-  expect_identical(
-    as_component(tags$div(tags$div())),
-    htmlDiv(htmlDiv())
+  expect_same(
+    tags$div(tags$div(class = "bar", "foo")),
+    htmlDiv(htmlDiv(className = "bar", "foo"))
   )
-  expect_identical(
-    as_component(tags$div(id = "foo", tags$div(class = "bar"))),
-    htmlDiv(id = "foo", htmlDiv(className = "bar"))
+  expect_same(
+    tags$div(style = "position: absolute", tags$div(class = "bar", "foo")),
+    htmlDiv(style = list(position = "absolute"), htmlDiv(className = "bar", "foo"))
   )
-  expect_identical(
-    as_component(tags$div(style = "position: absolute", tags$div(class = "bar"))),
-    htmlDiv(style = list(position = "absolute"), htmlDiv(className = "bar"))
-  )
-  expect_identical(
-    as_component(tags$div(style = "position: absolute; width: 100%", tags$div(class = "bar"))),
-    htmlDiv(style = list(position = "absolute", width = "100%"), htmlDiv(className = "bar"))
-  )
-  tagz <- tagList(
-    tags$a(href = "/testing"),
-    tags$h1("a title")
-  )
-  expect_identical(
-    as_component(tagz),
-    list(htmlA(href = "/testing"), htmlH1("a title"))
+  expect_same(
+    tags$div(style = "position: absolute; width: 100%", tags$div(class = "bar", "foo")),
+    htmlDiv(style = list(position = "absolute", width = "100%"), htmlDiv(className = "bar", "foo"))
   )
 })
 
@@ -131,19 +122,8 @@ test_that("Can translate arbitrary HTML string", {
   skip_if_not_installed("dashDangerouslySetInnerHtml")
 
   html <- "<div> 1 </div>"
-  expect_identical(
-    as_component(HTML(html)),
-    dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html))
+  expect_is(
+    dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html)),
+    "dash_component"
   )
-
-})
-
-
-test_that("Can retrieve htmlDependencies from shiny.tags", {
-
-  expect_identical(
-    html_dependencies(attachDependencies(tags$div(), deps)),
-    deps
-  )
-
 })
