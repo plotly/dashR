@@ -661,9 +661,7 @@ Dash <- R6::R6Class(
       # Basic dash endpoints should already be registered at this point,
       # so we query that RouteStack and add routes for each dependency
       # TODO: does make more sense to have different RouteStack(s)?
-      routrs <- self$server$plugins
-      if (!"request_routr" %in% names(routrs)) stop("Couldn't find dashR endpoints.")
-      dash_router <- routrs[["request_routr"]]
+      dash_router <- dashRendpoints(self)
 
       # Register a resource route for each dependency -- unless one already exists
       for (i in seq_along(dependencies)) {

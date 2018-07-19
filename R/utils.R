@@ -23,6 +23,14 @@ layout_container_id <- function() {
   "_dashR-layout-container"
 }
 
+# shim for accessing dashR endpoints (i.e., RouteStack)
+dashRendpoints <- function(app) {
+  assertthat::assert_that(inherits(app, "Dash"))
+  routrs <- app$server$plugins
+  if (!"request_routr" %in% names(routrs)) stop("Couldn't find dashR endpoints.")
+  routrs[["request_routr"]]
+}
+
 # helper for identifying dashRwidgets::htmlwidget()
 is.htmlwidget <- function(x) {
   if (!is.component(x)) return(FALSE)
