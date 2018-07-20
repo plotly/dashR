@@ -36,7 +36,6 @@ Collate:
   'dash-package.R'
   'dash.R'
   'imports.R'
-  'format-output-value.R'
   'print.R'
   'wrappers.R'
   'css.R'
