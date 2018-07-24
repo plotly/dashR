@@ -491,13 +491,6 @@ Dash <- R6::R6Class(
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, dashR_deps)
 
-      # bootstrap JavaScript requires jQuery
-      # TODO: handle non-minified version as well
-      scripts <- basename(unlist(lapply(private$dependencies, "[[", "script")))
-      if ("bootstrap.min.js" %in% scripts) {
-        private$dependencies <- c(list(jquery_shiny()), private$dependencies)
-      }
-
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
