@@ -433,10 +433,7 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
-      # at this point we should be working with a list of:
-      # (1) dash components
-      # (2) stuff built on htmltools
-      # this function ensures we have a list of dash components
+      # make sure we are working with a list of components
       layout <- lapply(layout, private$componentify)
 
       # Put the list of components into a container div. I'm pretty sure dash

@@ -140,15 +140,6 @@ resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
   dependencies
 }
 
-jquery_shiny <- function() {
-  htmlDependency(
-    "jquery", "1.12.4",
-    package = "shiny",
-    src = list(file = "www/shared"),
-    script = "jquery.min.js"
-  )
-}
-
 # ----------------------------------------------------------------------------
 # Other (generic) helpers
 # ----------------------------------------------------------------------------
