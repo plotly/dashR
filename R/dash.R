@@ -75,17 +75,6 @@
 #'     arguments, it may be useful to create them programmatically and supply them
 #'     as a list via `.dots`.
 #'   }
-#'   \item{`callback_print(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...)`}{
-#'     Like `callback`, except the results from `func` are printed, captured, and
-#'     (optionally) wrapped in a [htmlPre] component. This makes it easy to place
-#'     R console output inside the `output` container. If `pre = TRUE` (the default),
-#'     additional arguments (`...`) are passed onto [htmlPre].
-#'   }
-#'   \item{`callback_png(func = NULL, output = NULL, .dots = NULL, width = NULL, height = NULL, cairo = TRUE, ...)`}{
-#'      Like `callback`, except any graphics `func` may produce are captured and
-#'      wrapped into a [htmlImg] component. This makes it easy to place results
-#'      that an R graphics (png) device would give you inside the `output` container.
-#'   }
 #'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
 #'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
 #'     The `dependencies` argument accepts [htmltools::htmlDependency] or
@@ -237,10 +226,10 @@ Dash <- R6::R6Class(
           # to be an empty array (i.e., null/missing won't work)
           list(
             output = list(id = y[[1]], property = y[[2]]),
-            inputs = setNames(x[["inputs"]] %||% list(), NULL),
-            state = setNames(x[["state"]] %||% list(), NULL),
-            # TODO: Chris mentioned that events might be deprecated?
-            events = setNames(x[["events"]] %||% list(), NULL)
+            inputs = setNames(callback_inputs(x), NULL),
+            state = setNames(callback_states(x), NULL),
+            # Chris mentioned that events might/should be deprecated
+            events = setNames(callback_events(x), NULL)
           )
         }, private$callback_map, outputs)
 
@@ -257,44 +246,40 @@ Dash <- R6::R6Class(
 
         # get the callback associated with this particular output
         thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        wrapper <- private$callback_map[[thisOutput]]
-        if (!length(wrapper)) stop_report("Couldn't find output component.")
+        callback <- private$callback_map[[thisOutput]]
+        if (!length(callback)) stop_report("Couldn't find output component.")
 
         # helper function to update formal arguments of the callback function
         # with their new prop value(s)
-        update_formals <- function(wrapper, request, type = c("inputs", "state")) {
+        update_formals <- function(callback, request, type = c("inputs", "state")) {
           type <- match.arg(type)
 
           # put input/state info into more convenient data structures (if they exist)
           ids <- sapply(request$body[[type]], "[[", "id")
-          if (!length(ids)) return(wrapper)
+          if (!length(ids)) return(callback)
           props <- sapply(request$body[[type]], "[[", "property")
           # TODO: provide an option to simplify values?
           values <- lapply(request$body[[type]], function(x) jsonlite:::simplify(x[["value"]]))
           values_map <- setNames(values, paste0(ids, ".", props))
 
           # map component key (ie, id.property) to the callback argument name
-          formal_map <- sapply(wrapper[[type]], "[[", "key")
+          callback_args <- if (type == "inputs") callback_inputs else callback_states
+          formal_map <- sapply(callback_args(callback), "[[", "key")
           names(values_map) <- names(formal_map)[match(names(values_map), formal_map)]
 
           # note that a modifyList() strategy throws away NULL args, which is WRONG
-          formals(wrapper$func)[names(values_map)] <- values_map
-          wrapper
+          formals(callback)[names(values_map)] <- values_map
+          callback
         }
 
-        wrapper <- update_formals(wrapper, request, "inputs")
-        wrapper <- update_formals(wrapper, request, "state")
-
-        # overwrite the func definition in the closure's environment
-        # effectively replacing the func's arguments with the new values
-        environment(wrapper$closure)$func <- wrapper$func
-        output_value <- wrapper$closure()
+        callback <- update_formals(callback, request, "inputs")
+        callback <- update_formals(callback, request, "state")
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = setNames(list(output_value), request$body$output$property)
+            props = setNames(list(callback()), request$body$output$property)
           )
         )
 
@@ -381,19 +366,64 @@ Dash <- R6::R6Class(
     # callback registration
     # ------------------------------------------------------------------------
     callback = function(func = NULL, output = NULL, .dots = NULL) {
-      private$callback_(wrap(func), output, .dots)
+
+      # argument type checking
+      assertthat::assert_that(is.function(func))
+      assertthat::assert_that(is.output(output))
+
+      # TODO: cache layouts so we don't have to do this for every callback...
+      layout <- private$layout_render()
+      if (identical(layout, welcome_page())) {
+        stop("The layout must be set before defining any callbacks", call. = FALSE)
+      }
+
+      if (!is.null(.dots)) {
+        nms <- names(.dots)
+        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
+          stop("Every element of the `.dots` list must be named", call. = FALSE)
+        }
+        # TODO:
+        # (1) add the restriction that they must all be input/state objects?
+        # (2) does it matter whether or not .dots is `alist()`?
+        formals(func) <- c(formals(func), .dots)
+      }
+
+      # -----------------------------------------------------------------------
+      # verify that output/input/state IDs provided exists in the layout
+      # -----------------------------------------------------------------------
+      callbackInputs <- callback_inputs(func)
+      callbackStates <- callback_states(func)
+
+      callback_ids <- unlist(c(
+        output$id,
+        sapply(callbackInputs, "[[", "id"),
+        sapply(callbackStates, "[[", "id")
+      ))
+      illegal_ids <- setdiff(callback_ids, private$layout_ids)
+      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
+        warning(
+          sprintf(
+            "The following id(s) do not match any in the layout: '%s'",
+            paste(illegal_ids, collapse = "', '")
+          ),
+          call. = FALSE
+        )
+      }
+
+      # ----------------------------------------------------------------------
+      # verify that properties attached to output/inputs/state value are valid
+      # ----------------------------------------------------------------------
+      if (!private$suppress_callback_exceptions) {
+        validate_dependency(layout, output)
+        lapply(callbackInputs, function(i) validate_dependency(layout, i))
+        lapply(callbackStates, function(s) validate_dependency(layout, s))
+      }
+
+      # store the callback mapping/function so we may access it later
+      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
+      private$callback_map[[output[["key"]]]] <- func
     },
-    callback_print = function(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...) {
-      private$callback_(
-        wrap_print(func, pre = TRUE, ...), output, .dots
-      )
-    },
-    callback_png = function(func = NULL, output = NULL, .dots = NULL,  width = NULL, height = NULL, cairo = TRUE, ...) {
-      private$callback_(
-        wrap_png(func, width = NULL, height = NULL, cairo = TRUE, ...),
-        output, .dots
-      )
-    },
+
 
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
@@ -501,62 +531,6 @@ Dash <- R6::R6Class(
 
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
-
-    callback_ = function(wrapper = NULL, output = NULL, .dots = NULL) {
-
-      # argument type checking
-      assertthat::assert_that(is.wrapper(wrapper))
-      assertthat::assert_that(is.output(output))
-
-      # TODO: cache layouts so we don't have to do this for every callback...
-      layout <- private$layout_render()
-      if (identical(layout, welcome_page())) {
-        stop("The layout must be set before defining any callbacks", call. = FALSE)
-      }
-
-      if (!is.null(.dots)) {
-        nms <- names(.dots)
-        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
-          stop("Every element of the `.dots` list must be named", call. = FALSE)
-        }
-        # TODO:
-        # (1) add the restriction that they must all be input/state objects?
-        # (2) does it matter whether or not .dots is `alist()`?
-        formals(func) <- c(formals(func), .dots)
-      }
-
-      # -----------------------------------------------------------------------
-      # verify that output/input/state IDs provided exists in the layout
-      # -----------------------------------------------------------------------
-      callback_ids <- unlist(c(
-        output$id,
-        sapply(wrapper$inputs, "[[", "id"),
-        sapply(wrapper$state, "[[", "id")
-      ))
-      illegal_ids <- setdiff(callback_ids, private$layout_ids)
-      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
-        warning(
-          sprintf(
-            "The following id(s) do not match any in the layout: '%s'",
-            paste(illegal_ids, collapse = "', '")
-          ),
-          call. = FALSE
-        )
-      }
-
-      # ----------------------------------------------------------------------
-      # verify that properties attached to output/inputs/state value are valid
-      # ----------------------------------------------------------------------
-      if (!private$suppress_callback_exceptions) {
-        validate_dependency(layout, output)
-        lapply(wrapper$inputs, function(i) validate_dependency(layout, i))
-        lapply(wrapper$state, function(s) validate_dependency(layout, s))
-      }
-
-      # store the callback mapping/function so we may access it later
-      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      private$callback_map[[output[["key"]]]] <- wrapper
-    },
 
     # Create resource route(s) pointing to (local) HTML dependencies
     register_dependencies = function(dependencies) {

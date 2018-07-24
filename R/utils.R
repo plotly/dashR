@@ -10,6 +10,7 @@ is.dependency <- function(x) inherits(x, "dash_dependency")
 is.output <- function(x) is.dependency(x) && inherits(x, "output")
 is.input <- function(x) is.dependency(x) && inherits(x, "input")
 is.state <- function(x) is.dependency(x) && inherits(x, "state")
+is.event <- function(x) is.dependency(x) && inherits(x, "event")
 
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
@@ -31,10 +32,32 @@ dashRendpoints <- function(app) {
   routrs[["request_routr"]]
 }
 
-# helper for identifying dashRwidgets::htmlwidget()
-is.htmlwidget <- function(x) {
-  if (!is.component(x)) return(FALSE)
-  identical(x[["package"]], "dashRwidgets") && identical(x[["type"]], "htmlwidget")
+# retrieve the arguments of a callback function that are dash inputs
+callback_inputs <- function(func) {
+  compact(lapply(formals(func), function(x) {
+    # missing arguments produce an error when evaluated
+    # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
+    val <- tryNULL(eval(x))
+    if (is.input(val)) val else NULL
+  }))
+}
+
+callback_states <- function(func) {
+  compact(lapply(formals(func), function(x) {
+    # missing arguments produce an error when evaluated
+    # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
+    val <- tryNULL(eval(x))
+    if (is.state(val)) val else NULL
+  }))
+}
+
+callback_events <- function(func) {
+  compact(lapply(formals(func), function(x) {
+    # missing arguments produce an error when evaluated
+    # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
+    val <- tryNULL(eval(x))
+    if (is.event(val)) val else NULL
+  }))
 }
 
 # search through a component (a recursive data structure) for a component with

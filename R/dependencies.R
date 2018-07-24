@@ -38,6 +38,15 @@ state <- function(id = NULL, property = "value") {
   )
 }
 
+#' @rdname dependencies
+#' @export
+event <- function(id = NULL, property = "value") {
+  structure(
+    dependency(id, property),
+    class = c("dash_dependency", "event")
+  )
+}
+
 dependency <- function(id = NULL, property = NULL) {
   if (is.null(id)) stop("Must specify an id", call. = FALSE)
   list(
