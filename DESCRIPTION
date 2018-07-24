@@ -18,17 +18,11 @@ Imports:
   digest,
   base64enc
 Suggests:
-  dashRwidgets,
-  dashRcrosstalk,
   dashRauth,
   dashRtranspile,
   dashDangerouslySetInnerHtml,
   dashTable,
-  plotly,
-  testthat,
-  knitr,
-  rmarkdown,
-  Cairo
+  testthat
 Collate:
   'plotly-api.R'
   'utils.R'
@@ -36,9 +30,7 @@ Collate:
   'dash-package.R'
   'dash.R'
   'imports.R'
-  'format-output-value.R'
   'print.R'
-  'wrappers.R'
   'css.R'
   'run.R'
   'heroku.R'
@@ -54,6 +46,4 @@ Remotes:
   plotly/dash-core-components@R,
   plotly/dash-table-experiments@R,
   plotly/dash-dangerously-set-inner-html@R,
-  plotly/dashRtranspile,
-  plotly/dashRwidgets,
-  plotly/dashRcrosstalk
+  plotly/dashRtranspile

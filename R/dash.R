@@ -75,17 +75,6 @@
 #'     arguments, it may be useful to create them programmatically and supply them
 #'     as a list via `.dots`.
 #'   }
-#'   \item{`callback_print(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...)`}{
-#'     Like `callback`, except the results from `func` are printed, captured, and
-#'     (optionally) wrapped in a [htmlPre] component. This makes it easy to place
-#'     R console output inside the `output` container. If `pre = TRUE` (the default),
-#'     additional arguments (`...`) are passed onto [htmlPre].
-#'   }
-#'   \item{`callback_png(func = NULL, output = NULL, .dots = NULL, width = NULL, height = NULL, cairo = TRUE, ...)`}{
-#'      Like `callback`, except any graphics `func` may produce are captured and
-#'      wrapped into a [htmlImg] component. This makes it easy to place results
-#'      that an R graphics (png) device would give you inside the `output` container.
-#'   }
 #'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
 #'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
 #'     The `dependencies` argument accepts [htmltools::htmlDependency] or
@@ -237,10 +226,10 @@ Dash <- R6::R6Class(
           # to be an empty array (i.e., null/missing won't work)
           list(
             output = list(id = y[[1]], property = y[[2]]),
-            inputs = setNames(x[["inputs"]] %||% list(), NULL),
-            state = setNames(x[["state"]] %||% list(), NULL),
-            # TODO: Chris mentioned that events might be deprecated?
-            events = setNames(x[["events"]] %||% list(), NULL)
+            inputs = setNames(callback_inputs(x), NULL),
+            state = setNames(callback_states(x), NULL),
+            # Chris mentioned that events might/should be deprecated
+            events = setNames(callback_events(x), NULL)
           )
         }, private$callback_map, outputs)
 
@@ -257,47 +246,40 @@ Dash <- R6::R6Class(
 
         # get the callback associated with this particular output
         thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        wrapper <- private$callback_map[[thisOutput]]
-        if (!length(wrapper)) stop_report("Couldn't find output component.")
+        callback <- private$callback_map[[thisOutput]]
+        if (!length(callback)) stop_report("Couldn't find output component.")
 
         # helper function to update formal arguments of the callback function
         # with their new prop value(s)
-        update_formals <- function(wrapper, request, type = c("inputs", "state")) {
+        update_formals <- function(callback, request, type = c("inputs", "state")) {
           type <- match.arg(type)
 
           # put input/state info into more convenient data structures (if they exist)
           ids <- sapply(request$body[[type]], "[[", "id")
-          if (!length(ids)) return(wrapper)
+          if (!length(ids)) return(callback)
           props <- sapply(request$body[[type]], "[[", "property")
           # TODO: provide an option to simplify values?
           values <- lapply(request$body[[type]], function(x) jsonlite:::simplify(x[["value"]]))
           values_map <- setNames(values, paste0(ids, ".", props))
 
           # map component key (ie, id.property) to the callback argument name
-          formal_map <- sapply(wrapper[[type]], "[[", "key")
+          callback_args <- if (type == "inputs") callback_inputs else callback_states
+          formal_map <- sapply(callback_args(callback), "[[", "key")
           names(values_map) <- names(formal_map)[match(names(values_map), formal_map)]
 
           # note that a modifyList() strategy throws away NULL args, which is WRONG
-          formals(wrapper$func)[names(values_map)] <- values_map
-          wrapper
+          formals(callback)[names(values_map)] <- values_map
+          callback
         }
 
-        wrapper <- update_formals(wrapper, request, "inputs")
-        wrapper <- update_formals(wrapper, request, "state")
-
-        # overwrite the func definition in the closure's environment
-        # effectively replacing the func's arguments with the new values
-        environment(wrapper$closure)$func <- wrapper$func
-        output_value <- wrapper$closure()
-
-        # provides a means for post-processing an R object of a special class
-        output_value <- format_output_value(output_value, self$dependencies_get())
+        callback <- update_formals(callback, request, "inputs")
+        callback <- update_formals(callback, request, "state")
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = setNames(list(output_value), request$body$output$property)
+            props = setNames(list(callback()), request$body$output$property)
           )
         )
 
@@ -384,19 +366,64 @@ Dash <- R6::R6Class(
     # callback registration
     # ------------------------------------------------------------------------
     callback = function(func = NULL, output = NULL, .dots = NULL) {
-      private$callback_(wrap(func), output, .dots)
+
+      # argument type checking
+      assertthat::assert_that(is.function(func))
+      assertthat::assert_that(is.output(output))
+
+      # TODO: cache layouts so we don't have to do this for every callback...
+      layout <- private$layout_render()
+      if (identical(layout, welcome_page())) {
+        stop("The layout must be set before defining any callbacks", call. = FALSE)
+      }
+
+      if (!is.null(.dots)) {
+        nms <- names(.dots)
+        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
+          stop("Every element of the `.dots` list must be named", call. = FALSE)
+        }
+        # TODO:
+        # (1) add the restriction that they must all be input/state objects?
+        # (2) does it matter whether or not .dots is `alist()`?
+        formals(func) <- c(formals(func), .dots)
+      }
+
+      # -----------------------------------------------------------------------
+      # verify that output/input/state IDs provided exists in the layout
+      # -----------------------------------------------------------------------
+      callbackInputs <- callback_inputs(func)
+      callbackStates <- callback_states(func)
+
+      callback_ids <- unlist(c(
+        output$id,
+        sapply(callbackInputs, "[[", "id"),
+        sapply(callbackStates, "[[", "id")
+      ))
+      illegal_ids <- setdiff(callback_ids, private$layout_ids)
+      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
+        warning(
+          sprintf(
+            "The following id(s) do not match any in the layout: '%s'",
+            paste(illegal_ids, collapse = "', '")
+          ),
+          call. = FALSE
+        )
+      }
+
+      # ----------------------------------------------------------------------
+      # verify that properties attached to output/inputs/state value are valid
+      # ----------------------------------------------------------------------
+      if (!private$suppress_callback_exceptions) {
+        validate_dependency(layout, output)
+        lapply(callbackInputs, function(i) validate_dependency(layout, i))
+        lapply(callbackStates, function(s) validate_dependency(layout, s))
+      }
+
+      # store the callback mapping/function so we may access it later
+      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
+      private$callback_map[[output[["key"]]]] <- func
     },
-    callback_print = function(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...) {
-      private$callback_(
-        wrap_print(func, pre = TRUE, ...), output, .dots
-      )
-    },
-    callback_png = function(func = NULL, output = NULL, .dots = NULL,  width = NULL, height = NULL, cairo = TRUE, ...) {
-      private$callback_(
-        wrap_png(func, width = NULL, height = NULL, cairo = TRUE, ...),
-        output, .dots
-      )
-    },
+
 
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
@@ -436,10 +463,7 @@ Dash <- R6::R6Class(
       # accomodate functions that return a single component
       if (is.component(layout)) layout <- list(layout)
 
-      # at this point we should be working with a list of:
-      # (1) dash components
-      # (2) stuff built on htmltools
-      # this function ensures we have a list of dash components
+      # make sure we are working with a list of components
       layout <- lapply(layout, private$componentify)
 
       # Put the list of components into a container div. I'm pretty sure dash
@@ -494,160 +518,19 @@ Dash <- R6::R6Class(
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, dashR_deps)
 
-      # bootstrap JavaScript requires jQuery
-      # TODO: handle non-minified version as well
-      scripts <- basename(unlist(lapply(private$dependencies, "[[", "script")))
-      if ("bootstrap.min.js" %in% scripts) {
-        private$dependencies <- c(list(jquery_shiny()), private$dependencies)
-      }
-
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
     },
 
     componentify = function(x) {
-
-      # register add any relevant HTML dependencies
-      private$dependencies <- c(private$dependencies, htmltools::htmlDependencies(x))
-
-      if (is.component(x)) {
-        # a component's children could be holding tags
-        if ("children" %in% x[["propNames"]]) {
-          x[["props"]][["children"]] <- lapply(x[["props"]][["children"]], private$componentify)
-        }
-
-        # register HTML dependencies tied to dashRwidgets::htmlwidget
-        # https://github.com/plotly/dashRwidgets/blob/c6c6941/tools/transpile.R#L10
-        # https://github.com/plotly/dashRwidgets/blob/c6c6941/R/utils.R#L19
-        # TODO: perhaps dashRwidgets should automatically attachDependencies?
-        if (is.htmlwidget(x)) {
-          name <- x[["props"]][["name"]]
-          package <- x[["props"]][["package"]] %||% name
-          widget_deps <- c(
-            utils::getFromNamespace("getDependency", "htmlwidgets")(name, package),
-            x[["props"]][["widget"]][["dependencies"]]
-            )
-          private$dependencies <- c(private$dependencies, widget_deps)
-        }
-
-        return(x)
-      }
-
-      if (inherits(x, c("shiny.tag.list", "list"))) {
-        components <- lapply(compact(x), private$componentify)
-        return(htmlDiv(id = paste0("shiny-tag-list-", new_id()), children = components))
-      }
-
-      if (inherits(x, "shiny.tag")) {
-
-        if (length(x[["children"]])) {
-          x[["children"]] <- lapply(x[["children"]], private$componentify)
-        }
-
-        # obtain the relevant dash-html-component function definiton
-        # (e.g. tags$a() -> htmlA())
-        components_html <- ls(asNamespace("dashHtmlComponents"))
-        is_html <- tolower(sub("^html", "", components_html)) %in% sub("body", "div", x[["name"]])
-        component <- components_html[is_html]
-        htmlComponent <- tryCatch(
-          getFromNamespace(component, "dashHtmlComponents"),
-          error = function(e) {
-            stop(sprintf("Couldn't find a mapping for '%s' tags", x[["name"]]), call. = FALSE)
-          }
-        )
-
-        # translate tag attributes to props (i.e., build the function arguments)
-        args <- x[["attribs"]] %||% list()
-
-        # class attribute -> className prop
-        args[["className"]] <- args[["class"]]
-        args[["class"]] <- NULL
-
-        # style attribute (string) -> style prop (list)
-        if (length(args[["style"]])) {
-          assertthat::assert_that(is.character(args[["style"]]))
-          assertthat::assert_that(length(args[["style"]]) == 1)
-          styles <- strsplit(strsplit(args[["style"]], ";")[[1]], ":")
-          if (!unique(lengths(styles)) == 2) stop("Malformed style attribute")
-          name <- str_trim(sapply(styles, `[[`, 1))
-          value <- str_trim(sapply(styles, `[[`, 2))
-          args[["style"]] <- setNames(as.list(value), name)
-        }
-
-        if (length(x[["children"]])) args[["children"]] <- x[["children"]]
-
-        return(do.call(htmlComponent, args))
-      }
-
-      # translate htmltools::HTML() to dashDangerouslySetInnerHtml::DangerouslySetInnerHTML()
-      if (inherits(x, "html") && isTRUE(attr(x, "html"))) {
-        try_library("dashDangerouslySetInnerHtml", "HTML")
-        return(getFromNamespace("DangerouslySetInnerHTML", "dashDangerouslySetInnerHtml")(x))
-      }
-
-      x
+      if (is.component(x)) return(x)
+      if (all(vapply(x, is.component, logical(1)))) return(x)
+      stop("The layout must be a component or a collection of components", call. = FALSE)
     },
-
 
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
-
-    callback_ = function(wrapper = NULL, output = NULL, .dots = NULL) {
-
-      # argument type checking
-      assertthat::assert_that(is.wrapper(wrapper))
-      assertthat::assert_that(is.output(output))
-
-      # TODO: cache layouts so we don't have to do this for every callback...
-      layout <- private$layout_render()
-      if (identical(layout, welcome_page())) {
-        stop("The layout must be set before defining any callbacks", call. = FALSE)
-      }
-
-      if (!is.null(.dots)) {
-        nms <- names(.dots)
-        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
-          stop("Every element of the `.dots` list must be named", call. = FALSE)
-        }
-        # TODO:
-        # (1) add the restriction that they must all be input/state objects?
-        # (2) does it matter whether or not .dots is `alist()`?
-        formals(func) <- c(formals(func), .dots)
-      }
-
-      # -----------------------------------------------------------------------
-      # verify that output/input/state IDs provided exists in the layout
-      # -----------------------------------------------------------------------
-      callback_ids <- unlist(c(
-        output$id,
-        sapply(wrapper$inputs, "[[", "id"),
-        sapply(wrapper$state, "[[", "id")
-      ))
-      illegal_ids <- setdiff(callback_ids, private$layout_ids)
-      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
-        warning(
-          sprintf(
-            "The following id(s) do not match any in the layout: '%s'",
-            paste(illegal_ids, collapse = "', '")
-          ),
-          call. = FALSE
-        )
-      }
-
-      # ----------------------------------------------------------------------
-      # verify that properties attached to output/inputs/state value are valid
-      # ----------------------------------------------------------------------
-      if (!private$suppress_callback_exceptions) {
-        validate_dependency(layout, output)
-        lapply(wrapper$inputs, function(i) validate_dependency(layout, i))
-        lapply(wrapper$state, function(s) validate_dependency(layout, s))
-      }
-
-      # store the callback mapping/function so we may access it later
-      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      private$callback_map[[output[["key"]]]] <- wrapper
-    },
 
     # Create resource route(s) pointing to (local) HTML dependencies
     register_dependencies = function(dependencies) {
@@ -661,9 +544,7 @@ Dash <- R6::R6Class(
       # Basic dash endpoints should already be registered at this point,
       # so we query that RouteStack and add routes for each dependency
       # TODO: does make more sense to have different RouteStack(s)?
-      routrs <- self$server$plugins
-      if (!"request_routr" %in% names(routrs)) stop("Couldn't find dashR endpoints.")
-      dash_router <- routrs[["request_routr"]]
+      dash_router <- dashRendpoints(self)
 
       # Register a resource route for each dependency -- unless one already exists
       for (i in seq_along(dependencies)) {

@@ -55,11 +55,11 @@ Users shouldn't need to alter any of these options unless they are
 constructing their own authorization front-end or otherwise need to know
 where the application is making API calls.
 }
-\item{\code{excludePlotlyBundle}}{
+\item{\code{exclude_plotly_bundle}}{
 Whether or not to exclude the plotly.js bundle when "core components" exist,
 but \link[dashCoreComponents:coreGraph]{dashCoreComponents::coreGraph} is not provided to the \code{layout_set()}
 method (i.e., the initial layout).
-The only time \code{excludePlotlyBundle} should be \code{TRUE} is if you don't want
+The only time \code{exclude_plotly_bundle} should be \code{TRUE} is if you don't want
 a \code{coreGraph()} in the initial layout, but want to insert one via a callback.
 }
 }
