@@ -22,7 +22,7 @@ chapters <- list(
   `/plugins` = layout_get("plugins.R"),
   #`/gallery` =
   `/live-updates` = layout_get("live-updates.R"),
-  #`/performance` =
+  `/performance` = layout_get("")
   `/urls` = layout_get("urls.R"),
   `/deployment` = layout_get("deployment.R"),
   `/deployment/on-premise` = layout_get("on-premise-deployment.R"),

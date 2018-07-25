@@ -244,42 +244,56 @@ Dash <- R6::R6Class(
 
         request <- request_parse_json(request)
 
+        if (!"output" %in% names(request$body)) {
+          response$body <- "Couldn't find output component in request body"
+          response$status <- 500L
+          response$type <- 'json'
+          return(TRUE)
+        }
+
         # get the callback associated with this particular output
         thisOutput <- with(request$body$output, paste(id, property, sep = "."))
         callback <- private$callback_map[[thisOutput]]
         if (!length(callback)) stop_report("Couldn't find output component.")
-
-        # helper function to update formal arguments of the callback function
-        # with their new prop value(s)
-        update_formals <- function(callback, request, type = c("inputs", "state")) {
-          type <- match.arg(type)
-
-          # put input/state info into more convenient data structures (if they exist)
-          ids <- sapply(request$body[[type]], "[[", "id")
-          if (!length(ids)) return(callback)
-          props <- sapply(request$body[[type]], "[[", "property")
-          # TODO: provide an option to simplify values?
-          values <- lapply(request$body[[type]], function(x) jsonlite:::simplify(x[["value"]]))
-          values_map <- setNames(values, paste0(ids, ".", props))
-
-          # map component key (ie, id.property) to the callback argument name
-          callback_args <- if (type == "inputs") callback_inputs else callback_states
-          formal_map <- sapply(callback_args(callback), "[[", "key")
-          names(values_map) <- names(formal_map)[match(names(values_map), formal_map)]
-
-          # note that a modifyList() strategy throws away NULL args, which is WRONG
-          formals(callback)[names(values_map)] <- values_map
-          callback
+        if (!is.function(callback)) {
+          stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
         }
 
-        callback <- update_formals(callback, request, "inputs")
-        callback <- update_formals(callback, request, "state")
+        callback_args <- formals(callback)
+        if (length(callback_args)) {
+          get_key <- function(x) paste0(x[["id"]], ".", x[["property"]])
+          input_keys <- vapply(request$body$inputs, get_key, character(1))
+          state_keys <- vapply(request$body$states, get_key, character(1))
+
+          get_value <- function(x) getFromNamespace("simplify", "jsonlite")(x[["value"]])
+          input_values <- lapply(request$body$inputs, get_value)
+          state_values <- lapply(request$body$state, get_value)
+
+          client_values <- c(
+            setNames(input_values, input_keys),
+            setNames(state_values, state_keys)
+          )
+
+          get_dependency_key <- function(arg) {
+            val <- tryNULL(eval(arg))
+            if (is.dependency(val)) val[["key"]] else NA
+          }
+
+          callback_arg_keys <- sapply(callback_args, get_dependency_key)
+
+          # note that a modifyList() strategy throws away NULL args, which is WRONG
+          for (i in names(client_values)) {
+            callback_args[[match(i, callback_arg_keys)]] <- client_values[[i]]
+          }
+        }
+
+        output_value <- do.call(callback, args = as.list(callback_args))
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = setNames(list(callback()), request$body$output$property)
+            props = setNames(list(output_value), request$body$output$property)
           )
         )
 

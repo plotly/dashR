@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-I'm super excited to announce a new R package, [dashR](https://github.com/plotly/dashR), which is essentially  [dash](https://plot.ly/dash/) for R. With dashR, you can build reactive web applications entirely in R using an API that looks nearly identical to the dash (python) version. That means, if you already know dash, and want/need to leverage R (rather python) functionality, it's straight-forward to translate your existing knowledge/applications from dash to dashR (or vice versa). DashR also offers some functionality that is unique to R, such as automatic rendering of [htmlwidgets](http://www.htmlwidgets.org/).
+I'm super excited to announce a new R package, [dashR](https://github.com/plotly/dashR), which is essentially [dash](https://plot.ly/dash/) for R. With dashR, you can build reactive web applications entirely in R using an API that looks nearly identical to the dash (python) version. That means, if you already know dash, and want/need to leverage R (rather python) functionality, it's straight-forward to translate your prior knowledge and applications from dash to dashR (or vice versa).
 
 ## Hello world example
 
@@ -54,14 +54,19 @@ TODO:
 
 3. AJAX by default
 
-
 * shiny uses web-sockets by default, which can make deployment difficult, especially in enterprise settings.
 
-4. Apps can be serialized as JSON
-  * saving and loading
+4. More granular updates
+
+During [shiny's flush cycle](https://cran.r-project.org/web/packages/promises/vignettes/shiny.html), an update is not performed until *all* output values are ready. In dashR, updates are performed as soon as they are ready (and can be performed in parallel). This means, in some cases, you may need to be more thoughtful during development to ensure a good user experience, but it also offers you more control over what's happening during an update.
+
+TODO: give an example
   
 5. True multi-page apps
 
+
+6. Apps can be serialized as JSON
+  * saving and loading
 
 
 
