@@ -77,34 +77,18 @@ a function which returns a collection of components.
 Retrieves the layout. If render is \code{TRUE}, and the layout is a function,
 the result of the function (rather than the function itself) is returned.
 }
-\item{\code{callback(func = NULL, output = NULL, .dots = NULL)}}{
+\item{\code{callback(func = NULL, output = NULL)}}{
 A callback function defintion. The \code{func} argument accepts any R function
 and \code{output} defines which layout component property should adopt the results
 (via an \link{output} object). To determine what events trigger this callback,
 provide \link{input} (and/or \link{state}) object(s) (which should reference
-layout components) as argument value(s) to \code{func}. When dealing with many
-arguments, it may be useful to create them programmatically and supply them
-as a list via \code{.dots}.
+layout components) as argument value(s) to \code{func}.
 }
-\item{\code{callback_print(func = NULL, output = NULL, .dots = NULL, pre = TRUE, ...)}}{
-Like \code{callback}, except the results from \code{func} are printed, captured, and
-(optionally) wrapped in a \link{htmlPre} component. This makes it easy to place
-R console output inside the \code{output} container. If \code{pre = TRUE} (the default),
-additional arguments (\code{...}) are passed onto \link{htmlPre}.
-}
-\item{\code{callback_png(func = NULL, output = NULL, .dots = NULL, width = NULL, height = NULL, cairo = TRUE, ...)}}{
-Like \code{callback}, except any graphics \code{func} may produce are captured and
-wrapped into a \link{htmlImg} component. This makes it easy to place results
-that an R graphics (png) device would give you inside the \code{output} container.
-}
-\item{\code{dependencies_set(dependencies = NULL, section = NULL, priority = NULL)}}{
+\item{\code{dependencies_set(dependencies = NULL, add = TRUE)}}{
 Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
 The \code{dependencies} argument accepts \link[htmltools:htmlDependency]{htmltools::htmlDependency} or
 \link[htmltools:htmlDependencies]{htmltools::htmlDependencies}. The \code{section} argument determines whether
-your dependencies are placed inside \code{<head>} or \code{<footer>}. The \code{priority}
-argument controls the order of the dependencies within a \code{section} (lower
-numbers are granted higher priority). If provided, the \code{section} and \code{priority}
-arguments should either be of length 1 or the same length as \code{dependencies}.
+your dependencies are placed inside \code{<head>} or \code{<footer>}.
 }
 \item{\code{dependencies_get(all = FALSE)}}{
 Retrieve (just user-defined or all) HTML dependencies.

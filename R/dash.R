@@ -66,23 +66,18 @@
 #'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
 #'     the result of the function (rather than the function itself) is returned.
 #'   }
-#'   \item{`callback(func = NULL, output = NULL, .dots = NULL)`}{
+#'   \item{`callback(func = NULL, output = NULL)`}{
 #'     A callback function defintion. The `func` argument accepts any R function
 #'     and `output` defines which layout component property should adopt the results
 #'     (via an [output] object). To determine what events trigger this callback,
 #'     provide [input] (and/or [state]) object(s) (which should reference
-#'     layout components) as argument value(s) to `func`. When dealing with many
-#'     arguments, it may be useful to create them programmatically and supply them
-#'     as a list via `.dots`.
+#'     layout components) as argument value(s) to `func`.
 #'   }
-#'   \item{`dependencies_set(dependencies = NULL, section = NULL, priority = NULL)`}{
+#'   \item{`dependencies_set(dependencies = NULL, add = TRUE)`}{
 #'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
 #'     The `dependencies` argument accepts [htmltools::htmlDependency] or
 #'     [htmltools::htmlDependencies]. The `section` argument determines whether
-#'     your dependencies are placed inside `<head>` or `<footer>`. The `priority`
-#'     argument controls the order of the dependencies within a `section` (lower
-#'     numbers are granted higher priority). If provided, the `section` and `priority`
-#'     arguments should either be of length 1 or the same length as `dependencies`.
+#'     your dependencies are placed inside `<head>` or `<footer>`.
 #'   }
 #'   \item{`dependencies_get(all = FALSE)`}{
 #'     Retrieve (just user-defined or all) HTML dependencies.
@@ -379,7 +374,7 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(func = NULL, output = NULL, .dots = NULL) {
+    callback = function(func = NULL, output = NULL) {
 
       # argument type checking
       assertthat::assert_that(is.function(func))
@@ -389,17 +384,6 @@ Dash <- R6::R6Class(
       layout <- private$layout_render()
       if (identical(layout, welcome_page())) {
         stop("The layout must be set before defining any callbacks", call. = FALSE)
-      }
-
-      if (!is.null(.dots)) {
-        nms <- names(.dots)
-        if (length(nms) != length(.dots) || any(nchar(nms) == 0)) {
-          stop("Every element of the `.dots` list must be named", call. = FALSE)
-        }
-        # TODO:
-        # (1) add the restriction that they must all be input/state objects?
-        # (2) does it matter whether or not .dots is `alist()`?
-        formals(func) <- c(formals(func), .dots)
       }
 
       # -----------------------------------------------------------------------

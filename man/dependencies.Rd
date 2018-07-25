@@ -5,6 +5,7 @@
 \alias{output}
 \alias{input}
 \alias{state}
+\alias{event}
 \title{Input/Output/State definitions}
 \usage{
 output(id = NULL, property = "children")
@@ -12,6 +13,8 @@ output(id = NULL, property = "children")
 input(id = NULL, property = "value")
 
 state(id = NULL, property = "value")
+
+event(id = NULL, property = "value")
 }
 \arguments{
 \item{id}{a component id}
