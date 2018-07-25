@@ -216,7 +216,7 @@ Dash <- R6::R6Class(
           response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
-          return(TRUE)
+          return(FALSE)
         }
 
         # client wants the mapping formatted this way -- https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
@@ -248,7 +248,7 @@ Dash <- R6::R6Class(
           response$body <- "Couldn't find output component in request body"
           response$status <- 500L
           response$type <- 'json'
-          return(TRUE)
+          return(FALSE)
         }
 
         # get the callback associated with this particular output
@@ -555,23 +555,16 @@ Dash <- R6::R6Class(
         if (is.null(dep[["src"]][["file"]])) NULL else dep
       }))
 
-      # Basic dash endpoints should already be registered at this point,
-      # so we query that RouteStack and add routes for each dependency
-      # TODO: does make more sense to have different RouteStack(s)?
-      dash_router <- dashRendpoints(self)
-
       # Register a resource route for each dependency -- unless one already exists
       for (i in seq_along(dependencies)) {
         dep <- dependencies[[i]]
         dep_key <- paste(dep[["name"]], dep[["version"]], sep = "@")
-        if (dash_router$has_route(dep_key)) next
 
         # create/attach the resource mapping
         local_path <- dep[["src"]][["file"]]
         resource_map <- setNames(local_path, dep_key)
         rroute <- do.call(routr::ressource_route, as.list(resource_map))
-        dash_router$add_route(rroute, dep_key)
-        self$server$attach(dash_router, force = TRUE)
+        self$server$plugins$request_routr$add_route(rroute, dep_key)
 
         # make the dependency's local path relative for downstream rendering
         dependencies[[i]][["src"]][["file"]] <- dep_key
