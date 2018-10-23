@@ -6,7 +6,7 @@ An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem fo
 
 **dashR** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
 
-First, clone the publically available Git repositories to the local directory of your choice, checkout the R branch, then install:
+First, clone the publicly available Git repositories to the local directory of your choice, checkout the R branch, then install:
 
 ```r
 git clone https://github.com/plotly/dash-html-components
