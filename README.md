@@ -71,7 +71,7 @@ app$run_server(showcase = TRUE)
 
 ## Hellow world example using `coreGraph`
 
-```
+```r
 app <- Dash$new()
 
 app$layout_set(
