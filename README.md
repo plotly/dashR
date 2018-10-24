@@ -69,5 +69,74 @@ app$callback(
 app$run_server(showcase = TRUE)
 ```
 
-TODO: get into components, react, etc.
+## Hellow World example with `coreGraph`
+
+```
+app <- Dash$new()
+
+app$layout_set(
+  coreInput(id = "graphTitle", 
+        value = "Let's Dance!", 
+        type = "text"),
+  htmlDiv(id = "outputID"),
+  coreGraph(id = "giraffe",
+        figure = list(
+            data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
+            layout = list(title = "Let's Dance!")
+        )
+  )
+)
+
+app$callback(    
+  function(newTitle = input("graphTitle", "value")) {
+
+    rand1 <- sample(1:10, 1)
+
+    rand2 <- sample(1:10, 1)
+    rand3 <- sample(1:10, 1)
+    rand4 <- sample(1:10, 1)
+      
+    x <- c(1,2,3)
+    y <- c(3,6,rand1)
+    y2 <- c(rand2,rand3,rand4)
+    
+    df = data.frame(x, y, y2)
+      
+    list(
+        data = 
+            list(            
+                list(
+                    x = df$x, 
+                    y = df$y, 
+                    type = 'bar'
+                ),
+                list(
+                    x = df$x, 
+                    y = df$y2, 
+                    type = 'scatter',
+                    mode = 'lines+markers',
+                    line = list(width = 4)
+                )                
+            ),
+        layout = list(title = newTitle)
+    )
+  },
+  output("giraffe", "figure")
+)
+
+app$callback(
+  function(x = input("graphTitle"), y = input("graphTitle", "type")) {
+    sprintf("You've entered: '%s' into a '%s' input control", x, y)
+  },
+  output("outputID")
+)
+
+app$run_server(showcase = TRUE)
+```
+
+More examples in the [examples folder](https://github.com/plotly/dashR/tree/master/inst/tutorial/examples)
+
+## TODO
+
+Get into components, React, etc.
 
