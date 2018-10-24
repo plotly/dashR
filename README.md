@@ -6,7 +6,7 @@ An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem fo
 
 **dashR** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
 
-> 🛑 Make sure you're on at least version `3.5` of R. You can see what version of R you have by entering `version` in the R CLI. [https://cran.r-project.org/bin/](CRAN) is the easiest place to download the latest R version.
+> 🛑 Make sure you're on at least version `3.5` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
 First, clone the publicly available Git repositories to the local directory of your choice, checkout the R branch, then install:
 
