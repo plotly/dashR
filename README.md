@@ -69,7 +69,7 @@ app$callback(
 app$run_server(showcase = TRUE)
 ```
 
-## Hellow world example using `coreGraph`
+## Hello world example using `coreGraph`
 
 ```r
 app <- Dash$new()
