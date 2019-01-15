@@ -493,13 +493,41 @@ Dash <- R6::R6Class(
       }
 
       # load package-level HTML dependencies
-      # note that this rds file is created by dashRtranspile
       pkgs <- unique(layout_flat[grepl("package$", layout_nms)])
       dashR_deps <- lapply(pkgs, function(pkg) {
-        dep_file <- system.file("dashR_deps.rds", package = pkg)
-        if (dep_file == "") return(NULL)
-        readRDS(dep_file)
+        # the objective is to identify JS dependencies
+        # without requiring that a proprietary R format
+        # file is loaded at object initialization to
+        # retrieve them; this is undesirable since there
+        # is no easy way to generate .RData or .rds within
+        # Python, which we now use to 'transpile' JSON>>R
+        #
+        # the following code is somewhat unorthodox, but
+        # permits us to write dependencies to text, then
+        # load them as (internal/hidden) functions with
+        # no arguments. this approach is modular, but should
+        # be refactored at a later date, as it is far from
+        # elegant.
+        #
+        # construct function name based on package name
+        fn_name <- paste0(".", pkg, "_js_metadata")
+        fn_summary <- getAnywhere(fn_name)
+        
+        # ensure that the object refers to a function,
+        # and we are able to locate it somewhere
+        if (length(fn_summary$where) == 0) return(NULL)
+        
+        if (mode(fn_summary$obj[[1]]) == "function") {
+          # function is available
+          dep_list <- do.call(fn_summary$obj[[1]], list())
+
+          return(dep_list)
+        } else {
+          return(NULL)  
+        }
       })
+      
+      dashR_deps <- unlist(dashR_deps, recursive=FALSE)
 
       # if core components are used, but no coreGraph() exists,
       # don't include the plotly.js bundle
