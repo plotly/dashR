@@ -1,12 +1,10 @@
 Package: dashR
 Title: An interface to the dash ecosystem for authoring reactive web applications
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: c(person("Carson", "Sievert", role = c("aut", "cre"), email = "cpsievert1@gmail.com"))
 Description: An interface to the dash ecosystem for authoring reactive web applications.
 Depends:
-  R (>= 3.0.0),
-  dashHtmlComponents,
-  dashCoreComponents
+  R (>= 3.5)
 Imports:
   R6,
   fiery (> 1.0.0),
@@ -22,6 +20,8 @@ Suggests:
   dashRtranspile,
   dashDangerouslySetInnerHtml,
   dashTable,
+  dashHtmlComponents (>= 0.13.5),
+  dashCoreComponents (>= 0.42.1),
   testthat
 Collate:
   'plotly-api.R'
@@ -34,6 +34,7 @@ Collate:
   'css.R'
   'run.R'
   'heroku.R'
+  'internal.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
