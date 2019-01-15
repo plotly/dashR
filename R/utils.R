@@ -195,10 +195,10 @@ setdiffsym <- function(x, y) {
 }
 
 welcome_page <- function() {
-  dashHtmlComponents::htmlDiv(
-    dashHtmlComponents::htmlH2("Welcome to dash!"),
-    "If you see this message, you may not have yet specified a layout in your application."
-  )
+  #dashHtmlComponents::htmlDiv(
+  #  dashHtmlComponents::htmlH2("Welcome to dash!"),
+  #  "If you see this message, you may not have yet specified a layout in your application."
+  #)
 }
 
 stop_report <- function(msg = "") {
@@ -218,3 +218,43 @@ try_library <- function(pkg, fun = NULL) {
     paste0(" for `", fun, "`"), ".\n", "Please install and try again.",
     call. = FALSE)
 }
+
+assert_valid_children <- function(children, ...) {
+  kids <- list(children)
+  if (...length()) {
+    pattern <- paste(paste0('^', ...), collapse = '|')
+    kids <- kids[!grepl(pattern, names2(kids))]
+  }
+  if (!length(kids)) return(NULL)
+  assert_no_names(kids)
+}
+
+append_wildcard_props <- function(component, children, ...) {
+  attrs <- list(children)
+  if (!length(children) || !...length()) return(component)
+  pattern <- paste(paste0('^', ...), collapse = '|')
+  attrs_wild <- attrs[grepl(pattern, names2(attrs))]
+  if (!length(attrs_wild)) return(component)
+  component[['props']] <- c(component[['props']] %||% list(), attrs_wild)
+  component[['propNames']] <- c(component[['propNames']], names(attrs_wild))
+  component
+}
+
+assert_no_names <- function (x)
+{
+  if(!(is.list(x))) x <- list(x)
+  nms <- names(x)
+  if (is.null(nms))
+    return(x)
+  if (identical("", unique(nms)))
+    return(setNames(x, NULL))
+  stop(sprintf("Didn't recognize the following named arguments: '%s'",
+               paste(nms, collapse = "', '")), call. = FALSE)
+}
+
+filter_null <- function(x) {
+  if (length(x) == 0 || !is.list(x)) return(x)
+  x[!vapply(x, is.null, logical(1))]
+}
+
+names2 <- function(x) names(x) %||% rep('', length(x))
