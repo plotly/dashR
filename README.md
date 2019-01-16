@@ -31,6 +31,7 @@ git clone git@github.com:plotly/dashRtranspile.git
 Now, from within R, install dashR dependencies from CRAN:
 ```r
 install.packages(c("fiery", "routr", "reqres"))
+install.packages(c("htmltools", "base64enc"))
 ```
 
 Finally, install dashR by supplying your local package path, then load the package:
