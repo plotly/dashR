@@ -13,12 +13,12 @@ First, clone the publicly available Git repositories to the local directory of y
 ```r
 git clone https://github.com/plotly/dash-html-components
 cd dash-html-components
-git checkout R
+git checkout R2
 R CMD INSTALL .
 cd ..
 git clone https://github.com/plotly/dash-core-components
 cd dash-core-components
-git checkout R
+git checkout R2
 R CMD INSTALL .
 ```
 
