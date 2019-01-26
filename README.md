@@ -8,36 +8,26 @@ An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem fo
 
 > 🛑 Make sure you're on at least version `3.5` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
-First, clone the publicly available Git repositories to the local directory of your choice, checkout the R branch, then install:
-
-```r
-git clone https://github.com/plotly/dash-html-components
-cd dash-html-components
-git checkout R2
-R CMD INSTALL .
-cd ..
-git clone https://github.com/plotly/dash-core-components
-cd dash-core-components
-git checkout R2
-R CMD INSTALL .
-```
-
-Next, clone the private (for now) Git repositories to the local directory of your choice:
-```r
-git clone git@github.com:plotly/dashR.git
-git clone git@github.com:plotly/dashRtranspile.git
-```
-
-Now, from within R, install dashR dependencies from CRAN:
+First, install `dashR` dependencies from CRAN:
 ```r
 install.packages(c("fiery", "routr", "reqres"))
 install.packages(c("htmltools", "base64enc"))
 ```
 
-Finally, install dashR by supplying your local package path, then load the package:
+Installing the package and component libraries directly from GitHub using the `devtools` package is easy:
+
 ```r
-install.packages("/Users/testuser/plotly/dashR", repos=NULL, type="source")
+install_github("plotly/dashR")
+install_github("plotly/dash-html-components")
+install_github("plotly/dash-core-components")
+```
+
+Now, load the packages in R:
+
+```r
 library(dashR)
+library(dashHtmlComponents)
+library(dashCoreComponents)
 ```
 
 That's it!
