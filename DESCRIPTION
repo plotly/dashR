@@ -16,10 +16,6 @@ Imports:
   digest,
   base64enc
 Suggests:
-  dashRauth,
-  dashRtranspile,
-  dashDangerouslySetInnerHtml,
-  dashTable,
   dashHtmlComponents (>= 0.13.5),
   dashCoreComponents (>= 0.42.1),
   testthat
