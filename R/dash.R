@@ -368,7 +368,7 @@ Dash <- R6::R6Class(
           version, paste(unique(versions), collapse = "', '")
         ), call. = FALSE)
       }
-      private$react_version <- version
+      private$react_version_enabled<- version
     },
 
     # ------------------------------------------------------------------------
@@ -450,7 +450,8 @@ Dash <- R6::R6Class(
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
-
+    dependencies_internal = list(),
+    
     # layout stuff
     layout = welcome_page(),
     layout_ids = NULL,
@@ -494,7 +495,7 @@ Dash <- R6::R6Class(
 
       # load package-level HTML dependencies
       pkgs <- unique(layout_flat[grepl("package$", layout_nms)])
-      dashR_deps <- lapply(pkgs, function(pkg) {
+      deps_layout <- lapply(pkgs, function(pkg) {
         # the objective is to identify JS dependencies
         # without requiring that a proprietary R format
         # file is loaded at object initialization to
@@ -527,7 +528,7 @@ Dash <- R6::R6Class(
         }
       })
       
-      dashR_deps <- unlist(dashR_deps, recursive=FALSE)
+      deps_layout <- unlist(deps_layout, recursive=FALSE)
 
       # if core components are used, but no coreGraph() exists,
       # don't include the plotly.js bundle
@@ -536,13 +537,16 @@ Dash <- R6::R6Class(
         hasGraph <- component_contains_type(layout, "dashCoreComponents", "Graph")
         if (hasCore && !hasGraph) {
           idx <- which(pkgs %in% "dashCoreComponents")
-          scripts <- dashR_deps[[idx]][["script"]]
-          dashR_deps[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
+          scripts <- deps_layout[[idx]][["script"]]
+          deps_layout[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
         }
       }
 
       # add on HTML dependencies we've identified by crawling the layout
-      private$dependencies <- c(private$dependencies, dashR_deps)
+      private$dependencies <- c(private$dependencies, deps_layout)
+
+      # DashR's own dependencies      
+      private$dependencies_internal <- dashR:::.dashR_js_metadata()
 
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
@@ -586,18 +590,24 @@ Dash <- R6::R6Class(
     },
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
-    react_version = "15.4.2",
-    react_deps = function() deps[grepl("^react", names(deps))],
-    react_versions = function() vapply(private$react_deps(), "[[", character(1), "version"),
-
+    react_version_enabled= function() {
+      version <- private$dependencies_internal$react$version
+      },
+    react_deps = function() {
+      deps <- private$dependencies_internal
+      deps[grepl("^react", names(deps))]
+      },
+    react_versions = function() {
+      vapply(private$react_deps(), "[[", character(1), "version")
+      },
+    
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     index = function() {
-
       # collect and resolve dependencies
       depsAll <- compact(c(
-        private$react_deps()[private$react_versions() %in% private$react_version],
+        private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
         deps["dash-renderer"]
