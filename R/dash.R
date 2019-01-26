@@ -688,3 +688,19 @@ validate_dependency <- function(layout, dependency) {
 
   TRUE
 }
+
+assert_valid_wildcards <- function (...) 
+{
+  args <- list(...)
+  validation_results <- lapply(args, function(x) {
+    grepl(c('^data-[a-zA-Z0-9]{1,}$|^aria-[a-zA-Z0-9]{1,}$'), x)
+    }
+  )
+  if(FALSE %in% validation_results) {
+    stop(sprintf("The following wildcards are not currently valid in DashR: '%s'", 
+                 paste((args)[grepl(FALSE, unlist(validation_results))], 
+                       collapse=", ")), call. = FALSE)
+  } else {
+    return(args)
+  }
+}
