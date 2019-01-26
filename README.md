@@ -135,9 +135,4 @@ app$callback(
 app$run_server(showcase = TRUE)
 ```
 
-More examples in the [examples folder](https://github.com/plotly/dashR/tree/master/inst/tutorial/examples)
-
-## TODO
-
-Get into components, React, etc.
-
+More examples in the [dashRtutorial](https://github.com/plotly/dashRtutorial) package.
