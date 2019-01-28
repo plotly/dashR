@@ -25,7 +25,7 @@ app$layout_set(
 # When the value of a state object changes, it doesn't trigger the callback
 # function to re-execute (similar to using isolate() in shiny)
 app$callback(
-  function(ticker = state("ticker-id"), column = state("column-id"),
+  function(ticker = input("ticker-id"), column = input("column-id"),
            n_clicks = input("button-id", "n_clicks")) {
 
     d <- switch(ticker, AAPL = AAPL, TSLA = TSLA, COKE = COKE)
