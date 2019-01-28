@@ -40,7 +40,4 @@ URL: https://github.com/plotly/dashR
 BugReports: https://github.com/plotly/dashR/issues
 Remotes:
   plotly/dash-html-components@R,
-  plotly/dash-core-components@R,
-  plotly/dash-table-experiments@R,
-  plotly/dash-dangerously-set-inner-html@R,
-  plotly/dashRtranspile
+  plotly/dash-core-components@R
