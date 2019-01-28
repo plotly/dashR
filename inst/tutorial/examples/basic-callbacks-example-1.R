@@ -29,7 +29,7 @@ app$callback(
       data = list(
         list(x = index(d), y = as.numeric(d[, 4]))
       ),
-      layout = list(title = dropdown)
+      layout = list(title = ticker)
     )
 
   },
