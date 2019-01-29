@@ -8,7 +8,7 @@ app$layout_set(
 )
 
 app$callback(
-  function(n_clicks = input("button", "n_clicks"), value = state("input-box")) {
+  function(n_clicks = input("button", "n_clicks"), value = input("input-box")) {
     sprintf(
       'The input value was "%s" and the button has been clicked %s times',
       value, n_clicks
