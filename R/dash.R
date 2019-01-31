@@ -610,7 +610,7 @@ Dash <- R6::R6Class(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
-        deps["dash-renderer"]
+        private$dependencies_internal[names(private$dependencies_internal) %in% 'dash-renderer']
       ))
 
       # normalizes local paths and keeps newer versions of duplicates
