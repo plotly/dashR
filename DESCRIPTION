@@ -28,7 +28,6 @@ Collate:
   'imports.R'
   'print.R'
   'css.R'
-  'run.R'
   'heroku.R'
   'internal.R'
 License: MIT + file LICENSE
