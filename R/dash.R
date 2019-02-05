@@ -203,86 +203,44 @@ Dash <- R6::R6Class(
         TRUE
       })
 
+      # UPDATED
       dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
-        # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
-        if (!length(private$callback_map)) {
-          response$body <- to_JSON(list())
-          response$status <- 200L
-          response$type <- 'json'
-          return(FALSE)
-        }
-
-        # client wants the mapping formatted this way -- https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L367-L378
-        outputs <- strsplit(names(private$callback_map), "\\.")
-        payload <- Map(function(x, y) {
-          # IMPORTANT: if state/events don't exist, dash-renderer wants them
-          # to be an empty array (i.e., null/missing won't work)
-          list(
-            output = list(id = y[[1]], property = y[[2]]),
-            inputs = setNames(callback_inputs(x), NULL),
-            state = setNames(callback_states(x), NULL),
-            # Chris mentioned that events might/should be deprecated
-            events = setNames(callback_events(x), NULL)
-          )
-        }, private$callback_map, outputs)
-
-        response$body <- to_JSON(setNames(payload, NULL))
-        response$status <- 200L
-        response$type <- 'json'
+        payload <- sapply(function(callback_signature) {
+          result <- list(inputs=callback_signature$inputs,
+                         state=callback_signature$state,
+                         output=callback_signature$output)
+          return(result)
+          }, private$callback_map)
+        
+        response$body <- payload
         TRUE
-      })
+      }
 
       dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
 
         request <- request_parse_json(request)
-
-        if (!"output" %in% names(request$body)) {
-          response$body <- "Couldn't find output component in request body"
-          response$status <- 500L
-          response$type <- 'json'
-          return(FALSE)
-        }
-
-        # get the callback associated with this particular output
-        thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        callback <- private$callback_map[[thisOutput]]
-        if (!length(callback)) stop_report("Couldn't find output component.")
-        if (!is.function(callback)) {
-          stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
-        }
-
-        callback_args <- formals(callback)
-        if (length(callback_args)) {
-          get_key <- function(x) paste0(x[["id"]], ".", x[["property"]])
-          input_keys <- vapply(request$body$inputs, get_key, character(1))
-          state_keys <- vapply(request$body$states, get_key, character(1))
-
-          get_value <- function(x) getFromNamespace("simplify", "jsonlite")(x[["value"]])
-          input_values <- lapply(request$body$inputs, get_value)
-          state_values <- lapply(request$body$state, get_value)
-
-          client_values <- c(
-            setNames(input_values, input_keys),
-            setNames(state_values, state_keys)
-          )
-
-          get_dependency_key <- function(arg) {
-            val <- tryNULL(eval(arg))
-            if (is.dependency(val)) val[["key"]] else NA
+        
+        user_arguments <- lapply(function(input_object) {
+          input_object$value
+        )
+        
+        if 'state' %in% names(request) {
+          user_state <- lapply(function(state_object) {
+            state_object$value
+            }, request$state)
           }
 
-          callback_arg_keys <- sapply(callback_args, get_dependency_key)
-
-          # note that a modifyList() strategy throws away NULL args, which is WRONG
-          for (i in names(client_values)) {
-            callback_args[[match(i, callback_arg_keys)]] <- client_values[[i]]
-          }
+        user_arguments <- c(user_arguments, user_state)
         }
 
-        output_value <- do.call(callback, args = as.list(callback_args))
+        output_key <- paste(request$output$id, request$output$property, sep='.')
+        
+        user_function <- private$callback_map[[output_key]]$user_function
+        
+        output_value <- do.call(user_function, user_arguments)
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -307,7 +265,6 @@ Dash <- R6::R6Class(
         response$body <- "Not yet implemented"
         TRUE
       })
-
 
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
@@ -374,10 +331,10 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(func = NULL, output = NULL) {
+    callback = function(output = NULL, inputs = NULL, states = NULL, user_function = NULL) {
 
       # argument type checking
-      assertthat::assert_that(is.function(func))
+      assertthat::assert_that(is.function(user_function))
       assertthat::assert_that(is.output(output))
 
       # TODO: cache layouts so we don't have to do this for every callback...
@@ -389,8 +346,8 @@ Dash <- R6::R6Class(
       # -----------------------------------------------------------------------
       # verify that output/input/state IDs provided exists in the layout
       # -----------------------------------------------------------------------
-      callbackInputs <- callback_inputs(func)
-      callbackStates <- callback_states(func)
+      callbackInputs <- inputs
+      callbackStates <- states
 
       callback_ids <- unlist(c(
         output$id,
@@ -419,7 +376,7 @@ Dash <- R6::R6Class(
 
       # store the callback mapping/function so we may access it later
       # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      private$callback_map[[output[["key"]]]] <- func
+      private$callback_map[[output[["key"]]]] <- user_function
     },
 
 
