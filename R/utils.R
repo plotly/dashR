@@ -7,10 +7,14 @@ is.fire <- function(x) inherits(x, "Fire")
 
 # dependencies
 is.dependency <- function(x) inherits(x, "dash_dependency")
-is.output <- function(x) is.dependency(x) && inherits(x, "output")
-is.input <- function(x) is.dependency(x) && inherits(x, "input")
-is.state <- function(x) is.dependency(x) && inherits(x, "state")
-is.event <- function(x) is.dependency(x) && inherits(x, "event")
+#is.output <- function(x) is.dependency(x) && inherits(x, "output")
+is.output <- function(x) return(x)
+#is.input <- function(x) is.dependency(x) && inherits(x, "input")
+is.input <- function(x) return(x)
+#is.state <- function(x) is.dependency(x) && inherits(x, "state")
+is.state <- function(x) return(x)
+#is.event <- function(x) is.dependency(x) && inherits(x, "event")
+is.event <- function(x) return(x)
 
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")

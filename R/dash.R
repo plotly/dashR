@@ -188,6 +188,7 @@ Dash <- R6::R6Class(
 
       dash_index <- routes_pathname_prefix
       route$add_handler("get", dash_index, function(request, response, keys, ...) {
+
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
@@ -196,6 +197,7 @@ Dash <- R6::R6Class(
 
       dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
+
         lay <- private$layout_render()
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
@@ -203,44 +205,53 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      # UPDATED
       dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
+
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
-        payload <- sapply(function(callback_signature) {
-          result <- list(inputs=callback_signature$inputs,
-                         state=callback_signature$state,
-                         output=callback_signature$output)
-          return(result)
-          }, private$callback_map)
-        
-        response$body <- payload
+        # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
+        if (!length(private$callback_map)) {
+          response$body <- to_JSON(list())
+          response$status <- 200L
+          response$type <- 'json'
+          return(FALSE)
+        }
+
+        payload <- Map(function(callback_signature) {
+          list(
+            output=callback_signature$output,
+            inputs=callback_signature$inputs,
+            state=callback_signature$state
+            key=paste(callback_signature$output$id, callback_signature$output$property, sep='.')
+          )
+        }, private$callback_map)
+
+        response$body <- to_JSON(setNames(payload, NULL))
+        response$status <- 200L
+        response$type <- 'json'
         TRUE
-      }
+      })
 
       dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
-
         request <- request_parse_json(request)
-        
-        user_arguments <- lapply(function(input_object) {
-          input_object$value
-        )
-        
-        if 'state' %in% names(request) {
-          user_state <- lapply(function(state_object) {
-            state_object$value
-            }, request$state)
-          }
 
-        user_arguments <- c(user_arguments, user_state)
+        if (!"output" %in% names(request$body)) {
+          response$body <- "Couldn't find output component in request body"
+          response$status <- 500L
+          response$type <- 'json'
+          return(FALSE)
         }
 
-        output_key <- paste(request$output$id, request$output$property, sep='.')
-        
-        user_function <- private$callback_map[[output_key]]$user_function
-        
-        output_value <- do.call(user_function, user_arguments)
+        # get the callback associated with this particular output
+        thisOutput <- with(request$body$output, paste(id, property, sep = "."))
+        callback <- private$callback_map[[thisOutput]][['user_function']]
+        if (!length(callback)) stop_report("Couldn't find output component.")
+        if (!is.function(callback)) {
+          stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
+        }
+
+        output_value <- do.call(callback, args = as.list(request$body$inputs, request$body$state))
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
@@ -261,10 +272,12 @@ Dash <- R6::R6Class(
       # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
       dash_suite <- paste0(routes_pathname_prefix, "_dash-component-suites")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+
         response$status <- 500L
         response$body <- "Not yet implemented"
         TRUE
       })
+
 
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
@@ -331,54 +344,21 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(output = NULL, inputs = NULL, states = NULL, user_function = NULL) {
+    callback = function(output = NULL, inputs = list(), state = list(), user_function) {
+      private$layout_render()
 
-      # argument type checking
-      assertthat::assert_that(is.function(user_function))
-      assertthat::assert_that(is.output(output))
+      # set class attributes for compatibility with original DashR code
+      for (i in seq_along(inputs)) attr(inputs[[i]], 'class') <- c('dash_dependency', 'input')
+      for (i in seq_along(state)) attr(state[[i]], 'class') <- c('dash_dependency', 'input')
 
-      # TODO: cache layouts so we don't have to do this for every callback...
-      layout <- private$layout_render()
-      if (identical(layout, welcome_page())) {
-        stop("The layout must be set before defining any callbacks", call. = FALSE)
-      }
-
-      # -----------------------------------------------------------------------
-      # verify that output/input/state IDs provided exists in the layout
-      # -----------------------------------------------------------------------
-      callbackInputs <- inputs
-      callbackStates <- states
-
-      callback_ids <- unlist(c(
-        output$id,
-        sapply(callbackInputs, "[[", "id"),
-        sapply(callbackStates, "[[", "id")
-      ))
-      illegal_ids <- setdiff(callback_ids, private$layout_ids)
-      if (length(illegal_ids) && !private$suppress_callback_exceptions) {
-        warning(
-          sprintf(
-            "The following id(s) do not match any in the layout: '%s'",
-            paste(illegal_ids, collapse = "', '")
-          ),
-          call. = FALSE
+      # register the callback_map
+      private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
+          output=output,
+          inputs=inputs,
+          state=state,
+          user_function=user_function
         )
-      }
-
-      # ----------------------------------------------------------------------
-      # verify that properties attached to output/inputs/state value are valid
-      # ----------------------------------------------------------------------
-      if (!private$suppress_callback_exceptions) {
-        validate_dependency(layout, output)
-        lapply(callbackInputs, function(i) validate_dependency(layout, i))
-        lapply(callbackStates, function(s) validate_dependency(layout, s))
-      }
-
-      # store the callback mapping/function so we may access it later
-      # https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L530-L546
-      private$callback_map[[output[["key"]]]] <- user_function
     },
-
 
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
@@ -408,7 +388,7 @@ Dash <- R6::R6Class(
     dependencies = list(),
     dependencies_user = list(),
     dependencies_internal = list(),
-    
+
     # layout stuff
     layout = welcome_page(),
     layout_ids = NULL,
@@ -470,21 +450,21 @@ Dash <- R6::R6Class(
         # construct function name based on package name
         fn_name <- paste0(".", pkg, "_js_metadata")
         fn_summary <- getAnywhere(fn_name)
-        
+
         # ensure that the object refers to a function,
         # and we are able to locate it somewhere
         if (length(fn_summary$where) == 0) return(NULL)
-        
+
         if (mode(fn_summary$obj[[1]]) == "function") {
           # function is available
           dep_list <- do.call(fn_summary$obj[[1]], list())
 
           return(dep_list)
         } else {
-          return(NULL)  
+          return(NULL)
         }
       })
-      
+
       deps_layout <- unlist(deps_layout, recursive=FALSE)
 
       # if core components are used, but no coreGraph() exists,
@@ -502,7 +482,7 @@ Dash <- R6::R6Class(
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, deps_layout)
 
-      # DashR's own dependencies      
+      # DashR's own dependencies
       private$dependencies_internal <- dashR:::.dashR_js_metadata()
 
       # return the computed layout
@@ -549,6 +529,7 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$react$version
+      return(version)
       },
     react_deps = function() {
       deps <- private$dependencies_internal
@@ -557,11 +538,13 @@ Dash <- R6::R6Class(
     react_versions = function() {
       vapply(private$react_deps(), "[[", character(1), "version")
       },
-    
+
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     index = function() {
+
+
       # collect and resolve dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
@@ -620,9 +603,6 @@ Dash <- R6::R6Class(
   )
 )
 
-
-
-
 # verify that properties attached to output/inputs/state value are valid
 # @param layout
 # @param component a component (should be a dependency)
@@ -646,7 +626,7 @@ validate_dependency <- function(layout, dependency) {
   TRUE
 }
 
-assert_valid_wildcards <- function (...) 
+assert_valid_wildcards <- function (...)
 {
   args <- list(...)
   validation_results <- lapply(args, function(x) {
@@ -654,8 +634,8 @@ assert_valid_wildcards <- function (...)
     }
   )
   if(FALSE %in% validation_results) {
-    stop(sprintf("The following wildcards are not currently valid in DashR: '%s'", 
-                 paste((args)[grepl(FALSE, unlist(validation_results))], 
+    stop(sprintf("The following wildcards are not currently valid in DashR: '%s'",
+                 paste((args)[grepl(FALSE, unlist(validation_results))],
                        collapse=", ")), call. = FALSE)
   } else {
     return(args)
