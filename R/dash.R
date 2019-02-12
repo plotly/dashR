@@ -347,6 +347,8 @@ Dash <- R6::R6Class(
     callback = function(output = NULL, inputs = list(), state = list(), user_function) {
       private$layout_render()
 
+      assert_valid_callbacks(output, inputs, state, user_function)
+
       # set class attributes for compatibility with original DashR code
       for (i in seq_along(inputs)) attr(inputs[[i]], 'class') <- c('dash_dependency', 'input')
       for (i in seq_along(state)) attr(state[[i]], 'class') <- c('dash_dependency', 'input')
