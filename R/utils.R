@@ -261,7 +261,7 @@ filter_null <- function(x) {
   x[!vapply(x, is.null, logical(1))]
 }
 
-assert_valid_callbacks(output, inputs, state, user_function) {
+assert_valid_callbacks <- function(output, inputs, state, user_function) {
   # Assert that the component ID as passed is a string.
   if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
     stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Verify that the component ID is valid."), call. = FALSE)
