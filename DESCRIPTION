@@ -37,6 +37,3 @@ RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
 BugReports: https://github.com/plotly/dashR/issues
-Remotes:
-  plotly/dash-html-components@R,
-  plotly/dash-core-components@R
