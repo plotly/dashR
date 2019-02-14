@@ -267,7 +267,7 @@ assert_valid_callbacks <- function(output, params, func) {
   
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
-    stop(sprintf("The callback method's 'user_function' parameter requires a function as its argument. Verify that user_function is a valid, executable R function."), call. = FALSE)
+    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Verify that user_function is a valid, executable R function."), call. = FALSE)
   }
   
   # Check if inputs are a nested list
