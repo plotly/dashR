@@ -260,14 +260,23 @@ assert_valid_callbacks <- function(output, params, func) {
   inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   
+  invalid_params <- vapply(params, function(x) {
+    !any(c('input', 'state') %in% attr(x, "class"))
+  }, FUN.VALUE=logical(1))
+  
+  # Verify that params contains no elements that are not either members of 'input' or 'state' classes
+  if(any(invalid_params)) {
+    stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
+  }
+  
   # Assert that the component ID as passed is a string.
   if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
-    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Verify that the component ID is valid."), call. = FALSE)
+    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
   }
   
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
-    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Verify that 'func' is a valid, executable R function."), call. = FALSE)
+    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
   }
   
   # Check if inputs are a nested list
