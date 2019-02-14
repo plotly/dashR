@@ -275,6 +275,11 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("Callback inputs should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
   }
   
+  # Check if state is a nested list, if the list is not empty
+  if(!(length(state) == 0) & !(any(sapply(state, is.list)))) {
+    stop(sprintf("Callback states should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
+  }
+  
   # Check that input is not NULL
   if(is.null(inputs)) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
