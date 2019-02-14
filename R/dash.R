@@ -46,13 +46,6 @@
 #'  constructing their own authorization front-end or otherwise need to know
 #'  where the application is making API calls.
 #'  }
-#'  \item{`exclude_plotly_bundle`}{
-#'  Whether or not to exclude the plotly.js bundle when "core components" exist,
-#'  but [dashCoreComponents::coreGraph] is not provided to the `layout_set()`
-#'  method (i.e., the initial layout).
-#'  The only time `exclude_plotly_bundle` should be `TRUE` is if you don't want
-#'  a `coreGraph()` in the initial layout, but want to insert one via a callback.
-#'  }
 #' }
 #'
 #' @section Methods:
@@ -121,8 +114,7 @@ Dash <- R6::R6Class(
                           serve_locally = TRUE,
                           routes_pathname_prefix = '/',
                           requests_pathname_prefix = '/',
-                          suppress_callback_exceptions = FALSE,
-                          exclude_plotly_bundle = TRUE) {
+                          suppress_callback_exceptions = FALSE) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
@@ -529,18 +521,6 @@ Dash <- R6::R6Class(
       })
       
       deps_layout <- unlist(deps_layout, recursive=FALSE)
-
-      # if core components are used, but no coreGraph() exists,
-      # don't include the plotly.js bundle
-      if (private$exclude_plotly_bundle) {
-        hasCore <- "dashCoreComponents" %in% pkgs
-        hasGraph <- component_contains_type(layout, "dashCoreComponents", "Graph")
-        if (hasCore && !hasGraph) {
-          idx <- which(pkgs %in% "dashCoreComponents")
-          scripts <- deps_layout[[idx]][["script"]]
-          deps_layout[[idx]][["script"]] <- scripts[!grepl("^plotly-*", scripts)]
-        }
-      }
 
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, deps_layout)
