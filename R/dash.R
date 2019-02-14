@@ -245,7 +245,7 @@ Dash <- R6::R6Class(
 
         # get the callback associated with this particular output
         thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        callback <- private$callback_map[[thisOutput]][['user_function']]
+        callback <- private$callback_map[[thisOutput]][['func']]
         if (!length(callback)) stop_report("Couldn't find output component.")
         if (!is.function(callback)) {
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
@@ -298,6 +298,7 @@ Dash <- R6::R6Class(
     },
     layout_set = function(...) {
       private$layout <- if (is.function(..1)) ..1 else list(...)
+      private$layout_render()
     },
 
     # ------------------------------------------------------------------------
@@ -344,21 +345,18 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
-    callback = function(output = NULL, inputs = list(), state = list(), user_function) {
-      private$layout_render()
-
-      assert_valid_callbacks(output, inputs, state, user_function)
-
-      # set class attributes for compatibility with original DashR code
-      for (i in seq_along(inputs)) attr(inputs[[i]], 'class') <- c('dash_dependency', 'input')
-      for (i in seq_along(state)) attr(state[[i]], 'class') <- c('dash_dependency', 'input')
+    callback = function(output, params, func) {
+      assert_valid_callbacks(output, params, func)
+      
+      inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
+      state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
 
       # register the callback_map
       private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
           output=output,
           inputs=inputs,
           state=state,
-          user_function=user_function
+          func=func
         )
     },
 
