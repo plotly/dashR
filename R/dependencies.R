@@ -13,7 +13,7 @@
 
 #' @rdname dependencies
 #' @export
-output <- function(id = NULL, property = "children") {
+output <- function(id, property) {
   structure(
     dependency(id, property),
     class = c("dash_dependency", "output")
@@ -22,7 +22,7 @@ output <- function(id = NULL, property = "children") {
 
 #' @rdname dependencies
 #' @export
-input <- function(id = NULL, property = "value") {
+input <- function(id, property) {
   structure(
     dependency(id, property),
     class = c("dash_dependency", "input")
@@ -31,7 +31,7 @@ input <- function(id = NULL, property = "value") {
 
 #' @rdname dependencies
 #' @export
-state <- function(id = NULL, property = "value") {
+state <- function(id, property) {
   structure(
     dependency(id, property),
     class = c("dash_dependency", "state")
