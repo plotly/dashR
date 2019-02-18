@@ -253,8 +253,8 @@ Dash <- R6::R6Class(
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
         }
 
-        callback_args <- unlist(lapply(c(request$body$inputs, request$body$state), `[[`, 3))
-        output_value <- do.call(callback, as.list(callback_args))
+        callback_args <- lapply(c(request$body$inputs, request$body$state), `[[`, 3)
+        output_value <- do.call(callback, callback_args)
 
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
