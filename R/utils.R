@@ -265,10 +265,15 @@ assert_valid_callbacks <- function(output, params, func) {
   }, FUN.VALUE=logical(1))
   
   # Verify that params contains no elements that are not either members of 'input' or 'state' classes
-  if(any(invalid_params)) {
+  if (any(invalid_params)) {
     stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
   }
-  
+
+  # Verify that 'input' parameters always precede 'state', if present
+  if (!(valid_seq)) {
+    stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
+  }
+    
   # Assert that the component ID as passed is a string.
   if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
     stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
@@ -307,3 +312,19 @@ assert_valid_callbacks <- function(output, params, func) {
 }
 
 names2 <- function(x) names(x) %||% rep('', length(x))
+
+valid_seq <- function(params) {
+  class_attr <- vapply(params, function(x) {
+    attr(x, "class")[attr(x, "class") %in% c('input', 'state')]
+  }, FUN.VALUE=character(1))
+  
+  rle_result <- rle(class_attr)$values
+  
+  if (identical(rle_result, 'input')) {
+    return(TRUE)
+  } else if (identical(rle_result, c('input', 'state'))) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
