@@ -49,9 +49,9 @@ app$layout_set(
   htmlDiv(id = "outputID")
 )
 
-app$callback(output=list(id="outputID", property="children"), 
-             params=list(input(id="inputID", property="value"),
-                         input(id="inputID", property="type")), 
+app$callback(output("outputID", "children"), 
+             list(input("inputID", "value"),
+                  input("inputID", "type")), 
   function(x, y) {
     sprintf("You've entered: '%s' into a '%s' input control", x, y)
   }
