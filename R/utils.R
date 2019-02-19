@@ -270,7 +270,7 @@ assert_valid_callbacks <- function(output, params, func) {
   }
 
   # Verify that 'input' parameters always precede 'state', if present
-  if (!(valid_seq)) {
+  if (!(valid_seq(params))) {
     stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
   }
     
