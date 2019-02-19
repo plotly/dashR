@@ -51,7 +51,7 @@ app$layout_set(
 
 app$callback(output("outputID", "children"), 
              list(input("inputID", "value"),
-                  input("inputID", "type")), 
+                  state("inputID", "type")), 
   function(x, y) {
     sprintf("You've entered: '%s' into a '%s' input control", x, y)
   }
@@ -119,7 +119,7 @@ app$callback(output("giraffe", "figure"),
 
 app$callback(output("outputID", "children"), 
              list(input("graphTitle", "value"),
-                  input("graphTitle", "type")), 
+                  state("graphTitle", "type")), 
              function(x, y) {
                  sprintf("You've entered: '%s' into a '%s' input control", x, y)
              }
