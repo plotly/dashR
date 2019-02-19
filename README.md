@@ -80,9 +80,9 @@ app$layout_set(
   )
 )
 
-app$callback(output=list(id="giraffe", property="figure"), 
-             params=list(input(id="graphTitle", property="value")),     
-               function(newTitle) {
+app$callback(output("giraffe", "figure"), 
+             list(input("graphTitle", "value")),     
+             function(newTitle) {
                  
                  rand1 <- sample(1:10, 1)
                  
@@ -117,12 +117,12 @@ app$callback(output=list(id="giraffe", property="figure"),
                }
 )
 
-app$callback(output=list(id="outputID", property="children"), 
-             params=list(input(id="graphTitle", property="value"),
-                         input(id="graphTitle", property="type")), 
-               function(x, y) {
+app$callback(output("outputID", "children"), 
+             list(input("graphTitle", "value"),
+                  input("graphTitle", "type")), 
+             function(x, y) {
                  sprintf("You've entered: '%s' into a '%s' input control", x, y)
-               }
+             }
 )
 
 app$run_server(showcase = TRUE)
