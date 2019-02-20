@@ -123,13 +123,11 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(routes_pathname_prefix))
       assertthat::assert_that(is.character(requests_pathname_prefix))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
-      assertthat::assert_that(is.logical(exclude_plotly_bundle))
 
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      private$exclude_plotly_bundle <- exclude_plotly_bundle
 
       # config options
       self$config$routes_pathname_prefix <- routes_pathname_prefix
@@ -340,7 +338,7 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
-      
+
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
 
@@ -375,7 +373,6 @@ Dash <- R6::R6Class(
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
-    exclude_plotly_bundle = TRUE,
 
     # fields for tracking HTML dependencies
     dependencies = list(),
