@@ -298,6 +298,7 @@ Dash <- R6::R6Class(
     },
     layout_set = function(...) {
       private$layout <- if (is.function(..1)) ..1 else list(...)
+      # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
 
