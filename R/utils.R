@@ -7,10 +7,9 @@ is.fire <- function(x) inherits(x, "Fire")
 
 # dependencies
 is.dependency <- function(x) inherits(x, "dash_dependency")
-is.output <- function(x) is.dependency(x) && inherits(x, "output")
-is.input <- function(x) is.dependency(x) && inherits(x, "input")
-is.state <- function(x) is.dependency(x) && inherits(x, "state")
-is.event <- function(x) is.dependency(x) && inherits(x, "event")
+is.output <- function(x) inherits(x, "output")
+is.input <- function(x) inherits(x, "input")
+is.state <- function(x) inherits(x, "state")
 
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
@@ -257,4 +256,75 @@ filter_null <- function(x) {
   x[!vapply(x, is.null, logical(1))]
 }
 
+assert_valid_callbacks <- function(output, params, func) {
+  inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
+  state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
+  
+  invalid_params <- vapply(params, function(x) {
+    !any(c('input', 'state') %in% attr(x, "class"))
+  }, FUN.VALUE=logical(1))
+  
+  # Verify that params contains no elements that are not either members of 'input' or 'state' classes
+  if (any(invalid_params)) {
+    stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
+  }
+
+  # Verify that 'input' parameters always precede 'state', if present
+  if (!(valid_seq(params))) {
+    stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
+  }
+    
+  # Assert that the component ID as passed is a string.
+  if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
+    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
+  }
+  
+  # Assert that user_function is a valid function
+  if(!(is.function(func))) {
+    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
+  }
+  
+  # Check if inputs are a nested list
+  if(!(any(sapply(inputs, is.list)))) {
+    stop(sprintf("Callback inputs should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
+  }
+  
+  # Check if state is a nested list, if the list is not empty
+  if(!(length(state) == 0) & !(any(sapply(state, is.list)))) {
+    stop(sprintf("Callback states should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
+  }
+  
+  # Check that input is not NULL
+  if(is.null(inputs)) {
+    stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
+  }
+  
+  # Check that outputs are not inputs
+  # https://github.com/plotly/dash/issues/323
+  inputs_vs_outputs <- lapply(inputs, function(x) identical(x, output))
+  
+  if(TRUE %in% inputs_vs_outputs) {
+    stop(sprintf("Circular input and output arguments were found. Please verify that callback outputs are not also input arguments."), call. = FALSE)
+  }
+  
+  # TO DO: check that components contain props
+  TRUE
+}
+
 names2 <- function(x) names(x) %||% rep('', length(x))
+
+valid_seq <- function(params) {
+  class_attr <- vapply(params, function(x) {
+    attr(x, "class")[attr(x, "class") %in% c('input', 'state')]
+  }, FUN.VALUE=character(1))
+  
+  rle_result <- rle(class_attr)$values
+  
+  if (identical(rle_result, 'input')) {
+    return(TRUE)
+  } else if (identical(rle_result, c('input', 'state'))) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}

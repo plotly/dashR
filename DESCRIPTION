@@ -1,10 +1,10 @@
 Package: dashR
 Title: An interface to the dash ecosystem for authoring reactive web applications
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(person("Ryan", "Kyle", role = c("aut", "cre"), email = "ryan@plot.ly"), person("Carson", "Sievert", role = c("aut")))
 Description: An interface to the dash ecosystem for authoring reactive web applications.
 Depends:
-  R (>= 3.5)
+  R (>= 3.4)
 Imports:
   R6,
   fiery (> 1.0.0),
