@@ -221,10 +221,7 @@ Dash <- R6::R6Class(
           list(
             output=callback_signature$output,
             inputs=callback_signature$inputs,
-            state=callback_signature$state,
-            key=paste(callback_signature$output$id, 
-                      callback_signature$output$property, 
-                      sep='.')
+            state=callback_signature$state
           )
         }, private$callback_map)
 
