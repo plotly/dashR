@@ -42,7 +42,6 @@ dependency <- function(id = NULL, property = NULL) {
   if (is.null(id)) stop("Must specify an id", call. = FALSE)
   list(
     id = id,
-    property = property,
-    key = paste0(id, ".", property)
+    property = property
   )
 }
