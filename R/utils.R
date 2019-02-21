@@ -328,3 +328,18 @@ valid_seq <- function(params) {
     return(FALSE)
   }
 }
+
+resolve_prefix <- function(prefix, environment_var) {
+  if (!(is.null(prefix))) {
+    assertthat::assert_that(is.character(prefix))
+    
+    return(prefix)
+  } else {
+    prefix_env <- Sys.getenv(environment_var)
+    if (prefix_env != "") {
+      return(prefix_env)
+    } else {
+      return("/")
+    }
+  }
+}

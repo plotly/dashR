@@ -112,16 +112,14 @@ Dash <- R6::R6Class(
                           server = fiery::Fire$new(),
                           static_folder = NULL,
                           serve_locally = TRUE,
-                          routes_pathname_prefix = '/',
-                          requests_pathname_prefix = '/',
+                          routes_pathname_prefix = NULL,
+                          requests_pathname_prefix = NULL,
                           suppress_callback_exceptions = FALSE) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
       assertthat::assert_that(inherits(server, "Fire"))
       assertthat::assert_that(is.logical(serve_locally))
-      assertthat::assert_that(is.character(routes_pathname_prefix))
-      assertthat::assert_that(is.character(requests_pathname_prefix))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
@@ -130,9 +128,10 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
 
       # config options
-      self$config$routes_pathname_prefix <- routes_pathname_prefix
-      self$config$requests_pathname_prefix <- requests_pathname_prefix
-
+      browser()
+      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
+      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+        
       # produce a true copy of the fiery server, since we don't want our
       # attachments/modifications having unintended side-effects
       # https://github.com/thomasp85/fiery/issues/30
@@ -176,7 +175,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
-      dash_index <- routes_pathname_prefix
+      dash_index <- self$config$routes_pathname_prefix
       route$add_handler("get", dash_index, function(request, response, keys, ...) {
 
         response$body <- private$.index
@@ -377,32 +376,8 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
-    routes_pathname_prefix = {
-      routes_prefix <- Sys.getenv("DASH_ROUTES_PATHNAME_PREFIX")
-      if (routes_prefix != "") {
-        routes_prefix
-      } else {
-        url_basename <- Sys.getenv("DASH_URL_BASE_PATHNAME")
-        if (url_basename != "") {
-          url_basename
-        } else {
-          NULL
-        }
-      }
-    },
-    requests_pathname_prefix = {
-      requests_prefix <- Sys.getenv("DASH_REQUESTS_PATHNAME_PREFIX")
-      if (requests_prefix != "") {
-        requests_prefix
-      } else {
-        url_basename <- Sys.getenv("DASH_URL_BASE_PATHNAME")
-        if (url_basename != "") {
-          url_basename
-        } else {
-          NULL
-        }
-      }
-    },
+    routes_pathname_prefix = NULL,
+    requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
 
     # fields for tracking HTML dependencies
