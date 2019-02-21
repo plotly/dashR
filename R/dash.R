@@ -370,8 +370,32 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
-    routes_pathname_prefix = NULL,
-    requests_pathname_prefix = NULL,
+    routes_pathname_prefix = {
+      routes_prefix <- Sys.getenv("DASH_ROUTES_PATHNAME_PREFIX")
+      if (routes_prefix != "") {
+        routes_prefix
+      } else {
+        url_basename <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+        if (url_basename != "") {
+          url_basename
+        } else {
+          NULL
+        }
+      }
+    },
+    requests_pathname_prefix = {
+      requests_prefix <- Sys.getenv("DASH_REQUESTS_PATHNAME_PREFIX")
+      if (requests_prefix != "") {
+        requests_prefix
+      } else {
+        url_basename <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+        if (url_basename != "") {
+          url_basename
+        } else {
+          NULL
+        }
+      }
+    },
     suppress_callback_exceptions = NULL,
 
     # fields for tracking HTML dependencies
