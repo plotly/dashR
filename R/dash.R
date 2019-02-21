@@ -128,7 +128,6 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
 
       # config options
-      browser()
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
         
@@ -267,7 +266,9 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      route$add_handler('get', '/*', function(request, response, keys, ...) {
+      # Add a 'catchall' handler to redirect other requests to the index
+      dash_catchall <- paste0(routes_pathname_prefix, "/*")
+      route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
         
         response$body <- private$.index
         response$status <- 200L
