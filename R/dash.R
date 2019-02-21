@@ -196,7 +196,6 @@ Dash <- R6::R6Class(
       })
 
       dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
-
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
@@ -223,6 +222,7 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
+        
         request <- request_parse_json(request)
 
         if (!"output" %in% names(request$body)) {
@@ -268,7 +268,14 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-
+      route$add_handler('get', '/*', function(request, response, keys, ...) {
+        
+        response$body <- private$.index
+        response$status <- 200L
+        response$type <- 'html'
+        TRUE
+      })
+      
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
 
