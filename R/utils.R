@@ -162,26 +162,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
   paste(html, collapse = "\n")
 }
 
-# Similar to htmltools::resolveDependencies(), but allows
-# pkgload:::shim_system.file() to work it's magic in dev mode
-# (i.e., pkgload::load_all())
-resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
-
-  dependencies <- htmltools::resolveDependencies(dependencies, FALSE)
-
-  if (resolvePackageDir) {
-    dependencies <- lapply(dependencies, function(dep) {
-      if (is.null(dep$package)) return(dep)
-      dir <- dep$src$file
-      if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
-      dep$package <- NULL
-      dep
-    })
-  }
-
-  dependencies
-}
-
 # ----------------------------------------------------------------------------
 # Other (generic) helpers
 # ----------------------------------------------------------------------------
