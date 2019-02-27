@@ -114,7 +114,7 @@ request_parse_json <- function(request) {
 # A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(dependencies, local = TRUE) {
+render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
   html <- sapply(dependencies, function(dep) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     srcs <- names(dep[["src"]])
@@ -129,6 +129,34 @@ render_dependencies <- function(dependencies, local = TRUE) {
     } else {
       "file"
     }
+    
+    # According to Dash convention, label react and react-dom as originating
+    # in dash_renderer package, even though all three are currently served
+    # up from the DashR package
+    if (dep$name %in% c("react", "react-dom")) {
+      dep$name <- "dash_renderer"
+    }
+
+    # The following lines inject _dash-component-suites into the src tags,
+    # as this is the current Dash convention. The dependency paths cannot
+    # be set solely at component library generation time, since hosted
+    # applications should have the app name injected as well.
+    #
+    # This is essentially analogous to this codeblock on the Python side:
+    # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L207
+    if (is.null(prefix)) {
+      dep[["script"]] <- paste0("/_dash-component-suites/",
+                                dep$name,
+                                "/",
+                                basename(dep[["script"]]))
+    } else {
+      dep[["script"]] <- paste0(sub("/", "", prefix), 
+                                "_dash-component-suites/", 
+                                dep$name,
+                                "/",
+                                basename(dep[["script"]]))
+    }
+    dep$src$file <- ""
     htmltools::renderDependencies(list(dep), src, encodeFunc = identity)
   })
   paste(html, collapse = "\n")
