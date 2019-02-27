@@ -302,7 +302,6 @@ Dash <- R6::R6Class(
       # Add a 'catchall' handler to redirect other requests to the index
       dash_catchall <- paste0(self$config$routes_pathname_prefix, "/*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
-        
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
@@ -373,7 +372,7 @@ Dash <- R6::R6Class(
           version, paste(unique(versions), collapse = "', '")
         ), call. = FALSE)
       }
-      private$react_version_enabled<- version
+      private$react_version_enabled <- version
     },
 
     # ------------------------------------------------------------------------
