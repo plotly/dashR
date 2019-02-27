@@ -343,6 +343,36 @@ resolve_prefix <- function(prefix, environment_var) {
     }
   }
 }get_mimetype <- function(filename) {
+
+get_package_mapping <- function(script_path, url_package, dependencies) {
+  package_map <- vapply(dependencies, function(x) {
+    if (x$name %in% c('react', 'react-dom')) {
+      x$name <- 'dash_renderer'
+    }
+    dep_path <- paste(x$src$file, 
+                      x$script,
+                      sep = "/")
+  
+    # remove double slash and replace with single if present
+    result <- c(pkg_name=x$package,
+                dep_name=x$name,
+                dep_path=gsub("//", replacement = "/", dep_path)
+    )
+  }, FUN.VALUE = character(3))
+  
+  package_map <- as.data.frame(t(package_map), stringsAsFactors = FALSE)
+  
+  filename <- basename(script_path)
+  
+  pos_match <- grepl(paste0(filename, "$"), package_map[, "dep_path"]) &
+               grepl(url_package, package_map[,"dep_name"])
+  
+  rpkg_name <- package_map[,"pkg_name"][pos_match]
+  rpkg_path <- package_map[,"dep_path"][pos_match]
+  
+  return(list(rpkg_name=rpkg_name, rpkg_path=rpkg_path))
+}
+
   # the next two lines are borrowed from file_ext
   last_dot_pos <- regexpr("\\.([[:alnum:]]+)$", filename)
   file_ext <- ifelse(last_dot_pos > -1L, 
