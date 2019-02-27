@@ -305,6 +305,9 @@ Dash <- R6::R6Class(
     dependencies_get = function() {
       c(private$dependencies_user, private$dependencies)
     },
+    dependencies_get_internal = function() {
+      private$dependencies_internal
+    },
     dependencies_set = function(dependencies = list(), add = TRUE) {
 
       if (!length(dependencies)) return()
