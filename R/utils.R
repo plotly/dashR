@@ -342,4 +342,20 @@ resolve_prefix <- function(prefix, environment_var) {
       return("/")
     }
   }
+}get_mimetype <- function(filename) {
+  # the next two lines are borrowed from file_ext
+  last_dot_pos <- regexpr("\\.([[:alnum:]]+)$", filename)
+  file_ext <- ifelse(last_dot_pos > -1L, 
+                     substring(filename, 
+                               last_dot_pos + 1L), 
+                     "")
+  
+  if (file_ext == 'js')
+    return('application/JavaScript')
+  else if (file_ext == 'css')
+    return('text/css')
+  else if (file_ext == 'map')
+    return('application/json')
+  else
+    return(NULL)
 }
