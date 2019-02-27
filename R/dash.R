@@ -288,6 +288,7 @@ Dash <- R6::R6Class(
                                 package = dep_pkg$rpkg_name)
 
         response$body <- readLines(dep_path,
+                                   warn = FALSE, 
                                    encoding = "UTF-8")
         response$status <- 200L
         response$set_header('Cache-Control', 
