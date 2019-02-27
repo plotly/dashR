@@ -255,14 +255,41 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      # TODO: once implemented in dash-renderer, leverage this endpoint so
-      # we can dynamically load dependencies during `_dash-update-component`
-      # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
+      # This endpoint supports dynamic dependency loading 
+      # during `_dash-update-component` -- for reference:
+      # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
+      # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/*")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+        # we're looking for a bit more information than returned by the routr API
+        # for the handler keys, so the URL parsing is done manually here:
+        #
+        # 1) extract the URL from the request
+        # 2) split the URL into chunks for each of the /*/ blocks
+        # 3) retrieve the script pathname by starting from the first block following
+        #    the "package" name (for the Dash deps, not the R package) name in the
+        #    URL, then capturing the rest of the pathname afterwards
+        # 4) concatenate the strings into a path, collapsing with /
+        # 5) pass the constructed path to get_package_mapping to retrieve R pkg name
+        url <- request$url
+        url_as_strings <- strsplit(gsub("http://|https://|www\\.", "", url), "/")[[1]]
+        pkg_pos <- 1 + match(keys$package_name, url_as_strings)
+        dist_path <- paste(url_as_strings[pkg_pos:length(url_as_strings)], collapse = "/")
+        
+        dep_pkg <- get_package_mapping(dist_path, 
+                                       keys$package_name,
+                                       c(private$dependencies_internal,
+                                                    private$dependencies,
+                                                    private$dependencies_user)
+                                       )
+        
+        dep_path <- system.file(dep_pkg$rpkg_path, 
+                                package = dep_pkg$rpkg_name)
 
-        response$status <- 500L
-        response$body <- "Not yet implemented"
+        response$body <- readLines(dep_path,
+                                   encoding = "UTF-8")
+        response$status <- 200L
+        response$type <- get_mimetype(dist_path)
         TRUE
       })
 
