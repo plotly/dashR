@@ -114,7 +114,8 @@ Dash <- R6::R6Class(
                           serve_locally = TRUE,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
-                          suppress_callback_exceptions = FALSE) {
+                          suppress_callback_exceptions = FALSE,
+                          components_cache_max_age = 2678400) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
@@ -289,6 +290,10 @@ Dash <- R6::R6Class(
         response$body <- readLines(dep_path,
                                    encoding = "UTF-8")
         response$status <- 200L
+        response$set_header('Cache-Control', 
+                            sprintf('public, max-age=%s', 
+                                    components_cache_max_age)
+                            )
         response$type <- get_mimetype(dist_path)
         TRUE
       })
