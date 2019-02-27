@@ -350,7 +350,7 @@ resolve_prefix <- function(prefix, environment_var) {
       return("/")
     }
   }
-}get_mimetype <- function(filename) {
+}
 
 get_package_mapping <- function(script_path, url_package, dependencies) {
   package_map <- vapply(dependencies, function(x) {
@@ -381,6 +381,7 @@ get_package_mapping <- function(script_path, url_package, dependencies) {
   return(list(rpkg_name=rpkg_name, rpkg_path=rpkg_path))
 }
 
+get_mimetype <- function(filename) {
   # the next two lines are borrowed from file_ext
   last_dot_pos <- regexpr("\\.([[:alnum:]]+)$", filename)
   file_ext <- ifelse(last_dot_pos > -1L, 
