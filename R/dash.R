@@ -176,7 +176,7 @@ Dash <- R6::R6Class(
 
       dash_index <- self$config$routes_pathname_prefix
       route$add_handler("get", dash_index, function(request, response, keys, ...) {
-
+        
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
@@ -275,7 +275,7 @@ Dash <- R6::R6Class(
         response$type <- 'html'
         TRUE
       })
-      
+
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
 
@@ -510,7 +510,6 @@ Dash <- R6::R6Class(
 
       dependencies
     },
-
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$react$version
@@ -528,8 +527,6 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     index = function() {
-
-
       # collect and resolve dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
@@ -584,6 +581,7 @@ Dash <- R6::R6Class(
         to_JSON(self$config),
         render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$routes_pathname_prefix)
       )
+      
     }
   )
 )
