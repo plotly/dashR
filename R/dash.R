@@ -519,32 +519,6 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
-    # Create resource route(s) pointing to (local) HTML dependencies
-    register_dependencies = function(dependencies) {
-
-      # filter out non-local dependencies
-      dependencies <- compact(lapply(dependencies, function(dep) {
-        assertthat::assert_that(inherits(dep, "html_dependency"))
-        if (is.null(dep[["src"]][["file"]])) NULL else dep
-      }))
-
-      # Register a resource route for each dependency -- unless one already exists
-      for (i in seq_along(dependencies)) {
-        dep <- dependencies[[i]]
-        dep_key <- paste(dep[["name"]], dep[["version"]], sep = "@")
-
-        # create/attach the resource mapping
-        local_path <- dep[["src"]][["file"]]
-        resource_map <- setNames(local_path, dep_key)
-        rroute <- do.call(routr::ressource_route, as.list(resource_map))
-        self$server$plugins$request_routr$add_route(rroute, dep_key)
-
-        # make the dependency's local path relative for downstream rendering
-        dependencies[[i]][["src"]][["file"]] <- dep_key
-      }
-
-      dependencies
-    },
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$react$version
