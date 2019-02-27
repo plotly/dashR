@@ -536,10 +536,7 @@ Dash <- R6::R6Class(
       ))
 
       # normalizes local paths and keeps newer versions of duplicates
-      depsAll <- resolve_dependencies(depsAll)
-
-      # register a resource route for dependencies (if necessary)
-      depsAll <- private$register_dependencies(depsAll)
+      depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
 
       # styleheets always go in header
       depsCSS <- compact(lapply(depsAll, function(dep) {
