@@ -183,7 +183,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
+      dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
 
         lay <- private$layout_render()
@@ -193,7 +193,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
+      dash_deps <- paste0(self$config$routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
@@ -218,7 +218,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
+      dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
         
         request <- request_parse_json(request)
@@ -258,7 +258,7 @@ Dash <- R6::R6Class(
       # TODO: once implemented in dash-renderer, leverage this endpoint so
       # we can dynamically load dependencies during `_dash-update-component`
       # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
-      dash_suite <- paste0(routes_pathname_prefix, "_dash-component-suites")
+      dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/*")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
 
         response$status <- 500L
@@ -267,7 +267,7 @@ Dash <- R6::R6Class(
       })
 
       # Add a 'catchall' handler to redirect other requests to the index
-      dash_catchall <- paste0(routes_pathname_prefix, "/*")
+      dash_catchall <- paste0(self$config$routes_pathname_prefix, "/*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
         
         response$body <- private$.index
@@ -580,9 +580,9 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        render_dependencies(depsCSS, local = private$serve_locally),
+        render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$routes_pathname_prefix),
         to_JSON(self$config),
-        render_dependencies(depsScripts, local = private$serve_locally)
+        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$routes_pathname_prefix)
       )
     }
   )
