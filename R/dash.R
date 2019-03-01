@@ -175,15 +175,6 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
-      dash_index <- self$config$routes_pathname_prefix
-      route$add_handler("get", dash_index, function(request, response, keys, ...) {
-        
-        response$body <- private$.index
-        response$status <- 200L
-        response$type <- 'html'
-        TRUE
-      })
-
       dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
 
@@ -300,7 +291,7 @@ Dash <- R6::R6Class(
       })
 
       # Add a 'catchall' handler to redirect other requests to the index
-      dash_catchall <- paste0(self$config$routes_pathname_prefix, "/*")
+      dash_catchall <- paste0(self$config$routes_pathname_prefix, "*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
         response$body <- private$.index
         response$status <- 200L
