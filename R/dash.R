@@ -574,9 +574,9 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$routes_pathname_prefix),
+        render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix),
         to_JSON(self$config),
-        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$routes_pathname_prefix)
+        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
       )
       
     }
