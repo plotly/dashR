@@ -144,20 +144,43 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     #
     # This is essentially analogous to this codeblock on the Python side:
     # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L207
-    if (is.null(prefix)) {
-      dep[["script"]] <- paste0("/_dash-component-suites/",
-                                dep$name,
-                                "/",
-                                basename(dep[["script"]]))
-    } else {
-      dep[["script"]] <- paste0(sub("/", "", prefix), 
+    #
+    # Use the system file modification timestamp for the current
+    # package and add the version number of the package as a query 
+    # parameter for cache busting
+    #
+    # the gsub line is to remove stray duplicate slashes, to
+    # permit exact string matching on pathnames
+    dep_path <- gsub("//+",
+                     "/",
+                     paste(dep$src$file,
+                           dep$script,
+                           sep = "/")
+                     )
+    
+    full_path <- system.file(file.path(dep_path),
+                             package = dep$package)
+    
+    modified <- as.integer(file.mtime(full_path))
+    
+    if ("script" %in% names(dep)) {
+      dep[["script"]] <- paste0(prefix, 
                                 "_dash-component-suites/", 
                                 dep$name,
                                 "/",
-                                basename(dep[["script"]]))
+                                basename(dep[["script"]]),
+                                sprintf("?v=%s&m=%s", dep$version, modified))
+      html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+    } else if ("stylesheet" %in% names(dep)) {
+      dep[["stylesheet"]] <- paste0(prefix, 
+                                    "_dash-component-suites/", 
+                                    dep$name,
+                                    "/",
+                                    basename(dep[["script"]]),
+                                    sprintf("?v=%s&m=%s", dep$version, modified))
+      
+      html <- sprintf("<script src=\"%s\"></script>", dep[["stylesheet"]])
     }
-    dep$src$file <- ""
-    htmltools::renderDependencies(list(dep), src, encodeFunc = identity)
   })
   paste(html, collapse = "\n")
 }
