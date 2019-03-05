@@ -411,9 +411,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
   
   package_map <- t(package_map)
   
-  filename <- basename(script_path)
-  
-  pos_match <- grepl(paste0(filename, "$"), package_map[, "dep_path"]) &
+  pos_match <- grepl(paste0(script_name, "$"), package_map[, "dep_path"]) &
                grepl(url_package, package_map[,"dep_name"])
   
   rpkg_name <- package_map[,"pkg_name"][pos_match]
