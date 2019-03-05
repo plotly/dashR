@@ -380,6 +380,19 @@ resolve_prefix <- function(prefix, environment_var) {
 
 get_package_mapping <- function(script_path, url_package, dependencies) {
   package_map <- vapply(dependencies, function(x) {
+# The function below requires a dependency path, package information
+# retrieved from a request URL, as well as a list of dependencies
+# (currently in htmltools htmlDependency format). get_package_mapping
+# optionally returns an R package name (if the file is contained
+# inside an R package), or NULL if the dependency is not found,
+# and a (local) path to the dependency.
+# 
+# script_name is e.g. "dash_core_components.min.js"
+# url_package is e.g. "dash_core_components"
+# dependencies = list of htmlDependency objects
+# this function returns a list with two elements:
+#   rpkg_name = character string supplying the name of the R package
+#   rpkg_path = character string providing the path to the dependency
     if (x$name %in% c('react', 'react-dom')) {
       x$name <- 'dash-renderer'
     }
