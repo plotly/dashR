@@ -176,15 +176,13 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                 basename(dep[["script"]]),
                                 sprintf("?v=%s&m=%s", dep$version, modified))
       html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
-    } else if ("stylesheet" %in% names(dep)) {
-      dep[["stylesheet"]] <- paste0(prefix, 
-                                    "_dash-component-suites/", 
-                                    dep$name,
-                                    "/",
-                                    basename(dep[["script"]]),
-                                    sprintf("?v=%s&m=%s", dep$version, modified))
-      
-      html <- sprintf("<script src=\"%s\"></script>", dep[["stylesheet"]])
+    } else if ("stylesheet" %in% names(dep) & src == "href") {
+      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
+                                                                       dep[["stylesheet"]], 
+                                                                       sep="/"))
+    } else if ("stylesheet" %in% names(dep) & src == "file") {
+      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]], 
+                                                                           dep[["stylesheet"]]))
     }
   })
   paste(html, collapse = "\n")
