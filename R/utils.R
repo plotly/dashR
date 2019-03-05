@@ -136,7 +136,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if (dep$name %in% c("react", "react-dom")) {
       dep$name <- "dash-renderer"
     }
-
+    
     # The following lines inject _dash-component-suites into the src tags,
     # as this is the current Dash convention. The dependency paths cannot
     # be set solely at component library generation time, since hosted
@@ -146,22 +146,26 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L207
     #
     # Use the system file modification timestamp for the current
-    # package and add the version number of the package as a query 
+    # package and add the version number of the package as a query
     # parameter for cache busting
-    #
-    # the gsub line is to remove stray duplicate slashes, to
-    # permit exact string matching on pathnames
-    dep_path <- gsub("//+",
-                     "/",
-                     paste(dep$src$file,
-                           dep$script,
-                           sep = "/")
-                     )
     
-    full_path <- system.file(file.path(dep_path),
-                             package = dep$package)
-    
-    modified <- as.integer(file.mtime(full_path))
+    if (!is.null(dep$package)) {
+      # the gsub line is to remove stray duplicate slashes, to
+      # permit exact string matching on pathnames
+      dep_path <- gsub("//+",
+                       "/",
+                       paste(dep$src$file,
+                             dep$script,
+                             sep = "/")
+      )
+      
+      full_path <- system.file(file.path(dep_path),
+                               package = dep$package)
+      
+      modified <- as.integer(file.mtime(full_path))
+    } else {
+      modified <- as.integer(Sys.time())
+    }
     
     if ("script" %in% names(dep)) {
       dep[["script"]] <- paste0(prefix, 
