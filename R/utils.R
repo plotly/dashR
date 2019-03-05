@@ -409,7 +409,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     )
   }, FUN.VALUE = character(3))
   
-  package_map <- as.data.frame(t(package_map), stringsAsFactors = FALSE)
+  package_map <- t(package_map)
   
   filename <- basename(script_path)
   
