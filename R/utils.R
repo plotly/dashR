@@ -411,6 +411,10 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
   
   package_map <- t(package_map)
   
+  # pos_match is a vector of logical() values -- this allows filtering
+  # of the package_map entries based on name, path, and matching of
+  # URL package name against R package names. when all conditions are
+  # satisfied, pos_match will return TRUE
   pos_match <- grepl(paste0(script_name, "$"), package_map[, "dep_path"]) &
                grepl(url_package, package_map[,"dep_name"])
   
