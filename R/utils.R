@@ -378,8 +378,6 @@ resolve_prefix <- function(prefix, environment_var) {
   }
 }
 
-get_package_mapping <- function(script_path, url_package, dependencies) {
-  package_map <- vapply(dependencies, function(x) {
 # The function below requires a dependency path, package information
 # retrieved from a request URL, as well as a list of dependencies
 # (currently in htmltools htmlDependency format). get_package_mapping
@@ -393,6 +391,10 @@ get_package_mapping <- function(script_path, url_package, dependencies) {
 # this function returns a list with two elements:
 #   rpkg_name = character string supplying the name of the R package
 #   rpkg_path = character string providing the path to the dependency
+get_package_mapping <- function(script_name, url_package, dependencies) {
+  # TODO: improve validation of dependency inputs, particularly
+  #       to avoid duplicating dependencies in the package_map
+  package_map <- vapply(unique(dependencies), function(x) {
     if (x$name %in% c('react', 'react-dom')) {
       x$name <- 'dash-renderer'
     }
