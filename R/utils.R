@@ -132,9 +132,9 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
-    # up from the DashR package
+    # u p from the DashR package
     if (dep$name %in% c("react", "react-dom")) {
-      dep$name <- "dash_renderer"
+      dep$name <- "dash-renderer"
     }
 
     # The following lines inject _dash-component-suites into the src tags,
@@ -378,7 +378,7 @@ resolve_prefix <- function(prefix, environment_var) {
 get_package_mapping <- function(script_path, url_package, dependencies) {
   package_map <- vapply(dependencies, function(x) {
     if (x$name %in% c('react', 'react-dom')) {
-      x$name <- 'dash_renderer'
+      x$name <- 'dash-renderer'
     }
     dep_path <- paste(x$src$file, 
                       x$script,
