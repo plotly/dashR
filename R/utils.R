@@ -167,9 +167,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       modified <- as.integer(Sys.time())
     }
     
-    if ("script" %in% names(dep)) {
-      dep[["script"]] <- paste0(prefix, 
-                                "_dash-component-suites/", 
+    # we don't want to serve the JavaScript source maps here
+    if ("script" %in% names(dep) & tools::file_ext(dep[["script"]]) != "map") {
+      dep[["script"]] <- paste0(prefix,
+                                "_dash-component-suites/",
                                 dep$name,
                                 "/",
                                 basename(dep[["script"]]),
