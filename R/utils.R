@@ -402,10 +402,10 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
                       x$script,
                       sep = "/")
   
-    # remove double slash and replace with single if present
+    # remove n>1 slashes and replace with / if present
     result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
                 dep_name=x$name,
-                dep_path=gsub("//", replacement = "/", dep_path)
+                dep_path=gsub("//+", replacement = "/", dep_path)
     )
   }, FUN.VALUE = character(3))
   
