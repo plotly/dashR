@@ -212,7 +212,6 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
-        
         request <- request_parse_json(request)
 
         if (!"output" %in% names(request$body)) {
@@ -230,7 +229,36 @@ Dash <- R6::R6Class(
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
         }
 
-        callback_args <- lapply(c(request$body$inputs, request$body$state), `[[`, 3)
+        # the following callback_args code handles inputs which may contain
+        # NULL values; we wish to retain the NULL elements, since these can
+        # be passed into the callback handler, rather than dropping the list
+        # elements when they are encountered (which also compromises the
+        # sequencing of passed arguments). the R FAQ notes that list(NULL)
+        # can be used to append NULL elements into a constructed list, but
+        # that assigning NULL into list elements omits them from the object.
+        #
+        # we want the NULL elements to be wrapped in a list when they're
+        # passed, so they're nested in the code below.
+        #
+        # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
+        callback_args <- list()
+        
+        for (input_element in request$body$inputs) {
+          if(is.null(input_element$value))
+            callback_args <- c(callback_args, list(list(NULL)))
+          else
+            callback_args <- c(callback_args, input_element$value)
+        }
+        
+        if (length(request$body$state)) {
+          for (state_element in request$body$state) {
+            if(is.null(state_element$value))
+              callback_args <- c(callback_args, list(list(NULL)))
+            else
+              callback_args <- c(callback_args, state_element$value)
+          }
+        }
+                
         output_value <- do.call(callback, callback_args)
 
         # have to format the response body like this
