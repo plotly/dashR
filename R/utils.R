@@ -152,14 +152,14 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if (!is.null(dep$package)) {
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
+      dep_path <- file.path(dep$src$file,
+                            dep$script)
       dep_path <- gsub("//+",
                        "/",
-                       paste(dep$src$file,
-                             dep$script,
-                             sep = "/")
+                       dep_path)
       )
       
-      full_path <- system.file(file.path(dep_path),
+      full_path <- system.file(dep_path,
                                package = dep$package)
       
       modified <- as.integer(file.mtime(full_path))
@@ -398,9 +398,8 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     if (x$name %in% c('react', 'react-dom')) {
       x$name <- 'dash-renderer'
     }
-    dep_path <- paste(x$src$file, 
-                      x$script,
-                      sep = "/")
+    dep_path <- file.path(x$src$file,
+                          x$script)
   
     # remove n>1 slashes and replace with / if present
     result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
