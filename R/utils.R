@@ -403,7 +403,10 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     dep_path <- file.path(x$src$file,
                           x$script)
   
-    # remove n>1 slashes and replace with / if present
+    # remove n>1 slashes and replace with / if present;
+    # htmltools seems to permit // in pathnames, but 
+    # this complicates string matching unless they're
+    # removed from the pathname
     result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
                 dep_name=x$name,
                 dep_path=gsub("//+", replacement = "/", dep_path)
