@@ -167,7 +167,9 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       modified <- as.integer(Sys.time())
     }
     
-    # we don't want to serve the JavaScript source maps here
+    # we don't want to serve the JavaScript source maps here,
+    # until we are able to provide full support for debug mode,
+    # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       dep[["script"]] <- paste0(prefix,
                                 "_dash-component-suites/",
