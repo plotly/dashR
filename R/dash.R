@@ -112,16 +112,15 @@ Dash <- R6::R6Class(
                           server = fiery::Fire$new(),
                           static_folder = NULL,
                           serve_locally = TRUE,
-                          routes_pathname_prefix = '/',
-                          requests_pathname_prefix = '/',
-                          suppress_callback_exceptions = FALSE) {
+                          routes_pathname_prefix = NULL,
+                          requests_pathname_prefix = NULL,
+                          suppress_callback_exceptions = FALSE,
+                          components_cache_max_age = 2678400) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
       assertthat::assert_that(inherits(server, "Fire"))
       assertthat::assert_that(is.logical(serve_locally))
-      assertthat::assert_that(is.character(routes_pathname_prefix))
-      assertthat::assert_that(is.character(requests_pathname_prefix))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
@@ -130,9 +129,9 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
 
       # config options
-      self$config$routes_pathname_prefix <- routes_pathname_prefix
-      self$config$requests_pathname_prefix <- requests_pathname_prefix
-
+      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
+      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+        
       # produce a true copy of the fiery server, since we don't want our
       # attachments/modifications having unintended side-effects
       # https://github.com/thomasp85/fiery/issues/30
@@ -176,16 +175,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       route <- routr::Route$new()
 
-      dash_index <- routes_pathname_prefix
-      route$add_handler("get", dash_index, function(request, response, keys, ...) {
-
-        response$body <- private$.index
-        response$status <- 200L
-        response$type <- 'html'
-        TRUE
-      })
-
-      dash_layout <- paste0(routes_pathname_prefix, "_dash-layout")
+      dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
 
         lay <- private$layout_render()
@@ -195,8 +185,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_deps <- paste0(routes_pathname_prefix, "_dash-dependencies")
-
+      dash_deps <- paste0(self$config$routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
 
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
@@ -221,7 +210,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_update <- paste0(routes_pathname_prefix, "_dash-update-component")
+      dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
         request <- request_parse_json(request)
 
@@ -240,7 +229,36 @@ Dash <- R6::R6Class(
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
         }
 
-        callback_args <- lapply(c(request$body$inputs, request$body$state), `[[`, 3)
+        # the following callback_args code handles inputs which may contain
+        # NULL values; we wish to retain the NULL elements, since these can
+        # be passed into the callback handler, rather than dropping the list
+        # elements when they are encountered (which also compromises the
+        # sequencing of passed arguments). the R FAQ notes that list(NULL)
+        # can be used to append NULL elements into a constructed list, but
+        # that assigning NULL into list elements omits them from the object.
+        #
+        # we want the NULL elements to be wrapped in a list when they're
+        # passed, so they're nested in the code below.
+        #
+        # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
+        callback_args <- list()
+        
+        for (input_element in request$body$inputs) {
+          if(is.null(input_element$value))
+            callback_args <- c(callback_args, list(list(NULL)))
+          else
+            callback_args <- c(callback_args, input_element$value)
+        }
+        
+        if (length(request$body$state)) {
+          for (state_element in request$body$state) {
+            if(is.null(state_element$value))
+              callback_args <- c(callback_args, list(list(NULL)))
+            else
+              callback_args <- c(callback_args, state_element$value)
+          }
+        }
+                
         output_value <- do.call(callback, callback_args)
 
         # have to format the response body like this
@@ -257,17 +275,44 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      # TODO: once implemented in dash-renderer, leverage this endpoint so
-      # we can dynamically load dependencies during `_dash-update-component`
-      # https://plotly.slack.com/archives/D07PDTRK6/p1507657249000714?thread_ts=1505157408.000123&cid=D07PDTRK6
-      dash_suite <- paste0(routes_pathname_prefix, "_dash-component-suites")
+      # This endpoint supports dynamic dependency loading 
+      # during `_dash-update-component` -- for reference:
+      # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
+      # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
+      dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+        filename <- basename(file.path(keys$filename))
+        
+        dep_pkg <- get_package_mapping(filename, 
+                                       keys$package_name,
+                                       c(private$dependencies_internal,
+                                                    private$dependencies,
+                                                    private$dependencies_user)
+                                       )
 
-        response$status <- 500L
-        response$body <- "Not yet implemented"
+        dep_path <- system.file(dep_pkg$rpkg_path, 
+                                package = dep_pkg$rpkg_name)
+
+        response$body <- readLines(dep_path,
+                                   warn = FALSE, 
+                                   encoding = "UTF-8")
+        response$status <- 200L
+        response$set_header('Cache-Control', 
+                            sprintf('public, max-age=%s', 
+                                    components_cache_max_age)
+                            )
+        response$type <- get_mimetype(filename)
         TRUE
       })
 
+      # Add a 'catchall' handler to redirect other requests to the index
+      dash_catchall <- paste0(self$config$routes_pathname_prefix, "*")
+      route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
+        response$body <- private$.index
+        response$status <- 200L
+        response$type <- 'html'
+        TRUE
+      })
 
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
@@ -297,6 +342,9 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     dependencies_get = function() {
       c(private$dependencies_user, private$dependencies)
+    },
+    dependencies_get_internal = function() {
+      private$dependencies_internal
     },
     dependencies_set = function(dependencies = list(), add = TRUE) {
 
@@ -330,7 +378,7 @@ Dash <- R6::R6Class(
           version, paste(unique(versions), collapse = "', '")
         ), call. = FALSE)
       }
-      private$react_version_enabled<- version
+      private$react_version_enabled <- version
     },
 
     # ------------------------------------------------------------------------
@@ -477,33 +525,6 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
-    # Create resource route(s) pointing to (local) HTML dependencies
-    register_dependencies = function(dependencies) {
-
-      # filter out non-local dependencies
-      dependencies <- compact(lapply(dependencies, function(dep) {
-        assertthat::assert_that(inherits(dep, "html_dependency"))
-        if (is.null(dep[["src"]][["file"]])) NULL else dep
-      }))
-
-      # Register a resource route for each dependency -- unless one already exists
-      for (i in seq_along(dependencies)) {
-        dep <- dependencies[[i]]
-        dep_key <- paste(dep[["name"]], dep[["version"]], sep = "@")
-
-        # create/attach the resource mapping
-        local_path <- dep[["src"]][["file"]]
-        resource_map <- setNames(local_path, dep_key)
-        rroute <- do.call(routr::ressource_route, as.list(resource_map))
-        self$server$plugins$request_routr$add_route(rroute, dep_key)
-
-        # make the dependency's local path relative for downstream rendering
-        dependencies[[i]][["src"]][["file"]] <- dep_key
-      }
-
-      dependencies
-    },
-
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$react$version
@@ -521,8 +542,6 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     index = function() {
-
-
       # collect and resolve dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
@@ -532,10 +551,7 @@ Dash <- R6::R6Class(
       ))
 
       # normalizes local paths and keeps newer versions of duplicates
-      depsAll <- resolve_dependencies(depsAll)
-
-      # register a resource route for dependencies (if necessary)
-      depsAll <- private$register_dependencies(depsAll)
+      depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
 
       # styleheets always go in header
       depsCSS <- compact(lapply(depsAll, function(dep) {
@@ -573,10 +589,11 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        render_dependencies(depsCSS, local = private$serve_locally),
+        render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix),
         to_JSON(self$config),
-        render_dependencies(depsScripts, local = private$serve_locally)
+        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
       )
+      
     }
   )
 )

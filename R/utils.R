@@ -114,7 +114,7 @@ request_parse_json <- function(request) {
 # A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
 # @param external point to an external CDN rather local files?
-render_dependencies <- function(dependencies, local = TRUE) {
+render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
   html <- sapply(dependencies, function(dep) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     srcs <- names(dep[["src"]])
@@ -129,29 +129,65 @@ render_dependencies <- function(dependencies, local = TRUE) {
     } else {
       "file"
     }
-    htmltools::renderDependencies(list(dep), src, encodeFunc = identity)
+    
+    # According to Dash convention, label react and react-dom as originating
+    # in dash_renderer package, even though all three are currently served
+    # u p from the DashR package
+    if (dep$name %in% c("react", "react-dom")) {
+      dep$name <- "dash-renderer"
+    }
+    
+    # The following lines inject _dash-component-suites into the src tags,
+    # as this is the current Dash convention. The dependency paths cannot
+    # be set solely at component library generation time, since hosted
+    # applications should have the app name injected as well.
+    #
+    # This is essentially analogous to this codeblock on the Python side:
+    # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L207
+    #
+    # Use the system file modification timestamp for the current
+    # package and add the version number of the package as a query
+    # parameter for cache busting
+    
+    if (!is.null(dep$package)) {
+      # the gsub line is to remove stray duplicate slashes, to
+      # permit exact string matching on pathnames
+      dep_path <- file.path(dep$src$file,
+                            dep$script)
+      dep_path <- gsub("//+",
+                       "/",
+                       dep_path)
+      )
+      
+      full_path <- system.file(dep_path,
+                               package = dep$package)
+      
+      modified <- as.integer(file.mtime(full_path))
+    } else {
+      modified <- as.integer(Sys.time())
+    }
+    
+    # we don't want to serve the JavaScript source maps here,
+    # until we are able to provide full support for debug mode,
+    # as in Dash for Python
+    if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
+      dep[["script"]] <- paste0(prefix,
+                                "_dash-component-suites/",
+                                dep$name,
+                                "/",
+                                basename(dep[["script"]]),
+                                sprintf("?v=%s&m=%s", dep$version, modified))
+      html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+    } else if ("stylesheet" %in% names(dep) & src == "href") {
+      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
+                                                                       dep[["stylesheet"]], 
+                                                                       sep="/"))
+    } else if ("stylesheet" %in% names(dep) & src == "file") {
+      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]], 
+                                                                           dep[["stylesheet"]]))
+    }
   })
   paste(html, collapse = "\n")
-}
-
-# Similar to htmltools::resolveDependencies(), but allows
-# pkgload:::shim_system.file() to work it's magic in dev mode
-# (i.e., pkgload::load_all())
-resolve_dependencies <- function(dependencies, resolvePackageDir = TRUE) {
-
-  dependencies <- htmltools::resolveDependencies(dependencies, FALSE)
-
-  if (resolvePackageDir) {
-    dependencies <- lapply(dependencies, function(dep) {
-      if (is.null(dep$package)) return(dep)
-      dir <- dep$src$file
-      if (!is.null(dir)) dep$src$file <- system.file(dir, package = dep$package)
-      dep$package <- NULL
-      dep
-    })
-  }
-
-  dependencies
 }
 
 # ----------------------------------------------------------------------------
@@ -327,4 +363,81 @@ valid_seq <- function(params) {
   } else {
     return(FALSE)
   }
+}
+
+resolve_prefix <- function(prefix, environment_var) {
+  if (!(is.null(prefix))) {
+    assertthat::assert_that(is.character(prefix))
+    
+    return(prefix)
+  } else {
+    prefix_env <- Sys.getenv(environment_var)
+    if (prefix_env != "") {
+      return(prefix_env)
+    } else {
+      return("/")
+    }
+  }
+}
+
+# The function below requires a dependency path, package information
+# retrieved from a request URL, as well as a list of dependencies
+# (currently in htmltools htmlDependency format). get_package_mapping
+# optionally returns an R package name (if the file is contained
+# inside an R package), or NULL if the dependency is not found,
+# and a (local) path to the dependency.
+# 
+# script_name is e.g. "dash_core_components.min.js"
+# url_package is e.g. "dash_core_components"
+# dependencies = list of htmlDependency objects
+# this function returns a list with two elements:
+#   rpkg_name = character string supplying the name of the R package
+#   rpkg_path = character string providing the path to the dependency
+get_package_mapping <- function(script_name, url_package, dependencies) {
+  # TODO: improve validation of dependency inputs, particularly
+  #       to avoid duplicating dependencies in the package_map
+  package_map <- vapply(unique(dependencies), function(x) {
+    if (x$name %in% c('react', 'react-dom')) {
+      x$name <- 'dash-renderer'
+    }
+    dep_path <- file.path(x$src$file,
+                          x$script)
+  
+    # remove n>1 slashes and replace with / if present;
+    # htmltools seems to permit // in pathnames, but 
+    # this complicates string matching unless they're
+    # removed from the pathname
+    result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
+                dep_name=x$name,
+                dep_path=gsub("//+", replacement = "/", dep_path)
+    )
+  }, FUN.VALUE = character(3))
+  
+  package_map <- t(package_map)
+  
+  # pos_match is a vector of logical() values -- this allows filtering
+  # of the package_map entries based on name, path, and matching of
+  # URL package name against R package names. when all conditions are
+  # satisfied, pos_match will return TRUE
+  pos_match <- grepl(paste0(script_name, "$"), package_map[, "dep_path"]) &
+               grepl(url_package, package_map[,"dep_name"])
+  
+  rpkg_name <- package_map[,"pkg_name"][pos_match]
+  rpkg_path <- package_map[,"dep_path"][pos_match]
+  
+  return(list(rpkg_name=rpkg_name, rpkg_path=rpkg_path))
+}
+
+get_mimetype <- function(filename) {
+  # the tools package is available to all
+  filename_ext <- tools::file_ext(filename)
+  
+  if (filename_ext == 'js')
+    return('application/JavaScript')
+  else if (filename_ext == 'css')
+    return('text/css')
+  else if (filename_ext == 'map')
+    return('application/json')
+  else
+    return(NULL)
 }
