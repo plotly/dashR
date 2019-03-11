@@ -321,8 +321,12 @@ filter_null <- function(x) {
 # filtered out by the subsequent vapply statement
 assert_valid_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
-    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package)))
-      return(NULL)
+    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package))) {
+      if (is.null(x$stylesheet) & is.null(x$src$href))
+        stop(sprintf("Script dependencies with NULL href fields must include a file path, script name, and R package name."), call. = FALSE)
+      else
+        return(NULL)
+    }
     else
       return(x)
     }
