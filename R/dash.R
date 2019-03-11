@@ -289,7 +289,7 @@ Dash <- R6::R6Class(
  
         dep_pkg <- get_package_mapping(filename, 
                                        keys$package_name,
-                                       assert_valid_dependencies(dep_list) 
+                                       clean_dependencies(dep_list) 
                                        )
 
         dep_path <- system.file(dep_pkg$rpkg_path, 

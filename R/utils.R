@@ -322,7 +322,7 @@ filter_null <- function(x) {
 # within get_package_mapping, x$package is also required,
 # so deps missing it here are assigned NULL and then
 # filtered out by the subsequent vapply statement
-assert_valid_dependencies <- function(deps) {
+clean_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
     if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package))) {
       if (is.null(x$stylesheet) & is.null(x$src$href))
