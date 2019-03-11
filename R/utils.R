@@ -189,8 +189,15 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                                                        dep[["stylesheet"]], 
                                                                        sep="/"))
     } else if ("stylesheet" %in% names(dep) & src == "file") {
-      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]], 
-                                                                           dep[["stylesheet"]]))
+      if (!(is.null(dep$version))) {
+        html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
+                                                                                  dep[["stylesheet"]]),
+                        dep$version)        
+      } else {
+        html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
+                                                                             dep[["stylesheet"]])
+        )
+      }
     }
   })
   paste(html, collapse = "\n")
