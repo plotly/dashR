@@ -119,10 +119,16 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     srcs <- names(dep[["src"]])
     src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
-      message("No remote hyperlink found for HTML dependency '", dep[["name"]], "'. Using local file instead.")
+      msg <- paste0("No remote hyperlink found for HTML dependency ",
+                    dep[["name"]],
+                    ". Using local file instead.")
+      message(msg)
       "file"
     } else if (local && !"file" %in% srcs && "href" %in% srcs) {
-      message("No local file found for HTML dependency '", dep[["name"]], "'. Using the remote hyperlink instead.")
+      msg <- paste0("No local file found for HTML dependency ",
+                    dep[["name"]],
+                    ". Using the remote URL instead.")
+      message(msg)
       "href"
     } else if (!local) {
       "href"
