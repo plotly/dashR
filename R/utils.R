@@ -163,7 +163,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
-      )
       
       full_path <- system.file(dep_path,
                                package = dep$package)
@@ -177,13 +176,17 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
-      dep[["script"]] <- paste0(prefix,
-                                "_dash-component-suites/",
-                                dep$name,
-                                "/",
-                                basename(dep[["script"]]),
-                                sprintf("?v=%s&m=%s", dep$version, modified))
-      html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+      if !(is.null(dep$src$href)) {
+        html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
+      } else {
+        dep[["script"]] <- paste0(prefix,
+                                  "_dash-component-suites/",
+                                  dep$name,
+                                  "/",
+                                  basename(dep[["script"]]),
+                                  sprintf("?v=%s&m=%s", dep$version, modified))
+        html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+      }
     } else if ("stylesheet" %in% names(dep) & src == "href") {
       html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
                                                                        dep[["stylesheet"]], 
