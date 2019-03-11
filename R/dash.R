@@ -282,12 +282,14 @@ Dash <- R6::R6Class(
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         filename <- basename(file.path(keys$filename))
-        
+
+        dep_list <- c(private$dependencies_internal,
+                      private$dependencies,
+                      private$dependencies_user)       
+ 
         dep_pkg <- get_package_mapping(filename, 
                                        keys$package_name,
-                                       c(private$dependencies_internal,
-                                                    private$dependencies,
-                                                    private$dependencies_user)
+                                       assert_valid_dependencies(dep_list) 
                                        )
 
         dep_path <- system.file(dep_pkg$rpkg_path, 

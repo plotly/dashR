@@ -292,6 +292,33 @@ filter_null <- function(x) {
   x[!vapply(x, is.null, logical(1))]
 }
 
+# the following function attempts to prune remote CSS
+# or local CSS/JS dependencies that either should not
+# be resolved to local R package paths, or which have
+# insufficient information to do so. 
+#
+# this attempts to avoid cryptic errors produced by
+# get_package_mapping, which requires three parameters:
+# -- the script name (i.e. x$script below)
+# -- the package name from the URL (i.e. x$package)
+# -- the list of dependencies (i.e. deps)
+#
+# within get_package_mapping, x$package is also required,
+# so deps missing it here are assigned NULL and then
+# filtered out by the subsequent vapply statement
+assert_valid_dependencies <- function(deps) {
+  dep_list <- lapply(deps, function(x) {
+    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package)))
+      return(NULL)
+    else
+      return(x)
+    }
+  )
+  deps_with_file <- dep_list[!vapply(dep_list, is.null, logical(1))]
+  
+  return(deps_with_file)
+}
+
 assert_valid_callbacks <- function(output, params, func) {
   inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
