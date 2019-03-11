@@ -176,7 +176,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
-      if !(is.null(dep$src$href)) {
+      if (!(is.null(dep$src$href))) {
         html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
       } else {
         dep[["script"]] <- paste0(prefix,
