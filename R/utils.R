@@ -154,10 +154,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       # permit exact string matching on pathnames
       dep_path <- file.path(dep$src$file,
                             dep$script)
+      
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
-      )
       
       full_path <- system.file(dep_path,
                                package = dep$package)
