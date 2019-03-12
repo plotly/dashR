@@ -441,3 +441,12 @@ get_mimetype <- function(filename) {
   else
     return(NULL)
 }
+
+generate_css_dist_html <- function(url) {
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", url, perl=TRUE)) {
+    sprintf("<link href=\"%s\" rel=\"stylesheet\" />", url)
+  }
+  else
+    stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
+}
+
