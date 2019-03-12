@@ -575,10 +575,10 @@ Dash <- R6::R6Class(
         dep
       }))
 
-      css <- c(vapply(self$config$external_stylesheets, generate_css_dist_html, FUN.VALUE=character(1)),
-               render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
-              )
-
+      css <- paste(c(vapply(self$config$external_stylesheets, generate_css_dist_html, FUN.VALUE=character(1)),
+                     render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)),
+                   collapse="\n")
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
