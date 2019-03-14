@@ -569,7 +569,7 @@ Dash <- R6::R6Class(
         dep$stylesheet <- NULL
         dep
       }))
-
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>

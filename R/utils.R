@@ -110,27 +110,26 @@ request_parse_json <- function(request) {
 # HTML dependency helpers
 # ----------------------------------------------------------------------------
 
-
-# A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
-# @param external point to an external CDN rather local files?
+# @param local should local versions be served instead of CDN hrefs?
+# @param prefix the prefix to use for responding to requests, if set
 render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
-  html <- sapply(dependencies, function(dep) {
+  html <- sapply(dependencies, function(dep, is_local=local, path_prefix=prefix) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     srcs <- names(dep[["src"]])
-    src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
+    src <- if (!is_local && !"href" %in% srcs && "file" %in% srcs) {
       msg <- paste0("No remote hyperlink found for HTML dependency ",
                     dep[["name"]],
                     ". Using local file instead.")
       message(msg)
       "file"
-    } else if (local && !"file" %in% srcs && "href" %in% srcs) {
+    } else if (is_local && !"file" %in% srcs && "href" %in% srcs) {
       msg <- paste0("No local file found for HTML dependency ",
                     dep[["name"]],
                     ". Using the remote URL instead.")
       message(msg)
       "href"
-    } else if (!local) {
+    } else if (!is_local) {
       "href"
     } else {
       "file"
@@ -176,10 +175,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
-      if (!(is.null(dep$src$href))) {
+      if (!(is_local) & !(is.null(dep$src$href))) {
         html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
       } else {
-        dep[["script"]] <- paste0(prefix,
+        dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
@@ -187,7 +186,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   sprintf("?v=%s&m=%s", dep$version, modified))
         html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
       }
-    } else if ("stylesheet" %in% names(dep) & src == "href") {
+    } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
       html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
                                                                        dep[["stylesheet"]], 
                                                                        sep="/"))
