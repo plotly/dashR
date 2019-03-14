@@ -110,21 +110,26 @@ request_parse_json <- function(request) {
 # HTML dependency helpers
 # ----------------------------------------------------------------------------
 
-
-# A shim for  htmltools::renderDependencies
 # @param dependencies a list of HTML dependencies
-# @param external point to an external CDN rather local files?
+# @param local should local versions be served instead of CDN hrefs?
+# @param prefix the prefix to use for responding to requests, if set
 render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
-  html <- sapply(dependencies, function(dep) {
+  html <- sapply(dependencies, function(dep, is_local=local, path_prefix=prefix) {
     assertthat::assert_that(inherits(dep, "html_dependency"))
     srcs <- names(dep[["src"]])
-    src <- if (!local && !"href" %in% srcs && "file" %in% srcs) {
-      message("No remote hyperlink found for HTML dependency '", dep[["name"]], "'. Using local file instead.")
+    src <- if (!is_local && !"href" %in% srcs && "file" %in% srcs) {
+      msg <- paste0("No remote hyperlink found for HTML dependency ",
+                    dep[["name"]],
+                    ". Using local file instead.")
+      message(msg)
       "file"
-    } else if (local && !"file" %in% srcs && "href" %in% srcs) {
-      message("No local file found for HTML dependency '", dep[["name"]], "'. Using the remote hyperlink instead.")
+    } else if (is_local && !"file" %in% srcs && "href" %in% srcs) {
+      msg <- paste0("No local file found for HTML dependency ",
+                    dep[["name"]],
+                    ". Using the remote URL instead.")
+      message(msg)
       "href"
-    } else if (!local) {
+    } else if (!is_local) {
       "href"
     } else {
       "file"
@@ -171,20 +176,31 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
-      dep[["script"]] <- paste0(prefix,
-                                "_dash-component-suites/",
-                                dep$name,
-                                "/",
-                                basename(dep[["script"]]),
-                                sprintf("?v=%s&m=%s", dep$version, modified))
-      html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
-    } else if ("stylesheet" %in% names(dep) & src == "href") {
+      if (!(is_local) & !(is.null(dep$src$href))) {
+        html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
+      } else {
+        dep[["script"]] <- paste0(path_prefix,
+                                  "_dash-component-suites/",
+                                  dep$name,
+                                  "/",
+                                  basename(dep[["script"]]),
+                                  sprintf("?v=%s&m=%s", dep$version, modified))
+        html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+      }
+    } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
       html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
                                                                        dep[["stylesheet"]], 
                                                                        sep="/"))
     } else if ("stylesheet" %in% names(dep) & src == "file") {
-      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]], 
-                                                                           dep[["stylesheet"]]))
+      if (!(is.null(dep$version))) {
+        html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
+                                                                                  dep[["stylesheet"]]),
+                        dep$version)        
+      } else {
+        html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
+                                                                             dep[["stylesheet"]])
+        )
+      }
     }
   })
   paste(html, collapse = "\n")
@@ -290,6 +306,37 @@ assert_no_names <- function (x)
 filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
+}
+
+# the following function attempts to prune remote CSS
+# or local CSS/JS dependencies that either should not
+# be resolved to local R package paths, or which have
+# insufficient information to do so. 
+#
+# this attempts to avoid cryptic errors produced by
+# get_package_mapping, which requires three parameters:
+# -- the script name (i.e. x$script below)
+# -- the package name from the URL (i.e. x$package)
+# -- the list of dependencies (i.e. deps)
+#
+# within get_package_mapping, x$package is also required,
+# so deps missing it here are assigned NULL and then
+# filtered out by the subsequent vapply statement
+clean_dependencies <- function(deps) {
+  dep_list <- lapply(deps, function(x) {
+    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package))) {
+      if (is.null(x$stylesheet) & is.null(x$src$href))
+        stop(sprintf("Script dependencies with NULL href fields must include a file path, script name, and R package name."), call. = FALSE)
+      else
+        return(NULL)
+    }
+    else
+      return(x)
+    }
+  )
+  deps_with_file <- dep_list[!vapply(dep_list, is.null, logical(1))]
+  
+  return(deps_with_file)
 }
 
 assert_valid_callbacks <- function(output, params, func) {
