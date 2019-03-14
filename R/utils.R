@@ -159,6 +159,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       # permit exact string matching on pathnames
       dep_path <- file.path(dep$src$file,
                             dep$script)
+      
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
@@ -487,3 +488,12 @@ get_mimetype <- function(filename) {
   else
     return(NULL)
 }
+
+generate_css_dist_html <- function(url) {
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", url, perl=TRUE)) {
+    sprintf("<link href=\"%s\" rel=\"stylesheet\" />", url)
+  }
+  else
+    stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
+}
+

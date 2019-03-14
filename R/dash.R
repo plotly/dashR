@@ -27,10 +27,15 @@
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
+#'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
+#'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
 #'   possible layout mis-specifications when registering a callback. For an
 #'   example of when it is ok to suppress these callbacks, see
-#'   `runTutorial("urls-part-2.R")`
+#'   `runTutorial("urls-part-2.R")`\cr
+#'   `components_cache_max_age` \tab \tab An integer value specifying the time
+#'   interval prior to expiring cached assets. The default is 2678400 seconds,
+#'   or 31 calendar days.
 #'  }
 #'
 #' @section Fields:
@@ -114,6 +119,7 @@ Dash <- R6::R6Class(
                           serve_locally = TRUE,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
+                          external_stylesheets = NULL,
                           suppress_callback_exceptions = FALSE,
                           components_cache_max_age = 2678400) {
 
@@ -131,7 +137,8 @@ Dash <- R6::R6Class(
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
-        
+      self$config$external_stylesheets <- external_stylesheets
+ 
       # produce a true copy of the fiery server, since we don't want our
       # attachments/modifications having unintended side-effects
       # https://github.com/thomasp85/fiery/issues/30
@@ -569,6 +576,10 @@ Dash <- R6::R6Class(
         dep$stylesheet <- NULL
         dep
       }))
+
+      css <- paste(c(vapply(self$config$external_stylesheets, generate_css_dist_html, FUN.VALUE=character(1)),
+                     render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)),
+                   collapse="\n")
       
       private$.index <- sprintf(
         '<!DOCTYPE html>
@@ -591,7 +602,7 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix),
+        css,
         to_JSON(self$config),
         render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
       )
