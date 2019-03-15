@@ -127,5 +127,3 @@ app$callback(output("outputID", "children"),
 
 app$run_server(showcase = TRUE)
 ```
-
-More examples in the [dashRtutorial](https://github.com/plotly/dashRtutorial) package.
