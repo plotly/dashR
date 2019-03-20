@@ -254,7 +254,7 @@ Dash <- R6::R6Class(
           if(is.null(input_element$value))
             callback_args <- c(callback_args, list(list(NULL)))
           else
-            callback_args <- c(callback_args, input_element$value)
+            callback_args <- c(callback_args, list(input_element$value))
         }
         
         if (length(request$body$state)) {
@@ -262,7 +262,7 @@ Dash <- R6::R6Class(
             if(is.null(state_element$value))
               callback_args <- c(callback_args, list(list(NULL)))
             else
-              callback_args <- c(callback_args, state_element$value)
+              callback_args <- c(callback_args, list(state_element$value))
           }
         }
                 
