@@ -506,5 +506,23 @@ generate_css_dist_html <- function(href,
             href, 
             modified)
   }
+generate_js_dist_html <- function(href, 
+                                  local = FALSE,
+                                  local_path = NULL,
+                                  prefix = NULL) {
+  if (!(local)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+      sprintf("<script src=\"%s\"></script>", url)
+    }
+    else
+      stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
+  } else {
+    modified <- as.integer(file.mtime(local_path))
+    sprintf("<script src=\"%s%s?m=%s\"></script>",
+            prefix, 
+            href, 
+            modified)
+  }
+} 
 }
 

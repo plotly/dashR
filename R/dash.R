@@ -589,6 +589,18 @@ Dash <- R6::R6Class(
                                                prefix = self$config$requests_pathname_prefix),
                         collapse="\n")
       
+      js_tags <- paste(c(vapply(self$config$external_scripts, 
+                                generate_js_dist_html, 
+                                FUN.VALUE=character(1)),
+                         render_dependencies(depsScripts,
+                                             local = private$serve_locally, 
+                                             prefix=self$config$requests_pathname_prefix)),
+                       generate_js_dist_html(href = names(private$scripts),
+                                             local = TRUE,
+                                             local_path = private$scripts,
+                                             prefix = self$config$requests_pathname_prefix),
+                       collapse="\n")
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
@@ -612,7 +624,7 @@ Dash <- R6::R6Class(
         private$name,
         css_tags,
         to_JSON(self$config),
-        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
+        js_tags
       )
       
     }
