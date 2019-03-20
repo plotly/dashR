@@ -151,7 +151,7 @@ Dash <- R6::R6Class(
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
- 
+
       # produce a true copy of the fiery server, since we don't want our
       # attachments/modifications having unintended side-effects
       # https://github.com/thomasp85/fiery/issues/30
@@ -276,14 +276,14 @@ Dash <- R6::R6Class(
         #
         # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
         callback_args <- list()
-        
+
         for (input_element in request$body$inputs) {
           if(is.null(input_element$value))
             callback_args <- c(callback_args, list(list(NULL)))
           else
             callback_args <- c(callback_args, input_element$value)
         }
-        
+
         if (length(request$body$state)) {
           for (state_element in request$body$state) {
             if(is.null(state_element$value))
@@ -292,7 +292,7 @@ Dash <- R6::R6Class(
               callback_args <- c(callback_args, state_element$value)
           }
         }
-                
+
         output_value <- do.call(callback, callback_args)
 
         # have to format the response body like this
@@ -309,7 +309,7 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      # This endpoint supports dynamic dependency loading 
+      # This endpoint supports dynamic dependency loading
       # during `_dash-update-component` -- for reference:
       # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
@@ -319,22 +319,22 @@ Dash <- R6::R6Class(
 
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
-                      private$dependencies_user)       
- 
-        dep_pkg <- get_package_mapping(filename, 
+                      private$dependencies_user)
+
+        dep_pkg <- get_package_mapping(filename,
                                        keys$package_name,
-                                       clean_dependencies(dep_list) 
+                                       clean_dependencies(dep_list)
                                        )
 
-        dep_path <- system.file(dep_pkg$rpkg_path, 
+        dep_path <- system.file(dep_pkg$rpkg_path,
                                 package = dep_pkg$rpkg_name)
 
         response$body <- readLines(dep_path,
-                                   warn = FALSE, 
+                                   warn = FALSE,
                                    encoding = "UTF-8")
         response$status <- 200L
-        response$set_header('Cache-Control', 
-                            sprintf('public, max-age=%s', 
+        response$set_header('Cache-Control',
+                            sprintf('public, max-age=%s',
                                     components_cache_max_age)
                             )
         response$type <- get_mimetype(filename)
@@ -511,7 +511,6 @@ Dash <- R6::R6Class(
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
-
     asset_map = NULL,
     css = NULL,
     scripts = NULL,
@@ -801,7 +800,7 @@ Dash <- R6::R6Class(
         to_JSON(self$config),
         js_tags
       )
-      
+
     }
   )
 )
