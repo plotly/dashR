@@ -489,11 +489,22 @@ get_mimetype <- function(filename) {
     return(NULL)
 }
 
-generate_css_dist_html <- function(url) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", url, perl=TRUE)) {
-    sprintf("<link href=\"%s\" rel=\"stylesheet\" />", url)
+generate_css_dist_html <- function(href, 
+                                   local = FALSE, 
+                                   local_path = NULL,
+                                   prefix = NULL) {
+  if (!(local)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+      sprintf("<link href=\"%s\" rel=\"stylesheet\">", url)
+    }
+    else
+      stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
+  } else {
+    modified <- as.integer(file.mtime(local_path))
+    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">", 
+            prefix, 
+            href, 
+            modified)
   }
-  else
-    stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
 }
 

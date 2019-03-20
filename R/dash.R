@@ -577,9 +577,17 @@ Dash <- R6::R6Class(
         dep
       }))
 
-      css <- paste(c(vapply(self$config$external_stylesheets, generate_css_dist_html, FUN.VALUE=character(1)),
-                     render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)),
-                   collapse="\n")
+      css_tags <- paste(c(vapply(self$config$external_stylesheets, 
+                                 generate_css_dist_html, 
+                                 FUN.VALUE=character(1)),
+                          render_dependencies(depsCSS, 
+                                              local = private$serve_locally, 
+                                              prefix=self$config$requests_pathname_prefix)),
+                        generate_css_dist_html(href = names(private$css),
+                                               local = TRUE,
+                                               local_path = private$css,
+                                               prefix = self$config$requests_pathname_prefix),
+                        collapse="\n")
       
       private$.index <- sprintf(
         '<!DOCTYPE html>
@@ -602,7 +610,7 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        css,
+        css_tags,
         to_JSON(self$config),
         render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
       )
