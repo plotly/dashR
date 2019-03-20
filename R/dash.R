@@ -7,6 +7,9 @@
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
 #'   static_folder = NULL,
+#'   assets_folder = 'assets',
+#'   assets_url_path = '/assets',
+#'   assets_ignore = '',
 #'   serve_locally = TRUE,
 #'   routes_pathname_prefix = '/',
 #'   requests_pathname_prefix = '/'
@@ -27,6 +30,8 @@
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
+#'   `external_scripts` \tab \tab An optional list of valid URLs from which
+#'   to serve JavaScript source for rendered pages.\cr
 #'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
@@ -116,9 +121,13 @@ Dash <- R6::R6Class(
     initialize = function(name = "dash",
                           server = fiery::Fire$new(),
                           static_folder = NULL,
+                          assets_folder = 'assets',
+                          assets_url_path = '/assets',
+                          assets_ignore = '',
                           serve_locally = TRUE,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
+                          external_scripts = NULL,
                           external_stylesheets = NULL,
                           suppress_callback_exceptions = FALSE,
                           components_cache_max_age = 2678400) {
@@ -132,11 +141,15 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
+      private$assets_folder <- assets_folder
+      private$assets_url_path <- assets_url_path
+      private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+      self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
  
       # produce a true copy of the fiery server, since we don't want our
@@ -168,6 +181,20 @@ Dash <- R6::R6Class(
         router$add_route(static_route, 'static_route')
       }
 
+      if (!is.null(private$assets_folder)) {
+        if (!(dir.exists(private$assets_folder))) {
+          warning(
+            "The supplied assets folder, '%s' could not be found in the project directory.",
+            paste(private$assets_folder, collapse = "', '"),
+            call. = FALSE
+          )
+        } else {
+          private$asset_map <- private$walk_assets_directory(private$assets_folder)
+          private$css <- private$asset_map$css
+          private$scripts <- private$asset_map$scripts
+          private$other <- private$asset_map$other
+        }
+      }
 
       # ------------------------------------------------------------------------
       # Set a sensible default logger
@@ -314,6 +341,57 @@ Dash <- R6::R6Class(
         TRUE
       })
 
+      dash_assets <- paste0(self$config$routes_pathname_prefix, private$assets_folder, "/*")
+      route$add_handler("get", dash_assets, function(request, response, keys, ...) {
+        # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
+        # e.g. for "http://127.0.0.1:8080/assets/stylesheet.css?m=1552591104"
+        # 
+        # the following regex pattern will return "assets/stylesheet.css":
+        assets_pattern <- paste0(gsub("/",
+                                      "\\\\/",
+                                      assets_dir),
+                                 "([^?])+"
+                                 )
+        
+        # now, identify vector positions for asset string matching pattern above
+        asset_match <- gregexpr(pattern = assets_pattern, request$url, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        asset_to_match <- unlist(regmatches(request$url, asset_match))
+        
+        # now that we've parsed the URL, attempt to match the subpath in the map,
+        # then return the local absolute path to the asset
+        asset_path <- get_asset_path(private$asset_map,
+                                     asset_to_match)
+        
+        # the following codeblock attempts to determine whether the requested
+        # content exists, if the data should be encoded as plain text or binary,
+        # and opens/closes a file handle if the type is assumed to be binary
+        if (file.exists(asset_path)) {
+          response$type <- request$headers[["Content-Type"]] %||% 
+            mime::guess_type(asset_to_match, 
+                             empty = "application/octet-stream")
+
+          if (grepl("text|javascript", response$type)) {
+            response$body <- readLines(asset_path,
+                                       warn = FALSE,
+                                       encoding = "UTF-8")
+          } else {
+            file_handle <- file(asset_path, "rb")  
+            response$body <- readBin(file_handle,
+                                     raw(),
+                                     file.info(asset_path)$size)
+            close(file_handle)
+          }
+          
+          response$set_header('Cache-Control',
+                              sprintf('public, max-age=%s',
+                                      components_cache_max_age)
+          )
+          response$status <- 200L
+        }
+        TRUE
+      })
+      
       # Add a 'catchall' handler to redirect other requests to the index
       dash_catchall <- paste0(self$config$routes_pathname_prefix, "*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
@@ -427,10 +505,18 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    assets_folder = NULL, 
+    assets_url_path = NULL,
+    assets_ignore = NULL,
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
 
+    asset_map = NULL,
+    css = NULL,
+    scripts = NULL,
+    other = NULL,
+        
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
@@ -523,6 +609,95 @@ Dash <- R6::R6Class(
       # return the computed layout
       oldClass(layout) <- c("dash_layout", oldClass(layout))
       layout
+    },
+
+    walk_assets_directory = function(assets_dir = private$assets_dir) {
+      # obtain the full canonical path
+      asset_path <- normalizePath(file.path(assets_dir))
+      
+      # remove multiple slashes if present
+      asset_path <- gsub("//+",
+                         "/",
+                         asset_path)
+      
+      # collect all the file paths to all files in assets, walk
+      # directory tree recursively
+      files <- list.files(path = asset_path,
+                          full.names = TRUE,
+                          recursive = TRUE)
+      
+      # if the user supplies an assets_ignore filter regex, use this
+      # to filter the file map to exclude anything that matches
+      if (private$assets_ignore != "") {
+        files <- files[grepl(pattern = private$assets_ignore,
+                             files,
+                             perl = TRUE)]
+      }
+      
+      # regex to match substring of absolute path
+      # the following lines escape out slashes
+      assets_pattern <- paste0(gsub("/",
+                                    "\\\\/",
+                                    assets_dir),
+                               ".+$"
+      )
+      
+      # if file extension is .css, add to stylesheets
+      sheet_paths <- files[tools::file_ext(files) == "css"]
+      
+      # if file extension is .js, add to scripts
+      script_paths <- files[tools::file_ext(files) == "js"]
+      
+      # file_paths includes all assets that are neither CSS nor JS
+      # this is to avoid duplicate entries in the map when flattened
+      file_paths <- files[!(tools::file_ext(files) %in% c("css", "js"))]
+      
+      # for CSS, JavaScript, and everything to be served in assets, construct
+      # a map -- a list of three character string vectors, in which the elements
+      # are absolute (local system) paths to the assets being served, and the
+      # names attribute of the elements matches the relative asset path
+      if (length(sheet_paths)) {
+        # first, sort the filenames alphanumerically
+        sheet_paths <- sheet_paths[order(basename(sheet_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_sheets <- gregexpr(pattern = assets_pattern, sheet_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        sheet_names <- regmatches(sheet_paths, match_sheets)
+        # assign names for matched assets corresponding to substring
+        css_map <- setNames(sheet_paths, sheet_names %||% "/")
+      } else {
+        css_map <- NULL
+      }
+      
+      if (length(script_paths)) {
+        # first, sort the filenames alphanumerically
+        script_paths <- script_paths[order(basename(script_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_scripts <- gregexpr(pattern = assets_pattern, script_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        script_names <- regmatches(script_paths, match_scripts)
+        # assign names for matched assets corresponding to substring
+        scripts_map <- setNames(script_paths, script_names %||% "/")
+      } else {
+        scripts_map <- NULL
+      }
+      
+      if (length(file_paths)) {
+        # first, sort the filenames alphanumerically
+        file_paths <- file_paths[order(basename(file_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_all <- gregexpr(pattern = assets_pattern, file_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        file_names <- regmatches(file_paths, match_all)
+        # assign names for matched assets corresponding to substring
+        other_files_map <- setNames(file_paths, file_names %||% "/")
+      } else {
+        other_files_map <- NULL
+      }
+      
+      return(list(css = css_map, 
+                  scripts = scripts_map, 
+                  other = other_files_map))
     },
 
     componentify = function(x) {

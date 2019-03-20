@@ -524,5 +524,47 @@ generate_js_dist_html <- function(href,
             modified)
   }
 } 
+
+# This function takes the list object containing asset paths
+# for all stylesheets and scripts, as well as the URL path
+# to search, then returns the absolute local path (when
+# present) to the requested asset
+#
+# e.g. assets_map is a named list potentially containing
+#      $css, a list of absolute paths as character strings
+#      for all locally supplied CSS assets, named with their
+#      assets pathname (i.e. "assets/stylesheet.css"), and
+#      $scripts, a list of character strings formatted
+#      identically to $css, also named with subpaths.
+#     
+get_asset_path <- function(assets_map, asset_path) {
+  unlist(setNames(assets_map, NULL))[asset_path]
 }
 
+# This function returns the URL corresponding to assets
+# included in the asset map, with the request prefix
+# prepended, e.g. when asset_path is
+#
+#                   assets/stylesheet.css
+# "/Users/testuser/assets/stylesheet.css"
+#
+#            ... the function will return
+#
+#               "/assets/stylesheet.css"
+#
+get_asset_url <- function(asset_path, prefix = "/") {
+  # the subpath is stored in the names attribute
+  # of the return object from get_asset_path, so
+  # we can retrieve it using names()
+  asset <- names(asset_path)
+  
+  # strip one or more trailing slashes, since we'll
+  # introduce one when we concatenate the prefix and
+  # asset path
+  prefix <- gsub(pattern = "/+$", 
+                 replacement = "", 
+                 x = prefix)
+  
+  # prepend the asset name with the route prefix
+  return(paste(prefix, asset, sep="/"))
+}
