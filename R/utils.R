@@ -506,6 +506,8 @@ generate_css_dist_html <- function(href,
             href, 
             modified)
   }
+} 
+
 generate_js_dist_html <- function(href, 
                                   local = FALSE,
                                   local_path = NULL,
