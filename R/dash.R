@@ -183,9 +183,9 @@ Dash <- R6::R6Class(
 
       if (!is.null(private$assets_folder)) {
         if (!(dir.exists(private$assets_folder))) {
-          warning(
+          warning(sprintf(
             "The supplied assets folder, '%s' could not be found in the project directory.",
-            paste(private$assets_folder, collapse = "', '"),
+            private$assets_folder),
             call. = FALSE
           )
         } else {
@@ -195,7 +195,7 @@ Dash <- R6::R6Class(
           private$other <- private$asset_map$other
         }
       }
-
+      
       # ------------------------------------------------------------------------
       # Set a sensible default logger
       # ------------------------------------------------------------------------
@@ -349,7 +349,7 @@ Dash <- R6::R6Class(
         # the following regex pattern will return "assets/stylesheet.css":
         assets_pattern <- paste0(gsub("/",
                                       "\\\\/",
-                                      assets_dir),
+                                      private$assets_folder),
                                  "([^?])+"
                                  )
         
@@ -366,7 +366,7 @@ Dash <- R6::R6Class(
         # the following codeblock attempts to determine whether the requested
         # content exists, if the data should be encoded as plain text or binary,
         # and opens/closes a file handle if the type is assumed to be binary
-        if (file.exists(asset_path)) {
+        if (!(is.null(asset_path)) && file.exists(asset_path)) {
           response$type <- request$headers[["Content-Type"]] %||% 
             mime::guess_type(asset_to_match, 
                              empty = "application/octet-stream")
@@ -379,7 +379,7 @@ Dash <- R6::R6Class(
             file_handle <- file(asset_path, "rb")  
             response$body <- readBin(file_handle,
                                      raw(),
-                                     file.info(asset_path)$size)
+                                     file.size(asset_path))
             close(file_handle)
           }
           
@@ -628,16 +628,16 @@ Dash <- R6::R6Class(
       # if the user supplies an assets_ignore filter regex, use this
       # to filter the file map to exclude anything that matches
       if (private$assets_ignore != "") {
-        files <- files[grepl(pattern = private$assets_ignore,
-                             files,
-                             perl = TRUE)]
+        files <- files[!grepl(pattern = private$assets_ignore,
+                              files,
+                              perl = TRUE)]
       }
       
       # regex to match substring of absolute path
       # the following lines escape out slashes
       assets_pattern <- paste0(gsub("/",
                                     "\\\\/",
-                                    assets_dir),
+                                    private$assets_folder),
                                ".+$"
       )
       
@@ -724,56 +724,98 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
-    index = function() {
-      # collect and resolve dependencies
+    
+    collect_resources = function() {
+      # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[names(private$dependencies_internal) %in% 'dash-renderer']
       ))
-
+      
       # normalizes local paths and keeps newer versions of duplicates
       depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
-
+      
       # styleheets always go in header
-      depsCSS <- compact(lapply(depsAll, function(dep) {
+      css_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$stylesheet)) return(NULL)
         dep$script <- NULL
         dep
       }))
-
+      
+      css_deps <- render_dependencies(css_deps, 
+                                      local = private$serve_locally, 
+                                      prefix=self$config$requests_pathname_prefix)
+      
       # scripts go after dash-renderer dependencies (i.e., React),
       # but before dash-renderer itself
-      depsScripts <- compact(lapply(depsAll, function(dep) {
+      scripts_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$script)) return(NULL)
         dep$stylesheet <- NULL
         dep
       }))
-
-      css_tags <- paste(c(vapply(self$config$external_stylesheets, 
-                                 generate_css_dist_html, 
-                                 FUN.VALUE=character(1)),
-                          render_dependencies(depsCSS, 
-                                              local = private$serve_locally, 
-                                              prefix=self$config$requests_pathname_prefix)),
-                        generate_css_dist_html(href = names(private$css),
-                                               local = TRUE,
-                                               local_path = private$css,
-                                               prefix = self$config$requests_pathname_prefix),
-                        collapse="\n")
       
-      js_tags <- paste(c(vapply(self$config$external_scripts, 
-                                generate_js_dist_html, 
-                                FUN.VALUE=character(1)),
-                         render_dependencies(depsScripts,
-                                             local = private$serve_locally, 
-                                             prefix=self$config$requests_pathname_prefix)),
-                       generate_js_dist_html(href = names(private$scripts),
+      scripts_deps <- render_dependencies(scripts_deps,
+                                          local = private$serve_locally, 
+                                          prefix=self$config$requests_pathname_prefix)
+      
+      # collect CSS assets from dependencies
+      if (!(is.null(private$css))) {
+        css_assets <- generate_css_dist_html(href = names(private$css),
                                              local = TRUE,
-                                             local_path = private$scripts,
-                                             prefix = self$config$requests_pathname_prefix),
-                       collapse="\n")
+                                             local_path = private$css,
+                                             prefix = self$config$requests_pathname_prefix)
+      } else {
+        css_assets <- NULL
+      }
+      
+      # collect CSS assets from external_stylesheets
+      css_external <- vapply(self$config$external_stylesheets, 
+                             generate_css_dist_html, 
+                             FUN.VALUE=character(1),
+                             local = FALSE)      
+      
+      # collect JS assets from dependencies
+      # 
+      if (!(is.null(private$scripts))) {
+        scripts_assets <- generate_js_dist_html(href = names(private$scripts),
+                                                local = TRUE,
+                                                local_path = private$scripts,
+                                                prefix = self$config$requests_pathname_prefix)
+      } else {
+        scripts_assets <- NULL
+      }
+
+      # collect JS assets from external_scripts
+      scripts_external <- vapply(self$config$external_scripts,
+                                 generate_js_dist_html, 
+                                 FUN.VALUE=character(1))
+            
+      # serving order of CSS and JS tags: package -> external -> assets
+      css_tags <- paste(c(css_deps,
+                          css_external,
+                          css_assets),
+                        collapse = "\n")
+      
+      scripts_tags <- paste(c(scripts_deps,
+                              scripts_external,
+                              scripts_assets),
+                            collapse = "\n")
+      
+      return(list(css_tags = css_tags, 
+                  scripts_tags = scripts_tags))
+    },
+    
+    index = function() {
+      # generate tags for all assets
+      all_tags <- private$collect_resources()
+      
+      # retrieve CSS tags for serving in the index
+      css_tags <- all_tags[["css_tags"]]
+      
+      # retrieve script tags for serving in the index
+      scripts_tags <- all_tags[["scripts_tags"]]
       
       private$.index <- sprintf(
         '<!DOCTYPE html>
@@ -798,7 +840,7 @@ Dash <- R6::R6Class(
         private$name,
         css_tags,
         to_JSON(self$config),
-        js_tags
+        scripts_tags
       )
 
     }
