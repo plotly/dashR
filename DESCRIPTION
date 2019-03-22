@@ -14,7 +14,8 @@ Imports:
   htmltools,
   assertthat,
   digest,
-  base64enc
+  base64enc,
+  mime
 Suggests:
   dashHtmlComponents (>= 0.13.5),
   dashCoreComponents (>= 0.42.1),
