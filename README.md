@@ -131,4 +131,4 @@ app$run_server(showcase = TRUE)
 ## Screenshots
 The following are screenshots for Hello world example:
 
-![Screenshot1](images/helloDcc.gif)
+![Screenshot1](images/hello_dcc.gif)
