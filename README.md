@@ -45,13 +45,13 @@ Similar to [dash](https://github.com/plotly/dash), every **dashR** application n
 
 ```r
 app$layout_set(
-  dccInput(id = "inputID", value = "initial value", type = "text"),
+  coreInput(id = "inputID", value = "initial value", type = "text"),
   htmlDiv(id = "outputID")
 )
 
-app$callback(output = list("outputID", "children"), 
-             params = list(input("inputID", "value"),
-                      state("inputID", "type")), 
+app$callback(output("outputID", "children"), 
+             list(input("inputID", "value"),
+                  state("inputID", "type")), 
   function(x, y) {
     sprintf("You've entered: '%s' into a '%s' input control", x, y)
   }
@@ -68,11 +68,11 @@ Here the `showcase = TRUE` argument opens a browser window and automatically loa
 app <- Dash$new()
 
 app$layout_set(
-  dccInput(id = "graphTitle", 
+  coreInput(id = "graphTitle", 
             value = "Let's Dance!", 
             type = "text"),
   htmlDiv(id = "outputID"),
-  dccGraph(id = "giraffe",
+  coreGraph(id = "giraffe",
             figure = list(
               data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
               layout = list(title = "Let's Dance!")
@@ -80,8 +80,8 @@ app$layout_set(
   )
 )
 
-app$callback(output = list(id = "giraffe", property = "figure"), 
-             params = list(input("graphTitle", "value")),     
+app$callback(output("giraffe", "figure"), 
+             list(input("graphTitle", "value")),     
              function(newTitle) {
                  
                  rand1 <- sample(1:10, 1)
@@ -117,9 +117,9 @@ app$callback(output = list(id = "giraffe", property = "figure"),
                }
 )
 
-app$callback(output = list("outputID", "children"), 
-             params = list(input("graphTitle", "value"),
-                           state("graphTitle", "type")), 
+app$callback(output("outputID", "children"), 
+             list(input("graphTitle", "value"),
+                  state("graphTitle", "type")), 
              function(x, y) {
                  sprintf("You've entered: '%s' into a '%s' input control", x, y)
              }
