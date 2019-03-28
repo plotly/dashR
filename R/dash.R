@@ -185,7 +185,11 @@ Dash <- R6::R6Class(
       dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
 
-        lay <- private$layout_render()
+        rendered_layout <- private$layout_render()
+        # pass the layout on to encode_plotly in case there are dccGraph
+        # components which include Plotly.js figures for which we'll need to 
+        # run plotly_build from the plotly package
+        lay <- encode_plotly(rendered_layout)
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
@@ -267,7 +271,12 @@ Dash <- R6::R6Class(
         }
 
         output_value <- do.call(callback, callback_args)
-
+        
+        # pass on output_value to encode_plotly in case there are dccGraph
+        # components which include Plotly.js figures for which we'll need to 
+        # run plotly_build from the plotly package
+        output_value <- encode_plotly(output_value)
+        
         # have to format the response body like this
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
