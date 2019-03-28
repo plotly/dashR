@@ -127,8 +127,3 @@ app$callback(output = list("outputID", "children"),
 
 app$run_server(showcase = TRUE)
 ```
-
-## Screenshots
-The following are screenshots for Hello world example:
-
-![Screenshot1](images/helloDcc.gif)
