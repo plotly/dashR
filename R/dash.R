@@ -80,15 +80,11 @@
 #'   \item{`dependencies_get(all = FALSE)`}{
 #'     Retrieve (just user-defined or all) HTML dependencies.
 #'   }
-#'   \item{`run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)`}{
+#'   \item{`run_server(host = Sys.getenv('DASH_HOST', "127.0.0.1"), port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. If provided, `host`/`port` set
 #'     the `host`/`port` fields of the underlying [fiery::Fire] web
 #'     server. The `block`/`showcase`/`...` arguments are passed along
 #'     to the `ignite()` method of the [fiery::Fire] server.
-#'   }
-#'   \item{`run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)`}{
-#'     Like `run_server()` but sets sensible `host`/`port` defaults
-#'     for running the app on Heroku.
 #'   }
 #' }
 #'
@@ -411,15 +407,14 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...) {
+    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"), 
+                          port = Sys.getenv('DASH_PORT', 8050), 
+                          block = TRUE, 
+                          showcase = FALSE, 
+                          ...) {
       if (!is.null(host)) self$server$host <- host
       if (!is.null(port)) self$server$port <- as.numeric(port)
       self$server$ignite(block = block, showcase = showcase, ...)
-    },
-    run_heroku = function(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...) {
-      self$server$host <- host
-      self$server$port <- as.numeric(port)
-      self$run_server(...)
     }
   ),
 
