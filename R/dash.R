@@ -412,8 +412,8 @@ Dash <- R6::R6Class(
                           block = TRUE, 
                           showcase = FALSE, 
                           ...) {
-      if (!is.null(host)) self$server$host <- host
-      if (!is.null(port)) self$server$port <- as.numeric(port)
+      self$server$host <- host
+      self$server$port <- as.numeric(port)
       self$server$ignite(block = block, showcase = showcase, ...)
     }
   ),
