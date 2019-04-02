@@ -1,9 +1,8 @@
 # dashR
 
-#### An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem for authoring reactive web applications.
+#### Create beautiful, analytic applications in R.
 
-
-🚧 WORK IN PROGRESS 🚧
+🚧 dashR is a work-in-progress. Feel free to test the waters and submit issues. Expect the first supported release summer 2019.
 
 Documentation: https://dashr-docs.herokuapp.com/
 
