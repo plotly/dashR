@@ -62,7 +62,7 @@ app$run_server(showcase = TRUE)
 
 Here the `showcase = TRUE` argument opens a browser window and automatically loads the Dash app for you.
 
-## Hello world example using `coreGraph`
+## Hello world example using `dccGraph`
 
 ```r
 app <- Dash$new()
