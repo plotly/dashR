@@ -10,7 +10,7 @@ An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem fo
 
 First, install `dashR` dependencies from CRAN:
 ```r
-install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc"))
+install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime"))
 ```
 
 Installing the package and component libraries directly from GitHub using the `devtools` package is easy:
@@ -44,8 +44,8 @@ app <- Dash$new()
 Similar to [dash](https://github.com/plotly/dash), every **dashR** application needs a layout (i.e., user interface) and a collection of callback functions which define the updating logic to perform when input value(s) change. Take, for instance, this basic example of formatting a string:
 
 ```r
-app$layout_set(
-  coreInput(id = "inputID", value = "initial value", type = "text"),
+app$layout(
+  dccInput(id = "inputID", value = "initial value", type = "text"),
   htmlDiv(id = "outputID")
 )
 
@@ -67,12 +67,12 @@ Here the `showcase = TRUE` argument opens a browser window and automatically loa
 ```r
 app <- Dash$new()
 
-app$layout_set(
-  coreInput(id = "graphTitle", 
+app$layout(
+  dccInput(id = "graphTitle", 
             value = "Let's Dance!", 
             type = "text"),
   htmlDiv(id = "outputID"),
-  coreGraph(id = "giraffe",
+  dccGraph(id = "giraffe",
             figure = list(
               data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
               layout = list(title = "Let's Dance!")
