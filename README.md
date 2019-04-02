@@ -127,3 +127,9 @@ app$callback(output("outputID", "children"),
 
 app$run_server(showcase = TRUE)
 ```
+
+---
+
+## Screenshot of "Hello World" app
+
+![hello_dcc](https://user-images.githubusercontent.com/9809798/55428329-df18be80-5556-11e9-8d21-c55250621cd6.gif)
