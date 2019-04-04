@@ -57,7 +57,7 @@ where the application is making API calls.
 }
 \item{\code{exclude_plotly_bundle}}{
 Whether or not to exclude the plotly.js bundle when "core components" exist,
-but \link[dashCoreComponents:coreGraph]{dashCoreComponents::coreGraph} is not provided to the \code{layout_set()}
+but \link[dashCoreComponents:coreGraph]{dashCoreComponents::coreGraph} is not provided to the \code{layout()}
 method (i.e., the initial layout).
 The only time \code{exclude_plotly_bundle} should be \code{TRUE} is if you don't want
 a \code{coreGraph()} in the initial layout, but want to insert one via a callback.
@@ -68,7 +68,7 @@ a \code{coreGraph()} in the initial layout, but want to insert one via a callbac
 \section{Methods}{
 
 \describe{
-\item{\code{layout_set(...)}}{
+\item{\code{layout(...)}}{
 Set the layout (i.e., user interface). The layout should be either a
 collection of dash components (e.g., \link{coreSlider}, \link{htmlDiv}, etc) or
 a function which returns a collection of components.
