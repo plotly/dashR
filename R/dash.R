@@ -6,7 +6,6 @@
 #' app <- Dash$new(
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
-#'   static_folder = 'static',
 #'   assets_folder = 'assets',
 #'   assets_url_path = '/assets',
 #'   assets_ignore = '',
@@ -21,10 +20,6 @@
 #'   of the HTML page).\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
-#'   `static_folder` \tab \tab A character vector of directories for serving
-#'   with the application (the default, `NULL`, means don't serve additional
-#'   directories). If provided, the names attribute defines corresponding url
-#'   path, otherwise it defaults to '/'.\cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
@@ -120,7 +115,6 @@ Dash <- R6::R6Class(
     # i.e., the Dash$new() method
     initialize = function(name = "dash",
                           server = fiery::Fire$new(),
-                          static_folder = NULL,
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
                           assets_ignore = '',
@@ -161,25 +155,6 @@ Dash <- R6::R6Class(
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
-
-      if (!is.null(static_folder)) {
-        local_path <- normalizePath(static_folder, mustWork = TRUE)
-
-        # these should all be directories, right?
-        if (!all(dir_exists(local_path))) {
-          warning(
-            "One or more of the following paths is not a directory, '%s'",
-            paste(static_folder, collapse = "', '"),
-            call. = FALSE
-          )
-        }
-
-        # default to '/' if no url path is specified (via name attribute)
-        resource_map <- setNames(local_path, names(static_folder) %||% "/")
-
-        static_route <- do.call(routr::ressource_route, as.list(resource_map))
-        router$add_route(static_route, 'static_route')
-      }
 
       if (!is.null(private$assets_folder)) {
         if (!(dir.exists(private$assets_folder))) {
