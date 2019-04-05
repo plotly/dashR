@@ -55,7 +55,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout_set(...)`}{
+#'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
 #'     collection of dash components (e.g., [coreSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
@@ -256,7 +256,7 @@ Dash <- R6::R6Class(
           if(is.null(input_element$value))
             callback_args <- c(callback_args, list(list(NULL)))
           else
-            callback_args <- c(callback_args, input_element$value)
+            callback_args <- c(callback_args, list(input_element$value))
         }
 
         if (length(request$body$state)) {
@@ -264,7 +264,7 @@ Dash <- R6::R6Class(
             if(is.null(state_element$value))
               callback_args <- c(callback_args, list(list(NULL)))
             else
-              callback_args <- c(callback_args, state_element$value)
+              callback_args <- c(callback_args, list(state_element$value))
           }
         }
 
@@ -391,10 +391,10 @@ Dash <- R6::R6Class(
     # dash layout methods
     # ------------------------------------------------------------------------
     layout_get = function(render = TRUE) {
-      if (render) private$layout_render() else private$layout
+      if (render) private$layout_render() else private$layout_
     },
-    layout_set = function(...) {
-      private$layout <- if (is.function(..1)) ..1 else list(...)
+    layout = function(...) {
+      private$layout_ <- if (is.function(..1)) ..1 else list(...)
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
@@ -497,26 +497,26 @@ Dash <- R6::R6Class(
     dependencies_internal = list(),
 
     # layout stuff
-    layout = welcome_page(),
+    layout_ = welcome_page(),
     layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
-      layout <- if (is.function(private$layout)) private$layout() else private$layout
+      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
       # accomodate functions that return a single component
-      if (is.component(layout)) layout <- list(layout)
+      if (is.component(layout_)) layout_ <- list(layout_)
 
       # make sure we are working with a list of components
-      layout <- lapply(layout, private$componentify)
+      layout_ <- lapply(layout_, private$componentify)
 
       # Put the list of components into a container div. I'm pretty sure dash
       # requires the layout to be one component, but R folks are used to
       # being able to supply "components" to ...
-      layout <- dashHtmlComponents::htmlDiv(children = layout, id = layout_container_id())
+      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
-      layout_flat <- rapply(layout, I)
+      layout_flat <- rapply(layout_, I)
       layout_nms <- names(layout_flat)
 
       # verify that layout ids are unique
@@ -581,8 +581,8 @@ Dash <- R6::R6Class(
       private$dependencies_internal <- dashR:::.dashR_js_metadata()
 
       # return the computed layout
-      oldClass(layout) <- c("dash_layout", oldClass(layout))
-      layout
+      oldClass(layout_) <- c("dash_layout", oldClass(layout_))
+      layout_
     },
 
     walk_assets_directory = function(assets_dir = private$assets_dir) {
@@ -791,7 +791,7 @@ Dash <- R6::R6Class(
       
       # retrieve script tags for serving in the index
       scripts_tags <- all_tags[["scripts_tags"]]
-      
+
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
@@ -825,8 +825,8 @@ Dash <- R6::R6Class(
 # verify that properties attached to output/inputs/state value are valid
 # @param layout
 # @param component a component (should be a dependency)
-validate_dependency <- function(layout, dependency) {
-  if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
+validate_dependency <- function(layout_, dependency) {
+  if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
   valid_props <- component_props_given_id(layout, dependency$id)
