@@ -136,7 +136,8 @@ Dash <- R6::R6Class(
       private$name <- name
       private$serve_locally <- serve_locally
       private$assets_folder <- assets_folder
-      private$assets_url_path <- assets_url_path
+      # remove trailing slash in assets_url_path, if present
+      private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
 
@@ -316,21 +317,26 @@ Dash <- R6::R6Class(
         TRUE
       })
 
-      dash_assets <- paste0(self$config$routes_pathname_prefix, private$assets_folder, "/*")
+      dash_assets <- paste0(self$config$routes_pathname_prefix, private$assets_url_path, "/*")
+
+      # ensure slashes are not doubled
+      dash_assets <- sub("//", "/", dash_assets)
+        
       route$add_handler("get", dash_assets, function(request, response, keys, ...) {
         # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
         # e.g. for "http://127.0.0.1:8080/assets/stylesheet.css?m=1552591104"
         # 
-        # the following regex pattern will return "assets/stylesheet.css":
-        assets_pattern <- paste0(gsub("/",
+        # the following regex pattern will return "/stylesheet.css":
+        assets_pattern <- paste0("(?<=",
+                                 gsub("/",
                                       "\\\\/",
-                                      private$assets_folder),
-                                 "([^?])+"
+                                      private$assets_url_path),
+                                 ")([^?])+"
                                  )
         
         # now, identify vector positions for asset string matching pattern above
         asset_match <- gregexpr(pattern = assets_pattern, request$url, perl=TRUE)
-        # use regmatches to retrieve only the substring including assets/...
+        # use regmatches to retrieve only the substring following assets_url_path
         asset_to_match <- unlist(regmatches(request$url, asset_match))
         
         # now that we've parsed the URL, attempt to match the subpath in the map,
@@ -609,11 +615,13 @@ Dash <- R6::R6Class(
       }
       
       # regex to match substring of absolute path
-      # the following lines escape out slashes
-      assets_pattern <- paste0(gsub("/",
+      # the following lines escape out slashes, keeping subpath
+      # but without private$assets_folder included
+      assets_pattern <- paste0("(?<=",
+                               gsub("/",
                                     "\\\\/",
                                     private$assets_folder),
-                               ".+$"
+                               ")([^?])+"
       )
       
       # if file extension is .css, add to stylesheets
@@ -737,7 +745,7 @@ Dash <- R6::R6Class(
       
       # collect CSS assets from dependencies
       if (!(is.null(private$css))) {
-        css_assets <- generate_css_dist_html(href = names(private$css),
+        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$css)),
                                              local = TRUE,
                                              local_path = private$css,
                                              prefix = self$config$requests_pathname_prefix)
@@ -754,7 +762,7 @@ Dash <- R6::R6Class(
       # collect JS assets from dependencies
       # 
       if (!(is.null(private$scripts))) {
-        scripts_assets <- generate_js_dist_html(href = names(private$scripts),
+        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$scripts)),
                                                 local = TRUE,
                                                 local_path = private$scripts,
                                                 prefix = self$config$requests_pathname_prefix)

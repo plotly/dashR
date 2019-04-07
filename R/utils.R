@@ -495,11 +495,13 @@ generate_css_dist_html <- function(href,
                                    prefix = NULL) {
   if (!(local)) {
     if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
-      sprintf("<link href=\"%s\" rel=\"stylesheet\">", url)
+      sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
     }
     else
       stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
+    # strip leading slash from href if present
+    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
     sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">", 
             prefix, 
@@ -519,6 +521,8 @@ generate_js_dist_html <- function(href,
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
+    # strip leading slash from href if present
+    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
     sprintf("<script src=\"%s%s?m=%s\"></script>",
             prefix, 
