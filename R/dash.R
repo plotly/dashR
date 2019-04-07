@@ -373,6 +373,27 @@ Dash <- R6::R6Class(
         TRUE
       })
       
+      dash_favicon <- paste0(self$config$routes_pathname_prefix, "_favicon.ico")
+      
+      route$add_handler("get", dash_favicon, function(request, response, keys, ...) {
+        asset_path <- get_asset_path(private$asset_map,
+                                     "/favicon.ico")
+        
+        file_handle <- file(asset_path, "rb")
+        response$body <- readBin(file_handle,
+                                 raw(),
+                                 file.size(asset_path))
+        close(file_handle)
+        
+        response$set_header('Cache-Control',
+                            sprintf('public, max-age=%s',
+                                    components_cache_max_age)
+                            )
+        response$type <- 'image/x-icon'
+        response$status <- 200L
+        TRUE
+      })
+      
       # Add a 'catchall' handler to redirect other requests to the index
       dash_catchall <- paste0(self$config$routes_pathname_prefix, "*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
@@ -774,6 +795,14 @@ Dash <- R6::R6Class(
       scripts_external <- vapply(self$config$external_scripts,
                                  generate_js_dist_html, 
                                  FUN.VALUE=character(1))
+      
+      # create tag for favicon, if present
+      # other_files_map[names(other_files_map) %in% "/favicon.ico"]
+      if ("/favicon.ico" %in% names(private$other)) {
+        favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
+      } else {
+        favicon <- NULL
+      }
             
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
@@ -787,25 +816,30 @@ Dash <- R6::R6Class(
                             collapse = "\n")
       
       return(list(css_tags = css_tags, 
-                  scripts_tags = scripts_tags))
+                  scripts_tags = scripts_tags,
+                  favicon = favicon))
     },
     
     index = function() {
       # generate tags for all assets
       all_tags <- private$collect_resources()
       
+      # retrieve favicon tag for serving in the index
+      favicon <- all_tags[["favicon"]]
+      
       # retrieve CSS tags for serving in the index
       css_tags <- all_tags[["css_tags"]]
       
       # retrieve script tags for serving in the index
       scripts_tags <- all_tags[["scripts_tags"]]
-
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
+            %s
             %s
           </head>
 
@@ -821,6 +855,7 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
+        favicon,
         css_tags,
         to_JSON(self$config),
         scripts_tags
