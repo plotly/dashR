@@ -157,7 +157,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
 
-      if (!is.null(private$assets_folder)) {
+      if (!is.null(private$assets_folder) && gsub("/+", "", assets_folder) != "assets") { 
         if (!(dir.exists(private$assets_folder))) {
           warning(sprintf(
             "The supplied assets folder, '%s' could not be found in the project directory.",
