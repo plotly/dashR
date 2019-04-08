@@ -32,7 +32,6 @@
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
 #'   possible layout mis-specifications when registering a callback. For an
 #'   example of when it is ok to suppress these callbacks, see
-#'   `runTutorial("urls-part-2.R")`\cr
 #'   `components_cache_max_age` \tab \tab An integer value specifying the time
 #'   interval prior to expiring cached assets. The default is 2678400 seconds,
 #'   or 31 calendar days.
@@ -95,13 +94,7 @@
 #' @export
 #' @docType class
 #' @format An [R6::R6Class] generator object
-#' @author Carson Sievert
 #' @seealso <https://plot.ly/dashR/>
-#'
-#' @examples
-#'
-#' app <- runTutorial("urls-part-2.R")
-#' app$server$stop()
 #'
 #'
 
