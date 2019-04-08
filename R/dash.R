@@ -30,8 +30,7 @@
 #'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
-#'   possible layout mis-specifications when registering a callback. For an
-#'   example of when it is ok to suppress these callbacks, see
+#'   possible layout mis-specifications when registering a callback. \cr 
 #'   `components_cache_max_age` \tab \tab An integer value specifying the time
 #'   interval prior to expiring cached assets. The default is 2678400 seconds,
 #'   or 31 calendar days.
