@@ -106,7 +106,4 @@ for running the app on Heroku.
 \seealso{
 \url{https://plot.ly/dashR/}
 }
-\author{
-Carson Sievert
-}
 \keyword{datasets}
