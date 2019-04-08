@@ -28,13 +28,12 @@ Collate:
   'dash.R'
   'imports.R'
   'print.R'
-  'css.R'
   'heroku.R'
   'internal.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
 BugReports: https://github.com/plotly/dashR/issues
