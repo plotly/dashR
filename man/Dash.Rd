@@ -66,7 +66,7 @@ where the application is making API calls.
 \describe{
 \item{\code{layout(...)}}{
 Set the layout (i.e., user interface). The layout should be either a
-collection of dash components (e.g., \link{coreSlider}, \link{htmlDiv}, etc) or
+collection of DashR components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
 a function which returns a collection of components.
 }
 \item{\code{layout_get(render = TRUE)}}{
@@ -79,15 +79,6 @@ and \code{output} defines which layout component property should adopt the resul
 (via an \link{output} object). To determine what events trigger this callback,
 provide \link{input} (and/or \link{state}) object(s) (which should reference
 layout components) as argument value(s) to \code{func}.
-}
-\item{\code{dependencies_set(dependencies = NULL, add = TRUE)}}{
-Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
-The \code{dependencies} argument accepts \link[htmltools:htmlDependency]{htmltools::htmlDependency} or
-\link[htmltools:htmlDependencies]{htmltools::htmlDependencies}. The \code{section} argument determines whether
-your dependencies are placed inside \code{<head>} or \code{<footer>}.
-}
-\item{\code{dependencies_get(all = FALSE)}}{
-Retrieve (just user-defined or all) HTML dependencies.
 }
 \item{\code{run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. If provided, \code{host}/\code{port} set

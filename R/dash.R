@@ -55,7 +55,7 @@
 #' \describe{
 #'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of dash components (e.g., [coreSlider], [htmlDiv], etc) or
+#'     collection of DashR components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
