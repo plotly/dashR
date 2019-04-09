@@ -6,7 +6,9 @@
 #' app <- Dash$new(
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
-#'   static_folder = NULL,
+#'   assets_folder = 'assets',
+#'   assets_url_path = '/assets',
+#'   assets_ignore = '',
 #'   serve_locally = TRUE,
 #'   routes_pathname_prefix = '/',
 #'   requests_pathname_prefix = '/'
@@ -18,21 +20,17 @@
 #'   of the HTML page).\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
-#'   `static_folder` \tab \tab A character vector of directories for serving
-#'   with the application (the default, `NULL`, means don't serve additional
-#'   directories). If provided, the names attribute defines corresponding url
-#'   path, otherwise it defaults to '/'.\cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
+#'   `external_scripts` \tab \tab An optional list of valid URLs from which
+#'   to serve JavaScript source for rendered pages.\cr
 #'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
-#'   possible layout mis-specifications when registering a callback. For an
-#'   example of when it is ok to suppress these callbacks, see
-#'   `runTutorial("urls-part-2.R")`\cr
+#'   possible layout mis-specifications when registering a callback. \cr 
 #'   `components_cache_max_age` \tab \tab An integer value specifying the time
 #'   interval prior to expiring cached assets. The default is 2678400 seconds,
 #'   or 31 calendar days.
@@ -55,7 +53,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout_set(...)`}{
+#'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
 #'     collection of dash components (e.g., [coreSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
@@ -86,13 +84,7 @@
 #' @export
 #' @docType class
 #' @format An [R6::R6Class] generator object
-#' @author Carson Sievert
 #' @seealso <https://plot.ly/dashR/>
-#'
-#' @examples
-#'
-#' app <- runTutorial("urls-part-2.R")
-#' app$server$stop()
 #'
 #'
 
@@ -106,10 +98,13 @@ Dash <- R6::R6Class(
     # i.e., the Dash$new() method
     initialize = function(name = "dash",
                           server = fiery::Fire$new(),
-                          static_folder = NULL,
+                          assets_folder = 'assets',
+                          assets_url_path = '/assets',
+                          assets_ignore = '',
                           serve_locally = TRUE,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
+                          external_scripts = NULL,
                           external_stylesheets = NULL,
                           suppress_callback_exceptions = FALSE,
                           components_cache_max_age = 2678400) {
@@ -123,11 +118,17 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
+      # remove leading and trailing slash(es) if present
+      private$assets_folder <- gsub("^/+|/+$", "", assets_folder)
+      # remove trailing slash in assets_url_path, if present
+      private$assets_url_path <- sub("/$", "", assets_url_path)
+      private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-
+      gsub("^/+|/+$", "", assets_folder)
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+      self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 
       # produce a true copy of the fiery server, since we don't want our
@@ -140,26 +141,22 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
 
-      if (!is.null(static_folder)) {
-        local_path <- normalizePath(static_folder, mustWork = TRUE)
-
-        # these should all be directories, right?
-        if (!all(dir_exists(local_path))) {
-          warning(
-            "One or more of the following paths is not a directory, '%s'",
-            paste(static_folder, collapse = "', '"),
+      # ensure that assets_folder is neither NULL nor character(0)
+      if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) { 
+        if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
+          warning(sprintf(
+            "The supplied assets folder, '%s', could not be found in the project directory.",
+            private$assets_folder),
             call. = FALSE
           )
+        } else if (dir.exists(private$assets_folder)) {
+          private$asset_map <- private$walk_assets_directory(private$assets_folder)
+          private$css <- private$asset_map$css
+          private$scripts <- private$asset_map$scripts
+          private$other <- private$asset_map$other
         }
-
-        # default to '/' if no url path is specified (via name attribute)
-        resource_map <- setNames(local_path, names(static_folder) %||% "/")
-
-        static_route <- do.call(routr::ressource_route, as.list(resource_map))
-        router$add_route(static_route, 'static_route')
       }
-
-
+      
       # ------------------------------------------------------------------------
       # Set a sensible default logger
       # ------------------------------------------------------------------------
@@ -305,6 +302,83 @@ Dash <- R6::R6Class(
         TRUE
       })
 
+      dash_assets <- paste0(self$config$routes_pathname_prefix, private$assets_url_path, "/*")
+
+      # ensure slashes are not doubled
+      dash_assets <- sub("//", "/", dash_assets)
+        
+      route$add_handler("get", dash_assets, function(request, response, keys, ...) {
+        # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
+        # e.g. for "http://127.0.0.1:8080/assets/stylesheet.css?m=1552591104"
+        # 
+        # the following regex pattern will return "/stylesheet.css":
+        assets_pattern <- paste0("(?<=",
+                                 gsub("/",
+                                      "\\\\/",
+                                      private$assets_url_path),
+                                 ")([^?])+"
+                                 )
+        
+        # now, identify vector positions for asset string matching pattern above
+        asset_match <- gregexpr(pattern = assets_pattern, request$url, perl=TRUE)
+        # use regmatches to retrieve only the substring following assets_url_path
+        asset_to_match <- unlist(regmatches(request$url, asset_match))
+        
+        # now that we've parsed the URL, attempt to match the subpath in the map,
+        # then return the local absolute path to the asset
+        asset_path <- get_asset_path(private$asset_map,
+                                     asset_to_match)
+        
+        # the following codeblock attempts to determine whether the requested
+        # content exists, if the data should be encoded as plain text or binary,
+        # and opens/closes a file handle if the type is assumed to be binary
+        if (!(is.null(asset_path)) && file.exists(asset_path)) {
+          response$type <- request$headers[["Content-Type"]] %||% 
+            mime::guess_type(asset_to_match, 
+                             empty = "application/octet-stream")
+
+          if (grepl("text|javascript", response$type)) {
+            response$body <- readLines(asset_path,
+                                       warn = FALSE,
+                                       encoding = "UTF-8")
+          } else {
+            file_handle <- file(asset_path, "rb")  
+            response$body <- readBin(file_handle,
+                                     raw(),
+                                     file.size(asset_path))
+            close(file_handle)
+          }
+          
+          response$set_header('Cache-Control',
+                              sprintf('public, max-age=%s',
+                                      components_cache_max_age)
+          )
+          response$status <- 200L
+        }
+        TRUE
+      })
+      
+      dash_favicon <- paste0(self$config$routes_pathname_prefix, "_favicon.ico")
+      
+      route$add_handler("get", dash_favicon, function(request, response, keys, ...) {
+        asset_path <- get_asset_path(private$asset_map,
+                                     "/favicon.ico")
+        
+        file_handle <- file(asset_path, "rb")
+        response$body <- readBin(file_handle,
+                                 raw(),
+                                 file.size(asset_path))
+        close(file_handle)
+        
+        response$set_header('Cache-Control',
+                            sprintf('public, max-age=%s',
+                                    components_cache_max_age)
+                            )
+        response$type <- 'image/x-icon'
+        response$status <- 200L
+        TRUE
+      })
+      
       # Add a 'catchall' handler to redirect other requests to the index
       dash_catchall <- paste0(self$config$routes_pathname_prefix, "*")
       route$add_handler('get', dash_catchall, function(request, response, keys, ...) {
@@ -329,10 +403,10 @@ Dash <- R6::R6Class(
     # dash layout methods
     # ------------------------------------------------------------------------
     layout_get = function(render = TRUE) {
-      if (render) private$layout_render() else private$layout
+      if (render) private$layout_render() else private$layout_
     },
-    layout_set = function(...) {
-      private$layout <- if (is.function(..1)) ..1 else list(...)
+    layout = function(...) {
+      private$layout_ <- if (is.function(..1)) ..1 else list(...)
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
@@ -387,36 +461,43 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    assets_folder = NULL, 
+    assets_url_path = NULL,
+    assets_ignore = NULL,
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
-
+    asset_map = NULL,
+    css = NULL,
+    scripts = NULL,
+    other = NULL,
+        
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
     dependencies_internal = list(),
 
     # layout stuff
-    layout = welcome_page(),
+    layout_ = welcome_page(),
     layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
-      layout <- if (is.function(private$layout)) private$layout() else private$layout
+      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
       # accomodate functions that return a single component
-      if (is.component(layout)) layout <- list(layout)
+      if (is.component(layout_)) layout_ <- list(layout_)
 
       # make sure we are working with a list of components
-      layout <- lapply(layout, private$componentify)
+      layout_ <- lapply(layout_, private$componentify)
 
       # Put the list of components into a container div. I'm pretty sure dash
       # requires the layout to be one component, but R folks are used to
       # being able to supply "components" to ...
-      layout <- dashHtmlComponents::htmlDiv(children = layout, id = layout_container_id())
+      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
-      layout_flat <- rapply(layout, I)
+      layout_flat <- rapply(layout_, I)
       layout_nms <- names(layout_flat)
 
       # verify that layout ids are unique
@@ -481,8 +562,99 @@ Dash <- R6::R6Class(
       private$dependencies_internal <- dashR:::.dashR_js_metadata()
 
       # return the computed layout
-      oldClass(layout) <- c("dash_layout", oldClass(layout))
-      layout
+      oldClass(layout_) <- c("dash_layout", oldClass(layout_))
+      layout_
+    },
+
+    walk_assets_directory = function(assets_dir = private$assets_folder) {
+      # obtain the full canonical path
+      asset_path <- normalizePath(file.path(assets_dir))
+      
+      # remove multiple slashes if present
+      asset_path <- gsub("//+",
+                         "/",
+                         asset_path)
+      
+      # collect all the file paths to all files in assets, walk
+      # directory tree recursively
+      files <- list.files(path = asset_path,
+                          full.names = TRUE,
+                          recursive = TRUE)
+      
+      # if the user supplies an assets_ignore filter regex, use this
+      # to filter the file map to exclude anything that matches
+      if (private$assets_ignore != "") {
+        files <- files[!grepl(pattern = private$assets_ignore,
+                              files,
+                              perl = TRUE)]
+      }
+      
+      # regex to match substring of absolute path
+      # the following lines escape out slashes, keeping subpath
+      # but without private$assets_folder included
+      assets_pattern <- paste0("(?<=",
+                               gsub("/",
+                                    "\\\\/",
+                                    private$assets_folder),
+                               ")([^?])+"
+      )
+      
+      # if file extension is .css, add to stylesheets
+      sheet_paths <- files[tools::file_ext(files) == "css"]
+      
+      # if file extension is .js, add to scripts
+      script_paths <- files[tools::file_ext(files) == "js"]
+      
+      # file_paths includes all assets that are neither CSS nor JS
+      # this is to avoid duplicate entries in the map when flattened
+      file_paths <- files[!(tools::file_ext(files) %in% c("css", "js"))]
+      
+      # for CSS, JavaScript, and everything to be served in assets, construct
+      # a map -- a list of three character string vectors, in which the elements
+      # are absolute (local system) paths to the assets being served, and the
+      # names attribute of the elements matches the relative asset path
+      if (length(sheet_paths)) {
+        # first, sort the filenames alphanumerically
+        sheet_paths <- sheet_paths[order(basename(sheet_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_sheets <- gregexpr(pattern = assets_pattern, sheet_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        sheet_names <- regmatches(sheet_paths, match_sheets)
+        # assign names for matched assets corresponding to substring
+        css_map <- setNames(sheet_paths, sheet_names %||% "/")
+      } else {
+        css_map <- NULL
+      }
+      
+      if (length(script_paths)) {
+        # first, sort the filenames alphanumerically
+        script_paths <- script_paths[order(basename(script_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_scripts <- gregexpr(pattern = assets_pattern, script_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        script_names <- regmatches(script_paths, match_scripts)
+        # assign names for matched assets corresponding to substring
+        scripts_map <- setNames(script_paths, script_names %||% "/")
+      } else {
+        scripts_map <- NULL
+      }
+      
+      if (length(file_paths)) {
+        # first, sort the filenames alphanumerically
+        file_paths <- file_paths[order(basename(file_paths))]
+        # now, identify vector positions for asset strings matching pattern above
+        match_all <- gregexpr(pattern = assets_pattern, file_paths, perl=TRUE)
+        # use regmatches to retrieve only the substring including assets/...
+        file_names <- regmatches(file_paths, match_all)
+        # assign names for matched assets corresponding to substring
+        other_files_map <- setNames(file_paths, file_names %||% "/")
+      } else {
+        other_files_map <- NULL
+      }
+      
+      return(list(css = css_map, 
+                  scripts = scripts_map, 
+                  other = other_files_map))
     },
 
     componentify = function(x) {
@@ -511,74 +683,117 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     
-    # ------------------------------------------------------------------------
-    # HTML dependency management
-    # ------------------------------------------------------------------------
-    dependencies_get = function() {
-      c(private$dependencies_user, private$dependencies)
-    },
-    dependencies_get_internal = function() {
-      private$dependencies_internal
-    },
-    dependencies_set = function(dependencies = list(), add = TRUE) {
-      
-      if (!length(dependencies)) return()
-      
-      # do a sensible thing if just a single dependency is provided
-      if (inherits(dependencies, "html_dependency")) {
-        dependencies <- list(dependencies)
-      }
-      
-      # ensure we have a list of htmltools::htmlDependency
-      is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
-      if (any(!is_dep)) {
-        stop("`dependencies` must be a *list* of htmltools::htmlDependency objects", call. = FALSE)
-      }
-      
-      if (add) {
-        dependencies <- c(private$dependencies_user, dependencies)
-      }
-      
-      private$dependencies_user <- dependencies
-    },
-    
-    index = function() {
-      # collect and resolve dependencies
+    collect_resources = function() {
+      # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[names(private$dependencies_internal) %in% 'dash-renderer']
       ))
-
+      
       # normalizes local paths and keeps newer versions of duplicates
       depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
-
+      
       # styleheets always go in header
-      depsCSS <- compact(lapply(depsAll, function(dep) {
+      css_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$stylesheet)) return(NULL)
         dep$script <- NULL
         dep
       }))
-
+      
+      css_deps <- render_dependencies(css_deps, 
+                                      local = private$serve_locally, 
+                                      prefix=self$config$requests_pathname_prefix)
+      
       # scripts go after dash-renderer dependencies (i.e., React),
       # but before dash-renderer itself
-      depsScripts <- compact(lapply(depsAll, function(dep) {
+      scripts_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$script)) return(NULL)
         dep$stylesheet <- NULL
         dep
       }))
+      
+      scripts_deps <- render_dependencies(scripts_deps,
+                                          local = private$serve_locally, 
+                                          prefix=self$config$requests_pathname_prefix)
+      
+      # collect CSS assets from dependencies
+      if (!(is.null(private$css))) {
+        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$css)),
+                                             local = TRUE,
+                                             local_path = private$css,
+                                             prefix = self$config$requests_pathname_prefix)
+      } else {
+        css_assets <- NULL
+      }
+      
+      # collect CSS assets from external_stylesheets
+      css_external <- vapply(self$config$external_stylesheets, 
+                             generate_css_dist_html, 
+                             FUN.VALUE=character(1),
+                             local = FALSE)      
+      
+      # collect JS assets from dependencies
+      # 
+      if (!(is.null(private$scripts))) {
+        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$scripts)),
+                                                local = TRUE,
+                                                local_path = private$scripts,
+                                                prefix = self$config$requests_pathname_prefix)
+      } else {
+        scripts_assets <- NULL
+      }
 
-      css <- paste(c(vapply(self$config$external_stylesheets, generate_css_dist_html, FUN.VALUE=character(1)),
-                     render_dependencies(depsCSS, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)),
-                   collapse="\n")
-
+      # collect JS assets from external_scripts
+      scripts_external <- vapply(self$config$external_scripts,
+                                 generate_js_dist_html, 
+                                 FUN.VALUE=character(1))
+      
+      # create tag for favicon, if present
+      # other_files_map[names(other_files_map) %in% "/favicon.ico"]
+      if ("/favicon.ico" %in% names(private$other)) {
+        favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
+      } else {
+        favicon <- ""
+      }
+            
+      # serving order of CSS and JS tags: package -> external -> assets
+      css_tags <- paste(c(css_deps,
+                          css_external,
+                          css_assets),
+                        collapse = "\n")
+      
+      scripts_tags <- paste(c(scripts_deps,
+                              scripts_external,
+                              scripts_assets),
+                            collapse = "\n")
+      
+      return(list(css_tags = css_tags, 
+                  scripts_tags = scripts_tags,
+                  favicon = favicon))
+    },
+    
+    index = function() {
+      # generate tags for all assets
+      all_tags <- private$collect_resources()
+      
+      # retrieve favicon tag for serving in the index
+      favicon <- all_tags[["favicon"]]
+      
+      # retrieve CSS tags for serving in the index
+      css_tags <- all_tags[["css_tags"]]
+      
+      # retrieve script tags for serving in the index
+      scripts_tags <- all_tags[["scripts_tags"]]
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
             <meta charset="UTF-8"/>
             <title>%s</title>
+            %s
             %s
           </head>
 
@@ -594,9 +809,10 @@ Dash <- R6::R6Class(
           </body>
         </html>',
         private$name,
-        css,
+        favicon,
+        css_tags,
         to_JSON(self$config),
-        render_dependencies(depsScripts, local = private$serve_locally, prefix=self$config$requests_pathname_prefix)
+        scripts_tags
       )
 
     }
@@ -606,8 +822,8 @@ Dash <- R6::R6Class(
 # verify that properties attached to output/inputs/state value are valid
 # @param layout
 # @param component a component (should be a dependency)
-validate_dependency <- function(layout, dependency) {
-  if (!is.layout(layout)) stop("`layout` must be a dash layout object", call. = FALSE)
+validate_dependency <- function(layout_, dependency) {
+  if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
   valid_props <- component_props_given_id(layout, dependency$id)
