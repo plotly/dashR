@@ -1,6 +1,10 @@
 # dashR
 
-An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem for authoring reactive web applications.
+#### Create beautiful, analytic applications in R.
+
+🚧 dashR is a work-in-progress. Feel free to test the waters and submit issues. Expect the first supported release summer 2019.
+
+Documentation: https://dashr-docs.herokuapp.com/
 
 ## Installation
 
@@ -10,7 +14,7 @@ An interface to the [dash](https://github.com/plotly/dash-renderer) ecosystem fo
 
 First, install `dashR` dependencies from CRAN:
 ```r
-install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc"))
+install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime"))
 ```
 
 Installing the package and component libraries directly from GitHub using the `devtools` package is easy:
@@ -44,7 +48,7 @@ app <- Dash$new()
 Similar to [dash](https://github.com/plotly/dash), every **dashR** application needs a layout (i.e., user interface) and a collection of callback functions which define the updating logic to perform when input value(s) change. Take, for instance, this basic example of formatting a string:
 
 ```r
-app$layout_set(
+app$layout(
   dccInput(id = "inputID", value = "initial value", type = "text"),
   htmlDiv(id = "outputID")
 )
@@ -67,7 +71,7 @@ Here the `showcase = TRUE` argument opens a browser window and automatically loa
 ```r
 app <- Dash$new()
 
-app$layout_set(
+app$layout(
   dccInput(id = "graphTitle", 
             value = "Let's Dance!", 
             type = "text"),
@@ -127,3 +131,9 @@ app$callback(output = list("outputID", "children"),
 
 app$run_server(showcase = TRUE)
 ```
+
+---
+
+## Screenshot of "Hello World" app
+
+![hello_dcc](https://user-images.githubusercontent.com/9809798/55428329-df18be80-5556-11e9-8d21-c55250621cd6.gif)
