@@ -133,7 +133,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-
+      gsub("^/+|/+$", "", assets_folder)
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
@@ -150,7 +150,8 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
 
-      if (!(is.null(private$assets_folder))) { 
+      # ensure that assets_folder is neither NULL nor character(0)
+      if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) { 
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
           warning(sprintf(
             "The supplied assets folder, '%s', could not be found in the project directory.",
