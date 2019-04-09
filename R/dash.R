@@ -606,10 +606,6 @@ Dash <- R6::R6Class(
     },
 
     walk_assets_directory = function(assets_dir = private$assets_folder) {
-      if (!(dir.exists(private$assets_folder))) {
-        return
-      }
-      
       # obtain the full canonical path
       asset_path <- normalizePath(file.path(assets_dir))
       
