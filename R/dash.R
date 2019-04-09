@@ -153,7 +153,7 @@ Dash <- R6::R6Class(
       if (!(is.null(private$assets_folder))) { 
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
           warning(sprintf(
-            "The supplied assets folder, '%s' could not be found in the project directory.",
+            "The supplied assets folder, '%s', could not be found in the project directory.",
             private$assets_folder),
             call. = FALSE
           )
