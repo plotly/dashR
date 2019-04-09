@@ -55,7 +55,7 @@
 #' \describe{
 #'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of dash components (e.g., [coreSlider], [htmlDiv], etc) or
+#'     collection of DashR components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
@@ -68,15 +68,6 @@
 #'     (via an [output] object). To determine what events trigger this callback,
 #'     provide [input] (and/or [state]) object(s) (which should reference
 #'     layout components) as argument value(s) to `func`.
-#'   }
-#'   \item{`dependencies_set(dependencies = NULL, add = TRUE)`}{
-#'     Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
-#'     The `dependencies` argument accepts [htmltools::htmlDependency] or
-#'     [htmltools::htmlDependencies]. The `section` argument determines whether
-#'     your dependencies are placed inside `<head>` or `<footer>`.
-#'   }
-#'   \item{`dependencies_get(all = FALSE)`}{
-#'     Retrieve (just user-defined or all) HTML dependencies.
 #'   }
 #'   \item{`run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. If provided, `host`/`port` set
@@ -418,37 +409,6 @@ Dash <- R6::R6Class(
       private$layout_ <- if (is.function(..1)) ..1 else list(...)
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
-    },
-
-    # ------------------------------------------------------------------------
-    # HTML dependency management
-    # ------------------------------------------------------------------------
-    dependencies_get = function() {
-      c(private$dependencies_user, private$dependencies)
-    },
-    dependencies_get_internal = function() {
-      private$dependencies_internal
-    },
-    dependencies_set = function(dependencies = list(), add = TRUE) {
-
-      if (!length(dependencies)) return()
-
-      # do a sensible thing if just a single dependency is provided
-      if (inherits(dependencies, "html_dependency")) {
-        dependencies <- list(dependencies)
-      }
-
-      # ensure we have a list of htmltools::htmlDependency
-      is_dep <- vapply(dependencies, inherits, logical(1), "html_dependency")
-      if (any(!is_dep)) {
-        stop("`dependencies` must be a *list* of htmltools::htmlDependency objects", call. = FALSE)
-      }
-
-      if (add) {
-        dependencies <- c(private$dependencies_user, dependencies)
-      }
-
-      private$dependencies_user <- dependencies
     },
 
     react_version_set = function(version) {

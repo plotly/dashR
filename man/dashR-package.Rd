@@ -17,11 +17,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ryan Kyle \email{ryan@plot.ly}
+\strong{Maintainer}: Ryan Kyle \email{ryan@plot.ly} [translator]
 
 Authors:
 \itemize{
+  \item Chris Parmer \email{chris@plot.ly}
   \item Carson Sievert
+}
+
+Other contributors:
+\itemize{
+  \item  Plotly [copyright holder]
 }
 
 }
