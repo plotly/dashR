@@ -502,26 +502,24 @@ encode_plotly <- function(layout_objs) {
       "x" %in% names(layout_objs) &&
       "visdat" %in% names(layout_objs$x)) {
     # check to determine whether the current element is an
-    # object output from the plot_ly function; if it is,
-    # we can safely assume that it contains no other plot_ly
-    # objects and return the updated element as a mutated
-    # plotly figure argument that contains only data and
-    # layout attributes. we suppress messages since the
-    # plotly_build function will supply them, as it's typically
-    # run interactively.
+    # object output from the plot_ly or ggplotly function;
+    # if it is, we can safely assume that it contains no 
+    # other plot_ly or ggplotly objects and return the updated 
+    # element as a mutated plotly figure argument that contains
+    # only data and layout attributes. we suppress messages 
+    # since the plotly_build function will supply them, as it's 
+    # typically run interactively.
     obj <- suppressMessages(plotly::plotly_build(layout_objs)$x)
     layout_objs <- obj[c("data", "layout")]
     return(layout_objs)
   } else {
     for (i in seq_along(layout_objs)) {
-      element <- layout_objs[[i]]
       # if the current element is a nested list, pass the
       # element to encode_plotly to continue recursing the
       # tree of components
-      if (is.list(element) & (any(sapply(element, is.list))))
-        layout_objs[[i]] <- encode_plotly(element)
+      if (any(sapply(layout_objs[[i]], is.list)))
+        layout_objs[[i]] <- encode_plotly(layout_objs[[i]])
     }
   }
   layout_objs
 }
-
