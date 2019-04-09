@@ -127,7 +127,8 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
-      private$assets_folder <- assets_folder
+      # remove leading and trailing slash(es) if present
+      private$assets_folder <- gsub("^/+|/+$", "", assets_folder)
       # remove trailing slash in assets_url_path, if present
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
@@ -149,14 +150,14 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
 
-      if (!is.null(private$assets_folder) && gsub("/+", "", assets_folder) != "assets") { 
-        if (!(dir.exists(private$assets_folder))) {
+      if (!(is.null(private$assets_folder))) { 
+        if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
           warning(sprintf(
             "The supplied assets folder, '%s' could not be found in the project directory.",
             private$assets_folder),
             call. = FALSE
           )
-        } else {
+        } else if (dir.exists(private$assets_folder)) {
           private$asset_map <- private$walk_assets_directory(private$assets_folder)
           private$css <- private$asset_map$css
           private$scripts <- private$asset_map$scripts
@@ -604,7 +605,11 @@ Dash <- R6::R6Class(
       layout_
     },
 
-    walk_assets_directory = function(assets_dir = private$assets_dir) {
+    walk_assets_directory = function(assets_dir = private$assets_folder) {
+      if (!(dir.exists(private$assets_folder))) {
+        return
+      }
+      
       # obtain the full canonical path
       asset_path <- normalizePath(file.path(assets_dir))
       
@@ -793,7 +798,7 @@ Dash <- R6::R6Class(
       if ("/favicon.ico" %in% names(private$other)) {
         favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
       } else {
-        favicon <- NULL
+        favicon <- ""
       }
             
       # serving order of CSS and JS tags: package -> external -> assets
