@@ -9,6 +9,7 @@ Imports:
   R6,
   fiery (> 1.0.0),
   routr (> 0.2.0),
+  plotly,
   reqres,
   jsonlite,
   htmltools,

@@ -53,9 +53,9 @@ app$layout(
   htmlDiv(id = "outputID")
 )
 
-app$callback(output("outputID", "children"), 
-             list(input("inputID", "value"),
-                  state("inputID", "type")), 
+app$callback(output = list("outputID", "children"), 
+             params = list(input("inputID", "value"),
+                      state("inputID", "type")), 
   function(x, y) {
     sprintf("You've entered: '%s' into a '%s' input control", x, y)
   }
@@ -84,8 +84,8 @@ app$layout(
   )
 )
 
-app$callback(output("giraffe", "figure"), 
-             list(input("graphTitle", "value")),     
+app$callback(output = list(id = "giraffe", property = "figure"), 
+             params = list(input("graphTitle", "value")),     
              function(newTitle) {
                  
                  rand1 <- sample(1:10, 1)
@@ -121,9 +121,9 @@ app$callback(output("giraffe", "figure"),
                }
 )
 
-app$callback(output("outputID", "children"), 
-             list(input("graphTitle", "value"),
-                  state("graphTitle", "type")), 
+app$callback(output = list("outputID", "children"), 
+             params = list(input("graphTitle", "value"),
+                           state("graphTitle", "type")), 
              function(x, y) {
                  sprintf("You've entered: '%s' into a '%s' input control", x, y)
              }
