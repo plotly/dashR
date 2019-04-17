@@ -579,7 +579,7 @@ encode_plotly <- function(layout_objs) {
   if (is.list(layout_objs)) {
     if ("plotly" %in% class(layout_objs) &&
         "x" %in% names(layout_objs) &&
-        any(names(layout_objs$x) == c("visdat", "data"))) {
+        any(c("visdat", "data") %in% names(layout_objs$x))) {
       # check to determine whether the current element is an
       # object output from the plot_ly or ggplotly function;
       # if it is, we can safely assume that it contains no 
