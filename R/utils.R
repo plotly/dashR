@@ -489,11 +489,117 @@ get_mimetype <- function(filename) {
     return(NULL)
 }
 
-generate_css_dist_html <- function(url) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", url, perl=TRUE)) {
-    sprintf("<link href=\"%s\" rel=\"stylesheet\" />", url)
+generate_css_dist_html <- function(href, 
+                                   local = FALSE, 
+                                   local_path = NULL,
+                                   prefix = NULL) {
+  if (!(local)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+      sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
+    }
+    else
+      stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
+  } else {
+    # strip leading slash from href if present
+    href <- sub("^/", "", href)
+    modified <- as.integer(file.mtime(local_path))
+    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">", 
+            prefix, 
+            href, 
+            modified)
   }
-  else
-    stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
+} 
+
+generate_js_dist_html <- function(href, 
+                                  local = FALSE,
+                                  local_path = NULL,
+                                  prefix = NULL) {
+  if (!(local)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+      sprintf("<script src=\"%s\"></script>", url)
+    }
+    else
+      stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
+  } else {
+    # strip leading slash from href if present
+    href <- sub("^/", "", href)
+    modified <- as.integer(file.mtime(local_path))
+    sprintf("<script src=\"%s%s?m=%s\"></script>",
+            prefix, 
+            href, 
+            modified)
+  }
+} 
+
+# This function takes the list object containing asset paths
+# for all stylesheets and scripts, as well as the URL path
+# to search, then returns the absolute local path (when
+# present) to the requested asset
+#
+# e.g. assets_map is a named list potentially containing
+#      $css, a list of absolute paths as character strings
+#      for all locally supplied CSS assets, named with their
+#      assets pathname (i.e. "assets/stylesheet.css"), and
+#      $scripts, a list of character strings formatted
+#      identically to $css, also named with subpaths.
+#     
+get_asset_path <- function(assets_map, asset_path) {
+  unlist(setNames(assets_map, NULL))[asset_path]
 }
 
+# This function returns the URL corresponding to assets
+# included in the asset map, with the request prefix
+# prepended, e.g. when asset_path is
+#
+#                   assets/stylesheet.css
+# "/Users/testuser/assets/stylesheet.css"
+#
+#            ... the function will return
+#
+#               "/assets/stylesheet.css"
+#
+get_asset_url <- function(asset_path, prefix = "/") {
+  # the subpath is stored in the names attribute
+  # of the return object from get_asset_path, so
+  # we can retrieve it using names()
+  asset <- names(asset_path)
+
+  # strip one or more trailing slashes, since we'll
+  # introduce one when we concatenate the prefix and
+  # asset path
+  prefix <- gsub(pattern = "/+$",
+                 replacement = "",
+                 x = prefix)
+
+  # prepend the asset name with the route prefix
+  return(paste(prefix, asset, sep="/"))
+}
+                              
+encode_plotly <- function(layout_objs) {
+  if (is.list(layout_objs)) {
+    if ("plotly" %in% class(layout_objs) &&
+        "x" %in% names(layout_objs) &&
+        any(c("visdat", "data") %in% names(layout_objs$x))) {
+      # check to determine whether the current element is an
+      # object output from the plot_ly or ggplotly function;
+      # if it is, we can safely assume that it contains no 
+      # other plot_ly or ggplotly objects and return the updated 
+      # element as a mutated plotly figure argument that contains
+      # only data and layout attributes. we suppress messages 
+      # since the plotly_build function will supply them, as it's 
+      # typically run interactively.
+      obj <- suppressMessages(plotly::plotly_build(layout_objs)$x)
+      layout_objs <- obj[c("data", "layout")]
+      return(layout_objs)
+    } else {
+      for (i in seq_along(layout_objs)) {
+        # if the current element is a nested list, pass the
+        # element to encode_plotly to continue recursing the
+        # tree of components
+        if (any(sapply(layout_objs[[i]], is.list)))
+          layout_objs[[i]] <- encode_plotly(layout_objs[[i]])
+      }
+    }
+  }
+  layout_objs
+  }

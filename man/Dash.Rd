@@ -9,7 +9,9 @@
 app <- Dash$new(
   name = "dash",
   server = fiery::Fire$new(),
-  static_folder = NULL,
+  assets_folder = 'assets',
+  assets_url_path = '/assets',
+  assets_ignore = '',
   serve_locally = TRUE,
   routes_pathname_prefix = '/',
   requests_pathname_prefix = '/'
@@ -25,19 +27,20 @@ Description coming soon
 of the HTML page).\cr
 \code{server} \tab \tab The web server used to power the application.
 Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
-\code{static_folder} \tab \tab A character vector of directories for serving
-with the application (the default, \code{NULL}, means don't serve additional
-directories). If provided, the names attribute defines corresponding url
-path, otherwise it defaults to '/'.\cr
 \code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
 \code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
 \code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
 made by Dash's front-end.\cr
+\code{external_scripts} \tab \tab An optional list of valid URLs from which
+to serve JavaScript source for rendered pages.\cr
+\code{external_stylesheets} \tab \tab An optional list of valid URLs from which
+to serve CSS for rendered pages.\cr
 \code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
-possible layout mis-specifications when registering a callback. For an
-example of when it is ok to suppress these callbacks, see
-\code{runTutorial("urls-part-2.R")}
+possible layout mis-specifications when registering a callback. \cr
+\code{components_cache_max_age} \tab \tab An integer value specifying the time
+interval prior to expiring cached assets. The default is 2678400 seconds,
+or 31 calendar days.
 }
 }
 
@@ -55,22 +58,15 @@ Users shouldn't need to alter any of these options unless they are
 constructing their own authorization front-end or otherwise need to know
 where the application is making API calls.
 }
-\item{\code{exclude_plotly_bundle}}{
-Whether or not to exclude the plotly.js bundle when "core components" exist,
-but \link[dashCoreComponents:coreGraph]{dashCoreComponents::coreGraph} is not provided to the \code{layout_set()}
-method (i.e., the initial layout).
-The only time \code{exclude_plotly_bundle} should be \code{TRUE} is if you don't want
-a \code{coreGraph()} in the initial layout, but want to insert one via a callback.
-}
 }
 }
 
 \section{Methods}{
 
 \describe{
-\item{\code{layout_set(...)}}{
+\item{\code{layout(...)}}{
 Set the layout (i.e., user interface). The layout should be either a
-collection of dash components (e.g., \link{coreSlider}, \link{htmlDiv}, etc) or
+collection of DashR components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
 a function which returns a collection of components.
 }
 \item{\code{layout_get(render = TRUE)}}{
@@ -83,15 +79,6 @@ and \code{output} defines which layout component property should adopt the resul
 (via an \link{output} object). To determine what events trigger this callback,
 provide \link{input} (and/or \link{state}) object(s) (which should reference
 layout components) as argument value(s) to \code{func}.
-}
-\item{\code{dependencies_set(dependencies = NULL, add = TRUE)}}{
-Adds additional HTML dependencies to your dash application (beyond the 'internal' dependencies).
-The \code{dependencies} argument accepts \link[htmltools:htmlDependency]{htmltools::htmlDependency} or
-\link[htmltools:htmlDependencies]{htmltools::htmlDependencies}. The \code{section} argument determines whether
-your dependencies are placed inside \code{<head>} or \code{<footer>}.
-}
-\item{\code{dependencies_get(all = FALSE)}}{
-Retrieve (just user-defined or all) HTML dependencies.
 }
 \item{\code{run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. If provided, \code{host}/\code{port} set
@@ -106,17 +93,7 @@ for running the app on Heroku.
 }
 }
 
-\examples{
-
-app <- runTutorial("urls-part-2.R")
-app$server$stop()
-
-
-}
 \seealso{
 \url{https://plot.ly/dashR/}
-}
-\author{
-Carson Sievert
 }
 \keyword{datasets}
