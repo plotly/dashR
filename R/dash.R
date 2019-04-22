@@ -292,18 +292,31 @@ Dash <- R6::R6Class(
                                        clean_dependencies(dep_list)
                                        )
 
-        dep_path <- system.file(dep_pkg$rpkg_path,
-                                package = dep_pkg$rpkg_name)
 
-        response$body <- readLines(dep_path,
-                                   warn = FALSE,
-                                   encoding = "UTF-8")
-        response$status <- 200L
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    components_cache_max_age)
-                            )
-        response$type <- get_mimetype(filename)
+        # return warning if a dependency goes unmatched, since the page
+        # will probably fail to render properly anyway without it
+        if (length(dep_pkg$rpkg_path) == 0) {
+          warning(sprintf("The dependency '%s' could not be loaded; the file was not found.", 
+                          filename), 
+                  call. = FALSE)
+          
+          response$body <- NULL
+          response$status <- 404L
+        } else {
+          dep_path <- system.file(dep_pkg$rpkg_path,
+                                  package = dep_pkg$rpkg_name)
+          
+          response$body <- readLines(dep_path,
+                                     warn = FALSE,
+                                     encoding = "UTF-8")
+          response$status <- 200L
+          response$set_header('Cache-Control',
+                              sprintf('public, max-age=%s',
+                                      components_cache_max_age)
+                              )
+          response$type <- get_mimetype(filename)
+        }
+
         TRUE
       })
 
