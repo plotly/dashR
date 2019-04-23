@@ -601,4 +601,90 @@ encode_plotly <- function(layout_objs) {
     }
   }
   layout_objs
+}
+
+# This function formats the output from sys.calls()
+# so that it is pretty printed to stderr()
+printCallStack <- function(call_stack, header=TRUE) {
+  if (header) {
+    write(crayon::yellow$bold(" ### DashR Traceback (most recent/innermost call last) ###"), stderr())
   }
+  write(
+    crayon::white(
+      paste0(
+        "    ",
+        seq_along(
+          call_stack
+          ),
+        ": ",
+        call_stack
+        )
+    ),
+    stderr()
+    )
+}
+
+# This function is essentially the R equivalent of a
+# Python decorator method; if debug mode is active,
+# it will wrap an expression using withCallingHandlers
+# and capture the call stack. By default, the call
+# stack will be "pruned" of error handling functions
+# for greater readability.
+captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
+  if(debug) {
+    withCallingHandlers(
+      expr,
+      error = function(e) {
+        if (is.null(attr(e, "stack.trace", exact = TRUE))) {
+          calls <- sys.calls()
+          attr(e, "stack.trace") <- calls
+          
+          functionsAsList <- lapply(calls, function(completeCall) {
+            currentCall <- completeCall[[1]]
+            if (is.function(currentCall) & !is.primitive(currentCall)) {
+              constructedCall <- paste0("<anonymous> function(", 
+                                        paste(names(formals(currentCall)), collapse = ", "),
+                                        ")")
+              return(constructedCall)
+            } else {
+              return(currentCall)
+            }
+            
+          })
+          
+          if (pruned) {
+            printCallStack(removeHandlers(functionsAsList))
+          } else {
+            printCallStack(functionsAsList)
+          }
+
+        }
+      }
+    )
+  } else {
+    evalq(expr)
+  }
+}
+
+# This helper function drops error
+# handling functions from the call
+# stack, as these are generally not
+# useful.
+#
+# TODO: modify this function such
+# that these handlers are only pruned
+# *after* the function throwing the
+# error has entered the stack for
+# the last time.
+removeHandlers <- function(fnList) {
+  omittedStrings <- c("withCallingHandlers",
+                      "tryCatch",
+                      "tryCatchList",
+                      "tryCatchOne",
+                      "doTryCatch",
+                      ".handleSimpleError",
+                      "h",
+                      ".handleSimpleError",
+                      "withRestarts")
+  return(fnList[!fnList %in% omittedStrings])
+}

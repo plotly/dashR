@@ -258,7 +258,8 @@ Dash <- R6::R6Class(
           }
         }
 
-        output_value <- do.call(callback, callback_args)
+        output_value <- captureStackTraces(do.call(callback, callback_args),
+                                           debug=private$debug)
         
         # pass on output_value to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -454,9 +455,11 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...) {
+    run_server = function(host = NULL, port = NULL, block = TRUE, showcase = FALSE, debug = FALSE, ...) {
       if (!is.null(host)) self$server$host <- host
       if (!is.null(port)) self$server$port <- as.numeric(port)
+      private$debug <- debug
+      
       self$server$ignite(block = block, showcase = showcase, ...)
     },
     run_heroku = function(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...) {
@@ -480,6 +483,9 @@ Dash <- R6::R6Class(
     css = NULL,
     scripts = NULL,
     other = NULL,
+    
+    # initialize a flag for debug mode,
+    debug = NULL,
         
     # fields for tracking HTML dependencies
     dependencies = list(),
