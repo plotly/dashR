@@ -258,8 +258,9 @@ Dash <- R6::R6Class(
           }
         }
 
-        output_value <- captureStackTraces(do.call(callback, callback_args),
-                                           debug=private$debug)
+        output_value <- getStackTrace(do.call(callback, callback_args),
+                                      pruned = private$pruned,
+                                      debug = private$debug)
         
         # pass on output_value to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -455,14 +456,23 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = NULL, port = NULL, block = TRUE, showcase = FALSE, debug = FALSE, ...) {
+    run_server = function(host = NULL, 
+                          port = NULL, 
+                          block = TRUE, 
+                          showcase = FALSE, 
+                          pruned = TRUE, 
+                          debug = FALSE, 
+                          ...) {
       if (!is.null(host)) self$server$host <- host
       if (!is.null(port)) self$server$port <- as.numeric(port)
+      private$pruned <- pruned
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
     },
-    run_heroku = function(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...) {
+    run_heroku = function(host = "0.0.0.0", 
+                          port = Sys.getenv('PORT', 8080), 
+                          ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
       self$run_server(...)
@@ -484,9 +494,10 @@ Dash <- R6::R6Class(
     scripts = NULL,
     other = NULL,
     
-    # initialize a flag for debug mode,
+    # initialize flags for debug mode and stack pruning,
     debug = NULL,
-        
+    pruned = NULL,
+    
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
