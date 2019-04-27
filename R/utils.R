@@ -638,9 +638,11 @@ captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
         if (is.null(attr(e, "stack.trace", exact = TRUE))) {
           calls <- sys.calls()
           attr(e, "stack.trace") <- calls
-          
+          errorCall <- e$call[[1]]
+
           functionsAsList <- lapply(calls, function(completeCall) {
             currentCall <- completeCall[[1]]
+            
             if (is.function(currentCall) & !is.primitive(currentCall)) {
               constructedCall <- paste0("<anonymous> function(", 
                                         paste(names(formals(currentCall)), collapse = ", "),
@@ -652,7 +654,29 @@ captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
             
           })
           
+          reverseStack <- rev(calls)
+          
           if (pruned) {
+            # this line should match the last occurrence of the function
+            # which raised the error within the call stack; prune here
+            indexFromLast <- match(TRUE, lapply(reverseStack, function(x) {
+              if (is.function(x[[1]])) {
+                identical(deparse(errorCall), deparse(x[[1]]))
+              } else {
+                FALSE
+              }
+
+              }
+              )
+            )
+            
+            # the position to stop at is one less than the difference
+            # between the total number of calls and the index of the
+            # call throwing the error
+            stopIndex <- length(calls) - indexFromLast + 1
+            
+            startIndex <- match(TRUE, lapply(functionsAsList, function(x) x == "captureStackTraces"))
+            functionsAsList <- functionsAsList[startIndex:stopIndex]
             printCallStack(removeHandlers(functionsAsList))
           } else {
             printCallStack(functionsAsList)
