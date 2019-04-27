@@ -16,7 +16,8 @@ Imports:
   assertthat,
   digest,
   base64enc,
-  mime
+  mime,
+  crayon
 Suggests:
   dashHtmlComponents (>= 0.13.5),
   dashCoreComponents (>= 0.42.1),
