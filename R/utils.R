@@ -630,9 +630,9 @@ printCallStack <- function(call_stack, header=TRUE) {
 # and capture the call stack. By default, the call
 # stack will be "pruned" of error handling functions
 # for greater readability.
-captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
+getStackTrace <- function(expr, debug = FALSE, pruned = TRUE) {
   if(debug) {
-    withCallingHandlers(
+    tryCatch(withCallingHandlers(
       expr,
       error = function(e) {
         if (is.null(attr(e, "stack.trace", exact = TRUE))) {
@@ -659,9 +659,20 @@ captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
           if (pruned) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
-            indexFromLast <- match(TRUE, lapply(reverseStack, function(x) {
-              if (is.function(x[[1]])) {
-                identical(deparse(errorCall), deparse(x[[1]]))
+            indexFromLast <- match(TRUE, lapply(reverseStack, function(currentCall) {
+              # if the first element of the current call pulled from the stack
+              # is a function, deparse the error object's call and compare
+              # to the current call from the stack -- if they're the same,
+              # return TRUE -- the match function will return the position
+              # of the first successful match.
+              #
+              # since the stack of calls being evaluated is reversed, "pruning"
+              # here has the effect of capturing the stack up to the most recent
+              # call which matches the call throwing the error. the call may have
+              # not thrown an error further up the stack, so we want to be sure
+              # to stop at the correct position.
+              if (is.function(currentCall[[1]])) {
+                identical(deparse(errorCall), deparse(currentCall[[1]]))
               } else {
                 FALSE
               }
@@ -675,15 +686,23 @@ captureStackTraces <- function(expr, debug = FALSE, pruned = TRUE) {
             # call throwing the error
             stopIndex <- length(calls) - indexFromLast + 1
             
-            startIndex <- match(TRUE, lapply(functionsAsList, function(x) x == "captureStackTraces"))
+            startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
             functionsAsList <- functionsAsList[startIndex:stopIndex]
+            warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
+                                                              functionsAsList[[length(functionsAsList)]], 
+                                                              conditionMessage(e)))
             printCallStack(removeHandlers(functionsAsList))
           } else {
+            warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
+                                                              functionsAsList[[length(functionsAsList)]], 
+                                                              conditionMessage(e)))
             printCallStack(functionsAsList)
           }
 
         }
       }
+    ),
+    error = function(e) {write(crayon::yellow$bold("in debug mode, catching error as warning ..."), stderr())}
     )
   } else {
     evalq(expr)
