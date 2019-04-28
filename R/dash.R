@@ -69,15 +69,12 @@
 #'     provide [input] (and/or [state]) object(s) (which should reference
 #'     layout components) as argument value(s) to `func`.
 #'   }
-#'   \item{`run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)`}{
+#'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), 
+#'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. If provided, `host`/`port` set
 #'     the `host`/`port` fields of the underlying [fiery::Fire] web
 #'     server. The `block`/`showcase`/`...` arguments are passed along
 #'     to the `ignite()` method of the [fiery::Fire] server.
-#'   }
-#'   \item{`run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)`}{
-#'     Like `run_server()` but sets sensible `host`/`port` defaults
-#'     for running the app on Heroku.
 #'   }
 #' }
 #'
@@ -124,7 +121,6 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      gsub("^/+|/+$", "", assets_folder)
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
@@ -298,18 +294,31 @@ Dash <- R6::R6Class(
                                        clean_dependencies(dep_list)
                                        )
 
-        dep_path <- system.file(dep_pkg$rpkg_path,
-                                package = dep_pkg$rpkg_name)
 
-        response$body <- readLines(dep_path,
-                                   warn = FALSE,
-                                   encoding = "UTF-8")
-        response$status <- 200L
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    components_cache_max_age)
-                            )
-        response$type <- get_mimetype(filename)
+        # return warning if a dependency goes unmatched, since the page
+        # will probably fail to render properly anyway without it
+        if (length(dep_pkg$rpkg_path) == 0) {
+          warning(sprintf("The dependency '%s' could not be loaded; the file was not found.", 
+                          filename), 
+                  call. = FALSE)
+          
+          response$body <- NULL
+          response$status <- 404L
+        } else {
+          dep_path <- system.file(dep_pkg$rpkg_path,
+                                  package = dep_pkg$rpkg_name)
+          
+          response$body <- readLines(dep_path,
+                                     warn = FALSE,
+                                     encoding = "UTF-8")
+          response$status <- 200L
+          response$set_header('Cache-Control',
+                              sprintf('public, max-age=%s',
+                                      components_cache_max_age)
+                              )
+          response$type <- get_mimetype(filename)
+        }
+
         TRUE
       })
 
@@ -456,28 +465,20 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = NULL, 
-                          port = NULL, 
+    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"), 
+                          port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
                           pruned = TRUE, 
                           debug = FALSE, 
                           ...) {
-      if (!is.null(host)) self$server$host <- host
-      if (!is.null(port)) self$server$port <- as.numeric(port)
+      self$server$host <- host
+      self$server$port <- as.numeric(port)
       private$pruned <- pruned
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
     },
-    run_heroku = function(host = "0.0.0.0", 
-                          port = Sys.getenv('PORT', 8080), 
-                          ...) {
-      self$server$host <- host
-      self$server$port <- as.numeric(port)
-      self$run_server(...)
-    }
-  ),
 
   private = list(
     # private fields defined on initiation
