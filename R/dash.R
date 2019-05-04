@@ -474,9 +474,24 @@ Dash <- R6::R6Class(
                           showcase = FALSE, 
                           pruned_errors = TRUE, 
                           debug = FALSE, 
+                          dev_tools_ui = NULL,
+                          dev_tools_props_check = NULL,
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
+      
+      if (debug & !(isFALSE(dev_tools_ui)) | isTRUE(dev_tools_ui)) {
+        self$config$ui <- TRUE
+      } else {
+        self$config$ui <- FALSE
+      }
+
+      if (debug & !(isFALSE(dev_tools_props_check)) | isTRUE(dev_tools_props_check)) {
+        self$config$props_check <- TRUE
+      } else {
+        self$config$props_check <- FALSE
+      }
+
       private$pruned_errors <- pruned_errors
       private$debug <- debug
       
