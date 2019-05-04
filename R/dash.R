@@ -124,7 +124,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      gsub("^/+|/+$", "", assets_folder)
+
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
@@ -197,8 +197,8 @@ Dash <- R6::R6Class(
 
         payload <- Map(function(callback_signature) {
           list(
-            output=callback_signature$output,
             inputs=callback_signature$inputs,
+            output=paste0(callback_signature$output, collapse="."),
             state=callback_signature$state
           )
         }, private$callback_map)
@@ -211,6 +211,7 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
+
         request <- request_parse_json(request)
 
         if (!"output" %in% names(request$body)) {
@@ -221,8 +222,7 @@ Dash <- R6::R6Class(
         }
 
         # get the callback associated with this particular output
-        thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        callback <- private$callback_map[[thisOutput]][['func']]
+        callback <- private$callback_map[[request$body$output]][['func']]
         if (!length(callback)) stop_report("Couldn't find output component.")
         if (!is.function(callback)) {
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
@@ -259,8 +259,8 @@ Dash <- R6::R6Class(
         }
 
         output_value <- getStackTrace(do.call(callback, callback_args),
-                                      pruned = private$pruned,
-                                      debug = private$debug)
+                                      debug = private$debug,
+                                      pruned = private$pruned)
         
         # pass on output_value to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -271,7 +271,7 @@ Dash <- R6::R6Class(
         # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
         resp <- list(
           response = list(
-            props = setNames(list(output_value), request$body$output$property)
+            props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
           )
         )
 
@@ -286,7 +286,9 @@ Dash <- R6::R6Class(
       # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
+      
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+      
         filename <- basename(file.path(keys$filename))
 
         dep_list <- c(private$dependencies_internal,
@@ -446,8 +448,8 @@ Dash <- R6::R6Class(
 
       # register the callback_map
       private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
-          output=output,
           inputs=inputs,
+          output=output,
           state=state,
           func=func
         )
@@ -584,9 +586,6 @@ Dash <- R6::R6Class(
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, deps_layout)
 
-      # DashR's own dependencies
-      private$dependencies_internal <- dashR:::.dashR_js_metadata()
-
       # return the computed layout
       oldClass(layout_) <- c("dash_layout", oldClass(layout_))
       layout_
@@ -694,7 +693,7 @@ Dash <- R6::R6Class(
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
-      version <- private$dependencies_internal$react$version
+      version <- private$dependencies_internal$`react-prod`$version
       return(version)
       },
     react_deps = function() {
@@ -710,14 +709,27 @@ Dash <- R6::R6Class(
     .index = NULL,
     
     collect_resources = function() {
+      # DashR's own dependencies
+      # serve the dev version of dash-renderer when in debug mode
+      dependencies_all_internal <- dashR:::.dashR_js_metadata()
+      if (private$debug) {
+        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
+                                                                                      "dash-renderer-map-prod")]
+      } else {
+        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-dev",
+                                                                                      "dash-renderer-map-dev")]
+      }
+      
+      private$dependencies_internal <- depsSubset
+      
       # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
-        private$dependencies_internal[names(private$dependencies_internal) %in% 'dash-renderer']
+        private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
       ))
-      
+            
       # normalizes local paths and keeps newer versions of duplicates
       depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
       
@@ -783,7 +795,13 @@ Dash <- R6::R6Class(
       } else {
         favicon <- ""
       }
-            
+
+      # set script tag to invoke a new dash_renderer
+      scripts_invoke_renderer <- sprintf("<script id=\"%s\" type=\"%s\">%s</script>",
+                                         "_dash-renderer", 
+                                         "application/javascript", 
+                                         "var renderer = new DashRenderer();")
+                  
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
                           css_external,
@@ -792,7 +810,8 @@ Dash <- R6::R6Class(
       
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
-                              scripts_assets),
+                              scripts_assets,
+                              scripts_invoke_renderer),
                             collapse = "\n")
       
       return(list(css_tags = css_tags, 
