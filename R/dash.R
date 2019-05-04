@@ -481,7 +481,8 @@ Dash <- R6::R6Class(
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
-    },
+      }
+    ),
 
   private = list(
     # private fields defined on initiation
@@ -861,7 +862,6 @@ Dash <- R6::R6Class(
         to_JSON(self$config),
         scripts_tags
       )
-
     }
   )
 )
