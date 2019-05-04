@@ -257,7 +257,7 @@ Dash <- R6::R6Class(
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
-                                      pruned = private$pruned)
+                                      pruned_errors = private$pruned_errors)
         
         # pass on output_value to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -472,12 +472,12 @@ Dash <- R6::R6Class(
                           port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
-                          pruned = TRUE, 
+                          pruned_errors = TRUE, 
                           debug = FALSE, 
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
-      private$pruned <- pruned
+      private$pruned_errors <- pruned_errors
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
@@ -501,7 +501,7 @@ Dash <- R6::R6Class(
     
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
-    pruned = NULL,
+    pruned_errors = NULL,
     
     # fields for tracking HTML dependencies
     dependencies = list(),
