@@ -631,7 +631,7 @@ printCallStack <- function(call_stack, header=TRUE) {
 # and capture the call stack. By default, the call
 # stack will be "pruned" of error handling functions
 # for greater readability.
-getStackTrace <- function(expr, debug = FALSE, pruned = TRUE) {
+getStackTrace <- function(expr, debug = FALSE, pruned_errors = TRUE) {
   if(debug) {
     tryCatch(withCallingHandlers(
       expr,
@@ -657,7 +657,7 @@ getStackTrace <- function(expr, debug = FALSE, pruned = TRUE) {
           
           reverseStack <- rev(calls)
           
-          if (pruned) {
+          if (pruned_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
             indexFromLast <- match(TRUE, lapply(reverseStack, function(currentCall) {
