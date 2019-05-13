@@ -121,7 +121,7 @@ app$callback(output = list(id = "giraffe", property = "figure"),
                }
 )
 
-app$callback(output = list("outputID", "children"), 
+app$callback(output = list(id = "outputID", property = "children"), 
              params = list(input("graphTitle", "value"),
                            state("graphTitle", "type")), 
              function(x, y) {
