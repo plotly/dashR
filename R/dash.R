@@ -208,7 +208,6 @@ Dash <- R6::R6Class(
 
       dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
-
         request <- request_parse_json(request)
 
         if (!"output" %in% names(request$body)) {
@@ -255,6 +254,9 @@ Dash <- R6::R6Class(
           }
         }
 
+        # set the callback context associated with this invocation of the callback
+        private$callback_context_ <- setCallbackContext(request$body)
+          
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
@@ -463,8 +465,22 @@ Dash <- R6::R6Class(
           state=state,
           func=func
         )
+      
+      # # register the callback_context elements
+      # private$callback_context_[[paste(output$id, output$property, sep='.')]] <- list(
+      #   states=setCallbackContext(state),
+      #   triggered=list(),
+      #   inputs=getContextElements(inputs)
+      # )
     },
 
+    # ------------------------------------------------------------------------
+    # request and return callback context
+    # ------------------------------------------------------------------------    
+    callback_context = function() {
+      private$callback_context_
+    },
+    
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -517,7 +533,10 @@ Dash <- R6::R6Class(
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
     pruned_errors = NULL,
-    
+
+    # callback context
+    callback_context_ = NULL,   
+ 
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),

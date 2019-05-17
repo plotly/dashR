@@ -732,3 +732,33 @@ removeHandlers <- function(fnList) {
                       "withRestarts")
   return(fnList[!fnList %in% omittedStrings])
 }
+
+setCallbackContext <- function(callback_elements) {
+  states <- lapply(callback_elements$states, function(x) {
+    setNames(x$value, paste(x$id, x$property, sep="."))
+  })
+  
+  splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
+  
+  triggered <- lapply(callback_elements$changedPropIds, 
+                      function(x) {
+                        input_id <- splitIdProp(x)[1]
+                        prop <- splitIdProp(x)[2]
+                        
+                        id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                        prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                        
+                        value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+
+                        list(`prop_id` = x, `value` = value)
+                      }
+                      )
+  
+  inputs <- sapply(callback_elements$inputs, function(x) {
+    setNames(list(x$value), paste(x$id, x$property, sep="."))
+  })
+  
+  return(list(states=states, 
+              triggered=unlist(triggered, recursive=FALSE), 
+              inputs=inputs))
+}
