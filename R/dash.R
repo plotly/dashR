@@ -287,9 +287,8 @@ Dash <- R6::R6Class(
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
       
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
-      
-        filename <- basename(file.path(keys$filename))
 
+        filename <- basename(file.path(keys$filename))
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
                       private$dependencies_user)
@@ -768,7 +767,10 @@ Dash <- R6::R6Class(
       ))
             
       # normalizes local paths and keeps newer versions of duplicates
-      depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
+      depsAll <- depsAll[!vapply(depsAll, 
+                                 function(v) {
+                                   !is.null(v[["script"]]) && tools::file_ext(v[["script"]]) == "map"
+                                   }, logical(1))]
       
       # styleheets always go in header
       css_deps <- compact(lapply(depsAll, function(dep) {
@@ -799,7 +801,8 @@ Dash <- R6::R6Class(
                                              local = TRUE,
                                              local_path = private$css,
                                              prefix = self$config$requests_pathname_prefix)
-      } else {
+      } 
+      else {
         css_assets <- NULL
       }
       

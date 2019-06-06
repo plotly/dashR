@@ -157,8 +157,9 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if (!is.null(dep$package)) {
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
-      dep_path <- file.path(dep$src$file,
-                            dep$script)
+      dep_path <- ifelse(!is.null(dep$script),
+                         file.path(dep$src$file, dep$script),
+                         file.path(dep$src$file, dep$stylesheet))
       
       dep_path <- gsub("//+",
                        "/",
@@ -192,10 +193,23 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                                                        dep[["stylesheet"]], 
                                                                        sep="/"))
     } else if ("stylesheet" %in% names(dep) & src == "file") {
+      dep[["stylesheet"]] <- paste0(path_prefix,
+                                "_dash-component-suites/",
+                                dep$name,
+                                "/",
+                                basename(dep[["stylesheet"]]),
+                                sprintf("?v=%s&m=%s", dep$version, modified))
+      
       if (!(is.null(dep$version))) {
-        html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
-                                                                                  dep[["stylesheet"]]),
-                        dep$version)        
+        if(!is.null(dep$package)) {
+          html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["stylesheet"]]),
+                          dep$version)        
+        } else {
+          html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
+                                                                                    dep[["stylesheet"]]),
+                          dep$version)        
+        }
+
       } else {
         html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
                                                                              dep[["stylesheet"]])
@@ -324,9 +338,9 @@ filter_null <- function(x) {
 # filtered out by the subsequent vapply statement
 clean_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
-    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package))) {
-      if (is.null(x$stylesheet) & is.null(x$src$href))
-        stop(sprintf("Script dependencies with NULL href fields must include a file path, script name, and R package name."), call. = FALSE)
+    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet)) | (is.null(x$package))) {
+      if (is.null(x$src$href))
+        stop(sprintf("Script or CSS dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
       else
         return(NULL)
     }
@@ -447,8 +461,11 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     if (x$name %in% c('react', 'react-dom')) {
       x$name <- 'dash-renderer'
     }
-    dep_path <- file.path(x$src$file,
-                          x$script)
+    
+    if (!is.null(x$script))
+      dep_path <- file.path(x$src$file, x$script)
+    else if (!is.null(x$stylesheet))
+      dep_path <- file.path(x$src$file, x$stylesheet)
   
     # remove n>1 slashes and replace with / if present;
     # htmltools seems to permit // in pathnames, but 
