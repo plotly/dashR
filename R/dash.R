@@ -256,11 +256,19 @@ Dash <- R6::R6Class(
 
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
-          
+
+        # throw an exception when request$body is NULL
+        if (is.null(private$callback_context_)) {
+          stop("callback_context cannot be stored if request$body is NULL.")
+        }     
+  
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-        
+      
+        # reset callback context
+        private$callback_context_ <- NULL
+ 
         # pass on output_value to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
         # run plotly_build from the plotly package
