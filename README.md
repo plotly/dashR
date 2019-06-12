@@ -20,7 +20,7 @@ install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly
 Installing the package and component libraries directly from GitHub using the `devtools` package is easy:
 
 ```r
-install_github("plotly/dash")
+install_github("plotly/dashR")
 install_github("plotly/dash-html-components")
 install_github("plotly/dash-core-components")
 ```
