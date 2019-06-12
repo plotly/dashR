@@ -257,11 +257,6 @@ Dash <- R6::R6Class(
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
 
-        # throw an exception when request$body is NULL
-        if (is.null(private$callback_context_)) {
-          stop("callback_context cannot be stored if request$body is NULL.")
-        }     
-  
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
@@ -486,6 +481,9 @@ Dash <- R6::R6Class(
     # request and return callback context
     # ------------------------------------------------------------------------    
     callback_context = function() {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context may only be accessed within a callback.")
+      }   
       private$callback_context_
     },
     
