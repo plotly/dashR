@@ -1,6 +1,6 @@
 Package: dash
 Title: An interface to the Dash ecosystem for authoring reactive web applications
-Version: 0.0.7
+Version: 0.1.0
 Authors@R: c(person("Ryan", "Kyle", role = c("aut", "cre", "trl"), email = "ryan@plot.ly"), person("Chris", "Parmer", role = c("aut"), email = "chris@plot.ly"), person("Carson", "Sievert", role = c("aut")), person(family = "Plotly", role = "cph"))
 Description: An interface to the Dash ecosystem for authoring reactive web applications.
 Depends:
