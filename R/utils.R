@@ -229,7 +229,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
         sheetpath <- paste0(dep[["src"]][["file"]],
                             dep[["stylesheet"]])
         html <- generate_css_dist_html(href = sheetpath)
-        )
       }
     }
   })
