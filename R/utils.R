@@ -178,41 +178,53 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
-        html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
+        html <- generate_js_dist_html(href = dep$src$href)
+        
       } else {
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
                                   basename(dep[["script"]]),
-                                  sprintf("?v=%s&m=%s", dep$version, modified))
-        html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+                                  "?v=",
+                                  dep$version,
+                                  "&m=",
+                                  modified)
+      
+        html <- generate_js_dist_html(href = dep[["script"]])
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
-      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
-                                                                       dep[["stylesheet"]], 
-                                                                       sep="/"))
+      html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
+                                                  dep[["stylesheet"]], 
+                                                  sep="/"),
+                                     local = FALSE)
     } else if ("stylesheet" %in% names(dep) & src == "file") {
       dep[["stylesheet"]] <- paste0(path_prefix,
-                                "_dash-component-suites/",
-                                dep$name,
-                                "/",
-                                basename(dep[["stylesheet"]]),
-                                sprintf("?v=%s&m=%s", dep$version, modified))
+                                    "_dash-component-suites/",
+                                    dep$name,
+                                    "/",
+                                    basename(dep[["stylesheet"]]))
       
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
-          html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["stylesheet"]]),
-                          dep$version)        
+          sheetpath <- paste0(dep[["stylesheet"]],
+                              "?v=",
+                              dep$version)
+            
+          html <- generate_css_dist_html(href = sheetpath)
         } else {
-          html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
-                                                                                    dep[["stylesheet"]]),
-                          dep$version)        
+          sheetpath <- paste0(dep[["src"]][["file"]],
+                              dep[["stylesheet"]],
+                              "?v=",
+                              dep$version)
+          
+          html <- generate_css_dist_html(href = sheetpath)    
         }
 
       } else {
-        html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
-                                                                             dep[["stylesheet"]])
+        sheetpath <- paste0(dep[["src"]][["file"]],
+                            dep[["stylesheet"]])
+        html <- generate_css_dist_html(href = sheetpath)
         )
       }
     }
@@ -533,7 +545,7 @@ generate_js_dist_html <- function(href,
                                   prefix = NULL) {
   if (!(local)) {
     if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
-      sprintf("<script src=\"%s\"></script>", url)
+      sprintf("<script src=\"%s\"></script>", href)
     }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
@@ -779,3 +791,4 @@ setCallbackContext <- function(callback_elements) {
               triggered=unlist(triggered, recursive=FALSE), 
               inputs=inputs))
 }
+
