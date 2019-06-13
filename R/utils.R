@@ -602,4 +602,201 @@ encode_plotly <- function(layout_objs) {
     }
   }
   layout_objs
+}
+
+# This function formats the output from sys.calls()
+# so that it is pretty printed to stderr()
+printCallStack <- function(call_stack, header=TRUE) {
+  if (header) {
+    write(crayon::yellow$bold(" ### DashR Traceback (most recent/innermost call last) ###"), stderr())
   }
+  write(
+    crayon::white(
+      paste0(
+        "    ",
+        seq_along(
+          call_stack
+          ),
+        ": ",
+        call_stack
+        )
+    ),
+    stderr()
+    )
+}
+
+stackTraceToHTML <- function(call_stack, 
+                             throwing_call, 
+                             error_message) {
+  if(is.null(call_stack)) {
+    return(NULL)
+  }
+  header <- " ### DashR Traceback (most recent/innermost call last) ###"
+  
+  formattedStack <- c(paste0(
+    "    ",
+    seq_along(
+      call_stack
+    ),
+    ": ",
+    call_stack,
+    collapse="<br>"
+  )
+  ) 
+
+  template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
+  response <- sprintf(template,
+                      header,
+                      throwing_call,
+                      error_message,
+                      formattedStack)
+
+  # properly format anonymous tags if present in call stack
+  response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
+
+  return(response)
+}
+
+# This function is essentially the R equivalent of a
+# Python decorator method; if debug mode is active,
+# it will wrap an expression using withCallingHandlers
+# and capture the call stack. By default, the call
+# stack will be "pruned" of error handling functions
+# for greater readability.
+getStackTrace <- function(expr, debug = FALSE, pruned_errors = TRUE) {
+  if(debug) {
+    tryCatch(withCallingHandlers(
+      expr,
+      error = function(e) {
+        if (is.null(attr(e, "stack.trace", exact = TRUE))) {
+          calls <- sys.calls()
+          attr(e, "stack.trace") <- calls
+          errorCall <- e$call[[1]]
+
+          functionsAsList <- lapply(calls, function(completeCall) {
+            currentCall <- completeCall[[1]]
+            
+            if (is.function(currentCall) & !is.primitive(currentCall)) {
+              constructedCall <- paste0("<anonymous> function(", 
+                                        paste(names(formals(currentCall)), collapse = ", "),
+                                        ")")
+              return(constructedCall)
+            } else {
+              return(currentCall)
+            }
+            
+          })
+          
+          reverseStack <- rev(calls)
+          
+          if (pruned_errors) {
+            # this line should match the last occurrence of the function
+            # which raised the error within the call stack; prune here
+            indexFromLast <- match(TRUE, lapply(reverseStack, function(currentCall) {
+              # if the first element of the current call pulled from the stack
+              # is a function, deparse the error object's call and compare
+              # to the current call from the stack -- if they're the same,
+              # return TRUE -- the match function will return the position
+              # of the first successful match.
+              #
+              # since the stack of calls being evaluated is reversed, "pruning"
+              # here has the effect of capturing the stack up to the most recent
+              # call which matches the call throwing the error. the call may have
+              # not thrown an error further up the stack, so we want to be sure
+              # to stop at the correct position.
+              if (is.function(currentCall[[1]])) {
+                identical(deparse(errorCall), deparse(currentCall[[1]]))
+              } else {
+                FALSE
+              }
+
+              }
+              )
+            )
+            
+            # the position to stop at is one less than the difference
+            # between the total number of calls and the index of the
+            # call throwing the error
+            stopIndex <- length(calls) - indexFromLast + 1
+            
+            startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
+            functionsAsList <- functionsAsList[startIndex:stopIndex]
+            functionsAsList <- removeHandlers(functionsAsList)
+          }
+          
+          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
+                                                            functionsAsList[[length(functionsAsList)]], 
+                                                            conditionMessage(e)))
+          
+          stack_message <- stackTraceToHTML(functionsAsList,
+                                            functionsAsList[[length(functionsAsList)]],
+                                            conditionMessage(e))
+          
+          assign("stack_message", value=stack_message, 
+                 envir=sys.frame(1)$private)
+          
+          printCallStack(functionsAsList)
+        }
+      }
+    ),
+    error = function(e) {
+      write(crayon::yellow$bold("in debug mode, catching error as warning ..."), stderr())
+      }
+    )
+    } else {
+      evalq(expr)
+    }
+  }
+
+# This helper function drops error
+# handling functions from the call
+# stack, as these are generally not
+# useful.
+#
+# TODO: modify this function such
+# that these handlers are only pruned
+# *after* the function throwing the
+# error has entered the stack for
+# the last time.
+removeHandlers <- function(fnList) {
+  omittedStrings <- c("withCallingHandlers",
+                      "tryCatch",
+                      "tryCatchList",
+                      "tryCatchOne",
+                      "doTryCatch",
+                      ".handleSimpleError",
+                      "h",
+                      ".handleSimpleError",
+                      "withRestarts")
+  return(fnList[!fnList %in% omittedStrings])
+}
+
+setCallbackContext <- function(callback_elements) {
+  states <- lapply(callback_elements$states, function(x) {
+    setNames(x$value, paste(x$id, x$property, sep="."))
+  })
+  
+  splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
+  
+  triggered <- lapply(callback_elements$changedPropIds, 
+                      function(x) {
+                        input_id <- splitIdProp(x)[1]
+                        prop <- splitIdProp(x)[2]
+                        
+                        id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                        prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                        
+                        value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+
+                        list(`prop_id` = x, `value` = value)
+                      }
+                      )
+  
+  inputs <- sapply(callback_elements$inputs, function(x) {
+    setNames(list(x$value), paste(x$id, x$property, sep="."))
+  })
+  
+  return(list(states=states, 
+              triggered=unlist(triggered, recursive=FALSE), 
+              inputs=inputs))
+}
