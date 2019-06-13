@@ -155,12 +155,16 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # parameter for cache busting
     
     if (!is.null(dep$package)) {
+      if(!(is.null(dep$script))) {
+        filename <- dep$script        
+      } else {
+        filename <- dep$stylesheet
+      }
+      
+      dep_path <- paste0(src$file, filename)
+      
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
-      dep_path <- ifelse(!is.null(dep$script),
-                         file.path(dep$src$file, dep$script),
-                         file.path(dep$src$file, dep$stylesheet))
-      
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
