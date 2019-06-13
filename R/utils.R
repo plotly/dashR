@@ -651,7 +651,7 @@ stackTraceToHTML <- function(call_stack,
                       error_message,
                       formattedStack)
 
-  # remove anonymous tags from call stack
+  # properly format anonymous tags if present in call stack
   response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
 
   return(response)
