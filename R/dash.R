@@ -254,32 +254,46 @@ Dash <- R6::R6Class(
           }
         }
 
+        browser()
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-      
+  
         # reset callback context
         private$callback_context_ <- NULL
  
-        # pass on output_value to encode_plotly in case there are dccGraph
-        # components which include Plotly.js figures for which we'll need to 
-        # run plotly_build from the plotly package
-        output_value <- encode_plotly(output_value)
-        
-        # have to format the response body like this
-        # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-        resp <- list(
-          response = list(
-            props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+        if (is.null(private$stack_message)) {
+          # pass on output_value to encode_plotly in case there are dccGraph
+          # components which include Plotly.js figures for which we'll need to 
+          # run plotly_build from the plotly package
+          output_value <- encode_plotly(output_value)
+          
+          # have to format the response body like this
+          # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
+          resp <- list(
+            response = list(
+              props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+            )
           )
-        )
-
-        response$body <- to_JSON(resp)
-        response$status <- 200L
-        response$type <- 'json'
+          
+          response$body <- to_JSON(resp)
+          response$status <- 200L
+          response$type <- 'json'
+        } else if (private$debug==TRUE) {
+          # if there is an error, send it back to dash-renderer
+          response$body <- private$stack_message
+          response$status <- 500L
+          response$type <- 'html'
+          private$stack_message <- NULL
+        } else {
+          # if not in debug mode, do not return stack
+          response$body <- NULL
+          response$status <- 500L
+          private$stack_message <- NULL
+        }
         TRUE
       })
 
@@ -532,6 +546,7 @@ Dash <- R6::R6Class(
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
     pruned_errors = NULL,
+    stack_message = NULL,
 
     # callback context
     callback_context_ = NULL,   
