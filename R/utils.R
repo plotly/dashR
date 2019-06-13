@@ -664,8 +664,6 @@ stackTraceToHTML <- function(call_stack,
 # stack will be "pruned" of error handling functions
 # for greater readability.
 getStackTrace <- function(expr, debug = FALSE, pruned_errors = TRUE) {
-  tryenv <- new.env()
-  browser()
   if(debug) {
     tryCatch(withCallingHandlers(
       expr,
@@ -725,7 +723,6 @@ getStackTrace <- function(expr, debug = FALSE, pruned_errors = TRUE) {
             functionsAsList <- functionsAsList[startIndex:stopIndex]
             functionsAsList <- removeHandlers(functionsAsList)
           }
-          browser()
           
           warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
                                                             functionsAsList[[length(functionsAsList)]], 

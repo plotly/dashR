@@ -254,7 +254,6 @@ Dash <- R6::R6Class(
           }
         }
 
-        browser()
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
 
