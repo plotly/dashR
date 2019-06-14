@@ -1,18 +1,18 @@
-# dashR
+# Dash for R
 
 #### Create beautiful, analytic applications in R.
 
-🚧 dashR is a work-in-progress. Feel free to test the waters and submit issues. Expect the first supported release summer 2019.
+🚧 Dash for R is a work-in-progress. Feel free to test the waters and submit issues. Expect the first supported release summer 2019.
 
 Documentation: https://dashr-docs.herokuapp.com/
 
 ## Installation
 
-**dashR** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
+**dash** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
 
 > 🛑 Make sure you're on at least version `3.0.2` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
-First, install `dashR` dependencies from CRAN:
+First, install `dash` dependencies from CRAN:
 ```r
 install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime"))
 ```
@@ -28,7 +28,7 @@ install_github("plotly/dash-core-components")
 Now, load the packages in R:
 
 ```r
-library(dashR)
+library(dash)
 library(dashHtmlComponents)
 library(dashCoreComponents)
 ```
@@ -37,15 +37,15 @@ That's it!
 
 ## Getting Started
 
-The R package **dashR** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
+The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
 
 
 ```r
-library(dashR)
+library(dash)
 app <- Dash$new()
 ```
 
-Similar to [dash](https://github.com/plotly/dash), every **dashR** application needs a layout (i.e., user interface) and a collection of callback functions which define the updating logic to perform when input value(s) change. Take, for instance, this basic example of formatting a string:
+Similar to [Dash for Python](https://github.com/plotly/dash), every Dash for R application needs a layout (i.e., user interface) and a collection of callback functions which define the updating logic to perform when input value(s) change. Take, for instance, this basic example of formatting a string:
 
 ```r
 app$layout(
@@ -121,7 +121,7 @@ app$callback(output = list(id = "giraffe", property = "figure"),
                }
 )
 
-app$callback(output = list("outputID", "children"), 
+app$callback(output = list(id = "outputID", property = "children"), 
              params = list(input("graphTitle", "value"),
                            state("graphTitle", "type")), 
              function(x, y) {

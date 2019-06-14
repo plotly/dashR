@@ -121,7 +121,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      
+
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
