@@ -256,27 +256,43 @@ Dash <- R6::R6Class(
 
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
-          
+
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-        
-        # pass on output_value to encode_plotly in case there are dccGraph
-        # components which include Plotly.js figures for which we'll need to 
-        # run plotly_build from the plotly package
-        output_value <- encode_plotly(output_value)
-        
-        # have to format the response body like this
-        # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-        resp <- list(
-          response = list(
-            props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+  
+        # reset callback context
+        private$callback_context_ <- NULL
+ 
+        if (is.null(private$stack_message)) {
+          # pass on output_value to encode_plotly in case there are dccGraph
+          # components which include Plotly.js figures for which we'll need to 
+          # run plotly_build from the plotly package
+          output_value <- encode_plotly(output_value)
+          
+          # have to format the response body like this
+          # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
+          resp <- list(
+            response = list(
+              props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+            )
           )
-        )
-
-        response$body <- to_JSON(resp)
-        response$status <- 200L
-        response$type <- 'json'
+          
+          response$body <- to_JSON(resp)
+          response$status <- 200L
+          response$type <- 'json'
+        } else if (private$debug==TRUE) {
+          # if there is an error, send it back to dash-renderer
+          response$body <- private$stack_message
+          response$status <- 500L
+          response$type <- 'html'
+          private$stack_message <- NULL
+        } else {
+          # if not in debug mode, do not return stack
+          response$body <- NULL
+          response$status <- 500L
+          private$stack_message <- NULL
+        }
         TRUE
       })
 
@@ -286,8 +302,7 @@ Dash <- R6::R6Class(
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
       
-      route$add_handler("get", dash_suite, function(request, response, keys, ...) {
-
+      route$add_handler("get", dash_suite, function(request, response, keys, ...) {      
         filename <- basename(file.path(keys$filename))
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
@@ -477,6 +492,9 @@ Dash <- R6::R6Class(
     # request and return callback context
     # ------------------------------------------------------------------------    
     callback_context = function() {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context may only be accessed within a callback.")
+      }   
       private$callback_context_
     },
     
@@ -532,6 +550,7 @@ Dash <- R6::R6Class(
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
     pruned_errors = NULL,
+    stack_message = NULL,
 
     # callback context
     callback_context_ = NULL,   

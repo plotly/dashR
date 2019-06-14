@@ -657,6 +657,38 @@ printCallStack <- function(call_stack, header=TRUE) {
     )
 }
 
+stackTraceToHTML <- function(call_stack, 
+                             throwing_call, 
+                             error_message) {
+  if(is.null(call_stack)) {
+    return(NULL)
+  }
+  header <- " ### DashR Traceback (most recent/innermost call last) ###"
+  
+  formattedStack <- c(paste0(
+    "    ",
+    seq_along(
+      call_stack
+    ),
+    ": ",
+    call_stack,
+    collapse="<br>"
+  )
+  ) 
+
+  template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
+  response <- sprintf(template,
+                      header,
+                      throwing_call,
+                      error_message,
+                      formattedStack)
+
+  # properly format anonymous tags if present in call stack
+  response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
+
+  return(response)
+}
+
 # This function is essentially the R equivalent of a
 # Python decorator method; if debug mode is active,
 # it will wrap an expression using withCallingHandlers
@@ -721,26 +753,32 @@ getStackTrace <- function(expr, debug = FALSE, pruned_errors = TRUE) {
             
             startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
             functionsAsList <- functionsAsList[startIndex:stopIndex]
-            warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
-                                                              functionsAsList[[length(functionsAsList)]], 
-                                                              conditionMessage(e)))
-            printCallStack(removeHandlers(functionsAsList))
-          } else {
-            warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
-                                                              functionsAsList[[length(functionsAsList)]], 
-                                                              conditionMessage(e)))
-            printCallStack(functionsAsList)
+            functionsAsList <- removeHandlers(functionsAsList)
           }
-
+          
+          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
+                                                            functionsAsList[[length(functionsAsList)]], 
+                                                            conditionMessage(e)))
+          
+          stack_message <- stackTraceToHTML(functionsAsList,
+                                            functionsAsList[[length(functionsAsList)]],
+                                            conditionMessage(e))
+          
+          assign("stack_message", value=stack_message, 
+                 envir=sys.frame(1)$private)
+          
+          printCallStack(functionsAsList)
         }
       }
     ),
-    error = function(e) {write(crayon::yellow$bold("in debug mode, catching error as warning ..."), stderr())}
+    error = function(e) {
+      write(crayon::yellow$bold("in debug mode, catching error as warning ..."), stderr())
+      }
     )
-  } else {
-    evalq(expr)
+    } else {
+      evalq(expr)
+    }
   }
-}
 
 # This helper function drops error
 # handling functions from the call
@@ -794,4 +832,3 @@ setCallbackContext <- function(callback_elements) {
               triggered=unlist(triggered, recursive=FALSE), 
               inputs=inputs))
 }
-
