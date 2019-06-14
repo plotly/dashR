@@ -161,7 +161,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
         filename <- dep$stylesheet
       }
       
-      dep_path <- paste0(src$file, filename)
+      dep_path <- paste0(dep$src$file, filename)
       
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
@@ -195,7 +195,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "&m=",
                                   modified)
       
-        html <- generate_js_dist_html(href = dep[["script"]])
+        html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
       html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
@@ -215,20 +215,20 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                               "?v=",
                               dep$version)
             
-          html <- generate_css_dist_html(href = sheetpath)
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
                               dep[["stylesheet"]],
                               "?v=",
                               dep$version)
           
-          html <- generate_css_dist_html(href = sheetpath)    
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)    
         }
 
       } else {
         sheetpath <- paste0(dep[["src"]][["file"]],
                             dep[["stylesheet"]])
-        html <- generate_css_dist_html(href = sheetpath)
+        html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
       }
     }
   })
@@ -524,9 +524,12 @@ get_mimetype <- function(filename) {
 generate_css_dist_html <- function(href, 
                                    local = FALSE, 
                                    local_path = NULL,
-                                   prefix = NULL) {
+                                   prefix = NULL,
+                                   as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
+        href, 
+        perl=TRUE) || as_is) {
       sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
     }
     else
@@ -545,9 +548,12 @@ generate_css_dist_html <- function(href,
 generate_js_dist_html <- function(href, 
                                   local = FALSE,
                                   local_path = NULL,
-                                  prefix = NULL) {
+                                  prefix = NULL,
+                                  as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
+      href, 
+      perl=TRUE) || as_is) {
       sprintf("<script src=\"%s\"></script>", href)
     }
     else
