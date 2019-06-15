@@ -1,7 +1,7 @@
 Package: dash
 Title: An interface to the Dash ecosystem for authoring reactive web applications
 Version: 0.1.0
-Authors@R: c(person("Ryan", "Kyle", role = c("aut", "cre", "trl"), email = "ryan@plot.ly"), person("Chris", "Parmer", role = c("aut"), email = "chris@plot.ly"), person("Carson", "Sievert", role = c("aut")), person(family = "Plotly", role = "cph"))
+Authors@R: c(person("Chris", "Parmer", role = c("aut"), email = "chris@plot.ly"), person("Ryan", "Kyle", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5829-9867"), email = "ryan@plot.ly"), person("Carson", "Sievert", role = c("aut"), comment = c(ORCID = "0000-0002-4958-2844")), person(family = "Plotly Technologies", role = "cph")) 
 Description: An interface to the Dash ecosystem for authoring reactive web applications.
 Depends:
   R (>= 3.0.2)
@@ -9,6 +9,8 @@ Imports:
   R6,
   fiery (> 1.0.0),
   routr (> 0.2.0),
+  dashHtmlComponents (>= 0.16.0),
+  dashCoreComponents (>= 0.48.0),
   plotly,
   reqres,
   jsonlite,
@@ -19,22 +21,20 @@ Imports:
   mime,
   crayon
 Suggests:
-  dashHtmlComponents (>= 0.16.0),
-  dashCoreComponents (>= 0.48.0),
   testthat
 Collate:
-  'plotly-api.R'
   'utils.R'
   'dependencies.R'
   'dash-package.R'
   'dash.R'
   'imports.R'
   'print.R'
-  'heroku.R'
   'internal.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Author: Chris Parmer [aut]
+Maintainer: Ryan Patrick Kyle <ryan@plot.ly>
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
