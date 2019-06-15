@@ -2,8 +2,6 @@
 
 S3method(print,dash_component)
 export(Dash)
-export(heroku_app_deploy)
-export(heroku_app_template)
 export(input)
 export(output)
 export(state)
