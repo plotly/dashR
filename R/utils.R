@@ -209,7 +209,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
 # ----------------------------------------------------------------------------
 # Other (generic) helpers
 # ----------------------------------------------------------------------------
-#' @export `%||%`
+#' @export
 "%||%" <- function(x, y) {
   if (length(x)) x else y
 }
