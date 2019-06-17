@@ -479,13 +479,6 @@ Dash <- R6::R6Class(
           state=state,
           func=func
         )
-      
-      # # register the callback_context elements
-      # private$callback_context_[[paste(output$id, output$property, sep='.')]] <- list(
-      #   states=setCallbackContext(state),
-      #   triggered=list(),
-      #   inputs=getContextElements(inputs)
-      # )
     },
 
     # ------------------------------------------------------------------------
