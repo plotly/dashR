@@ -12,7 +12,7 @@ test_that("Components work recursively (components can be children of components
 
   # slider inside a div
   x <- htmlDiv(
-    coreSlider(
+    dccSlider(
       id = "h",
       min = 1,
       max = 100,
@@ -42,7 +42,7 @@ test_that("Component constructors behave as intended", {
   }
 
   expect_component_names(htmlA())
-  expect_component_names(coreDropdown())
+  expect_component_names(dccDropdown())
 
 
   expect_equal(
@@ -69,8 +69,8 @@ test_that("Giving nonsense arguments to components yields error", {
 
 
 test_that("Can identify whether a component contains a component of a given type", {
-  g <- coreGraph()
-  s <- coreSlider()
+  g <- dccGraph()
+  s <- dccSlider()
   expect_true(component_contains_type(g, "dashCoreComponents", "Graph"))
   expect_false(component_contains_type(g, "dash", "Graph"))
   expect_false(component_contains_type(s, "dashCoreComponents", "Graph"))
@@ -92,7 +92,7 @@ test_that("Can translate shiny.tags to components", {
 
   layout_ <- function(x) {
     app <- Dash$new()
-    app$layout_set(x)
+    app$layout(x)
     app$layout_get()
   }
 
