@@ -924,8 +924,8 @@ Dash <- R6::R6Class(
 )
 
 # verify that properties attached to output/inputs/state value are valid
-# @param layout
-# @param component a component (should be a dependency)
+#' @param layout_ A Dash layout object, as created by the `layout()` method.
+#' @param component A Dash component (should be a dependency).
 validate_dependency <- function(layout_, dependency) {
   if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
