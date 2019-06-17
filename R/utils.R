@@ -299,8 +299,8 @@ assert_no_names <- function (x)
                paste(nms, collapse = "', '")), call. = FALSE)
 }
 
-#' @export filter_null 
-filter_null <- function(x) {
+#' @export dash_filter_null 
+dash_filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
 }
