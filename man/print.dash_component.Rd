@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.R
 \name{print.dash_component}
 \alias{print.dash_component}
-\title{Print a dash component object}
+\title{Output a dash component object as JSON}
 \usage{
 \method{print}{dash_component}(x, ...)
 }
@@ -12,8 +12,7 @@
 \item{...}{not currently used}
 }
 \description{
-Print a dash component object
-}
-\author{
-Carson Sievert
+Objects of the \code{dash_component} class support a \code{print} method,
+which first processes the nested list object, and then returns
+its JSON representation.
 }

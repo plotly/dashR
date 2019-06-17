@@ -1,4 +1,8 @@
-#' Print a dash component object
+#' Output a dash component object as JSON 
+#'
+#' Objects of the `dash_component` class support a `print` method,
+#' which first processes the nested list object, and then returns
+#' its JSON representation.
 #'
 #' @param x an object of class dash_component
 #' @param ... not currently used
