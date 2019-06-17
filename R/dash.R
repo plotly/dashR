@@ -1,6 +1,6 @@
 #' Generate a Dash server
 #'
-#' Description coming soon
+#' Dash is a framework for building analytical web applications. No JavaScript required.
 #'
 #' @usage
 #' app <- Dash$new(
@@ -16,10 +16,20 @@
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab \tab The name of the Dash application (placed in the `<title>`
+#'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
 #'   of the HTML page).\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
+#'   `assets_folder` \tab \tab Character. A path, relative to the current working directory, 
+#'   for extra files to be used in the browser. Default is "assets". All .js and 
+#'   .css files will be loaded immediately unless excluded by `assets_ignore`,
+#'   and other files such as images will be served if requested. Default is `assets`.
+#'   `assets_url_path` \tab \tab Character. The local urls for assets will be:
+#'   `requests_pathname_prefix + assets_url_path + '/' + asset_path` where `asset_path`
+#'   is the path to a file inside `assets_folder`. Default is `assets`. 
+#'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from 
+#'   immediate loading. Ignored files will still be served if specifically requested. You 
+#'   cannot use this to prevent access to sensitive files.
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
@@ -41,7 +51,7 @@
 #'  \item{`server`}{
 #'  A cloned (and modified) version of the [fiery::Fire] object
 #'  provided to the `server` argument (various routes will be added which enable
-#'  the dashR functionality).
+#'  Dash functionality).
 #'  }
 #'  \item{`config`}{
 #'  A list of configuration options passed along to dash-renderer.
@@ -55,7 +65,7 @@
 #' \describe{
 #'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of DashR components (e.g., [dccSlider], [htmlDiv], etc) or
+#'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
@@ -759,9 +769,9 @@ Dash <- R6::R6Class(
     .index = NULL,
     
     collect_resources = function() {
-      # DashR's own dependencies
+      # Dash's own dependencies
       # serve the dev version of dash-renderer when in debug mode
-      dependencies_all_internal <- dashR:::.dashR_js_metadata()
+      dependencies_all_internal <- dash:::.dash_js_metadata()
       if (private$debug) {
         depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
                                                                                       "dash-renderer-map-prod")]
@@ -944,7 +954,7 @@ assert_valid_wildcards <- function (...)
     }
   )
   if(FALSE %in% validation_results) {
-    stop(sprintf("The following wildcards are not currently valid in DashR: '%s'",
+    stop(sprintf("The following wildcards are not currently valid in Dash: '%s'",
                  paste((args)[grepl(FALSE, unlist(validation_results))],
                        collapse=", ")), call. = FALSE)
   } else {
