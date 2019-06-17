@@ -946,6 +946,7 @@ validate_dependency <- function(layout_, dependency) {
   TRUE
 }
 
+#' @export assert_valid_wildcards
 assert_valid_wildcards <- function (...)
 {
   args <- list(...)

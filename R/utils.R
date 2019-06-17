@@ -209,7 +209,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
 # ----------------------------------------------------------------------------
 # Other (generic) helpers
 # ----------------------------------------------------------------------------
-
+#' @export `%||%`
 "%||%" <- function(x, y) {
   if (length(x)) x else y
 }
@@ -263,6 +263,7 @@ try_library <- function(pkg, fun = NULL) {
     call. = FALSE)
 }
 
+#' @export assert_valid_children
 assert_valid_children <- function(children, ...) {
   kids <- list(children)
   if (...length()) {
@@ -273,6 +274,7 @@ assert_valid_children <- function(children, ...) {
   assert_no_names(kids)
 }
 
+#' @export append_wildcard_props
 append_wildcard_props <- function(component, children, ...) {
   attrs <- list(children)
   if (!length(children) || !...length()) return(component)
@@ -284,6 +286,7 @@ append_wildcard_props <- function(component, children, ...) {
   component
 }
 
+#' @export assert_no_names
 assert_no_names <- function (x)
 {
   if(!(is.list(x))) x <- list(x)
@@ -296,6 +299,7 @@ assert_no_names <- function (x)
                paste(nms, collapse = "', '")), call. = FALSE)
 }
 
+#' @export filter_null 
 filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
@@ -387,6 +391,7 @@ assert_valid_callbacks <- function(output, params, func) {
   TRUE
 }
 
+#' @export names2 
 names2 <- function(x) names(x) %||% rep('', length(x))
 
 valid_seq <- function(params) {
