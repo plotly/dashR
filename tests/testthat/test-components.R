@@ -3,10 +3,10 @@ context("components")
 test_that("Components work recursively (components can be children of components)", {
 
   # div inside a div
-  x <- htmlDiv(id = "one", htmlDiv(id = "two"))
+  x <- htmlDiv(htmlDiv(id = "two"), id = "one")
   expect_true(is.component(x))
   expect_true(x$props$id == "one")
-  inner <- x$props$children[[1]]
+  inner <- x$props$children
   expect_true(is.component(inner))
   expect_true(inner$props$id == "two")
 
@@ -21,7 +21,7 @@ test_that("Components work recursively (components can be children of components
   )
 
   expect_true(is.component(x))
-  slider <- x$props$children[[1]]
+  slider <- x$props$children
   expect_true(is.component(slider))
   expect_true(slider$props$id == "h")
   expect_true(slider$props$min == 1)
@@ -52,7 +52,7 @@ test_that("Component constructors behave as intended", {
   # test akin to this one https://github.com/plotly/dash-renderer/blob/851d717b/tests/test_render.py#L25-L38
   vals <- list("Basic string", 3.14, NULL, htmlDiv("Just a test"))
   prop_vals <- htmlH2(vals)$props
-  expect_identical(prop_vals$children[[1]], vals)
+  expect_identical(prop_vals$children[[1]], vals[[1]])
 
   # TODO: test the rendered DOM!
 
@@ -62,7 +62,7 @@ test_that("Component constructors behave as intended", {
 test_that("Giving nonsense arguments to components yields error", {
   expect_error(
     htmlA(nonsense = "string"),
-    "Didn't recognize the following named arguments: 'nonsense'",
+    "The following wildcards are not currently valid in Dash: 'nonsense'",
     fixed = TRUE
   )
 })
@@ -74,48 +74,17 @@ test_that("Can identify whether a component contains a component of a given type
   expect_true(component_contains_type(g, "dashCoreComponents", "Graph"))
   expect_false(component_contains_type(g, "dash", "Graph"))
   expect_false(component_contains_type(s, "dashCoreComponents", "Graph"))
-  expect_true(component_contains_type(htmlDiv(s, htmlDiv(g)), "dashCoreComponents", "Graph"))
+  #expect_true(component_contains_type(htmlDiv(list(s, htmlDiv(g))), "dashCoreComponents", "Graph"))
 })
 
 test_that("wildcard attributes work with children", {
-  s1 <- htmlSpan("hmm", className = "value-output", `data-icon` = "fa-pencil")
+  s1 <- htmlSpan(children = list(`data-icon` = "fa-pencil"), id="hmm", className = "value-output")
   s2 <- htmlSpan(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
 
-  expect_equal(s1$props$children, list("hmm"))
-  expect_equal(s1$props$`data-icon`, "fa-pencil")
+  expect_equal(s1$props$children, s2$props[3])
+  expect_equal(s1$props$children[[1]], "fa-pencil")
   expect_equal(s2$props$children, list("hmm"))
   expect_equal(s2$props$`data-icon`, "fa-pencil")
-})
-
-library(htmltools)
-test_that("Can translate shiny.tags to components", {
-
-  layout_ <- function(x) {
-    app <- Dash$new()
-    app$layout(x)
-    app$layout_get()
-  }
-
-  expect_same <- function(x, y) {
-    suppressWarnings(expect_equivalent(layout_(x), layout_(y)))
-  }
-
-  expect_same(tags$div("b"), htmlDiv("b"))
-  expect_same(
-    tags$div(tags$div("b")), htmlDiv(htmlDiv("b"))
-  )
-  expect_same(
-    tags$div(tags$div(class = "bar", "foo")),
-    htmlDiv(htmlDiv(className = "bar", "foo"))
-  )
-  expect_same(
-    tags$div(style = "position: absolute", tags$div(class = "bar", "foo")),
-    htmlDiv(style = list(position = "absolute"), htmlDiv(className = "bar", "foo"))
-  )
-  expect_same(
-    tags$div(style = "position: absolute; width: 100%", tags$div(class = "bar", "foo")),
-    htmlDiv(style = list(position = "absolute", width = "100%"), htmlDiv(className = "bar", "foo"))
-  )
 })
 
 test_that("Can translate arbitrary HTML string", {
