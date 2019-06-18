@@ -23,13 +23,13 @@
 #'   `assets_folder` \tab \tab Character. A path, relative to the current working directory, 
 #'   for extra files to be used in the browser. Default is "assets". All .js and 
 #'   .css files will be loaded immediately unless excluded by `assets_ignore`,
-#'   and other files such as images will be served if requested. Default is `assets`.
-#'   `assets_url_path` \tab \tab Character. The local urls for assets will be:
+#'   and other files such as images will be served if requested. Default is `assets`. \cr
+#'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr 
 #'   `requests_pathname_prefix + assets_url_path + '/' + asset_path` where `asset_path`
-#'   is the path to a file inside `assets_folder`. Default is `assets`. 
+#'   is the path to a file inside `assets_folder`. Default is `assets`. \cr 
 #'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from 
 #'   immediate loading. Ignored files will still be served if specifically requested. You 
-#'   cannot use this to prevent access to sensitive files.
+#'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
