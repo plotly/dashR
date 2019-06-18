@@ -98,3 +98,5 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
 }
 }
+
+\keyword{datasets}

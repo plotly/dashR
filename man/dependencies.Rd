@@ -22,6 +22,3 @@ state(id, property)
 Use in conjunction with the \code{callback()} method from the \link[dashR:Dash]{dashR::Dash} class
 to define the update logic in your application.
 }
-\author{
-Carson Sievert
-}
