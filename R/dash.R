@@ -100,9 +100,8 @@
 #' app$callback(output = list("outputID", "children"), 
 #'              params = list(input("inputID", "value"),
 #'                       state("inputID", "type")), 
-#'   function(x, y) {
+#'   function(x, y) 
 #'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
-#'   }
 #' )
 #'
 #' app$run_server(showcase = TRUE)
