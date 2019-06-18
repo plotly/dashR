@@ -1,6 +1,6 @@
 #' Generate a Dash server
 #'
-#' Dash is a framework for building analytical web applications. No JavaScript required.
+#' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 #'
 #' @usage
 #' Dash$new(
