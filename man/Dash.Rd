@@ -98,8 +98,3 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
 }
 }
-
-\seealso{
-\url{https://plot.ly/dashR/}
-}
-\keyword{datasets}
