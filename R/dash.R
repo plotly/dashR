@@ -136,11 +136,6 @@ Dash <- R6::R6Class(
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 
-      # produce a true copy of the fiery server, since we don't want our
-      # attachments/modifications having unintended side-effects
-      # https://github.com/thomasp85/fiery/issues/30
-      #server <- server$clone()
-
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------
@@ -356,7 +351,7 @@ Dash <- R6::R6Class(
         
       route$add_handler("get", dash_assets, function(request, response, keys, ...) {
         # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
-        # e.g. for "http://127.0.0.1:8080/assets/stylesheet.css?m=1552591104"
+        # e.g. for "http://127.0.0.1:8050/assets/stylesheet.css?m=1552591104"
         # 
         # the following regex pattern will return "/stylesheet.css":
         assets_pattern <- paste0("(?<=",
