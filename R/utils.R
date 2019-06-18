@@ -10,6 +10,7 @@ is.dependency <- function(x) inherits(x, "dash_dependency")
 is.output <- function(x) inherits(x, "output")
 is.input <- function(x) inherits(x, "input")
 is.state <- function(x) inherits(x, "state")
+is.event <- function(x) is.dependency(x) && inherits(x, "event")
 
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
