@@ -91,8 +91,6 @@
 #' @export
 #' @docType class
 #' @format An [R6::R6Class] generator object
-#' @seealso <https://plot.ly/dashR/>
-#'
 #'
 
 Dash <- R6::R6Class(
