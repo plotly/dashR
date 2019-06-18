@@ -2,7 +2,7 @@
 \name{dash-package}
 \alias{dash}
 \alias{dash-package}
-\title{An interface to the Dash ecosystem for authoring reactive web applications}
+\title{An Interface to the Dash Ecosystem for Authoring Reactive Web Applications}
 \description{
 \if{html}{\figure{logo.png}{options: width=300 align='right'}}
 Dash is a productive framework for building web applications in R or Python.
