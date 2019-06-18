@@ -3,7 +3,7 @@
 #' Dash is a framework for building analytical web applications. No JavaScript required.
 #'
 #' @usage
-#' app <- Dash$new(
+#' Dash$new(
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
@@ -86,6 +86,26 @@
 #'     server. The `block`/`showcase`/`...` arguments are passed along
 #'     to the `ignite()` method of the [fiery::Fire] server.
 #'   }
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' library(dash)
+#' app <- Dash$new()
+#' app$layout(
+#'  dccInput(id = "inputID", value = "initial value", type = "text"),
+#'  htmlDiv(id = "outputID")
+#' )
+#'
+#' app$callback(output = list("outputID", "children"), 
+#'              params = list(input("inputID", "value"),
+#'                       state("inputID", "type")), 
+#'   function(x, y) {
+#'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
+#'   }
+#' )
+#'
+#' app$run_server(showcase = TRUE)
 #' }
 #'
 #' @export
@@ -923,7 +943,7 @@ validate_dependency <- function(layout_, dependency) {
   if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
-  valid_props <- component_props_given_id(layout, dependency$id)
+  valid_props <- component_props_given_id(layout_, dependency$id)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
     warning(
