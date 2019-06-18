@@ -6,7 +6,6 @@
 #' to define the update logic in your application.
 #'
 #' @name dependencies
-#' @author Carson Sievert
 #' @param id a component id
 #' @param property the component property to use
 
