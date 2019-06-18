@@ -302,18 +302,6 @@ assert_valid_children <- function(children, ...) {
   assert_no_names(kids)
 }
 
-#' @export append_wildcard_props
-append_wildcard_props <- function(component, children, ...) {
-  attrs <- list(children)
-  if (!length(children) || !...length()) return(component)
-  pattern <- paste(paste0('^', ...), collapse = '|')
-  attrs_wild <- attrs[grepl(pattern, names2(attrs))]
-  if (!length(attrs_wild)) return(component)
-  component[['props']] <- c(component[['props']] %||% list(), attrs_wild)
-  component[['propNames']] <- c(component[['propNames']], names(attrs_wild))
-  component
-}
-
 assert_no_names <- function (x)
 {
   if(!(is.list(x))) x <- list(x)
