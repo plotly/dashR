@@ -69,15 +69,12 @@
 #'     provide [input] (and/or [state]) object(s) (which should reference
 #'     layout components) as argument value(s) to `func`.
 #'   }
-#'   \item{`run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)`}{
+#'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), 
+#'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. If provided, `host`/`port` set
 #'     the `host`/`port` fields of the underlying [fiery::Fire] web
 #'     server. The `block`/`showcase`/`...` arguments are passed along
 #'     to the `ignite()` method of the [fiery::Fire] server.
-#'   }
-#'   \item{`run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)`}{
-#'     Like `run_server()` but sets sensible `host`/`port` defaults
-#'     for running the app on Heroku.
 #'   }
 #' }
 #'
@@ -124,6 +121,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+      
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
@@ -196,8 +194,8 @@ Dash <- R6::R6Class(
 
         payload <- Map(function(callback_signature) {
           list(
-            output=callback_signature$output,
             inputs=callback_signature$inputs,
+            output=paste0(callback_signature$output, collapse="."),
             state=callback_signature$state
           )
         }, private$callback_map)
@@ -220,8 +218,7 @@ Dash <- R6::R6Class(
         }
 
         # get the callback associated with this particular output
-        thisOutput <- with(request$body$output, paste(id, property, sep = "."))
-        callback <- private$callback_map[[thisOutput]][['func']]
+        callback <- private$callback_map[[request$body$output]][['func']]
         if (!length(callback)) stop_report("Couldn't find output component.")
         if (!is.function(callback)) {
           stop(sprintf("Couldn't find a callback function associated with '%s'", thisOutput))
@@ -257,24 +254,45 @@ Dash <- R6::R6Class(
           }
         }
 
-        output_value <- do.call(callback, callback_args)
-        
-        # pass on output_value to encode_plotly in case there are dccGraph
-        # components which include Plotly.js figures for which we'll need to 
-        # run plotly_build from the plotly package
-        output_value <- encode_plotly(output_value)
-        
-        # have to format the response body like this
-        # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-        resp <- list(
-          response = list(
-            props = setNames(list(output_value), request$body$output$property)
-          )
-        )
+        # set the callback context associated with this invocation of the callback
+        private$callback_context_ <- setCallbackContext(request$body)
 
-        response$body <- to_JSON(resp)
-        response$status <- 200L
-        response$type <- 'json'
+        output_value <- getStackTrace(do.call(callback, callback_args),
+                                      debug = private$debug,
+                                      pruned_errors = private$pruned_errors)
+  
+        # reset callback context
+        private$callback_context_ <- NULL
+ 
+        if (is.null(private$stack_message)) {
+          # pass on output_value to encode_plotly in case there are dccGraph
+          # components which include Plotly.js figures for which we'll need to 
+          # run plotly_build from the plotly package
+          output_value <- encode_plotly(output_value)
+          
+          # have to format the response body like this
+          # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
+          resp <- list(
+            response = list(
+              props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+            )
+          )
+          
+          response$body <- to_JSON(resp)
+          response$status <- 200L
+          response$type <- 'json'
+        } else if (private$debug==TRUE) {
+          # if there is an error, send it back to dash-renderer
+          response$body <- private$stack_message
+          response$status <- 500L
+          response$type <- 'html'
+          private$stack_message <- NULL
+        } else {
+          # if not in debug mode, do not return stack
+          response$body <- NULL
+          response$status <- 500L
+          private$stack_message <- NULL
+        }
         TRUE
       })
 
@@ -283,9 +301,9 @@ Dash <- R6::R6Class(
       # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
-      route$add_handler("get", dash_suite, function(request, response, keys, ...) {
+      
+      route$add_handler("get", dash_suite, function(request, response, keys, ...) {      
         filename <- basename(file.path(keys$filename))
-
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
                       private$dependencies_user)
@@ -295,18 +313,31 @@ Dash <- R6::R6Class(
                                        clean_dependencies(dep_list)
                                        )
 
-        dep_path <- system.file(dep_pkg$rpkg_path,
-                                package = dep_pkg$rpkg_name)
 
-        response$body <- readLines(dep_path,
-                                   warn = FALSE,
-                                   encoding = "UTF-8")
-        response$status <- 200L
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    components_cache_max_age)
-                            )
-        response$type <- get_mimetype(filename)
+        # return warning if a dependency goes unmatched, since the page
+        # will probably fail to render properly anyway without it
+        if (length(dep_pkg$rpkg_path) == 0) {
+          warning(sprintf("The dependency '%s' could not be loaded; the file was not found.", 
+                          filename), 
+                  call. = FALSE)
+          
+          response$body <- NULL
+          response$status <- 404L
+        } else {
+          dep_path <- system.file(dep_pkg$rpkg_path,
+                                  package = dep_pkg$rpkg_name)
+          
+          response$body <- readLines(dep_path,
+                                     warn = FALSE,
+                                     encoding = "UTF-8")
+          response$status <- 200L
+          response$set_header('Cache-Control',
+                              sprintf('public, max-age=%s',
+                                      components_cache_max_age)
+                              )
+          response$type <- get_mimetype(filename)
+        }
+
         TRUE
       })
 
@@ -443,27 +474,56 @@ Dash <- R6::R6Class(
 
       # register the callback_map
       private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
-          output=output,
           inputs=inputs,
+          output=output,
           state=state,
           func=func
         )
     },
 
     # ------------------------------------------------------------------------
+    # request and return callback context
+    # ------------------------------------------------------------------------    
+    callback_context = function() {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context may only be accessed within a callback.")
+      }   
+      private$callback_context_
+    },
+    
+    # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...) {
-      if (!is.null(host)) self$server$host <- host
-      if (!is.null(port)) self$server$port <- as.numeric(port)
-      self$server$ignite(block = block, showcase = showcase, ...)
-    },
-    run_heroku = function(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...) {
+    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"), 
+                          port = Sys.getenv('DASH_PORT', 8050), 
+                          block = TRUE, 
+                          showcase = FALSE, 
+                          pruned_errors = TRUE, 
+                          debug = FALSE, 
+                          dev_tools_ui = NULL,
+                          dev_tools_props_check = NULL,
+                          ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
-      self$run_server(...)
-    }
-  ),
+      
+      if (debug & !(isFALSE(dev_tools_ui)) | isTRUE(dev_tools_ui)) {
+        self$config$ui <- TRUE
+      } else {
+        self$config$ui <- FALSE
+      }
+
+      if (debug & !(isFALSE(dev_tools_props_check)) | isTRUE(dev_tools_props_check)) {
+        self$config$props_check <- TRUE
+      } else {
+        self$config$props_check <- FALSE
+      }
+
+      private$pruned_errors <- pruned_errors
+      private$debug <- debug
+      
+      self$server$ignite(block = block, showcase = showcase, ...)
+      }
+    ),
 
   private = list(
     # private fields defined on initiation
@@ -479,7 +539,15 @@ Dash <- R6::R6Class(
     css = NULL,
     scripts = NULL,
     other = NULL,
-        
+    
+    # initialize flags for debug mode and stack pruning,
+    debug = NULL,
+    pruned_errors = NULL,
+    stack_message = NULL,
+
+    # callback context
+    callback_context_ = NULL,   
+ 
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
@@ -565,9 +633,6 @@ Dash <- R6::R6Class(
 
       # add on HTML dependencies we've identified by crawling the layout
       private$dependencies <- c(private$dependencies, deps_layout)
-
-      # DashR's own dependencies
-      private$dependencies_internal <- dashR:::.dashR_js_metadata()
 
       # return the computed layout
       oldClass(layout_) <- c("dash_layout", oldClass(layout_))
@@ -676,7 +741,7 @@ Dash <- R6::R6Class(
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
-      version <- private$dependencies_internal$react$version
+      version <- private$dependencies_internal$`react-prod`$version
       return(version)
       },
     react_deps = function() {
@@ -692,16 +757,32 @@ Dash <- R6::R6Class(
     .index = NULL,
     
     collect_resources = function() {
+      # DashR's own dependencies
+      # serve the dev version of dash-renderer when in debug mode
+      dependencies_all_internal <- dashR:::.dashR_js_metadata()
+      if (private$debug) {
+        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
+                                                                                      "dash-renderer-map-prod")]
+      } else {
+        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-dev",
+                                                                                      "dash-renderer-map-dev")]
+      }
+      
+      private$dependencies_internal <- depsSubset
+      
       # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies,
         private$dependencies_user,
-        private$dependencies_internal[names(private$dependencies_internal) %in% 'dash-renderer']
+        private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
       ))
-      
+            
       # normalizes local paths and keeps newer versions of duplicates
-      depsAll <- htmltools::resolveDependencies(depsAll, FALSE)
+      depsAll <- depsAll[!vapply(depsAll, 
+                                 function(v) {
+                                   !is.null(v[["script"]]) && tools::file_ext(v[["script"]]) == "map"
+                                   }, logical(1))]
       
       # styleheets always go in header
       css_deps <- compact(lapply(depsAll, function(dep) {
@@ -732,7 +813,8 @@ Dash <- R6::R6Class(
                                              local = TRUE,
                                              local_path = private$css,
                                              prefix = self$config$requests_pathname_prefix)
-      } else {
+      } 
+      else {
         css_assets <- NULL
       }
       
@@ -765,7 +847,13 @@ Dash <- R6::R6Class(
       } else {
         favicon <- ""
       }
-            
+
+      # set script tag to invoke a new dash_renderer
+      scripts_invoke_renderer <- sprintf("<script id=\"%s\" type=\"%s\">%s</script>",
+                                         "_dash-renderer", 
+                                         "application/javascript", 
+                                         "var renderer = new DashRenderer();")
+                  
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
                           css_external,
@@ -774,7 +862,8 @@ Dash <- R6::R6Class(
       
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
-                              scripts_assets),
+                              scripts_assets,
+                              scripts_invoke_renderer),
                             collapse = "\n")
       
       return(list(css_tags = css_tags, 
@@ -822,7 +911,6 @@ Dash <- R6::R6Class(
         to_JSON(self$config),
         scripts_tags
       )
-
     }
   )
 )
