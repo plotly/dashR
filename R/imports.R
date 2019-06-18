@@ -9,4 +9,5 @@
 #' @importFrom assertthat assert_that
 #' @importFrom base64enc base64encode
 #' @importFrom utils getFromNamespace
+#' @importFrom stats setNames
 NULL
