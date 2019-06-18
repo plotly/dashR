@@ -15,7 +15,7 @@
 #' )
 #'
 #' @section Arguments:
-#' \tabular{lll}{
+#' \tabular{llll}{
 #'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
 #'   of the HTML page).\cr
 #'   `server` \tab \tab The web server used to power the application.

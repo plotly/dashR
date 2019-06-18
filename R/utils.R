@@ -292,7 +292,6 @@ try_library <- function(pkg, fun = NULL) {
     call. = FALSE)
 }
 
-#' @export assert_valid_children
 assert_valid_children <- function(children, ...) {
   kids <- list(children)
   if (...length()) {
@@ -315,7 +314,6 @@ append_wildcard_props <- function(component, children, ...) {
   component
 }
 
-#' @export assert_no_names
 assert_no_names <- function (x)
 {
   if(!(is.list(x))) x <- list(x)
@@ -420,7 +418,6 @@ assert_valid_callbacks <- function(output, params, func) {
   TRUE
 }
 
-#' @export names2 
 names2 <- function(x) names(x) %||% rep('', length(x))
 
 valid_seq <- function(params) {
@@ -507,7 +504,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
 
 get_mimetype <- function(filename) {
   # the tools package is available to all
-  filename_ext <- tools::file_ext(filename)
+  filename_ext <- file_ext(filename)
   
   if (filename_ext == 'js')
     return('application/JavaScript')
