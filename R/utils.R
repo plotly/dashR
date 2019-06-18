@@ -155,11 +155,16 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # parameter for cache busting
     
     if (!is.null(dep$package)) {
+      if(!(is.null(dep$script))) {
+        filename <- dep$script        
+      } else {
+        filename <- dep$stylesheet
+      }
+      
+      dep_path <- paste0(dep$src$file, filename)
+      
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
-      dep_path <- file.path(dep$src$file,
-                            dep$script)
-      
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
@@ -177,29 +182,53 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
-        html <- sprintf("<script src=\"%s\"></script>", dep$src$href)
+        html <- generate_js_dist_html(href = dep$src$href)
+        
       } else {
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
                                   basename(dep[["script"]]),
-                                  sprintf("?v=%s&m=%s", dep$version, modified))
-        html <- sprintf("<script src=\"%s\"></script>", dep[["script"]])
+                                  "?v=",
+                                  dep$version,
+                                  "&m=",
+                                  modified)
+      
+        html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
-      html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", paste(dep[["src"]][["href"]],
-                                                                       dep[["stylesheet"]], 
-                                                                       sep="/"))
+      html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
+                                                  dep[["stylesheet"]], 
+                                                  sep="/"),
+                                     local = FALSE)
     } else if ("stylesheet" %in% names(dep) & src == "file") {
+      dep[["stylesheet"]] <- paste0(path_prefix,
+                                    "_dash-component-suites/",
+                                    dep$name,
+                                    "/",
+                                    basename(dep[["stylesheet"]]))
+      
       if (!(is.null(dep$version))) {
-        html <- sprintf("<link href=\"%s?v=%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
-                                                                                  dep[["stylesheet"]]),
-                        dep$version)        
+        if(!is.null(dep$package)) {
+          sheetpath <- paste0(dep[["stylesheet"]],
+                              "?v=",
+                              dep$version)
+            
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+        } else {
+          sheetpath <- paste0(dep[["src"]][["file"]],
+                              dep[["stylesheet"]],
+                              "?v=",
+                              dep$version)
+          
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)    
+        }
+
       } else {
-        html <- sprintf("<link href=\"%s\" rel=\"stylesheet\" />", file.path(dep[["src"]][["file"]],
-                                                                             dep[["stylesheet"]])
-        )
+        sheetpath <- paste0(dep[["src"]][["file"]],
+                            dep[["stylesheet"]])
+        html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
       }
     }
   })
@@ -321,9 +350,9 @@ dash_filter_null <- function(x) {
 # filtered out by the subsequent vapply statement
 clean_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
-    if (is.null(x$src$file) | is.null(x$script) | (is.null(x$package))) {
-      if (is.null(x$stylesheet) & is.null(x$src$href))
-        stop(sprintf("Script dependencies with NULL href fields must include a file path, script name, and R package name."), call. = FALSE)
+    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet)) | (is.null(x$package))) {
+      if (is.null(x$src$href))
+        stop(sprintf("Script or CSS dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
       else
         return(NULL)
     }
@@ -445,8 +474,11 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     if (x$name %in% c('react', 'react-dom')) {
       x$name <- 'dash-renderer'
     }
-    dep_path <- file.path(x$src$file,
-                          x$script)
+    
+    if (!is.null(x$script))
+      dep_path <- file.path(x$src$file, x$script)
+    else if (!is.null(x$stylesheet))
+      dep_path <- file.path(x$src$file, x$stylesheet)
   
     # remove n>1 slashes and replace with / if present;
     # htmltools seems to permit // in pathnames, but 
@@ -490,9 +522,12 @@ get_mimetype <- function(filename) {
 generate_css_dist_html <- function(href, 
                                    local = FALSE, 
                                    local_path = NULL,
-                                   prefix = NULL) {
+                                   prefix = NULL,
+                                   as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
+        href, 
+        perl=TRUE) || as_is) {
       sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
     }
     else
@@ -511,10 +546,13 @@ generate_css_dist_html <- function(href,
 generate_js_dist_html <- function(href, 
                                   local = FALSE,
                                   local_path = NULL,
-                                  prefix = NULL) {
+                                  prefix = NULL,
+                                  as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", href, perl=TRUE)) {
-      sprintf("<script src=\"%s\"></script>", url)
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
+      href, 
+      perl=TRUE) || as_is) {
+      sprintf("<script src=\"%s\"></script>", href)
     }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
