@@ -1,4 +1,4 @@
-#' Generate a Dash server
+#' Create and configure a Dash app object
 #'
 #' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 #'
