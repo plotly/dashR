@@ -2,8 +2,9 @@
 #'
 #' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 #'
-#' @usage
-#' Dash$new(
+#' @usage Dash
+#'
+#' @section Constructor: Dash$new(
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
@@ -97,10 +98,10 @@
 #'  htmlDiv(id = "outputID")
 #' )
 #'
-#' app$callback(output = list("outputID", "children"), 
+#' app$callback(output = list("outputID", "children"),
 #'              params = list(input("inputID", "value"),
-#'                       state("inputID", "type")), 
-#'   function(x, y) 
+#'                       state("inputID", "type")),
+#'   function(x, y)
 #'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
 #' )
 #'
@@ -975,11 +976,11 @@ validate_dependency <- function(layout_, dependency) {
 #'  }
 #' 
 #' @export dash_assert_valid_wildcards
-dash_assert_valid_wildcards <- function (...)
+dash_assert_valid_wildcards <- function (attrib, ...)
 {
   args <- list(...)
   validation_results <- lapply(names(args), function(x) {
-    grepl(c('^data-[a-zA-Z0-9]{1,}$|^aria-[a-zA-Z0-9]{1,}$'), x)
+    grepl(paste0('^', attrib, '-[a-zA-Z0-9]{1,}$', collapse='|'), x) 
     }
   )
   if(FALSE %in% validation_results) {
