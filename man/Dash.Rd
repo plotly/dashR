@@ -6,7 +6,7 @@
 \title{Generate a Dash server}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-app <- Dash$new(
+Dash$new(
   name = "dash",
   server = fiery::Fire$new(),
   assets_folder = 'assets',
@@ -30,13 +30,13 @@ Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
 \code{assets_folder} \tab \tab Character. A path, relative to the current working directory,
 for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
-and other files such as images will be served if requested. Default is \code{assets}.
-\code{assets_url_path} \tab \tab Character. The local urls for assets will be:
+and other files such as images will be served if requested. Default is \code{assets}. \cr
+\code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
 \code{requests_pathname_prefix + assets_url_path + '/' + asset_path} where \code{asset_path}
-is the path to a file inside \code{assets_folder}. Default is \code{assets}.
+is the path to a file inside \code{assets_folder}. Default is \code{assets}. \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
-cannot use this to prevent access to sensitive files.
+cannot use this to prevent access to sensitive files. \cr
 \code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
 \code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
@@ -99,4 +99,24 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
 }
 
+\examples{
+\dontrun{
+library(dash)
+app <- Dash$new()
+app$layout(
+ dccInput(id = "inputID", value = "initial value", type = "text"),
+ htmlDiv(id = "outputID")
+)
+
+app$callback(output = list("outputID", "children"), 
+             params = list(input("inputID", "value"),
+                      state("inputID", "type")), 
+  function(x, y) 
+    sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
+)
+
+app$run_server(showcase = TRUE)
+}
+
+}
 \keyword{datasets}
