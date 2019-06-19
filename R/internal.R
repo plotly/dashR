@@ -1,4 +1,4 @@
-.dashR_js_metadata <- function() {
+.dash_js_metadata <- function() {
   deps_metadata <- list(`react-prod` = structure(list(name = "react",
                                                       version = "16.8.6",
                                                       src = list(href = "https://unpkg.com/react@16.8.6",
