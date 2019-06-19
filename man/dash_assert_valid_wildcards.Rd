@@ -4,19 +4,15 @@
 \alias{dash_assert_valid_wildcards}
 \title{Validate component wildcards before rendering the layout}
 \usage{
-dash_assert_valid_wildcards(attrib, ...)
+dash_assert_valid_wildcards(attrib=list("data", "aria"), ...)
+}
+\arguments{
+\item{attrib}{A list of valid wildcard attribute names, passed imternally from the Dash
+component to this function.}
+
+\item{...}{Wildcard attributes, as passed via the formal arguments to the Dash component.}
 }
 \description{
 This helper function is used by Dash to inspect wildcards passed to a component and provide
 a helpful error if those specified are not supported.
 }
-\section{Arguments}{
-
-\tabular{lll}{
-\code{attrib} \tab \tab Unnamed list. A list of valid wildcard attribute names, passed internally
-from the Dash component to this function.\cr
-\code{...}  \tab \tab Character. Wildcard attributes, as passed via the formal arguments to the
-Dash component.
-}
-}
-

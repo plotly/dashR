@@ -98,9 +98,9 @@
 #'  htmlDiv(id = "outputID")
 #' )
 #'
-#' app$callback(output = list("outputID", "children"),
-#'              params = list(input("inputID", "value"),
-#'                       state("inputID", "type")),
+#' app$callback(output = list(id="outputID", property="children"),
+#'              params = list(input(id="inputID", property="value"),
+#'                       state(id="inputID", property="type")),
 #'   function(x, y)
 #'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
 #' )
@@ -965,18 +965,14 @@ validate_dependency <- function(layout_, dependency) {
 #' a helpful error if those specified are not supported.
 #'
 #' @usage
-#' dash_assert_valid_wildcards(attrib, ...)
+#' dash_assert_valid_wildcards(attrib=list("data", "aria"), ...)
 #'
-#' @section Arguments:
-#' \tabular{lll}{
-#'   `attrib` \tab \tab Unnamed list. A list of valid wildcard attribute names, passed internally
-#'   from the Dash component to this function.\cr
-#'   `...`  \tab \tab Character. Wildcard attributes, as passed via the formal arguments to the
-#'   Dash component.
-#'  }
-#' 
-#' @export dash_assert_valid_wildcards
-dash_assert_valid_wildcards <- function (attrib, ...)
+#' @param attrib A list of valid wildcard attribute names, passed imternally from the Dash
+#' component to this function.
+#' @param ...  Wildcard attributes, as passed via the formal arguments to the Dash component.
+#'
+#' @export dash_assert_valid_wildcards 
+dash_assert_valid_wildcards <- function (attrib=list("data", "aria"), ...)
 {
   args <- list(...)
   validation_results <- lapply(names(args), function(x) {

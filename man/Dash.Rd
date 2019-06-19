@@ -6,20 +6,24 @@
 \title{Generate a Dash server}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-Dash$new(
-  name = "dash",
-  server = fiery::Fire$new(),
-  assets_folder = 'assets',
-  assets_url_path = '/assets',
-  assets_ignore = '',
-  serve_locally = TRUE,
-  routes_pathname_prefix = '/',
-  requests_pathname_prefix = '/'
-)
+Dash
 }
 \description{
-Dash is a framework for building analytical web applications. No JavaScript required.
+A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 }
+\section{Constructor}{
+ Dash$new(
+name = "dash",
+server = fiery::Fire$new(),
+assets_folder = 'assets',
+assets_url_path = '/assets',
+assets_ignore = '',
+serve_locally = TRUE,
+routes_pathname_prefix = '/',
+requests_pathname_prefix = '/'
+)
+}
+
 \section{Arguments}{
 
 \tabular{lll}{
@@ -108,10 +112,10 @@ app$layout(
  htmlDiv(id = "outputID")
 )
 
-app$callback(output = list("outputID", "children"), 
-             params = list(input("inputID", "value"),
-                      state("inputID", "type")), 
-  function(x, y) 
+app$callback(output = list(id="outputID", property="children"),
+             params = list(input(id="inputID", property="value"),
+                      state(id="inputID", property="type")),
+  function(x, y)
     sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
 )
 

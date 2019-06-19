@@ -314,7 +314,17 @@ assert_no_names <- function (x)
                paste(nms, collapse = "', '")), call. = FALSE)
 }
 
-#' @export dash_filter_null 
+#' Filter NULL values from component properties
+#'
+#' This helper function is used by Dash to filter NULL values before
+#' serializing component properties and values into JSON. 
+#'
+#' @usage
+#' dash_filter_null(x)
+#'
+#' @param x A list of component properties.
+#'
+#' @export dash_filter_null
 dash_filter_null <- function(x) {
   if (length(x) == 0 || !is.list(x)) return(x)
   x[!vapply(x, is.null, logical(1))]
