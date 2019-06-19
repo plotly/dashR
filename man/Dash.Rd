@@ -3,7 +3,7 @@
 \docType{class}
 \name{Dash}
 \alias{Dash}
-\title{Generate a Dash server}
+\title{Create and configure a Dash app object}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
 Dash
