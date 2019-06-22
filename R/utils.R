@@ -171,7 +171,15 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       
       full_path <- system.file(dep_path,
                                package = dep$package)
-      
+
+      if (!file.exists(full_path)) {
+        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.", 
+                        full_path,
+                        dep$package,
+                        filename),
+                call. = FALSE)
+      }
+            
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
