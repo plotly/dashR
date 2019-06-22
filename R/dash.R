@@ -799,6 +799,7 @@ Dash <- R6::R6Class(
       # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
+        private$dependencies_internal[grepl(pattern = "prop-types", x = private$dependencies_internal)],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
