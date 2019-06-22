@@ -161,7 +161,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
         filename <- dep$stylesheet
       }
       
-      dep_path <- paste0(dep$src$file, filename)
+      dep_path <- paste(dep$src$file, filename, sep="/")
       
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
@@ -837,4 +837,10 @@ setCallbackContext <- function(callback_elements) {
   return(list(states=states, 
               triggered=unlist(triggered, recursive=FALSE), 
               inputs=inputs))
+}
+
+getDashMetadata <- function(pkgname) {
+  fnList <- ls(getNamespace(pkgname), all.names = TRUE)
+  metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
+  return(metadataFn)
 }
