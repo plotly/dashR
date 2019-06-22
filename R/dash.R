@@ -958,32 +958,3 @@ validate_dependency <- function(layout_, dependency) {
 
   TRUE
 }
-
-#' Validate component wildcards before rendering the layout
-#'
-#' This helper function is used by Dash to inspect wildcards passed to a component and provide
-#' a helpful error if those specified are not supported.
-#'
-#' @usage
-#' dash_assert_valid_wildcards(attrib=list("data", "aria"), ...)
-#'
-#' @param attrib A list of valid wildcard attribute names, passed imternally from the Dash
-#' component to this function.
-#' @param ...  Wildcard attributes, as passed via the formal arguments to the Dash component.
-#'
-#' @export dash_assert_valid_wildcards 
-dash_assert_valid_wildcards <- function (attrib=list("data", "aria"), ...)
-{
-  args <- list(...)
-  validation_results <- lapply(names(args), function(x) {
-    grepl(paste0('^', attrib, '-[a-zA-Z0-9]{1,}$', collapse='|'), x) 
-    }
-  )
-  if(FALSE %in% validation_results) {
-    stop(sprintf("The following wildcards are not currently valid in Dash: '%s'",
-                 paste(names(args)[grepl(FALSE, unlist(validation_results))],
-                       collapse=", ")), call. = FALSE)
-  } else {
-    return(args)
-  }
-}
