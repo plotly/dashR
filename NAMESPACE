@@ -2,8 +2,6 @@
 
 S3method(print,dash_component)
 export(Dash)
-export(dash_assert_valid_wildcards)
-export(dash_filter_null)
 export(input)
 export(output)
 export(state)
