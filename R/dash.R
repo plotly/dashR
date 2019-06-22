@@ -785,11 +785,13 @@ Dash <- R6::R6Class(
       dependencies_all_internal <- .dash_js_metadata()
       
       if (private$debug) {
-        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
-                                                                                      "dash-renderer-map-prod")]
+        depsSubset <- dependencies_all_internal[!names(dependencies_all_internal) %in% c("dash-renderer-prod",
+                                                                                         "dash-renderer-map-prod",
+                                                                                         "prop-types-prod")]
       } else {
-        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-dev",
-                                                                                      "dash-renderer-map-dev")]
+        depsSubset <- dependencies_all_internal[!names(dependencies_all_internal) %in% c("dash-renderer-dev",
+                                                                                         "dash-renderer-map-dev",
+                                                                                         "prop-types-dev")]
       }
       
       private$dependencies_internal <- depsSubset
