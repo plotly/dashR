@@ -168,7 +168,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
-      
+
       full_path <- system.file(dep_path,
                                package = dep$package)
 
