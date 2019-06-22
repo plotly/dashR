@@ -154,7 +154,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # Use the system file modification timestamp for the current
     # package and add the version number of the package as a query
     # parameter for cache busting
-    
     if (!is.null(dep$package)) {
       if(!(is.null(dep$script))) {
         filename <- dep$script        
