@@ -139,7 +139,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
     # u p from the DashR package
-    if (dep$name %in% c("react", "react-dom")) {
+    if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
     
@@ -466,7 +466,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
   # TODO: improve validation of dependency inputs, particularly
   #       to avoid duplicating dependencies in the package_map
   package_map <- vapply(unique(dependencies), function(x) {
-    if (x$name %in% c('react', 'react-dom')) {
+    if (x$name %in% c('react', 'react-dom', 'prop-types')) {
       x$name <- 'dash-renderer'
     }
     
