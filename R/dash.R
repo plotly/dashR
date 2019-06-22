@@ -617,9 +617,11 @@ Dash <- R6::R6Class(
         )
       }
 
-      # load package-level HTML dependencies
-      pkgs <- unique(layout_flat[grepl("package$", layout_nms)])
-      deps_layout <- lapply(pkgs, function(pkg) {
+      # load package-level HTML dependencies from attached pkgs
+      metadataFns <- lapply(.packages(), getDashMetadata)
+      metadataFns <- metadataFns[lengths(metadataFns) != 0]
+      
+      deps_layout <- lapply(metadataFns, function(dep) {
         # the objective is to identify JS dependencies
         # without requiring that a proprietary R format
         # file is loaded at object initialization to
@@ -635,8 +637,7 @@ Dash <- R6::R6Class(
         # elegant.
         #
         # construct function name based on package name
-        fn_name <- paste0(".", pkg, "_js_metadata")
-        fn_summary <- getAnywhere(fn_name)
+        fn_summary <- getAnywhere(dep)
 
         # ensure that the object refers to a function,
         # and we are able to locate it somewhere

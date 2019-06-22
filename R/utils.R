@@ -822,3 +822,9 @@ setCallbackContext <- function(callback_elements) {
               triggered=unlist(triggered, recursive=FALSE), 
               inputs=inputs))
 }
+
+getDashMetadata <- function(pkgname) {
+  fnList <- ls(getNamespace(pkgname), all.names = TRUE)
+  metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
+  return(metadataFn)
+}
