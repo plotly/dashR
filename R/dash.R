@@ -782,7 +782,7 @@ Dash <- R6::R6Class(
     collect_resources = function() {
       # Dash's own dependencies
       # serve the dev version of dash-renderer when in debug mode
-      dependencies_all_internal <- dash:::.dash_js_metadata()
+      dependencies_all_internal <- .dash_js_metadata()
       
       if (private$debug) {
         depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
