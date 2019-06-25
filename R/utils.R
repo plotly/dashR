@@ -265,13 +265,6 @@ setdiffsym <- function(x, y) {
   setdiff(union(x, y), intersect(x, y))
 }
 
-welcome_page <- function() {
-  #dashHtmlComponents::htmlDiv(
-  #  dashHtmlComponents::htmlH2("Welcome to dash!"),
-  #  "If you see this message, you may not have yet specified a layout in your application."
-  #)
-}
-
 stop_report <- function(msg = "") {
   stop(
     msg, "\n\n",

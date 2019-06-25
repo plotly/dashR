@@ -554,7 +554,7 @@ Dash <- R6::R6Class(
     dependencies_internal = list(),
 
     # layout stuff
-    layout_ = welcome_page(),
+    layout_ = NULL,
     layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
