@@ -14,15 +14,6 @@ is.state <- function(x) inherits(x, "state")
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
 
-# layout is really a special type of component
-is.layout <- function(x) {
-  is.component(x) && identical(x[["props"]][["id"]], layout_container_id())
-}
-
-layout_container_id <- function() {
-  "_dashR-layout-container"
-}
-
 # retrieve the arguments of a callback function that are dash inputs
 callback_inputs <- function(func) {
   compact(lapply(formals(func), function(x) {
