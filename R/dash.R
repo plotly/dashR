@@ -445,7 +445,7 @@ Dash <- R6::R6Class(
       if (render) private$layout_render() else private$layout_
     },
     layout = function(...) {
-      private$layout_ <- if (is.function(..1)) ..1 else list(...)
+      private$layout_ <- if (is.function(..1)) ..1 else (...) 
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
@@ -560,16 +560,8 @@ Dash <- R6::R6Class(
       # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
-      # accomodate functions that return a single component
-      if (is.component(layout_)) layout_ <- list(layout_)
-
-      # make sure we are working with a list of components
-      layout_ <- lapply(layout_, private$componentify)
-
-      # Put the list of components into a container div. I'm pretty sure dash
-      # requires the layout to be one component, but R folks are used to
-      # being able to supply "components" to ...
-      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
+      # ensure layout is a Dash component or collection of components
+      layout_ <- private$validate_component(layout_)
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
@@ -731,7 +723,7 @@ Dash <- R6::R6Class(
                   other = other_files_map))
     },
 
-    componentify = function(x) {
+    validate_component = function(x) {
       if (is.component(x)) return(x)
       if (all(vapply(x, is.component, logical(1)))) return(x)
       stop("The layout must be a component or a collection of components", call. = FALSE)
