@@ -1,9 +1,10 @@
-#' Generate a Dash server
+#' Create and configure a Dash app object
 #'
-#' Description coming soon
+#' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 #'
-#' @usage
-#' app <- Dash$new(
+#' @usage Dash
+#'
+#' @section Constructor: Dash$new(
 #'   name = "dash",
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
@@ -16,10 +17,20 @@
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab \tab The name of the Dash application (placed in the `<title>`
+#'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
 #'   of the HTML page).\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
+#'   `assets_folder` \tab \tab Character. A path, relative to the current working directory, 
+#'   for extra files to be used in the browser. Default is "assets". All .js and 
+#'   .css files will be loaded immediately unless excluded by `assets_ignore`,
+#'   and other files such as images will be served if requested. Default is `assets`. \cr
+#'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr 
+#'   `requests_pathname_prefix + assets_url_path + '/' + asset_path` where `asset_path`
+#'   is the path to a file inside `assets_folder`. Default is `assets`. \cr 
+#'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from 
+#'   immediate loading. Ignored files will still be served if specifically requested. You 
+#'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
@@ -41,7 +52,7 @@
 #'  \item{`server`}{
 #'  A cloned (and modified) version of the [fiery::Fire] object
 #'  provided to the `server` argument (various routes will be added which enable
-#'  the dashR functionality).
+#'  Dash functionality).
 #'  }
 #'  \item{`config`}{
 #'  A list of configuration options passed along to dash-renderer.
@@ -55,7 +66,7 @@
 #' \describe{
 #'   \item{`layout(...)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of DashR components (e.g., [dccSlider], [htmlDiv], etc) or
+#'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
@@ -78,11 +89,28 @@
 #'   }
 #' }
 #'
+#' @examples
+#' \dontrun{
+#' library(dash)
+#' app <- Dash$new()
+#' app$layout(
+#'  dccInput(id = "inputID", value = "initial value", type = "text"),
+#'  htmlDiv(id = "outputID")
+#' )
+#'
+#' app$callback(output = list(id="outputID", property="children"),
+#'              params = list(input(id="inputID", property="value"),
+#'                       state(id="inputID", property="type")),
+#'   function(x, y)
+#'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
+#' )
+#'
+#' app$run_server(showcase = TRUE)
+#' }
+#'
 #' @export
 #' @docType class
 #' @format An [R6::R6Class] generator object
-#' @seealso <https://plot.ly/dashR/>
-#'
 #'
 
 Dash <- R6::R6Class(
@@ -121,17 +149,12 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      
+
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
-
-      # produce a true copy of the fiery server, since we don't want our
-      # attachments/modifications having unintended side-effects
-      # https://github.com/thomasp85/fiery/issues/30
-      #server <- server$clone()
 
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
@@ -348,7 +371,7 @@ Dash <- R6::R6Class(
         
       route$add_handler("get", dash_assets, function(request, response, keys, ...) {
         # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
-        # e.g. for "http://127.0.0.1:8080/assets/stylesheet.css?m=1552591104"
+        # e.g. for "http://127.0.0.1:8050/assets/stylesheet.css?m=1552591104"
         # 
         # the following regex pattern will return "/stylesheet.css":
         assets_pattern <- paste0("(?<=",
@@ -554,7 +577,7 @@ Dash <- R6::R6Class(
     dependencies_internal = list(),
 
     # layout stuff
-    layout_ = welcome_page(),
+    layout_ = NULL,
     layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
@@ -760,13 +783,16 @@ Dash <- R6::R6Class(
     collect_resources = function() {
       # Dash's own dependencies
       # serve the dev version of dash-renderer when in debug mode
-      dependencies_all_internal <- dash:::.dash_js_metadata()
+      dependencies_all_internal <- .dash_js_metadata()
+      
       if (private$debug) {
-        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-prod",
-                                                                                      "dash-renderer-map-prod")]
+        depsSubset <- dependencies_all_internal[!names(dependencies_all_internal) %in% c("dash-renderer-prod",
+                                                                                         "dash-renderer-map-prod",
+                                                                                         "prop-types-prod")]
       } else {
-        depsSubset <- dependencies_all_internal[names(dependencies_all_internal) != c("dash-renderer-dev",
-                                                                                      "dash-renderer-map-dev")]
+        depsSubset <- dependencies_all_internal[!names(dependencies_all_internal) %in% c("dash-renderer-dev",
+                                                                                         "dash-renderer-map-dev",
+                                                                                         "prop-types-dev")]
       }
       
       private$dependencies_internal <- depsSubset
@@ -774,6 +800,7 @@ Dash <- R6::R6Class(
       # collect and resolve package dependencies
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
+        private$dependencies_internal[grepl(pattern = "prop-types", x = private$dependencies_internal)],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
@@ -916,14 +943,11 @@ Dash <- R6::R6Class(
   )
 )
 
-# verify that properties attached to output/inputs/state value are valid
-# @param layout
-# @param component a component (should be a dependency)
 validate_dependency <- function(layout_, dependency) {
   if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
-  valid_props <- component_props_given_id(layout, dependency$id)
+  valid_props <- component_props_given_id(layout_, dependency$id)
 
   if (!isTRUE(dependency$property %in% valid_props)) {
     warning(
@@ -937,20 +961,4 @@ validate_dependency <- function(layout_, dependency) {
   }
 
   TRUE
-}
-
-assert_valid_wildcards <- function (...)
-{
-  args <- list(...)
-  validation_results <- lapply(args, function(x) {
-    grepl(c('^data-[a-zA-Z0-9]{1,}$|^aria-[a-zA-Z0-9]{1,}$'), x)
-    }
-  )
-  if(FALSE %in% validation_results) {
-    stop(sprintf("The following wildcards are not currently valid in DashR: '%s'",
-                 paste((args)[grepl(FALSE, unlist(validation_results))],
-                       collapse=", ")), call. = FALSE)
-  } else {
-    return(args)
-  }
 }

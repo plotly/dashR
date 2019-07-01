@@ -3,7 +3,5 @@
 
 Makefile
 announcement\.Rmd
-python/
-r-finance
-r-finance 
 todo\.txt
+.github

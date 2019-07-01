@@ -10,6 +10,7 @@ is.dependency <- function(x) inherits(x, "dash_dependency")
 is.output <- function(x) inherits(x, "output")
 is.input <- function(x) inherits(x, "input")
 is.state <- function(x) inherits(x, "state")
+is.event <- function(x) is.dependency(x) && inherits(x, "event")
 
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
@@ -138,7 +139,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
     # u p from the DashR package
-    if (dep$name %in% c("react", "react-dom")) {
+    if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
     
@@ -153,7 +154,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # Use the system file modification timestamp for the current
     # package and add the version number of the package as a query
     # parameter for cache busting
-    
     if (!is.null(dep$package)) {
       if(!(is.null(dep$script))) {
         filename <- dep$script        
@@ -168,10 +168,18 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       dep_path <- gsub("//+",
                        "/",
                        dep_path)
-      
+
       full_path <- system.file(dep_path,
                                package = dep$package)
-      
+
+      if (!file.exists(full_path)) {
+        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.", 
+                        full_path,
+                        dep$package,
+                        filename),
+                call. = FALSE)
+      }
+            
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
@@ -238,7 +246,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
 # ----------------------------------------------------------------------------
 # Other (generic) helpers
 # ----------------------------------------------------------------------------
-
 "%||%" <- function(x, y) {
   if (length(x)) x else y
 }
@@ -274,13 +281,6 @@ setdiffsym <- function(x, y) {
   setdiff(union(x, y), intersect(x, y))
 }
 
-welcome_page <- function() {
-  #dashHtmlComponents::htmlDiv(
-  #  dashHtmlComponents::htmlH2("Welcome to dash!"),
-  #  "If you see this message, you may not have yet specified a layout in your application."
-  #)
-}
-
 stop_report <- function(msg = "") {
   stop(
     msg, "\n\n",
@@ -309,17 +309,6 @@ assert_valid_children <- function(children, ...) {
   assert_no_names(kids)
 }
 
-append_wildcard_props <- function(component, children, ...) {
-  attrs <- list(children)
-  if (!length(children) || !...length()) return(component)
-  pattern <- paste(paste0('^', ...), collapse = '|')
-  attrs_wild <- attrs[grepl(pattern, names2(attrs))]
-  if (!length(attrs_wild)) return(component)
-  component[['props']] <- c(component[['props']] %||% list(), attrs_wild)
-  component[['propNames']] <- c(component[['propNames']], names(attrs_wild))
-  component
-}
-
 assert_no_names <- function (x)
 {
   if(!(is.list(x))) x <- list(x)
@@ -330,11 +319,6 @@ assert_no_names <- function (x)
     return(setNames(x, NULL))
   stop(sprintf("Didn't recognize the following named arguments: '%s'",
                paste(nms, collapse = "', '")), call. = FALSE)
-}
-
-filter_null <- function(x) {
-  if (length(x) == 0 || !is.list(x)) return(x)
-  x[!vapply(x, is.null, logical(1))]
 }
 
 # the following function attempts to prune remote CSS
@@ -473,7 +457,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
   # TODO: improve validation of dependency inputs, particularly
   #       to avoid duplicating dependencies in the package_map
   package_map <- vapply(unique(dependencies), function(x) {
-    if (x$name %in% c('react', 'react-dom')) {
+    if (x$name %in% c('react', 'react-dom', 'prop-types')) {
       x$name <- 'dash-renderer'
     }
     
@@ -509,7 +493,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
 
 get_mimetype <- function(filename) {
   # the tools package is available to all
-  filename_ext <- tools::file_ext(filename)
+  filename_ext <- file_ext(filename)
   
   if (filename_ext == 'js')
     return('application/JavaScript')

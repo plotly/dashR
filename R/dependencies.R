@@ -2,11 +2,10 @@
 
 #' Input/Output/State definitions
 #'
-#' Use in conjunction with the `callback()` method from the [dashR::Dash] class
+#' Use in conjunction with the `callback()` method from the [dash::Dash] class
 #' to define the update logic in your application.
 #'
 #' @name dependencies
-#' @author Carson Sievert
 #' @param id a component id
 #' @param property the component property to use
 
