@@ -3,30 +3,44 @@
 \docType{class}
 \name{Dash}
 \alias{Dash}
-\title{Generate a Dash server}
+\title{Create and configure a Dash app object}
 \format{An \link[R6:R6Class]{R6::R6Class} generator object}
 \usage{
-app <- Dash$new(
-  name = "dash",
-  server = fiery::Fire$new(),
-  assets_folder = 'assets',
-  assets_url_path = '/assets',
-  assets_ignore = '',
-  serve_locally = TRUE,
-  routes_pathname_prefix = '/',
-  requests_pathname_prefix = '/'
-)
+Dash
 }
 \description{
-Description coming soon
+A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 }
+\section{Constructor}{
+ Dash$new(
+name = "dash",
+server = fiery::Fire$new(),
+assets_folder = 'assets',
+assets_url_path = '/assets',
+assets_ignore = '',
+serve_locally = TRUE,
+routes_pathname_prefix = '/',
+requests_pathname_prefix = '/'
+)
+}
+
 \section{Arguments}{
 
 \tabular{lll}{
-\code{name} \tab \tab The name of the Dash application (placed in the \code{<title>}
+\code{name} \tab \tab Character. The name of the Dash application (placed in the \code{<title>}
 of the HTML page).\cr
 \code{server} \tab \tab The web server used to power the application.
 Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
+\code{assets_folder} \tab \tab Character. A path, relative to the current working directory,
+for extra files to be used in the browser. Default is "assets". All .js and
+.css files will be loaded immediately unless excluded by \code{assets_ignore},
+and other files such as images will be served if requested. Default is \code{assets}. \cr
+\code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
+\code{requests_pathname_prefix + assets_url_path + '/' + asset_path} where \code{asset_path}
+is the path to a file inside \code{assets_folder}. Default is \code{assets}. \cr
+\code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
+immediate loading. Ignored files will still be served if specifically requested. You
+cannot use this to prevent access to sensitive files. \cr
 \code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
 \code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
@@ -50,7 +64,7 @@ or 31 calendar days.
 \item{\code{server}}{
 A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
 provided to the \code{server} argument (various routes will be added which enable
-the dashR functionality).
+Dash functionality).
 }
 \item{\code{config}}{
 A list of configuration options passed along to dash-renderer.
@@ -66,7 +80,7 @@ where the application is making API calls.
 \describe{
 \item{\code{layout(...)}}{
 Set the layout (i.e., user interface). The layout should be either a
-collection of DashR components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
+collection of Dash components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
 a function which returns a collection of components.
 }
 \item{\code{layout_get(render = TRUE)}}{
@@ -80,20 +94,33 @@ and \code{output} defines which layout component property should adopt the resul
 provide \link{input} (and/or \link{state}) object(s) (which should reference
 layout components) as argument value(s) to \code{func}.
 }
-\item{\code{run_server(host = NULL, port = NULL, block = TRUE, showcase = FALSE, ...)}}{
+\item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),  port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. If provided, \code{host}/\code{port} set
 the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web
 server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
 to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
-\item{\code{run_heroku(host = "0.0.0.0", port = Sys.getenv('PORT', 8080), ...)}}{
-Like \code{run_server()} but sets sensible \code{host}/\code{port} defaults
-for running the app on Heroku.
-}
 }
 }
 
-\seealso{
-\url{https://plot.ly/dashR/}
+\examples{
+\dontrun{
+library(dash)
+app <- Dash$new()
+app$layout(
+ dccInput(id = "inputID", value = "initial value", type = "text"),
+ htmlDiv(id = "outputID")
+)
+
+app$callback(output = list(id="outputID", property="children"),
+             params = list(input(id="inputID", property="value"),
+                      state(id="inputID", property="type")),
+  function(x, y)
+    sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
+)
+
+app$run_server(showcase = TRUE)
+}
+
 }
 \keyword{datasets}

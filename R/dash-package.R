@@ -1,4 +1,4 @@
-#' An implementation of the dash protocol for authoring reactive web applications
+#' An Interface to the Dash Ecosystem for Authoring Reactive Web Applications 
 #'
 #' Coming soon
 #'
