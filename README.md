@@ -2,9 +2,7 @@
 
 #### Create beautiful, analytic applications in R.
 
-🚧 Dash for R is a work-in-progress. Feel free to test the waters and submit issues. Expect the first supported release summer 2019.
-
-Documentation: https://dashr-docs.herokuapp.com/
+Documentation: https://dashr.plot.ly/
 
 ## Installation
 
