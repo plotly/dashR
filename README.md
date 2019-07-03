@@ -8,21 +8,24 @@ Documentation: https://dashr-docs.herokuapp.com/
 
 ## Installation
 
+https://dashr.plot.ly/installation
+
 **dash** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
 
 > 🛑 Make sure you're on at least version `3.0.2` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
 First, install `dash` dependencies from CRAN:
 ```r
-install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime"))
+install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime", "crayon", "devtools"))
 ```
 
 Installing the package and component libraries directly from GitHub using the `devtools` package is easy:
 
 ```r
-install_github("plotly/dashR")
 install_github("plotly/dash-html-components")
 install_github("plotly/dash-core-components")
+install_github("plotly/dash-table")
+install_github("plotly/dashR")
 ```
 
 Now, load the packages in R:
@@ -36,6 +39,8 @@ library(dashCoreComponents)
 That's it!
 
 ## Getting Started
+
+https://dashr.plot.ly/getting-started
 
 The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
 
