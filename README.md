@@ -1,6 +1,6 @@
 # Dash for R
 
-#### Create beautiful, analytic applications in R.
+#### Create beautiful, analytic web applications in R.
 
 Documentation: https://dashr.plot.ly/
 
