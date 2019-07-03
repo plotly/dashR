@@ -528,14 +528,14 @@ Dash <- R6::R6Class(
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
-      
-      if (debug & !(dev_tools_ui == FALSE) | (dev_tools_ui == TRUE) {
+     
+      if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
         self$config$ui <- TRUE
       } else {
         self$config$ui <- FALSE
       }
 
-      if (debug & !(dev_tools_props_check == FALSE) | (dev_tools_props_check == TRUE) {
+      if (is.null(dev_tools_props_check) && debug || isTRUE(dev_tools_props_check)) {
         self$config$props_check <- TRUE
       } else {
         self$config$props_check <- FALSE
