@@ -2,7 +2,7 @@
 
 #### Create beautiful, analytic web applications in R.
 
-Documentation: https://dashr.plot.ly/
+[Documentation](https://dashr.plot.ly/) | [Gallery](https://dash-gallery.plotly.host/Portal/) 
 
 ## Installation
 
