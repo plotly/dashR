@@ -36,8 +36,6 @@ for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
 and other files such as images will be served if requested. Default is \code{assets}. \cr
 \code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
-\code{requests_pathname_prefix + assets_url_path + '/' + asset_path} where \code{asset_path}
-is the path to a file inside \code{assets_folder}. Default is \code{assets}. \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
