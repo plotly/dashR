@@ -73,13 +73,12 @@
 #'   }
 #'   \item{`callback(output, params, func)`}{
 #'     The `callback` method accepts three arguments: an `output` definition,
-#'     which is a named list including a component `id`  and `property`, a
+#'     which is a named list including a component `id` and `property`, a
 #'     `params` argument, which is a unnamed list of [input] and [state]
 #'     statements which each specify a component `id` and its `property`,
-#'     and a `func` argument, which accepts any valid R function.
-#'
+#'     and a `func` argument, that accepts any valid R function.
 #'     The `output` argument defines which layout component property should
-#'     receive the results (via the [output] object). The events which
+#'     receive the results (via the [output] object). The events that 
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
 #'     argument values for the callback handler defined in `func`. 
