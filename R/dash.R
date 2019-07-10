@@ -26,8 +26,6 @@
 #'   .css files will be loaded immediately unless excluded by `assets_ignore`,
 #'   and other files such as images will be served if requested. Default is `assets`. \cr
 #'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr 
-#'   `requests_pathname_prefix + assets_url_path + '/' + asset_path` where `asset_path`
-#'   is the path to a file inside `assets_folder`. Default is `assets`. \cr 
 #'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from 
 #'   immediate loading. Ignored files will still be served if specifically requested. You 
 #'   cannot use this to prevent access to sensitive files. \cr
@@ -73,12 +71,18 @@
 #'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
 #'     the result of the function (rather than the function itself) is returned.
 #'   }
-#'   \item{`callback(func = NULL, output = NULL)`}{
-#'     A callback function defintion. The `func` argument accepts any R function
-#'     and `output` defines which layout component property should adopt the results
-#'     (via an [output] object). To determine what events trigger this callback,
-#'     provide [input] (and/or [state]) object(s) (which should reference
-#'     layout components) as argument value(s) to `func`.
+#'   \item{`callback(output, params, func)`}{
+#'     The `callback` method accepts three arguments: an `output` definition,
+#'     which is a named list including a component `id`  and `property`, a
+#'     `params` argument, which is a unnamed list of [input] and [state]
+#'     statements which each specify a component `id` and its `property`,
+#'     and a `func` argument, which accepts any valid R function.
+#'
+#'     The `output` argument defines which layout component property should
+#'     receive the results (via the [output] object). The events which
+#'     trigger the callback are then described by the [input] (and/or [state])
+#'     object(s) (which should reference layout components), which become
+#'     argument values for the callback handler defined in `func`. 
 #'   }
 #'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), 
 #'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{

@@ -36,8 +36,6 @@ for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
 and other files such as images will be served if requested. Default is \code{assets}. \cr
 \code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
-\code{requests_pathname_prefix + assets_url_path + '/' + asset_path} where \code{asset_path}
-is the path to a file inside \code{assets_folder}. Default is \code{assets}. \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
@@ -87,12 +85,18 @@ a function which returns a collection of components.
 Retrieves the layout. If render is \code{TRUE}, and the layout is a function,
 the result of the function (rather than the function itself) is returned.
 }
-\item{\code{callback(func = NULL, output = NULL)}}{
-A callback function defintion. The \code{func} argument accepts any R function
-and \code{output} defines which layout component property should adopt the results
-(via an \link{output} object). To determine what events trigger this callback,
-provide \link{input} (and/or \link{state}) object(s) (which should reference
-layout components) as argument value(s) to \code{func}.
+\item{\code{callback(output, params, func)}}{
+The \code{callback} method accepts three arguments: an \code{output} definition,
+which is a named list including a component \code{id}  and \code{property}, a
+\code{params} argument, which is a unnamed list of \link{input} and \link{state}
+statements which each specify a component \code{id} and its \code{property},
+and a \code{func} argument, which accepts any valid R function.\preformatted{The `output` argument defines which layout component property should
+receive the results (via the [output] object). The events which
+trigger the callback are then described by the [input] (and/or [state])
+object(s) (which should reference layout components), which become
+argument values for the callback handler defined in `func`. 
+}
+
 }
 \item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),  port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
 Launch the application. If provided, \code{host}/\code{port} set
