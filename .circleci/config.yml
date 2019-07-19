@@ -1,0 +1,49 @@
+version: 2 
+
+jobs:
+
+  "r-test": &test-template
+    working_directory: ~/dash
+    docker:
+      - image: circleci/python:3.7-stretch-node-browsers
+      - image: rocker/r-base
+        environment:
+          PYLINTRC: .pylintrc37
+          PERCY_ENABLE: 0
+
+    steps:
+      - checkout
+
+      - run:
+          name: ℹ️ CI Context
+          command: |
+            echo "TRIGGERER: ${CIRCLE_USERNAME}"
+            echo "BUILD_NUMBER: ${CIRCLE_BUILD_NUM}"
+            echo "BUILD_URL: ${CIRCLE_BUILD_URL}"
+            echo "BRANCH: ${CIRCLE_BRANCH}"
+            echo "RUNNING JOB: ${CIRCLE_JOB}"
+            echo "JOB PARALLELISM: ${CIRCLE_NODE_TOTAL}"
+            echo "CIRCLE_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL}"
+            echo $CIRCLE_JOB > circlejob.txt
+
+      - restore_cache:
+          key: v-{{ checksum "circlejob.txt" }}-{{ checksum "requires-ci.txt" }}-{{ checksum "requires-install.txt" }}-{{ checksum "requires-testing.txt" }}
+
+      - save_cache:
+          key: v-{{ checksum "circlejob.txt" }}-{{ checksum "requires-ci.txt" }}-{{ checksum "requires-install.txt" }}-{{ checksum "requires-testing.txt" }}
+          paths:
+              - "venv"
+
+      - run:
+          name: ⚙️ run integration test  
+          command: |
+            . venv/bin/activate
+            pip install -e .[ci,testing] --quiet
+            pip list | grep dash
+            cd dash-renderer && npm install --ignore-scripts && npm run lint:test && npm run format:test
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "python-3.7"
