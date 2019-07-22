@@ -2,7 +2,7 @@ version: 2
 
 jobs:
 
-  "r-test": &test-template
+  "build": &test-template
     working_directory: ~/dash
     docker:
       - image: byronz/dashr:ci
@@ -51,4 +51,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - "r-test"
+      - "build"
