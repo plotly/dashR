@@ -44,6 +44,7 @@ jobs:
             git clone -b dashr-test-support --depth 1 https://github.com/plotly/dash.git
             cd dash && pip install -e .[testing] && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
+            echo "running integration"
             pytest tests/integration/
 
 workflows:
