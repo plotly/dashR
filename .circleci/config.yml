@@ -27,9 +27,6 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              # git clone --depth 1 https://github.com/plotly/dash-core-components.git
-              # git clone --depth 1 https://github.com/plotly/dash-html-components.git
-              # git clone --depth 1 https://github.com/plotly/dash-table.git
               sudo Rscript -e 'install.packages("remotes")'
               sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
               sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
@@ -44,7 +41,6 @@ jobs:
             git clone --depth 1 https://github.com/plotly/dash.git
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
-            echo "running integration"
             pytest tests/integration/
 
 workflows:
