@@ -2,7 +2,7 @@ version: 2
 
 jobs:
 
-  "build": &test-template
+  "test": &test-template
     working_directory: ~/dash
     docker:
       - image: byronz/dashr:ci
@@ -27,13 +27,13 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              git clone --depth 1 https://github.com/plotly/dash-core-components.git
-              git clone --depth 1 https://github.com/plotly/dash-html-components.git
-              git clone --depth 1 https://github.com/plotly/dash-table.git
+              # git clone --depth 1 https://github.com/plotly/dash-core-components.git
+              # git clone --depth 1 https://github.com/plotly/dash-html-components.git
+              # git clone --depth 1 https://github.com/plotly/dash-table.git
               sudo Rscript -e 'install.packages("remotes")'
-              sudo R CMD INSTALL dash-core-components
-              sudo R CMD INSTALL dash-html-components
-              sudo R CMD INSTALL dash-table
+              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
+              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
+              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE)"
               sudo R CMD INSTALL .
 
       - run:
@@ -41,8 +41,8 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
-            git clone -b dashr-test-support --depth 1 https://github.com/plotly/dash.git
-            cd dash && pip install -e .[testing] && cd ..
+            git clone --depth 1 https://github.com/plotly/dash.git
+            cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
             echo "running integration"
             pytest tests/integration/
@@ -51,4 +51,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - "build"
+      - "test"
