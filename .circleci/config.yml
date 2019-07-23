@@ -7,8 +7,6 @@ jobs:
     working_directory: ~/dash
     docker:
       - image: byronz/dashr:ci
-        environment:
-          PERCY_ENABLE: 0
 
     steps:
       - checkout
