@@ -528,7 +528,7 @@ Dash <- R6::R6Class(
     # no_update may be used within a callback to prevent a single output
     # from updating; it returns a wrapped NULL of class "no_update"
     # ------------------------------------------------------------------------
-    no_update <- function() {
+    no_update = function() {
       x <- list(NULL)
       class(x) <- "no_update"
       return(x)
