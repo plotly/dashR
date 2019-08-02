@@ -5,6 +5,7 @@
 \alias{output}
 \alias{input}
 \alias{state}
+\alias{dashNoUpdate}
 \title{Input/Output/State definitions}
 \usage{
 output(id, property)
@@ -12,6 +13,8 @@ output(id, property)
 input(id, property)
 
 state(id, property)
+
+dashNoUpdate()
 }
 \arguments{
 \item{id}{a component id}
@@ -21,4 +24,10 @@ state(id, property)
 \description{
 Use in conjunction with the \code{callback()} method from the \link[dash:Dash]{dash::Dash} class
 to define the update logic in your application.
+}
+\details{
+The \code{dashNoUpdate()} function permits application developers to prevent a
+single output from updating the layout. It has no formal arguments, but
+returns an object of class \code{no_update}, for which Dash will return a \code{204}
+status code and empty response body.
 }

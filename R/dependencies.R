@@ -5,10 +5,14 @@
 #' Use in conjunction with the `callback()` method from the [dash::Dash] class
 #' to define the update logic in your application.
 #'
+#' The `dashNoUpdate()` function permits application developers to prevent a
+#' single output from updating the layout. It has no formal arguments, but
+#' returns an object of class `no_update`, for which Dash will return a `204`
+#' status code and empty response body.
+#' 
 #' @name dependencies
 #' @param id a component id
 #' @param property the component property to use
-
 
 #' @rdname dependencies
 #' @export
@@ -43,4 +47,12 @@ dependency <- function(id = NULL, property = NULL) {
     id = id,
     property = property
   )
+}
+
+#' @rdname dependencies
+#' @export
+dashNoUpdate <- function() {
+  x <- list(NULL)
+  class(x) <- "no_update"
+  return(x)
 }
