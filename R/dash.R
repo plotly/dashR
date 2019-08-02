@@ -287,11 +287,17 @@ Dash <- R6::R6Class(
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-  
+        
         # reset callback context
         private$callback_context_ <- NULL
  
-        if (is.null(private$stack_message)) {
+        # inspect the output_value to determine whether any outputs have no_update
+        # objects within them; these should not be updated
+        if (class(output_value) == "no_update") {
+          response$body <- character(1) # return empty string
+          response$status <- 204L
+        }
+        else if (is.null(private$stack_message)) {
           # pass on output_value to encode_plotly in case there are dccGraph
           # components which include Plotly.js figures for which we'll need to 
           # run plotly_build from the plotly package
@@ -516,6 +522,16 @@ Dash <- R6::R6Class(
         warning("callback_context is undefined; callback_context may only be accessed within a callback.")
       }   
       private$callback_context_
+    },
+    
+    # ------------------------------------------------------------------------
+    # no_update may be used within a callback to prevent a single output
+    # from updating; it returns a wrapped NULL of class "no_update"
+    # ------------------------------------------------------------------------
+    no_update <- function() {
+      x <- list(NULL)
+      class(x) <- "no_update"
+      return(x)
     },
     
     # ------------------------------------------------------------------------
