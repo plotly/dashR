@@ -293,7 +293,7 @@ Dash <- R6::R6Class(
  
         # inspect the output_value to determine whether any outputs have no_update
         # objects within them; these should not be updated
-        if (class(output_value) == "no_update") {
+        if (length(output_value) == 1 && class(output_value) == "no_update") {
           response$body <- character(1) # return empty string
           response$status <- 204L
         }
