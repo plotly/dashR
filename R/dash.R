@@ -287,7 +287,7 @@ Dash <- R6::R6Class(
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-        
+
         # reset callback context
         private$callback_context_ <- NULL
  
