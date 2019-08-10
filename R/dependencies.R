@@ -6,9 +6,7 @@
 #' to define the update logic in your application.
 #'
 #' The `dashNoUpdate()` function permits application developers to prevent a
-#' single output from updating the layout. It has no formal arguments, but
-#' returns an object of class `no_update`, for which Dash will return a `204`
-#' status code and empty response body.
+#' single output from updating the layout. It has no formal arguments.
 #' 
 #' @name dependencies
 #' @param id a component id

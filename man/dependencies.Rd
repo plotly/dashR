@@ -27,7 +27,5 @@ to define the update logic in your application.
 }
 \details{
 The \code{dashNoUpdate()} function permits application developers to prevent a
-single output from updating the layout. It has no formal arguments, but
-returns an object of class \code{no_update}, for which Dash will return a \code{204}
-status code and empty response body.
+single output from updating the layout. It has no formal arguments.
 }
