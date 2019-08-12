@@ -100,4 +100,4 @@ def test_rsnu001_no_update(dashr):
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #0000FF"
     dashr.find_element("#multi-selector").click()
     time.sleep(1)
-    assert dashr.find_element("#message-box").text == "Multiple color values: #FF0000, #00FF00, #0000FF returned!"
+    assert dashr.find_element("#message-box2").text == "Multiple color values: #FF0000, #00FF00, #0000FF returned!"
