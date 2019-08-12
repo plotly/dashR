@@ -68,7 +68,7 @@ app$callback(output=list(id='message-box', property='children'),
              }
 )
 
-app$run_server(component_cache_max_age=0)
+app$run_server()
 """
 
 
