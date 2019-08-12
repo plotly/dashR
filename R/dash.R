@@ -286,7 +286,7 @@ Dash <- R6::R6Class(
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
-                                      pruned_errors = private$pruned_errors)
+                                      prune_errors = private$prune_errors)
   
         # reset callback context
         private$callback_context_ <- NULL
@@ -525,7 +525,7 @@ Dash <- R6::R6Class(
                           port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
-                          pruned_errors = TRUE, 
+                          dev_tools_prune_errors = TRUE, 
                           debug = FALSE, 
                           dev_tools_ui = NULL,
                           dev_tools_props_check = NULL,
@@ -545,7 +545,7 @@ Dash <- R6::R6Class(
         self$config$props_check <- FALSE
       }
 
-      private$pruned_errors <- pruned_errors
+      private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
@@ -569,7 +569,7 @@ Dash <- R6::R6Class(
     
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
-    pruned_errors = NULL,
+    prune_errors = NULL,
     stack_message = NULL,
 
     # callback context
