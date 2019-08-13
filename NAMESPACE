@@ -2,6 +2,7 @@
 
 S3method(print,dash_component)
 export(Dash)
+export(dashNoUpdate)
 export(input)
 export(output)
 export(state)

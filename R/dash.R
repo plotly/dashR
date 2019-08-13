@@ -287,11 +287,17 @@ Dash <- R6::R6Class(
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       pruned_errors = private$pruned_errors)
-  
+
         # reset callback context
         private$callback_context_ <- NULL
  
-        if (is.null(private$stack_message)) {
+        # inspect the output_value to determine whether any outputs have no_update
+        # objects within them; these should not be updated
+        if (length(output_value) == 1 && class(output_value) == "no_update") {
+          response$body <- character(1) # return empty string
+          response$status <- 204L
+        }
+        else if (is.null(private$stack_message)) {
           # pass on output_value to encode_plotly in case there are dccGraph
           # components which include Plotly.js figures for which we'll need to 
           # run plotly_build from the plotly package
