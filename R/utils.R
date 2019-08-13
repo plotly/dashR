@@ -692,9 +692,20 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
       error = function(e) {
         if (is.null(attr(e, "stack.trace", exact = TRUE))) {
           calls <- sys.calls()
+          reverseStack <- rev(calls)
           attr(e, "stack.trace") <- calls
-          errorCall <- e$call[[1]]
-
+          
+          if (!is.null(e$call[[1]]))
+            errorCall <- e$call[[1]]
+          else {
+            # attempt to capture the error or warning if thrown by
+            # simpleError or simpleWarning (which may arise for user-defined errors)
+            #
+            # the first matching call in the reversed stack will always be
+            # getStackTrace, so we select the second match instead
+            errorCall <- reverseStack[grepl(x=reverseStack, "simpleError|simpleWarning")][[2]]
+          }
+          
           functionsAsList <- lapply(calls, function(completeCall) {
             currentCall <- completeCall[[1]]
             
@@ -708,8 +719,6 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             }
             
           })
-          
-          reverseStack <- rev(calls)
           
           if (prune_errors) {
             # this line should match the last occurrence of the function
@@ -728,14 +737,18 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
               # to stop at the correct position.
               if (is.function(currentCall[[1]])) {
                 identical(deparse(errorCall), deparse(currentCall[[1]]))
-              } else {
+              } else if (currentCall[[1]] == "stop") {
+                # handle case where function developer deliberately invokes a stop
+                # condition and halts function execution
+                identical(deparse(errorCall), deparse(currentCall))
+                }
+              else {
                 FALSE
               }
 
               }
               )
             )
-            
             # the position to stop at is one less than the difference
             # between the total number of calls and the index of the
             # call throwing the error
@@ -746,12 +759,14 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             functionsAsList <- removeHandlers(functionsAsList)
           }
           
+          # use deparse in case the call throwing the error is a symbol,
+          # since this cannot be "printed" without deparsing the call
           warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
-                                                            functionsAsList[[length(functionsAsList)]], 
+                                                            deparse(functionsAsList[[length(functionsAsList)]]), 
                                                             conditionMessage(e)))
           
           stack_message <- stackTraceToHTML(functionsAsList,
-                                            functionsAsList[[length(functionsAsList)]],
+                                            deparse(functionsAsList[[length(functionsAsList)]]),
                                             conditionMessage(e))
           
           assign("stack_message", value=stack_message, 
