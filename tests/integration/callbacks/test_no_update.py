@@ -76,7 +76,10 @@ def test_rsnu001_no_update(dashr):
     dashr.start_server(app)
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[0].click()
-    time.sleep(1)
+    dashr.wait_for_text_to_equal(
+        "#message-box",
+        "The hexadecimal representation of your last chosen color is #FF0000"
+    )
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #FF0000"
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[3].click()
@@ -84,7 +87,10 @@ def test_rsnu001_no_update(dashr):
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #FF0000"
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[1].click()
-    time.sleep(1)
+    dashr.wait_for_text_to_equal(
+        "#message-box",
+        "The hexadecimal representation of your last chosen color is #00FF00"
+    )
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #00FF00"
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[3].click()
@@ -92,12 +98,18 @@ def test_rsnu001_no_update(dashr):
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #00FF00"
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[2].click()
-    time.sleep(1)
+    dashr.wait_for_text_to_equal(
+        "#message-box",
+        "The hexadecimal representation of your last chosen color is #0000FF"
+    )
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #0000FF"
     dashr.find_element("#color-selector").click()
     dashr.find_elements("div.VirtualizedSelectOption")[3].click()
     time.sleep(1)
     assert dashr.find_element("#message-box").text == "The hexadecimal representation of your last chosen color is #0000FF"
     dashr.find_element("#multi-selector").click()
-    time.sleep(1)
+    dashr.wait_for_text_to_equal(
+        "#message-box2",
+        "Multiple color values: #FF0000, #00FF00, #0000FF returned!"
+    )
     assert dashr.find_element("#message-box2").text == "Multiple color values: #FF0000, #00FF00, #0000FF returned!"
