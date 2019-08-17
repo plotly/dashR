@@ -828,3 +828,17 @@ getDashMetadata <- function(pkgname) {
   metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
   return(metadataFn)
 }
+
+createCallbackId <- function(output) {
+  # check if callback uses single output
+  if (!any(sapply(output, is.list))) {
+    id <- paste0(output, collapse=".")
+  } else {
+    # multi-output callback, concatenate
+    ids <- vapply(output, function(x) {
+      paste(x, collapse = ".")
+    }, character(1))
+    id <- paste0("..", paste0(ids, collapse="..."), "..")
+  }
+  return(id)
+}
