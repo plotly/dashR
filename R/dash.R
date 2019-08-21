@@ -222,7 +222,7 @@ Dash <- R6::R6Class(
         payload <- Map(function(callback_signature) {
           list(
             inputs=callback_signature$inputs,
-            output=paste0(callback_signature$output, collapse="."),
+            output=createCallbackId(callback_signature$output),
             state=callback_signature$state
           )
         }, private$callback_map)
@@ -305,12 +305,38 @@ Dash <- R6::R6Class(
           
           # have to format the response body like this
           # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-          resp <- list(
-            response = list(
-              props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+          if (grepl("\\.\\.\\.", request$body$output)) {
+            # if multi-output callback, isolate the output IDs and properties
+            idmatch <- gregexpr("(?<=\\.\\.)(([^\\.]+))(?=\\.)", request$body$output, perl=TRUE)
+            propmatch <- gregexpr("(?<=\\.)(([^\\.]+))(?=\\.\\.)", request$body$output, perl=TRUE)
+            ids <- unlist(regmatches(request$body$output, idmatch))
+            props <- unlist(regmatches(request$body$output, propmatch))
+            
+            # prepare a response object which has list elements corresponding to ids
+            # which themselves contain named list elements corresponding to props
+            # then fill in nested list elements based on output_value
+            
+            allprops <- setNames(vector("list", length(unique(ids))), unique(ids))
+            
+            idmap <- setNames(ids, props)
+            
+            for (id in unique(ids)) {
+              allprops[[id]] <- output_value[grep(id, ids)]
+              names(allprops[[id]]) <- names(idmap[which(idmap==id)])
+            }
+              
+            resp <- list(
+             response = allprops,
+             multi = TRUE
+             )
+          } else {
+            resp <- list(
+              response = list(
+                props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+              )
             )
-          )
-          
+          }
+        
           response$body <- to_JSON(resp)
           response$status <- 200L
           response$type <- 'json'
@@ -506,7 +532,7 @@ Dash <- R6::R6Class(
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
 
       # register the callback_map
-      private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
+      private$callback_map[[createCallbackId(output)]] <- list(
           inputs=inputs,
           output=output,
           state=state,

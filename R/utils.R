@@ -371,10 +371,22 @@ assert_valid_callbacks <- function(output, params, func) {
   }
     
   # Assert that the component ID as passed is a string.
-  if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
-    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
+  # This function inspects the output object to see if its ID
+  # is a valid string.
+  validateOutput <- function(string) {
+    return((is.character(string[["id"]]) & !grepl("^\\s*$", string[["id"]]) & !grepl("\\.", string[["id"]])))
   }
   
+  # Check if the callback uses multiple outputs
+  if (any(sapply(output, is.list))) {
+    invalid_callback_ID <- (!all(vapply(output, validateOutput, logical(1))))
+  } else {
+    invalid_callback_ID <-  (!validateOutput(output))
+  } 
+  if (invalid_callback_ID) {
+    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
+  }
+
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
     stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
