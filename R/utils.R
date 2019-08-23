@@ -409,7 +409,22 @@ assert_valid_callbacks <- function(output, params, func) {
   
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
-  inputs_vs_outputs <- lapply(inputs, function(x) identical(x, output))
+
+  # helper function to permit same mapply syntax regardless
+  # of whether output is defined using output function or not
+  listWrap <- function(x){
+    if (!any(sapply(x, is.list))) {
+      return(list(x))
+    } else {
+      x
+    }
+  }
+  
+  # determine whether any input matches the output, or outputs, if
+  # multiple callback scenario
+  inputs_vs_outputs <- mapply(function(inputObject, outputObject) {
+    identical(outputObject[["id"]], inputObject[["id"]]) & identical(outputObject[["property"]], inputObject[["property"]])
+  }, inputs, listWrap(output))
   
   if(TRUE %in% inputs_vs_outputs) {
     stop(sprintf("Circular input and output arguments were found. Please verify that callback outputs are not also input arguments."), call. = FALSE)
