@@ -954,7 +954,6 @@ Dash <- R6::R6Class(
 )
 
 validate_dependency <- function(layout_, dependency) {
-  if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
   valid_props <- component_props_given_id(layout_, dependency$id)
