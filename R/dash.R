@@ -286,12 +286,18 @@ Dash <- R6::R6Class(
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
-                                      pruned_errors = private$pruned_errors)
-  
+                                      prune_errors = private$prune_errors)
+
         # reset callback context
         private$callback_context_ <- NULL
  
-        if (is.null(private$stack_message)) {
+        # inspect the output_value to determine whether any outputs have no_update
+        # objects within them; these should not be updated
+        if (length(output_value) == 1 && class(output_value) == "no_update") {
+          response$body <- character(1) # return empty string
+          response$status <- 204L
+        }
+        else if (is.null(private$stack_message)) {
           # pass on output_value to encode_plotly in case there are dccGraph
           # components which include Plotly.js figures for which we'll need to 
           # run plotly_build from the plotly package
@@ -525,7 +531,7 @@ Dash <- R6::R6Class(
                           port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
-                          pruned_errors = TRUE, 
+                          dev_tools_prune_errors = TRUE, 
                           debug = FALSE, 
                           dev_tools_ui = NULL,
                           dev_tools_props_check = NULL,
@@ -545,7 +551,7 @@ Dash <- R6::R6Class(
         self$config$props_check <- FALSE
       }
 
-      private$pruned_errors <- pruned_errors
+      private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
       
       self$server$ignite(block = block, showcase = showcase, ...)
@@ -569,7 +575,7 @@ Dash <- R6::R6Class(
     
     # initialize flags for debug mode and stack pruning,
     debug = NULL,
-    pruned_errors = NULL,
+    prune_errors = NULL,
     stack_message = NULL,
 
     # callback context
