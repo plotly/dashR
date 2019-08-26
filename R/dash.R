@@ -307,10 +307,9 @@ Dash <- R6::R6Class(
           # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
           if (grepl("\\.\\.\\.", request$body$output)) {
             # if multi-output callback, isolate the output IDs and properties
-            idmatch <- gregexpr("(?<=\\.\\.)(([^\\.]+))(?=\\.)", request$body$output, perl=TRUE)
-            propmatch <- gregexpr("(?<=\\.)(([^\\.]+))(?=\\.\\.)", request$body$output, perl=TRUE)
-            ids <- unlist(regmatches(request$body$output, idmatch))
-            props <- unlist(regmatches(request$body$output, propmatch))
+
+            ids <- getIdProps(request$body$output)$ids
+            props <- getIdProps(request$body$output)$props
             
             # prepare a response object which has list elements corresponding to ids
             # which themselves contain named list elements corresponding to props
