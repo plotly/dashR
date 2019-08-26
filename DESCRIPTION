@@ -33,7 +33,8 @@ Collate:
   'internal.R'
 Remotes: plotly/dash-html-components@17da1f4,
   plotly/dash-core-components@cc1e654,
-  plotly/dash-table@042ad65
+  plotly/dash-table@042ad65,
+  plotly/reqres@55072ab
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
