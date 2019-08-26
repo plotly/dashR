@@ -872,7 +872,7 @@ createCallbackId <- function(output) {
 
 getIdProps <- function(output) {
   output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
-  idprops <- lapply(idlist, strsplit, '.', fixed=TRUE)
+  idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
   ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)
   props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)
   return(list(ids=ids, props=props))

@@ -305,9 +305,8 @@ Dash <- R6::R6Class(
           
           # have to format the response body like this
           # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-          if (grepl("\\.\\.\\.", request$body$output)) {
+          if (substr(request$body$output, 1, 2) == '..') {
             # if multi-output callback, isolate the output IDs and properties
-
             ids <- getIdProps(request$body$output)$ids
             props <- getIdProps(request$body$output)$props
             
