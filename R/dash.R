@@ -303,8 +303,11 @@ Dash <- R6::R6Class(
           # run plotly_build from the plotly package
           output_value <- encode_plotly(output_value)
           
-          # have to format the response body like this
-          # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
+          # for multiple outputs, have to format the response body like this, including 'multi' key:
+          # https://github.com/plotly/dash/blob/d9ddc877d6b15d9354bcef4141acca5d5fe6c07b/dash/dash.py#L1174-L1209
+
+          # for single outputs, the response body is formatted slightly differently:
+          # https://github.com/plotly/dash/blob/d9ddc877d6b15d9354bcef4141acca5d5fe6c07b/dash/dash.py#L1210-L1220
           if (substr(request$body$output, 1, 2) == '..') {
             # if multi-output callback, isolate the output IDs and properties
             ids <- getIdProps(request$body$output)$ids
