@@ -138,7 +138,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
-    # u p from the DashR package
+    # up from the DashR package
     if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
@@ -355,10 +355,15 @@ clean_dependencies <- function(deps) {
 assert_valid_callbacks <- function(output, params, func) {
   inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-  
+
   invalid_params <- vapply(params, function(x) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
+  
+  # Verify that no outputs are duplicated
+  if (length(output) != length(unique(output))) {
+    stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)      
+  }
   
   # Verify that params contains no elements that are not either members of 'input' or 'state' classes
   if (any(invalid_params)) {
