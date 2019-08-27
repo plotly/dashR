@@ -196,7 +196,6 @@ Dash <- R6::R6Class(
 
       dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
-
         rendered_layout <- private$layout_render()
         # pass the layout on to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -210,7 +209,6 @@ Dash <- R6::R6Class(
 
       dash_deps <- paste0(self$config$routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
-
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
         if (!length(private$callback_map)) {
           response$body <- to_JSON(list())
@@ -290,7 +288,7 @@ Dash <- R6::R6Class(
 
         # reset callback context
         private$callback_context_ <- NULL
- 
+        
         # inspect the output_value to determine whether any outputs have no_update
         # objects within them; these should not be updated
         if (length(output_value) == 1 && class(output_value) == "no_update") {
@@ -308,10 +306,15 @@ Dash <- R6::R6Class(
 
           # for single outputs, the response body is formatted slightly differently:
           # https://github.com/plotly/dash/blob/d9ddc877d6b15d9354bcef4141acca5d5fe6c07b/dash/dash.py#L1210-L1220
+          
           if (substr(request$body$output, 1, 2) == '..') {
+            # omit return objects of class "no_update" from output_value
+            updatable_outputs <- "no_update" != vapply(output_value, class, character(1))
+            output_value <- output_value[updatable_outputs]
+            
             # if multi-output callback, isolate the output IDs and properties
-            ids <- getIdProps(request$body$output)$ids
-            props <- getIdProps(request$body$output)$props
+            ids <- getIdProps(request$body$output)$ids[updatable_outputs]
+            props <- getIdProps(request$body$output)$props[updatable_outputs]
             
             # prepare a response object which has list elements corresponding to ids
             # which themselves contain named list elements corresponding to props
