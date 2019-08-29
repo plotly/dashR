@@ -26,10 +26,7 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes")'
-              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE)"
+              sudo Rscript -e 'install.packages("remotes"); remotes::install_github('plotly/dashR', dependencies=TRUE, upgrade=TRUE)'
               sudo R CMD INSTALL .
 
       - run:
