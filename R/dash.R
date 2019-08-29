@@ -534,14 +534,14 @@ Dash <- R6::R6Class(
 
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
+      
       # register the callback_map
-      private$callback_map[[createCallbackId(output)]] <- list(
-          inputs=inputs,
-          output=output,
-          state=state,
-          func=func
-        )
+      private$callback_map <- insertIntoCallbackMap(private$callback_map,
+                                                    inputs,
+                                                    output,
+                                                    state,
+                                                    func)
+      
     },
 
     # ------------------------------------------------------------------------
