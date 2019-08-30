@@ -38,10 +38,10 @@ jobs:
             export PATH=$PATH:/home/circleci/.local/bin/
             pytest tests/integration/
 
-     - run:
-         name: 🔎 Unit tests
-         command: |
-            sudo Rscript -e 'testthat::test_package("dash")'
+      - run:
+          name: 🔎 Unit tests
+          command: |
+              sudo Rscript -e 'testthat::test_package("dash")'
 
 workflows:
   version: 2
