@@ -41,7 +41,7 @@ jobs:
       - run:
           name: 🔎 Unit tests
           command: |
-              sudo Rscript -e 'testthat::test_package("dash")'
+              sudo Rscript -e 'testthat::test_dir("tests/")'
 
 workflows:
   version: 2
