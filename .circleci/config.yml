@@ -29,7 +29,7 @@ jobs:
               sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", dependencies=TRUE, upgrade=TRUE); install.packages(".", type="source", repos=NULL)'
 
       - run:
-          name: ⚙️ run integration test
+          name: ⚙️  Integration tests
           command: |
             python -m venv venv
             . venv/bin/activate
@@ -37,6 +37,11 @@ jobs:
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
             pytest tests/integration/
+
+     - run:
+         name: 🔎 Unit tests
+         command: |
+            sudo Rscript -e 'testthat::test_package("dash")'
 
 workflows:
   version: 2
