@@ -362,7 +362,7 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func) {
     ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
     props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
     
-    outputs_as_list <- mapply(paste, ids, props, sep=".")
+    outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
       
     if (length(Reduce(intersect, outputs_as_list))) {
       stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)        
