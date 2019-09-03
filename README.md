@@ -21,7 +21,9 @@ Installing the package and component libraries directly from GitHub using the `d
 
 ```r
 library(devtools)
-install_github("plotly/dashR") # installs dashHtmlComponents, dashCoreComponents, and dashTable
+# installs dashHtmlComponents, dashCoreComponents, and dashTable
+# and will update the component libraries when a new package is released
+install_github("plotly/dashR", upgrade = TRUE)
 ```
 
 Now, load the packages in R:
