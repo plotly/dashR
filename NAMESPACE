@@ -3,6 +3,7 @@
 S3method(print,dash_component)
 export(Dash)
 export(dashNoUpdate)
+export(createCallbackId)
 export(input)
 export(output)
 export(state)

@@ -26,14 +26,10 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes")'
-              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE)"
-              sudo R CMD INSTALL .
+              sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", dependencies=TRUE, upgrade=TRUE); install.packages(".", type="source", repos=NULL)'
 
       - run:
-          name: ⚙️ run integration test
+          name: ⚙️  Integration tests
           command: |
             python -m venv venv
             . venv/bin/activate
@@ -41,6 +37,11 @@ jobs:
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
             pytest tests/integration/
+
+      - run:
+          name: 🔎 Unit tests
+          command: |
+              sudo Rscript -e 'testthat::test_dir("tests/")'
 
 workflows:
   version: 2
