@@ -79,6 +79,8 @@ def test_rsnu002_no_update_multiple(dashr):
         "#output-clicks",
         'The Button has been pressed 1 times.'
     )
+    # Now only the Update clicks checkbox is active, so
+    # state should not update
     dashr.find_elements("input[type='checkbox']")[0].click()
     dashr.clear_input(input1)
     input1.send_keys("Montreal")
@@ -91,6 +93,7 @@ def test_rsnu002_no_update_multiple(dashr):
         "#output-clicks",
         'The Button has been pressed 2 times.'
     )
+    # Neither checkbox is selected, so neither output should update
     dashr.find_elements("input[type='checkbox']")[1].click()
     dashr.find_element("#submit-button").click()
     dashr.wait_for_text_to_equal(
@@ -101,6 +104,7 @@ def test_rsnu002_no_update_multiple(dashr):
         "#output-clicks",
         'The Button has been pressed 2 times.'
     )
+    # Now both are selected, so both state and clicks should update
     dashr.find_elements("input[type='checkbox']")[0].click()
     dashr.find_elements("input[type='checkbox']")[1].click()
     dashr.wait_for_text_to_equal(
