@@ -771,8 +771,6 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             
           })
           
-          reverseStack <- rev(calls)
-          
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
