@@ -196,7 +196,6 @@ Dash <- R6::R6Class(
 
       dash_layout <- paste0(self$config$routes_pathname_prefix, "_dash-layout")
       route$add_handler("get", dash_layout, function(request, response, keys, ...) {
-
         rendered_layout <- private$layout_render()
         # pass the layout on to encode_plotly in case there are dccGraph
         # components which include Plotly.js figures for which we'll need to 
@@ -210,7 +209,6 @@ Dash <- R6::R6Class(
 
       dash_deps <- paste0(self$config$routes_pathname_prefix, "_dash-dependencies")
       route$add_handler("get", dash_deps, function(request, response, keys, ...) {
-
         # dash-renderer wants an empty array when no dependencies exist (see python/01.py)
         if (!length(private$callback_map)) {
           response$body <- to_JSON(list())
@@ -222,7 +220,7 @@ Dash <- R6::R6Class(
         payload <- Map(function(callback_signature) {
           list(
             inputs=callback_signature$inputs,
-            output=paste0(callback_signature$output, collapse="."),
+            output=createCallbackId(callback_signature$output),
             state=callback_signature$state
           )
         }, private$callback_map)
@@ -287,24 +285,62 @@ Dash <- R6::R6Class(
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
                                       prune_errors = private$prune_errors)
-  
+
         # reset callback context
         private$callback_context_ <- NULL
  
-        if (is.null(private$stack_message)) {
+        # inspect the output_value to determine whether any outputs have no_update
+        # objects within them; these should not be updated
+        if (length(output_value) == 1 && class(output_value) == "no_update") {
+          response$body <- character(1) # return empty string
+          response$status <- 204L
+        }
+        else if (is.null(private$stack_message)) {
           # pass on output_value to encode_plotly in case there are dccGraph
           # components which include Plotly.js figures for which we'll need to 
           # run plotly_build from the plotly package
           output_value <- encode_plotly(output_value)
           
-          # have to format the response body like this
-          # https://github.com/plotly/dash/blob/064c811d/dash/dash.py#L562-L584
-          resp <- list(
-            response = list(
-              props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
-            )
-          )
+          # for multiple outputs, have to format the response body like this, including 'multi' key:
+          # https://github.com/plotly/dash/blob/d9ddc877d6b15d9354bcef4141acca5d5fe6c07b/dash/dash.py#L1174-L1209
+
+          # for single outputs, the response body is formatted slightly differently:
+          # https://github.com/plotly/dash/blob/d9ddc877d6b15d9354bcef4141acca5d5fe6c07b/dash/dash.py#L1210-L1220
           
+          if (substr(request$body$output, 1, 2) == '..') {
+            # omit return objects of class "no_update" from output_value
+            updatable_outputs <- "no_update" != vapply(output_value, class, character(1))
+            output_value <- output_value[updatable_outputs]
+            
+            # if multi-output callback, isolate the output IDs and properties
+            ids <- getIdProps(request$body$output)$ids[updatable_outputs]
+            props <- getIdProps(request$body$output)$props[updatable_outputs]
+            
+            # prepare a response object which has list elements corresponding to ids
+            # which themselves contain named list elements corresponding to props
+            # then fill in nested list elements based on output_value
+            
+            allprops <- setNames(vector("list", length(unique(ids))), unique(ids))
+            
+            idmap <- setNames(ids, props)
+            
+            for (id in unique(ids)) {
+              allprops[[id]] <- output_value[grep(id, ids)]
+              names(allprops[[id]]) <- names(idmap[which(idmap==id)])
+            }
+              
+            resp <- list(
+             response = allprops,
+             multi = TRUE
+             )
+          } else {
+            resp <- list(
+              response = list(
+                props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+              )
+            )
+          }
+        
           response$body <- to_JSON(resp)
           response$status <- 200L
           response$type <- 'json'
@@ -498,14 +534,14 @@ Dash <- R6::R6Class(
 
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
+      
       # register the callback_map
-      private$callback_map[[paste(output$id, output$property, sep='.')]] <- list(
-          inputs=inputs,
-          output=output,
-          state=state,
-          func=func
-        )
+      private$callback_map <- insertIntoCallbackMap(private$callback_map,
+                                                    inputs,
+                                                    output,
+                                                    state,
+                                                    func)
+      
     },
 
     # ------------------------------------------------------------------------

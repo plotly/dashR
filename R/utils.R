@@ -138,7 +138,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
-    # u p from the DashR package
+    # up from the DashR package
     if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
@@ -352,13 +352,37 @@ clean_dependencies <- function(deps) {
   return(deps_with_file)
 }
 
+insertIntoCallbackMap <- function(map, inputs, output, state, func) {
+  map[[createCallbackId(output)]] <- list(inputs=inputs,
+                                          output=output,
+                                          state=state,
+                                          func=func
+                                          )
+  if (length(map) >= 2) {
+    ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
+    props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
+
+    outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
+      
+    if (length(Reduce(intersect, outputs_as_list))) {
+      stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)        
+    }
+  }
+  return(map)
+}
+
 assert_valid_callbacks <- function(output, params, func) {
   inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-  
+
   invalid_params <- vapply(params, function(x) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
+  
+  # Verify that no outputs are duplicated
+  if (length(output) != length(unique(output))) {
+    stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)      
+  }
   
   # Verify that params contains no elements that are not either members of 'input' or 'state' classes
   if (any(invalid_params)) {
@@ -371,10 +395,22 @@ assert_valid_callbacks <- function(output, params, func) {
   }
     
   # Assert that the component ID as passed is a string.
-  if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
-    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
+  # This function inspects the output object to see if its ID
+  # is a valid string.
+  validateOutput <- function(string) {
+    return((is.character(string[["id"]]) & !grepl("^\\s*$", string[["id"]]) & !grepl("\\.", string[["id"]])))
   }
   
+  # Check if the callback uses multiple outputs
+  if (any(sapply(output, is.list))) {
+    invalid_callback_ID <- (!all(vapply(output, validateOutput, logical(1))))
+  } else {
+    invalid_callback_ID <-  (!validateOutput(output))
+  } 
+  if (invalid_callback_ID) {
+    stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
+  }
+
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
     stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
@@ -397,7 +433,22 @@ assert_valid_callbacks <- function(output, params, func) {
   
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
-  inputs_vs_outputs <- lapply(inputs, function(x) identical(x, output))
+
+  # helper function to permit same mapply syntax regardless
+  # of whether output is defined using output function or not
+  listWrap <- function(x){
+    if (!any(sapply(x, is.list))) {
+      return(list(x))
+    } else {
+      x
+    }
+  }
+  
+  # determine whether any input matches the output, or outputs, if
+  # multiple callback scenario
+  inputs_vs_outputs <- mapply(function(inputObject, outputObject) {
+    identical(outputObject[["id"]], inputObject[["id"]]) & identical(outputObject[["property"]], inputObject[["property"]])
+  }, inputs, listWrap(output))
   
   if(TRUE %in% inputs_vs_outputs) {
     stop(sprintf("Circular input and output arguments were found. Please verify that callback outputs are not also input arguments."), call. = FALSE)
@@ -720,6 +771,8 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             
           })
           
+          reverseStack <- rev(calls)
+          
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
@@ -842,4 +895,26 @@ getDashMetadata <- function(pkgname) {
   fnList <- ls(getNamespace(pkgname), all.names = TRUE)
   metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
   return(metadataFn)
+}
+
+createCallbackId <- function(output) {
+  # check if callback uses single output
+  if (!any(sapply(output, is.list))) {
+    id <- paste0(output, collapse=".")
+  } else {
+    # multi-output callback, concatenate
+    ids <- vapply(output, function(x) {
+      paste(x, collapse = ".")
+    }, character(1))
+    id <- paste0("..", paste0(ids, collapse="..."), "..")
+  }
+  return(id)
+}
+
+getIdProps <- function(output) {
+  output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
+  idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
+  ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)
+  props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)
+  return(list(ids=ids, props=props))
 }
