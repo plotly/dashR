@@ -916,3 +916,30 @@ getIdProps <- function(output) {
   props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)
   return(list(ids=ids, props=props))
 }
+
+modtimeHashFromPath <- function(path) {
+  modtime <- as.character(file.info(path)$mtime)
+  return(digest::digest(modtime, "md5", serialize=FALSE))
+}
+
+getAppPath <- function() {
+  # attempt to retrieve path for Dash apps served via
+  # Rscript or source()
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_argument <- "--file="
+  matched_arg <- grep(file_argument, cmd_args)
+  
+  # if app is instantiated via Rscript, cmd_args should contain path
+  if (length(matched_arg) > 0) {
+    # Rscript
+    return(normalizePath(sub(file_argument, "", cmd_args[matched_arg])))
+  } 
+  # if app is instantiated via source(), sys.frames should contain path
+  else if (!is.null(sys.frames()[[1]]$ofile)) {
+    return(normalizePath(sys.frames()[[1]]$ofile))
+  }
+  # fall back to getwd() if first two options fail
+  else {
+    return(getwd())
+  }
+}

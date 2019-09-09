@@ -153,6 +153,8 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+      private$app_root_path <- getAppPath()
+      private$app_root_hash <- NULL
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
@@ -174,6 +176,7 @@ Dash <- R6::R6Class(
             call. = FALSE
           )
         } else if (dir.exists(private$assets_folder)) {
+          private$asset_hash <- modtimeHashFromPath(private$assets_folder)
           private$asset_map <- private$walk_assets_directory(private$assets_folder)
           private$css <- private$asset_map$css
           private$scripts <- private$asset_map$scripts
@@ -568,6 +571,12 @@ Dash <- R6::R6Class(
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
+      
+      # set the hash to track state of the Dash app directory
+      # this calls getAppPath, which will try three approaches to
+      # identifying the local app path (depending on whether the app
+      # is invoked via script, source(), or executed directly from console)
+      private$app_root_hash <- modtimeHashFromPath(private$app_root_path)
      
       if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
         self$config$ui <- TRUE
@@ -603,7 +612,7 @@ Dash <- R6::R6Class(
     scripts = NULL,
     other = NULL,
     
-    # initialize flags for debug mode and stack pruning,
+    # initialize flags for debug mode and stack pruning
     debug = NULL,
     prune_errors = NULL,
     stack_message = NULL,
@@ -611,6 +620,11 @@ Dash <- R6::R6Class(
     # callback context
     callback_context_ = NULL,   
  
+    # fields for setting hashes to track state
+    asset_hash = NULL,
+    app_root_path = NULL,
+    app_root_hash = NULL,
+    
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
