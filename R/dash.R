@@ -162,8 +162,6 @@ Dash <- R6::R6Class(
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
-      self$config$dev_tools_hot_reload <- dev_tools_hot_reload
-      self$config$dev_tools_hot_reload_interval <- dev_tools_hot_reload_interval
 
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
@@ -576,6 +574,10 @@ Dash <- R6::R6Class(
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
+      
+      # set hot reloading flags
+      self$config$hot_reload <- dev_tools_hot_reload
+      self$config$hot_reload_interval <- dev_tools_hot_reload_interval
       
       # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
