@@ -917,9 +917,9 @@ getIdProps <- function(output) {
   return(list(ids=ids, props=props))
 }
 
-modtimeHashFromPath <- function(path) {
-  modtime <- as.character(file.info(path)$mtime)
-  return(digest::digest(modtime, "md5", serialize=FALSE))
+modtimeFromPath <- function(path) {
+  modtime <- as.integer(file.info(path)$mtime)
+  return(modtime)
 }
 
 getAppPath <- function() {

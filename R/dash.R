@@ -154,13 +154,16 @@ Dash <- R6::R6Class(
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
       private$app_root_path <- getAppPath()
-      private$app_root_hash <- NULL
+      private$app_root_modtime <- NULL
+      private$app_launchtime <- as.integer(Sys.time())
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
       self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
+      self$config$dev_tools_hot_reload <- dev_tools_hot_reload
+      self$config$dev_tools_hot_reload_interval <- dev_tools_hot_reload_interval
 
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
@@ -176,7 +179,7 @@ Dash <- R6::R6Class(
             call. = FALSE
           )
         } else if (dir.exists(private$assets_folder)) {
-          private$asset_hash <- modtimeHashFromPath(private$assets_folder)
+          private$asset_modtime <- modtimeFromPath(private$assets_folder)
           private$asset_map <- private$walk_assets_directory(private$assets_folder)
           private$css <- private$asset_map$css
           private$scripts <- private$asset_map$scripts
@@ -568,15 +571,17 @@ Dash <- R6::R6Class(
                           debug = FALSE, 
                           dev_tools_ui = NULL,
                           dev_tools_props_check = NULL,
+                          dev_tools_hot_reload = FALSE,
+                          dev_tools_hot_reload_interval = 3,
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
       
-      # set the hash to track state of the Dash app directory
+      # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
       # is invoked via script, source(), or executed directly from console)
-      private$app_root_hash <- modtimeHashFromPath(private$app_root_path)
+      private$app_root_modtime <- modtimeFromPath(private$app_root_path)
      
       if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
         self$config$ui <- TRUE
@@ -620,10 +625,11 @@ Dash <- R6::R6Class(
     # callback context
     callback_context_ = NULL,   
  
-    # fields for setting hashes to track state
-    asset_hash = NULL,
+    # fields for setting modification times and paths to track state
+    asset_modtime = NULL,
+    app_launchtime = NULL,
     app_root_path = NULL,
-    app_root_hash = NULL,
+    app_root_modtime = NULL,
     
     # fields for tracking HTML dependencies
     dependencies = list(),
