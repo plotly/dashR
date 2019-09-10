@@ -494,10 +494,33 @@ Dash <- R6::R6Class(
         TRUE
       })
 
+      dash_reload_hash <- paste0(self$config$routes_pathname_prefix, "_reload-hash")
+      route$add_handler("get", dash_reload_hash, function(request, response, keys, ...) {
+        
+        resp <- list(reloadHash = self$config$reload_hash,
+                     hard = FALSE,
+                     packages = c("dash_renderer", 
+                                  unique(
+                                    vapply(
+                                      private$dependencies, 
+                                      function(x) x[["name"]], 
+                                      FUN.VALUE=character(1), 
+                                      USE.NAMES = FALSE)
+                                    )
+                                  ),
+                     files = list()
+                     )
+        response$body <- to_JSON(resp)
+        response$status <- 200L
+        response$type <- 'json'
+        TRUE
+      })
+      
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
 
       server$on("start", function(server, ...) {
+        private$updateReloadHash()
         private$index()
       })
 
@@ -599,6 +622,22 @@ Dash <- R6::R6Class(
 
       private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
+      
+      if (dev_tools_hot_reload == TRUE) {
+        self$server$on('cycle-end', function(server, ...) {
+          # file.path(getAppPath(), "assets") check if exists
+          current_asset_modtime <- modtimeFromPath(private$assets_folder)
+
+          if (!is.null(private$asset_modtime) && current_asset_modtime > private$asset_modtime) {
+            private$asset_modtime <- current_asset_modtime
+            private$updateReloadHash()
+            browser()
+            message('Asset folder modification detected, reloading app ...')
+            flush.console()
+            private$index()
+          }
+        })
+      }
       
       self$server$ignite(block = block, showcase = showcase, ...)
       }
@@ -841,6 +880,17 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
+    
+    updateReloadHash = function() {
+      last_update_time <- max(as.integer(private$app_root_modtime),
+                              as.integer(private$asset_modtime),
+                              as.integer(private$app_launchtime),
+                              na.rm=TRUE)
+      
+      self$config$reload_hash <- digest::digest(as.character(last_update_time),
+                                                "md5",
+                                                serialize = FALSE)
+    },
     
     collect_resources = function() {
       # Dash's own dependencies
