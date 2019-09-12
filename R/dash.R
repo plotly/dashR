@@ -177,11 +177,7 @@ Dash <- R6::R6Class(
             call. = FALSE
           )
         } else if (dir.exists(private$assets_folder)) {
-          private$asset_modtime <- modtimeFromPath(private$assets_folder)
-          private$asset_map <- private$walk_assets_directory(private$assets_folder)
-          private$css <- private$asset_map$css
-          private$scripts <- private$asset_map$scripts
-          private$other <- private$asset_map$other
+          private$refreshAssetMap()
         }
       }
       
@@ -496,7 +492,6 @@ Dash <- R6::R6Class(
 
       dash_reload_hash <- paste0(self$config$routes_pathname_prefix, "_reload-hash")
       route$add_handler("get", dash_reload_hash, function(request, response, keys, ...) {
-        
         resp <- list(reloadHash = self$config$reload_hash,
                      hard = FALSE,
                      packages = c("dash_renderer", 
@@ -508,7 +503,7 @@ Dash <- R6::R6Class(
                                       USE.NAMES = FALSE)
                                     )
                                   ),
-                     files = list()
+                     files = private$modified_since_reload
                      )
         response$body <- to_JSON(resp)
         response$status <- 200L
@@ -628,10 +623,28 @@ Dash <- R6::R6Class(
           # file.path(getAppPath(), "assets") check if exists
           current_asset_modtime <- modtimeFromPath(private$assets_folder)
 
-          if (!is.null(private$asset_modtime) && current_asset_modtime > private$asset_modtime) {
-            private$asset_modtime <- current_asset_modtime
-            private$updateReloadHash()
+          updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
+          initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
+          
+          if (!is.null(private$asset_modtime) && updated_assets && initiate_reload) {
+            private$refreshAssetMap()
+            
+            # if the app has never been reloaded, use the launch time as origin
+            # otherwise, use private$last_reload to determine when last reload
+            # event occurred
+            modified_files <- lapply(private$asset_map, 
+                                     getAssetsSinceModtime, 
+                                     max(private$last_reload, private$app_launchtime, na.rm=TRUE), 
+                                     private$assets_url_path)
+            
+            private$modified_since_reload <- lapply(modified_files, modifiedFilesAsList)
+            
             browser()
+            
+            private$asset_modtime <- current_asset_modtime
+            # update the hash passed back to the renderer, and bump the timestamp
+            # to match the current reloading event
+            private$updateReloadHash()
             message('Asset folder modification detected, reloading app ...')
             flush.console()
             private$index()
@@ -671,6 +684,8 @@ Dash <- R6::R6Class(
     app_launchtime = NULL,
     app_root_path = NULL,
     app_root_modtime = NULL,
+    last_reload = NULL,
+    modified_since_reload = NULL,
     
     # fields for tracking HTML dependencies
     dependencies = list(),
@@ -764,6 +779,14 @@ Dash <- R6::R6Class(
       layout_
     },
 
+    refreshAssetMap = function() {
+      private$asset_modtime <- modtimeFromPath(private$assets_folder)
+      private$asset_map <- private$walk_assets_directory(private$assets_folder)
+      private$css <- private$asset_map$css
+      private$scripts <- private$asset_map$scripts
+      private$other <- private$asset_map$other
+    },
+    
     walk_assets_directory = function(assets_dir = private$assets_folder) {
       # obtain the full canonical path
       asset_path <- normalizePath(file.path(assets_dir))
@@ -849,10 +872,14 @@ Dash <- R6::R6Class(
       } else {
         other_files_map <- NULL
       }
-      
-      return(list(css = css_map, 
-                  scripts = scripts_map, 
-                  other = other_files_map))
+
+      # set attributes for the return object to include the file
+      # modification times for each entry in the asset_map
+      return(list(css = setModtimeAsAttr(css_map), 
+                  scripts = setModtimeAsAttr(scripts_map), 
+                  other = setModtimeAsAttr(other_files_map)
+                  )
+             )
     },
 
     componentify = function(x) {
@@ -886,6 +913,9 @@ Dash <- R6::R6Class(
                               as.integer(private$asset_modtime),
                               as.integer(private$app_launchtime),
                               na.rm=TRUE)
+      
+      # update the timestamp to reflect the current reloading event
+      private$last_reload <- as.integer(Sys.time())
       
       self$config$reload_hash <- digest::digest(as.character(last_update_time),
                                                 "md5",

@@ -943,3 +943,33 @@ getAppPath <- function() {
     return(getwd())
   }
 }
+
+setModtimeAsAttr <- function(path) {
+  if (!is.null(path)) {
+    mtime <- dash:::modtimeFromPath(path)
+    attributes(path)$modtime <- mtime
+    return(path)
+  } else {
+    return(NULL)
+  }
+}
+
+getAssetsSinceModtime <- function(map, modtime, asset_path) {
+  modified <- map[which(attributes(map)$modtime >= modtime)]
+  if (length(modified) > 0) {
+    file.path(asset_path, basename(modified))
+  } else {
+    NULL
+  }
+}
+
+modifiedFilesAsList <- function(url_file_subpath) {
+  if (!is.null(url_file_subpath)) {
+    return(list(is_css = tools::file_ext(url_file_subpath) == "css",
+                modified = -1,
+                url = url_file_subpath)
+           )
+  } else {
+    return(list())
+  }
+}
