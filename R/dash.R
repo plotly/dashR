@@ -184,7 +184,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       # Set a sensible default logger
       # ------------------------------------------------------------------------
-      server$set_logger(fiery::logger_console("{event}: {message}"))
+      server$set_logger(dash::dashLogger)
       server$access_log_format <- fiery::combined_log_format
 
       # ------------------------------------------------------------------------

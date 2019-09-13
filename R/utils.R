@@ -973,3 +973,28 @@ modifiedFilesAsList <- function(url_file_subpath) {
     return(list())
   }
 }
+
+dashLogger <- function(event = NULL, 
+                       message = NULL, 
+                       request = NULL, 
+                       time = Sys.time(), 
+           ...) {
+    orange <- crayon::make_style("orange")
+    
+    if (!is.null(event) & !grepl("_reload-hash", message)) {
+      msg <- sprintf("%s: %s", event, message)
+      
+      msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg), 
+                    message = crayon::blue(msg), msg)
+      
+      if (event == "request") {
+        status_group <- as.integer(cut(request$respond()$status, 
+                                       breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
+        
+        msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg), 
+                      crayon::cyan$bold(msg), crayon::orange$bold(msg), crayon::red$bold(msg))
+      }
+      cat(msg, file = stdout(), append = TRUE)
+      cat("\n", file = stdout(), append = TRUE)
+    }
+}
