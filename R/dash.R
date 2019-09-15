@@ -653,8 +653,6 @@ Dash <- R6::R6Class(
               
               private$modified_since_reload <- lapply(modified_files, modifiedFilesAsList)
               
-              browser()
-              
               private$asset_modtime <- current_asset_modtime
               # update the hash passed back to the renderer, and bump the timestamp
               # to match the current reloading event
