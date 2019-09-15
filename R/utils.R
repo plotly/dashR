@@ -978,23 +978,37 @@ dashLogger <- function(event = NULL,
                        message = NULL, 
                        request = NULL, 
                        time = Sys.time(), 
-           ...) {
-    orange <- crayon::make_style("orange")
+                       ...) {
+  orange <- crayon::make_style("orange")
+  
+  # dashLogger is being called from within fiery, and the Fire() object generator
+  # is called from a private method within the Dash() R6 class; this makes
+  # accessing variables set within Dash's private fields somewhat complicated
+  #
+  # the following line retrieves the value of the silence_route_logging parameter,
+  # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
+  silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
+  
+  if (!is.null(event)) {
+    msg <- sprintf("%s: %s", event, message)
     
-    if (!is.null(event) & !grepl("_reload-hash", message)) {
-      msg <- sprintf("%s: %s", event, message)
+    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg), 
+                  message = crayon::blue(msg), msg)
+    
+    # assign the status group for color coding
+    if (event == "request") {
+      status_group <- as.integer(cut(request$respond()$status, 
+                                     breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
       
-      msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg), 
-                    message = crayon::blue(msg), msg)
-      
-      if (event == "request") {
-        status_group <- as.integer(cut(request$respond()$status, 
-                                       breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
-        
-        msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg), 
-                      crayon::cyan$bold(msg), crayon::orange$bold(msg), crayon::red$bold(msg))
-      }
+      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg), 
+                    crayon::cyan$bold(msg), orange$bold(msg), crayon::red$bold(msg))
+    }
+    
+    # if log messages are suppressed, report only server stop/start messages, errors, and warnings
+    # otherwise, print everything to console
+    if (event %in% c("start", "stop", "error", "warning") || !(silence_routes_logging)) {
       cat(msg, file = stdout(), append = TRUE)
       cat("\n", file = stdout(), append = TRUE)
-    }
+      }
+  }
 }

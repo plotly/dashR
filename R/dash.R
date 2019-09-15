@@ -587,14 +587,13 @@ Dash <- R6::R6Class(
                           debug = FALSE, 
                           dev_tools_ui = NULL,
                           dev_tools_props_check = NULL,
-                          dev_tools_hot_reload = FALSE,
+                          dev_tools_hot_reload = NULL,
                           dev_tools_hot_reload_interval = 3,
+                          dev_tools_silence_routes_logging = NULL,
                           ...) {
       self$server$host <- host
       self$server$port <- as.numeric(port)
       
-      # set hot reloading flags
-      self$config$hot_reload <- dev_tools_hot_reload
       self$config$hot_reload_interval <- dev_tools_hot_reload_interval
       
       # set the modtime to track state of the Dash app directory
@@ -608,6 +607,18 @@ Dash <- R6::R6Class(
       } else {
         self$config$ui <- FALSE
       }
+      
+      if (is.null(dev_tools_hot_reload) && debug || isTRUE(dev_tools_hot_reload)) {
+        self$config$hot_reload <- TRUE
+      } else {
+        self$config$hot_reload <- FALSE
+      }
+      
+      if (is.null(dev_tools_silence_routes_logging) && debug || isTRUE(dev_tools_silence_routes_logging)) {
+        self$config$silence_routes_logging <- TRUE
+      } else {
+        self$config$silence_routes_logging <- FALSE
+      }
 
       if (is.null(dev_tools_props_check) && debug || isTRUE(dev_tools_props_check)) {
         self$config$props_check <- TRUE
@@ -618,41 +629,55 @@ Dash <- R6::R6Class(
       private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
       
-      if (dev_tools_hot_reload == TRUE) {
-        self$server$on('cycle-end', function(server, ...) {
-          # file.path(getAppPath(), "assets") check if exists
-          current_asset_modtime <- modtimeFromPath(private$assets_folder)
-
-          updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
-          initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
-          
-          if (!is.null(private$asset_modtime) && updated_assets && initiate_reload) {
-            private$refreshAssetMap()
-            
-            # if the app has never been reloaded, use the launch time as origin
-            # otherwise, use private$last_reload to determine when last reload
-            # event occurred
-            modified_files <- lapply(private$asset_map, 
-                                     getAssetsSinceModtime, 
-                                     max(private$last_reload, private$app_launchtime, na.rm=TRUE), 
-                                     private$assets_url_path)
-            
-            private$modified_since_reload <- lapply(modified_files, modifiedFilesAsList)
-            
-            browser()
-            
-            private$asset_modtime <- current_asset_modtime
-            # update the hash passed back to the renderer, and bump the timestamp
-            # to match the current reloading event
-            private$updateReloadHash()
-            message('Asset folder modification detected, reloading app ...')
-            flush.console()
-            private$index()
-          }
-        })
-      }
+      on <- TRUE
       
-      self$server$ignite(block = block, showcase = showcase, ...)
+      while (on) {
+        if (dev_tools_hot_reload == TRUE) {
+          self$server$on('cycle-end', function(server, ...) {
+            # file.path(getAppPath(), "assets") check if exists
+            current_asset_modtime <- modtimeFromPath(private$assets_folder)
+            
+            updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
+            initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
+            
+            if (!is.null(private$asset_modtime) && updated_assets && initiate_reload) {
+              private$refreshAssetMap()
+              
+              # if the app has never been reloaded, use the launch time as origin
+              # otherwise, use private$last_reload to determine when last reload
+              # event occurred
+              modified_files <- lapply(private$asset_map, 
+                                       getAssetsSinceModtime, 
+                                       max(private$last_reload, private$app_launchtime, na.rm=TRUE), 
+                                       private$assets_url_path)
+              
+              private$modified_since_reload <- lapply(modified_files, modifiedFilesAsList)
+              
+              browser()
+              
+              private$asset_modtime <- current_asset_modtime
+              # update the hash passed back to the renderer, and bump the timestamp
+              # to match the current reloading event
+              private$updateReloadHash()
+              message('Asset folder modification detected, reloading app ...')
+              flush.console()
+              if (all(lapply(modified_files, function(x) tools::file_ext(x) == "css"))) {
+                # CSS updates only? soft reload
+                private$index()
+              } else {
+                # hard reload for everything else
+                self$server$extinguish()
+              }
+            }
+          })
+        }
+        
+        self$server$on('end', function(server, ...) {
+          on <- FALSE
+        })
+        
+        self$server$ignite(block = block, showcase = showcase, ...)
+        }
       }
     ),
 
