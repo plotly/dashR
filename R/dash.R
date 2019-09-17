@@ -628,30 +628,28 @@ Dash <- R6::R6Class(
 
       private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
+
+      # the fiery server should restart if temporarily stopped,
+      # and should only remain extinguished if the user chooses
+      # to halt execution -- this flag enables Dash to restart
+      # the fiery server for hard reloads
+      server_on <- TRUE
       
-      on <- TRUE
-      
-      while (on) {
-        if (dev_tools_hot_reload == TRUE) {
+      while (server_on) {
+        if (dev_tools_hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
           self$server$on('cycle-end', function(server, ...) {
-            # file.path(getAppPath(), "assets") check if exists
             current_asset_modtime <- modtimeFromPath(private$assets_folder)
             
             updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
             initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
             
             if (!is.null(private$asset_modtime) && updated_assets && initiate_reload) {
-              private$refreshAssetMap()
+              # refreshAssetMap silently returns a list of updated objects in the map
+              # we can use this to retrieve the modified files, and also determine if
+              # any are scripts or other non-CSS data
+              updatedFiles <- private$refreshAssetMap()
               
-              # if the app has never been reloaded, use the launch time as origin
-              # otherwise, use private$last_reload to determine when last reload
-              # event occurred
-              modified_files <- lapply(private$asset_map, 
-                                       getAssetsSinceModtime, 
-                                       max(private$last_reload, private$app_launchtime, na.rm=TRUE), 
-                                       private$assets_url_path)
-              
-              private$modified_since_reload <- lapply(modified_files, modifiedFilesAsList)
+              private$modified_since_reload <- updatedFiles$changedFiles
               
               private$asset_modtime <- current_asset_modtime
               # update the hash passed back to the renderer, and bump the timestamp
@@ -659,22 +657,31 @@ Dash <- R6::R6Class(
               private$updateReloadHash()
               message('Asset folder modification detected, reloading app ...')
               flush.console()
-              if (all(lapply(modified_files, function(x) tools::file_ext(x) == "css"))) {
+              
+              # if any filetypes other than CSS are encountered in those which
+              # are modified or deleted, restart the server
+              hard_reload <- !(all(tools::file_ext(updatedFiles$changedFiles) == "css"))
+              
+              if (!hard_reload) {
                 # CSS updates only? soft reload
                 private$index()
               } else {
-                # hard reload for everything else
+                # take the server down, it will be automatically restarted
                 self$server$extinguish()
               }
             }
           })
         }
         
-        self$server$on('end', function(server, ...) {
-          on <- FALSE
-        })
+        # if fiery is told to stop the server outside of a reload event,
+        # we set the server_on flag to avoid jumping back to the start of
+        # the while loop
         
         self$server$ignite(block = block, showcase = showcase, ...)
+        
+        self$server$on('end', function(server, ...) {
+          server_on <- FALSE
+        })
         }
       }
     ),
@@ -804,10 +811,36 @@ Dash <- R6::R6Class(
 
     refreshAssetMap = function() {
       private$asset_modtime <- modtimeFromPath(private$assets_folder)
+    
+      # before refreshing the asset map, temporarily store it for the
+      # comparison with the updated map
+      previous_map <- private$asset_map      
+      
+      # refresh the asset map
       private$asset_map <- private$walk_assets_directory(private$assets_folder)
-      private$css <- private$asset_map$css
-      private$scripts <- private$asset_map$scripts
-      private$other <- private$asset_map$other
+      
+      # here we use mapply to make pairwise comparisons for each of the
+      # asset classes in the map -- before/after for css, js, and other
+      # assets; this returns a list whose subelements correspond to each
+      # class, and three vectors of updated objects for each (deleted,
+      # changed, and new files)
+      list_of_diffs <- mapply(changedAssets, 
+                              previous_map, 
+                              private$asset_map, 
+                              SIMPLIFY=FALSE)
+      
+      # these lines collapse the modified assets into vectors, and scrub
+      # duplicated NULL return values
+      deletedFiles <- unlist(lapply(list_of_diffs, `[`, "deletedFiles"))
+      changedFiles <- unlist(lapply(list_of_diffs, `[`, "changedFiles"))
+      newFiles <- unlist(lapply(list_of_diffs, `[`, "newFiles"))
+
+      # when the asset map is refreshed, this function will invisibly
+      # return the vectors of updated assets, grouped by deleted,
+      # modified, and added files
+      return(invisible(list(deleted=deletedFiles,
+                            modified=changedFiles,
+                            added=newFiles)))
     },
     
     walk_assets_directory = function(assets_dir = private$assets_folder) {
@@ -1001,10 +1034,10 @@ Dash <- R6::R6Class(
                                           prefix=self$config$requests_pathname_prefix)
       
       # collect CSS assets from dependencies
-      if (!(is.null(private$css))) {
-        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$css)),
+      if (!(is.null(private$asset_map$css))) {
+        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$css)),
                                              local = TRUE,
-                                             local_path = private$css,
+                                             local_path = private$asset_map$css,
                                              prefix = self$config$requests_pathname_prefix)
       } 
       else {
@@ -1019,10 +1052,10 @@ Dash <- R6::R6Class(
       
       # collect JS assets from dependencies
       # 
-      if (!(is.null(private$scripts))) {
-        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$scripts)),
+      if (!(is.null(private$asset_map$scripts))) {
+        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$scripts)),
                                                 local = TRUE,
-                                                local_path = private$scripts,
+                                                local_path = private$asset_map$scripts,
                                                 prefix = self$config$requests_pathname_prefix)
       } else {
         scripts_assets <- NULL
@@ -1035,7 +1068,7 @@ Dash <- R6::R6Class(
       
       # create tag for favicon, if present
       # other_files_map[names(other_files_map) %in% "/favicon.ico"]
-      if ("/favicon.ico" %in% names(private$other)) {
+      if ("/favicon.ico" %in% names(private$asset_map$other)) {
         favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
       } else {
         favicon <- ""

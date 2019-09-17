@@ -944,6 +944,12 @@ getAppPath <- function() {
   }
 }
 
+# this function enables Dash to set file modification times
+# as attributes on the vectors stored within the asset map
+#
+# this permits storing additional information on the object
+# without dramatically modifying the existing API, and makes
+# it somewhat trivial to request the set of modification times
 setModtimeAsAttr <- function(path) {
   if (!is.null(path)) {
     mtime <- dash:::modtimeFromPath(path)
@@ -954,24 +960,33 @@ setModtimeAsAttr <- function(path) {
   }
 }
 
-getAssetsSinceModtime <- function(map, modtime, asset_path) {
-  modified <- map[which(attributes(map)$modtime >= modtime)]
-  if (length(modified) > 0) {
-    file.path(asset_path, basename(modified))
-  } else {
-    NULL
+changedAssets <- function(before, after) {
+  # identify files that used to exist in the asset map,
+  # but which have been removed 
+  deletedElements <-  before[which(is.na(match(before, after)))]
+  
+  # identify files which were added since the last refresh
+  addedElements <-  after[which(is.na(match(after, before)))]
+  
+  # identify any items that have been updated since the last
+  # refresh based on modification time attributes set in map
+  changedElements <- after[which(attributes(after)$modtime > attributes(before)$modtime)]
+  
+  if (length(deletedElements) == 0) {
+    deletedElements <- NULL
   }
-}
-
-modifiedFilesAsList <- function(url_file_subpath) {
-  if (!is.null(url_file_subpath)) {
-    return(list(is_css = tools::file_ext(url_file_subpath) == "css",
-                modified = -1,
-                url = url_file_subpath)
-           )
-  } else {
-    return(list())
+  if (length(changedElements) == 0) {
+    changedElements <- NULL
   }
+  if (length(addedElements) == 0) {
+    addedElements <- NULL
+  }
+  invisible(return(
+    list(deleted = deletedElements,
+         changed = changedElements,
+         new = addedElements)
+  )
+  )
 }
 
 dashLogger <- function(event = NULL, 
