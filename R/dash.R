@@ -614,11 +614,7 @@ Dash <- R6::R6Class(
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
       # is invoked via script, source(), or executed directly from console)
-      private$app_root_modtime <- as.integer(
-        max(
-          file.info(
-            list.files(getAppPath(),
-                       recursive=TRUE))$mtime))
+      private$app_root_modtime <- modtimeFromPath(getAppPath(), recursive = TRUE)
      
       if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
         self$config$ui <- TRUE
