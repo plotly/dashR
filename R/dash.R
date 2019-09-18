@@ -650,7 +650,7 @@ Dash <- R6::R6Class(
       server_on <- TRUE
       
       while (server_on) {
-        if (self$config$hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
+        if (self$config$hot_reload == TRUE) {
           self$server$on('cycle-end', function(server, ...) {
             current_asset_modtime <- modtimeFromPath(private$assets_folder)
             current_root_modtime <- modtimeFromPath(getAppPath(), recursive = TRUE)
@@ -662,26 +662,29 @@ Dash <- R6::R6Class(
                         
             initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
             
-            if (!is.null(private$asset_modtime) && initiate_reload && (updated_assets || updated_root)) {
+            if (!is.null(current_asset_modtime) && initiate_reload && (updated_assets || updated_root)) {
               # refreshAssetMap silently returns a list of updated objects in the map
               # we can use this to retrieve the modified files, and also determine if
               # any are scripts or other non-CSS data
-              updatedFiles <- private$refreshAssetMap()
+              has_assets <- file.exists(file.path(getAppPath(), private$assets_folder))
               
-              private$modified_since_reload <- updatedFiles$modified
-              
-              private$asset_modtime <- current_asset_modtime
-              # update the hash passed back to the renderer, and bump the timestamp
-              # to match the current reloading event
+              if (has_assets) {
+                updatedFiles <- private$refreshAssetMap()
+                private$modified_since_reload <- updatedFiles$modified
+                private$asset_modtime <- current_asset_modtime
+                # update the hash passed back to the renderer, and bump the timestamp
+                # to match the current reloading event
+                other_changed <- any(tools::file_ext(updatedFiles$modified) != "css")
+                other_added <- any(tools::file_ext(updatedFiles$added) != "css")
+              }
+
               private$updateReloadHash()
               flush.console()
               
               # if any filetypes other than CSS are encountered in those which
               # are modified or deleted, restart the server
-              other_changed <- any(tools::file_ext(updatedFiles$modified) != "css")
-              other_added <- any(tools::file_ext(updatedFiles$added) != "css")
 
-              hard_reload <- other_changed || other_added || updated_root
+              hard_reload <- updated_root || (has_assets && other_changed || other_added)
               
               if (!hard_reload) {
                 # refresh the index but don't restart the server
