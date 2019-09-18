@@ -614,7 +614,11 @@ Dash <- R6::R6Class(
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
       # is invoked via script, source(), or executed directly from console)
-      private$app_root_modtime <- modtimeFromPath(private$app_root_path)
+      private$app_root_modtime <- as.integer(
+        max(
+          file.info(
+            list.files(getAppPath(),
+                       recursive=TRUE))$mtime))
      
       if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
         self$config$ui <- TRUE
@@ -653,11 +657,13 @@ Dash <- R6::R6Class(
         if (self$config$hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
           self$server$on('cycle-end', function(server, ...) {
             current_asset_modtime <- modtimeFromPath(private$assets_folder)
-            current_root_modtime <- modtimeFromPath(getAppPath())
-            
+            current_root_modtime <- modtimeFromPath(getAppPath(), recursive = TRUE)
+                        
             updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
             updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
-            
+
+            private$app_root_modtime <- current_root_modtime
+                        
             initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
             
             if (!is.null(private$asset_modtime) && initiate_reload && (updated_assets || updated_root)) {
@@ -669,7 +675,6 @@ Dash <- R6::R6Class(
               private$modified_since_reload <- updatedFiles$modified
               
               private$asset_modtime <- current_asset_modtime
-              private$app_root_modtime <- current_root_modtime
               # update the hash passed back to the renderer, and bump the timestamp
               # to match the current reloading event
               private$updateReloadHash()
@@ -702,7 +707,10 @@ Dash <- R6::R6Class(
         })
 
         if (!self$config$running && file.exists(file.path(getAppPath(), "app.R")))
+        {
           source(file.path(getAppPath(), "app.R"))
+          private$index()
+        }
         else {
           self$config$running <- TRUE
           self$server$ignite(block = block, showcase = showcase, ...)

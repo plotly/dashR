@@ -917,8 +917,12 @@ getIdProps <- function(output) {
   return(list(ids=ids, props=props))
 }
 
-modtimeFromPath <- function(path) {
-  modtime <- as.integer(file.info(path)$mtime)
+modtimeFromPath <- function(path, recursive=FALSE) {
+  if (recursive) {
+    modtime <- as.integer(max(file.info(list.files(path, recursive=TRUE))$mtime))
+  } else {
+    modtime <- as.integer(file.info(path)$mtime)
+  }
   return(modtime)
 }
 
