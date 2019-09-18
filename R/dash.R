@@ -154,7 +154,6 @@ Dash <- R6::R6Class(
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
       private$app_root_path <- getAppPath()
-      private$app_root_modtime <- NULL
       private$app_launchtime <- as.integer(Sys.time())
 
       # config options
@@ -513,14 +512,28 @@ Dash <- R6::R6Class(
       
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
-
+      
       server$on("start", function(server, ...) {
         private$updateReloadHash()
         private$index()
+        
+        viewer <- getOption("viewer")
+        host <- dynGet("host")
+        port <- dynGet("port")
+        
+        app_url <- paste0("http://", host, ":", port)
+        
+        if (!is.null(viewer) && host %in% c("localhost", "127.0.0.1"))
+          rstudioapi::viewer(app_url)
+        else {
+          warning("RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
+          utils::browseURL(app_url)
+        }
       })
 
       # user-facing fields
       self$server <- server
+      self$config$running <- TRUE
     },
 
     # ------------------------------------------------------------------------
@@ -583,6 +596,7 @@ Dash <- R6::R6Class(
                           port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
+                          viewer = FALSE,
                           dev_tools_prune_errors = TRUE, 
                           debug = FALSE, 
                           dev_tools_ui = NULL,
@@ -639,11 +653,14 @@ Dash <- R6::R6Class(
         if (dev_tools_hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
           self$server$on('cycle-end', function(server, ...) {
             current_asset_modtime <- modtimeFromPath(private$assets_folder)
+            current_root_modtime <- modtimeFromPath(getAppPath())
             
             updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
+            updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
+            
             initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
             
-            if (!is.null(private$asset_modtime) && updated_assets && initiate_reload) {
+            if (!is.null(private$asset_modtime) && initiate_reload && (updated_assets || updated_root)) {
               # refreshAssetMap silently returns a list of updated objects in the map
               # we can use this to retrieve the modified files, and also determine if
               # any are scripts or other non-CSS data
@@ -652,10 +669,10 @@ Dash <- R6::R6Class(
               private$modified_since_reload <- updatedFiles$modified
               
               private$asset_modtime <- current_asset_modtime
+              private$app_root_modtime <- current_root_modtime
               # update the hash passed back to the renderer, and bump the timestamp
               # to match the current reloading event
               private$updateReloadHash()
-              message('Asset folder modification detected, reloading app ...')
               flush.console()
               
               # if any filetypes other than CSS are encountered in those which
@@ -663,7 +680,7 @@ Dash <- R6::R6Class(
               other_changed <- any(tools::file_ext(updatedFiles$modified) != "css")
               other_added <- any(tools::file_ext(updatedFiles$added) != "css")
 
-              hard_reload <- other_changed || other_added
+              hard_reload <- other_changed || other_added || updated_root
               
               if (!hard_reload) {
                 # refresh the index but don't restart the server
@@ -671,20 +688,25 @@ Dash <- R6::R6Class(
               } else {
                 # take the server down, it will be automatically restarted
                 self$server$extinguish()
+                self$config$running <- FALSE
               }
             }
           })
         }
         
-        # if fiery is told to stop the server outside of a reload event,
-        # we set the server_on flag to avoid jumping back to the start of
-        # the while loop
-        
-        self$server$ignite(block = block, showcase = showcase, ...)
-        
         self$server$on('end', function(server, ...) {
+          # if fiery is told to stop the server outside of a reload event,
+          # we set the server_on flag to avoid jumping back to the start of
+          # the while loop
           server_on <- FALSE
         })
+
+        if (!self$config$running && file.exists(file.path(getAppPath(), "app.R")))
+          source(file.path(getAppPath(), "app.R"))
+        else {
+          self$config$running <- TRUE
+          self$server$ignite(block = block, showcase = showcase, ...)
+          }
         }
       }
     ),
@@ -708,7 +730,7 @@ Dash <- R6::R6Class(
     debug = NULL,
     prune_errors = NULL,
     stack_message = NULL,
-
+    
     # callback context
     callback_context_ = NULL,   
  
@@ -724,7 +746,7 @@ Dash <- R6::R6Class(
     dependencies = list(),
     dependencies_user = list(),
     dependencies_internal = list(),
-
+    
     # layout stuff
     layout_ = NULL,
     layout_ids = NULL,
