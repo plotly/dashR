@@ -650,7 +650,7 @@ Dash <- R6::R6Class(
       server_on <- TRUE
       
       while (server_on) {
-        if (dev_tools_hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
+        if (self$config$hot_reload == TRUE && file.exists(file.path(getAppPath(), "assets"))) {
           self$server$on('cycle-end', function(server, ...) {
             current_asset_modtime <- modtimeFromPath(private$assets_folder)
             current_root_modtime <- modtimeFromPath(getAppPath())
