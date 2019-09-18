@@ -649,7 +649,7 @@ Dash <- R6::R6Class(
               # any are scripts or other non-CSS data
               updatedFiles <- private$refreshAssetMap()
               
-              private$modified_since_reload <- updatedFiles$changedFiles
+              private$modified_since_reload <- updatedFiles$modified
               
               private$asset_modtime <- current_asset_modtime
               # update the hash passed back to the renderer, and bump the timestamp
@@ -660,10 +660,13 @@ Dash <- R6::R6Class(
               
               # if any filetypes other than CSS are encountered in those which
               # are modified or deleted, restart the server
-              hard_reload <- !(all(tools::file_ext(updatedFiles$changedFiles) == "css"))
+              other_changed <- any(tools::file_ext(updatedFiles$modified) != "css")
+              other_added <- any(tools::file_ext(updatedFiles$added) != "css")
+
+              hard_reload <- other_changed || other_added
               
               if (!hard_reload) {
-                # CSS updates only? soft reload
+                # refresh the index but don't restart the server
                 private$index()
               } else {
                 # take the server down, it will be automatically restarted
@@ -811,36 +814,45 @@ Dash <- R6::R6Class(
 
     refreshAssetMap = function() {
       private$asset_modtime <- modtimeFromPath(private$assets_folder)
-    
+
       # before refreshing the asset map, temporarily store it for the
-      # comparison with the updated map
-      previous_map <- private$asset_map      
+      # comparison with the updated map    
+      previous_map <- private$asset_map
       
       # refresh the asset map
-      private$asset_map <- private$walk_assets_directory(private$assets_folder)
-      
-      # here we use mapply to make pairwise comparisons for each of the
-      # asset classes in the map -- before/after for css, js, and other
-      # assets; this returns a list whose subelements correspond to each
-      # class, and three vectors of updated objects for each (deleted,
-      # changed, and new files)
-      list_of_diffs <- mapply(changedAssets, 
-                              previous_map, 
-                              private$asset_map, 
-                              SIMPLIFY=FALSE)
-      
-      # these lines collapse the modified assets into vectors, and scrub
-      # duplicated NULL return values
-      deletedFiles <- unlist(lapply(list_of_diffs, `[`, "deletedFiles"))
-      changedFiles <- unlist(lapply(list_of_diffs, `[`, "changedFiles"))
-      newFiles <- unlist(lapply(list_of_diffs, `[`, "newFiles"))
+      current_map <- private$walk_assets_directory(private$assets_folder)
 
-      # when the asset map is refreshed, this function will invisibly
-      # return the vectors of updated assets, grouped by deleted,
-      # modified, and added files
-      return(invisible(list(deleted=deletedFiles,
-                            modified=changedFiles,
-                            added=newFiles)))
+      # need to check whether the assets have actually been updated, since
+      # this function is also called to generate the asset map
+      if (private$asset_modtime > private$app_launchtime) {
+        # here we use mapply to make pairwise comparisons for each of the
+        # asset classes in the map -- before/after for css, js, and other
+        # assets; this returns a list whose subelements correspond to each
+        # class, and three vectors of updated objects for each (deleted,
+        # changed, and new files)
+        list_of_diffs <- mapply(changedAssets, 
+                                previous_map, 
+                                current_map, 
+                                SIMPLIFY=FALSE)
+        
+        # these lines collapse the modified assets into vectors, and scrub
+        # duplicated NULL return values
+        deleted <- unlist(lapply(list_of_diffs, `[`, "deleted"))
+        changed <- unlist(lapply(list_of_diffs, `[`, "changed"))
+        new <- unlist(lapply(list_of_diffs, `[`, "new"))
+        
+        # update the asset map
+        private$asset_map <- current_map
+        
+        # when the asset map is refreshed, this function will invisibly
+        # return the vectors of updated assets, grouped by deleted,
+        # modified, and added files
+        return(invisible(list(deleted=deleted,
+                              modified=changed,
+                              added=new)))
+      } else {
+        private$asset_map <- current_map
+      }
     },
     
     walk_assets_directory = function(assets_dir = private$assets_folder) {

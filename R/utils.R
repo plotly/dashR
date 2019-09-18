@@ -970,7 +970,14 @@ changedAssets <- function(before, after) {
   
   # identify any items that have been updated since the last
   # refresh based on modification time attributes set in map
-  changedElements <- after[which(attributes(after)$modtime > attributes(before)$modtime)]
+  # 
+  # in R, attributes are discarded when subsetting, so it's
+  # necessary to subset the attributes being compared instead.
+  # here we only compare objects which overlap
+  before_modtimes <-attributes(before)$modtime[before %in% after]
+  after_modtimes <- attributes(after)$modtime[after %in% before]
+    
+  changedElements <- after[which(after_modtimes > before_modtimes)]
   
   if (length(deletedElements) == 0) {
     deletedElements <- NULL
