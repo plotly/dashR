@@ -40,7 +40,7 @@ jobs:
             git clone --depth 1 https://github.com/plotly/dash.git
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
-            pytest tests/integration/
+            pytest --log-cli-level DEBUG tests/integration/
 
 workflows:
   version: 2
