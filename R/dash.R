@@ -84,6 +84,14 @@
 #'     object(s) (which should reference layout components), which become
 #'     argument values for the callback handler defined in `func`. 
 #'   }
+#'   \item{`clientside_callback(output = NULL, params = NULL, clientside_function = NULL)`}{
+#'     A callback function defintion. The `clientside_function` argument accepts a call
+#'     to clientsideFunction(), which describes the locally served JavaScript
+#'     function to call, and `output` defines which layout component property 
+#'     should adopt the results (via an [output] object). To determine what 
+#'     events trigger this callback, provide [input] (and/or [state]) object(s) 
+#'     (which should reference layout components) by passing them within `params` to `clientside_function`.
+#'   }
 #'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), 
 #'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     Launch the application. If provided, `host`/`port` set
@@ -221,7 +229,8 @@ Dash <- R6::R6Class(
           list(
             inputs=callback_signature$inputs,
             output=createCallbackId(callback_signature$output),
-            state=callback_signature$state
+            state=callback_signature$state,
+            clientside_function=callback_signature$clientside_function
           )
         }, private$callback_map)
 
@@ -534,14 +543,32 @@ Dash <- R6::R6Class(
 
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-      
+
       # register the callback_map
       private$callback_map <- insertIntoCallbackMap(private$callback_map,
                                                     inputs,
                                                     output,
                                                     state,
-                                                    func)
-      
+                                                    func,
+                                                    clientside_function=NULL)
+    },
+
+    # ------------------------------------------------------------------------
+    # clientside callback registration
+    # ------------------------------------------------------------------------
+
+    clientside_callback = function(output, params, clientside_function) {
+      assert_valid_callbacks(output, params, clientside_function)
+
+      inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
+      state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
+
+      private$callback_map <- insertIntoCallbackMap(private$callback_map,
+                                                    inputs,
+                                                    output,
+                                                    state,
+                                                    func = NULL,
+                                                    clientside_function)
     },
 
     # ------------------------------------------------------------------------

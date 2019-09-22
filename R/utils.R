@@ -352,11 +352,12 @@ clean_dependencies <- function(deps) {
   return(deps_with_file)
 }
 
-insertIntoCallbackMap <- function(map, inputs, output, state, func) {
+insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_function) {
   map[[createCallbackId(output)]] <- list(inputs=inputs,
                                           output=output,
                                           state=state,
-                                          func=func
+                                          func=func,
+                                          clientside_function=clientside_function
                                           )
   if (length(map) >= 2) {
     ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
@@ -365,7 +366,7 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func) {
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
       
     if (length(Reduce(intersect, outputs_as_list))) {
-      stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)        
+      stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
     }
   }
   return(map)
@@ -413,7 +414,9 @@ assert_valid_callbacks <- function(output, params, func) {
 
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
-    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
+    if (!(all(names(func) == c("namespace", "function_name")))) {
+      stop(sprintf("The callback method's 'func' parameter requires an R function or clientside_function call as its argument. Please verify that 'func' is either a valid R function or clientside_function."), call. = FALSE)
+    }
   }
   
   # Check if inputs are a nested list
@@ -915,4 +918,8 @@ getIdProps <- function(output) {
   ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)
   props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)
   return(list(ids=ids, props=props))
+}
+
+clientsideFunction <- function(namespace, function_name) {
+  return(list(namespace=namespace, function_name=function_name))
 }
