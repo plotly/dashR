@@ -26,7 +26,7 @@ app$callback(
   }
 )
 
-app$clientside_callback(
+app$callback(
   output('output-clientside', 'children'),
   params=list(input('input', 'value')),
   clientsideFunction(

@@ -76,21 +76,20 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments}
+#'       \item{func}{any valid R or JavaScript function which generates [output] provided [input] and/or [state] arguments}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that 
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
-#'     argument values for the callback handler defined in `func`. 
-#'   }
-#'   \item{`clientside_callback(output = NULL, params = NULL, clientside_function = NULL)`}{
-#'     A callback function defintion. The `clientside_function` argument accepts a call
-#'     to clientsideFunction(), which describes the locally served JavaScript
-#'     function to call, and `output` defines which layout component property 
-#'     should adopt the results (via an [output] object). To determine what 
-#'     events trigger this callback, provide [input] (and/or [state]) object(s) 
-#'     (which should reference layout components) by passing them within `params` to `clientside_function`.
+#'     argument values for the callback handler defined in `func`.]
+#'     
+#'     `func` may either be an anonymous R function, or a call to
+#'     `clientsideFunction()`, which describes a locally served JavaScript
+#'     function instead. The latter defines a "clientside callback", which
+#'     updates components without passing data to and from the Dash backend.
+#'     The latter may offer improved performance relative to callbacks written
+#'     in R.
 #'   }
 #'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), 
 #'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
@@ -544,30 +543,19 @@ Dash <- R6::R6Class(
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
 
+      if (is.function(func)) {
+        clientside_function <- NULL
+      } else {
+        clientside_function <- func
+        func <- NULL
+      }
+      
       # register the callback_map
       private$callback_map <- insertIntoCallbackMap(private$callback_map,
                                                     inputs,
                                                     output,
                                                     state,
                                                     func,
-                                                    clientside_function=NULL)
-    },
-
-    # ------------------------------------------------------------------------
-    # clientside callback registration
-    # ------------------------------------------------------------------------
-
-    clientside_callback = function(output, params, clientside_function) {
-      assert_valid_callbacks(output, params, clientside_function)
-
-      inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-      state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
-      private$callback_map <- insertIntoCallbackMap(private$callback_map,
-                                                    inputs,
-                                                    output,
-                                                    state,
-                                                    func = NULL,
                                                     clientside_function)
     },
 
