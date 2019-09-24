@@ -76,13 +76,13 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R or JavaScript function which generates [output] provided [input] and/or [state] arguments}
+#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments, or a call to [clientsideFunction] including `namespace` and `function_name` arguments for a locally served JavaScript function}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that 
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
-#'     argument values for the callback handler defined in `func`.]
+#'     argument values for R callback handlers defined in `func`.
 #'     
 #'     `func` may either be an anonymous R function, or a call to
 #'     `clientsideFunction()`, which describes a locally served JavaScript
