@@ -415,7 +415,7 @@ assert_valid_callbacks <- function(output, params, func) {
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
     if (!(all(names(func) == c("namespace", "function_name")))) {
-      stop(sprintf("The callback method's 'func' parameter requires an R function or clientside_function call as its argument. Please verify that 'func' is either a valid R function or clientside_function."), call. = FALSE)
+      stop(sprintf("The callback method's 'func' parameter requires an R function or clientsideFunction call as its argument. Please verify that 'func' is either a valid R function or clientsideFunction."), call. = FALSE)
     }
   }
   
