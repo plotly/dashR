@@ -26,7 +26,7 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes"); sudo R CMD install .'
+              sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=Sys.getenv("CIRCLE_BRANCH"))'
 
       - run:
           name: ⚙️  Integration tests
