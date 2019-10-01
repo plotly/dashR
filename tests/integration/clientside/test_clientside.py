@@ -16,7 +16,7 @@ app$layout(htmlDiv(list(
     )
 )
 
-app$callback( 
+app$callback(
   output(id = "output-serverside", property = "children"),
   params = list(
     input(id = "input", property = "value")
@@ -56,7 +56,7 @@ def test_rscc001_clientside(dashr):
     dashr.wait_for_text_to_equal(
         '#output-clientside',
         'Client says "Clientside"'
-    )   
+    )
     dashr.wait_for_text_to_equal(
         "#output-serverside",
         "Server says Clientside"
@@ -70,4 +70,4 @@ def test_rscc001_clientside(dashr):
     dashr.wait_for_text_to_equal(
         "#output-serverside",
         "Server says Callbacks"
-    ) 
+    )

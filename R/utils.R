@@ -135,14 +135,14 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     } else {
       "file"
     }
-    
+
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
     # up from the DashR package
     if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
-    
+
     # The following lines inject _dash-component-suites into the src tags,
     # as this is the current Dash convention. The dependency paths cannot
     # be set solely at component library generation time, since hosted
@@ -156,13 +156,13 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # parameter for cache busting
     if (!is.null(dep$package)) {
       if(!(is.null(dep$script))) {
-        filename <- dep$script        
+        filename <- dep$script
       } else {
         filename <- dep$stylesheet
       }
-      
+
       dep_path <- paste(dep$src$file, filename, sep="/")
-      
+
       # the gsub line is to remove stray duplicate slashes, to
       # permit exact string matching on pathnames
       dep_path <- gsub("//+",
@@ -173,25 +173,25 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                package = dep$package)
 
       if (!file.exists(full_path)) {
-        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.", 
+        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
                         full_path,
                         dep$package,
                         filename),
                 call. = FALSE)
       }
-            
+
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
     }
-    
+
     # we don't want to serve the JavaScript source maps here,
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
-        
+
       } else {
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
@@ -202,12 +202,12 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   dep$version,
                                   "&m=",
                                   modified)
-      
+
         html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
       html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
-                                                  dep[["stylesheet"]], 
+                                                  dep[["stylesheet"]],
                                                   sep="/"),
                                      local = FALSE)
     } else if ("stylesheet" %in% names(dep) & src == "file") {
@@ -216,21 +216,21 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                     dep$name,
                                     "/",
                                     basename(dep[["stylesheet"]]))
-      
+
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
           sheetpath <- paste0(dep[["stylesheet"]],
                               "?v=",
                               dep$version)
-            
+
           html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
                               dep[["stylesheet"]],
                               "?v=",
                               dep$version)
-          
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)    
+
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         }
 
       } else {
@@ -324,7 +324,7 @@ assert_no_names <- function (x)
 # the following function attempts to prune remote CSS
 # or local CSS/JS dependencies that either should not
 # be resolved to local R package paths, or which have
-# insufficient information to do so. 
+# insufficient information to do so.
 #
 # this attempts to avoid cryptic errors produced by
 # get_package_mapping, which requires three parameters:
@@ -348,7 +348,7 @@ clean_dependencies <- function(deps) {
     }
   )
   deps_with_file <- dep_list[!vapply(dep_list, is.null, logical(1))]
-  
+
   return(deps_with_file)
 }
 
@@ -364,7 +364,7 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
     props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
 
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
-      
+
     if (length(Reduce(intersect, outputs_as_list))) {
       stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
     }
@@ -379,12 +379,12 @@ assert_valid_callbacks <- function(output, params, func) {
   invalid_params <- vapply(params, function(x) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
-  
+
   # Verify that no outputs are duplicated
   if (length(output) != length(unique(output))) {
-    stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)      
+    stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)
   }
-  
+
   # Verify that params contains no elements that are not either members of 'input' or 'state' classes
   if (any(invalid_params)) {
     stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
@@ -394,20 +394,20 @@ assert_valid_callbacks <- function(output, params, func) {
   if (!(valid_seq(params))) {
     stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
   }
-    
+
   # Assert that the component ID as passed is a string.
   # This function inspects the output object to see if its ID
   # is a valid string.
   validateOutput <- function(string) {
     return((is.character(string[["id"]]) & !grepl("^\\s*$", string[["id"]]) & !grepl("\\.", string[["id"]])))
   }
-  
+
   # Check if the callback uses multiple outputs
   if (any(sapply(output, is.list))) {
     invalid_callback_ID <- (!all(vapply(output, validateOutput, logical(1))))
   } else {
     invalid_callback_ID <-  (!validateOutput(output))
-  } 
+  }
   if (invalid_callback_ID) {
     stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
   }
@@ -418,22 +418,22 @@ assert_valid_callbacks <- function(output, params, func) {
       stop(sprintf("The callback method's 'func' parameter requires an R function or clientsideFunction call as its argument. Please verify that 'func' is either a valid R function or clientsideFunction."), call. = FALSE)
     }
   }
-  
+
   # Check if inputs are a nested list
   if(!(any(sapply(inputs, is.list)))) {
     stop(sprintf("Callback inputs should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
   }
-  
+
   # Check if state is a nested list, if the list is not empty
   if(!(length(state) == 0) & !(any(sapply(state, is.list)))) {
     stop(sprintf("Callback states should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
   }
-  
+
   # Check that input is not NULL
   if(is.null(inputs)) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
   }
-  
+
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
 
@@ -446,17 +446,17 @@ assert_valid_callbacks <- function(output, params, func) {
       x
     }
   }
-  
+
   # determine whether any input matches the output, or outputs, if
   # multiple callback scenario
   inputs_vs_outputs <- mapply(function(inputObject, outputObject) {
     identical(outputObject[["id"]], inputObject[["id"]]) & identical(outputObject[["property"]], inputObject[["property"]])
   }, inputs, listWrap(output))
-  
+
   if(TRUE %in% inputs_vs_outputs) {
     stop(sprintf("Circular input and output arguments were found. Please verify that callback outputs are not also input arguments."), call. = FALSE)
   }
-  
+
   # TO DO: check that components contain props
   TRUE
 }
@@ -467,9 +467,9 @@ valid_seq <- function(params) {
   class_attr <- vapply(params, function(x) {
     attr(x, "class")[attr(x, "class") %in% c('input', 'state')]
   }, FUN.VALUE=character(1))
-  
+
   rle_result <- rle(class_attr)$values
-  
+
   if (identical(rle_result, 'input')) {
     return(TRUE)
   } else if (identical(rle_result, c('input', 'state'))) {
@@ -482,7 +482,7 @@ valid_seq <- function(params) {
 resolve_prefix <- function(prefix, environment_var) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
-    
+
     return(prefix)
   } else {
     prefix_env <- Sys.getenv(environment_var)
@@ -500,7 +500,7 @@ resolve_prefix <- function(prefix, environment_var) {
 # optionally returns an R package name (if the file is contained
 # inside an R package), or NULL if the dependency is not found,
 # and a (local) path to the dependency.
-# 
+#
 # script_name is e.g. "dash_core_components.min.js"
 # url_package is e.g. "dash_core_components"
 # dependencies = list of htmlDependency objects
@@ -514,14 +514,14 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     if (x$name %in% c('react', 'react-dom', 'prop-types')) {
       x$name <- 'dash-renderer'
     }
-    
+
     if (!is.null(x$script))
       dep_path <- file.path(x$src$file, x$script)
     else if (!is.null(x$stylesheet))
       dep_path <- file.path(x$src$file, x$stylesheet)
-  
+
     # remove n>1 slashes and replace with / if present;
-    # htmltools seems to permit // in pathnames, but 
+    # htmltools seems to permit // in pathnames, but
     # this complicates string matching unless they're
     # removed from the pathname
     result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
@@ -529,26 +529,26 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
                 dep_path=gsub("//+", replacement = "/", dep_path)
     )
   }, FUN.VALUE = character(3))
-  
+
   package_map <- t(package_map)
-  
+
   # pos_match is a vector of logical() values -- this allows filtering
   # of the package_map entries based on name, path, and matching of
   # URL package name against R package names. when all conditions are
   # satisfied, pos_match will return TRUE
   pos_match <- grepl(paste0(script_name, "$"), package_map[, "dep_path"]) &
                grepl(url_package, package_map[,"dep_name"])
-  
+
   rpkg_name <- package_map[,"pkg_name"][pos_match]
   rpkg_path <- package_map[,"dep_path"][pos_match]
-  
+
   return(list(rpkg_name=rpkg_name, rpkg_path=rpkg_path))
 }
 
 get_mimetype <- function(filename) {
   # the tools package is available to all
   filename_ext <- file_ext(filename)
-  
+
   if (filename_ext == 'js')
     return('application/JavaScript')
   else if (filename_ext == 'css')
@@ -559,14 +559,14 @@ get_mimetype <- function(filename) {
     return(NULL)
 }
 
-generate_css_dist_html <- function(href, 
-                                   local = FALSE, 
+generate_css_dist_html <- function(href,
+                                   local = FALSE,
                                    local_path = NULL,
                                    prefix = NULL,
                                    as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
-        href, 
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        href,
         perl=TRUE) || as_is) {
       sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
     }
@@ -576,21 +576,21 @@ generate_css_dist_html <- function(href,
     # strip leading slash from href if present
     href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">", 
-            prefix, 
-            href, 
+    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">",
+            prefix,
+            href,
             modified)
   }
-} 
+}
 
-generate_js_dist_html <- function(href, 
+generate_js_dist_html <- function(href,
                                   local = FALSE,
                                   local_path = NULL,
                                   prefix = NULL,
                                   as_is = FALSE) {
   if (!(local)) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
-      href, 
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+      href,
       perl=TRUE) || as_is) {
       sprintf("<script src=\"%s\"></script>", href)
     }
@@ -601,11 +601,11 @@ generate_js_dist_html <- function(href,
     href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
     sprintf("<script src=\"%s%s?m=%s\"></script>",
-            prefix, 
-            href, 
+            prefix,
+            href,
             modified)
   }
-} 
+}
 
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
@@ -618,7 +618,7 @@ generate_js_dist_html <- function(href,
 #      assets pathname (i.e. "assets/stylesheet.css"), and
 #      $scripts, a list of character strings formatted
 #      identically to $css, also named with subpaths.
-#     
+#
 get_asset_path <- function(assets_map, asset_path) {
   unlist(setNames(assets_map, NULL))[asset_path]
 }
@@ -650,7 +650,7 @@ get_asset_url <- function(asset_path, prefix = "/") {
   # prepend the asset name with the route prefix
   return(paste(prefix, asset, sep="/"))
 }
-                              
+
 encode_plotly <- function(layout_objs) {
   if (is.list(layout_objs)) {
     if ("plotly" %in% class(layout_objs) &&
@@ -658,11 +658,11 @@ encode_plotly <- function(layout_objs) {
         any(c("visdat", "data") %in% names(layout_objs$x))) {
       # check to determine whether the current element is an
       # object output from the plot_ly or ggplotly function;
-      # if it is, we can safely assume that it contains no 
-      # other plot_ly or ggplotly objects and return the updated 
+      # if it is, we can safely assume that it contains no
+      # other plot_ly or ggplotly objects and return the updated
       # element as a mutated plotly figure argument that contains
-      # only data and layout attributes. we suppress messages 
-      # since the plotly_build function will supply them, as it's 
+      # only data and layout attributes. we suppress messages
+      # since the plotly_build function will supply them, as it's
       # typically run interactively.
       obj <- suppressMessages(plotly::plotly_build(layout_objs)$x)
       layout_objs <- obj[c("data", "layout")]
@@ -701,14 +701,14 @@ printCallStack <- function(call_stack, header=TRUE) {
     )
 }
 
-stackTraceToHTML <- function(call_stack, 
-                             throwing_call, 
+stackTraceToHTML <- function(call_stack,
+                             throwing_call,
                              error_message) {
   if(is.null(call_stack)) {
     return(NULL)
   }
   header <- " ### DashR Traceback (most recent/innermost call last) ###"
-  
+
   formattedStack <- c(paste0(
     "    ",
     seq_along(
@@ -718,7 +718,7 @@ stackTraceToHTML <- function(call_stack,
     call_stack,
     collapse="<br>"
   )
-  ) 
+  )
 
   template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
   response <- sprintf(template,
@@ -748,7 +748,7 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
           calls <- sys.calls()
           reverseStack <- rev(calls)
           attr(e, "stack.trace") <- calls
-          
+
           if (!is.null(e$call[[1]]))
             errorCall <- e$call[[1]]
           else {
@@ -759,21 +759,21 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             # getStackTrace, so we select the second match instead
             errorCall <- reverseStack[grepl(x=reverseStack, "simpleError|simpleWarning")][[2]]
           }
-          
+
           functionsAsList <- lapply(calls, function(completeCall) {
             currentCall <- completeCall[[1]]
-            
+
             if (is.function(currentCall) & !is.primitive(currentCall)) {
-              constructedCall <- paste0("<anonymous> function(", 
+              constructedCall <- paste0("<anonymous> function(",
                                         paste(names(formals(currentCall)), collapse = ", "),
                                         ")")
               return(constructedCall)
             } else {
               return(currentCall)
             }
-            
+
           })
-          
+
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
@@ -807,25 +807,25 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             # between the total number of calls and the index of the
             # call throwing the error
             stopIndex <- length(calls) - indexFromLast + 1
-            
+
             startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
             functionsAsList <- functionsAsList[startIndex:stopIndex]
             functionsAsList <- removeHandlers(functionsAsList)
           }
-          
+
           # use deparse in case the call throwing the error is a symbol,
           # since this cannot be "printed" without deparsing the call
-          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
-                                                            deparse(functionsAsList[[length(functionsAsList)]]), 
+          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s",
+                                                            deparse(functionsAsList[[length(functionsAsList)]]),
                                                             conditionMessage(e)))
-          
+
           stack_message <- stackTraceToHTML(functionsAsList,
                                             deparse(functionsAsList[[length(functionsAsList)]]),
                                             conditionMessage(e))
-          
-          assign("stack_message", value=stack_message, 
+
+          assign("stack_message", value=stack_message,
                  envir=sys.frame(1)$private)
-          
+
           printCallStack(functionsAsList)
         }
       }
@@ -866,29 +866,29 @@ setCallbackContext <- function(callback_elements) {
   states <- lapply(callback_elements$states, function(x) {
     setNames(x$value, paste(x$id, x$property, sep="."))
   })
-  
+
   splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
-  
-  triggered <- lapply(callback_elements$changedPropIds, 
+
+  triggered <- lapply(callback_elements$changedPropIds,
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-                        
+
                         id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
                         prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
-                        
+
                         value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
 
                         list(`prop_id` = x, `value` = value)
                       }
                       )
-  
+
   inputs <- sapply(callback_elements$inputs, function(x) {
     setNames(list(x$value), paste(x$id, x$property, sep="."))
   })
-  
-  return(list(states=states, 
-              triggered=unlist(triggered, recursive=FALSE), 
+
+  return(list(states=states,
+              triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
 }
 
