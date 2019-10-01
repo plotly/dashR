@@ -22,11 +22,12 @@ jobs:
             echo "JOB PARALLELISM: ${CIRCLE_NODE_TOTAL}"
             echo "CIRCLE_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL}"
             echo $CIRCLE_JOB > circlejob.txt
+            git rev-parse HEAD | tr -d '\n' > commit.txt
 
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", dependencies=TRUE, upgrade=TRUE); install.packages(".", type="source", repos=NULL)'
+              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, force=TRUE)'
 
       - run:
           name: ⚙️  Integration tests
@@ -36,7 +37,7 @@ jobs:
             git clone --depth 1 https://github.com/plotly/dash.git
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
-            pytest --cli-log-level DEBUG tests/integration/
+            pytest tests/integration/
 
       - run:
           name: 🔎 Unit tests
