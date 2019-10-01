@@ -40,7 +40,7 @@ app$run_server()
 
 
 def test_rscc001_clientside(dashr):
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
+    os.chdir(os.path.dirname(__file__))
     dashr.start_server(app)
     dashr.wait_for_text_to_equal(
         '#output-clientside',
