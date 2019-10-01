@@ -22,11 +22,12 @@ jobs:
             echo "JOB PARALLELISM: ${CIRCLE_NODE_TOTAL}"
             echo "CIRCLE_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL}"
             echo $CIRCLE_JOB > circlejob.txt
+            printf $CIRCLE_BRANCH > branch.txt
 
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=Sys.getenv("CIRCLE_BRANCH"))'
+              sudo Rscript -e 'install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=readChar("branch.txt", file.info("branch.txt")$size))'
 
       - run:
           name: ⚙️  Integration tests
