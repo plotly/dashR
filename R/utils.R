@@ -1040,7 +1040,8 @@ dashLogger <- function(event = NULL,
     if (event %in% c("start", "stop", "error", "warning") || !(silence_routes_logging)) {
       cat(msg, file = stdout(), append = TRUE)
       cat("\n", file = stdout(), append = TRUE)
-      }
+    }
+  }
 }
   
 clientsideFunction <- function(namespace, function_name) {
