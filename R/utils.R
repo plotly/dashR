@@ -918,6 +918,9 @@ getIdProps <- function(output) {
 }
 
 modtimeFromPath <- function(path, recursive=FALSE) {
+  if (is.null(path)) {
+    return(NULL)
+  }
   if (recursive) {
     modtime <- as.integer(max(file.info(list.files(path, recursive=TRUE))$mtime))
   } else {
