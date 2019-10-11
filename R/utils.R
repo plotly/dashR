@@ -942,9 +942,8 @@ getAppPath <- function() {
   else if (!is.null(sys.frames()[[1]]$ofile)) {
     return(normalizePath(sys.frames()[[1]]$ofile))
   }
-  # fall back to getwd() if first two options fail
   else {
-    return(getwd())
+    return(FALSE)
   }
 }
 
