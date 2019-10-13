@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/plotly/dashR/tree/dev.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/dev)
+
 # Dash for R
 
 #### Create beautiful, analytic web applications in R.
