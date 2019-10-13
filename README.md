@@ -1,4 +1,6 @@
 [![CircleCI](https://circleci.com/gh/plotly/dashR/tree/dev.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/dev)
+[![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/graphs/contributors)
 
 # Dash for R
 
