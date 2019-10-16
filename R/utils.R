@@ -836,7 +836,7 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
                                             conditionMessage(e))
 
           assign("stack_message", value=stack_message,
-                 envir=sys.frame(countEnclosingEnvs("private"))$private)
+                 envir=sys.frame(countEnclosingFrames("private"))$private)
 
           printCallStack(functionsAsList)
         }
@@ -997,7 +997,7 @@ setModtimeAsAttr <- function(path) {
   }
 }
 
-countEnclosingEnvs <- function(object) {
+countEnclosingFrames <- function(object) {
   for (i in 1:sys.nframe()) {
     objs <- ls(envir=sys.frame(i))
     if (object %in% objs)
