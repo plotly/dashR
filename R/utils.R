@@ -696,7 +696,7 @@ printCallStack <- function(call_stack, header=TRUE) {
         ": ",
         call_stack,
         " ",
-        lapply(call_stack, attr, "lineref")
+        lapply(call_stack, attr, "flineref")
         )
     ),
     stderr()
@@ -775,7 +775,9 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
               currentCall <- deparse(completeCall)[1]
             else
               currentCall <- completeCall[[1]]
-            attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=TRUE)
+            
+            attr(currentCall, "flineref") <- getLineWithError(completeCall, formatted=TRUE)
+            attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=FALSE)
 
             if (is.function(currentCall) & !is.primitive(currentCall)) {
               constructedCall <- paste0("<anonymous> function(",
