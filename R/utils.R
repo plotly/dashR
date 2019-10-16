@@ -684,7 +684,7 @@ encode_plotly <- function(layout_objs) {
 # so that it is pretty printed to stderr()
 printCallStack <- function(call_stack, header=TRUE) {
   if (header) {
-    write(crayon::yellow$bold(" ### DashR Traceback (most recent/innermost call last) ###"), stderr())
+    write(crayon::yellow$bold(" ### Dash for R Traceback (most recent/innermost call last) ###"), stderr())
   }
   write(
     crayon::white(
@@ -694,7 +694,9 @@ printCallStack <- function(call_stack, header=TRUE) {
           call_stack
           ),
         ": ",
-        call_stack
+        call_stack,
+        " ",
+        lapply(call_stack, attr, "lineref")
         )
     ),
     stderr()
@@ -707,7 +709,7 @@ stackTraceToHTML <- function(call_stack,
   if(is.null(call_stack)) {
     return(NULL)
   }
-  header <- " ### DashR Traceback (most recent/innermost call last) ###"
+  header <- " ### Dash for R Traceback (most recent/innermost call last) ###"
 
   formattedStack <- c(paste0(
     "    ",
@@ -716,6 +718,8 @@ stackTraceToHTML <- function(call_stack,
     ),
     ": ",
     call_stack,
+    " ",
+    lapply(call_stack, attr, "lineref"),
     collapse="<br>"
   )
   )
@@ -761,7 +765,17 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
           }
 
           functionsAsList <- lapply(calls, function(completeCall) {
-            currentCall <- completeCall[[1]]
+            # avoid attempting to cast closures as strings, which will fail
+            # some calls in the stack are symbol (name) objects, while others
+            # are calls, which must be deparsed; the first element in the vector
+            # should be the function signature
+            if (is.name(completeCall[[1]])) 
+              currentCall <- as.character(completeCall[[1]])
+            else if (is.call(completeCall[[1]])) 
+              currentCall <- deparse(completeCall)[1]
+            else
+              currentCall <- completeCall[[1]]
+            attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=TRUE)
 
             if (is.function(currentCall) & !is.primitive(currentCall)) {
               constructedCall <- paste0("<anonymous> function(",
@@ -773,7 +787,7 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             }
 
           })
-
+          
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
@@ -813,18 +827,16 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             functionsAsList <- removeHandlers(functionsAsList)
           }
 
-          # use deparse in case the call throwing the error is a symbol,
-          # since this cannot be "printed" without deparsing the call
           warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s",
-                                                            deparse(functionsAsList[[length(functionsAsList)]]),
+                                                            functionsAsList[[length(functionsAsList)]],
                                                             conditionMessage(e)))
 
           stack_message <- stackTraceToHTML(functionsAsList,
-                                            deparse(functionsAsList[[length(functionsAsList)]]),
+                                            functionsAsList[[length(functionsAsList)]],
                                             conditionMessage(e))
 
           assign("stack_message", value=stack_message,
-                 envir=sys.frame(1)$private)
+                 envir=sys.frame(countEnclosingEnvs("private"))$private)
 
           printCallStack(functionsAsList)
         }
@@ -836,8 +848,24 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
     )
     } else {
       evalq(expr)
-    }
   }
+}
+
+getLineWithError <- function(currentCall, formatted=TRUE) {
+  srcref <- attr(currentCall, "srcref", exact = TRUE)
+  if (!is.null(srcref) & !(getAppPath()==FALSE)) {
+    # filename
+    srcfile <- attr(srcref, "srcfile", exact = TRUE)
+    # line number
+    if (formatted) {
+      crayon::yellow$italic(sprintf('Line %s in %s', srcref[[1]], srcfile$filename))
+    } else {
+      sprintf('Line %s in %s', srcref[[1]], srcfile$filename)
+    }
+  } else {
+    ""    
+  }
+}
 
 # This helper function drops error
 # handling functions from the call
@@ -966,6 +994,14 @@ setModtimeAsAttr <- function(path) {
     return(path)
   } else {
     return(NULL)
+  }
+}
+
+countEnclosingEnvs <- function(object) {
+  for (i in 1:sys.nframe()) {
+    objs <- ls(envir=sys.frame(i))
+    if (object %in% objs)
+      return(i)
   }
 }
 

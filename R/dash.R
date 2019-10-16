@@ -525,18 +525,18 @@ Dash <- R6::R6Class(
         private$updateReloadHash()
         private$index()
         
-        viewer <- getOption("viewer")
+        show_viewer <- !(is.null(getOption("viewer"))) && (dynGet("show_viewer") == TRUE)
         host <- dynGet("host")
         port <- dynGet("port")
         
         app_url <- paste0("http://", host, ":", port)
         
-        if (!is.null(viewer) && host %in% c("localhost", "127.0.0.1"))
+        if (show_viewer && host %in% c("localhost", "127.0.0.1")) 
           rstudioapi::viewer(app_url)
-        else {
+        else if (show_viewer) {
           warning("RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
           utils::browseURL(app_url)
-        }
+          }
       })
 
       # user-facing fields
@@ -611,7 +611,7 @@ Dash <- R6::R6Class(
                           port = Sys.getenv('DASH_PORT', 8050), 
                           block = TRUE, 
                           showcase = FALSE, 
-                          viewer = FALSE,
+                          show_viewer = FALSE,
                           dev_tools_prune_errors = TRUE, 
                           debug = FALSE, 
                           dev_tools_ui = NULL,
