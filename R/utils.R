@@ -859,14 +859,12 @@ getLineWithError <- function(currentCall, formatted=TRUE) {
     # filename
     srcfile <- attr(srcref, "srcfile", exact = TRUE)
     # line number
-    if (formatted) {
-      crayon::yellow$italic(sprintf('Line %s in %s', srcref[[1]], srcfile$filename))
-    } else {
-      sprintf('Line %s in %s', srcref[[1]], srcfile$filename)
-    }
-  } else {
+    context <- sprintf("-- %s, Line %s", srcfile$filename, srcref[[1]])
+    if (formatted)
+      context <- crayon::yellow$italic(context)
+    return(context)
+  } else
     ""
-  }
 }
 
 # This helper function drops error
