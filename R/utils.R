@@ -769,13 +769,13 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             # some calls in the stack are symbol (name) objects, while others
             # are calls, which must be deparsed; the first element in the vector
             # should be the function signature
-            if (is.name(completeCall[[1]])) 
+            if (is.name(completeCall[[1]]))
               currentCall <- as.character(completeCall[[1]])
-            else if (is.call(completeCall[[1]])) 
+            else if (is.call(completeCall[[1]]))
               currentCall <- deparse(completeCall)[1]
             else
               currentCall <- completeCall[[1]]
-            
+
             attr(currentCall, "flineref") <- getLineWithError(completeCall, formatted=TRUE)
             attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=FALSE)
 
@@ -789,7 +789,7 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             }
 
           })
-          
+
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
@@ -865,7 +865,7 @@ getLineWithError <- function(currentCall, formatted=TRUE) {
       sprintf('Line %s in %s', srcref[[1]], srcfile$filename)
     }
   } else {
-    ""    
+    ""
   }
 }
 
@@ -968,12 +968,12 @@ getAppPath <- function() {
   cmd_args <- commandArgs(trailingOnly = FALSE)
   file_argument <- "--file="
   matched_arg <- grep(file_argument, cmd_args)
-  
+
   # if app is instantiated via Rscript, cmd_args should contain path
   if (length(matched_arg) > 0) {
     # Rscript
     return(normalizePath(sub(file_argument, "", cmd_args[matched_arg])))
-  } 
+  }
   # if app is instantiated via source(), sys.frames should contain path
   else if (!is.null(sys.frames()[[1]]$ofile)) {
     return(normalizePath(sys.frames()[[1]]$ofile))
@@ -1009,23 +1009,23 @@ countEnclosingFrames <- function(object) {
 
 changedAssets <- function(before, after) {
   # identify files that used to exist in the asset map,
-  # but which have been removed 
+  # but which have been removed
   deletedElements <-  before[which(is.na(match(before, after)))]
-  
+
   # identify files which were added since the last refresh
   addedElements <-  after[which(is.na(match(after, before)))]
-  
+
   # identify any items that have been updated since the last
   # refresh based on modification time attributes set in map
-  # 
+  #
   # in R, attributes are discarded when subsetting, so it's
   # necessary to subset the attributes being compared instead.
   # here we only compare objects which overlap
   before_modtimes <-attributes(before)$modtime[before %in% after]
   after_modtimes <- attributes(after)$modtime[after %in% before]
-    
+
   changedElements <- after[which(after_modtimes > before_modtimes)]
-  
+
   if (length(deletedElements) == 0) {
     deletedElements <- NULL
   }
@@ -1043,13 +1043,13 @@ changedAssets <- function(before, after) {
   )
 }
 
-dashLogger <- function(event = NULL, 
-                       message = NULL, 
-                       request = NULL, 
-                       time = Sys.time(), 
+dashLogger <- function(event = NULL,
+                       message = NULL,
+                       request = NULL,
+                       time = Sys.time(),
                        ...) {
   orange <- crayon::make_style("orange")
-  
+
   # dashLogger is being called from within fiery, and the Fire() object generator
   # is called from a private method within the Dash() R6 class; this makes
   # accessing variables set within Dash's private fields somewhat complicated
@@ -1057,22 +1057,22 @@ dashLogger <- function(event = NULL,
   # the following line retrieves the value of the silence_route_logging parameter,
   # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
   silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
-  
+
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
-    
-    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg), 
+
+    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg),
                   message = crayon::blue(msg), msg)
-    
+
     # assign the status group for color coding
     if (event == "request") {
-      status_group <- as.integer(cut(request$respond()$status, 
+      status_group <- as.integer(cut(request$respond()$status,
                                      breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
-      
-      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg), 
+
+      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg),
                     crayon::cyan$bold(msg), orange$bold(msg), crayon::red$bold(msg))
     }
-    
+
     # if log messages are suppressed, report only server stop/start messages, errors, and warnings
     # otherwise, print everything to console
     if (event %in% c("start", "stop", "error", "warning") || !(silence_routes_logging)) {
@@ -1081,7 +1081,7 @@ dashLogger <- function(event = NULL,
     }
   }
 }
-  
+
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
 }
