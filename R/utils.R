@@ -684,7 +684,7 @@ encode_plotly <- function(layout_objs) {
 # so that it is pretty printed to stderr()
 printCallStack <- function(call_stack, header=TRUE) {
   if (header) {
-    write(crayon::yellow$bold(" ### DashR Traceback (most recent/innermost call last) ###"), stderr())
+    write(crayon::yellow$bold(" ### Dash for R Traceback (most recent/innermost call last) ###"), stderr())
   }
   write(
     crayon::white(
@@ -694,7 +694,9 @@ printCallStack <- function(call_stack, header=TRUE) {
           call_stack
           ),
         ": ",
-        call_stack
+        call_stack,
+        " ",
+        lapply(call_stack, attr, "flineref")
         )
     ),
     stderr()
@@ -707,7 +709,7 @@ stackTraceToHTML <- function(call_stack,
   if(is.null(call_stack)) {
     return(NULL)
   }
-  header <- " ### DashR Traceback (most recent/innermost call last) ###"
+  header <- " ### Dash for R Traceback (most recent/innermost call last) ###"
 
   formattedStack <- c(paste0(
     "    ",
@@ -716,6 +718,8 @@ stackTraceToHTML <- function(call_stack,
     ),
     ": ",
     call_stack,
+    " ",
+    lapply(call_stack, attr, "lineref"),
     collapse="<br>"
   )
   )
@@ -761,7 +765,19 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
           }
 
           functionsAsList <- lapply(calls, function(completeCall) {
-            currentCall <- completeCall[[1]]
+            # avoid attempting to cast closures as strings, which will fail
+            # some calls in the stack are symbol (name) objects, while others
+            # are calls, which must be deparsed; the first element in the vector
+            # should be the function signature
+            if (is.name(completeCall[[1]]))
+              currentCall <- as.character(completeCall[[1]])
+            else if (is.call(completeCall[[1]]))
+              currentCall <- deparse(completeCall)[1]
+            else
+              currentCall <- completeCall[[1]]
+
+            attr(currentCall, "flineref") <- getLineWithError(completeCall, formatted=TRUE)
+            attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=FALSE)
 
             if (is.function(currentCall) & !is.primitive(currentCall)) {
               constructedCall <- paste0("<anonymous> function(",
@@ -813,18 +829,16 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
             functionsAsList <- removeHandlers(functionsAsList)
           }
 
-          # use deparse in case the call throwing the error is a symbol,
-          # since this cannot be "printed" without deparsing the call
           warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s",
-                                                            deparse(functionsAsList[[length(functionsAsList)]]),
+                                                            functionsAsList[[length(functionsAsList)]],
                                                             conditionMessage(e)))
 
           stack_message <- stackTraceToHTML(functionsAsList,
-                                            deparse(functionsAsList[[length(functionsAsList)]]),
+                                            functionsAsList[[length(functionsAsList)]],
                                             conditionMessage(e))
 
           assign("stack_message", value=stack_message,
-                 envir=sys.frame(1)$private)
+                 envir=sys.frame(countEnclosingFrames("private"))$private)
 
           printCallStack(functionsAsList)
         }
@@ -836,8 +850,22 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
     )
     } else {
       evalq(expr)
-    }
   }
+}
+
+getLineWithError <- function(currentCall, formatted=TRUE) {
+  srcref <- attr(currentCall, "srcref", exact = TRUE)
+  if (!is.null(srcref) & !(getAppPath()==FALSE)) {
+    # filename
+    srcfile <- attr(srcref, "srcfile", exact = TRUE)
+    # line number
+    context <- sprintf("-- %s, Line %s", srcfile$filename, srcref[[1]])
+    if (formatted)
+      context <- crayon::yellow$italic(context)
+    return(context)
+  } else
+    ""
+}
 
 # This helper function drops error
 # handling functions from the call
@@ -938,12 +966,12 @@ getAppPath <- function() {
   cmd_args <- commandArgs(trailingOnly = FALSE)
   file_argument <- "--file="
   matched_arg <- grep(file_argument, cmd_args)
-  
+
   # if app is instantiated via Rscript, cmd_args should contain path
   if (length(matched_arg) > 0) {
     # Rscript
     return(normalizePath(sub(file_argument, "", cmd_args[matched_arg])))
-  } 
+  }
   # if app is instantiated via source(), sys.frames should contain path
   else if (!is.null(sys.frames()[[1]]$ofile)) {
     return(normalizePath(sys.frames()[[1]]$ofile))
@@ -969,25 +997,33 @@ setModtimeAsAttr <- function(path) {
   }
 }
 
+countEnclosingFrames <- function(object) {
+  for (i in 1:sys.nframe()) {
+    objs <- ls(envir=sys.frame(i))
+    if (object %in% objs)
+      return(i)
+  }
+}
+
 changedAssets <- function(before, after) {
   # identify files that used to exist in the asset map,
-  # but which have been removed 
+  # but which have been removed
   deletedElements <-  before[which(is.na(match(before, after)))]
-  
+
   # identify files which were added since the last refresh
   addedElements <-  after[which(is.na(match(after, before)))]
-  
+
   # identify any items that have been updated since the last
   # refresh based on modification time attributes set in map
-  # 
+  #
   # in R, attributes are discarded when subsetting, so it's
   # necessary to subset the attributes being compared instead.
   # here we only compare objects which overlap
   before_modtimes <-attributes(before)$modtime[before %in% after]
   after_modtimes <- attributes(after)$modtime[after %in% before]
-    
+
   changedElements <- after[which(after_modtimes > before_modtimes)]
-  
+
   if (length(deletedElements) == 0) {
     deletedElements <- NULL
   }
@@ -1005,13 +1041,13 @@ changedAssets <- function(before, after) {
   )
 }
 
-dashLogger <- function(event = NULL, 
-                       message = NULL, 
-                       request = NULL, 
-                       time = Sys.time(), 
+dashLogger <- function(event = NULL,
+                       message = NULL,
+                       request = NULL,
+                       time = Sys.time(),
                        ...) {
   orange <- crayon::make_style("orange")
-  
+
   # dashLogger is being called from within fiery, and the Fire() object generator
   # is called from a private method within the Dash() R6 class; this makes
   # accessing variables set within Dash's private fields somewhat complicated
@@ -1019,22 +1055,22 @@ dashLogger <- function(event = NULL,
   # the following line retrieves the value of the silence_route_logging parameter,
   # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
   silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
-  
+
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
-    
-    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg), 
+
+    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg),
                   message = crayon::blue(msg), msg)
-    
+
     # assign the status group for color coding
     if (event == "request") {
-      status_group <- as.integer(cut(request$respond()$status, 
+      status_group <- as.integer(cut(request$respond()$status,
                                      breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
-      
-      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg), 
+
+      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg),
                     crayon::cyan$bold(msg), orange$bold(msg), crayon::red$bold(msg))
     }
-    
+
     # if log messages are suppressed, report only server stop/start messages, errors, and warnings
     # otherwise, print everything to console
     if (event %in% c("start", "stop", "error", "warning") || !(silence_routes_logging)) {
@@ -1043,7 +1079,7 @@ dashLogger <- function(event = NULL,
     }
   }
 }
-  
+
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
 }
