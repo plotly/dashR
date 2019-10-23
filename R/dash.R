@@ -183,7 +183,10 @@ Dash <- R6::R6Class(
             call. = FALSE
           )
         } else if (dir.exists(private$assets_folder)) {
-          private$refreshAssetMap()
+          if (length(countEnclosingFrames("dash_nested_fiery_server")) == 0) {
+            private$refreshAssetMap()
+          }
+          # fiery is attempting to launch a server within a server, do not refresh assets
         }
       }
 
@@ -499,8 +502,20 @@ Dash <- R6::R6Class(
 
       dash_reload_hash <- paste0(self$config$routes_pathname_prefix, "_reload-hash")
       route$add_handler("get", dash_reload_hash, function(request, response, keys, ...) {
-        resp <- list(reloadHash = self$config$reload_hash,
-                     hard = FALSE,
+        modified_files <- private$modified_since_reload
+        hard <- FALSE
+        
+        if (!is.null(modified_files) && any(tools::file_ext(vapply(modified_files, 
+                                                                   function(x) x$url, 
+                                                                   character(1))) != "css")) {
+          hard <- TRUE
+        } else if (is.null(modified_files)) {
+          # dash-renderer requires that this element not be NULL
+          modified_files <- list()
+        }
+        
+        resp <- list(files = modified_files,
+                     hard = hard,
                      packages = c("dash_renderer", 
                                   unique(
                                     vapply(
@@ -508,10 +523,9 @@ Dash <- R6::R6Class(
                                       function(x) x[["name"]], 
                                       FUN.VALUE=character(1), 
                                       USE.NAMES = FALSE)
-                                    )
-                                  ),
-                     files = private$modified_since_reload
-                     )
+                                  )
+                     ),
+                     reloadHash = self$config$reload_hash)
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
@@ -688,13 +702,33 @@ Dash <- R6::R6Class(
             has_assets <- file.exists(file.path(source_dir, private$assets_folder))
             
             if (has_assets) {
-              updatedFiles <- private$refreshAssetMap()
-              private$modified_since_reload <- updatedFiles$modified
+              updated_files <- private$refreshAssetMap()
+              file_extensions <- tools::file_ext(updated_files$modified)
+              
+              # if the vector of file_extensions is logical(0), this ensures
+              # we return FALSE instead of logical(0)
+              checkIfCSS <- function(extension) {
+                if (length(extension) == 0)
+                  return(FALSE)
+                else
+                  return(extension == "css")
+              }
+              
+              all_updated <- c(updated_files$added, updated_files$modified)
+              
+              private$modified_since_reload <- lapply(setNames(all_updated, NULL), 
+                                                      function(current_file) {
+                list(is_css = checkIfCSS(tools::file_ext(current_file)),
+                     modified = modtimeFromPath(current_file),
+                     url = paste(private$assets_url_path, basename(current_file), sep="/"))
+              })
+              
               private$asset_modtime <- current_asset_modtime
               # update the hash passed back to the renderer, and bump the timestamp
               # to match the current reloading event
-              other_changed <- any(tools::file_ext(updatedFiles$modified) != "css")
-              other_added <- any(tools::file_ext(updatedFiles$added) != "css")
+              other_changed <- any(tools::file_ext(updated_files$modified) != "css")
+              other_added <- any(tools::file_ext(updated_files$added) != "css")
+              other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
             }
             
             private$updateReloadHash()
@@ -703,7 +737,7 @@ Dash <- R6::R6Class(
             # if any filetypes other than CSS are encountered in those which
             # are modified or deleted, restart the server
             
-            hard_reload <- updated_root || (has_assets && other_changed || other_added)
+            hard_reload <- updated_root || (has_assets && other_changed || other_added || other_deleted)
             
             if (!hard_reload) {
               # refresh the index but don't restart the server
@@ -895,6 +929,7 @@ Dash <- R6::R6Class(
                               added=new)))
       } else {
         private$asset_map <- current_map
+        return(NULL)
       }
     },
     
