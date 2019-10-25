@@ -39,10 +39,7 @@
 #'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
-#'   possible layout mis-specifications when registering a callback. \cr
-#'   `components_cache_max_age` \tab \tab An integer value specifying the time
-#'   interval prior to expiring cached assets. The default is 2678400 seconds,
-#'   or 31 calendar days.
+#'   possible layout mis-specifications when registering a callback.
 #'  }
 #'
 #' @section Fields:
@@ -142,8 +139,7 @@ Dash <- R6::R6Class(
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
                           external_stylesheets = NULL,
-                          suppress_callback_exceptions = FALSE,
-                          components_cache_max_age = 2678400) {
+                          suppress_callback_exceptions = FALSE) {
 
       # argument type checking
       assertthat::assert_that(is.character(name))
@@ -404,10 +400,6 @@ Dash <- R6::R6Class(
                                      warn = FALSE,
                                      encoding = "UTF-8")
           response$status <- 200L
-          response$set_header('Cache-Control',
-                              sprintf('public, max-age=%s',
-                                      components_cache_max_age)
-                              )
           response$type <- get_mimetype(filename)
         }
 
@@ -461,10 +453,6 @@ Dash <- R6::R6Class(
             close(file_handle)
           }
 
-          response$set_header('Cache-Control',
-                              sprintf('public, max-age=%s',
-                                      components_cache_max_age)
-          )
           response$status <- 200L
         }
         TRUE
@@ -482,10 +470,6 @@ Dash <- R6::R6Class(
                                  file.size(asset_path))
         close(file_handle)
 
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    components_cache_max_age)
-                            )
         response$type <- 'image/x-icon'
         response$status <- 200L
         TRUE
