@@ -513,6 +513,8 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
+        # reset the field for the next reloading operation
+        private$modified_since_reload <- list()
         TRUE
       })
       
