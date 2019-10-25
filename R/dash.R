@@ -520,7 +520,7 @@ Dash <- R6::R6Class(
       server$attach(router)
       
       server$on("start", function(server, ...) {
-        private$updateReloadHash()
+        private$generateReloadHash()
         private$index()
         
         use_viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
@@ -715,7 +715,7 @@ Dash <- R6::R6Class(
               other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
             }
             
-            private$updateReloadHash()
+            self$config$reload_hash <- private$generateReloadHash()
             flush.console()
             
             # if any filetypes other than CSS are encountered in those which
@@ -1038,7 +1038,7 @@ Dash <- R6::R6Class(
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
     
-    updateReloadHash = function() {
+    generateReloadHash = function() {
       last_update_time <- max(as.integer(private$app_root_modtime),
                               as.integer(private$asset_modtime),
                               as.integer(private$app_launchtime),
