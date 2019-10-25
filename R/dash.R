@@ -737,7 +737,7 @@ Dash <- R6::R6Class(
                 assign("dash_nested_fiery_server", TRUE, envir=app_env)
                 source(getAppPath(), app_env)
                 # set the layout and refresh the callback map
-                write(crayon::blue$bold("Changes to app or its assets detected, reloading ..."), stderr())
+                write(crayon::blue$bold("\U{1F504} Changes to app or its assets detected, reloading ..."), stderr())
                 private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
                 private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
                 private$index()
