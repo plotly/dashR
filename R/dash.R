@@ -745,6 +745,8 @@ Dash <- R6::R6Class(
             }
           }
         })
+      } else if (self$config$hot_reload == TRUE & is.null(source_dir)) {
+          message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
         }      
       self$server$ignite(block = block, showcase = showcase, ...)
       }
