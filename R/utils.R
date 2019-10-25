@@ -971,7 +971,6 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
       modtime <- as.integer(max(file.info(all_files)$mtime, na.rm=TRUE))
     }
   } else {
-    modtime <- as.integer(file.info(path)$mtime)
     # check if the path is for a directory or file, and handle accordingly
     if (dir.exists(path)) 
       modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
