@@ -1058,9 +1058,9 @@ Dash <- R6::R6Class(
       # update the timestamp to reflect the current reloading event
       private$last_reload <- as.integer(Sys.time())
       
-      self$config$reload_hash <- digest::digest(as.character(last_update_time),
-                                                "md5",
-                                                serialize = FALSE)
+      digest::digest(as.character(last_update_time),
+                     "md5",
+                     serialize = FALSE)
     },
     
     collect_resources = function() {
