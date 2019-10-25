@@ -534,7 +534,7 @@ Dash <- R6::R6Class(
         if (use_viewer && host %in% c("localhost", "127.0.0.1")) 
           rstudioapi::viewer(app_url)
         else if (use_viewer) {
-          warning("RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
+          warning("\U{26A0} RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
           utils::browseURL(app_url)
           }
       })
