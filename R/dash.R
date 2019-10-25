@@ -667,10 +667,10 @@ Dash <- R6::R6Class(
       private$prune_errors <- dev_tools_prune_errors
       private$debug <- debug
       
-      if (self$config$hot_reload == TRUE) {
+      if (self$config$hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
-          current_asset_modtime <- modtimeFromPath(private$assets_folder)
-          current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE)
+          current_asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
+          current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
           
           updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
           updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
@@ -685,7 +685,7 @@ Dash <- R6::R6Class(
             # any are scripts or other non-CSS data
             has_assets <- file.exists(file.path(source_dir, private$assets_folder))
             
-            if (has_assets) {
+            if (length(has_assets) != 0 && has_assets) {
               updated_files <- private$refreshAssetMap()
               file_extensions <- tools::file_ext(updated_files$modified)
               
@@ -874,8 +874,15 @@ Dash <- R6::R6Class(
     },
 
     refreshAssetMap = function() {
-      private$asset_modtime <- modtimeFromPath(private$assets_folder)
-
+      # if hot reloading, use canonical path to app as retrieved via getAppPath()
+      # this should be useful if the server is run in non-blocking mode while
+      # hot reloading is active, and the user decides to setwd() ...
+      if (getAppPath() != FALSE) {
+        private$asset_modtime <- modtimeFromPath(file.path(dirname(getAppPath()), private$assets_folder), recursive = TRUE)
+      } else {
+        private$asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
+      }
+      
       # before refreshing the asset map, temporarily store it for the
       # comparison with the updated map    
       previous_map <- private$asset_map

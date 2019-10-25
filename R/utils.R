@@ -948,15 +948,37 @@ getIdProps <- function(output) {
   return(list(ids=ids, props=props))
 }
 
-modtimeFromPath <- function(path, recursive=FALSE) {
+modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
+  # ensure path is properly formatted
+  path <- normalizePath(path)
+  
   if (is.null(path)) {
     return(NULL)
   }
+  
   if (recursive) {
-    modtime <- as.integer(max(file.info(list.files(path, recursive=TRUE))$mtime))
+    if (asset_path != "") {
+      all_files <- file.info(list.files(path, recursive = TRUE))
+      # remove leading slash so we don't keep a blank character in the vector we're about to create
+      # full_paths <- sub("/", "", rownames(all_files))
+      # need to exclude files which are in assets directory so we don't always hard reload
+      initpath <- vapply(strsplit(rownames(all_files), split = .Platform$file.sep), `[`, FUN.VALUE=character(1), 1)
+      # now subset the modtimes, and identify the most recently modified file
+      modtime <- as.integer(max(all_files$mtime[which(initpath != asset_path)], na.rm = TRUE))
+    } else {
+      # now identify the most recently modified file
+      all_files <- list.files(path, recursive = TRUE, full.names = TRUE)
+      modtime <- as.integer(max(file.info(all_files)$mtime, na.rm=TRUE))
+    }
   } else {
     modtime <- as.integer(file.info(path)$mtime)
+    # check if the path is for a directory or file, and handle accordingly
+    if (dir.exists(path)) 
+      modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
+    else
+      modtime <- as.integer(file.info(path)$mtime)
   }
+  
   return(modtime)
 }
 
@@ -989,7 +1011,7 @@ getAppPath <- function() {
 # it somewhat trivial to request the set of modification times
 setModtimeAsAttr <- function(path) {
   if (!is.null(path)) {
-    mtime <- dash:::modtimeFromPath(path)
+    mtime <- modtimeFromPath(path)
     attributes(path)$modtime <- mtime
     return(path)
   } else {
