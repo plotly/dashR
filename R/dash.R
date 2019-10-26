@@ -181,6 +181,7 @@ Dash <- R6::R6Class(
         } else if (dir.exists(private$assets_folder)) {
           if (length(countEnclosingFrames("dash_nested_fiery_server")) == 0) {
             private$refreshAssetMap()
+            private$last_refresh <- as.integer(Sys.time())
           }
           # fiery is attempting to launch a server within a server, do not refresh assets
         }
@@ -487,13 +488,9 @@ Dash <- R6::R6Class(
       dash_reload_hash <- paste0(self$config$routes_pathname_prefix, "_reload-hash")
       route$add_handler("get", dash_reload_hash, function(request, response, keys, ...) {
         modified_files <- private$modified_since_reload
-        hard <- FALSE
+        hard <- TRUE
         
-        if (!is.null(modified_files) && any(tools::file_ext(vapply(modified_files, 
-                                                                   function(x) x$url, 
-                                                                   character(1))) != "css")) {
-          hard <- TRUE
-        } else if (is.null(modified_files)) {
+        if (is.null(modified_files)) {
           # dash-renderer requires that this element not be NULL
           modified_files <- list()
         }
@@ -618,6 +615,7 @@ Dash <- R6::R6Class(
                           dev_tools_props_check = NULL,
                           dev_tools_hot_reload = NULL,
                           dev_tools_hot_reload_interval = 3,
+                          dev_tools_hot_reload_watch_interval = 0.5,
                           dev_tools_silence_routes_logging = NULL,
                           ...) {
       
@@ -630,6 +628,7 @@ Dash <- R6::R6Class(
       self$server$port <- as.numeric(port)
       
       self$config$hot_reload_interval <- dev_tools_hot_reload_interval
+      self$config$hot_reload_watch_interval <- dev_tools_hot_reload_watch_interval
       
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
@@ -671,79 +670,79 @@ Dash <- R6::R6Class(
       
       if (self$config$hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
-          current_asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
-          current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
+          if ((as.integer(Sys.time()) - private$last_refresh) >= self$config$hot_reload_watch_interval) {
+            current_asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
+            # by specifying asset_path, we can exclude assets from the root_modtime when recursive=TRUE
+            # otherwise modifying CSS assets will always trigger a hard reload
+            current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
+            
+            updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
+            updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
+            
+            private$app_root_modtime <- current_root_modtime
           
-          updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
-          updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
-          
-          private$app_root_modtime <- current_root_modtime
-          
-          initiate_reload <- isTRUE((as.integer(Sys.time()) - private$last_reload) > self$config$hot_reload_interval)
-          
-          if (!is.null(current_asset_modtime) && initiate_reload && (updated_assets || updated_root)) {
-            # refreshAssetMap silently returns a list of updated objects in the map
-            # we can use this to retrieve the modified files, and also determine if
-            # any are scripts or other non-CSS data
-            has_assets <- file.exists(file.path(source_dir, private$assets_folder))
+            if (!is.null(current_asset_modtime) && (updated_assets || updated_root)) {
+              # refreshAssetMap silently returns a list of updated objects in the map
+              # we can use this to retrieve the modified files, and also determine if
+              # any are scripts or other non-CSS data
+              has_assets <- file.exists(file.path(source_dir, private$assets_folder))
             
-            if (length(has_assets) != 0 && has_assets) {
-              updated_files <- private$refreshAssetMap()
-              file_extensions <- tools::file_ext(updated_files$modified)
+              if (length(has_assets) != 0 && has_assets) {
+                updated_files <- private$refreshAssetMap()
+                file_extensions <- tools::file_ext(updated_files$modified)
+                
+                # if the vector of file_extensions is logical(0), this ensures
+                # we return FALSE instead of logical(0)
+                checkIfCSS <- function(extension) {
+                  if (length(extension) == 0)
+                    return(FALSE)
+                  else
+                    return(extension == "css")
+                }
+                
+                all_updated <- c(updated_files$added, updated_files$modified)
+                private$modified_since_reload <- lapply(setNames(all_updated, NULL), 
+                                                        function(current_file) {
+                                                        list(is_css = checkIfCSS(tools::file_ext(current_file)),
+                                                             modified = modtimeFromPath(current_file),
+                                                             url = paste(private$assets_url_path, basename(current_file), sep="/"))
+                                                          })
+                
+                private$asset_modtime <- current_asset_modtime
+                # update the hash passed back to the renderer, and bump the timestamp
+                # to match the current reloading event
+                other_changed <- any(tools::file_ext(updated_files$modified) != "css")
+                other_added <- any(tools::file_ext(updated_files$added) != "css")
+                other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
+                }
               
-              # if the vector of file_extensions is logical(0), this ensures
-              # we return FALSE instead of logical(0)
-              checkIfCSS <- function(extension) {
-                if (length(extension) == 0)
-                  return(FALSE)
-                else
-                  return(extension == "css")
-              }
+              self$config$reload_hash <- private$generateReloadHash()
+              flush.console()
               
-              all_updated <- c(updated_files$added, updated_files$modified)
+              # if any filetypes other than CSS are encountered in those which
+              # are modified or deleted, restart the server
+              hard_reload <- updated_root || (has_assets && other_changed || other_added || other_deleted)
               
-              private$modified_since_reload <- lapply(setNames(all_updated, NULL), 
-                                                      function(current_file) {
-                list(is_css = checkIfCSS(tools::file_ext(current_file)),
-                     modified = modtimeFromPath(current_file),
-                     url = paste(private$assets_url_path, basename(current_file), sep="/"))
-              })
-              
-              private$asset_modtime <- current_asset_modtime
-              # update the hash passed back to the renderer, and bump the timestamp
-              # to match the current reloading event
-              other_changed <- any(tools::file_ext(updated_files$modified) != "css")
-              other_added <- any(tools::file_ext(updated_files$added) != "css")
-              other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
-            }
-            
-            self$config$reload_hash <- private$generateReloadHash()
-            flush.console()
-            
-            # if any filetypes other than CSS are encountered in those which
-            # are modified or deleted, restart the server
-            
-            hard_reload <- updated_root || (has_assets && other_changed || other_added || other_deleted)
-            
-            if (!hard_reload) {
-              # refresh the index but don't restart the server
-              private$index()
-            } else {
-              # if the server was started via Rscript or via source()
-              # then update the app object here
-              if (!(getAppPath() == FALSE)) {
-                app_env <- new.env(parent = .GlobalEnv)
-                # set the flag to automatically abort the server on execution
-                assign("dash_nested_fiery_server", TRUE, envir=app_env)
-                source(getAppPath(), app_env)
-                # set the layout and refresh the callback map
-                write(crayon::blue$bold("\U{1F504} Changes to app or its assets detected, reloading ..."), stderr())
-                private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
-                private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
+              if (!hard_reload) {
+                # refresh the index but don't restart the server
                 private$index()
-                # tear down the temporary environment
-                rm(app_env)
-              }
+                } else {
+                  # if the server was started via Rscript or via source()
+                  # then update the app object here
+                  if (!(getAppPath() == FALSE)) {
+                    app_env <- new.env(parent = .GlobalEnv)
+                    # set the flag to automatically abort the server on execution
+                    assign("dash_nested_fiery_server", TRUE, envir=app_env)
+                    source(getAppPath(), app_env)
+                    # set the layout and refresh the callback map
+                    write(crayon::cyan$bold("\U{1F504} Changes to app or its assets detected, reloading ..."), stderr())
+                    private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
+                    private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
+                    private$index()
+                    # tear down the temporary environment
+                    rm(app_env)
+                  }
+                }
             }
           }
         })
@@ -783,6 +782,7 @@ Dash <- R6::R6Class(
     app_root_path = NULL,
     app_root_modtime = NULL,
     last_reload = NULL,
+    last_refresh = NULL,
     modified_since_reload = NULL,
     
     # fields for tracking HTML dependencies
@@ -919,11 +919,14 @@ Dash <- R6::R6Class(
         # when the asset map is refreshed, this function will invisibly
         # return the vectors of updated assets, grouped by deleted,
         # modified, and added files
+        private$last_refresh <- as.integer(Sys.time())
+        
         return(invisible(list(deleted=deleted,
                               modified=changed,
                               added=new)))
       } else {
         private$asset_map <- current_map
+        private$last_refresh <- as.integer(Sys.time())
         return(NULL)
       }
     },
