@@ -40,6 +40,7 @@ app$run_server(dev_tools_hot_reload=TRUE, dev_tools_hot_reload_interval=0.1, dev
 
 def test_rsdv001_hot_reload(dashr):
     dashr.start_server(app)
+    time.sleep(2)
     dashr.wait_for_style_to_equal(
         "#hot-reload-content",
         "background-color",
@@ -53,8 +54,9 @@ def test_rsdv001_hot_reload(dashr):
     dashr.clear_input(input1)
     input1.send_keys("unchanged")
     hot_reload_file = os.path.join(
-        os.path.dirname(__file__), "assets", "hot_reload.css"
+        dashr.server.tmp_app_path, "assets", "hot_reload.css"
     )
+    print(hot_reload_file)
     with open(hot_reload_file, "r+") as fp:
         time.sleep(1)  # ensure a new mod time
         old_content = fp.read()
