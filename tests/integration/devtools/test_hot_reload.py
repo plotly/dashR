@@ -40,7 +40,6 @@ app$run_server(dev_tools_hot_reload=TRUE, dev_tools_hot_reload_interval=0.1, dev
 
 def test_rsdv001_hot_reload(dashr):
     dashr.start_server(app)
-    time.sleep(2)
     dashr.wait_for_style_to_equal(
         "#hot-reload-content",
         "background-color",
