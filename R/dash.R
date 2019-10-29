@@ -618,7 +618,6 @@ Dash <- R6::R6Class(
                           dev_tools_hot_reload_watch_interval = 0.5,
                           dev_tools_silence_routes_logging = NULL,
                           ...) {
-      
       if (exists("dash_nested_fiery_server", env=parent.frame(1))) {
         # fiery is attempting to launch a server within a server, abort gracefully
         return(NULL)
@@ -632,7 +631,7 @@ Dash <- R6::R6Class(
       
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
-        private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE)
+        private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
       } else {
         source_dir <- NULL
       }

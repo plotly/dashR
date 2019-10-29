@@ -959,8 +959,6 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
   if (recursive) {
     if (asset_path != "") {
       all_files <- file.info(list.files(path, recursive = TRUE))
-      # remove leading slash so we don't keep a blank character in the vector we're about to create
-      # full_paths <- sub("/", "", rownames(all_files))
       # need to exclude files which are in assets directory so we don't always hard reload
       initpath <- vapply(strsplit(rownames(all_files), split = .Platform$file.sep), `[`, FUN.VALUE=character(1), 1)
       # now subset the modtimes, and identify the most recently modified file
