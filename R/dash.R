@@ -671,8 +671,9 @@ Dash <- R6::R6Class(
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
           # private$last_refresh will get set after the asset_map is refreshed
+          # private$last_cycle will be set when the cycle-end handler terminates
           if (!is.null(private$last_cycle) & !is.null(self$config$hot_reload_watch_interval)) {
-            # determine if the time since last refresh event is equal to or longer than the requested check interval
+            # determine if the time since last cycle end is equal to or longer than the requested check interval
             permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= self$config$hot_reload_watch_interval
           } else {
             permit_reload <- FALSE
