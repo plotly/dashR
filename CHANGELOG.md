@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Integration and unit tests are now performed when commits are made to open pull requests
 
 ### Changed
-- Dash for R no longer requires forked `reqres`, patch applied upstream [#9](https://github.com/thomasp85/reqres/pull/9)
+- Dash for R no longer requires forked `reqres`, patch applied upstream [thomasp85/reqres#9](https://github.com/thomasp85/reqres/pull/9)
 - The `pruned_errors` parameter has been renamed to `dev_tools_prune_errors` [#113](https://github.com/plotly/dashR/pull/113)
 
 ### Fixed
