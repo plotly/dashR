@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 ### Added
 - Hot reloading now supported in debug mode [#127](https://github.com/plotly/dashR/pull/127)
+- Support for displaying Dash for R applications within RStudio's viewer pane when `use_viewer = TRUE`
 - Clientside callbacks written in JavaScript are now supported [#130](https://github.com/plotly/dashR/pull/130)
 - Multiple outputs are now supported [#119](https://github.com/plotly/dashR/pull/119)
 - Selective callback updates to properties now supported with `dashNoUpdate()` [#111](https://github.com/plotly/dashR/pull/111)
@@ -12,7 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Dash for R no longer requires forked `reqres`, patch applied upstream [#9](https://github.com/thomasp85/reqres/pull/9)
-- The pruned_errors parameter has been renamed to dev_tools_prune_errors [#113](https://github.com/plotly/dashR/pull/113)
+- The `pruned_errors` parameter has been renamed to `dev_tools_prune_errors` [#113](https://github.com/plotly/dashR/pull/113)
 
 ### Fixed
 - Patch for `reqres` package to handle cookies containing multiple "=" [#122](https://github.com/plotly/dashR/pull/122)
