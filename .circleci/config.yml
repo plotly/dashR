@@ -34,7 +34,7 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
-            pip install -e git+https://github.com/plotly/dash.git@dbg-r-reload#egg=dash[testing]
+            pip install -e git+https://github.com/plotly/dash.git#egg=dash[testing]
             export PATH=$PATH:/home/circleci/.local/bin/
             pytest --log-cli-level DEBUG --junitxml=test-reports/dashr.xml tests/integration/
       - store_artifacts:
