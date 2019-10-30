@@ -669,18 +669,34 @@ Dash <- R6::R6Class(
       
       if (self$config$hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
-          if ((as.integer(Sys.time()) - private$last_refresh) >= self$config$hot_reload_watch_interval) {
-            current_asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
-            # by specifying asset_path, we can exclude assets from the root_modtime when recursive=TRUE
-            # otherwise modifying CSS assets will always trigger a hard reload
-            current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
-            
-            updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
-            updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
-            
-            private$app_root_modtime <- current_root_modtime
+          # handle case where assets are not present, since we can still hot reload the app itself
+          # private$last_refresh will get set after the asset_map is refreshed
+          if (!is.null(private$last_cycle) & !is.null(self$config$hot_reload_watch_interval)) {
+            # determine if the time since last refresh event is equal to or longer than the requested check interval
+            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= self$config$hot_reload_watch_interval
+          } else {
+            permit_reload <- FALSE
+          }
           
-            if (!is.null(current_asset_modtime) && (updated_assets || updated_root)) {
+          if (permit_reload) {
+            if (dir.exists(private$assets_folder)) {
+              # by specifying asset_path, we can exclude assets from the root_modtime when recursive=TRUE
+              # otherwise modifying CSS assets will always trigger a hard reload
+              current_asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
+              current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
+              updated_assets <- isTRUE(current_asset_modtime > private$asset_modtime)
+              updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
+              private$app_root_modtime <- current_root_modtime
+            } else {
+              # there is no assets folder, update the root modtime only
+              current_asset_modtime <- NULL
+              current_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE)
+              updated_root <- isTRUE(current_root_modtime > private$app_root_modtime)
+              updated_assets <- FALSE
+              private$app_root_modtime <- current_root_modtime
+            }
+            
+            if (!is.null(current_asset_modtime) && updated_assets) {
               # refreshAssetMap silently returns a list of updated objects in the map
               # we can use this to retrieve the modified files, and also determine if
               # any are scripts or other non-CSS data
@@ -714,36 +730,41 @@ Dash <- R6::R6Class(
                 other_added <- any(tools::file_ext(updated_files$added) != "css")
                 other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
                 }
-              
+            }
+            
+            if (updated_assets || updated_root) {
               self$config$reload_hash <- private$generateReloadHash()
               flush.console()
               
               # if any filetypes other than CSS are encountered in those which
               # are modified or deleted, restart the server
-              hard_reload <- updated_root || (has_assets && other_changed || other_added || other_deleted)
+              hard_reload <- updated_root || (has_assets && (other_changed || other_added || other_deleted))
               
               if (!hard_reload) {
                 # refresh the index but don't restart the server
                 private$index()
-                } else {
-                  # if the server was started via Rscript or via source()
-                  # then update the app object here
-                  if (!(getAppPath() == FALSE)) {
-                    app_env <- new.env(parent = .GlobalEnv)
-                    # set the flag to automatically abort the server on execution
-                    assign("dash_nested_fiery_server", TRUE, envir=app_env)
-                    source(getAppPath(), app_env)
-                    # set the layout and refresh the callback map
-                    write(crayon::cyan$bold("\U{1F504} Changes to app or its assets detected, reloading ..."), stderr())
-                    private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
-                    private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
-                    private$index()
-                    # tear down the temporary environment
-                    rm(app_env)
-                  }
+              } else {
+                # if the server was started via Rscript or via source()
+                # then update the app object here
+                if (!(getAppPath() == FALSE)) {
+                  app_env <- new.env(parent = .GlobalEnv)
+                  # set the flag to automatically abort the server on execution
+                  assign("dash_nested_fiery_server", TRUE, envir=app_env)
+                  source(getAppPath(), app_env)
+                  # set the layout and refresh the callback map
+                  write(crayon::cyan$bold("\U{1F504} Changes to app or its assets detected, reloading ..."), stderr())
+                  private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
+                  private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
+                  private$index()
+                  # tear down the temporary environment
+                  rm(app_env)
                 }
+              }
             }
           }
+          
+          # reset the timestamp so we're able to determine when the last cycle end occurred
+          private$last_cycle <- as.integer(Sys.time())
         })
       } else if (self$config$hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
@@ -782,6 +803,7 @@ Dash <- R6::R6Class(
     app_root_modtime = NULL,
     last_reload = NULL,
     last_refresh = NULL,
+    last_cycle = NULL,
     modified_since_reload = NULL,
     
     # fields for tracking HTML dependencies
