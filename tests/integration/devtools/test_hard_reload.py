@@ -2,7 +2,7 @@ from selenium.webdriver.support.select import Select
 import time, os
 
 
-app = "hard_reload/app.R"
+app = os.path.join(os.path.dirname(__file__), "hard_reload/app.R")
 changed_app = """
 library(dash)
 library(dashHtmlComponents)
