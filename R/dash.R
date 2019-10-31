@@ -12,7 +12,10 @@
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
 #'   routes_pathname_prefix = '/',
-#'   requests_pathname_prefix = '/'
+#'   requests_pathname_prefix = '/',
+#'   external_scripts = NULL,
+#'   external_stylesheets = NULL,
+#'   suppress_callback_exceptions = FALSE
 #' )
 #'
 #' @section Arguments:
@@ -79,20 +82,40 @@
 #'     receive the results (via the [output] object). The events that
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
-#'     argument values for R callback handlers defined in `func`.
-#'
-#'     `func` may either be an anonymous R function, or a call to
-#'     `clientsideFunction()`, which describes a locally served JavaScript
-#'     function instead. The latter defines a "clientside callback", which
-#'     updates components without passing data to and from the Dash backend.
-#'     The latter may offer improved performance relative to callbacks written
-#'     in R.
+#'     argument values for R callback handlers defined in `func`. Here `func` may
+#'     either be an anonymous R function, or a call to `clientsideFunction()`, which
+#'     describes a locally served JavaScript function instead. The latter defines a
+#'     "clientside callback", which updates components without passing data to and
+#'     from the Dash backend. The latter may offer improved performance relative
+#'     to callbacks written in R.
+#'   }
+#'   \item{`callback_context()`}{
+#'     The `callback_context` method permits retrieving the inputs which triggered
+#'     the firing of a given callback, and allows introspection of the input/state
+#'     values given their names. It is only available from within a callback;
+#'     attempting to use this method outside of a callback will result in a warning.
 #'   }
 #'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),
 #'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
-#'     Launch the application. If provided, `host`/`port` set
-#'     the `host`/`port` fields of the underlying [fiery::Fire] web
-#'     server. The `block`/`showcase`/`...` arguments are passed along
+#'     The `run_server` method has 13 formal arguments, several of which are optional:
+#'     \describe{
+#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `DASH_HOST`.}
+#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `DASH_PORT`.}
+#'       \item{block}{Logical. Start the server while blocking console input? Default is `TRUE`.}
+#'       \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.}
+#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
+#'       \item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is `FALSE` when called via `run_server`. Environment variable: `DASH_DEBUG`.}
+#'       \item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_UI`.}
+#'       \item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Requires that the Dash application is loaded using `source()`, so that `srcref` attributes are available for executed code. Environment variable: `DASH_HOT_RELOAD`.}
+#'       \item{dev_tools_hot_reload_interval}{Numeric. Interval in seconds for the client to request the reload hash. Default is `3`. Environment variable: `DASH_HOT_RELOAD_INTERVAL`.}
+#'       \item{dev_tools_hot_reload_watch_interval}{Numeric. Interval in seconds for the server to check asset and component folders for changes. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_WATCH_INTERVAL`.}
+#'       \item{dev_tools_hot_reload_max_retry}{Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_MAX_RETRY`.}
+#'       \item{dev_tools_props_check}{Logical. Validate the types and values of Dash component properties? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_PROPS_CHECK`.}
+#'       \item{dev_tools_prune_errors}{Logical. Reduce tracebacks to just user code, stripping out Fiery and Dash pieces? Only available with debugging. `TRUE` by default, set to `FALSE` to see the complete traceback. Environment variable: `DASH_PRUNE_ERRORS`.}
+#'       \item{dev_tools_silence_routes_logging}{Logical. Replace Fiery's default logger with `dashLogger` instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.}
+#'     }
+#'     Starts the Fiery server in local mode. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
+#'     Launch the application. If provided, `host`/`port` set the `host`/`port` fields of the underlying [fiery::Fire] web server. The `block`/`showcase`/`...` arguments are passed along
 #'     to the `ignite()` method of the [fiery::Fire] server.
 #'   }
 #' }
@@ -190,7 +213,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------------------
       # Set a sensible default logger
       # ------------------------------------------------------------------------
-      server$set_logger(dash::dashLogger)
+      server$set_logger(dashLogger)
       server$access_log_format <- fiery::combined_log_format
 
       # ------------------------------------------------------------------------
@@ -489,20 +512,20 @@ Dash <- R6::R6Class(
       route$add_handler("get", dash_reload_hash, function(request, response, keys, ...) {
         modified_files <- private$modified_since_reload
         hard <- TRUE
-        
+
         if (is.null(modified_files)) {
           # dash-renderer requires that this element not be NULL
           modified_files <- list()
         }
-        
+
         resp <- list(files = modified_files,
                      hard = hard,
-                     packages = c("dash_renderer", 
+                     packages = c("dash_renderer",
                                   unique(
                                     vapply(
-                                      private$dependencies, 
-                                      function(x) x[["name"]], 
-                                      FUN.VALUE=character(1), 
+                                      private$dependencies,
+                                      function(x) x[["name"]],
+                                      FUN.VALUE=character(1),
                                       USE.NAMES = FALSE)
                                   )
                      ),
@@ -514,21 +537,21 @@ Dash <- R6::R6Class(
         private$modified_since_reload <- list()
         TRUE
       })
-      
+
       router$add_route(route, "dashR-endpoints")
       server$attach(router)
-      
+
       server$on("start", function(server, ...) {
         private$generateReloadHash()
         private$index()
-        
+
         use_viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
         host <- dynGet("host")
         port <- dynGet("port")
-        
+
         app_url <- paste0("http://", host, ":", port)
-        
-        if (use_viewer && host %in% c("localhost", "127.0.0.1")) 
+
+        if (use_viewer && host %in% c("localhost", "127.0.0.1"))
           rstudioapi::viewer(app_url)
         else if (use_viewer) {
           warning("\U{26A0} RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
@@ -538,7 +561,6 @@ Dash <- R6::R6Class(
 
       # user-facing fields
       self$server <- server
-      self$config$running <- TRUE
     },
 
     # ------------------------------------------------------------------------
@@ -604,30 +626,56 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"), 
-                          port = Sys.getenv('DASH_PORT', 8050), 
-                          block = TRUE, 
-                          showcase = FALSE, 
+    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
+                          port = Sys.getenv('DASH_PORT'),
+                          block = TRUE,
+                          showcase = FALSE,
                           use_viewer = FALSE,
-                          dev_tools_prune_errors = TRUE, 
-                          debug = FALSE, 
-                          dev_tools_ui = NULL,
-                          dev_tools_props_check = NULL,
-                          dev_tools_hot_reload = NULL,
-                          dev_tools_hot_reload_interval = 3,
-                          dev_tools_hot_reload_watch_interval = 0.5,
+                          dev_tools_prune_errors = TRUE,
+                          debug = Sys.getenv('DASH_DEBUG'),
+                          dev_tools_ui = Sys.getenv('DASH_UI'),
+                          dev_tools_props_check = Sys.getenv('DASH_PROPS_CHECK'),
+                          dev_tools_hot_reload = Sys.getenv('DASH_HOT_RELOAD'),
+                          dev_tools_hot_reload_interval = Sys.getenv('DASH_HOT_RELOAD_INTERVAL'),
+                          dev_tools_hot_reload_watch_interval = Sys.getenv('DASH_HOT_RELOAD_WATCH_INTERVAL)'),
+                          dev_tools_hot_reload_max_retry = Sys.getenv('DASH_HOT_RELOAD_MAX_RETRY'),
                           dev_tools_silence_routes_logging = NULL,
                           ...) {
       if (exists("dash_nested_fiery_server", env=parent.frame(1))) {
         # fiery is attempting to launch a server within a server, abort gracefully
         return(NULL)
       }
+
+      getServerParam <- function(value, type, default) {
+        if (length(value) == 0 || is.na(value))
+          return(default)
+        if (type %in% c("double", "integer") && value < 0)
+          return(default)
+        if (toupper(value) %in% c("TRUE", "FALSE") && type == "logical")
+          value <- as.logical(toupper(value))
+        if (type == "integer")
+          value <- as.integer(value)
+        if (type == "double")
+          value <- as.double(value)        
+        if (value != "" && typeof(value) == type) {
+          return(value)
+        } else {
+          return(default)
+        }
+      }
       
-      self$server$host <- host
-      self$server$port <- as.numeric(port)
+      debug <- getServerParam(debug, "logical", FALSE)
+      private$debug <- debug
       
-      self$config$hot_reload_interval <- dev_tools_hot_reload_interval
-      self$config$hot_reload_watch_interval <- dev_tools_hot_reload_watch_interval
+      self$server$host <- getServerParam(host, "character", "127.0.0.1")
+      self$server$port <- getServerParam(as.integer(port), "integer", 8050)
+
+      dev_tools_ui <- getServerParam(dev_tools_ui, "logical", debug)
+      dev_tools_props_check <- getServerParam(dev_tools_props_check, "logical", debug)
+      dev_tools_silence_routes_logging <- getServerParam(dev_tools_silence_routes_logging, "logical", debug)
+      dev_tools_hot_reload <- getServerParam(dev_tools_hot_reload, "logical", debug)
+            
+      private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
       
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
@@ -635,50 +683,39 @@ Dash <- R6::R6Class(
       } else {
         source_dir <- NULL
       }
-      
+
       # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
       # is invoked via script, source(), or executed dire ctly from console)
-      if (is.null(dev_tools_ui) && debug || isTRUE(dev_tools_ui)) {
-        self$config$ui <- TRUE
+      self$config$ui <- dev_tools_ui
+
+      if (dev_tools_hot_reload) {
+        hot_reload <- TRUE
+        hot_reload_interval <- getServerParam(dev_tools_hot_reload_interval, "double", 3)
+        hot_reload_watch_interval <- getServerParam(dev_tools_hot_reload_watch_interval, "double", 0.5)
+        hot_reload_max_retry <- getServerParam(as.integer(dev_tools_hot_reload_max_retry), "integer", 8)
+        # convert from seconds to msec as used by js `setInterval`
+        self$config$hot_reload <- list(interval = hot_reload_watch_interval * 1000, max_retry = hot_reload_max_retry)
       } else {
-        self$config$ui <- FALSE
-      }
-      
-      if (is.null(dev_tools_hot_reload) && debug || isTRUE(dev_tools_hot_reload)) {
-        self$config$hot_reload <- TRUE
-      } else {
-        self$config$hot_reload <- FALSE
-      }
-      
-      if (is.null(dev_tools_silence_routes_logging) && debug || isTRUE(dev_tools_silence_routes_logging)) {
-        self$config$silence_routes_logging <- TRUE
-      } else {
-        self$config$silence_routes_logging <- FALSE
+        hot_reload <- FALSE
       }
 
-      if (is.null(dev_tools_props_check) && debug || isTRUE(dev_tools_props_check)) {
-        self$config$props_check <- TRUE
-      } else {
-        self$config$props_check <- FALSE
-      }
+      self$config$silence_routes_logging <- dev_tools_silence_routes_logging
+      self$config$props_check <- dev_tools_props_check
 
-      private$prune_errors <- dev_tools_prune_errors
-      private$debug <- debug
-      
-      if (self$config$hot_reload == TRUE & !(is.null(source_dir))) {
+      if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
           # private$last_refresh will get set after the asset_map is refreshed
           # private$last_cycle will be set when the cycle-end handler terminates
-          if (!is.null(private$last_cycle) & !is.null(self$config$hot_reload_watch_interval)) {
+          if (!is.null(private$last_cycle) & !is.null(hot_reload_interval)) {
             # determine if the time since last cycle end is equal to or longer than the requested check interval
-            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= self$config$hot_reload_watch_interval
+            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= hot_reload_interval
           } else {
             permit_reload <- FALSE
           }
-          
+
           if (permit_reload) {
             if (dir.exists(private$assets_folder)) {
               # by specifying asset_path, we can exclude assets from the root_modtime when recursive=TRUE
@@ -696,17 +733,17 @@ Dash <- R6::R6Class(
               updated_assets <- FALSE
               private$app_root_modtime <- current_root_modtime
             }
-            
+
             if (!is.null(current_asset_modtime) && updated_assets) {
               # refreshAssetMap silently returns a list of updated objects in the map
               # we can use this to retrieve the modified files, and also determine if
               # any are scripts or other non-CSS data
               has_assets <- file.exists(file.path(source_dir, private$assets_folder))
-            
+
               if (length(has_assets) != 0 && has_assets) {
                 updated_files <- private$refreshAssetMap()
                 file_extensions <- tools::file_ext(updated_files$modified)
-                
+
                 # if the vector of file_extensions is logical(0), this ensures
                 # we return FALSE instead of logical(0)
                 checkIfCSS <- function(extension) {
@@ -715,15 +752,15 @@ Dash <- R6::R6Class(
                   else
                     return(extension == "css")
                 }
-                
+
                 all_updated <- c(updated_files$added, updated_files$modified)
-                private$modified_since_reload <- lapply(setNames(all_updated, NULL), 
+                private$modified_since_reload <- lapply(setNames(all_updated, NULL),
                                                         function(current_file) {
                                                         list(is_css = checkIfCSS(tools::file_ext(current_file)),
                                                              modified = modtimeFromPath(current_file),
                                                              url = paste(private$assets_url_path, basename(current_file), sep="/"))
                                                           })
-                
+
                 private$asset_modtime <- current_asset_modtime
                 # update the hash passed back to the renderer, and bump the timestamp
                 # to match the current reloading event
@@ -732,15 +769,15 @@ Dash <- R6::R6Class(
                 other_deleted <- any(tools::file_ext(updated_files$deleted) != "css")
                 }
             }
-            
+
             if (updated_assets || updated_root) {
               self$config$reload_hash <- private$generateReloadHash()
               flush.console()
-              
+
               # if any filetypes other than CSS are encountered in those which
               # are modified or deleted, restart the server
               hard_reload <- updated_root || (has_assets && (other_changed || other_added || other_deleted))
-              
+
               if (!hard_reload) {
                 # refresh the index but don't restart the server
                 private$index()
@@ -763,13 +800,13 @@ Dash <- R6::R6Class(
               }
             }
           }
-          
+
           # reset the timestamp so we're able to determine when the last cycle end occurred
           private$last_cycle <- as.integer(Sys.time())
         })
-      } else if (self$config$hot_reload == TRUE & is.null(source_dir)) {
+      } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
-        }      
+        }
       self$server$ignite(block = block, showcase = showcase, ...)
       }
     ),
@@ -788,15 +825,15 @@ Dash <- R6::R6Class(
     css = NULL,
     scripts = NULL,
     other = NULL,
-    
+
     # initialize flags for debug mode and stack pruning
     debug = NULL,
     prune_errors = NULL,
     stack_message = NULL,
-    
+
     # callback context
-    callback_context_ = NULL,   
- 
+    callback_context_ = NULL,
+
     # fields for setting modification times and paths to track state
     asset_modtime = NULL,
     app_launchtime = NULL,
@@ -806,12 +843,12 @@ Dash <- R6::R6Class(
     last_refresh = NULL,
     last_cycle = NULL,
     modified_since_reload = NULL,
-    
+
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
     dependencies_internal = list(),
-    
+
     # layout stuff
     layout_ = NULL,
     layout_ids = NULL,
@@ -908,11 +945,11 @@ Dash <- R6::R6Class(
       } else {
         private$asset_modtime <- modtimeFromPath(private$assets_folder, recursive = TRUE)
       }
-      
+
       # before refreshing the asset map, temporarily store it for the
-      # comparison with the updated map    
+      # comparison with the updated map
       previous_map <- private$asset_map
-      
+
       # refresh the asset map
       current_map <- private$walk_assets_directory(private$assets_folder)
 
@@ -924,25 +961,25 @@ Dash <- R6::R6Class(
         # assets; this returns a list whose subelements correspond to each
         # class, and three vectors of updated objects for each (deleted,
         # changed, and new files)
-        list_of_diffs <- mapply(changedAssets, 
-                                previous_map, 
-                                current_map, 
+        list_of_diffs <- mapply(changedAssets,
+                                previous_map,
+                                current_map,
                                 SIMPLIFY=FALSE)
-        
+
         # these lines collapse the modified assets into vectors, and scrub
         # duplicated NULL return values
         deleted <- unlist(lapply(list_of_diffs, `[`, "deleted"))
         changed <- unlist(lapply(list_of_diffs, `[`, "changed"))
         new <- unlist(lapply(list_of_diffs, `[`, "new"))
-        
+
         # update the asset map
         private$asset_map <- current_map
-        
+
         # when the asset map is refreshed, this function will invisibly
         # return the vectors of updated assets, grouped by deleted,
         # modified, and added files
         private$last_refresh <- as.integer(Sys.time())
-        
+
         return(invisible(list(deleted=deleted,
                               modified=changed,
                               added=new)))
@@ -952,7 +989,7 @@ Dash <- R6::R6Class(
         return(NULL)
       }
     },
-    
+
     walk_assets_directory = function(assets_dir = private$assets_folder) {
       # obtain the full canonical path
       asset_path <- normalizePath(file.path(assets_dir))
@@ -1041,8 +1078,8 @@ Dash <- R6::R6Class(
 
       # set attributes for the return object to include the file
       # modification times for each entry in the asset_map
-      return(list(css = setModtimeAsAttr(css_map), 
-                  scripts = setModtimeAsAttr(scripts_map), 
+      return(list(css = setModtimeAsAttr(css_map),
+                  scripts = setModtimeAsAttr(scripts_map),
                   other = setModtimeAsAttr(other_files_map)
                   )
              )
@@ -1073,21 +1110,21 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     .index = NULL,
-    
+
     generateReloadHash = function() {
       last_update_time <- max(as.integer(private$app_root_modtime),
                               as.integer(private$asset_modtime),
                               as.integer(private$app_launchtime),
                               na.rm=TRUE)
-      
+
       # update the timestamp to reflect the current reloading event
       private$last_reload <- as.integer(Sys.time())
-      
+
       digest::digest(as.character(last_update_time),
                      "md5",
                      serialize = FALSE)
     },
-    
+
     collect_resources = function() {
       # Dash's own dependencies
       # serve the dev version of dash-renderer when in debug mode
@@ -1161,7 +1198,7 @@ Dash <- R6::R6Class(
                              local = FALSE)
 
       # collect JS assets from dependencies
-      # 
+      #
       if (!(is.null(private$asset_map$scripts))) {
         scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$scripts)),
                                                 local = TRUE,

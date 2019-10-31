@@ -951,11 +951,11 @@ getIdProps <- function(output) {
 modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
   # ensure path is properly formatted
   path <- normalizePath(path)
-  
+
   if (is.null(path)) {
     return(NULL)
   }
-  
+
   if (recursive) {
     if (asset_path != "") {
       all_files <- file.info(list.files(path, recursive = TRUE))
@@ -970,12 +970,12 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
     }
   } else {
     # check if the path is for a directory or file, and handle accordingly
-    if (dir.exists(path)) 
+    if (dir.exists(path))
       modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
     else
       modtime <- as.integer(file.info(path)$mtime)
   }
-  
+
   return(modtime)
 }
 
@@ -1099,6 +1099,39 @@ dashLogger <- function(event = NULL,
   }
 }
 
+#' Define a clientside callback
+#'
+#' Create a callback that updates the output by calling a clientside (JavaScript) function instead of an R function.
+#'
+#' @param namespace Character. Describes where the JavaScript function resides (Dash will look
+#' for the function at `window[namespace][function_name]`.)
+#' @param function_name Character. Provides the name of the JavaScript function to call.
+#'
+#' @details With this signature, Dash's front-end will call `window.my_clientside_library.my_function` with the current
+#' values of the `value` properties of the components `my-input` and `another-input` whenever those values change.
+#' Include a JavaScript file by including it your `assets/` folder. The file can be named anything but you'll need to
+#' assign the function's namespace to the `window`. For example, this file might look like:
+#' \preformatted{window.my_clientside_library = \{
+#' my_function: function(input_value_1, input_value_2) \{
+#'    return (
+#'      parseFloat(input_value_1, 10) +
+#'        parseFloat(input_value_2, 10)
+#'    );
+#' \}
+#'\}
+#'}
+#'
+#'
+#' @export
+#' @examples \dontrun{
+#' app$callback(
+#'   output('output-clientside', 'children'),
+#'   params=list(input('input', 'value')),
+#'   clientsideFunction(
+#'   namespace = 'my_clientside_library',
+#'   function_name = 'my_function'
+#'   )
+#' )}
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
 }

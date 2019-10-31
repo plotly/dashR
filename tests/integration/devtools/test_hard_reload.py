@@ -28,7 +28,7 @@ app$callback(
   }
 )
 
-app$run_server(dev_tools_hot_reload=TRUE, dev_tools_hot_reload_interval=0.1, dev_tools_silence_routes_logging=TRUE)
+app$run_server(dev_tools_hot_reload=TRUE, dev_tools_hot_reload_watch_interval=1, dev_tools_hot_reload_interval=0.1, dev_tools_silence_routes_logging=TRUE)
 """
 
 
@@ -60,7 +60,6 @@ def test_rsdv002_hard_reload(dashr):
     )
     with open(app, "w") as f:
         f.write(old_content)
-        time.sleep(1)
     dashr.wait_for_text_to_equal(
         "#output-serverside",
         "Pre-reloading test output should be NULL"
