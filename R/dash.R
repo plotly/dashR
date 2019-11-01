@@ -9,6 +9,7 @@
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
 #'   assets_url_path = '/assets',
+#'   eager_loading = FALSE,
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
 #'   routes_pathname_prefix = '/',
@@ -26,6 +27,7 @@
 #'   .css files will be loaded immediately unless excluded by `assets_ignore`,
 #'   and other files such as images will be served if requested. Default is `assets`. \cr
 #'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr
+#'   `eager_loading` \tab \tab Logical. Controls whether asynchronous resources are prefetched (if `TRUE`) or loaded on-demand (if `FALSE`). \cr
 #'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from
 #'   immediate loading. Ignored files will still be served if specifically requested. You
 #'   cannot use this to prevent access to sensitive files. \cr
@@ -136,6 +138,7 @@ Dash <- R6::R6Class(
                           server = fiery::Fire$new(),
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
+                          eager_loading = FALSE,
                           assets_ignore = '',
                           serve_locally = TRUE,
                           routes_pathname_prefix = NULL,
