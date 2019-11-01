@@ -157,6 +157,7 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       private$name <- name
       private$serve_locally <- serve_locally
+      private$eager_loading <- eager_loading
       # remove leading and trailing slash(es) if present
       private$assets_folder <- gsub("^/+|/+$", "", assets_folder)
       # remove trailing slash in assets_url_path, if present
@@ -610,6 +611,7 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    eager_loading = NULL,
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
