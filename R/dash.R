@@ -599,6 +599,31 @@ Dash <- R6::R6Class(
 
       if (is.function(func)) {
         clientside_function <- NULL
+      } else if (is.character(func)) {
+
+        # if namespace not provided, default to clientside        
+        namespace <- "_dashprivate_clientside"
+        
+        # the following line assigns the name clientside_XX where XX is the count of
+        # existing clientside functions, which guarantees a unique name
+        fn_name <- paste0("_dashprivate_clientside", 
+                          sum(lengths(
+                            vapply(private$callback_map, `[`, list(1), "clientside_function")) > 0) + 1)
+        
+        # hashing the name while keeping it a valid JS function name
+        fn_name <- paste0("_", digest(fn_name, 
+                                      "md5", 
+                                      serialize = FALSE))
+        
+        clientside_function <- list(namespace = namespace,
+                                    function_name = fn_name)
+        
+        # register the function with its hashed name representation
+        private$js_map <- insertIntoJSMap(private$js_map,
+                                          func,
+                                          fn_name)
+        
+        func <- NULL
       } else {
         clientside_function <- func
         func <- NULL
@@ -1227,6 +1252,13 @@ Dash <- R6::R6Class(
                                          "application/javascript",
                                          "var renderer = new DashRenderer();")
 
+      # if inline JS provided, include
+      if (!(is.null(private$js_map))) {
+        scripts_inline <- generate_js_inline(private$js_map)
+      } else {
+        scripts_inline <- NULL
+      }
+      
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
                           css_external,
@@ -1236,6 +1268,7 @@ Dash <- R6::R6Class(
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
+                              scripts_inline,
                               scripts_invoke_renderer),
                             collapse = "\n")
 

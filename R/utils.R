@@ -607,6 +607,18 @@ generate_js_dist_html <- function(href,
   }
 }
 
+generate_js_inline <- function(js_map) {
+  inlineJSFormatted <- paste0("<script>window.dash_clientside = window.dash_clientside || {};
+
+                              (function() {
+                              // some imaginary ES5/mergeDeep function
+                              
+                              mergeDeep(window.dash_clientside, {\n",
+                              paste0(names(js_map), ": {\n", js_map, collapse="},\n"),
+                              "});
+                              })</script>")
+}
+
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
 # to search, then returns the absolute local path (when
@@ -1134,4 +1146,9 @@ dashLogger <- function(event = NULL,
 #' )}
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
+}
+
+insertIntoJSMap <- function(map, func, name) {
+  map[[name]] <- func
+  return(map)
 }
