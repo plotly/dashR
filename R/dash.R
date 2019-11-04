@@ -11,6 +11,7 @@
 #'   assets_url_path = '/assets',
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
+#'   meta_tags = NULL,
 #'   routes_pathname_prefix = '/',
 #'   requests_pathname_prefix = '/',
 #'   external_scripts = NULL,
@@ -34,6 +35,9 @@
 #'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
+#'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
+#'   Each list element should have the attributes and values for one tag, eg:
+#'   `list(name = 'description', content = 'My App')`.\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
@@ -158,6 +162,7 @@ Dash <- R6::R6Class(
                           assets_url_path = '/assets',
                           assets_ignore = '',
                           serve_locally = TRUE,
+                          meta_tags = NULL,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
@@ -181,6 +186,7 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
+      private$meta_tags <- meta_tags
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
@@ -1245,6 +1251,9 @@ Dash <- R6::R6Class(
     },
 
     index = function() {
+      # insert meta tags if present
+      meta_tags <- generate_meta_tags(private$meta_tags)
+      
       # generate tags for all assets
       all_tags <- private$collect_resources()
 
@@ -1261,7 +1270,7 @@ Dash <- R6::R6Class(
         '<!DOCTYPE html>
         <html>
           <head>
-            <meta charset="UTF-8"/>
+            %s
             <title>%s</title>
             %s
             %s
@@ -1278,6 +1287,7 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
+        meta_tags,
         private$name,
         favicon,
         css_tags,

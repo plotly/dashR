@@ -607,6 +607,28 @@ generate_js_dist_html <- function(href,
   }
 }
 
+generate_meta_tags <- function(metas) {
+  has_ie_compat <- any(vapply(metas, function(x) 
+    x$name == "http-equiv" && x$content == "X-UA-Compatible", 
+    logical(1)))
+  has_charset <- any(vapply(metas, function(x) 
+    "charset" %in% names(x), 
+    logical(1)))
+
+  tags <- vapply(metas, 
+                 function(tag) sprintf("<meta name=\"%s\" content=\"%s\">\n", tag$name, tag$content),
+                 character(1))
+  
+  if (!has_ie_compat) {
+    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n', tags)
+  }
+  
+  if (!has_charset) {
+    tags <- c('<meta charset=\"UTF-8\">\n', tags)
+  }
+  return(tags)
+}
+
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
 # to search, then returns the absolute local path (when
