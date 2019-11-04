@@ -593,22 +593,18 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
-
+      
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
+      
       if (is.function(func)) {
         clientside_function <- NULL
       } else if (is.character(func)) {
-
+        
         # if namespace not provided, default to clientside        
         namespace <- "_dashprivate_clientside"
         
-        # the following line assigns the name clientside_XX where XX is the count of
-        # existing clientside functions, which guarantees a unique name
-        fn_name <- paste0("_dashprivate_clientside", 
-                          sum(lengths(
-                            vapply(private$callback_map, `[`, list(1), "clientside_function")) > 0) + 1)
+        fn_name <- paste0("_dashprivate_clientside_", createCallbackId(output))
         
         # hashing the name while keeping it a valid JS function name
         fn_name <- paste0("_", digest(fn_name, 
@@ -619,16 +615,25 @@ Dash <- R6::R6Class(
                                     function_name = fn_name)
         
         # register the function with its hashed name representation
-        private$js_map <- insertIntoJSMap(private$js_map,
-                                          func,
-                                          fn_name)
+        js_map <- insertIntoJSMap(private$js_map,
+                                  func,
+                                  fn_name)
+        
+        # check that no entries in the inline JS map have names matching those in the
+        # callback map, and vice-versas
+        if (length(intersect(names(private$callback_map), 
+                             sub("_dashprivate_clientside_", "", names(private$js_map)))) > 0) {
+          stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
+        } else {
+          private$js_map <- js_map
+        }
         
         func <- NULL
       } else {
         clientside_function <- func
         func <- NULL
       }
-
+      
       # register the callback_map
       private$callback_map <- insertIntoCallbackMap(private$callback_map,
                                                     inputs,
@@ -637,7 +642,7 @@ Dash <- R6::R6Class(
                                                     func,
                                                     clientside_function)
     },
-
+    
     # ------------------------------------------------------------------------
     # request and return callback context
     # ------------------------------------------------------------------------
