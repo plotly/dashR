@@ -709,7 +709,7 @@ stackTraceToHTML <- function(call_stack,
   if(is.null(call_stack)) {
     return(NULL)
   }
-  header <- " ### Dash for R Traceback (most recent/innermost call last) ###"
+  header <- " ### Dash for R Traceback (most recent/innermost call last) ###\n"
 
   formattedStack <- c(paste0(
     "    ",
@@ -720,11 +720,11 @@ stackTraceToHTML <- function(call_stack,
     call_stack,
     " ",
     lapply(call_stack, attr, "lineref"),
-    collapse="<br>"
+    collapse="\n"
   )
   )
 
-  template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
+  template <- "%s\nError: %s: %s\n%s"
   response <- sprintf(template,
                       header,
                       throwing_call,
@@ -732,7 +732,7 @@ stackTraceToHTML <- function(call_stack,
                       formattedStack)
 
   # properly format anonymous tags if present in call stack
-  response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
+  #response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
 
   return(response)
 }
