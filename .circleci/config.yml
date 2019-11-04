@@ -50,6 +50,7 @@ jobs:
       - run:
           name: 🦔 percy finalize
           command: npx percy finalize --all
+          when: always
 
       - run:
           name: 🔎 Unit tests
