@@ -1238,16 +1238,16 @@ Dash <- R6::R6Class(
       css_tags <- paste(c(css_deps,
                           css_external,
                           css_assets),
-                        collapse = "\n")
+                        collapse = "\n            ")
 
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
                               scripts_invoke_renderer),
-                            collapse = "\n")
+                            collapse = "\n              ")
 
       meta_tags <- paste(generate_meta_tags(private$meta_tags),
-                         collapse = "\n")
+                         collapse = "\n            ")
       
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
