@@ -607,6 +607,32 @@ generate_js_dist_html <- function(href,
   }
 }
 
+generate_meta_tags <- function(metas) {
+  has_ie_compat <- any(vapply(metas, function(x) 
+    x$name == "http-equiv" && x$content == "X-UA-Compatible", 
+    logical(1)), na.rm=TRUE)
+  has_charset <- any(vapply(metas, function(x) 
+    "charset" %in% names(x), 
+    logical(1)), na.rm=TRUE)
+  
+  # allow arbitrary tags with varying numbers of keys
+  tags <- vapply(metas, 
+                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"", 
+                                                                  names(tag), 
+                                                                  unlist(tag, use.names = FALSE)), 
+                                                          collapse=" ")),
+                 character(1))
+  
+  if (!has_ie_compat) {
+    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">', tags)
+  }
+  
+  if (!has_charset) {
+    tags <- c('<meta charset=\"UTF-8\">', tags)
+  }
+  return(tags)
+}
+
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
 # to search, then returns the absolute local path (when
@@ -970,7 +996,7 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
     }
   } else {
     # check if the path is for a directory or file, and handle accordingly
-    if (dir.exists(path))
+    if (length(path) == 1 && dir.exists(path))
       modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
     else
       modtime <- as.integer(file.info(path)$mtime)

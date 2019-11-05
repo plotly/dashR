@@ -11,6 +11,7 @@
 #'   assets_url_path = '/assets',
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
+#'   meta_tags = NULL,
 #'   routes_pathname_prefix = '/',
 #'   requests_pathname_prefix = '/',
 #'   external_scripts = NULL,
@@ -34,6 +35,9 @@
 #'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
+#'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
+#'   Each list element should have the attributes and values for one tag, eg:
+#'   `list(name = 'description', content = 'My App')`.\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
@@ -158,6 +162,7 @@ Dash <- R6::R6Class(
                           assets_url_path = '/assets',
                           assets_ignore = '',
                           serve_locally = TRUE,
+                          meta_tags = NULL,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
@@ -181,6 +186,7 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
+      private$meta_tags <- meta_tags
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
@@ -815,6 +821,7 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    meta_tags = NULL,
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
@@ -1231,17 +1238,21 @@ Dash <- R6::R6Class(
       css_tags <- paste(c(css_deps,
                           css_external,
                           css_assets),
-                        collapse = "\n")
+                        collapse = "\n            ")
 
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
                               scripts_invoke_renderer),
-                            collapse = "\n")
+                            collapse = "\n              ")
 
+      meta_tags <- paste(generate_meta_tags(private$meta_tags),
+                         collapse = "\n            ")
+      
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
-                  favicon = favicon))
+                  favicon = favicon,
+                  meta_tags = meta_tags))
     },
 
     index = function() {
@@ -1257,11 +1268,14 @@ Dash <- R6::R6Class(
       # retrieve script tags for serving in the index
       scripts_tags <- all_tags[["scripts_tags"]]
 
+      # insert meta tags if present
+      meta_tags <- all_tags[["meta_tags"]]
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
-            <meta charset="UTF-8"/>
+            %s
             <title>%s</title>
             %s
             %s
@@ -1278,6 +1292,7 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
+        meta_tags,
         private$name,
         favicon,
         css_tags,
