@@ -821,6 +821,7 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    meta_tags = NULL,
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
@@ -1245,15 +1246,16 @@ Dash <- R6::R6Class(
                               scripts_invoke_renderer),
                             collapse = "\n")
 
+      meta_tags <- paste(generate_meta_tags(private$meta_tags),
+                         collapse = "\n")
+      
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
-                  favicon = favicon))
+                  favicon = favicon,
+                  meta_tags = meta_tags))
     },
 
     index = function() {
-      # insert meta tags if present
-      meta_tags <- generate_meta_tags(private$meta_tags)
-      
       # generate tags for all assets
       all_tags <- private$collect_resources()
 
@@ -1266,6 +1268,9 @@ Dash <- R6::R6Class(
       # retrieve script tags for serving in the index
       scripts_tags <- all_tags[["scripts_tags"]]
 
+      # insert meta tags if present
+      meta_tags <- all_tags[["meta_tags"]]
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
