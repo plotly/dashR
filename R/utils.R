@@ -614,9 +614,13 @@ generate_meta_tags <- function(metas) {
   has_charset <- any(vapply(metas, function(x) 
     "charset" %in% names(x), 
     logical(1)))
-
+  
+  # allow arbitrary tags with varying numbers of keys
   tags <- vapply(metas, 
-                 function(tag) sprintf("<meta name=\"%s\" content=\"%s\">", tag$name, tag$content),
+                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"", 
+                                                                  names(tag), 
+                                                                  unlist(tag, use.names = FALSE)), 
+                                                          collapse=" ")),
                  character(1))
   
   if (!has_ie_compat) {
