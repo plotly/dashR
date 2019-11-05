@@ -610,10 +610,10 @@ generate_js_dist_html <- function(href,
 generate_meta_tags <- function(metas) {
   has_ie_compat <- any(vapply(metas, function(x) 
     x$name == "http-equiv" && x$content == "X-UA-Compatible", 
-    logical(1)))
+    logical(1)), na.rm=TRUE)
   has_charset <- any(vapply(metas, function(x) 
     "charset" %in% names(x), 
-    logical(1)))
+    logical(1)), na.rm=TRUE)
   
   # allow arbitrary tags with varying numbers of keys
   tags <- vapply(metas, 
