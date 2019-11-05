@@ -616,15 +616,15 @@ generate_meta_tags <- function(metas) {
     logical(1)))
 
   tags <- vapply(metas, 
-                 function(tag) sprintf("<meta name=\"%s\" content=\"%s\">\n", tag$name, tag$content),
+                 function(tag) sprintf("<meta name=\"%s\" content=\"%s\">", tag$name, tag$content),
                  character(1))
   
   if (!has_ie_compat) {
-    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n', tags)
+    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">', tags)
   }
   
   if (!has_charset) {
-    tags <- c('<meta charset=\"UTF-8\">\n', tags)
+    tags <- c('<meta charset=\"UTF-8\">', tags)
   }
   return(tags)
 }
@@ -992,7 +992,7 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
     }
   } else {
     # check if the path is for a directory or file, and handle accordingly
-    if (dir.exists(path))
+    if (length(path) == 1 && dir.exists(path))
       modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
     else
       modtime <- as.integer(file.info(path)$mtime)
