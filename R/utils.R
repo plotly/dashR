@@ -923,3 +923,15 @@ getIdProps <- function(output) {
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
 }
+
+buildFingerprint <- function(path, version, hash_value) {
+  path <- file.path(path)
+  filename <- tools::file_path_sans_ext(basename(path))
+  extension <- tools::file_ext(path)
+  
+  sprintf("%s.v%sm%s.%s", 
+          file.path(dirname(mypath), filename),
+          gsub("[^\\w-]", "_", version, perl = TRUE),
+          hash_value,
+          extension)
+}
