@@ -935,3 +935,13 @@ buildFingerprint <- function(path, version, hash_value) {
           hash_value,
           extension)
 }
+
+checkFingerprint <- function(path) {
+  name_parts <- unlist(strsplit(basename(path), ".", fixed = TRUE))
+  
+  # Check if the resource has a fingerprint
+  if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
+    return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
+  }
+  return(list(path, FALSE))
+}
