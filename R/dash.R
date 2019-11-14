@@ -633,7 +633,7 @@ Dash <- R6::R6Class(
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
     run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
-                          port = Sys.getenv('DASH_PORT'),
+                          port = Sys.getenv('DASH_PORT', 8050),
                           block = TRUE,
                           showcase = FALSE,
                           use_viewer = FALSE,
