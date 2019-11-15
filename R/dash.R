@@ -187,6 +187,8 @@ Dash <- R6::R6Class(
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
       private$meta_tags <- meta_tags
+      private$has_reloaded <- FALSE
+      private$in_viewer <- FALSE
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
@@ -550,19 +552,19 @@ Dash <- R6::R6Class(
       server$on("start", function(server, ...) {
         private$generateReloadHash()
         private$index()
+        
+        viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
 
-        use_viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
-        host <- dynGet("host")
-        port <- dynGet("port")
+        app_url <- paste0("http://", self$server$host, ":", self$server$port)
 
-        app_url <- paste0("http://", host, ":", port)
-
-        if (use_viewer && host %in% c("localhost", "127.0.0.1"))
+        if (viewer && self$server$host %in% c("localhost", "127.0.0.1")) {
           rstudioapi::viewer(app_url)
-        else if (use_viewer) {
+          private$in_viewer <- TRUE
+          }
+        else if (viewer) {
           warning("\U{26A0} RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
           utils::browseURL(app_url)
-          }
+        }
       })
 
       # user-facing fields
@@ -702,7 +704,7 @@ Dash <- R6::R6Class(
         hot_reload_watch_interval <- getServerParam(dev_tools_hot_reload_watch_interval, "double", 0.5)
         hot_reload_max_retry <- getServerParam(as.integer(dev_tools_hot_reload_max_retry), "integer", 8)
         # convert from seconds to msec as used by js `setInterval`
-        self$config$hot_reload <- list(interval = hot_reload_watch_interval * 1000, max_retry = hot_reload_max_retry)
+        self$config$hot_reload <- list(interval = hot_reload_interval * 1000, max_retry = hot_reload_max_retry)
       } else {
         hot_reload <- FALSE
       }
@@ -713,14 +715,24 @@ Dash <- R6::R6Class(
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
-          # private$last_refresh will get set after the asset_map is refreshed
+          #
+          # private$last_refresh is set after the asset_map is refreshed
+          # private$last_reload stores the time of the last hard or soft reload event
           # private$last_cycle will be set when the cycle-end handler terminates
-          if (!is.null(private$last_cycle) & !is.null(hot_reload_interval)) {
-            # determine if the time since last cycle end is equal to or longer than the requested check interval
-            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= hot_reload_interval
+          #
+          if (!is.null(private$last_cycle) & !is.null(hot_reload_watch_interval)) {
+            if (!private$has_reloaded)
+              # allow reloading on first change, then compare against the hot_reload_watch_interval
+              # to control whether future reloads are permitted on cycle end
+              permit_reload <- TRUE
+            else {
+              # determine if the time since last reload end is equal to or longer than the requested check interval
+              # (Sys.time() - private$last_reload) provides time in seconds, same units as hot_reload_watch_interval
+              permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
+            }
           } else {
             permit_reload <- FALSE
-          }
+          } 
 
           if (permit_reload) {
             if (dir.exists(private$assets_folder)) {
@@ -787,6 +799,9 @@ Dash <- R6::R6Class(
               if (!hard_reload) {
                 # refresh the index but don't restart the server
                 private$index()
+                # while not a "hard" reload, update last_reload to reflect "soft" reloads also
+                # since we determine whether to perform subsequent reloads based this value
+                private$last_reload <- as.integer(Sys.time())
               } else {
                 # if the server was started via Rscript or via source()
                 # then update the app object here
@@ -800,8 +815,12 @@ Dash <- R6::R6Class(
                   private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$index()
+                  # if using the viewer, reload app there
+                  if (private$in_viewer)
+                    rstudioapi::viewer(paste0("http://", self$server$host, ":", self$server$port))
                   # tear down the temporary environment
                   rm(app_env)
+                  private$has_reloaded <- TRUE
                 }
               }
             }
@@ -846,11 +865,17 @@ Dash <- R6::R6Class(
     app_launchtime = NULL,
     app_root_path = NULL,
     app_root_modtime = NULL,
+    
+    # fields for controlling hot reloading state
     last_reload = NULL,
     last_refresh = NULL,
     last_cycle = NULL,
     modified_since_reload = NULL,
+    has_reloaded = NULL,
 
+    # field to store whether viewer has been requested
+    in_viewer = NULL,
+    
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
