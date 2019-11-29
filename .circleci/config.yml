@@ -27,9 +27,9 @@ jobs:
           name: 🚧 install R dependencies
           command: |
               sudo Rscript -e 'install.packages("remotes")'
-              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE)"
+              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE, ref='v1.3.1')"
+              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE, ref='v1.0.1')"
+              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE, ref='v4.4.1')"
               sudo R CMD INSTALL .
 
       - run:
@@ -37,7 +37,7 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
-            git clone --depth 1 https://github.com/plotly/dash.git
+            git clone --depth 1 -b v1.4.1 https://github.com/plotly/dash.git
             cd dash && pip install -e .[testing] --quiet && cd ..
             export PATH=$PATH:/home/circleci/.local/bin/
             pytest tests/integration/
