@@ -187,7 +187,6 @@ Dash <- R6::R6Class(
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
       private$meta_tags <- meta_tags
-      private$has_reloaded <- FALSE
       private$in_viewer <- FALSE
 
       # config options
@@ -721,15 +720,7 @@ Dash <- R6::R6Class(
           # private$last_cycle will be set when the cycle-end handler terminates
           #
           if (!is.null(private$last_cycle) & !is.null(hot_reload_watch_interval)) {
-            if (!private$has_reloaded)
-              # allow reloading on first change, then compare against the hot_reload_watch_interval
-              # to control whether future reloads are permitted on cycle end
-              permit_reload <- TRUE
-            else {
-              # determine if the time since last reload end is equal to or longer than the requested check interval
-              # (Sys.time() - private$last_reload) provides time in seconds, same units as hot_reload_watch_interval
-              permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
-            }
+            permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
           } else {
             permit_reload <- FALSE
           } 
@@ -820,7 +811,6 @@ Dash <- R6::R6Class(
                     rstudioapi::viewer(paste0("http://", self$server$host, ":", self$server$port))
                   # tear down the temporary environment
                   rm(app_env)
-                  private$has_reloaded <- TRUE
                 }
               }
             }
@@ -867,11 +857,10 @@ Dash <- R6::R6Class(
     app_root_modtime = NULL,
     
     # fields for controlling hot reloading state
-    last_reload = NULL,
+    last_reload = numeric(1),
     last_refresh = NULL,
     last_cycle = NULL,
     modified_since_reload = NULL,
-    has_reloaded = NULL,
 
     # field to store whether viewer has been requested
     in_viewer = NULL,
