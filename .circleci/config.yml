@@ -7,6 +7,9 @@ jobs:
     working_directory: ~/dashr
     docker:
       - image: byronz/dashr:ci
+        environment:
+          PERCY_PARALLEL_TOTAL: '-1'
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
 
     steps:
       - checkout
@@ -36,14 +39,18 @@ jobs:
             . venv/bin/activate
             pip install -e git+https://github.com/plotly/dash.git#egg=dash[testing]
             export PATH=$PATH:/home/circleci/.local/bin/
-            export PERCY_ENABLE=0
-            pytest --log-cli-level DEBUG --junitxml=test-reports/dashr.xml tests/integration/
+            pytest --log-cli-level DEBUG --nopercyfinalize --junitxml=test-reports/dashr.xml tests/integration/
       - store_artifacts:
           path: test-reports
       - store_test_results:
           path: test-reports
       - store_artifacts:
           path: /tmp/dash_artifacts
+
+      - run:
+          name: 🦔 percy finalize
+          command: npx percy finalize --all
+          when: always
 
       - run:
           name: 🔎 Unit tests

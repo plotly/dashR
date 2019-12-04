@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 ### Added
+- Support for adding `<meta>` tags to index [#142](https://github.com/plotly/dashR/pull/142)
 - Hot reloading now supported in debug mode [#127](https://github.com/plotly/dashR/pull/127)
 - Support for displaying Dash for R applications within RStudio's viewer pane when `use_viewer = TRUE`
 - Clientside callbacks written in JavaScript are now supported [#130](https://github.com/plotly/dashR/pull/130)
@@ -18,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Patch for `reqres` package to handle cookies containing multiple "=" [#122](https://github.com/plotly/dashR/pull/122)
 - Handling for user-defined errors in callbacks implemented [#116](https://github.com/plotly/dashR/pull/116)
+- Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
 
 ## [0.1.0] - 2019-07-10
 ### Added

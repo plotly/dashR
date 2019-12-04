@@ -11,6 +11,7 @@
 #'   assets_url_path = '/assets',
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
+#'   meta_tags = NULL,
 #'   routes_pathname_prefix = '/',
 #'   requests_pathname_prefix = '/',
 #'   external_scripts = NULL,
@@ -34,6 +35,9 @@
 #'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
+#'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
+#'   Each list element should have the attributes and values for one tag, eg:
+#'   `list(name = 'description', content = 'My App')`.\cr
 #'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
 #'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
 #'   made by Dash's front-end.\cr
@@ -158,6 +162,7 @@ Dash <- R6::R6Class(
                           assets_url_path = '/assets',
                           assets_ignore = '',
                           serve_locally = TRUE,
+                          meta_tags = NULL,
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
@@ -181,6 +186,8 @@ Dash <- R6::R6Class(
       private$suppress_callback_exceptions <- suppress_callback_exceptions
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
+      private$meta_tags <- meta_tags
+      private$in_viewer <- FALSE
 
       # config options
       self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
@@ -544,19 +551,19 @@ Dash <- R6::R6Class(
       server$on("start", function(server, ...) {
         private$generateReloadHash()
         private$index()
+        
+        viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
 
-        use_viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
-        host <- dynGet("host")
-        port <- dynGet("port")
+        app_url <- paste0("http://", self$server$host, ":", self$server$port)
 
-        app_url <- paste0("http://", host, ":", port)
-
-        if (use_viewer && host %in% c("localhost", "127.0.0.1"))
+        if (viewer && self$server$host %in% c("localhost", "127.0.0.1")) {
           rstudioapi::viewer(app_url)
-        else if (use_viewer) {
+          private$in_viewer <- TRUE
+          }
+        else if (viewer) {
           warning("\U{26A0} RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
           utils::browseURL(app_url)
-          }
+        }
       })
 
       # user-facing fields
@@ -627,7 +634,7 @@ Dash <- R6::R6Class(
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
     run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
-                          port = Sys.getenv('DASH_PORT'),
+                          port = Sys.getenv('DASH_PORT', 8050),
                           block = TRUE,
                           showcase = FALSE,
                           use_viewer = FALSE,
@@ -696,7 +703,7 @@ Dash <- R6::R6Class(
         hot_reload_watch_interval <- getServerParam(dev_tools_hot_reload_watch_interval, "double", 0.5)
         hot_reload_max_retry <- getServerParam(as.integer(dev_tools_hot_reload_max_retry), "integer", 8)
         # convert from seconds to msec as used by js `setInterval`
-        self$config$hot_reload <- list(interval = hot_reload_watch_interval * 1000, max_retry = hot_reload_max_retry)
+        self$config$hot_reload <- list(interval = hot_reload_interval * 1000, max_retry = hot_reload_max_retry)
       } else {
         hot_reload <- FALSE
       }
@@ -707,14 +714,16 @@ Dash <- R6::R6Class(
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
-          # private$last_refresh will get set after the asset_map is refreshed
+          #
+          # private$last_refresh is set after the asset_map is refreshed
+          # private$last_reload stores the time of the last hard or soft reload event
           # private$last_cycle will be set when the cycle-end handler terminates
-          if (!is.null(private$last_cycle) & !is.null(hot_reload_interval)) {
-            # determine if the time since last cycle end is equal to or longer than the requested check interval
-            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= hot_reload_interval
+          #
+          if (!is.null(private$last_cycle) & !is.null(hot_reload_watch_interval)) {
+            permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
           } else {
             permit_reload <- FALSE
-          }
+          } 
 
           if (permit_reload) {
             if (dir.exists(private$assets_folder)) {
@@ -781,6 +790,9 @@ Dash <- R6::R6Class(
               if (!hard_reload) {
                 # refresh the index but don't restart the server
                 private$index()
+                # while not a "hard" reload, update last_reload to reflect "soft" reloads also
+                # since we determine whether to perform subsequent reloads based this value
+                private$last_reload <- as.integer(Sys.time())
               } else {
                 # if the server was started via Rscript or via source()
                 # then update the app object here
@@ -794,6 +806,9 @@ Dash <- R6::R6Class(
                   private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$index()
+                  # if using the viewer, reload app there
+                  if (private$in_viewer)
+                    rstudioapi::viewer(paste0("http://", self$server$host, ":", self$server$port))
                   # tear down the temporary environment
                   rm(app_env)
                 }
@@ -815,6 +830,7 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    meta_tags = NULL,
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
@@ -839,11 +855,16 @@ Dash <- R6::R6Class(
     app_launchtime = NULL,
     app_root_path = NULL,
     app_root_modtime = NULL,
-    last_reload = NULL,
+    
+    # fields for controlling hot reloading state
+    last_reload = numeric(1),
     last_refresh = NULL,
     last_cycle = NULL,
     modified_since_reload = NULL,
 
+    # field to store whether viewer has been requested
+    in_viewer = NULL,
+    
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
@@ -1231,17 +1252,21 @@ Dash <- R6::R6Class(
       css_tags <- paste(c(css_deps,
                           css_external,
                           css_assets),
-                        collapse = "\n")
+                        collapse = "\n            ")
 
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
                               scripts_invoke_renderer),
-                            collapse = "\n")
+                            collapse = "\n              ")
 
+      meta_tags <- paste(generate_meta_tags(private$meta_tags),
+                         collapse = "\n            ")
+      
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
-                  favicon = favicon))
+                  favicon = favicon,
+                  meta_tags = meta_tags))
     },
 
     index = function() {
@@ -1257,11 +1282,14 @@ Dash <- R6::R6Class(
       # retrieve script tags for serving in the index
       scripts_tags <- all_tags[["scripts_tags"]]
 
+      # insert meta tags if present
+      meta_tags <- all_tags[["meta_tags"]]
+      
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
           <head>
-            <meta charset="UTF-8"/>
+            %s
             <title>%s</title>
             %s
             %s
@@ -1278,6 +1306,7 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
+        meta_tags,
         private$name,
         favicon,
         css_tags,
