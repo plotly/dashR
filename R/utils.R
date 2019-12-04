@@ -930,7 +930,7 @@ buildFingerprint <- function(path, version, hash_value) {
   extension <- tools::file_ext(path)
   
   sprintf("%s.v%sm%s.%s", 
-          file.path(dirname(mypath), filename),
+          file.path(dirname(path), filename),
           gsub("[^\\w-]", "_", version, perl = TRUE),
           hash_value,
           extension)
