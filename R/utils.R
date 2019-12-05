@@ -155,31 +155,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # package and add the version number of the package as a query
     # parameter for cache busting
     if (!is.null(dep$package)) {
-      if(!(is.null(dep$script))) {
-        filename <- dep$script
-      } else {
-        filename <- dep$stylesheet
-      }
-
-      dep_path <- paste(dep$src$file, filename, sep="/")
-
-      # the gsub line is to remove stray duplicate slashes, to
-      # permit exact string matching on pathnames
-      dep_path <- gsub("//+",
-                       "/",
-                       dep_path)
-
-      full_path <- system.file(dep_path,
-                               package = dep$package)
-
-      if (!file.exists(full_path)) {
-        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
-                        full_path,
-                        dep$package,
-                        filename),
-                call. = FALSE)
-      }
-
+      full_path <- getDependencyPath(dep)
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
@@ -945,3 +921,37 @@ checkFingerprint <- function(path) {
   }
   return(list(path, FALSE))
 }
+
+getDependencyPath <- function(dep) {
+  if (missing(dep)) {
+    stop("getDependencyPath requires that a valid dependency object is passed. Please verify that dep is non-missing.")
+  }
+  
+  if(!(is.null(dep$script))) {
+    filename <- dep$script
+    } else {
+      filename <- dep$stylesheet
+    }
+  
+  dep_path <- paste(dep$src$file, filename, sep="/")
+  
+  # the gsub line is to remove stray duplicate slashes, to
+  # permit exact string matching on pathnames
+  dep_path <- gsub("//+",
+                   "/",
+                   dep_path)
+  
+  full_path_to_dependency <- system.file(dep_path,
+                                         package = dep$package)
+  
+  if (!file.exists(full_path_to_dependency)) {
+    warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
+                    full_path_to_dependency,
+                    dep$package,
+                    filename),
+            call. = FALSE)
+  }
+
+  return(full_path_to_dependency)
+}
+
