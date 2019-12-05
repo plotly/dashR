@@ -902,8 +902,8 @@ clientsideFunction <- function(namespace, function_name) {
 
 buildFingerprint <- function(path, version, hash_value) {
   path <- file.path(path)
-  filename <- tools::file_path_sans_ext(basename(path))
-  extension <- tools::file_ext(path)
+  filename <- getFileSansExt(path)
+  extension <- getFileExt(path)
   
   sprintf("%s.v%sm%s.%s", 
           file.path(dirname(path), filename),
@@ -955,3 +955,17 @@ getDependencyPath <- function(dep) {
   return(full_path_to_dependency)
 }
 
+# the base R functions which strip extensions and filenames without
+# extensions from paths are not robust to multipart extensions,
+# such as .js.map or .min.js; these are functions intended to
+# perform reliably in such cases. the first occurrence of a dot
+# is replaced with an asterisk, which is generally an invalid
+# filename character in any modern filesystem, since it represents
+# a wildcard. the resulting string is then split on the asterisk.
+getFileSansExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "*"))[1]
+}
+
+getFileExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "*"))[2]
+}
