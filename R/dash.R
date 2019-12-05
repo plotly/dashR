@@ -373,12 +373,25 @@ Dash <- R6::R6Class(
 
       # This endpoint supports dynamic dependency loading
       # during `_dash-update-component` -- for reference:
-      # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
+      #
+      # analogous to
+      # https://github.com/plotly/dash/blob/2d735aa250fc67b14dc8f6a337d15a16b7cbd6f8/dash/dash.py#L543-L551
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
-
+      
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         filename <- basename(file.path(keys$filename))
+        
+        # checkFingerprint returns a list of length 2, the first element is
+        # the un-fingerprinted path, if a fingerprint is present (otherwise
+        # the original path is returned), while the second element indicates
+        # whether the original filename included a valid fingerprint (by
+        # Dash convention)
+        fingerprinting_metadata <- checkFingerprint(filename)
+        
+        filename <- fingerprinting_metadata[[1]]
+        has_fingerprint <- fingerprinting_metadata[[2]] == TRUE
+        
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
                       private$dependencies_user)
@@ -387,7 +400,6 @@ Dash <- R6::R6Class(
                                        keys$package_name,
                                        clean_dependencies(dep_list)
                                        )
-
 
         # return warning if a dependency goes unmatched, since the page
         # will probably fail to render properly anyway without it
@@ -399,17 +411,36 @@ Dash <- R6::R6Class(
           response$body <- NULL
           response$status <- 404L
         } else {
+          # need to check for debug mode, don't cache, don't etag
+          # if debug mode is not active
           dep_path <- system.file(dep_pkg$rpkg_path,
                                   package = dep_pkg$rpkg_name)
 
           response$body <- readLines(dep_path,
                                      warn = FALSE,
                                      encoding = "UTF-8")
-          response$status <- 200L
-          response$set_header('Cache-Control',
-                              sprintf('public, max-age=%s',
-                                      components_cache_max_age)
-                              )
+
+          if (!private$debug && has_fingerprint) {
+            response$status <- 200L
+            response$set_header('Cache-Control',
+                                sprintf('public, max-age=%s',
+                                        31536000) # 1 year
+            )
+          } else if (!private$debug && !has_fingerprint) {
+            modified <- as.character(as.integer(file.mtime(dep_path)))
+            
+            response$set_header('ETag', modified)
+            
+            request_etag <- request$headers[["If-None-Match"]]
+            
+            if (modified == request_etag) {
+              response$body <- NULL
+              response$status <- 304L
+            } 
+          } else {
+            response$status <- 200L
+          }
+
           response$type <- get_mimetype(filename)
         }
 
@@ -888,7 +919,14 @@ Dash <- R6::R6Class(
       scripts_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$script)) return(NULL)
         dep$stylesheet <- NULL
-        dep
+        # need to fingerprint the script name
+        # first, identify modtime of file
+        # then create a modifictation timestamp as integer
+        # finally, invoke buildFingerprint to generate a
+        # compliant fingerprinted path for the renderer
+        script_mtime <- file.mtime(getDependencyPath(dep))
+        modtime <- as.integer(script_mtime)
+        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
       }))
 
       scripts_deps <- render_dependencies(scripts_deps,
