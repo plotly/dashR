@@ -167,7 +167,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
-
       } else {
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
@@ -919,7 +918,7 @@ checkFingerprint <- function(path) {
   if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
     return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
   }
-  return(list(path, FALSE))
+  return(list(basename(path), FALSE))
 }
 
 getDependencyPath <- function(dep) {
@@ -928,12 +927,12 @@ getDependencyPath <- function(dep) {
   }
   
   if(!(is.null(dep$script))) {
-    filename <- dep$script
+    filename <- checkFingerprint(dep$script)[[1]]
     } else {
       filename <- dep$stylesheet
     }
   
-  dep_path <- paste(dep$src$file, filename, sep="/")
+  dep_path <- file.path(dep$src$file, filename)
   
   # the gsub line is to remove stray duplicate slashes, to
   # permit exact string matching on pathnames
@@ -941,15 +940,20 @@ getDependencyPath <- function(dep) {
                    "/",
                    dep_path)
   
-  full_path_to_dependency <- system.file(dep_path,
-                                         package = dep$package)
-  
+  # this may generate doubled slashes, which should not
+  # pose problems on Mac OS, Windows, or Linux systems
+  full_path_to_dependency <- system.file(file.path(dep$src$file, 
+                                                   returnDirname(dep$script), 
+                                                   filename), 
+                                         package=dep$package)
+
   if (!file.exists(full_path_to_dependency)) {
-    warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
-                    full_path_to_dependency,
-                    dep$package,
-                    filename),
-            call. = FALSE)
+    write(crayon::yellow(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
+                                 dep_path,
+                                 dep$package,
+                                 filename)
+                         ),
+          stderr())
   }
 
   return(full_path_to_dependency)
@@ -963,9 +967,31 @@ getDependencyPath <- function(dep) {
 # filename character in any modern filesystem, since it represents
 # a wildcard. the resulting string is then split on the asterisk.
 getFileSansExt <- function(filepath) {
-  unlist(strsplit(sub("[.]", "*", basename(filepath)), "*"))[1]
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[1]
 }
 
 getFileExt <- function(filepath) {
-  unlist(strsplit(sub("[.]", "*", basename(filepath)), "*"))[2]
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[2]
+}
+
+returnDirname <- function(filepath) {
+  dirname <- dirname(filepath)
+  if (dirname == ".")
+    return("")
+  return(dirname)
+}
+
+isDynamic <- function(eager_loading, resource) {
+  if (
+    is.null(resource$dynamic) && is.null(resource$async)
+  )
+    return(FALSE)
+  # need assert that async and dynamic are not both present
+  if (
+    (!is.null(resource$dynamic) && (resource$dynamic == FALSE)) ||
+    (eager_loading==TRUE && !is.null(resource$async) && (resource$async %in% c("eager", TRUE)))
+  )
+    return(FALSE)
+  else
+    return(TRUE)
 }
