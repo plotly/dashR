@@ -37,6 +37,7 @@ Remotes: plotly/dash-html-components@17da1f4,
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+KeepSource: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
