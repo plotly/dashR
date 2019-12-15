@@ -1233,11 +1233,14 @@ Dash <- R6::R6Class(
                                       prefix=self$config$requests_pathname_prefix)
       
       # ensure that no dependency has both async and dynamic set
-      if (any(vapply(foo, function(dep) {
-        length(intersect(c("dynamic", "async"), 
-                         names(dep)) > 1), 
-        logical(1)))
-      } stop("Can't have both 'dynamic' and 'async' in a Dash dependency; please correct and reload.", call. = FALSE)
+      if (any(
+        vapply(depsAll, function(dep)
+          length(intersect(c("dynamic", "async"), names(dep))) > 1,
+          logical(1)
+        )
+       )
+      ) 
+        stop("Can't have both 'dynamic' and 'async' in a Dash dependency; please correct and reload.", call. = FALSE)
 
       # remove dependencies which are dynamic from the script list
       # to avoid placing them into the index
