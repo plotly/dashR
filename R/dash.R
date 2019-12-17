@@ -484,7 +484,7 @@ Dash <- R6::R6Class(
           response$type <- get_mimetype(filename)
         }
 
-        if (private$compress && !is.null(response$body)) {
+        if (private$compress && length(response$body) > 0) {
           # reqres's compress method requires that body is a single
           # string, but readLines returns a vector of strings for
           # multi-line files
@@ -535,16 +535,17 @@ Dash <- R6::R6Class(
                                        warn = FALSE,
                                        encoding = "UTF-8")
             
-            if (private$compress) {
+            if (private$compress && length(response$body) > 0) {
               response$body <- paste(response$body, collapse="\n")
               response$compress()
             }
           } else {
             file_handle <- file(asset_path, "rb")
+            file_size <- file.size(asset_path)
             
             response$body <- readBin(file_handle,
                                      raw(),
-                                     file.size(asset_path))
+                                     file_size)
             close(file_handle)
           }
           
@@ -572,8 +573,6 @@ Dash <- R6::R6Class(
         response$type <- 'image/x-icon'
         response$status <- 200L
         
-        if (private$compress)
-          response$compress()
         TRUE
       })
 
