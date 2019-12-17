@@ -1254,17 +1254,6 @@ Dash <- R6::R6Class(
       scripts_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$script)) return(NULL)
         dep$stylesheet <- NULL
-        # need to fingerprint the script name
-        # first, identify modtime of file
-        # then create a modifictation timestamp as integer
-        # finally, invoke buildFingerprint to generate a
-        # compliant fingerprinted path for the renderer
-        #
-        # need to move this block out so we don't set
-        # dep$script
-        script_mtime <- file.mtime(getDependencyPath(dep))
-        modtime <- as.integer(script_mtime)
-        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
         dep
       }))
 

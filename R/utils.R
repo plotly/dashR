@@ -168,6 +168,9 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
       } else {
+        script_mtime <- file.mtime(getDependencyPath(dep))
+        modtime <- as.integer(script_mtime)
+        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
