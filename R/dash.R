@@ -170,6 +170,7 @@ Dash <- R6::R6Class(
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
                           external_stylesheets = NULL,
+                          compress = TRUE,
                           suppress_callback_exceptions = FALSE) {
 
       # argument type checking
@@ -188,6 +189,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+      private$compress <- compress      
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
       private$meta_tags <- meta_tags
@@ -244,6 +246,9 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
+        
+        if (private$compress)
+          response$compress()
         TRUE
       })
 
@@ -254,6 +259,7 @@ Dash <- R6::R6Class(
           response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
+          
           return(FALSE)
         }
 
@@ -269,6 +275,8 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(setNames(payload, NULL))
         response$status <- 200L
         response$type <- 'json'
+        if (private$compress)
+          response$compress()
         TRUE
       })
 
@@ -397,6 +405,9 @@ Dash <- R6::R6Class(
           response$status <- 500L
           private$stack_message <- NULL
         }
+        
+        if (private$compress)
+          response$compress()
         TRUE
       })
 
@@ -444,10 +455,11 @@ Dash <- R6::R6Class(
           # if debug mode is not active
           dep_path <- system.file(dep_pkg$rpkg_path,
                                   package = dep_pkg$rpkg_name)
-
+          
           response$body <- readLines(dep_path,
                                      warn = FALSE,
                                      encoding = "UTF-8")
+          
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
             response$set_header('Cache-Control',
@@ -470,6 +482,14 @@ Dash <- R6::R6Class(
           }
 
           response$type <- get_mimetype(filename)
+        }
+
+        if (private$compress && !is.null(response$body)) {
+          # reqres's compress method requires that body is a single
+          # string, but readLines returns a vector of strings for
+          # multi-line files
+          response$body <- paste(response$body, collapse="\n")
+          response$compress()
         }
 
         TRUE
@@ -514,14 +534,20 @@ Dash <- R6::R6Class(
             response$body <- readLines(asset_path,
                                        warn = FALSE,
                                        encoding = "UTF-8")
+            
+            if (private$compress) {
+              response$body <- paste(response$body, collapse="\n")
+              response$compress()
+            }
           } else {
             file_handle <- file(asset_path, "rb")
+            
             response$body <- readBin(file_handle,
                                      raw(),
                                      file.size(asset_path))
             close(file_handle)
           }
-
+          
           response$status <- 200L
         }
         TRUE
@@ -545,6 +571,9 @@ Dash <- R6::R6Class(
                             )
         response$type <- 'image/x-icon'
         response$status <- 200L
+        
+        if (private$compress)
+          response$compress()
         TRUE
       })
 
@@ -554,6 +583,9 @@ Dash <- R6::R6Class(
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
+        
+        if (private$compress)
+          response$compress()
         TRUE
       })
 
@@ -582,6 +614,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
+        
         # reset the field for the next reloading operation
         private$modified_since_reload <- list()
         TRUE
@@ -880,6 +913,7 @@ Dash <- R6::R6Class(
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
+    compress = NULL,
     asset_map = NULL,
     css = NULL,
     scripts = NULL,
