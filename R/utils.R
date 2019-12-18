@@ -1169,8 +1169,10 @@ getDependencyPath <- function(dep) {
   
   if(!(is.null(dep$script))) {
     filename <- checkFingerprint(dep$script)[[1]]
+    dirname <- returnDirname(dep$script)
     } else {
       filename <- dep$stylesheet
+      dirname <- returnDirname(filename)
     }
   
   dep_path <- file.path(dep$src$file, filename)
@@ -1184,7 +1186,7 @@ getDependencyPath <- function(dep) {
   # this may generate doubled slashes, which should not
   # pose problems on Mac OS, Windows, or Linux systems
   full_path_to_dependency <- system.file(file.path(dep$src$file, 
-                                                   returnDirname(dep$script), 
+                                                   dirname, 
                                                    filename), 
                                          package=dep$package)
 
@@ -1217,7 +1219,7 @@ getFileExt <- function(filepath) {
 
 returnDirname <- function(filepath) {
   dirname <- dirname(filepath)
-  if (dirname == ".")
+  if (is.null(dirname) || dirname == ".")
     return("")
   return(dirname)
 }
@@ -1235,4 +1237,18 @@ isDynamic <- function(eager_loading, resource) {
     return(FALSE)
   else
     return(TRUE)
+}
+
+compressResponse <- function(response, method = "deflate") {
+  if (method == "deflate") {
+    response$set_header("Content-Encoding",
+                        "deflate")
+    response$body <- memCompress(response$body, "gzip")
+  } else if (method == "brotli") {
+    response$set_header("Content-Encoding",
+                        "br")    
+    #response$body <- paste(response$body, collapse="\n")
+    response$body <- brotli::brotli_compress(charToRaw(response$body))
+  }
+  response
 }

@@ -473,9 +473,11 @@ Dash <- R6::R6Class(
             
             request_etag <- request$headers[["If-None-Match"]]
             
-            if (modified == request_etag) {
+            if (!is.null(request_etag) && modified == request_etag) {
               response$body <- NULL
               response$status <- 304L
+            } else {
+              response$status <- 200L
             } 
           } else {
             response$status <- 200L
