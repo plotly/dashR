@@ -1,7 +1,7 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [0.2.0] - 2019-12-19
 ### Added
 - Support for asynchronous/dynamic loading of dependencies, resource caching, and asset fingerprinting [#157](https://github.com/plotly/dashR/pull/157)
 - Compression of text resources using `brotli`, `gzip`, or `deflate` [#157](https://github.com/plotly/dashR/pull/157)
