@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 ### Added
+- Support for asynchronous/dynamic loading of dependencies, resource caching, and asset fingerprinting [#157](https://github.com/plotly/dashR/pull/157)
+- Compression of text resources using `brotli`, `gzip`, or `deflate` [#157](https://github.com/plotly/dashR/pull/157)
 - Support for adding `<meta>` tags to index [#142](https://github.com/plotly/dashR/pull/142)
 - Hot reloading now supported in debug mode [#127](https://github.com/plotly/dashR/pull/127)
 - Support for displaying Dash for R applications within RStudio's viewer pane when `use_viewer = TRUE`
