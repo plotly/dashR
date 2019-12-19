@@ -1075,10 +1075,15 @@ dashLogger <- function(event = NULL,
   # is called from a private method within the Dash() R6 class; this makes
   # accessing variables set within Dash's private fields somewhat complicated
   #
-  # the following line retrieves the value of the silence_route_logging parameter,
-  # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
-  silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
-
+  # the following lines retrieve the value of the silence_route_logging parameter,
+  # which is many frames up the stack; if it's not found, we'll assume FALSE
+  self_object <- dynGet("self", ifnotfound = NULL)
+  
+  if (!is.null(self_object))
+    silence_routes_logging <- self_object$config$silence_routes_logging
+  else
+    silence_routes_logging <- FALSE
+  
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
 
