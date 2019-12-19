@@ -247,8 +247,8 @@ Dash <- R6::R6Class(
         response$status <- 200L
         response$type <- 'json'
         
-        if (private$compress)
-          response$compress()
+        
+          
         TRUE
       })
 
@@ -276,7 +276,7 @@ Dash <- R6::R6Class(
         response$status <- 200L
         response$type <- 'json'
         if (private$compress)
-          response$compress()
+          response <- tryCompress(request, response)
         TRUE
       })
 
@@ -407,7 +407,7 @@ Dash <- R6::R6Class(
         }
         
         if (private$compress)
-          response$compress()
+          response <- tryCompress(request, response)
         TRUE
       })
 
@@ -486,13 +486,8 @@ Dash <- R6::R6Class(
           response$type <- get_mimetype(filename)
         }
 
-        if (private$compress && length(response$body) > 0) {
-          # reqres's compress method requires that body is a single
-          # string, but readLines returns a vector of strings for
-          # multi-line files
-          response$body <- paste(response$body, collapse="\n")
-          response$compress()
-        }
+        if (private$compress && length(response$body) > 0)
+          response <- tryCompress(request, response)
 
         TRUE
       })
@@ -538,8 +533,7 @@ Dash <- R6::R6Class(
                                        encoding = "UTF-8")
             
             if (private$compress && length(response$body) > 0) {
-              response$body <- paste(response$body, collapse="\n")
-              response$compress()
+              response <- tryCompress(request, response)
             }
           } else {
             file_handle <- file(asset_path, "rb")
@@ -586,7 +580,7 @@ Dash <- R6::R6Class(
         response$type <- 'html'
         
         if (private$compress)
-          response$compress()
+          response <- tryCompress(request, response)
         TRUE
       })
 

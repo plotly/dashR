@@ -1239,16 +1239,22 @@ isDynamic <- function(eager_loading, resource) {
     return(TRUE)
 }
 
-compressResponse <- function(response, method = "deflate") {
-  if (method == "deflate") {
-    response$set_header("Content-Encoding",
-                        "deflate")
-    response$body <- memCompress(response$body, "gzip")
-  } else if (method == "brotli") {
-    response$set_header("Content-Encoding",
-                        "br")    
-    #response$body <- paste(response$body, collapse="\n")
-    response$body <- brotli::brotli_compress(charToRaw(response$body))
+tryCompress <- function(request, response) {
+  # charToRaw requires a length one character string
+  response$body <- paste(response$body, collapse="\n")
+  # the reqres gzip implementation requires file I/O
+  # brotli does not; when available, use brotli with
+  # a moderate level of compression for speed --
+  # the viewer pane only supports gzip and deflate,
+  # so gzip will be used when launching apps within
+  # RStudio
+  tryBrotli <- request$accepts_encoding('br')
+  if (tryBrotli == "br") {
+    response$body <- brotli::brotli_compress(charToRaw(response$body), 
+                                             quality = 3)
+    response$set_header('Content-Encoding', 
+                        "br")
+    return(response)
   }
-  response
+  return(response$compress())
 }
