@@ -155,31 +155,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # package and add the version number of the package as a query
     # parameter for cache busting
     if (!is.null(dep$package)) {
-      if(!(is.null(dep$script))) {
-        filename <- dep$script
-      } else {
-        filename <- dep$stylesheet
-      }
-
-      dep_path <- paste(dep$src$file, filename, sep="/")
-
-      # the gsub line is to remove stray duplicate slashes, to
-      # permit exact string matching on pathnames
-      dep_path <- gsub("//+",
-                       "/",
-                       dep_path)
-
-      full_path <- system.file(dep_path,
-                               package = dep$package)
-
-      if (!file.exists(full_path)) {
-        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
-                        full_path,
-                        dep$package,
-                        filename),
-                call. = FALSE)
-      }
-
+      full_path <- getDependencyPath(dep)
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
@@ -191,8 +167,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
-
       } else {
+        script_mtime <- file.mtime(getDependencyPath(dep))
+        modtime <- as.integer(script_mtime)
+        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
@@ -1097,10 +1075,15 @@ dashLogger <- function(event = NULL,
   # is called from a private method within the Dash() R6 class; this makes
   # accessing variables set within Dash's private fields somewhat complicated
   #
-  # the following line retrieves the value of the silence_route_logging parameter,
-  # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
-  silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
-
+  # the following lines retrieve the value of the silence_route_logging parameter,
+  # which is many frames up the stack; if it's not found, we'll assume FALSE
+  self_object <- dynGet("self", ifnotfound = NULL)
+  
+  if (!is.null(self_object))
+    silence_routes_logging <- self_object$config$silence_routes_logging
+  else
+    silence_routes_logging <- FALSE
+  
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
 
@@ -1160,4 +1143,123 @@ dashLogger <- function(event = NULL,
 #' )}
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
+}
+
+buildFingerprint <- function(path, version, hash_value) {
+  path <- file.path(path)
+  filename <- getFileSansExt(path)
+  extension <- getFileExt(path)
+  
+  sprintf("%s.v%sm%s.%s", 
+          file.path(dirname(path), filename),
+          gsub("[^\\w-]", "_", version, perl = TRUE),
+          hash_value,
+          extension)
+}
+
+checkFingerprint <- function(path) {
+  name_parts <- unlist(strsplit(basename(path), ".", fixed = TRUE))
+  
+  # Check if the resource has a fingerprint
+  if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
+    return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
+  }
+  return(list(basename(path), FALSE))
+}
+
+getDependencyPath <- function(dep) {
+  if (missing(dep)) {
+    stop("getDependencyPath requires that a valid dependency object is passed. Please verify that dep is non-missing.")
+  }
+  
+  if(!(is.null(dep$script))) {
+    filename <- checkFingerprint(dep$script)[[1]]
+    dirname <- returnDirname(dep$script)
+    } else {
+      filename <- dep$stylesheet
+      dirname <- returnDirname(filename)
+    }
+  
+  dep_path <- file.path(dep$src$file, filename)
+  
+  # the gsub line is to remove stray duplicate slashes, to
+  # permit exact string matching on pathnames
+  dep_path <- gsub("//+",
+                   "/",
+                   dep_path)
+  
+  # this may generate doubled slashes, which should not
+  # pose problems on Mac OS, Windows, or Linux systems
+  full_path_to_dependency <- system.file(file.path(dep$src$file, 
+                                                   dirname, 
+                                                   filename), 
+                                         package=dep$package)
+
+  if (!file.exists(full_path_to_dependency)) {
+    write(crayon::yellow(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
+                                 dep_path,
+                                 dep$package,
+                                 filename)
+                         ),
+          stderr())
+  }
+
+  return(full_path_to_dependency)
+}
+
+# the base R functions which strip extensions and filenames without
+# extensions from paths are not robust to multipart extensions,
+# such as .js.map or .min.js; these are functions intended to
+# perform reliably in such cases. the first occurrence of a dot
+# is replaced with an asterisk, which is generally an invalid
+# filename character in any modern filesystem, since it represents
+# a wildcard. the resulting string is then split on the asterisk.
+getFileSansExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[1]
+}
+
+getFileExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[2]
+}
+
+returnDirname <- function(filepath) {
+  dirname <- dirname(filepath)
+  if (is.null(dirname) || dirname == ".")
+    return("")
+  return(dirname)
+}
+
+isDynamic <- function(eager_loading, resource) {
+  if (
+    is.null(resource$dynamic) && is.null(resource$async)
+  )
+    return(FALSE)
+  # need assert that async and dynamic are not both present
+  if (
+    (!is.null(resource$dynamic) && (resource$dynamic == FALSE)) ||
+    (eager_loading==TRUE && !is.null(resource$async) && (resource$async %in% c("eager", TRUE)))
+  )
+    return(FALSE)
+  else
+    return(TRUE)
+}
+
+tryCompress <- function(request, response) {
+  # charToRaw requires a length one character string
+  response$body <- paste(response$body, collapse="\n")
+  # the reqres gzip implementation requires file I/O
+  # brotli does not; when available, use brotli with
+  # a moderate level of compression for speed --
+  # the viewer pane only supports gzip and deflate,
+  # so gzip will be used when launching apps within
+  # RStudio
+  tryBrotli <- request$accepts_encoding('br')
+  if (tryBrotli == "br") {
+    response$body <- brotli::brotli_compress(charToRaw(response$body), 
+                                             quality = 3)
+    response$set_header('Content-Encoding', 
+                        "br")
+    return(response)
+  }
+  return(response$compress())
 }
