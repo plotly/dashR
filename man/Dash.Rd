@@ -17,8 +17,10 @@ name = "dash",
 server = fiery::Fire$new(),
 assets_folder = 'assets',
 assets_url_path = '/assets',
+eager_loading = FALSE,
 assets_ignore = '',
 serve_locally = TRUE,
+meta_tags = NULL,
 routes_pathname_prefix = '/',
 requests_pathname_prefix = '/',
 external_scripts = NULL,
@@ -39,11 +41,15 @@ for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
 and other files such as images will be served if requested. Default is \code{assets}. \cr
 \code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
+\code{eager_loading} \tab \tab Logical. Controls whether asynchronous resources are prefetched (if \code{TRUE}) or loaded on-demand (if \code{FALSE}). \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
 \code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
+\code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
+Each list element should have the attributes and values for one tag, eg:
+\code{list(name = 'description', content = 'My App')}.\cr
 \code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
 \code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
 made by Dash's front-end.\cr
