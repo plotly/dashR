@@ -31,9 +31,9 @@ Collate:
   'imports.R'
   'print.R'
   'internal.R'
-Remotes: plotly/dash-html-components@64c2b1e,
-  plotly/dash-core-components@d171919,
-  plotly/dash-table@12caa6d
+Remotes: plotly/dash-html-components@55c3884,
+  plotly/dash-core-components@c107e0f,
+  plotly/dash-table@3058bd5
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
