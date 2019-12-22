@@ -128,7 +128,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(dashCoreComponents)
+#' library(dashHtmlComponents)
 #' library(dash)
+
 #' app <- Dash$new()
 #' app$layout(
 #'  dccInput(id = "inputID", value = "initial value", type = "text"),
