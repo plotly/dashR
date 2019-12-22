@@ -142,6 +142,8 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 
 \examples{
 \dontrun{
+library(dashCoreComponents)
+library(dashHtmlComponents)
 library(dash)
 app <- Dash$new()
 app$layout(
