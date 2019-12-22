@@ -474,7 +474,7 @@ Dash <- R6::R6Class(
             
             response$set_header('ETag', modified)
             
-            request_etag <- request$headers[["If-None-Match"]]
+            request_etag <- request$get_header('If-None-Match') 
             
             if (!is.null(request_etag) && modified == request_etag) {
               response$body <- NULL
