@@ -896,6 +896,35 @@ Dash <- R6::R6Class(
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
         }
       self$server$ignite(block = block, showcase = showcase, ...)
+      },
+    
+    # ------------------------------------------------------------------------
+    # get_asset_url helper function
+    # ------------------------------------------------------------------------
+      get_asset_url = function(asset_path, prefix = "/") {
+        # We can start by stripping the asset name and checking if
+        # it exists within our assets directory.
+        asset <-
+          regmatches(asset_path, regexpr("([^/]+$)", asset_path))
+        assets_files <-
+          regmatches(list.files(paste0(getwd(), "/assets"), recursive = TRUE),
+                     regexpr("([^/]+$)", list.files(paste0(
+                       getwd(), "/assets"
+                     ), recursive = TRUE)))
+        # Check to see if the asset exists in the local assets directory.
+        if (!(asset %in% assets_files))
+          stop("This asset does not exist in assets directory.")
+        # Search for and return the directory path for the asset.
+        asset_url <-
+          list.files(
+            paste0(getwd(), "/assets"),
+            pattern = paste0("^", asset, "$"),
+            recursive = TRUE,
+            full.names = TRUE
+          )
+        asset_url <-
+          regmatches(asset_url, regexpr("(/assets.*$)", asset_url))
+        return(asset_url)
       }
     ),
 
