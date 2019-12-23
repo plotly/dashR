@@ -586,25 +586,25 @@ generate_js_dist_html <- function(href,
 }
 
 generate_meta_tags <- function(metas) {
-  has_ie_compat <- any(vapply(metas, function(x) 
-    x$name == "http-equiv" && x$content == "X-UA-Compatible", 
+  has_ie_compat <- any(vapply(metas, function(x)
+    x$name == "http-equiv" && x$content == "X-UA-Compatible",
     logical(1)), na.rm=TRUE)
-  has_charset <- any(vapply(metas, function(x) 
-    "charset" %in% names(x), 
+  has_charset <- any(vapply(metas, function(x)
+    "charset" %in% names(x),
     logical(1)), na.rm=TRUE)
-  
+
   # allow arbitrary tags with varying numbers of keys
-  tags <- vapply(metas, 
-                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"", 
-                                                                  names(tag), 
-                                                                  unlist(tag, use.names = FALSE)), 
+  tags <- vapply(metas,
+                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"",
+                                                                  names(tag),
+                                                                  unlist(tag, use.names = FALSE)),
                                                           collapse=" ")),
                  character(1))
-  
+
   if (!has_ie_compat) {
     tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">', tags)
   }
-  
+
   if (!has_charset) {
     tags <- c('<meta charset=\"UTF-8\">', tags)
   }
@@ -1078,12 +1078,12 @@ dashLogger <- function(event = NULL,
   # the following lines retrieve the value of the silence_route_logging parameter,
   # which is many frames up the stack; if it's not found, we'll assume FALSE
   self_object <- dynGet("self", ifnotfound = NULL)
-  
+
   if (!is.null(self_object))
     silence_routes_logging <- self_object$config$silence_routes_logging
   else
     silence_routes_logging <- FALSE
-  
+
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
 
@@ -1149,8 +1149,8 @@ buildFingerprint <- function(path, version, hash_value) {
   path <- file.path(path)
   filename <- getFileSansExt(path)
   extension <- getFileExt(path)
-  
-  sprintf("%s.v%sm%s.%s", 
+
+  sprintf("%s.v%sm%s.%s",
           file.path(dirname(path), filename),
           gsub("[^\\w-]", "_", version, perl = TRUE),
           hash_value,
@@ -1159,7 +1159,7 @@ buildFingerprint <- function(path, version, hash_value) {
 
 checkFingerprint <- function(path) {
   name_parts <- unlist(strsplit(basename(path), ".", fixed = TRUE))
-  
+
   # Check if the resource has a fingerprint
   if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
     return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
@@ -1171,7 +1171,7 @@ getDependencyPath <- function(dep) {
   if (missing(dep)) {
     stop("getDependencyPath requires that a valid dependency object is passed. Please verify that dep is non-missing.")
   }
-  
+
   if(!(is.null(dep$script))) {
     filename <- checkFingerprint(dep$script)[[1]]
     dirname <- returnDirname(dep$script)
@@ -1179,20 +1179,20 @@ getDependencyPath <- function(dep) {
       filename <- dep$stylesheet
       dirname <- returnDirname(filename)
     }
-  
+
   dep_path <- file.path(dep$src$file, filename)
-  
+
   # the gsub line is to remove stray duplicate slashes, to
   # permit exact string matching on pathnames
   dep_path <- gsub("//+",
                    "/",
                    dep_path)
-  
+
   # this may generate doubled slashes, which should not
   # pose problems on Mac OS, Windows, or Linux systems
-  full_path_to_dependency <- system.file(file.path(dep$src$file, 
-                                                   dirname, 
-                                                   filename), 
+  full_path_to_dependency <- system.file(file.path(dep$src$file,
+                                                   dirname,
+                                                   filename),
                                          package=dep$package)
 
   if (!file.exists(full_path_to_dependency)) {
@@ -1255,9 +1255,9 @@ tryCompress <- function(request, response) {
   # RStudio
   tryBrotli <- request$accepts_encoding('br')
   if (tryBrotli == "br") {
-    response$body <- brotli::brotli_compress(charToRaw(response$body), 
+    response$body <- brotli::brotli_compress(charToRaw(response$body),
                                              quality = 3)
-    response$set_header('Content-Encoding', 
+    response$set_header('Content-Encoding',
                         "br")
     return(response)
   }

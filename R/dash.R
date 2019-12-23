@@ -192,7 +192,7 @@ Dash <- R6::R6Class(
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
-      private$compress <- compress      
+      private$compress <- compress
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
       private$meta_tags <- meta_tags
@@ -249,9 +249,9 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
-        
-        
-          
+
+
+
         TRUE
       })
 
@@ -262,7 +262,7 @@ Dash <- R6::R6Class(
           response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
-          
+
           return(FALSE)
         }
 
@@ -408,7 +408,7 @@ Dash <- R6::R6Class(
           response$status <- 500L
           private$stack_message <- NULL
         }
-        
+
         if (private$compress)
           response <- tryCompress(request, response)
         TRUE
@@ -421,20 +421,20 @@ Dash <- R6::R6Class(
       # analogous to
       # https://github.com/plotly/dash/blob/2d735aa250fc67b14dc8f6a337d15a16b7cbd6f8/dash/dash.py#L543-L551
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
-      
+
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         filename <- basename(file.path(keys$filename))
-        
+
         # checkFingerprint returns a list of length 2, the first element is
         # the un-fingerprinted path, if a fingerprint is present (otherwise
         # the original path is returned), while the second element indicates
         # whether the original filename included a valid fingerprint (by
         # Dash convention)
         fingerprinting_metadata <- checkFingerprint(filename)
-        
+
         filename <- fingerprinting_metadata[[1]]
         has_fingerprint <- fingerprinting_metadata[[2]] == TRUE
-        
+
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
                       private$dependencies_user)
@@ -458,11 +458,11 @@ Dash <- R6::R6Class(
           # if debug mode is not active
           dep_path <- system.file(dep_pkg$rpkg_path,
                                   package = dep_pkg$rpkg_name)
-          
+
           response$body <- readLines(dep_path,
                                      warn = FALSE,
                                      encoding = "UTF-8")
-          
+
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
             response$set_header('Cache-Control',
@@ -471,17 +471,17 @@ Dash <- R6::R6Class(
             )
           } else if (!private$debug && !has_fingerprint) {
             modified <- as.character(as.integer(file.mtime(dep_path)))
-            
+
             response$set_header('ETag', modified)
-            
-            request_etag <- request$headers[["If-None-Match"]]
-            
+
+            request_etag <- request$get_header('If-None-Match')
+
             if (!is.null(request_etag) && modified == request_etag) {
               response$body <- NULL
               response$status <- 304L
             } else {
               response$status <- 200L
-            } 
+            }
           } else {
             response$status <- 200L
           }
@@ -534,20 +534,20 @@ Dash <- R6::R6Class(
             response$body <- readLines(asset_path,
                                        warn = FALSE,
                                        encoding = "UTF-8")
-            
+
             if (private$compress && length(response$body) > 0) {
               response <- tryCompress(request, response)
             }
           } else {
             file_handle <- file(asset_path, "rb")
             file_size <- file.size(asset_path)
-            
+
             response$body <- readBin(file_handle,
                                      raw(),
                                      file_size)
             close(file_handle)
           }
-          
+
           response$status <- 200L
         }
         TRUE
@@ -571,7 +571,7 @@ Dash <- R6::R6Class(
                             )
         response$type <- 'image/x-icon'
         response$status <- 200L
-        
+
         TRUE
       })
 
@@ -581,7 +581,7 @@ Dash <- R6::R6Class(
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
-        
+
         if (private$compress)
           response <- tryCompress(request, response)
         TRUE
@@ -612,7 +612,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
-        
+
         # reset the field for the next reloading operation
         private$modified_since_reload <- list()
         TRUE
@@ -624,7 +624,7 @@ Dash <- R6::R6Class(
       server$on("start", function(server, ...) {
         private$generateReloadHash()
         private$index()
-        
+
         viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
 
         app_url <- paste0("http://", self$server$host, ":", self$server$port)
@@ -736,17 +736,17 @@ Dash <- R6::R6Class(
         if (type == "integer")
           value <- as.integer(value)
         if (type == "double")
-          value <- as.double(value)        
+          value <- as.double(value)
         if (value != "" && typeof(value) == type) {
           return(value)
         } else {
           return(default)
         }
       }
-      
+
       debug <- getServerParam(debug, "logical", FALSE)
       private$debug <- debug
-      
+
       self$server$host <- getServerParam(host, "character", "127.0.0.1")
       self$server$port <- getServerParam(as.integer(port), "integer", 8050)
 
@@ -754,9 +754,9 @@ Dash <- R6::R6Class(
       dev_tools_props_check <- getServerParam(dev_tools_props_check, "logical", debug)
       dev_tools_silence_routes_logging <- getServerParam(dev_tools_silence_routes_logging, "logical", debug)
       dev_tools_hot_reload <- getServerParam(dev_tools_hot_reload, "logical", debug)
-            
+
       private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
-      
+
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
@@ -796,7 +796,7 @@ Dash <- R6::R6Class(
             permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
           } else {
             permit_reload <- FALSE
-          } 
+          }
 
           if (permit_reload) {
             if (dir.exists(private$assets_folder)) {
@@ -930,7 +930,7 @@ Dash <- R6::R6Class(
     app_launchtime = NULL,
     app_root_path = NULL,
     app_root_modtime = NULL,
-    
+
     # fields for controlling hot reloading state
     last_reload = numeric(1),
     last_refresh = NULL,
@@ -939,7 +939,7 @@ Dash <- R6::R6Class(
 
     # field to store whether viewer has been requested
     in_viewer = NULL,
-    
+
     # fields for tracking HTML dependencies
     dependencies = list(),
     dependencies_user = list(),
@@ -1263,7 +1263,7 @@ Dash <- R6::R6Class(
       css_deps <- render_dependencies(css_deps,
                                       local = private$serve_locally,
                                       prefix=self$config$requests_pathname_prefix)
-      
+
       # ensure that no dependency has both async and dynamic set
       if (any(
         vapply(depsAll, function(dep)
@@ -1271,16 +1271,16 @@ Dash <- R6::R6Class(
           logical(1)
         )
        )
-      ) 
+      )
         stop("Can't have both 'dynamic' and 'async' in a Dash dependency; please correct and reload.", call. = FALSE)
 
       # remove dependencies which are dynamic from the script list
       # to avoid placing them into the index
-      depsAll <- depsAll[!vapply(depsAll, 
-                                 isDynamic, 
-                                 logical(1), 
+      depsAll <- depsAll[!vapply(depsAll,
+                                 isDynamic,
+                                 logical(1),
                                  eager_loading = private$eager_loading)]
-      
+
       # scripts go after dash-renderer dependencies (i.e., React),
       # but before dash-renderer itself
       scripts_deps <- compact(lapply(depsAll, function(dep) {
@@ -1354,7 +1354,7 @@ Dash <- R6::R6Class(
 
       meta_tags <- paste(generate_meta_tags(private$meta_tags),
                          collapse = "\n            ")
-      
+
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
                   favicon = favicon,
@@ -1376,7 +1376,7 @@ Dash <- R6::R6Class(
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
-      
+
       private$.index <- sprintf(
         '<!DOCTYPE html>
         <html>
