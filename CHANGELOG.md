@@ -15,10 +15,12 @@ All notable changes to this project will be documented in this file.
 - Integration and unit tests are now performed when commits are made to open pull requests
 
 ### Changed
+- `dash-renderer` updated to v1.2.2 [#137](https://github.com/plotly/dashR/pull/137)
 - Dash for R no longer requires forked `reqres`, patch applied upstream [thomasp85/reqres#9](https://github.com/thomasp85/reqres/pull/9)
 - The `pruned_errors` parameter has been renamed to `dev_tools_prune_errors` [#113](https://github.com/plotly/dashR/pull/113)
 
 ### Fixed
+- Stack traces now display properly within viewer pane when `debug = TRUE` and `use_viewer = TRUE` [#137](https://github.com/plotly/dashR/pull/137)
 - Patch for `reqres` package to handle cookies containing multiple "=" [#122](https://github.com/plotly/dashR/pull/122)
 - Handling for user-defined errors in callbacks implemented [#116](https://github.com/plotly/dashR/pull/116)
 - Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
