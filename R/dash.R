@@ -733,7 +733,10 @@ Dash <- R6::R6Class(
       # asset path & prepend the asset name with route prefix
       return(gsub(pattern="/+",
                   replacement="/",
-                  paste(prefix, asset, sep="/")))
+                  paste(prefix, 
+                        private$assets_url_path, 
+                        asset, 
+                        sep="/")))
     },
     
     # ------------------------------------------------------------------------
