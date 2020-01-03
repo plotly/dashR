@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Additional line number context inserted when available within stack traces [#133](https://github.com/plotly/dashR/pull/133)
 - Integration and unit tests are now performed when commits are made to open pull requests
 - Support returning asset URLs via `app$get_asset_url` when app is loaded via `source()` or `APP_ROOT_PATH` environment variable is defined [#160](https://github.com/plotly/dashR/pull/160)
+- `url_base_pathname` added; mimics functionality in Dash for Python, sets defaults for `routes_pathname_prefix` and `requests_pathname_prefix` when not otherwise provided [#161](https://github.com/plotly/dashR/pull/161)
 
 ### Changed
 - `dash-renderer` updated to v1.2.2 [#137](https://github.com/plotly/dashR/pull/137)
@@ -25,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - Patch for `reqres` package to handle cookies containing multiple "=" [#122](https://github.com/plotly/dashR/pull/122)
 - Handling for user-defined errors in callbacks implemented [#116](https://github.com/plotly/dashR/pull/116)
 - Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
+- `get_asset_url` checks `getAppPath()` as well as `DASH_APP_ROOT_PATH` environment variable when invoked [#161](https://github.com/plotly/dashR/pull/161)
 
 ## [0.1.0] - 2019-07-10
 ### Added
