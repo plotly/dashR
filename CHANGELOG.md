@@ -1,7 +1,7 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
-## [0.2.0] - 2019-12-23
+## [0.2.0] - 2020-01-03
 ### Added
 - Support for asynchronous/dynamic loading of dependencies, resource caching, and asset fingerprinting [#157](https://github.com/plotly/dashR/pull/157)
 - Compression of text resources using `brotli`, `gzip`, or `deflate` [#157](https://github.com/plotly/dashR/pull/157)
@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Selective callback updates to properties now supported with `dashNoUpdate()` [#111](https://github.com/plotly/dashR/pull/111)
 - Additional line number context inserted when available within stack traces [#133](https://github.com/plotly/dashR/pull/133)
 - Integration and unit tests are now performed when commits are made to open pull requests
+- Support returning asset URLs via `app$get_asset_url` when app is loaded via `source()` or `APP_ROOT_PATH` environment variable is defined [#160](https://github.com/plotly/dashR/pull/160)
 
 ### Changed
 - `dash-renderer` updated to v1.2.2 [#137](https://github.com/plotly/dashR/pull/137)
