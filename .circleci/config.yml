@@ -6,7 +6,7 @@ jobs:
   "test": &test-template
     working_directory: ~/dashr
     docker:
-      - image: plotly/dashr:ci
+      - image: byronz/dashr:ci
         environment:
           PERCY_PARALLEL_TOTAL: '-1'
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
