@@ -702,7 +702,53 @@ Dash <- R6::R6Class(
       }
       private$callback_context_
     },
-
+    
+    # ------------------------------------------------------------------------
+    # return asset URLs
+    # ------------------------------------------------------------------------
+    get_asset_url = function(asset_path, prefix = "/") {
+      app_root_path <- Sys.getenv("DASH_APP_PATH")
+      
+      if (app_root_path == "" && getAppPath() != FALSE) {
+        # app loaded via source(), root path is known
+        app_root_path <- dirname(private$app_root_path)
+      } else {
+        # app not loaded via source(), env var not set, no reliable way to ascertain root path
+        warning("application not started via source(), and DASH_APP_PATH environment variable is undefined. get_asset_url returns NULL since root path cannot be reliably identified.")
+        return(NULL)
+      }
+      
+      asset <- lapply(private$asset_map, 
+                      function(x) {
+                        # asset_path should be prepended with the full app root & assets path
+                        # if leading slash(es) present in asset_path, remove them before
+                        # assembling full asset path
+                        asset_path <- file.path(app_root_path,
+                                                private$assets_folder, 
+                                                sub(pattern="^/+",
+                                                    replacement="",
+                                                    asset_path))
+                        return(names(x[x == asset_path]))
+                      }
+      )
+      asset <- unlist(asset, use.names = FALSE)
+      
+      if (length(asset) == 0)
+        stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
+                     asset_path,
+                     private$assets_folder))
+      
+      # strip multiple slashes if present, since we'll
+      # introduce one when we concatenate the prefix and
+      # asset path & prepend the asset name with route prefix
+      return(gsub(pattern="/+",
+                  replacement="/",
+                  paste(prefix, 
+                        private$assets_url_path, 
+                        asset, 
+                        sep="/")))
+    },
+    
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -1051,7 +1097,7 @@ Dash <- R6::R6Class(
 
       # need to check whether the assets have actually been updated, since
       # this function is also called to generate the asset map
-      if (private$asset_modtime > private$app_launchtime) {
+      if (!is.na(private$asset_modtime) && private$asset_modtime > private$app_launchtime) {
         # here we use mapply to make pairwise comparisons for each of the
         # asset classes in the map -- before/after for css, js, and other
         # assets; this returns a list whose subelements correspond to each
