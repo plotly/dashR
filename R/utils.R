@@ -457,7 +457,7 @@ valid_seq <- function(params) {
   }
 }
 
-resolve_prefix <- function(prefix, environment_var) {
+resolve_prefix <- function(prefix, environment_var, base_pathname) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
 
@@ -467,7 +467,11 @@ resolve_prefix <- function(prefix, environment_var) {
     if (prefix_env != "") {
       return(prefix_env)
     } else {
-      return("/")
+      env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+      if (env_base_pathname != "")
+        return(env_base_pathname)
+      else
+        return(base_pathname)
     }
   }
 }

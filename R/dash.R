@@ -13,8 +13,9 @@
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
 #'   meta_tags = NULL,
-#'   routes_pathname_prefix = '/',
-#'   requests_pathname_prefix = '/',
+#'   url_base_pathname = '/',
+#'   routes_pathname_prefix = NULL,
+#'   requests_pathname_prefix = NULL,
 #'   external_scripts = NULL,
 #'   external_stylesheets = NULL,
 #'   suppress_callback_exceptions = FALSE
@@ -35,19 +36,23 @@
 #'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from
 #'   immediate loading. Ignored files will still be served if specifically requested. You
 #'   cannot use this to prevent access to sensitive files. \cr
-#'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
+#'   `serve_locally` \tab \tab Logical. Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
 #'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
 #'   Each list element should have the attributes and values for one tag, eg:
 #'   `list(name = 'description', content = 'My App')`.\cr
-#'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
-#'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
-#'   made by Dash's front-end.\cr
-#'   `external_scripts` \tab \tab An optional list of valid URLs from which
+#'   `url_base_pathname` \tab \tab Character. A local URL prefix to use app-wide. Default is
+#'   `/`. Both `requests_pathname_prefix` and `routes_pathname_prefix` default to `url_base_pathname`.
+#'   Environment variable is `DASH_URL_BASE_PATHNAME`.\cr
+#'   `routes_pathname_prefix` \tab \tab Character. A prefix applied to the backend routes.
+#'   Environment variable is `DASH_ROUTES_PATHNAME_PREFIX`.\cr
+#'   `requests_pathname_prefix` \tab \tab Character. A prefix applied to request endpoints
+#'   made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.\cr
+#'   `external_scripts` \tab \tab List. An optional list of valid URLs from which
 #'   to serve JavaScript source for rendered pages.\cr
-#'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
+#'   `external_stylesheets` \tab \tab List. An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
-#'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
+#'   `suppress_callback_exceptions` \tab \tab Logical. Whether to relay warnings about
 #'   possible layout mis-specifications when registering a callback.
 #'  }
 #'
@@ -100,6 +105,14 @@
 #'     the firing of a given callback, and allows introspection of the input/state
 #'     values given their names. It is only available from within a callback;
 #'     attempting to use this method outside of a callback will result in a warning.
+#'   }
+#'   \item{`get_asset_url(asset_path, prefix)`}{
+#'     The `get_asset_url` method permits retrieval of an asset's URL given its filename.
+#'     For example, `app$get_asset_url('style.css')` should return `/assets/style.css` when
+#'     `assets_folder = 'assets'`. By default, the prefix is the value of `requests_pathname_prefix`,
+#'     but this is configurable via the `prefix` parameter. Note: this method will
+#'     present a warning and return `NULL` if the Dash app was not loaded via `source()`
+#'     if the `DASH_APP_PATH` environment variable is undefined.
 #'   }
 #'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),
 #'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
@@ -169,6 +182,7 @@ Dash <- R6::R6Class(
                           assets_ignore = '',
                           serve_locally = TRUE,
                           meta_tags = NULL,
+                          url_base_pathname = "/",
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
@@ -199,8 +213,8 @@ Dash <- R6::R6Class(
       private$in_viewer <- FALSE
 
       # config options
-      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
-      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
+      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 
@@ -706,13 +720,13 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # return asset URLs
     # ------------------------------------------------------------------------
-    get_asset_url = function(asset_path, prefix = "/") {
+    get_asset_url = function(asset_path, prefix = self$config$requests_pathname_prefix) {
       app_root_path <- Sys.getenv("DASH_APP_PATH")
       
       if (app_root_path == "" && getAppPath() != FALSE) {
         # app loaded via source(), root path is known
         app_root_path <- dirname(private$app_root_path)
-      } else {
+      } else if (getAppPath() == FALSE) {
         # app not loaded via source(), env var not set, no reliable way to ascertain root path
         warning("application not started via source(), and DASH_APP_PATH environment variable is undefined. get_asset_url returns NULL since root path cannot be reliably identified.")
         return(NULL)
@@ -954,6 +968,7 @@ Dash <- R6::R6Class(
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
+    url_base_pathname = NULL,
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,

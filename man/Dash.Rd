@@ -21,8 +21,9 @@ eager_loading = FALSE,
 assets_ignore = '',
 serve_locally = TRUE,
 meta_tags = NULL,
-routes_pathname_prefix = '/',
-requests_pathname_prefix = '/',
+url_base_pathname = '/',
+routes_pathname_prefix = NULL,
+requests_pathname_prefix = NULL,
 external_scripts = NULL,
 external_stylesheets = NULL,
 suppress_callback_exceptions = FALSE
@@ -45,19 +46,23 @@ and other files such as images will be served if requested. Default is \code{ass
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
-\code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
+\code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
 \code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
 Each list element should have the attributes and values for one tag, eg:
 \code{list(name = 'description', content = 'My App')}.\cr
-\code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
-\code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
-made by Dash's front-end.\cr
-\code{external_scripts} \tab \tab An optional list of valid URLs from which
+\code{url_base_pathname} \tab \tab Character. A local URL prefix to use app-wide. Default is
+\code{/}. Both \code{requests_pathname_prefix} and \code{routes_pathname_prefix} default to \code{url_base_pathname}.
+Environment variable is \code{DASH_URL_BASE_PATHNAME}.\cr
+\code{routes_pathname_prefix} \tab \tab Character. A prefix applied to the backend routes.
+Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.\cr
+\code{requests_pathname_prefix} \tab \tab Character. A prefix applied to request endpoints
+made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.\cr
+\code{external_scripts} \tab \tab List. An optional list of valid URLs from which
 to serve JavaScript source for rendered pages.\cr
-\code{external_stylesheets} \tab \tab An optional list of valid URLs from which
+\code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
 to serve CSS for rendered pages.\cr
-\code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
+\code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
 possible layout mis-specifications when registering a callback.
 }
 }
@@ -114,6 +119,14 @@ The \code{callback_context} method permits retrieving the inputs which triggered
 the firing of a given callback, and allows introspection of the input/state
 values given their names. It is only available from within a callback;
 attempting to use this method outside of a callback will result in a warning.
+}
+\item{\code{get_asset_url(asset_path, prefix)}}{
+The \code{get_asset_url} method permits retrieval of an asset's URL given its filename.
+For example, \code{app$get_asset_url('style.css')} should return \code{/assets/style.css} when
+\code{assets_folder = 'assets'}. By default, the prefix is the value of \code{requests_pathname_prefix},
+but this is configurable via the \code{prefix} parameter. Note: this method will
+present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
+if the \code{DASH_APP_PATH} environment variable is undefined.
 }
 \item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
 The \code{run_server} method has 13 formal arguments, several of which are optional:
