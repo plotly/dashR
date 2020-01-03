@@ -729,26 +729,24 @@ Dash <- R6::R6Class(
                                                     replacement="",
                                                     asset_path))
                         return(names(x[x == asset_path]))
-                        }
-                      )
-        asset <- unlist(asset, use.names = FALSE)
-        
-        if (length(asset) == 0)
-          stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
-                       asset_path,
-                       private$assets_folder))
-        
-        # strip multiple slashes if present, since we'll
-        # introduce one when we concatenate the prefix and
-        # asset path & prepend the asset name with route prefix
-        return(gsub(pattern="/+",
-                    replacement="/",
-                    paste(prefix, 
-                          private$assets_url_path, 
-                          asset, 
-                          sep="/")))
-      }
-
+                      }
+      )
+      asset <- unlist(asset, use.names = FALSE)
+      
+      if (length(asset) == 0)
+        stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
+                     asset_path,
+                     private$assets_folder))
+      
+      # strip multiple slashes if present, since we'll
+      # introduce one when we concatenate the prefix and
+      # asset path & prepend the asset name with route prefix
+      return(gsub(pattern="/+",
+                  replacement="/",
+                  paste(prefix, 
+                        private$assets_url_path, 
+                        asset, 
+                        sep="/")))
     },
     
     # ------------------------------------------------------------------------
