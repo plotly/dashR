@@ -1099,7 +1099,7 @@ Dash <- R6::R6Class(
 
       # need to check whether the assets have actually been updated, since
       # this function is also called to generate the asset map
-      if (private$asset_modtime > private$app_launchtime) {
+      if (!is.na(private$asset_modtime) && private$asset_modtime > private$app_launchtime) {
         # here we use mapply to make pairwise comparisons for each of the
         # asset classes in the map -- before/after for css, js, and other
         # assets; this returns a list whose subelements correspond to each
