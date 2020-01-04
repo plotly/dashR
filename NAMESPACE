@@ -2,6 +2,7 @@
 
 S3method(print,dash_component)
 export(Dash)
+export(clientsideFunction)
 export(dashNoUpdate)
 export(input)
 export(output)

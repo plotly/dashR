@@ -20,7 +20,7 @@ Dash is an open source package, released under the permissive MIT license. Plotl
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://dashr-docs.herokuapp.com}
+  \item \url{http://dashr.plot.ly}
   \item \url{https://github.com/plotly/dashR}
   \item Report bugs at \url{https://github.com/plotly/dashR/issues}
 }

@@ -17,10 +17,16 @@ name = "dash",
 server = fiery::Fire$new(),
 assets_folder = 'assets',
 assets_url_path = '/assets',
+eager_loading = FALSE,
 assets_ignore = '',
 serve_locally = TRUE,
-routes_pathname_prefix = '/',
-requests_pathname_prefix = '/'
+meta_tags = NULL,
+url_base_pathname = '/',
+routes_pathname_prefix = NULL,
+requests_pathname_prefix = NULL,
+external_scripts = NULL,
+external_stylesheets = NULL,
+suppress_callback_exceptions = FALSE
 )
 }
 
@@ -36,23 +42,28 @@ for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
 and other files such as images will be served if requested. Default is \code{assets}. \cr
 \code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
+\code{eager_loading} \tab \tab Logical. Controls whether asynchronous resources are prefetched (if \code{TRUE}) or loaded on-demand (if \code{FALSE}). \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
-\code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
+\code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
-\code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
-\code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
-made by Dash's front-end.\cr
-\code{external_scripts} \tab \tab An optional list of valid URLs from which
+\code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
+Each list element should have the attributes and values for one tag, eg:
+\code{list(name = 'description', content = 'My App')}.\cr
+\code{url_base_pathname} \tab \tab Character. A local URL prefix to use app-wide. Default is
+\code{/}. Both \code{requests_pathname_prefix} and \code{routes_pathname_prefix} default to \code{url_base_pathname}.
+Environment variable is \code{DASH_URL_BASE_PATHNAME}.\cr
+\code{routes_pathname_prefix} \tab \tab Character. A prefix applied to the backend routes.
+Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.\cr
+\code{requests_pathname_prefix} \tab \tab Character. A prefix applied to request endpoints
+made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.\cr
+\code{external_scripts} \tab \tab List. An optional list of valid URLs from which
 to serve JavaScript source for rendered pages.\cr
-\code{external_stylesheets} \tab \tab An optional list of valid URLs from which
+\code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
 to serve CSS for rendered pages.\cr
-\code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
-possible layout mis-specifications when registering a callback. \cr
-\code{components_cache_max_age} \tab \tab An integer value specifying the time
-interval prior to expiring cached assets. The default is 2678400 seconds,
-or 31 calendar days.
+\code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
+possible layout mis-specifications when registering a callback.
 }
 }
 
@@ -90,18 +101,53 @@ The \code{callback} method has three formal arguments:
 \describe{
 \item{output}{a named list including a component \code{id} and \code{property}}
 \item{params}{an unnamed list of \link{input} and \link{state} statements, each with defined \code{id} and \code{property}}
-\item{func}{any valid R function which generates \link{output} provided \link{input} and/or \link{state} arguments}
+\item{func}{any valid R function which generates \link{output} provided \link{input} and/or \link{state} arguments, or a call to \link{clientsideFunction} including \code{namespace} and \code{function_name} arguments for a locally served JavaScript function}
 }
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
 trigger the callback are then described by the \link{input} (and/or \link{state})
 object(s) (which should reference layout components), which become
-argument values for the callback handler defined in \code{func}.
+argument values for R callback handlers defined in \code{func}. Here \code{func} may
+either be an anonymous R function, or a call to \code{clientsideFunction()}, which
+describes a locally served JavaScript function instead. The latter defines a
+"clientside callback", which updates components without passing data to and
+from the Dash backend. The latter may offer improved performance relative
+to callbacks written in R.
 }
-\item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),  port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
-Launch the application. If provided, \code{host}/\code{port} set
-the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web
-server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
+\item{\code{callback_context()}}{
+The \code{callback_context} method permits retrieving the inputs which triggered
+the firing of a given callback, and allows introspection of the input/state
+values given their names. It is only available from within a callback;
+attempting to use this method outside of a callback will result in a warning.
+}
+\item{\code{get_asset_url(asset_path, prefix)}}{
+The \code{get_asset_url} method permits retrieval of an asset's URL given its filename.
+For example, \code{app$get_asset_url('style.css')} should return \code{/assets/style.css} when
+\code{assets_folder = 'assets'}. By default, the prefix is the value of \code{requests_pathname_prefix},
+but this is configurable via the \code{prefix} parameter. Note: this method will
+present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
+if the \code{DASH_APP_PATH} environment variable is undefined.
+}
+\item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
+The \code{run_server} method has 13 formal arguments, several of which are optional:
+\describe{
+\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{DASH_HOST}.}
+\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{DASH_PORT}.}
+\item{block}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
+\item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
+\item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
+\item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. Environment variable: \code{DASH_DEBUG}.}
+\item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_UI}.}
+\item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Requires that the Dash application is loaded using \code{source()}, so that \code{srcref} attributes are available for executed code. Environment variable: \code{DASH_HOT_RELOAD}.}
+\item{dev_tools_hot_reload_interval}{Numeric. Interval in seconds for the client to request the reload hash. Default is \code{3}. Environment variable: \code{DASH_HOT_RELOAD_INTERVAL}.}
+\item{dev_tools_hot_reload_watch_interval}{Numeric. Interval in seconds for the server to check asset and component folders for changes. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_WATCH_INTERVAL}.}
+\item{dev_tools_hot_reload_max_retry}{Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_MAX_RETRY}.}
+\item{dev_tools_props_check}{Logical. Validate the types and values of Dash component properties? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_PROPS_CHECK}.}
+\item{dev_tools_prune_errors}{Logical. Reduce tracebacks to just user code, stripping out Fiery and Dash pieces? Only available with debugging. \code{TRUE} by default, set to \code{FALSE} to see the complete traceback. Environment variable: \code{DASH_PRUNE_ERRORS}.}
+\item{dev_tools_silence_routes_logging}{Logical. Replace Fiery's default logger with \code{dashLogger} instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.}
+}
+Starts the Fiery server in local mode. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
+Launch the application. If provided, \code{host}/\code{port} set the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
 to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
 }
@@ -109,6 +155,8 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 
 \examples{
 \dontrun{
+library(dashCoreComponents)
+library(dashHtmlComponents)
 library(dash)
 app <- Dash$new()
 app$layout(

@@ -7,6 +7,9 @@ jobs:
     working_directory: ~/dashr
     docker:
       - image: byronz/dashr:ci
+        environment:
+          PERCY_PARALLEL_TOTAL: '-1'
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
 
     steps:
       - checkout
@@ -22,25 +25,37 @@ jobs:
             echo "JOB PARALLELISM: ${CIRCLE_NODE_TOTAL}"
             echo "CIRCLE_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL}"
             echo $CIRCLE_JOB > circlejob.txt
+            git rev-parse HEAD | tr -d '\n' > commit.txt
 
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'install.packages("remotes")'
-              sudo R -e "remotes::install_github('plotly/dash-core-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-html-components', dependencies=TRUE)"
-              sudo R -e "remotes::install_github('plotly/dash-table', dependencies=TRUE)"
-              sudo R CMD INSTALL .
+              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, force=TRUE)'
 
       - run:
-          name: ⚙️ run integration test
+          name: ⚙️  Integration tests
           command: |
             python -m venv venv
             . venv/bin/activate
-            git clone --depth 1 https://github.com/plotly/dash.git
-            cd dash && pip install -e .[testing] --quiet && cd ..
+            pip install -e git+https://github.com/plotly/dash.git#egg=dash[testing]
             export PATH=$PATH:/home/circleci/.local/bin/
-            pytest tests/integration/
+            pytest --log-cli-level DEBUG --nopercyfinalize --junitxml=test-reports/dashr.xml tests/integration/
+      - store_artifacts:
+          path: test-reports
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: /tmp/dash_artifacts
+
+      - run:
+          name: 🦔 percy finalize
+          command: npx percy finalize --all
+          when: always
+
+      - run:
+          name: 🔎 Unit tests
+          command: |
+              sudo Rscript -e 'testthat::test_dir("tests/")'
 
 workflows:
   version: 2
