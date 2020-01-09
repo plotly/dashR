@@ -763,6 +763,25 @@ Dash <- R6::R6Class(
                         sep="/")))
     },
     
+    index_string = function(string) {
+      # generate tags for all assets
+      all_tags <- private$collect_resources()
+      
+      # retrieve favicon tag for serving in the index
+      favicon <- all_tags[["favicon"]]
+      
+      # retrieve CSS tags for serving in the index
+      css_tags <- all_tags[["css_tags"]]
+      
+      # retrieve script tags for serving in the index
+      scripts_tags <- all_tags[["scripts_tags"]]
+      
+      # insert meta tags if present
+      meta_tags <- all_tags[["meta_tags"]]
+      
+      custom_index <- glue::glue(string)
+    },
+    
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -1266,6 +1285,7 @@ Dash <- R6::R6Class(
 
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
+    custom_index = NULL,
     .index = NULL,
 
     generateReloadHash = function() {
@@ -1438,9 +1458,13 @@ Dash <- R6::R6Class(
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
-
-      private$.index <- sprintf(
-        '<!DOCTYPE html>
+      
+      if (!is.null(private$custom_index)) {
+        private$.index <- private$custom_index
+      }
+      else {
+        private$.index <- sprintf(
+          '<!DOCTYPE html>
         <html>
           <head>
             %s
@@ -1460,13 +1484,14 @@ Dash <- R6::R6Class(
             </footer>
           </body>
         </html>',
-        meta_tags,
-        private$name,
-        favicon,
-        css_tags,
-        to_JSON(self$config),
-        scripts_tags
-      )
+          meta_tags,
+          private$name,
+          favicon,
+          css_tags,
+          to_JSON(self$config),
+          scripts_tags
+        )
+      }
     }
   )
 )
