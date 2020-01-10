@@ -764,22 +764,7 @@ Dash <- R6::R6Class(
     },
     
     index_string = function(string) {
-      # generate tags for all assets
-      all_tags <- private$collect_resources()
-      
-      # retrieve favicon tag for serving in the index
-      favicon <- all_tags[["favicon"]]
-      
-      # retrieve CSS tags for serving in the index
-      css_tags <- all_tags[["css_tags"]]
-      
-      # retrieve script tags for serving in the index
-      scripts_tags <- all_tags[["scripts_tags"]]
-      
-      # insert meta tags if present
-      meta_tags <- all_tags[["meta_tags"]]
-      
-      custom_index <- glue::glue(string)
+      private$custom_index = string
     },
     
     # ------------------------------------------------------------------------
@@ -1460,7 +1445,9 @@ Dash <- R6::R6Class(
       meta_tags <- all_tags[["meta_tags"]]
       
       if (!is.null(private$custom_index)) {
-        private$.index <- private$custom_index
+        interpolated_index <- glue::glue(private$custom_index)
+        
+        private$.index <- interpolated_index
       }
       else {
         private$.index <- sprintf(
