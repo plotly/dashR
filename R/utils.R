@@ -126,14 +126,14 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     } else {
       "file"
     }
-    
+
     # According to Dash convention, label react and react-dom as originating
     # in dash_renderer package, even though all three are currently served
-    # u p from the DashR package
+    # up from the DashR package
     if (dep$name %in% c("react", "react-dom", "prop-types")) {
       dep$name <- "dash-renderer"
     }
-    
+
     # The following lines inject _dash-component-suites into the src tags,
     # as this is the current Dash convention. The dependency paths cannot
     # be set solely at component library generation time, since hosted
@@ -146,44 +146,22 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # package and add the version number of the package as a query
     # parameter for cache busting
     if (!is.null(dep$package)) {
-      if(!(is.null(dep$script))) {
-        filename <- dep$script        
-      } else {
-        filename <- dep$stylesheet
-      }
-      
-      dep_path <- paste(dep$src$file, filename, sep="/")
-      
-      # the gsub line is to remove stray duplicate slashes, to
-      # permit exact string matching on pathnames
-      dep_path <- gsub("//+",
-                       "/",
-                       dep_path)
-
-      full_path <- system.file(dep_path,
-                               package = dep$package)
-
-      if (!file.exists(full_path)) {
-        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.", 
-                        full_path,
-                        dep$package,
-                        filename),
-                call. = FALSE)
-      }
-            
+      full_path <- getDependencyPath(dep)
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
     }
-    
+
     # we don't want to serve the JavaScript source maps here,
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
-        
       } else {
+        script_mtime <- file.mtime(getDependencyPath(dep))
+        modtime <- as.integer(script_mtime)
+        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
@@ -193,12 +171,12 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   dep$version,
                                   "&m=",
                                   modified)
-      
+
         html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
       html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
-                                                  dep[["stylesheet"]], 
+                                                  dep[["stylesheet"]],
                                                   sep="/"),
                                      local = FALSE)
     } else if ("stylesheet" %in% names(dep) & src == "file") {
@@ -207,21 +185,21 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                     dep$name,
                                     "/",
                                     basename(dep[["stylesheet"]]))
-      
+
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
           sheetpath <- paste0(dep[["stylesheet"]],
                               "?v=",
                               dep$version)
-            
+
           html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
                               dep[["stylesheet"]],
                               "?v=",
                               dep$version)
-          
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)    
+
+          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         }
 
       } else {
@@ -315,7 +293,7 @@ assert_no_names <- function (x)
 # the following function attempts to prune remote CSS
 # or local CSS/JS dependencies that either should not
 # be resolved to local R package paths, or which have
-# insufficient information to do so. 
+# insufficient information to do so.
 #
 # this attempts to avoid cryptic errors produced by
 # get_package_mapping, which requires three parameters:
@@ -339,18 +317,43 @@ clean_dependencies <- function(deps) {
     }
   )
   deps_with_file <- dep_list[!vapply(dep_list, is.null, logical(1))]
-  
+
   return(deps_with_file)
+}
+
+insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_function) {
+  map[[createCallbackId(output)]] <- list(inputs=inputs,
+                                          output=output,
+                                          state=state,
+                                          func=func,
+                                          clientside_function=clientside_function
+                                          )
+  if (length(map) >= 2) {
+    ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
+    props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
+
+    outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
+
+    if (length(Reduce(intersect, outputs_as_list))) {
+      stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
+    }
+  }
+  return(map)
 }
 
 assert_valid_callbacks <- function(output, params, func) {
   inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
   state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-  
+
   invalid_params <- vapply(params, function(x) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
-  
+
+  # Verify that no outputs are duplicated
+  if (length(output) != length(unique(output))) {
+    stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)
+  }
+
   # Verify that params contains no elements that are not either members of 'input' or 'state' classes
   if (any(invalid_params)) {
     stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
@@ -360,40 +363,69 @@ assert_valid_callbacks <- function(output, params, func) {
   if (!(valid_seq(params))) {
     stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
   }
-    
+
   # Assert that the component ID as passed is a string.
-  if(!(is.character(output$id) & !grepl("^\\s*$", output$id) & !grepl("\\.", output$id))) {
+  # This function inspects the output object to see if its ID
+  # is a valid string.
+  validateOutput <- function(string) {
+    return((is.character(string[["id"]]) & !grepl("^\\s*$", string[["id"]]) & !grepl("\\.", string[["id"]])))
+  }
+
+  # Check if the callback uses multiple outputs
+  if (any(sapply(output, is.list))) {
+    invalid_callback_ID <- (!all(vapply(output, validateOutput, logical(1))))
+  } else {
+    invalid_callback_ID <-  (!validateOutput(output))
+  }
+  if (invalid_callback_ID) {
     stop(sprintf("Callback IDs must be (non-empty) character strings that do not contain one or more dots/periods. Please verify that the component ID is valid."), call. = FALSE)
   }
-  
+
   # Assert that user_function is a valid function
   if(!(is.function(func))) {
-    stop(sprintf("The callback method's 'func' parameter requires a function as its argument. Please verify that 'func' is a valid, executable R function."), call. = FALSE)
+    if (!(all(names(func) == c("namespace", "function_name")))) {
+      stop(sprintf("The callback method's 'func' parameter requires an R function or clientsideFunction call as its argument. Please verify that 'func' is either a valid R function or clientsideFunction."), call. = FALSE)
+    }
   }
-  
+
   # Check if inputs are a nested list
   if(!(any(sapply(inputs, is.list)))) {
     stop(sprintf("Callback inputs should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
   }
-  
+
   # Check if state is a nested list, if the list is not empty
   if(!(length(state) == 0) & !(any(sapply(state, is.list)))) {
     stop(sprintf("Callback states should be a nested list, in which each element of the sublist represents a component ID and its properties."), call. = FALSE)
   }
-  
+
   # Check that input is not NULL
   if(is.null(inputs)) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
   }
-  
+
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
-  inputs_vs_outputs <- lapply(inputs, function(x) identical(x, output))
-  
+
+  # helper function to permit same mapply syntax regardless
+  # of whether output is defined using output function or not
+  listWrap <- function(x){
+    if (!any(sapply(x, is.list))) {
+      return(list(x))
+    } else {
+      x
+    }
+  }
+
+  # determine whether any input matches the output, or outputs, if
+  # multiple callback scenario
+  inputs_vs_outputs <- mapply(function(inputObject, outputObject) {
+    identical(outputObject[["id"]], inputObject[["id"]]) & identical(outputObject[["property"]], inputObject[["property"]])
+  }, inputs, listWrap(output))
+
   if(TRUE %in% inputs_vs_outputs) {
     stop(sprintf("Circular input and output arguments were found. Please verify that callback outputs are not also input arguments."), call. = FALSE)
   }
-  
+
   # TO DO: check that components contain props
   TRUE
 }
@@ -404,9 +436,9 @@ valid_seq <- function(params) {
   class_attr <- vapply(params, function(x) {
     attr(x, "class")[attr(x, "class") %in% c('input', 'state')]
   }, FUN.VALUE=character(1))
-  
+
   rle_result <- rle(class_attr)$values
-  
+
   if (identical(rle_result, 'input')) {
     return(TRUE)
   } else if (identical(rle_result, c('input', 'state'))) {
@@ -416,17 +448,21 @@ valid_seq <- function(params) {
   }
 }
 
-resolve_prefix <- function(prefix, environment_var) {
+resolve_prefix <- function(prefix, environment_var, base_pathname) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
-    
+
     return(prefix)
   } else {
     prefix_env <- Sys.getenv(environment_var)
     if (prefix_env != "") {
       return(prefix_env)
     } else {
-      return("/")
+      env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+      if (env_base_pathname != "")
+        return(env_base_pathname)
+      else
+        return(base_pathname)
     }
   }
 }
@@ -437,7 +473,7 @@ resolve_prefix <- function(prefix, environment_var) {
 # optionally returns an R package name (if the file is contained
 # inside an R package), or NULL if the dependency is not found,
 # and a (local) path to the dependency.
-# 
+#
 # script_name is e.g. "dash_core_components.min.js"
 # url_package is e.g. "dash_core_components"
 # dependencies = list of htmlDependency objects
@@ -451,14 +487,14 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
     if (x$name %in% c('react', 'react-dom', 'prop-types')) {
       x$name <- 'dash-renderer'
     }
-    
+
     if (!is.null(x$script))
       dep_path <- file.path(x$src$file, x$script)
     else if (!is.null(x$stylesheet))
       dep_path <- file.path(x$src$file, x$stylesheet)
-  
+
     # remove n>1 slashes and replace with / if present;
-    # htmltools seems to permit // in pathnames, but 
+    # htmltools seems to permit // in pathnames, but
     # this complicates string matching unless they're
     # removed from the pathname
     result <- c(pkg_name=ifelse("package" %in% names(x), x$package, NULL),
@@ -466,26 +502,26 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
                 dep_path=gsub("//+", replacement = "/", dep_path)
     )
   }, FUN.VALUE = character(3))
-  
+
   package_map <- t(package_map)
-  
+
   # pos_match is a vector of logical() values -- this allows filtering
   # of the package_map entries based on name, path, and matching of
   # URL package name against R package names. when all conditions are
   # satisfied, pos_match will return TRUE
   pos_match <- grepl(paste0(script_name, "$"), package_map[, "dep_path"]) &
                grepl(url_package, package_map[,"dep_name"])
-  
+
   rpkg_name <- package_map[,"pkg_name"][pos_match]
   rpkg_path <- package_map[,"dep_path"][pos_match]
-  
+
   return(list(rpkg_name=rpkg_name, rpkg_path=rpkg_path))
 }
 
 get_mimetype <- function(filename) {
   # the tools package is available to all
   filename_ext <- file_ext(filename)
-  
+
   if (filename_ext == 'js')
     return('application/JavaScript')
   else if (filename_ext == 'css')
@@ -496,14 +532,14 @@ get_mimetype <- function(filename) {
     return(NULL)
 }
 
-generate_css_dist_html <- function(href, 
-                                   local = FALSE, 
+generate_css_dist_html <- function(href,
+                                   local = FALSE,
                                    local_path = NULL,
                                    prefix = NULL,
                                    as_is = FALSE) {
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
-        href, 
+    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        href,
         perl=TRUE) || as_is) {
       sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
     }
@@ -513,21 +549,21 @@ generate_css_dist_html <- function(href,
     # strip leading slash from href if present
     href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">", 
-            prefix, 
-            href, 
+    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">",
+            prefix,
+            href,
             modified)
   }
-} 
+}
 
-generate_js_dist_html <- function(href, 
+generate_js_dist_html <- function(href,
                                   local = FALSE,
                                   local_path = NULL,
                                   prefix = NULL,
                                   as_is = FALSE) {
   if (!(local)) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$", 
-      href, 
+  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+      href,
       perl=TRUE) || as_is) {
       sprintf("<script src=\"%s\"></script>", href)
     }
@@ -538,11 +574,37 @@ generate_js_dist_html <- function(href,
     href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
     sprintf("<script src=\"%s%s?m=%s\"></script>",
-            prefix, 
-            href, 
+            prefix,
+            href,
             modified)
   }
-} 
+}
+
+generate_meta_tags <- function(metas) {
+  has_ie_compat <- any(vapply(metas, function(x)
+    x$name == "http-equiv" && x$content == "X-UA-Compatible",
+    logical(1)), na.rm=TRUE)
+  has_charset <- any(vapply(metas, function(x)
+    "charset" %in% names(x),
+    logical(1)), na.rm=TRUE)
+
+  # allow arbitrary tags with varying numbers of keys
+  tags <- vapply(metas,
+                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"",
+                                                                  names(tag),
+                                                                  unlist(tag, use.names = FALSE)),
+                                                          collapse=" ")),
+                 character(1))
+
+  if (!has_ie_compat) {
+    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">', tags)
+  }
+
+  if (!has_charset) {
+    tags <- c('<meta charset=\"UTF-8\">', tags)
+  }
+  return(tags)
+}
 
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
@@ -555,7 +617,7 @@ generate_js_dist_html <- function(href,
 #      assets pathname (i.e. "assets/stylesheet.css"), and
 #      $scripts, a list of character strings formatted
 #      identically to $css, also named with subpaths.
-#     
+#
 get_asset_path <- function(assets_map, asset_path) {
   unlist(setNames(assets_map, NULL))[asset_path]
 }
@@ -587,7 +649,7 @@ get_asset_url <- function(asset_path, prefix = "/") {
   # prepend the asset name with the route prefix
   return(paste(prefix, asset, sep="/"))
 }
-                              
+
 encode_plotly <- function(layout_objs) {
   if (is.list(layout_objs)) {
     if ("plotly" %in% class(layout_objs) &&
@@ -595,11 +657,11 @@ encode_plotly <- function(layout_objs) {
         any(c("visdat", "data") %in% names(layout_objs$x))) {
       # check to determine whether the current element is an
       # object output from the plot_ly or ggplotly function;
-      # if it is, we can safely assume that it contains no 
-      # other plot_ly or ggplotly objects and return the updated 
+      # if it is, we can safely assume that it contains no
+      # other plot_ly or ggplotly objects and return the updated
       # element as a mutated plotly figure argument that contains
-      # only data and layout attributes. we suppress messages 
-      # since the plotly_build function will supply them, as it's 
+      # only data and layout attributes. we suppress messages
+      # since the plotly_build function will supply them, as it's
       # typically run interactively.
       obj <- suppressMessages(plotly::plotly_build(layout_objs)$x)
       layout_objs <- obj[c("data", "layout")]
@@ -621,7 +683,7 @@ encode_plotly <- function(layout_objs) {
 # so that it is pretty printed to stderr()
 printCallStack <- function(call_stack, header=TRUE) {
   if (header) {
-    write(crayon::yellow$bold(" ### DashR Traceback (most recent/innermost call last) ###"), stderr())
+    write(crayon::yellow$bold(" ### Dash for R Traceback (most recent/innermost call last) ###"), stderr())
   }
   write(
     crayon::white(
@@ -631,21 +693,23 @@ printCallStack <- function(call_stack, header=TRUE) {
           call_stack
           ),
         ": ",
-        call_stack
+        call_stack,
+        " ",
+        lapply(call_stack, attr, "flineref")
         )
     ),
     stderr()
     )
 }
 
-stackTraceToHTML <- function(call_stack, 
-                             throwing_call, 
+stackTraceToHTML <- function(call_stack,
+                             throwing_call,
                              error_message) {
   if(is.null(call_stack)) {
     return(NULL)
   }
-  header <- " ### DashR Traceback (most recent/innermost call last) ###"
-  
+  header <- " ### Dash for R Traceback (most recent/innermost call last) ###\n"
+
   formattedStack <- c(paste0(
     "    ",
     seq_along(
@@ -653,11 +717,13 @@ stackTraceToHTML <- function(call_stack,
     ),
     ": ",
     call_stack,
-    collapse="<br>"
+    " ",
+    lapply(call_stack, attr, "lineref"),
+    collapse="\n"
   )
-  ) 
+  )
 
-  template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
+  template <- "%s\nError: %s: %s\n%s"
   response <- sprintf(template,
                       header,
                       throwing_call,
@@ -665,7 +731,7 @@ stackTraceToHTML <- function(call_stack,
                       formattedStack)
 
   # properly format anonymous tags if present in call stack
-  response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
+  #response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
 
   return(response)
 }
@@ -683,25 +749,46 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
       error = function(e) {
         if (is.null(attr(e, "stack.trace", exact = TRUE))) {
           calls <- sys.calls()
+          reverseStack <- rev(calls)
           attr(e, "stack.trace") <- calls
-          errorCall <- e$call[[1]]
+
+          if (!is.null(e$call[[1]]))
+            errorCall <- e$call[[1]]
+          else {
+            # attempt to capture the error or warning if thrown by
+            # simpleError or simpleWarning (which may arise for user-defined errors)
+            #
+            # the first matching call in the reversed stack will always be
+            # getStackTrace, so we select the second match instead
+            errorCall <- reverseStack[grepl(x=reverseStack, "simpleError|simpleWarning")][[2]]
+          }
 
           functionsAsList <- lapply(calls, function(completeCall) {
-            currentCall <- completeCall[[1]]
-            
+            # avoid attempting to cast closures as strings, which will fail
+            # some calls in the stack are symbol (name) objects, while others
+            # are calls, which must be deparsed; the first element in the vector
+            # should be the function signature
+            if (is.name(completeCall[[1]]))
+              currentCall <- as.character(completeCall[[1]])
+            else if (is.call(completeCall[[1]]))
+              currentCall <- deparse(completeCall)[1]
+            else
+              currentCall <- completeCall[[1]]
+
+            attr(currentCall, "flineref") <- getLineWithError(completeCall, formatted=TRUE)
+            attr(currentCall, "lineref") <- getLineWithError(completeCall, formatted=FALSE)
+
             if (is.function(currentCall) & !is.primitive(currentCall)) {
-              constructedCall <- paste0("<anonymous> function(", 
+              constructedCall <- paste0("<anonymous> function(",
                                         paste(names(formals(currentCall)), collapse = ", "),
                                         ")")
               return(constructedCall)
             } else {
               return(currentCall)
             }
-            
+
           })
-          
-          reverseStack <- rev(calls)
-          
+
           if (prune_errors) {
             # this line should match the last occurrence of the function
             # which raised the error within the call stack; prune here
@@ -719,35 +806,39 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
               # to stop at the correct position.
               if (is.function(currentCall[[1]])) {
                 identical(deparse(errorCall), deparse(currentCall[[1]]))
-              } else {
+              } else if (currentCall[[1]] == "stop") {
+                # handle case where function developer deliberately invokes a stop
+                # condition and halts function execution
+                identical(deparse(errorCall), deparse(currentCall))
+                }
+              else {
                 FALSE
               }
 
               }
               )
             )
-            
             # the position to stop at is one less than the difference
             # between the total number of calls and the index of the
             # call throwing the error
             stopIndex <- length(calls) - indexFromLast + 1
-            
+
             startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
             functionsAsList <- functionsAsList[startIndex:stopIndex]
             functionsAsList <- removeHandlers(functionsAsList)
           }
-          
-          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s", 
-                                                            functionsAsList[[length(functionsAsList)]], 
+
+          warning(call. = FALSE, immediate. = TRUE, sprintf("Execution error in %s: %s",
+                                                            functionsAsList[[length(functionsAsList)]],
                                                             conditionMessage(e)))
-          
+
           stack_message <- stackTraceToHTML(functionsAsList,
                                             functionsAsList[[length(functionsAsList)]],
                                             conditionMessage(e))
-          
-          assign("stack_message", value=stack_message, 
-                 envir=sys.frame(1)$private)
-          
+
+          assign("stack_message", value=stack_message,
+                 envir=sys.frame(countEnclosingFrames("private"))$private)
+
           printCallStack(functionsAsList)
         }
       }
@@ -758,8 +849,22 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
     )
     } else {
       evalq(expr)
-    }
   }
+}
+
+getLineWithError <- function(currentCall, formatted=TRUE) {
+  srcref <- attr(currentCall, "srcref", exact = TRUE)
+  if (!is.null(srcref) & !(getAppPath()==FALSE)) {
+    # filename
+    srcfile <- attr(srcref, "srcfile", exact = TRUE)
+    # line number
+    context <- sprintf("-- %s, Line %s", srcfile$filename, srcref[[1]])
+    if (formatted)
+      context <- crayon::yellow$italic(context)
+    return(context)
+  } else
+    ""
+}
 
 # This helper function drops error
 # handling functions from the call
@@ -788,29 +893,29 @@ setCallbackContext <- function(callback_elements) {
   states <- lapply(callback_elements$states, function(x) {
     setNames(x$value, paste(x$id, x$property, sep="."))
   })
-  
+
   splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
-  
-  triggered <- lapply(callback_elements$changedPropIds, 
+
+  triggered <- lapply(callback_elements$changedPropIds,
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-                        
+
                         id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
                         prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
-                        
+
                         value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
 
                         list(`prop_id` = x, `value` = value)
                       }
                       )
-  
+
   inputs <- sapply(callback_elements$inputs, function(x) {
     setNames(list(x$value), paste(x$id, x$property, sep="."))
   })
-  
-  return(list(states=states, 
-              triggered=unlist(triggered, recursive=FALSE), 
+
+  return(list(states=states,
+              triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
 }
 
@@ -818,4 +923,338 @@ getDashMetadata <- function(pkgname) {
   fnList <- ls(getNamespace(pkgname), all.names = TRUE)
   metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
   return(metadataFn)
+}
+
+createCallbackId <- function(output) {
+  # check if callback uses single output
+  if (!any(sapply(output, is.list))) {
+    id <- paste0(output, collapse=".")
+  } else {
+    # multi-output callback, concatenate
+    ids <- vapply(output, function(x) {
+      paste(x, collapse = ".")
+    }, character(1))
+    id <- paste0("..", paste0(ids, collapse="..."), "..")
+  }
+  return(id)
+}
+
+getIdProps <- function(output) {
+  output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
+  idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
+  ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)
+  props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)
+  return(list(ids=ids, props=props))
+}
+
+modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
+  # ensure path is properly formatted
+  path <- normalizePath(path)
+
+  if (is.null(path)) {
+    return(NULL)
+  }
+
+  if (recursive) {
+    if (asset_path != "") {
+      all_files <- file.info(list.files(path, recursive = TRUE))
+      # need to exclude files which are in assets directory so we don't always hard reload
+      initpath <- vapply(strsplit(rownames(all_files), split = .Platform$file.sep), `[`, FUN.VALUE=character(1), 1)
+      # now subset the modtimes, and identify the most recently modified file
+      modtime <- as.integer(max(all_files$mtime[which(initpath != asset_path)], na.rm = TRUE))
+    } else {
+      # now identify the most recently modified file
+      all_files <- list.files(path, recursive = TRUE, full.names = TRUE)
+      modtime <- as.integer(max(file.info(all_files)$mtime, na.rm=TRUE))
+    }
+  } else {
+    # check if the path is for a directory or file, and handle accordingly
+    if (length(path) == 1 && dir.exists(path))
+      modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
+    else
+      modtime <- as.integer(file.info(path)$mtime)
+  }
+
+  return(modtime)
+}
+
+getAppPath <- function() {
+  # attempt to retrieve path for Dash apps served via
+  # Rscript or source()
+  cmd_args <- commandArgs(trailingOnly = FALSE)
+  file_argument <- "--file="
+  matched_arg <- grep(file_argument, cmd_args)
+
+  # if app is instantiated via Rscript, cmd_args should contain path
+  if (length(matched_arg) > 0) {
+    # Rscript
+    return(normalizePath(sub(file_argument, "", cmd_args[matched_arg])))
+  }
+  # if app is instantiated via source(), sys.frames should contain path
+  else if (!is.null(sys.frames()[[1]]$ofile)) {
+    return(normalizePath(sys.frames()[[1]]$ofile))
+  }
+  else {
+    return(FALSE)
+  }
+}
+
+# this function enables Dash to set file modification times
+# as attributes on the vectors stored within the asset map
+#
+# this permits storing additional information on the object
+# without dramatically modifying the existing API, and makes
+# it somewhat trivial to request the set of modification times
+setModtimeAsAttr <- function(path) {
+  if (!is.null(path)) {
+    mtime <- modtimeFromPath(path)
+    attributes(path)$modtime <- mtime
+    return(path)
+  } else {
+    return(NULL)
+  }
+}
+
+countEnclosingFrames <- function(object) {
+  for (i in 1:sys.nframe()) {
+    objs <- ls(envir=sys.frame(i))
+    if (object %in% objs)
+      return(i)
+  }
+}
+
+changedAssets <- function(before, after) {
+  # identify files that used to exist in the asset map,
+  # but which have been removed
+  deletedElements <-  before[which(is.na(match(before, after)))]
+
+  # identify files which were added since the last refresh
+  addedElements <-  after[which(is.na(match(after, before)))]
+
+  # identify any items that have been updated since the last
+  # refresh based on modification time attributes set in map
+  #
+  # in R, attributes are discarded when subsetting, so it's
+  # necessary to subset the attributes being compared instead.
+  # here we only compare objects which overlap
+  before_modtimes <-attributes(before)$modtime[before %in% after]
+  after_modtimes <- attributes(after)$modtime[after %in% before]
+
+  changedElements <- after[which(after_modtimes > before_modtimes)]
+
+  if (length(deletedElements) == 0) {
+    deletedElements <- NULL
+  }
+  if (length(changedElements) == 0) {
+    changedElements <- NULL
+  }
+  if (length(addedElements) == 0) {
+    addedElements <- NULL
+  }
+  invisible(return(
+    list(deleted = deletedElements,
+         changed = changedElements,
+         new = addedElements)
+  )
+  )
+}
+
+dashLogger <- function(event = NULL,
+                       message = NULL,
+                       request = NULL,
+                       time = Sys.time(),
+                       ...) {
+  orange <- crayon::make_style("orange")
+
+  # dashLogger is being called from within fiery, and the Fire() object generator
+  # is called from a private method within the Dash() R6 class; this makes
+  # accessing variables set within Dash's private fields somewhat complicated
+  #
+  # the following lines retrieve the value of the silence_route_logging parameter,
+  # which is many frames up the stack; if it's not found, we'll assume FALSE
+  self_object <- dynGet("self", ifnotfound = NULL)
+
+  if (!is.null(self_object))
+    silence_routes_logging <- self_object$config$silence_routes_logging
+  else
+    silence_routes_logging <- FALSE
+
+  if (!is.null(event)) {
+    msg <- sprintf("%s: %s", event, message)
+
+    msg <- switch(event, error = crayon::red(msg), warning = crayon::yellow(msg),
+                  message = crayon::blue(msg), msg)
+
+    # assign the status group for color coding
+    if (event == "request") {
+      status_group <- as.integer(cut(request$respond()$status,
+                                     breaks = c(100, 200, 300, 400, 500, 600), right = FALSE))
+
+      msg <- switch(status_group, crayon::blue$bold(msg), crayon::green$bold(msg),
+                    crayon::cyan$bold(msg), orange$bold(msg), crayon::red$bold(msg))
+    }
+
+    # if log messages are suppressed, report only server stop/start messages, errors, and warnings
+    # otherwise, print everything to console
+    if (event %in% c("start", "stop", "error", "warning") || !(silence_routes_logging)) {
+      cat(msg, file = stdout(), append = TRUE)
+      cat("\n", file = stdout(), append = TRUE)
+    }
+  }
+}
+
+#' Define a clientside callback
+#'
+#' Create a callback that updates the output by calling a clientside (JavaScript) function instead of an R function.
+#'
+#' @param namespace Character. Describes where the JavaScript function resides (Dash will look
+#' for the function at `window[namespace][function_name]`.)
+#' @param function_name Character. Provides the name of the JavaScript function to call.
+#'
+#' @details With this signature, Dash's front-end will call `window.my_clientside_library.my_function` with the current
+#' values of the `value` properties of the components `my-input` and `another-input` whenever those values change.
+#' Include a JavaScript file by including it your `assets/` folder. The file can be named anything but you'll need to
+#' assign the function's namespace to the `window`. For example, this file might look like:
+#' \preformatted{window.my_clientside_library = \{
+#' my_function: function(input_value_1, input_value_2) \{
+#'    return (
+#'      parseFloat(input_value_1, 10) +
+#'        parseFloat(input_value_2, 10)
+#'    );
+#' \}
+#'\}
+#'}
+#'
+#'
+#' @export
+#' @examples \dontrun{
+#' app$callback(
+#'   output('output-clientside', 'children'),
+#'   params=list(input('input', 'value')),
+#'   clientsideFunction(
+#'   namespace = 'my_clientside_library',
+#'   function_name = 'my_function'
+#'   )
+#' )}
+clientsideFunction <- function(namespace, function_name) {
+  return(list(namespace=namespace, function_name=function_name))
+}
+
+buildFingerprint <- function(path, version, hash_value) {
+  path <- file.path(path)
+  filename <- getFileSansExt(path)
+  extension <- getFileExt(path)
+
+  sprintf("%s.v%sm%s.%s",
+          file.path(dirname(path), filename),
+          gsub("[^\\w-]", "_", version, perl = TRUE),
+          hash_value,
+          extension)
+}
+
+checkFingerprint <- function(path) {
+  name_parts <- unlist(strsplit(basename(path), ".", fixed = TRUE))
+
+  # Check if the resource has a fingerprint
+  if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
+    return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
+  }
+  return(list(basename(path), FALSE))
+}
+
+getDependencyPath <- function(dep) {
+  if (missing(dep)) {
+    stop("getDependencyPath requires that a valid dependency object is passed. Please verify that dep is non-missing.")
+  }
+
+  if(!(is.null(dep$script))) {
+    filename <- checkFingerprint(dep$script)[[1]]
+    dirname <- returnDirname(dep$script)
+    } else {
+      filename <- dep$stylesheet
+      dirname <- returnDirname(filename)
+    }
+
+  dep_path <- file.path(dep$src$file, filename)
+
+  # the gsub line is to remove stray duplicate slashes, to
+  # permit exact string matching on pathnames
+  dep_path <- gsub("//+",
+                   "/",
+                   dep_path)
+
+  # this may generate doubled slashes, which should not
+  # pose problems on Mac OS, Windows, or Linux systems
+  full_path_to_dependency <- system.file(file.path(dep$src$file,
+                                                   dirname,
+                                                   filename),
+                                         package=dep$package)
+
+  if (!file.exists(full_path_to_dependency)) {
+    write(crayon::yellow(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
+                                 dep_path,
+                                 dep$package,
+                                 filename)
+                         ),
+          stderr())
+  }
+
+  return(full_path_to_dependency)
+}
+
+# the base R functions which strip extensions and filenames without
+# extensions from paths are not robust to multipart extensions,
+# such as .js.map or .min.js; these are functions intended to
+# perform reliably in such cases. the first occurrence of a dot
+# is replaced with an asterisk, which is generally an invalid
+# filename character in any modern filesystem, since it represents
+# a wildcard. the resulting string is then split on the asterisk.
+getFileSansExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[1]
+}
+
+getFileExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[2]
+}
+
+returnDirname <- function(filepath) {
+  dirname <- dirname(filepath)
+  if (is.null(dirname) || dirname == ".")
+    return("")
+  return(dirname)
+}
+
+isDynamic <- function(eager_loading, resource) {
+  if (
+    is.null(resource$dynamic) && is.null(resource$async)
+  )
+    return(FALSE)
+  # need assert that async and dynamic are not both present
+  if (
+    (!is.null(resource$dynamic) && (resource$dynamic == FALSE)) ||
+    (eager_loading==TRUE && !is.null(resource$async) && (resource$async %in% c("eager", TRUE)))
+  )
+    return(FALSE)
+  else
+    return(TRUE)
+}
+
+tryCompress <- function(request, response) {
+  # charToRaw requires a length one character string
+  response$body <- paste(response$body, collapse="\n")
+  # the reqres gzip implementation requires file I/O
+  # brotli does not; when available, use brotli with
+  # a moderate level of compression for speed --
+  # the viewer pane only supports gzip and deflate,
+  # so gzip will be used when launching apps within
+  # RStudio
+  tryBrotli <- request$accepts_encoding('br')
+  if (tryBrotli == "br") {
+    response$body <- brotli::brotli_compress(charToRaw(response$body),
+                                             quality = 3)
+    response$set_header('Content-Encoding',
+                        "br")
+    return(response)
+  }
+  return(response$compress())
 }
