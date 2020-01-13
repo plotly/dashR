@@ -463,16 +463,19 @@ resolve_prefix <- function(prefix, environment_var, base_pathname) {
 
     return(prefix)
   } else {
+    # Check environment variables
     prefix_env <- Sys.getenv(environment_var)
-    if (prefix_env != "") {
+    env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+    app_name <- Sys.getenv("DASH_APP_NAME")
+    
+    else if (prefix_env != "")
       return(prefix_env)
-    } else {
-      env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
-      if (env_base_pathname != "")
-        return(env_base_pathname)
-      else
-        return(base_pathname)
-    }
+    else if (app_name != "")
+      return(sprintf("/%s/", app_name))
+    else if (env_base_pathname != "")
+      return(env_base_pathname)
+    else
+      return(base_pathname)
   }
 }
 
