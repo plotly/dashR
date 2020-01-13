@@ -213,8 +213,8 @@ Dash <- R6::R6Class(
       private$in_viewer <- FALSE
 
       # config options
-      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
-      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
+      self$config$routes_pathname_prefix <- resolvePrefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
+      self$config$requests_pathname_prefix <- resolvePrefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 

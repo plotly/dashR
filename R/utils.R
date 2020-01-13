@@ -457,7 +457,7 @@ valid_seq <- function(params) {
   }
 }
 
-resolve_prefix <- function(prefix, environment_var, base_pathname) {
+resolvePrefix <- function(prefix, environment_var, base_pathname) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
 
