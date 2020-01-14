@@ -773,6 +773,9 @@ Dash <- R6::R6Class(
                         sep="/")))
     },
     
+    # ------------------------------------------------------------------------
+    # specify a custom index string
+    # ------------------------------------------------------------------------
     index_string = function(string) {
       private$custom_index = string
     },
