@@ -468,7 +468,7 @@ resolvePrefix <- function(prefix, environment_var, base_pathname) {
     env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
     app_name <- Sys.getenv("DASH_APP_NAME")
     
-    else if (prefix_env != "")
+    if (prefix_env != "")
       return(prefix_env)
     else if (app_name != "")
       return(sprintf("/%s/", app_name))
