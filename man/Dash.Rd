@@ -128,11 +128,11 @@ but this is configurable via the \code{prefix} parameter. Note: this method will
 present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
 if the \code{DASH_APP_PATH} environment variable is undefined.
 }
-\item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
+\item{\code{run_server(host =  Sys.getenv('HOST', "127.0.0.1"), port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
 The \code{run_server} method has 13 formal arguments, several of which are optional:
 \describe{
-\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{DASH_HOST}.}
-\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{DASH_PORT}.}
+\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{HOST}.}
+\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{PORT}.}
 \item{block}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
 \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
 \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
