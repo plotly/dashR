@@ -777,6 +777,9 @@ Dash <- R6::R6Class(
     # specify a custom index string
     # ------------------------------------------------------------------------
     index_string = function(string) {
+      if (!grepl("react-entry-point", string)) stop("React entry point div must be defined within the index string.")
+      if (!grepl("_dash-config", string)) stop("Dash config script has not been defined within the index string.")
+      if (!grepl("scripts_tags", string)) stop("{scripts_tags} must be included to render the Dash app and any JavaScript files in /assets/.")
       private$custom_index = string
     },
     
