@@ -777,12 +777,14 @@ Dash <- R6::R6Class(
     # specify a custom index string
     # ------------------------------------------------------------------------
     index_string = function(string) {
-      if (!grepl("react-entry-point", string)) stop("React entry point div must be defined within the index string.")
-      if (!grepl("_dash-config", string)) stop("Dash config script has not been defined within the index string.")
-      if (!grepl("scripts_tags", string)) stop("{scripts_tags} must be included to render the Dash app and any JavaScript files in /assets/.")
+      requiredKeys <- c("app_entry", "config", "scripts")
       
+      checks <- sapply(requiredKeys, function(x) grepl(x, string))
       
-      
+      if (FALSE %in% checks) {
+        stop(sprintf("Did you forget to include %s in your index string?", 
+                     paste(requiredKeys[!checks], collapse = ", ")))
+      }
       private$custom_index = string
     },
     
@@ -1459,10 +1461,16 @@ Dash <- R6::R6Class(
       css_tags <- all_tags[["css_tags"]]
 
       # retrieve script tags for serving in the index
-      scripts_tags <- all_tags[["scripts_tags"]]
+      scripts <- all_tags[["scripts_tags"]]
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
+      
+      # define the react-entry-point
+      app_entry <- "react-entry-point"
+      
+      # define the dash default config key
+      config <- "_dash-config"
 
       if (!is.null(private$custom_index)) {
         interpolated_index <- glue::glue(private$custom_index)
@@ -1481,12 +1489,12 @@ Dash <- R6::R6Class(
           </head>
 
           <body>
-            <div id="react-entry-point">
+            <div id=%s>
               <div class="_dash-loading">Loading...</div>
             </div>
 
             <footer>
-              <script id="_dash-config" type="application/json"> %s </script>
+              <script id=%s type="application/json"> %s </script>
               %s
             </footer>
           </body>
@@ -1495,8 +1503,10 @@ Dash <- R6::R6Class(
           private$name,
           favicon,
           css_tags,
+          app_entry,
+          config,
           to_JSON(self$config),
-          scripts_tags
+          scripts
         )
       }
     }
