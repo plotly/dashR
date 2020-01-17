@@ -1472,17 +1472,14 @@ Dash <- R6::R6Class(
       meta_tags <- all_tags[["meta_tags"]]
       
       # define the react-entry-point
-      app_entry <- "<div id='react-entry-point'>
-                      <div class='_dash-loading'>Loading...</div>
-                    </div>"
-      
+      app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
       # define the dash default config key
-      config <- "<script id='_dash-config' type='application/json'> {to_JSON(self$config)} </script>"
+      config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
       if (!is.null(private$custom_index)) {
-        interpolated_index <- glue::glue(private$custom_index)
+        string_index <- glue::glue(private$custom_index)
         
-        private$.index <- interpolated_index
+        private$.index <- string_index
       }
       else {
         private$.index <- sprintf(
@@ -1496,12 +1493,9 @@ Dash <- R6::R6Class(
           </head>
 
           <body>
-            <div id=%s>
-              <div class="_dash-loading">Loading...</div>
-            </div>
-
+            %s
             <footer>
-              <script id=%s type="application/json"> %s </script>
+              %s
               %s
             </footer>
           </body>
@@ -1512,7 +1506,6 @@ Dash <- R6::R6Class(
           css_tags,
           app_entry,
           config,
-          to_JSON(self$config),
           scripts
         )
       }
