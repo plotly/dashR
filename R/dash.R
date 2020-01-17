@@ -1473,10 +1473,12 @@ Dash <- R6::R6Class(
       meta_tags <- all_tags[["meta_tags"]]
       
       # define the react-entry-point
-      app_entry <- "react-entry-point"
+      app_entry <- "<div id='react-entry-point'>
+                      <div class='_dash-loading'>Loading...</div>
+                    </div>"
       
       # define the dash default config key
-      config <- "_dash-config"
+      config <- "<script id='_dash-config' type='application/json'> {to_JSON(self$config)} </script>"
 
       if (!is.null(private$custom_index)) {
         interpolated_index <- glue::glue(private$custom_index)
