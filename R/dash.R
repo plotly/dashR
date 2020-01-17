@@ -780,14 +780,17 @@ Dash <- R6::R6Class(
       if (!grepl("react-entry-point", string)) stop("React entry point div must be defined within the index string.")
       if (!grepl("_dash-config", string)) stop("Dash config script has not been defined within the index string.")
       if (!grepl("scripts_tags", string)) stop("{scripts_tags} must be included to render the Dash app and any JavaScript files in /assets/.")
+      
+      
+      
       private$custom_index = string
     },
     
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
-                          port = Sys.getenv('DASH_PORT', 8050),
+    run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
+                          port = Sys.getenv('PORT', 8050),
 
                           block = TRUE,
                           showcase = FALSE,
