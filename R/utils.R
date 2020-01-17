@@ -1270,3 +1270,20 @@ tryCompress <- function(request, response) {
   }
   return(response$compress())
 }
+
+interpolate_str <- function(index_template, ...) {
+  # This function takes an index string, along with
+  # user specified keys for the html keys of the index
+  # and sets the default values of the keys to the 
+  # ones specified by the keys themselves, returning
+  # the custom index template. 
+  template = index_template 
+  kwargs <- list(...)
+  
+  for (name in names(kwargs)) {
+    key = paste0('\\{', name, '\\}')
+    
+    template = sub(key, kwargs[[name]], template)
+  } 
+  return(template)
+}
