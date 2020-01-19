@@ -129,7 +129,21 @@
 #'       \item{string}{Character. A formatted string with a complete HTML index}
 #'     }
 #'   }
-#'   \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
+#'  \item{`interpolate_index(template_index, ...)`}{
+#'     With the `interpolate_index` method, we can pass a custom index with template string
+#'     variables that are already evaluated. We can directly pass arguments to the `template_index`
+#'     by assigning them to variables present in the template. This is similar to the `index_string` method
+#'     but offers the ability to change the default components of the Dash index as seen in the example below:
+#'     
+#'     """
+#'     app$interpolate_index(template_index, metas = "<meta_charset='UTF-8'/>", renderer = renderer, config = config)
+#'     \describe{
+#'     \item{template_index}{Character. A formatted string with the HTML index string. Defaults to the initial template}
+#'     \item{unnamed arguments}{Named List. These can be passed as individual named lists corresponding to the components
+#'     of the Dash html index. These include the same arguments as those found in the `index_string()` template.}
+#'     }
+#'  } 
+#'  \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
 #'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
 #'     \describe{
