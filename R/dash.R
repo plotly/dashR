@@ -794,6 +794,32 @@ Dash <- R6::R6Class(
     },
     
     # ------------------------------------------------------------------------
+    # modify the templated variables by using the `interpolate_index` method. 
+    # ------------------------------------------------------------------------
+    interpolate_index = function(template_index = private$template_index[[1]], ...) {
+      template = template_index
+      kwargs <- list(...)
+      
+      for (name in names(kwargs)) {
+        key = paste0('\\{', name, '\\}')
+        template = sub(key, kwargs[[name]], template)
+      } 
+      
+      cat(template)
+      
+      requiredKeys <- c("app_entry", "config", "scripts")
+      
+      checks <- sapply(requiredKeys, function(x) grepl(x, names(kwargs)))
+      
+      if (FALSE %in% checks) {
+        stop(sprintf("Did you forget to include %s in your index string?", 
+                     paste(requiredKeys[!checks], collapse = ", ")))
+      }
+      
+      private$template_index = template
+    },
+    
+    # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
     run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
@@ -1298,6 +1324,23 @@ Dash <- R6::R6Class(
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
     custom_index = NULL,
+    template_index = c(
+    "<!DOCTYPE html>
+        <html>
+          <head>
+            {meta_tags}
+            <title>{private$name}</title>
+            {favicon}
+            {css_tags}
+          </head>
+          <body>
+            {app_entry}
+            <footer>
+              {config}
+              {scripts}
+            </footer>
+          </body>
+        </html>", NA),
     .index = NULL,
 
     generateReloadHash = function() {
@@ -1481,6 +1524,11 @@ Dash <- R6::R6Class(
         
         private$.index <- string_index
       }
+      
+      else if (length(template_index) == 1) {
+        private$.index <- private$template_index
+      }
+      
       else {
         private$.index <- sprintf(
        '<!DOCTYPE html>
