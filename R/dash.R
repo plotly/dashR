@@ -764,6 +764,25 @@ Dash <- R6::R6Class(
     },
     
     # ------------------------------------------------------------------------
+    # return relative asset URLs
+    # ------------------------------------------------------------------------
+    
+    get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
+      asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
+      return(asset)
+    },
+    
+    
+    # ------------------------------------------------------------------------
+    # return relative asset URLs
+    # ------------------------------------------------------------------------
+    
+    strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
+      asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
+      return(asset)
+    },
+
+    # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
     run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
