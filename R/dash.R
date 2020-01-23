@@ -114,6 +114,27 @@
 #'     present a warning and return `NULL` if the Dash app was not loaded via `source()`
 #'     if the `DASH_APP_PATH` environment variable is undefined.
 #'   }
+#'   \item{`get_relative_path(path, requests_pathname_prefix)`}{
+#'     The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
+#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix 
+#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling 
+#'     in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
+#'     would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
+#'     a `/`.
+#'     \describe{
+#'       \item{path}{Character. A path string prefixed with a leading `/` which directs at a path or asset directory.}
+#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
+#'   }
+#'   #'   \item{`strip_relative_path(path, requests_pathname_prefix)`}{
+#'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
+#'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
+#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefiex`,
+#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
+#'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
+#'     \describe{
+#'       \item{path}{Character. A path string prefixed with a leading `/` and `requests_pathname_prefix` which directs at a path or asset directory.}
+#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
+#'   }
 #'   \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
 #'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
