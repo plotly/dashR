@@ -834,7 +834,7 @@ Dash <- R6::R6Class(
       kwargs <- list(...)
       
       for (name in names(kwargs)) {
-        key = paste0('\\{', name, '\\}')
+        key = paste0('\\{\\%', name, '\\%\\}')
         template = sub(key, kwargs[[name]], template)
       } 
       
@@ -1361,16 +1361,16 @@ Dash <- R6::R6Class(
     "<!DOCTYPE html>
         <html>
           <head>
-            {meta_tags}
-            <title>{private$name}</title>
-            {favicon}
-            {css_tags}
+            {%meta_tags%}
+            <title>{%private$name%}</title>
+            {%favicon%}
+            {%css_tags%}
           </head>
           <body>
-            {app_entry}
+            {%app_entry%}
             <footer>
-              {config}
-              {scripts}
+              {%config%}
+              {%scripts%}
             </footer>
           </body>
         </html>", NA),
