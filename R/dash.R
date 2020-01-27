@@ -1558,10 +1558,10 @@ Dash <- R6::R6Class(
         private$.index <- string_index
       }
       
-      else if (length(template_index) == 1) {
+      else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }
-      
+
       else {
         private$.index <- sprintf(
        '<!DOCTYPE html>
