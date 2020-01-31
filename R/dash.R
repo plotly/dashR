@@ -5,7 +5,7 @@
 #' @usage Dash
 #'
 #' @section Constructor: Dash$new(
-#'   name = "dash",
+#'   name = NULL,
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
 #'   assets_url_path = '/assets',
@@ -174,7 +174,7 @@ Dash <- R6::R6Class(
     config = list(),
 
     # i.e., the Dash$new() method
-    initialize = function(name = "dash",
+    initialize = function(name = NULL,
                           server = fiery::Fire$new(),
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
@@ -197,6 +197,12 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
+      if (is.null(name) && Sys.getenv("DASH_APP_NAME") != "") {
+        name <- Sys.getenv("DASH_APP_NAME")
+      } 
+      else if (is.null(name)) {
+        name <- "dash"
+      }
       private$name <- name
       private$serve_locally <- serve_locally
       private$eager_loading <- eager_loading
