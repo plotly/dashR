@@ -191,7 +191,8 @@ Dash <- R6::R6Class(
                           suppress_callback_exceptions = FALSE) {
 
       # argument type checking
-      assertthat::assert_that(is.character(name))
+      if (!is.null(name))
+        assertthat::assert_that(is.character(name))
       assertthat::assert_that(inherits(server, "Fire"))
       assertthat::assert_that(is.logical(serve_locally))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
