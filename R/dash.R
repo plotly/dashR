@@ -114,12 +114,12 @@
 #'     present a warning and return `NULL` if the Dash app was not loaded via `source()`
 #'     if the `DASH_APP_PATH` environment variable is undefined.
 #'   }
-#'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),
-#'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
+#'   \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
+#'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
 #'     \describe{
-#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `DASH_HOST`.}
-#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `DASH_PORT`.}
+#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `HOST`.}
+#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `PORT`.}
 #'       \item{block}{Logical. Start the server while blocking console input? Default is `TRUE`.}
 #'       \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.}
 #'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
@@ -220,8 +220,8 @@ Dash <- R6::R6Class(
       private$in_viewer <- FALSE
 
       # config options
-      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
-      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
+      self$config$routes_pathname_prefix <- resolvePrefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
+      self$config$requests_pathname_prefix <- resolvePrefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 
@@ -773,8 +773,8 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
-                          port = Sys.getenv('DASH_PORT', 8050),
+    run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
+                          port = Sys.getenv('PORT', 8050),
                           block = TRUE,
                           showcase = FALSE,
                           use_viewer = FALSE,
