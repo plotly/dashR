@@ -202,7 +202,7 @@ Dash <- R6::R6Class(
         name <- Sys.getenv("DASH_APP_NAME")
       } 
       else if (is.null(name)) {
-        name <- "dash"
+        name <- "Dash"
       }
       private$name <- name
       private$serve_locally <- serve_locally
