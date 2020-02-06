@@ -7,7 +7,7 @@ Depends:
   R (>= 3.0.2)
 Imports:
   dashHtmlComponents (== 1.0.2),
-  dashCoreComponents (>= 1.7.0),
+  dashCoreComponents (== 1.8.0),
   dashTable (== 4.5.1),
   R6,
   fiery (> 1.0.0),
@@ -32,7 +32,7 @@ Collate:
   'print.R'
   'internal.R'
 Remotes: plotly/dash-html-components@55c3884,
-  plotly/dash-core-components@50b9635,
+  plotly/dash-core-components@fc153b4,
   plotly/dash-table@79d46ca
 License: MIT + file LICENSE
 Encoding: UTF-8
