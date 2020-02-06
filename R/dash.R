@@ -830,7 +830,7 @@ Dash <- R6::R6Class(
         template = sub(key, kwargs[[name]], template)
       } 
       
-      validate_keys(names(kwargs))
+      invisible(validate_keys(names(kwargs)))
       
       private$template_index <- template
     },
