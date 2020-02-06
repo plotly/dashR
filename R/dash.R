@@ -815,13 +815,13 @@ Dash <- R6::R6Class(
     # specify a custom index string
     # ------------------------------------------------------------------------
     index_string = function(string) {
-      requiredKeys <- c("app_entry", "config", "scripts")
+      required_keys <- c("app_entry", "config", "scripts")
       
-      checks <- sapply(requiredKeys, function(x) grepl(x, string))
+      keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
       
-      if (FALSE %in% checks) {
+      if (!all(keys_present)) {
         stop(sprintf("Did you forget to include %s in your index string?", 
-                     paste(requiredKeys[!checks], collapse = ", ")))
+                     paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
       }
       private$custom_index = string
     },
