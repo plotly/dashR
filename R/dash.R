@@ -815,15 +815,7 @@ Dash <- R6::R6Class(
     # specify a custom index string
     # ------------------------------------------------------------------------
     index_string = function(string) {
-      required_keys <- c("app_entry", "config", "scripts")
-      
-      keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
-      
-      if (!all(keys_present)) {
-        stop(sprintf("Did you forget to include %s in your index string?", 
-                     paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
-      }
-      private$custom_index <- string
+      private$custom_index <- validate_keys(string)
     },
     
     # ------------------------------------------------------------------------
@@ -838,14 +830,7 @@ Dash <- R6::R6Class(
         template = sub(key, kwargs[[name]], template)
       } 
       
-      required_keys <- c("app_entry", "config", "scripts")
-      
-      checks <- sapply(requiredKeys, function(x) grepl(x, names(kwargs)))
-      
-      if (FALSE %in% checks) {
-        stop(sprintf("Did you forget to include %s in your index string?", 
-                     paste(requiredKeys[!checks], collapse = ", ")))
-      }
+      validate_keys(names(kwargs))
       
       private$template_index <- template
     },
