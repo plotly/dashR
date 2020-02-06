@@ -840,7 +840,7 @@ Dash <- R6::R6Class(
       
       cat(template)
       
-      requiredKeys <- c("app_entry", "config", "scripts")
+      required_keys <- c("app_entry", "config", "scripts")
       
       checks <- sapply(requiredKeys, function(x) grepl(x, names(kwargs)))
       
