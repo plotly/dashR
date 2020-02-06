@@ -7,7 +7,7 @@ Depends:
   R (>= 3.0.2)
 Imports:
   dashHtmlComponents (== 1.0.2),
-  dashCoreComponents (== 1.7.0),
+  dashCoreComponents (>= 1.7.0),
   dashTable (== 4.5.1),
   R6,
   fiery (> 1.0.0),
