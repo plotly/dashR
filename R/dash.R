@@ -198,12 +198,8 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
-      if (is.null(name) && Sys.getenv("DASH_APP_NAME") != "") {
-        name <- Sys.getenv("DASH_APP_NAME")
-      } 
-      else if (is.null(name)) {
+      if (is.null(name))
         name <- "Dash"
-      }
       private$name <- name
       private$serve_locally <- serve_locally
       private$eager_loading <- eager_loading
