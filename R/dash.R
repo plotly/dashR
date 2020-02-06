@@ -823,7 +823,7 @@ Dash <- R6::R6Class(
         stop(sprintf("Did you forget to include %s in your index string?", 
                      paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
       }
-      private$custom_index = string
+      private$custom_index <- string
     },
     
     # ------------------------------------------------------------------------
@@ -847,7 +847,7 @@ Dash <- R6::R6Class(
                      paste(requiredKeys[!checks], collapse = ", ")))
       }
       
-      private$template_index = template
+      private$template_index <- template
     },
     
     # ------------------------------------------------------------------------
