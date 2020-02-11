@@ -257,7 +257,7 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       if (!is.null(name)) {
         warning(sprintf(
-          "The supplied application title, '%s', should be passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
+          "The supplied application title, '%s', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
           name),
           call. = FALSE
         )
