@@ -1283,7 +1283,7 @@ get_relative_path <- function(requests_pathname, path) {
     return(requests_pathname)
   }
   else if (!startsWith(path, "/")) {
-    stop(sprintf(paste0("Unsupported relative rath! Paths that aren't prefixed" ,
+    stop(sprintf(paste0("Unsupported relative path! Paths that aren't prefixed" ,
                         "with a leading '/' are not supported. You supplied '%s'."),
                  path))
   }
