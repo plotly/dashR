@@ -1270,3 +1270,33 @@ tryCompress <- function(request, response) {
   }
   return(response$compress())
 }
+
+interpolate_str <- function(index_template, ...) {
+  # This function takes an index string, along with
+  # user specified keys for the html keys of the index
+  # and sets the default values of the keys to the 
+  # ones specified by the keys themselves, returning
+  # the custom index template. 
+  template = index_template 
+  kwargs <- list(...)
+  
+  for (name in names(kwargs)) {
+    key = paste0('\\{', name, '\\}')
+    
+    template = sub(key, kwargs[[name]], template)
+  } 
+  return(template)
+}
+
+validate_keys <- function(string) {
+  required_keys <- c("app_entry", "config", "scripts")
+  
+  keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  
+  if (!all(keys_present)) {
+    stop(sprintf("Did you forget to include %s in your index string?", 
+                 paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
+  } else {
+    return(string)
+  }
+}
