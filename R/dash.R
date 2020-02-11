@@ -1559,6 +1559,9 @@ Dash <- R6::R6Class(
       # define the dash default config key
       config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
+      if (is.null(private$name))
+        private$name <- 'dash'
+      
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
         
