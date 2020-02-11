@@ -13,7 +13,7 @@ A framework for building analytical web applications, Dash offers a pleasant and
 }
 \section{Constructor}{
  Dash$new(
-name = "dash",
+name = NULL,
 server = fiery::Fire$new(),
 assets_folder = 'assets',
 assets_url_path = '/assets',
@@ -113,6 +113,9 @@ describes a locally served JavaScript function instead. The latter defines a
 "clientside callback", which updates components without passing data to and
 from the Dash backend. The latter may offer improved performance relative
 to callbacks written in R.
+}
+\item{\code{title("dash")}}{
+The title of the app. If no title is supplied, Dash for R will use 'dash'.
 }
 \item{\code{callback_context()}}{
 The \code{callback_context} method permits retrieving the inputs which triggered

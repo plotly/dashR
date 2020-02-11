@@ -5,7 +5,7 @@
 #' @usage Dash
 #'
 #' @section Constructor: Dash$new(
-#'   name = "dash",
+#'   name = NULL,
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
 #'   assets_url_path = '/assets',
@@ -99,6 +99,9 @@
 #'     "clientside callback", which updates components without passing data to and
 #'     from the Dash backend. The latter may offer improved performance relative
 #'     to callbacks written in R.
+#'   }
+#'   \item{`title("dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
 #'   }
 #'   \item{`callback_context()`}{
 #'     The `callback_context` method permits retrieving the inputs which triggered
@@ -230,7 +233,7 @@ Dash <- R6::R6Class(
     config = list(),
 
     # i.e., the Dash$new() method
-    initialize = function(name = "dash",
+    initialize = function(name = NULL,
                           server = fiery::Fire$new(),
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
@@ -247,13 +250,18 @@ Dash <- R6::R6Class(
                           suppress_callback_exceptions = FALSE) {
 
       # argument type checking
-      assertthat::assert_that(is.character(name))
       assertthat::assert_that(inherits(server, "Fire"))
       assertthat::assert_that(is.logical(serve_locally))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
-      private$name <- name
+      if (!is.null(name)) {
+        warning(sprintf(
+          "The supplied application title, '%s', should be passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
+          name),
+          call. = FALSE
+        )
+      }
       private$serve_locally <- serve_locally
       private$eager_loading <- eager_loading
       # remove leading and trailing slash(es) if present
@@ -844,6 +852,14 @@ Dash <- R6::R6Class(
     },
     
     # ------------------------------------------------------------------------
+    # specify a custom title
+    # ------------------------------------------------------------------------
+    title = function(string = "dash") {
+      assertthat::assert_that(is.character(string))
+      private$name <- string
+    },
+        
+    # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
     run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
@@ -1353,7 +1369,7 @@ Dash <- R6::R6Class(
         <html>
           <head>
             {%meta_tags%}
-            <title>{%private$name%}</title>
+            <title>{%title%}</title>
             {%favicon%}
             {%css_tags%}
           </head>
