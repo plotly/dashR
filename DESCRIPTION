@@ -32,8 +32,8 @@ Collate:
   'print.R'
   'internal.R'
 Remotes: plotly/dash-html-components@55c3884,
-  plotly/dash-core-components@7fa7feb,
-  plotly/dash-table@5bde2ae
+  plotly/dash-core-components@fc153b4,
+  plotly/dash-table@79d46ca
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
