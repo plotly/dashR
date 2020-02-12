@@ -131,7 +131,7 @@
 #'   \item{`strip_relative_path(path, requests_pathname_prefix)`}{
 #'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
 #'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
-#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefiex`,
+#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
 #'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
 #'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
 #'     \describe{
