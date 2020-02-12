@@ -1,6 +1,21 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2020-02-12
+### Added
+- Support for config-aware relative paths [#172](https://github.com/plotly/dashR/pull/172)
+- Support index customization and index templates [#168](https://github.com/plotly/dashR/pull/168)
+- Application titles may be set using the `app$title()` method, for parity with Dash for Python's `app.title` syntax [#168](https://github.com/plotly/dashR/pull/168)
+
+### Changed
+- Dash for R now requires `dashCoreComponents` v1.8.0
+- Rename `DASH_HOST` to `HOST` and `DASH_PORT` to `PORT` [#167](https://github.com/plotly/dashR/pull/167)
+- Automatically set routes and requests pathname prefixes if `DASH_APP_NAME` environment variable has been set [#165](https://github.com/plotly/dashR/pull/165)
+
+### Removed
+- Application titles can no longer be set using `name` parameter, which is now deprecated with a warning, for parity with Dash for Python [#168](https://github.com/plotly/dashR/pull/168)
+
+
 ## [0.2.0] - 2020-01-03
 ### Added
 - Support for asynchronous/dynamic loading of dependencies, resource caching, and asset fingerprinting [#157](https://github.com/plotly/dashR/pull/157)
