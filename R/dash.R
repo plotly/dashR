@@ -963,7 +963,7 @@ Dash <- R6::R6Class(
       # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
-      # is invoked via script, source(), or executed dire ctly from console)
+      # is invoked via script, source(), or executed directly from console)
       self$config$ui <- dev_tools_ui
 
       if (dev_tools_hot_reload) {
@@ -1148,7 +1148,7 @@ Dash <- R6::R6Class(
       # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
-      # accomodate functions that return a single component
+      # accommodate functions that return a single component
       if (is.component(layout_)) layout_ <- list(layout_)
 
       # make sure we are working with a list of components
@@ -1468,7 +1468,7 @@ Dash <- R6::R6Class(
                                    !is.null(v[["script"]]) && tools::file_ext(v[["script"]]) == "map"
                                    }, logical(1))]
 
-      # styleheets always go in header
+      # stylesheets always go in header
       css_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$stylesheet)) return(NULL)
         dep$script <- NULL
