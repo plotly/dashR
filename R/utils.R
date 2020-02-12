@@ -457,22 +457,25 @@ valid_seq <- function(params) {
   }
 }
 
-resolve_prefix <- function(prefix, environment_var, base_pathname) {
+resolvePrefix <- function(prefix, environment_var, base_pathname) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
 
     return(prefix)
   } else {
+    # Check environment variables
     prefix_env <- Sys.getenv(environment_var)
-    if (prefix_env != "") {
+    env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+    app_name <- Sys.getenv("DASH_APP_NAME")
+    
+    if (prefix_env != "")
       return(prefix_env)
-    } else {
-      env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
-      if (env_base_pathname != "")
-        return(env_base_pathname)
-      else
-        return(base_pathname)
-    }
+    else if (app_name != "")
+      return(sprintf("/%s/", app_name))
+    else if (env_base_pathname != "")
+      return(env_base_pathname)
+    else
+      return(base_pathname)
   }
 }
 
@@ -1266,4 +1269,76 @@ tryCompress <- function(request, response) {
     return(response)
   }
   return(response$compress())
+}
+
+get_relative_path <- function(requests_pathname, path) {
+  # Returns a path with the config setting 'requests_pathname_prefix' prefixed to
+  # it. This is particularly useful for apps deployed on Dash Enterprise, which makes
+  # it easier to serve apps under both URL prefixes and localhost. 
+  
+  if (requests_pathname == "/" && path == "") {
+    return("/")
+  }
+  else if (requests_pathname != "/" && path == "") {
+    return(requests_pathname)
+  }
+  else if (!startsWith(path, "/")) {
+    stop(sprintf(paste0("Unsupported relative path! Paths that aren't prefixed" ,
+                        "with a leading '/' are not supported. You supplied '%s'."),
+                 path))
+  }
+  else {
+    return(paste(gsub("/$", "", requests_pathname), gsub("^/", "", path), sep = "/"))
+  }
+}
+
+strip_relative_path <- function(requests_pathname, path) {
+  # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
+  # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
+  
+  if (is.null(path)) {
+    return(NULL)
+  }
+  else if ((requests_pathname != "/" && !startsWith(path, gsub("/$", "", requests_pathname)))
+          || (requests_pathname == "/" && !startsWith(path, "/"))) {
+    stop(sprintf(paste0("Unsupported relative path! Path's that are not prefixed ",
+                        "with a leading 'requests_pathname_prefix` are not suported. ",
+                        "You supplied '%s', and requests_pathname_prefix was '%s'."),
+                 path, requests_pathname
+                 ))
+  }
+  else if (requests_pathname != "/" && startsWith(path, gsub("/$", "", requests_pathname))) {
+    path = sub(gsub("/$", "", requests_pathname), "", path)
+  }
+  return(trimws(gsub("/", "", path)))
+}
+
+interpolate_str <- function(index_template, ...) {
+  # This function takes an index string, along with
+  # user specified keys for the html keys of the index
+  # and sets the default values of the keys to the 
+  # ones specified by the keys themselves, returning
+  # the custom index template. 
+  template = index_template 
+  kwargs <- list(...)
+  
+  for (name in names(kwargs)) {
+    key = paste0('\\{', name, '\\}')
+    
+    template = sub(key, kwargs[[name]], template)
+  } 
+  return(template)
+}
+
+validate_keys <- function(string) {
+  required_keys <- c("app_entry", "config", "scripts")
+  
+  keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  
+  if (!all(keys_present)) {
+    stop(sprintf("Did you forget to include %s in your index string?", 
+                 paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
+  } else {
+    return(string)
+  }
 }
