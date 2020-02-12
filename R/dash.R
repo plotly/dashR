@@ -131,7 +131,7 @@
 #'   \item{`strip_relative_path(path, requests_pathname_prefix)`}{
 #'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
 #'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
-#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefiex`,
+#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
 #'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
 #'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
 #'     \describe{
@@ -202,7 +202,7 @@
 #'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `PORT`.}
 #'       \item{block}{Logical. Start the server while blocking console input? Default is `TRUE`.}
 #'       \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.}
-#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
+#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
 #'       \item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is `FALSE` when called via `run_server`. Environment variable: `DASH_DEBUG`.}
 #'       \item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_UI`.}
 #'       \item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Requires that the Dash application is loaded using `source()`, so that `srcref` attributes are available for executed code. Environment variable: `DASH_HOT_RELOAD`.}
@@ -962,7 +962,7 @@ Dash <- R6::R6Class(
       # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
-      # is invoked via script, source(), or executed dire ctly from console)
+      # is invoked via script, source(), or executed directly from console)
       self$config$ui <- dev_tools_ui
 
       if (dev_tools_hot_reload) {
@@ -1147,7 +1147,7 @@ Dash <- R6::R6Class(
       # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
-      # accomodate functions that return a single component
+      # accommodate functions that return a single component
       if (is.component(layout_)) layout_ <- list(layout_)
 
       # make sure we are working with a list of components
@@ -1467,7 +1467,7 @@ Dash <- R6::R6Class(
                                    !is.null(v[["script"]]) && tools::file_ext(v[["script"]]) == "map"
                                    }, logical(1))]
 
-      # styleheets always go in header
+      # stylesheets always go in header
       css_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$stylesheet)) return(NULL)
         dep$script <- NULL
