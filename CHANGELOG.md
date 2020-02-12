@@ -1,6 +1,7 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+
 ## [0.3.0] - 2020-02-12
 ### Added
 - Support for config-aware relative paths [#172](https://github.com/plotly/dashR/pull/172)
@@ -42,6 +43,7 @@ All notable changes to this project will be documented in this file.
 - Handling for user-defined errors in callbacks implemented [#116](https://github.com/plotly/dashR/pull/116)
 - Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
 - `get_asset_url` checks `getAppPath()` as well as `DASH_APP_ROOT_PATH` environment variable when invoked [#161](https://github.com/plotly/dashR/pull/161)
+
 
 ## [0.1.0] - 2019-07-10
 ### Added
