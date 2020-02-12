@@ -1271,6 +1271,48 @@ tryCompress <- function(request, response) {
   return(response$compress())
 }
 
+get_relative_path <- function(requests_pathname, path) {
+  # Returns a path with the config setting 'requests_pathname_prefix' prefixed to
+  # it. This is particularly useful for apps deployed on Dash Enterprise, which makes
+  # it easier to serve apps under both URL prefixes and localhost. 
+  
+  if (requests_pathname == "/" && path == "") {
+    return("/")
+  }
+  else if (requests_pathname != "/" && path == "") {
+    return(requests_pathname)
+  }
+  else if (!startsWith(path, "/")) {
+    stop(sprintf(paste0("Unsupported relative path! Paths that aren't prefixed" ,
+                        "with a leading '/' are not supported. You supplied '%s'."),
+                 path))
+  }
+  else {
+    return(paste(gsub("/$", "", requests_pathname), gsub("^/", "", path), sep = "/"))
+  }
+}
+
+strip_relative_path <- function(requests_pathname, path) {
+  # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
+  # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
+  
+  if (is.null(path)) {
+    return(NULL)
+  }
+  else if ((requests_pathname != "/" && !startsWith(path, gsub("/$", "", requests_pathname)))
+          || (requests_pathname == "/" && !startsWith(path, "/"))) {
+    stop(sprintf(paste0("Unsupported relative path! Path's that are not prefixed ",
+                        "with a leading 'requests_pathname_prefix` are not suported. ",
+                        "You supplied '%s', and requests_pathname_prefix was '%s'."),
+                 path, requests_pathname
+                 ))
+  }
+  else if (requests_pathname != "/" && startsWith(path, gsub("/$", "", requests_pathname))) {
+    path = sub(gsub("/$", "", requests_pathname), "", path)
+  }
+  return(trimws(gsub("/", "", path)))
+}
+
 interpolate_str <- function(index_template, ...) {
   # This function takes an index string, along with
   # user specified keys for the html keys of the index
