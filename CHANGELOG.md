@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Dash for R now requires `dashCoreComponents` v1.8.0
+- Dash for R now requires `dashTable` v4.6.0
 - Rename `DASH_HOST` to `HOST` and `DASH_PORT` to `PORT` [#167](https://github.com/plotly/dashR/pull/167)
 - Automatically set routes and requests pathname prefixes if `DASH_APP_NAME` environment variable has been set [#165](https://github.com/plotly/dashR/pull/165)
 
