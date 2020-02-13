@@ -55,7 +55,7 @@ jobs:
       - run:
           name: 🔎 Unit tests
           command: |
-              sudo Rscript -e 'testthat::test_dir("tests/")'
+              sudo Rscript -e 'res=devtools::test("tests/", reporter=default_reporter());df=as.data.frame(res);if(sum(df$failed) > 0 || any(df$error)) {q(status=1)}'
 
 workflows:
   version: 2
