@@ -34,6 +34,7 @@ Authors:
   \item Chris Parmer \email{chris@plot.ly}
   \item Ryan Patrick Kyle \email{ryan@plot.ly}
   \item Carson Sievert
+  \item Hammad Khan \email{hammadkhan@plot.ly}
 }
 
 Other contributors:
