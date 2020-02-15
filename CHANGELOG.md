@@ -1,6 +1,9 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2020-02-14
+### Fixed
+- License file in `dashHtmlComponents` now loads properly when installing Dash for R on systems running Microsoft Windows [#150](https://github.com/plotly/dash-html-components/pull/150)
 
 ## [0.3.0] - 2020-02-12
 ### Added
