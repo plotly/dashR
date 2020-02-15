@@ -1,6 +1,6 @@
 Package: dash
 Title: An Interface to the Dash Ecosystem for Authoring Reactive Web Applications
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(person("Chris", "Parmer", role = c("aut"), email = "chris@plot.ly"), person("Ryan Patrick", "Kyle", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5829-9867"), email = "ryan@plot.ly"), person("Carson", "Sievert", role = c("aut"), comment = c(ORCID = "0000-0002-4958-2844")), person("Hammad", "Khan", role = c("aut"), email = "hammadkhan@plot.ly"), person(family = "Plotly Technologies", role = "cph")) 
 Description: A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 Depends:
@@ -31,7 +31,7 @@ Collate:
   'imports.R'
   'print.R'
   'internal.R'
-Remotes: plotly/dash-html-components@55c3884,
+Remotes: plotly/dash-html-components@6f4e7be,
   plotly/dash-core-components@fc153b4,
   plotly/dash-table@79d46ca
 License: MIT + file LICENSE
