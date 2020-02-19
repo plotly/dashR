@@ -6,11 +6,11 @@
 
 #### Create beautiful, analytic web applications in R.
 
-[Documentation](https://dashr.plot.ly/) | [Gallery](https://dash-gallery.plotly.host/Portal/) 
+[Documentation](https://dashr.plotly.com/) | [Gallery](https://dash-gallery.plotly.host/Portal/) 
 
 ## Installation
 
-https://dashr.plot.ly/installation
+https://dashr.plotly.com/installation
 
 **dash** isn't yet available on CRAN, but you may install the development versions of the package as well as Dash components from GitHub.
 
@@ -43,7 +43,7 @@ That's it!
 
 ## Getting Started
 
-https://dashr.plot.ly/getting-started
+https://dashr.plotly.com/getting-started
 
 The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
 
