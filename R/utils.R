@@ -668,7 +668,7 @@ encode_plotly <- function(layout_objs) {
         "x" %in% names(layout_objs) &&
         any(c("visdat", "data") %in% names(layout_objs$x))) {
       # check to determine whether the current element is an
-      # object output from the plotly.com or ggplotly function;
+      # object output from the plot_ly or ggplotly function;
       # if it is, we can safely assume that it contains no
       # other plotly.com or ggplotly objects and return the updated
       # element as a mutated plotly figure argument that contains
