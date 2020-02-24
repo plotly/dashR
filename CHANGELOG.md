@@ -51,7 +51,7 @@ All notable changes to this project will be documented in this file.
 ## [0.1.0] - 2019-07-10
 ### Added
 - Initial release
-    - Support for `plotly.com` and `ggplotly` "subplots" [#84](https://github.com/plotly/dashR/pull/84)
+    - Support for `plot_ly` and `ggplotly` "subplots" [#84](https://github.com/plotly/dashR/pull/84)
     - Improved debugging support [#87](https://github.com/plotly/dashR/pull/87), including Dash Dev Tools and `debug` mode
     - Provide a useful warning message when JS dependencies cannot be found [#81](https://github.com/plotly/dashR/pull/81)    
     - Support for externalized PropTypes introduced 
