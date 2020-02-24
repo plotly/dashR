@@ -670,7 +670,7 @@ encode_plotly <- function(layout_objs) {
       # check to determine whether the current element is an
       # object output from the plot_ly or ggplotly function;
       # if it is, we can safely assume that it contains no
-      # other plotly.com or ggplotly objects and return the updated
+      # other plot_ly or ggplotly objects and return the updated
       # element as a mutated plotly figure argument that contains
       # only data and layout attributes. we suppress messages
       # since the plotly_build function will supply them, as it's
