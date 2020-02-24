@@ -83,7 +83,7 @@ All notable changes to this project will be documented in this file.
 
 ### [0.0.5] - 2019-04-01
 ### Added
-- Support for direct import of `plotly.com` and `ggplotly` figures [#71](https://github.com/plotly/dashR/pull/71)
+- Support for direct import of `plot_ly` and `ggplotly` figures [#71](https://github.com/plotly/dashR/pull/71)
 
 ### Changed
 - `layout_set` method renamed to `layout` for parity with Dash for Python
