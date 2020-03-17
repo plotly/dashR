@@ -531,17 +531,17 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
 }
 
 get_mimetype <- function(filename) {
-  # the tools package is available to all
-  filename_ext <- file_ext(filename)
+  filename_ext <- getFileExt(filename)
 
   if (filename_ext == 'js')
     return('application/JavaScript')
   else if (filename_ext == 'css')
     return('text/css')
-  else if (filename_ext == 'map')
+  else if (filename_ext %in% c('js.map', 'map'))
     return('application/json')
   else
-    return(NULL)
+    return(mime::guess_type(filename, 
+                            empty = "application/octet-stream"))
 }
 
 generate_css_dist_html <- function(href,
