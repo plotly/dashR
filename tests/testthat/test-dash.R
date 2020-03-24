@@ -57,3 +57,4 @@ test_that("Callback can be set, callback context exists", {
   )
 })
 
+# TODO Add test for `index_string` and `interpolate_index` 
