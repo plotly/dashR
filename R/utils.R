@@ -155,31 +155,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # package and add the version number of the package as a query
     # parameter for cache busting
     if (!is.null(dep$package)) {
-      if(!(is.null(dep$script))) {
-        filename <- dep$script
-      } else {
-        filename <- dep$stylesheet
-      }
-
-      dep_path <- paste(dep$src$file, filename, sep="/")
-
-      # the gsub line is to remove stray duplicate slashes, to
-      # permit exact string matching on pathnames
-      dep_path <- gsub("//+",
-                       "/",
-                       dep_path)
-
-      full_path <- system.file(dep_path,
-                               package = dep$package)
-
-      if (!file.exists(full_path)) {
-        warning(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
-                        full_path,
-                        dep$package,
-                        filename),
-                call. = FALSE)
-      }
-
+      full_path <- getDependencyPath(dep)
       modified <- as.integer(file.mtime(full_path))
     } else {
       modified <- as.integer(Sys.time())
@@ -191,8 +167,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
         html <- generate_js_dist_html(href = dep$src$href)
-
       } else {
+        script_mtime <- file.mtime(getDependencyPath(dep))
+        modtime <- as.integer(script_mtime)
+        dep$script <- buildFingerprint(dep$script, dep$version, modtime)
         dep[["script"]] <- paste0(path_prefix,
                                   "_dash-component-suites/",
                                   dep$name,
@@ -479,18 +457,25 @@ valid_seq <- function(params) {
   }
 }
 
-resolve_prefix <- function(prefix, environment_var) {
+resolvePrefix <- function(prefix, environment_var, base_pathname) {
   if (!(is.null(prefix))) {
     assertthat::assert_that(is.character(prefix))
 
     return(prefix)
   } else {
+    # Check environment variables
     prefix_env <- Sys.getenv(environment_var)
-    if (prefix_env != "") {
+    env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
+    app_name <- Sys.getenv("DASH_APP_NAME")
+    
+    if (prefix_env != "")
       return(prefix_env)
-    } else {
-      return("/")
-    }
+    else if (app_name != "")
+      return(sprintf("/%s/", app_name))
+    else if (env_base_pathname != "")
+      return(env_base_pathname)
+    else
+      return(base_pathname)
   }
 }
 
@@ -619,6 +604,32 @@ generate_js_inline <- function(js_map) {
                               })</script>")
 }
 
+generate_meta_tags <- function(metas) {
+  has_ie_compat <- any(vapply(metas, function(x)
+    x$name == "http-equiv" && x$content == "X-UA-Compatible",
+    logical(1)), na.rm=TRUE)
+  has_charset <- any(vapply(metas, function(x)
+    "charset" %in% names(x),
+    logical(1)), na.rm=TRUE)
+
+  # allow arbitrary tags with varying numbers of keys
+  tags <- vapply(metas,
+                 function(tag) sprintf("<meta %s>", paste(sprintf("%s=\"%s\"",
+                                                                  names(tag),
+                                                                  unlist(tag, use.names = FALSE)),
+                                                          collapse=" ")),
+                 character(1))
+
+  if (!has_ie_compat) {
+    tags <- c('<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">', tags)
+  }
+
+  if (!has_charset) {
+    tags <- c('<meta charset=\"UTF-8\">', tags)
+  }
+  return(tags)
+}
+
 # This function takes the list object containing asset paths
 # for all stylesheets and scripts, as well as the URL path
 # to search, then returns the absolute local path (when
@@ -721,7 +732,7 @@ stackTraceToHTML <- function(call_stack,
   if(is.null(call_stack)) {
     return(NULL)
   }
-  header <- " ### Dash for R Traceback (most recent/innermost call last) ###"
+  header <- " ### Dash for R Traceback (most recent/innermost call last) ###\n"
 
   formattedStack <- c(paste0(
     "    ",
@@ -732,11 +743,11 @@ stackTraceToHTML <- function(call_stack,
     call_stack,
     " ",
     lapply(call_stack, attr, "lineref"),
-    collapse="<br>"
+    collapse="\n"
   )
   )
 
-  template <- "<!DOCTYPE HTML><html><body><pre><h3>%s</h3><br>Error: %s: %s<br>%s</pre></body></html>"
+  template <- "%s\nError: %s: %s\n%s"
   response <- sprintf(template,
                       header,
                       throwing_call,
@@ -744,7 +755,7 @@ stackTraceToHTML <- function(call_stack,
                       formattedStack)
 
   # properly format anonymous tags if present in call stack
-  response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
+  #response <- gsub("<anonymous>", "&lt;anonymous&gt;", response)
 
   return(response)
 }
@@ -982,7 +993,7 @@ modtimeFromPath <- function(path, recursive = FALSE, asset_path="") {
     }
   } else {
     # check if the path is for a directory or file, and handle accordingly
-    if (dir.exists(path))
+    if (length(path) == 1 && dir.exists(path))
       modtime <- as.integer(max(file.info(list.files(path, full.names = TRUE))$mtime, na.rm=TRUE))
     else
       modtime <- as.integer(file.info(path)$mtime)
@@ -1083,9 +1094,14 @@ dashLogger <- function(event = NULL,
   # is called from a private method within the Dash() R6 class; this makes
   # accessing variables set within Dash's private fields somewhat complicated
   #
-  # the following line retrieves the value of the silence_route_logging parameter,
-  # which is nearly 20 frames up the stack; if it's not found, we'll assume FALSE
-  silence_routes_logging <- dynGet("self", ifnotfound = FALSE)$config$silence_routes_logging
+  # the following lines retrieve the value of the silence_route_logging parameter,
+  # which is many frames up the stack; if it's not found, we'll assume FALSE
+  self_object <- dynGet("self", ifnotfound = NULL)
+
+  if (!is.null(self_object))
+    silence_routes_logging <- self_object$config$silence_routes_logging
+  else
+    silence_routes_logging <- FALSE
 
   if (!is.null(event)) {
     msg <- sprintf("%s: %s", event, message)
@@ -1151,4 +1167,195 @@ clientsideFunction <- function(namespace, function_name) {
 insertIntoJSMap <- function(map, func, name) {
   map[[name]] <- func
   return(map)
+}
+  
+buildFingerprint <- function(path, version, hash_value) {
+  path <- file.path(path)
+  filename <- getFileSansExt(path)
+  extension <- getFileExt(path)
+
+  sprintf("%s.v%sm%s.%s",
+          file.path(dirname(path), filename),
+          gsub("[^\\w-]", "_", version, perl = TRUE),
+          hash_value,
+          extension)
+}
+
+checkFingerprint <- function(path) {
+  name_parts <- unlist(strsplit(basename(path), ".", fixed = TRUE))
+
+  # Check if the resource has a fingerprint
+  if ((length(name_parts) > 2) && grepl("^v[\\w-]+m[0-9a-fA-F]+$", name_parts[2], perl = TRUE)) {
+    return(list(paste(name_parts[name_parts != name_parts[2]], collapse = "."), TRUE))
+  }
+  return(list(basename(path), FALSE))
+}
+
+getDependencyPath <- function(dep) {
+  if (missing(dep)) {
+    stop("getDependencyPath requires that a valid dependency object is passed. Please verify that dep is non-missing.")
+  }
+
+  if(!(is.null(dep$script))) {
+    filename <- checkFingerprint(dep$script)[[1]]
+    dirname <- returnDirname(dep$script)
+    } else {
+      filename <- dep$stylesheet
+      dirname <- returnDirname(filename)
+    }
+
+  dep_path <- file.path(dep$src$file, filename)
+
+  # the gsub line is to remove stray duplicate slashes, to
+  # permit exact string matching on pathnames
+  dep_path <- gsub("//+",
+                   "/",
+                   dep_path)
+
+  # this may generate doubled slashes, which should not
+  # pose problems on Mac OS, Windows, or Linux systems
+  full_path_to_dependency <- system.file(file.path(dep$src$file,
+                                                   dirname,
+                                                   filename),
+                                         package=dep$package)
+
+  if (!file.exists(full_path_to_dependency)) {
+    write(crayon::yellow(sprintf("The dependency path '%s' within the '%s' package is invalid; cannot find '%s'.",
+                                 dep_path,
+                                 dep$package,
+                                 filename)
+                         ),
+          stderr())
+  }
+
+  return(full_path_to_dependency)
+}
+
+# the base R functions which strip extensions and filenames without
+# extensions from paths are not robust to multipart extensions,
+# such as .js.map or .min.js; these are functions intended to
+# perform reliably in such cases. the first occurrence of a dot
+# is replaced with an asterisk, which is generally an invalid
+# filename character in any modern filesystem, since it represents
+# a wildcard. the resulting string is then split on the asterisk.
+getFileSansExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[1]
+}
+
+getFileExt <- function(filepath) {
+  unlist(strsplit(sub("[.]", "*", basename(filepath)), "[*]"))[2]
+}
+
+returnDirname <- function(filepath) {
+  dirname <- dirname(filepath)
+  if (is.null(dirname) || dirname == ".")
+    return("")
+  return(dirname)
+}
+
+isDynamic <- function(eager_loading, resource) {
+  if (
+    is.null(resource$dynamic) && is.null(resource$async)
+  )
+    return(FALSE)
+  # need assert that async and dynamic are not both present
+  if (
+    (!is.null(resource$dynamic) && (resource$dynamic == FALSE)) ||
+    (eager_loading==TRUE && !is.null(resource$async) && (resource$async %in% c("eager", TRUE)))
+  )
+    return(FALSE)
+  else
+    return(TRUE)
+}
+
+tryCompress <- function(request, response) {
+  # charToRaw requires a length one character string
+  response$body <- paste(response$body, collapse="\n")
+  # the reqres gzip implementation requires file I/O
+  # brotli does not; when available, use brotli with
+  # a moderate level of compression for speed --
+  # the viewer pane only supports gzip and deflate,
+  # so gzip will be used when launching apps within
+  # RStudio
+  tryBrotli <- request$accepts_encoding('br')
+  if (tryBrotli == "br") {
+    response$body <- brotli::brotli_compress(charToRaw(response$body),
+                                             quality = 3)
+    response$set_header('Content-Encoding',
+                        "br")
+    return(response)
+  }
+  return(response$compress())
+}
+
+get_relative_path <- function(requests_pathname, path) {
+  # Returns a path with the config setting 'requests_pathname_prefix' prefixed to
+  # it. This is particularly useful for apps deployed on Dash Enterprise, which makes
+  # it easier to serve apps under both URL prefixes and localhost. 
+  
+  if (requests_pathname == "/" && path == "") {
+    return("/")
+  }
+  else if (requests_pathname != "/" && path == "") {
+    return(requests_pathname)
+  }
+  else if (!startsWith(path, "/")) {
+    stop(sprintf(paste0("Unsupported relative path! Paths that aren't prefixed" ,
+                        "with a leading '/' are not supported. You supplied '%s'."),
+                 path))
+  }
+  else {
+    return(paste(gsub("/$", "", requests_pathname), gsub("^/", "", path), sep = "/"))
+  }
+}
+
+strip_relative_path <- function(requests_pathname, path) {
+  # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
+  # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
+  
+  if (is.null(path)) {
+    return(NULL)
+  }
+  else if ((requests_pathname != "/" && !startsWith(path, gsub("/$", "", requests_pathname)))
+          || (requests_pathname == "/" && !startsWith(path, "/"))) {
+    stop(sprintf(paste0("Unsupported relative path! Path's that are not prefixed ",
+                        "with a leading 'requests_pathname_prefix` are not suported. ",
+                        "You supplied '%s', and requests_pathname_prefix was '%s'."),
+                 path, requests_pathname
+                 ))
+  }
+  else if (requests_pathname != "/" && startsWith(path, gsub("/$", "", requests_pathname))) {
+    path = sub(gsub("/$", "", requests_pathname), "", path)
+  }
+  return(trimws(gsub("/", "", path)))
+}
+
+interpolate_str <- function(index_template, ...) {
+  # This function takes an index string, along with
+  # user specified keys for the html keys of the index
+  # and sets the default values of the keys to the 
+  # ones specified by the keys themselves, returning
+  # the custom index template. 
+  template = index_template 
+  kwargs <- list(...)
+  
+  for (name in names(kwargs)) {
+    key = paste0('\\{', name, '\\}')
+    
+    template = sub(key, kwargs[[name]], template)
+  } 
+  return(template)
+}
+
+validate_keys <- function(string) {
+  required_keys <- c("app_entry", "config", "scripts")
+  
+  keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  
+  if (!all(keys_present)) {
+    stop(sprintf("Did you forget to include %s in your index string?", 
+                 paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
+  } else {
+    return(string)
+  }
 }

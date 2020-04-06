@@ -1,3 +1,7 @@
+[![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/master)
+[![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/graphs/contributors)
+
 # Dash for R
 
 #### Create beautiful, analytic web applications in R.
@@ -21,7 +25,9 @@ Installing the package and component libraries directly from GitHub using the `d
 
 ```r
 library(devtools)
-install_github("plotly/dashR") # installs dashHtmlComponents, dashCoreComponents, and dashTable
+# installs dashHtmlComponents, dashCoreComponents, and dashTable
+# and will update the component libraries when a new package is released
+install_github("plotly/dashR", upgrade = TRUE)
 ```
 
 Now, load the packages in R:

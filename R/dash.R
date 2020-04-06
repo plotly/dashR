@@ -5,14 +5,17 @@
 #' @usage Dash
 #'
 #' @section Constructor: Dash$new(
-#'   name = "dash",
+#'   name = NULL,
 #'   server = fiery::Fire$new(),
 #'   assets_folder = 'assets',
 #'   assets_url_path = '/assets',
+#'   eager_loading = FALSE,
 #'   assets_ignore = '',
 #'   serve_locally = TRUE,
-#'   routes_pathname_prefix = '/',
-#'   requests_pathname_prefix = '/',
+#'   meta_tags = NULL,
+#'   url_base_pathname = '/',
+#'   routes_pathname_prefix = NULL,
+#'   requests_pathname_prefix = NULL,
 #'   external_scripts = NULL,
 #'   external_stylesheets = NULL,
 #'   suppress_callback_exceptions = FALSE
@@ -21,7 +24,7 @@
 #' @section Arguments:
 #' \tabular{lll}{
 #'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
-#'   of the HTML page).\cr
+#'   of the HTML page). DEPRECATED; please use `index_string()` or `interpolate_index()` instead.\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
 #'   `assets_folder` \tab \tab Character. A path, relative to the current working directory,
@@ -29,19 +32,27 @@
 #'   .css files will be loaded immediately unless excluded by `assets_ignore`,
 #'   and other files such as images will be served if requested. Default is `assets`. \cr
 #'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr
+#'   `eager_loading` \tab \tab Logical. Controls whether asynchronous resources are prefetched (if `TRUE`) or loaded on-demand (if `FALSE`). \cr
 #'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from
 #'   immediate loading. Ignored files will still be served if specifically requested. You
 #'   cannot use this to prevent access to sensitive files. \cr
-#'   `serve_locally` \tab \tab Whether to serve HTML dependencies locally or
+#'   `serve_locally` \tab \tab Logical. Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
-#'   `routes_pathname_prefix` \tab \tab a prefix applied to the backend routes.\cr
-#'   `requests_pathname_prefix` \tab \tab a prefix applied to request endpoints
-#'   made by Dash's front-end.\cr
-#'   `external_scripts` \tab \tab An optional list of valid URLs from which
+#'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
+#'   Each list element should have the attributes and values for one tag, eg:
+#'   `list(name = 'description', content = 'My App')`.\cr
+#'   `url_base_pathname` \tab \tab Character. A local URL prefix to use app-wide. Default is
+#'   `/`. Both `requests_pathname_prefix` and `routes_pathname_prefix` default to `url_base_pathname`.
+#'   Environment variable is `DASH_URL_BASE_PATHNAME`.\cr
+#'   `routes_pathname_prefix` \tab \tab Character. A prefix applied to the backend routes.
+#'   Environment variable is `DASH_ROUTES_PATHNAME_PREFIX`.\cr
+#'   `requests_pathname_prefix` \tab \tab Character. A prefix applied to request endpoints
+#'   made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.\cr
+#'   `external_scripts` \tab \tab List. An optional list of valid URLs from which
 #'   to serve JavaScript source for rendered pages.\cr
-#'   `external_stylesheets` \tab \tab An optional list of valid URLs from which
+#'   `external_stylesheets` \tab \tab List. An optional list of valid URLs from which
 #'   to serve CSS for rendered pages.\cr
-#'   `suppress_callback_exceptions` \tab \tab Whether to relay warnings about
+#'   `suppress_callback_exceptions` \tab \tab Logical. Whether to relay warnings about
 #'   possible layout mis-specifications when registering a callback.
 #'  }
 #'
@@ -89,21 +100,109 @@
 #'     from the Dash backend. The latter may offer improved performance relative
 #'     to callbacks written in R.
 #'   }
+#'   \item{`title("dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
+#'   }
 #'   \item{`callback_context()`}{
 #'     The `callback_context` method permits retrieving the inputs which triggered
 #'     the firing of a given callback, and allows introspection of the input/state
 #'     values given their names. It is only available from within a callback;
 #'     attempting to use this method outside of a callback will result in a warning.
 #'   }
-#'   \item{`run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"),
-#'    port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
+#'   \item{`get_asset_url(asset_path, prefix)`}{
+#'     The `get_asset_url` method permits retrieval of an asset's URL given its filename.
+#'     For example, `app$get_asset_url('style.css')` should return `/assets/style.css` when
+#'     `assets_folder = 'assets'`. By default, the prefix is the value of `requests_pathname_prefix`,
+#'     but this is configurable via the `prefix` parameter. Note: this method will
+#'     present a warning and return `NULL` if the Dash app was not loaded via `source()`
+#'     if the `DASH_APP_PATH` environment variable is undefined.
+#'   }
+#'   \item{`get_relative_path(path, requests_pathname_prefix)`}{
+#'     The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
+#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix 
+#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling 
+#'     in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
+#'     would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
+#'     a `/`.
+#'     \describe{
+#'       \item{path}{Character. A path string prefixed with a leading `/` which directs at a path or asset directory.}
+#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
+#'   }
+#'   \item{`strip_relative_path(path, requests_pathname_prefix)`}{
+#'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
+#'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
+#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
+#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
+#'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
+#'     \describe{
+#'       \item{path}{Character. A path string prefixed with a leading `/` and `requests_pathname_prefix` which directs at a path or asset directory.}
+#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
+#'   }
+#'  \item{`index_string(string)`}{
+#'     The `index_string` method allows the specification of a custom index by changing
+#'     the default `HTML` template that is generated by the Dash UI. Meta tags, CSS, Javascript,
+#'     are some examples of features that can be modified.
+#'     This method will present a warning if your HTML template is missing any necessary elements
+#'     and return an error if a valid index is not defined. The following interpolation keys are
+#'     currently supported:
+#'     \describe{
+#'          \item{`{%metas%}`}{Optional - The registered meta tags.}
+#'          \item{`{%favicon%}`}{Optional - A favicon link tag if found in assets.}
+#'          \item{`{%css%}`}{Optional - Link tags to css resources.}
+#'          \item{`{%config%}`}{Required - Config generated by dash for the renderer.}
+#'          \item{`{%app_entry%}`}{Required - The container where dash react components are rendered.}
+#'          \item{`{%scripts%}`}{Required - Collected dependencies scripts tags.}
+#'          }
+#'     \describe{
+#'          \item{Example of a basic HTML index string:}{
+#'          \preformatted{
+#' "<!DOCTYPE html>
+#' <html>
+#'  <head>
+#'   \{\%meta_tags\%\}
+#'      <title>\{\{%css\%\}\}</title>
+#'      \{\%favicon\%\}
+#'      \{\%css_tags\%\}
+#'  </head>
+#'   <body>
+#'     \{\%app_entry\%\}
+#'     <footer>
+#'      \{\%config\%\}
+#'      \{\%scripts\%\}
+#'     </footer>
+#'   </body>
+#' </html>"
+#'              }
+#'          }
+#'      }
+#'  }
+#'  \item{`interpolate_index(template_index, ...)`}{
+#'     With the `interpolate_index` method, we can pass a custom index with template string
+#'     variables that are already evaluated. We can directly pass arguments to the `template_index`
+#'     by assigning them to variables present in the template. This is similar to the `index_string` method
+#'     but offers the ability to change the default components of the Dash index as seen in the example below:
+#'     \preformatted{
+#'     app$interpolate_index(
+#'       template_index, 
+#'       metas = "<meta_charset='UTF-8'/>", 
+#'       renderer = renderer, 
+#'       config = config)
+#'     }
+#'     \describe{
+#'     \item{template_index}{Character. A formatted string with the HTML index string. Defaults to the initial template}
+#'     \item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
+#'     of the Dash html index. These include the same arguments as those found in the `index_string()` template.}
+#'     }
+#'  } 
+#'  \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
+#'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
 #'     \describe{
-#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `DASH_HOST`.}
-#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `DASH_PORT`.}
+#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `HOST`.}
+#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `PORT`.}
 #'       \item{block}{Logical. Start the server while blocking console input? Default is `TRUE`.}
 #'       \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.}
-#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
+#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
 #'       \item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is `FALSE` when called via `run_server`. Environment variable: `DASH_DEBUG`.}
 #'       \item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_UI`.}
 #'       \item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Requires that the Dash application is loaded using `source()`, so that `srcref` attributes are available for executed code. Environment variable: `DASH_HOT_RELOAD`.}
@@ -122,7 +221,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(dashCoreComponents)
+#' library(dashHtmlComponents)
 #' library(dash)
+
 #' app <- Dash$new()
 #' app$layout(
 #'  dccInput(id = "inputID", value = "initial value", type = "text"),
@@ -152,39 +254,52 @@ Dash <- R6::R6Class(
     config = list(),
 
     # i.e., the Dash$new() method
-    initialize = function(name = "dash",
+    initialize = function(name = NULL,
                           server = fiery::Fire$new(),
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
+                          eager_loading = FALSE,
                           assets_ignore = '',
                           serve_locally = TRUE,
+                          meta_tags = NULL,
+                          url_base_pathname = "/",
                           routes_pathname_prefix = NULL,
                           requests_pathname_prefix = NULL,
                           external_scripts = NULL,
                           external_stylesheets = NULL,
+                          compress = TRUE,
                           suppress_callback_exceptions = FALSE) {
 
       # argument type checking
-      assertthat::assert_that(is.character(name))
       assertthat::assert_that(inherits(server, "Fire"))
       assertthat::assert_that(is.logical(serve_locally))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
       # save relevant args as private fields
-      private$name <- name
+      if (!is.null(name)) {
+        warning(sprintf(
+          "The supplied application title, '%s', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
+          name),
+          call. = FALSE
+        )
+      }
       private$serve_locally <- serve_locally
+      private$eager_loading <- eager_loading
       # remove leading and trailing slash(es) if present
       private$assets_folder <- gsub("^/+|/+$", "", assets_folder)
       # remove trailing slash in assets_url_path, if present
       private$assets_url_path <- sub("/$", "", assets_url_path)
       private$assets_ignore <- assets_ignore
       private$suppress_callback_exceptions <- suppress_callback_exceptions
+      private$compress <- compress
       private$app_root_path <- getAppPath()
       private$app_launchtime <- as.integer(Sys.time())
+      private$meta_tags <- meta_tags
+      private$in_viewer <- FALSE
 
       # config options
-      self$config$routes_pathname_prefix <- resolve_prefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX")
-      self$config$requests_pathname_prefix <- resolve_prefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX")
+      self$config$routes_pathname_prefix <- resolvePrefix(routes_pathname_prefix, "DASH_ROUTES_PATHNAME_PREFIX", url_base_pathname)
+      self$config$requests_pathname_prefix <- resolvePrefix(requests_pathname_prefix, "DASH_REQUESTS_PATHNAME_PREFIX", url_base_pathname)
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
 
@@ -233,6 +348,9 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
+
+
+
         TRUE
       })
 
@@ -243,6 +361,7 @@ Dash <- R6::R6Class(
           response$body <- to_JSON(list())
           response$status <- 200L
           response$type <- 'json'
+
           return(FALSE)
         }
 
@@ -258,6 +377,8 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(setNames(payload, NULL))
         response$status <- 200L
         response$type <- 'json'
+        if (private$compress)
+          response <- tryCompress(request, response)
         TRUE
       })
 
@@ -386,17 +507,33 @@ Dash <- R6::R6Class(
           response$status <- 500L
           private$stack_message <- NULL
         }
+
+        if (private$compress)
+          response <- tryCompress(request, response)
         TRUE
       })
 
       # This endpoint supports dynamic dependency loading
       # during `_dash-update-component` -- for reference:
-      # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L488
       # https://docs.python.org/3/library/pkgutil.html#pkgutil.get_data
+      #
+      # analogous to
+      # https://github.com/plotly/dash/blob/2d735aa250fc67b14dc8f6a337d15a16b7cbd6f8/dash/dash.py#L543-L551
       dash_suite <- paste0(self$config$routes_pathname_prefix, "_dash-component-suites/:package_name/:filename")
 
       route$add_handler("get", dash_suite, function(request, response, keys, ...) {
         filename <- basename(file.path(keys$filename))
+
+        # checkFingerprint returns a list of length 2, the first element is
+        # the un-fingerprinted path, if a fingerprint is present (otherwise
+        # the original path is returned), while the second element indicates
+        # whether the original filename included a valid fingerprint (by
+        # Dash convention)
+        fingerprinting_metadata <- checkFingerprint(filename)
+
+        filename <- fingerprinting_metadata[[1]]
+        has_fingerprint <- fingerprinting_metadata[[2]] == TRUE
+
         dep_list <- c(private$dependencies_internal,
                       private$dependencies,
                       private$dependencies_user)
@@ -405,7 +542,6 @@ Dash <- R6::R6Class(
                                        keys$package_name,
                                        clean_dependencies(dep_list)
                                        )
-
 
         # return warning if a dependency goes unmatched, since the page
         # will probably fail to render properly anyway without it
@@ -417,15 +553,43 @@ Dash <- R6::R6Class(
           response$body <- NULL
           response$status <- 404L
         } else {
+          # need to check for debug mode, don't cache, don't etag
+          # if debug mode is not active
           dep_path <- system.file(dep_pkg$rpkg_path,
                                   package = dep_pkg$rpkg_name)
 
           response$body <- readLines(dep_path,
                                      warn = FALSE,
                                      encoding = "UTF-8")
-          response$status <- 200L
+
+          if (!private$debug && has_fingerprint) {
+            response$status <- 200L
+            response$set_header('Cache-Control',
+                                sprintf('public, max-age=%s',
+                                        31536000) # 1 year
+            )
+          } else if (!private$debug && !has_fingerprint) {
+            modified <- as.character(as.integer(file.mtime(dep_path)))
+
+            response$set_header('ETag', modified)
+
+            request_etag <- request$get_header('If-None-Match')
+
+            if (!is.null(request_etag) && modified == request_etag) {
+              response$body <- NULL
+              response$status <- 304L
+            } else {
+              response$status <- 200L
+            }
+          } else {
+            response$status <- 200L
+          }
+
           response$type <- get_mimetype(filename)
         }
+
+        if (private$compress && length(response$body) > 0)
+          response <- tryCompress(request, response)
 
         TRUE
       })
@@ -469,11 +633,17 @@ Dash <- R6::R6Class(
             response$body <- readLines(asset_path,
                                        warn = FALSE,
                                        encoding = "UTF-8")
+
+            if (private$compress && length(response$body) > 0) {
+              response <- tryCompress(request, response)
+            }
           } else {
             file_handle <- file(asset_path, "rb")
+            file_size <- file.size(asset_path)
+
             response$body <- readBin(file_handle,
                                      raw(),
-                                     file.size(asset_path))
+                                     file_size)
             close(file_handle)
           }
 
@@ -494,8 +664,13 @@ Dash <- R6::R6Class(
                                  file.size(asset_path))
         close(file_handle)
 
+        response$set_header('Cache-Control',
+                            sprintf('public, max-age=%s',
+                                    '31536000')
+                            )
         response$type <- 'image/x-icon'
         response$status <- 200L
+
         TRUE
       })
 
@@ -505,6 +680,9 @@ Dash <- R6::R6Class(
         response$body <- private$.index
         response$status <- 200L
         response$type <- 'html'
+
+        if (private$compress)
+          response <- tryCompress(request, response)
         TRUE
       })
 
@@ -533,6 +711,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(resp)
         response$status <- 200L
         response$type <- 'json'
+
         # reset the field for the next reloading operation
         private$modified_since_reload <- list()
         TRUE
@@ -545,18 +724,18 @@ Dash <- R6::R6Class(
         private$generateReloadHash()
         private$index()
 
-        use_viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
-        host <- dynGet("host")
-        port <- dynGet("port")
+        viewer <- !(is.null(getOption("viewer"))) && (dynGet("use_viewer") == TRUE)
 
-        app_url <- paste0("http://", host, ":", port)
+        app_url <- paste0("http://", self$server$host, ":", self$server$port)
 
-        if (use_viewer && host %in% c("localhost", "127.0.0.1"))
+        if (viewer && self$server$host %in% c("localhost", "127.0.0.1")) {
           rstudioapi::viewer(app_url)
-        else if (use_viewer) {
+          private$in_viewer <- TRUE
+          }
+        else if (viewer) {
           warning("\U{26A0} RStudio viewer not supported; ensure that host is 'localhost' or '127.0.0.1' and that you are using RStudio to run your app. Opening default browser...")
           utils::browseURL(app_url)
-          }
+        }
       })
 
       # user-facing fields
@@ -652,12 +831,108 @@ Dash <- R6::R6Class(
       }
       private$callback_context_
     },
+    
+    # ------------------------------------------------------------------------
+    # return asset URLs
+    # ------------------------------------------------------------------------
+    get_asset_url = function(asset_path, prefix = self$config$requests_pathname_prefix) {
+      app_root_path <- Sys.getenv("DASH_APP_PATH")
+      
+      if (app_root_path == "" && getAppPath() != FALSE) {
+        # app loaded via source(), root path is known
+        app_root_path <- dirname(private$app_root_path)
+      } else if (getAppPath() == FALSE) {
+        # app not loaded via source(), env var not set, no reliable way to ascertain root path
+        warning("application not started via source(), and DASH_APP_PATH environment variable is undefined. get_asset_url returns NULL since root path cannot be reliably identified.")
+        return(NULL)
+      }
+      
+      asset <- lapply(private$asset_map, 
+                      function(x) {
+                        # asset_path should be prepended with the full app root & assets path
+                        # if leading slash(es) present in asset_path, remove them before
+                        # assembling full asset path
+                        asset_path <- file.path(app_root_path,
+                                                private$assets_folder, 
+                                                sub(pattern="^/+",
+                                                    replacement="",
+                                                    asset_path))
+                        return(names(x[x == asset_path]))
+                      }
+      )
+      asset <- unlist(asset, use.names = FALSE)
+      
+      if (length(asset) == 0)
+        stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
+                     asset_path,
+                     private$assets_folder))
+      
+      # strip multiple slashes if present, since we'll
+      # introduce one when we concatenate the prefix and
+      # asset path & prepend the asset name with route prefix
+      return(gsub(pattern="/+",
+                  replacement="/",
+                  paste(prefix, 
+                        private$assets_url_path, 
+                        asset, 
+                        sep="/")))
+    },
+    
+    # ------------------------------------------------------------------------
+    # return relative asset URLs
+    # ------------------------------------------------------------------------
+    
+    get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
+      asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
+      return(asset)
+    },
+    
+    
+    # ------------------------------------------------------------------------
+    # return relative asset URLs
+    # ------------------------------------------------------------------------
+    
+    strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
+      asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
+      return(asset)
+    },
 
+    # specify a custom index string
+    # ------------------------------------------------------------------------
+    index_string = function(string) {
+      private$custom_index <- validate_keys(string)
+    },
+    
+    # ------------------------------------------------------------------------
+    # modify the templated variables by using the `interpolate_index` method. 
+    # ------------------------------------------------------------------------
+    interpolate_index = function(template_index = private$template_index[[1]], ...) {
+      template = template_index
+      kwargs <- list(...)
+      
+      for (name in names(kwargs)) {
+        key = paste0('\\{\\%', name, '\\%\\}')
+        template = sub(key, kwargs[[name]], template)
+      } 
+      
+      invisible(validate_keys(names(kwargs)))
+      
+      private$template_index <- template
+    },
+    
+    # ------------------------------------------------------------------------
+    # specify a custom title
+    # ------------------------------------------------------------------------
+    title = function(string = "dash") {
+      assertthat::assert_that(is.character(string))
+      private$name <- string
+    },
+        
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
-    run_server = function(host = Sys.getenv('DASH_HOST', "127.0.0.1"),
-                          port = Sys.getenv('DASH_PORT'),
+    run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
+                          port = Sys.getenv('PORT', 8050),
                           block = TRUE,
                           showcase = FALSE,
                           use_viewer = FALSE,
@@ -686,17 +961,17 @@ Dash <- R6::R6Class(
         if (type == "integer")
           value <- as.integer(value)
         if (type == "double")
-          value <- as.double(value)        
+          value <- as.double(value)
         if (value != "" && typeof(value) == type) {
           return(value)
         } else {
           return(default)
         }
       }
-      
+
       debug <- getServerParam(debug, "logical", FALSE)
       private$debug <- debug
-      
+
       self$server$host <- getServerParam(host, "character", "127.0.0.1")
       self$server$port <- getServerParam(as.integer(port), "integer", 8050)
 
@@ -704,9 +979,9 @@ Dash <- R6::R6Class(
       dev_tools_props_check <- getServerParam(dev_tools_props_check, "logical", debug)
       dev_tools_silence_routes_logging <- getServerParam(dev_tools_silence_routes_logging, "logical", debug)
       dev_tools_hot_reload <- getServerParam(dev_tools_hot_reload, "logical", debug)
-            
+
       private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
-      
+
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
@@ -717,7 +992,7 @@ Dash <- R6::R6Class(
       # set the modtime to track state of the Dash app directory
       # this calls getAppPath, which will try three approaches to
       # identifying the local app path (depending on whether the app
-      # is invoked via script, source(), or executed dire ctly from console)
+      # is invoked via script, source(), or executed directly from console)
       self$config$ui <- dev_tools_ui
 
       if (dev_tools_hot_reload) {
@@ -726,7 +1001,7 @@ Dash <- R6::R6Class(
         hot_reload_watch_interval <- getServerParam(dev_tools_hot_reload_watch_interval, "double", 0.5)
         hot_reload_max_retry <- getServerParam(as.integer(dev_tools_hot_reload_max_retry), "integer", 8)
         # convert from seconds to msec as used by js `setInterval`
-        self$config$hot_reload <- list(interval = hot_reload_watch_interval * 1000, max_retry = hot_reload_max_retry)
+        self$config$hot_reload <- list(interval = hot_reload_interval * 1000, max_retry = hot_reload_max_retry)
       } else {
         hot_reload <- FALSE
       }
@@ -737,11 +1012,12 @@ Dash <- R6::R6Class(
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
-          # private$last_refresh will get set after the asset_map is refreshed
+          #
+          # private$last_reload stores the time of the last hard or soft reload event
           # private$last_cycle will be set when the cycle-end handler terminates
-          if (!is.null(private$last_cycle) & !is.null(hot_reload_interval)) {
-            # determine if the time since last cycle end is equal to or longer than the requested check interval
-            permit_reload <- (as.integer(Sys.time()) - private$last_cycle) >= hot_reload_interval
+          #
+          if (!is.null(private$last_cycle) & !is.null(hot_reload_watch_interval)) {
+            permit_reload <- (Sys.time() - private$last_reload) >= hot_reload_watch_interval
           } else {
             permit_reload <- FALSE
           }
@@ -811,6 +1087,9 @@ Dash <- R6::R6Class(
               if (!hard_reload) {
                 # refresh the index but don't restart the server
                 private$index()
+                # while not a "hard" reload, update last_reload to reflect "soft" reloads also
+                # since we determine whether to perform subsequent reloads based this value
+                private$last_reload <- as.integer(Sys.time())
               } else {
                 # if the server was started via Rscript or via source()
                 # then update the app object here
@@ -824,6 +1103,9 @@ Dash <- R6::R6Class(
                   private$callback_map <- get("callback_map", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$layout_ <- get("layout_", envir=get("app", envir=app_env)$.__enclos_env__$private)
                   private$index()
+                  # if using the viewer, reload app there
+                  if (private$in_viewer)
+                    rstudioapi::viewer(paste0("http://", self$server$host, ":", self$server$port))
                   # tear down the temporary environment
                   rm(app_env)
                 }
@@ -845,12 +1127,16 @@ Dash <- R6::R6Class(
     # private fields defined on initiation
     name = NULL,
     serve_locally = NULL,
+    eager_loading = NULL,
+    meta_tags = NULL,
     assets_folder = NULL,
     assets_url_path = NULL,
     assets_ignore = NULL,
+    url_base_pathname = NULL,
     routes_pathname_prefix = NULL,
     requests_pathname_prefix = NULL,
     suppress_callback_exceptions = NULL,
+    compress = NULL,
     asset_map = NULL,
     css = NULL,
     scripts = NULL,
@@ -869,10 +1155,15 @@ Dash <- R6::R6Class(
     app_launchtime = NULL,
     app_root_path = NULL,
     app_root_modtime = NULL,
-    last_reload = NULL,
+
+    # fields for controlling hot reloading state
+    last_reload = numeric(1),
     last_refresh = NULL,
     last_cycle = NULL,
     modified_since_reload = NULL,
+
+    # field to store whether viewer has been requested
+    in_viewer = NULL,
 
     # fields for tracking HTML dependencies
     dependencies = list(),
@@ -886,7 +1177,7 @@ Dash <- R6::R6Class(
       # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
 
-      # accomodate functions that return a single component
+      # accommodate functions that return a single component
       if (is.component(layout_)) layout_ <- list(layout_)
 
       # make sure we are working with a list of components
@@ -985,7 +1276,7 @@ Dash <- R6::R6Class(
 
       # need to check whether the assets have actually been updated, since
       # this function is also called to generate the asset map
-      if (private$asset_modtime > private$app_launchtime) {
+      if (!is.na(private$asset_modtime) && private$asset_modtime > private$app_launchtime) {
         # here we use mapply to make pairwise comparisons for each of the
         # asset classes in the map -- before/after for css, js, and other
         # assets; this returns a list whose subelements correspond to each
@@ -1139,6 +1430,24 @@ Dash <- R6::R6Class(
 
     # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L338
     # note discussion here https://github.com/plotly/dash/blob/d2ebc837/dash/dash.py#L279-L284
+    custom_index = NULL,
+    template_index = c(
+    "<!DOCTYPE html>
+        <html>
+          <head>
+            {%meta_tags%}
+            <title>{%title%}</title>
+            {%favicon%}
+            {%css_tags%}
+          </head>
+          <body>
+            {%app_entry%}
+            <footer>
+              {%config%}
+              {%scripts%}
+            </footer>
+          </body>
+        </html>", NA),
     .index = NULL,
 
     generateReloadHash = function() {
@@ -1176,6 +1485,7 @@ Dash <- R6::R6Class(
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies_internal[grepl(pattern = "prop-types", x = private$dependencies_internal)],
+        private$dependencies_internal[grepl(pattern = "polyfill", x = private$dependencies_internal)],        
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
@@ -1187,7 +1497,7 @@ Dash <- R6::R6Class(
                                    !is.null(v[["script"]]) && tools::file_ext(v[["script"]]) == "map"
                                    }, logical(1))]
 
-      # styleheets always go in header
+      # stylesheets always go in header
       css_deps <- compact(lapply(depsAll, function(dep) {
         if (is.null(dep$stylesheet)) return(NULL)
         dep$script <- NULL
@@ -1197,6 +1507,23 @@ Dash <- R6::R6Class(
       css_deps <- render_dependencies(css_deps,
                                       local = private$serve_locally,
                                       prefix=self$config$requests_pathname_prefix)
+
+      # ensure that no dependency has both async and dynamic set
+      if (any(
+        vapply(depsAll, function(dep)
+          length(intersect(c("dynamic", "async"), names(dep))) > 1,
+          logical(1)
+        )
+       )
+      )
+        stop("Can't have both 'dynamic' and 'async' in a Dash dependency; please correct and reload.", call. = FALSE)
+
+      # remove dependencies which are dynamic from the script list
+      # to avoid placing them into the index
+      depsAll <- depsAll[!vapply(depsAll,
+                                 isDynamic,
+                                 logical(1),
+                                 eager_loading = private$eager_loading)]
 
       # scripts go after dash-renderer dependencies (i.e., React),
       # but before dash-renderer itself
@@ -1268,18 +1595,22 @@ Dash <- R6::R6Class(
       css_tags <- paste(c(css_deps,
                           css_external,
                           css_assets),
-                        collapse = "\n")
+                        collapse = "\n            ")
 
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
                               scripts_inline,
                               scripts_invoke_renderer),
-                            collapse = "\n")
+                            collapse = "\n              ")
+
+      meta_tags <- paste(generate_meta_tags(private$meta_tags),
+                         collapse = "\n            ")
 
       return(list(css_tags = css_tags,
                   scripts_tags = scripts_tags,
-                  favicon = favicon))
+                  favicon = favicon,
+                  meta_tags = meta_tags))
     },
 
     index = function() {
@@ -1293,35 +1624,57 @@ Dash <- R6::R6Class(
       css_tags <- all_tags[["css_tags"]]
 
       # retrieve script tags for serving in the index
-      scripts_tags <- all_tags[["scripts_tags"]]
+      scripts <- all_tags[["scripts_tags"]]
 
-      private$.index <- sprintf(
-        '<!DOCTYPE html>
+      # insert meta tags if present
+      meta_tags <- all_tags[["meta_tags"]]
+      
+      # define the react-entry-point
+      app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
+      # define the dash default config key
+      config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
+
+      if (is.null(private$name))
+        private$name <- 'dash'
+      
+      if (!is.null(private$custom_index)) {
+        string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
+        
+        private$.index <- string_index
+      }
+      
+      else if (length(private$template_index) == 1) {
+        private$.index <- private$template_index
+      }
+
+      else {
+        private$.index <- sprintf(
+       '<!DOCTYPE html>
         <html>
           <head>
-            <meta charset="UTF-8"/>
+            %s
             <title>%s</title>
             %s
             %s
           </head>
 
           <body>
-            <div id="react-entry-point">
-              <div class="_dash-loading">Loading...</div>
-            </div>
-
+            %s
             <footer>
-              <script id="_dash-config" type="application/json"> %s </script>
+              %s
               %s
             </footer>
           </body>
         </html>',
-        private$name,
-        favicon,
-        css_tags,
-        to_JSON(self$config),
-        scripts_tags
-      )
+          meta_tags,
+          private$name,
+          favicon,
+          css_tags,
+          app_entry,
+          config,
+          scripts
+        )
+      }
     }
   )
 )

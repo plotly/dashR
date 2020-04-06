@@ -13,14 +13,17 @@ A framework for building analytical web applications, Dash offers a pleasant and
 }
 \section{Constructor}{
  Dash$new(
-name = "dash",
+name = NULL,
 server = fiery::Fire$new(),
 assets_folder = 'assets',
 assets_url_path = '/assets',
+eager_loading = FALSE,
 assets_ignore = '',
 serve_locally = TRUE,
-routes_pathname_prefix = '/',
-requests_pathname_prefix = '/',
+meta_tags = NULL,
+url_base_pathname = '/',
+routes_pathname_prefix = NULL,
+requests_pathname_prefix = NULL,
 external_scripts = NULL,
 external_stylesheets = NULL,
 suppress_callback_exceptions = FALSE
@@ -31,7 +34,7 @@ suppress_callback_exceptions = FALSE
 
 \tabular{lll}{
 \code{name} \tab \tab Character. The name of the Dash application (placed in the \code{<title>}
-of the HTML page).\cr
+of the HTML page). DEPRECATED; please use \code{index_string()} or \code{interpolate_index()} instead.\cr
 \code{server} \tab \tab The web server used to power the application.
 Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
 \code{assets_folder} \tab \tab Character. A path, relative to the current working directory,
@@ -39,19 +42,27 @@ for extra files to be used in the browser. Default is "assets". All .js and
 .css files will be loaded immediately unless excluded by \code{assets_ignore},
 and other files such as images will be served if requested. Default is \code{assets}. \cr
 \code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
+\code{eager_loading} \tab \tab Logical. Controls whether asynchronous resources are prefetched (if \code{TRUE}) or loaded on-demand (if \code{FALSE}). \cr
 \code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
 immediate loading. Ignored files will still be served if specifically requested. You
 cannot use this to prevent access to sensitive files. \cr
-\code{serve_locally} \tab \tab Whether to serve HTML dependencies locally or
+\code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
-\code{routes_pathname_prefix} \tab \tab a prefix applied to the backend routes.\cr
-\code{requests_pathname_prefix} \tab \tab a prefix applied to request endpoints
-made by Dash's front-end.\cr
-\code{external_scripts} \tab \tab An optional list of valid URLs from which
+\code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
+Each list element should have the attributes and values for one tag, eg:
+\code{list(name = 'description', content = 'My App')}.\cr
+\code{url_base_pathname} \tab \tab Character. A local URL prefix to use app-wide. Default is
+\code{/}. Both \code{requests_pathname_prefix} and \code{routes_pathname_prefix} default to \code{url_base_pathname}.
+Environment variable is \code{DASH_URL_BASE_PATHNAME}.\cr
+\code{routes_pathname_prefix} \tab \tab Character. A prefix applied to the backend routes.
+Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.\cr
+\code{requests_pathname_prefix} \tab \tab Character. A prefix applied to request endpoints
+made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.\cr
+\code{external_scripts} \tab \tab List. An optional list of valid URLs from which
 to serve JavaScript source for rendered pages.\cr
-\code{external_stylesheets} \tab \tab An optional list of valid URLs from which
+\code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
 to serve CSS for rendered pages.\cr
-\code{suppress_callback_exceptions} \tab \tab Whether to relay warnings about
+\code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
 possible layout mis-specifications when registering a callback.
 }
 }
@@ -103,17 +114,84 @@ describes a locally served JavaScript function instead. The latter defines a
 from the Dash backend. The latter may offer improved performance relative
 to callbacks written in R.
 }
+\item{\code{title("dash")}}{
+The title of the app. If no title is supplied, Dash for R will use 'dash'.
+}
 \item{\code{callback_context()}}{
 The \code{callback_context} method permits retrieving the inputs which triggered
 the firing of a given callback, and allows introspection of the input/state
 values given their names. It is only available from within a callback;
 attempting to use this method outside of a callback will result in a warning.
 }
-\item{\code{run_server(host =  Sys.getenv('DASH_HOST', "127.0.0.1"), port = Sys.getenv('DASH_PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
+\item{\code{get_asset_url(asset_path, prefix)}}{
+The \code{get_asset_url} method permits retrieval of an asset's URL given its filename.
+For example, \code{app$get_asset_url('style.css')} should return \code{/assets/style.css} when
+\code{assets_folder = 'assets'}. By default, the prefix is the value of \code{requests_pathname_prefix},
+but this is configurable via the \code{prefix} parameter. Note: this method will
+present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
+if the \code{DASH_APP_PATH} environment variable is undefined.
+}
+\item{\code{index_string(string)}}{
+The \code{index_string} method allows the specification of a custom index by changing
+the default \code{HTML} template that is generated by the Dash UI. Meta tags, CSS, Javascript,
+are some examples of features that can be modified.
+This method will present a warning if your HTML template is missing any necessary elements
+and return an error if a valid index is not defined. The following interpolation keys are
+currently supported:
+\describe{
+\item{\code{{\%metas\%}}}{Optional - The registered meta tags.}
+\item{\code{{\%favicon\%}}}{Optional - A favicon link tag if found in assets.}
+\item{\code{{\%css\%}}}{Optional - Link tags to css resources.}
+\item{\code{{\%config\%}}}{Required - Config generated by dash for the renderer.}
+\item{\code{{\%app_entry\%}}}{Required - The container where dash react components are rendered.}
+\item{\code{{\%scripts\%}}}{Required - Collected dependencies scripts tags.}
+}
+\describe{
+\item{Example of a basic HTML index string:}{
+\preformatted{
+"<!DOCTYPE html>
+<html>
+ <head>
+  \{\%meta_tags\%\}
+     <title>\{\{%css\%\}\}</title>
+     \{\%favicon\%\}
+     \{\%css_tags\%\}
+ </head>
+  <body>
+    \{\%app_entry\%\}
+    <footer>
+     \{\%config\%\}
+     \{\%scripts\%\}
+    </footer>
+  </body>
+</html>"
+             }
+}
+}
+}
+\item{\code{interpolate_index(template_index, ...)}}{
+With the \code{interpolate_index} method, we can pass a custom index with template string
+variables that are already evaluated. We can directly pass arguments to the \code{template_index}
+by assigning them to variables present in the template. This is similar to the \code{index_string} method
+but offers the ability to change the default components of the Dash index as seen in the example below:
+\preformatted{
+    app$interpolate_index(
+      template_index, 
+      metas = "<meta_charset='UTF-8'/>", 
+      renderer = renderer, 
+      config = config)
+    }
+\describe{
+\item{template_index}{Character. A formatted string with the HTML index string. Defaults to the initial template}
+\item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
+of the Dash html index. These include the same arguments as those found in the \code{index_string()} template.}
+}
+}
+\item{\code{run_server(host =  Sys.getenv('HOST', "127.0.0.1"), port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
 The \code{run_server} method has 13 formal arguments, several of which are optional:
 \describe{
-\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{DASH_HOST}.}
-\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{DASH_PORT}.}
+\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{HOST}.}
+\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{PORT}.}
 \item{block}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
 \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
 \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
@@ -136,6 +214,8 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 
 \examples{
 \dontrun{
+library(dashCoreComponents)
+library(dashHtmlComponents)
 library(dash)
 app <- Dash$new()
 app$layout(

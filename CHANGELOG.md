@@ -1,8 +1,27 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+
+## [0.3.0] - 2020-02-12
 ### Added
+- Support for config-aware relative paths [#172](https://github.com/plotly/dashR/pull/172)
+- Support index customization and index templates [#168](https://github.com/plotly/dashR/pull/168)
+- Application titles may be set using the `app$title()` method, for parity with Dash for Python's `app.title` syntax [#168](https://github.com/plotly/dashR/pull/168)
+
+### Changed
+- Dash for R now requires `dashCoreComponents` v1.8.0
+- Dash for R now requires `dashTable` v4.6.0
+- Automatically set routes and requests pathname prefixes if `DASH_APP_NAME` environment variable has been set [#165](https://github.com/plotly/dashR/pull/165)
+
+### Deprecated
+- Application titles can no longer be set using `name` parameter, which is now deprecated with a warning, for parity with Dash for Python [#168](https://github.com/plotly/dashR/pull/168)
+- Removed `DASH_HOST` and `DASH_PORT`, Dash for R now respects `HOST` and `PORT` [#167](https://github.com/plotly/dashR/pull/167)
+
+## [0.2.0] - 2020-01-03
+### Added
+- Support for asynchronous/dynamic loading of dependencies, resource caching, and asset fingerprinting [#157](https://github.com/plotly/dashR/pull/157)
+- Compression of text resources using `brotli`, `gzip`, or `deflate` [#157](https://github.com/plotly/dashR/pull/157)
+- Support for adding `<meta>` tags to index [#142](https://github.com/plotly/dashR/pull/142)
 - Hot reloading now supported in debug mode [#127](https://github.com/plotly/dashR/pull/127)
 - Support for displaying Dash for R applications within RStudio's viewer pane when `use_viewer = TRUE`
 - Clientside callbacks written in JavaScript are now supported [#130](https://github.com/plotly/dashR/pull/130)
@@ -10,14 +29,21 @@ All notable changes to this project will be documented in this file.
 - Selective callback updates to properties now supported with `dashNoUpdate()` [#111](https://github.com/plotly/dashR/pull/111)
 - Additional line number context inserted when available within stack traces [#133](https://github.com/plotly/dashR/pull/133)
 - Integration and unit tests are now performed when commits are made to open pull requests
+- Support returning asset URLs via `app$get_asset_url` when app is loaded via `source()` or `APP_ROOT_PATH` environment variable is defined [#160](https://github.com/plotly/dashR/pull/160)
+- `url_base_pathname` added; mimics functionality in Dash for Python, sets defaults for `routes_pathname_prefix` and `requests_pathname_prefix` when not otherwise provided [#161](https://github.com/plotly/dashR/pull/161)
 
 ### Changed
+- `dash-renderer` updated to v1.2.2 [#137](https://github.com/plotly/dashR/pull/137)
 - Dash for R no longer requires forked `reqres`, patch applied upstream [thomasp85/reqres#9](https://github.com/thomasp85/reqres/pull/9)
 - The `pruned_errors` parameter has been renamed to `dev_tools_prune_errors` [#113](https://github.com/plotly/dashR/pull/113)
 
 ### Fixed
+- Stack traces now display properly within viewer pane when `debug = TRUE` and `use_viewer = TRUE` [#137](https://github.com/plotly/dashR/pull/137)
 - Patch for `reqres` package to handle cookies containing multiple "=" [#122](https://github.com/plotly/dashR/pull/122)
 - Handling for user-defined errors in callbacks implemented [#116](https://github.com/plotly/dashR/pull/116)
+- Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
+- `get_asset_url` checks `getAppPath()` as well as `DASH_APP_ROOT_PATH` environment variable when invoked [#161](https://github.com/plotly/dashR/pull/161)
+
 
 ## [0.1.0] - 2019-07-10
 ### Added
