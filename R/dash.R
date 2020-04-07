@@ -96,11 +96,12 @@
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
 #'     argument values for R callback handlers defined in `func`. Here `func` may
-#'     either be an anonymous R function, or a call to `clientsideFunction()`, which
-#'     describes a locally served JavaScript function instead. The latter defines a
-#'     "clientside callback", which updates components without passing data to and
+#'     either be an anonymous R function, a JavaScript function provided as a
+#'     character string, or a call to `clientsideFunction()`, which describes a 
+#'     locally served JavaScript function instead. The latter two methods define 
+#'     a "clientside callback", which updates components without passing data to and
 #'     from the Dash backend. The latter may offer improved performance relative
-#'     to callbacks written in R.
+#'     to callbacks written purely in R.
 #'   }
 #'   \item{`title("dash")`}{
 #'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
