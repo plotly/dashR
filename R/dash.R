@@ -87,7 +87,9 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments, or a call to [clientsideFunction] including `namespace` and `function_name` arguments for a locally served JavaScript function}
+#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments,
+#'       a character string containing valid JavaScript, or a call to [clientsideFunction] including `namespace`
+#'       and `function_name` arguments for a locally served JavaScript function}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that
@@ -779,34 +781,24 @@ Dash <- R6::R6Class(
       if (is.function(func)) {
         clientside_function <- NULL
       } else if (is.character(func)) {
-        
-        # if namespace not provided, default to clientside        
-        namespace <- "_dashprivate_clientside"
-        
-        fn_name <- paste0("_dashprivate_clientside_", createCallbackId(output))
-        
-        # hashing the name while keeping it a valid JS function name
-        fn_name <- paste0("_", digest(fn_name, 
-                                      "md5", 
-                                      serialize = FALSE))
-        
-        clientside_function <- list(namespace = namespace,
-                                    function_name = fn_name)
-        
-        # register the function with its hashed name representation
-        js_map <- insertIntoJSMap(private$js_map,
-                                  func,
-                                  fn_name)
-        
-        # check that no entries in the inline JS map have names matching those in the
-        # callback map, and vice-versas
-        if (length(intersect(names(private$callback_map), 
-                             sub("_dashprivate_clientside_", "", names(private$js_map)))) > 0) {
-          stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
-        } else {
-          private$js_map <- js_map
-        }
-        
+        # update the scripts before generating tags, and remove exact
+        # duplicates from inline_scripts
+        fn_name <- paste0("_dashprivate_", output$id)
+
+        func <- paste0('<script>\n',
+                       '                var clientside = window.dash_clientside = window.dash_clientside || {};\n',
+                       '                var ns = clientside["', fn_name, '"] = clientside["', fn_name, '"] || {}\n',
+                       '                ns["', output$property, '"] =\n',
+                       '                ',
+                       func,
+                       '\n;',
+                       '                </script>')
+
+        private$inline_scripts <- unique(c(private$inline_scripts, func))
+
+        clientside_function <- clientsideFunction(namespace = fn_name,
+                                                  function_name = output$property)
+
         func <- NULL
       } else {
         clientside_function <- func
@@ -1415,6 +1407,9 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
+    # the list of inline scripts passed as strings via (clientside) callbacks
+    inline_scripts = list(),
+
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$`react-prod`$version
@@ -1584,13 +1579,6 @@ Dash <- R6::R6Class(
                                          "application/javascript",
                                          "var renderer = new DashRenderer();")
 
-      # if inline JS provided, include
-      if (!(is.null(private$js_map))) {
-        scripts_inline <- generate_js_inline(private$js_map)
-      } else {
-        scripts_inline <- NULL
-      }
-      
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
                           css_external,

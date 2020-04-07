@@ -592,18 +592,6 @@ generate_js_dist_html <- function(href,
   }
 }
 
-generate_js_inline <- function(js_map) {
-  inlineJSFormatted <- paste0("<script>window.dash_clientside = window.dash_clientside || {};
-
-                              (function() {
-                              // some imaginary ES5/mergeDeep function
-                              
-                              mergeDeep(window.dash_clientside, {\n",
-                              paste0(names(js_map), ": {\n", js_map, collapse="},\n"),
-                              "});
-                              })</script>")
-}
-
 generate_meta_tags <- function(metas) {
   has_ie_compat <- any(vapply(metas, function(x)
     x$name == "http-equiv" && x$content == "X-UA-Compatible",
@@ -1130,6 +1118,8 @@ dashLogger <- function(event = NULL,
 #' Define a clientside callback
 #'
 #' Create a callback that updates the output by calling a clientside (JavaScript) function instead of an R function.
+#' Note that it is also possible to specify JavaScript as a character string instead of passing `clientsideFunction`.
+#' In this case Dash will inline your JavaScript automatically, without needing to save a script inside `assets`.
 #'
 #' @param namespace Character. Describes where the JavaScript function resides (Dash will look
 #' for the function at `window[namespace][function_name]`.)
@@ -1159,16 +1149,20 @@ dashLogger <- function(event = NULL,
 #'   namespace = 'my_clientside_library',
 #'   function_name = 'my_function'
 #'   )
-#' )}
+#' )
+#' 
+#' # Passing JavaScript as a character string
+#' app$callback(
+#'  output('output-clientside', 'children'),
+#'  params=list(input('input', 'value')),
+#'  "function (value) {
+#'        return 'Client says \"' + value + '\"';
+#'  }"
+#')} 
 clientsideFunction <- function(namespace, function_name) {
   return(list(namespace=namespace, function_name=function_name))
 }
 
-insertIntoJSMap <- function(map, func, name) {
-  map[[name]] <- func
-  return(map)
-}
-  
 buildFingerprint <- function(path, version, hash_value) {
   path <- file.path(path)
   filename <- getFileSansExt(path)
