@@ -39,7 +39,7 @@ jobs:
             . venv/bin/activate
             pip install -e git+https://github.com/plotly/dash.git#egg=dash[testing]
             export PATH=$PATH:/home/circleci/.local/bin/
-            pytest --log-cli-level DEBUG --nopercyfinalize --junitxml=test-reports/dashr.xml tests/integration/
+            pytest --nopercyfinalize --junitxml=test-reports/dashr.xml tests/integration/
       - store_artifacts:
           path: test-reports
       - store_test_results:
@@ -55,7 +55,7 @@ jobs:
       - run:
           name: 🔎 Unit tests
           command: |
-              sudo Rscript -e 'testthat::test_dir("tests/")'
+              sudo Rscript -e 'res=devtools::test("tests/", reporter=default_reporter());df=as.data.frame(res);if(sum(df$failed) > 0 || any(df$error)) {q(status=1)}'
 
 workflows:
   version: 2
