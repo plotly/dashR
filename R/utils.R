@@ -315,9 +315,9 @@ assert_no_names <- function (x)
 # filtered out by the subsequent vapply statement
 clean_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
-    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet)) | (is.null(x$package))) {
+    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet) & is.null(x$other)) | (is.null(x$package))) {
       if (is.null(x$src$href))
-        stop(sprintf("Script or CSS dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
+        stop(sprintf("Script, CSS, or other dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
       else
         return(NULL)
     }
@@ -504,7 +504,9 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
       dep_path <- file.path(x$src$file, x$script)
     else if (!is.null(x$stylesheet))
       dep_path <- file.path(x$src$file, x$stylesheet)
-
+    else if (!is.null(x$other))
+      dep_path <- file.path(x$src$file, x$other)
+    
     # remove n>1 slashes and replace with / if present;
     # htmltools seems to permit // in pathnames, but
     # this complicates string matching unless they're
