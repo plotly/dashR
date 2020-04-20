@@ -175,7 +175,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
-                                  basename(dep[["script"]]),
+                                  dep[["script"]],
                                   "?v=",
                                   dep$version,
                                   "&m=",
@@ -193,7 +193,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                     "_dash-component-suites/",
                                     dep$name,
                                     "/",
-                                    basename(dep[["stylesheet"]]))
+                                    dep[["stylesheet"]])
 
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
@@ -467,7 +467,7 @@ resolvePrefix <- function(prefix, environment_var, base_pathname) {
     prefix_env <- Sys.getenv(environment_var)
     env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
     app_name <- Sys.getenv("DASH_APP_NAME")
-    
+
     if (prefix_env != "")
       return(prefix_env)
     else if (app_name != "")
@@ -1157,8 +1157,10 @@ buildFingerprint <- function(path, version, hash_value) {
   filename <- getFileSansExt(path)
   extension <- getFileExt(path)
 
+  filepath <- if (dirname(path) == ".") filename else file.path(dirname(path), filename)
+
   sprintf("%s.v%sm%s.%s",
-          file.path(dirname(path), filename),
+          filepath,
           gsub("[^\\w-]", "_", version, perl = TRUE),
           hash_value,
           extension)
@@ -1274,8 +1276,8 @@ tryCompress <- function(request, response) {
 get_relative_path <- function(requests_pathname, path) {
   # Returns a path with the config setting 'requests_pathname_prefix' prefixed to
   # it. This is particularly useful for apps deployed on Dash Enterprise, which makes
-  # it easier to serve apps under both URL prefixes and localhost. 
-  
+  # it easier to serve apps under both URL prefixes and localhost.
+
   if (requests_pathname == "/" && path == "") {
     return("/")
   }
@@ -1295,7 +1297,7 @@ get_relative_path <- function(requests_pathname, path) {
 strip_relative_path <- function(requests_pathname, path) {
   # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
   # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
-  
+
   if (is.null(path)) {
     return(NULL)
   }
@@ -1316,27 +1318,27 @@ strip_relative_path <- function(requests_pathname, path) {
 interpolate_str <- function(index_template, ...) {
   # This function takes an index string, along with
   # user specified keys for the html keys of the index
-  # and sets the default values of the keys to the 
+  # and sets the default values of the keys to the
   # ones specified by the keys themselves, returning
-  # the custom index template. 
-  template = index_template 
+  # the custom index template.
+  template = index_template
   kwargs <- list(...)
-  
+
   for (name in names(kwargs)) {
     key = paste0('\\{', name, '\\}')
-    
+
     template = sub(key, kwargs[[name]], template)
-  } 
+  }
   return(template)
 }
 
 validate_keys <- function(string) {
   required_keys <- c("app_entry", "config", "scripts")
-  
+
   keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
-  
+
   if (!all(keys_present)) {
-    stop(sprintf("Did you forget to include %s in your index string?", 
+    stop(sprintf("Did you forget to include %s in your index string?",
                  paste(names(keys_present[keys_present==FALSE]), collapse = ", ")))
   } else {
     return(string)
