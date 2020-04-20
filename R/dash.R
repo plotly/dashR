@@ -119,8 +119,8 @@
 #'   }
 #'   \item{`get_relative_path(path, requests_pathname_prefix)`}{
 #'     The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
-#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix 
-#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling 
+#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix
+#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling
 #'     in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
 #'     would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
 #'     a `/`.
@@ -132,8 +132,8 @@
 #'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
 #'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
 #'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
-#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
-#'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
+#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as
+#'     `homepage`. This is particularly useful for `dccLocation` URL routing.
 #'     \describe{
 #'       \item{path}{Character. A path string prefixed with a leading `/` and `requests_pathname_prefix` which directs at a path or asset directory.}
 #'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
@@ -183,9 +183,9 @@
 #'     but offers the ability to change the default components of the Dash index as seen in the example below:
 #'     \preformatted{
 #'     app$interpolate_index(
-#'       template_index, 
-#'       metas = "<meta_charset='UTF-8'/>", 
-#'       renderer = renderer, 
+#'       template_index,
+#'       metas = "<meta_charset='UTF-8'/>",
+#'       renderer = renderer,
 #'       config = config)
 #'     }
 #'     \describe{
@@ -193,7 +193,7 @@
 #'     \item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
 #'     of the Dash html index. These include the same arguments as those found in the `index_string()` template.}
 #'     }
-#'  } 
+#'  }
 #'  \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
 #'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
@@ -801,13 +801,13 @@ Dash <- R6::R6Class(
       }
       private$callback_context_
     },
-    
+
     # ------------------------------------------------------------------------
     # return asset URLs
     # ------------------------------------------------------------------------
     get_asset_url = function(asset_path, prefix = self$config$requests_pathname_prefix) {
       app_root_path <- Sys.getenv("DASH_APP_PATH")
-      
+
       if (app_root_path == "" && getAppPath() != FALSE) {
         # app loaded via source(), root path is known
         app_root_path <- dirname(private$app_root_path)
@@ -816,14 +816,14 @@ Dash <- R6::R6Class(
         warning("application not started via source(), and DASH_APP_PATH environment variable is undefined. get_asset_url returns NULL since root path cannot be reliably identified.")
         return(NULL)
       }
-      
-      asset <- lapply(private$asset_map, 
+
+      asset <- lapply(private$asset_map,
                       function(x) {
                         # asset_path should be prepended with the full app root & assets path
                         # if leading slash(es) present in asset_path, remove them before
                         # assembling full asset path
                         asset_path <- file.path(app_root_path,
-                                                private$assets_folder, 
+                                                private$assets_folder,
                                                 sub(pattern="^/+",
                                                     replacement="",
                                                     asset_path))
@@ -831,37 +831,37 @@ Dash <- R6::R6Class(
                       }
       )
       asset <- unlist(asset, use.names = FALSE)
-      
+
       if (length(asset) == 0)
         stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
                      asset_path,
                      private$assets_folder))
-      
+
       # strip multiple slashes if present, since we'll
       # introduce one when we concatenate the prefix and
       # asset path & prepend the asset name with route prefix
       return(gsub(pattern="/+",
                   replacement="/",
-                  paste(prefix, 
-                        private$assets_url_path, 
-                        asset, 
+                  paste(prefix,
+                        private$assets_url_path,
+                        asset,
                         sep="/")))
     },
-    
+
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+
     get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
     },
-    
-    
+
+
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+
     strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
@@ -872,24 +872,24 @@ Dash <- R6::R6Class(
     index_string = function(string) {
       private$custom_index <- validate_keys(string)
     },
-    
+
     # ------------------------------------------------------------------------
-    # modify the templated variables by using the `interpolate_index` method. 
+    # modify the templated variables by using the `interpolate_index` method.
     # ------------------------------------------------------------------------
     interpolate_index = function(template_index = private$template_index[[1]], ...) {
       template = template_index
       kwargs <- list(...)
-      
+
       for (name in names(kwargs)) {
         key = paste0('\\{\\%', name, '\\%\\}')
         template = sub(key, kwargs[[name]], template)
-      } 
-      
+      }
+
       invisible(validate_keys(names(kwargs)))
-      
+
       private$template_index <- template
     },
-    
+
     # ------------------------------------------------------------------------
     # specify a custom title
     # ------------------------------------------------------------------------
@@ -897,7 +897,7 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(string))
       private$name <- string
     },
-        
+
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -1455,7 +1455,7 @@ Dash <- R6::R6Class(
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies_internal[grepl(pattern = "prop-types", x = private$dependencies_internal)],
-        private$dependencies_internal[grepl(pattern = "polyfill", x = private$dependencies_internal)],        
+        private$dependencies_internal[grepl(pattern = "polyfill", x = private$dependencies_internal)],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
@@ -1590,7 +1590,7 @@ Dash <- R6::R6Class(
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
-      
+
       # define the react-entry-point
       app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
       # define the dash default config key
@@ -1598,13 +1598,13 @@ Dash <- R6::R6Class(
 
       if (is.null(private$name))
         private$name <- 'dash'
-      
+
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
-        
+
         private$.index <- string_index
       }
-      
+
       else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }

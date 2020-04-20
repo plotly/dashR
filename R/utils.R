@@ -175,7 +175,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
-                                  dep[["script"]],
+                                  basename(dep[["script"]]),
                                   "?v=",
                                   dep$version,
                                   "&m=",
@@ -193,7 +193,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                     "_dash-component-suites/",
                                     dep$name,
                                     "/",
-                                    dep[["stylesheet"]])
+                                    basename(dep[["stylesheet"]]))
 
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
@@ -1157,10 +1157,8 @@ buildFingerprint <- function(path, version, hash_value) {
   filename <- getFileSansExt(path)
   extension <- getFileExt(path)
 
-  filepath <- if (dirname(path) == ".") filename else file.path(dirname(path), filename)
-
   sprintf("%s.v%sm%s.%s",
-          filepath,
+          file.path(dirname(path), filename),
           gsub("[^\\w-]", "_", version, perl = TRUE),
           hash_value,
           extension)
