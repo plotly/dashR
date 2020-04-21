@@ -785,10 +785,10 @@ Dash <- R6::R6Class(
 
         func <- paste0('<script>\n',
                        'var clientside = window.dash_clientside = window.dash_clientside || {};\n',
-                       'var ns = clientside["', fn_name, '"] = clientside["', fn_name, '"] || {}\n',
-                       'ns["', output$property, '"] = {\n',
+                       'var ns = clientside["', fn_name, '"] = clientside["', fn_name, '"] || {};\n',
+                       'ns["', output$property, '"] = \n',
                        func,
-                       '\n};',
+                       '\n;',
                        '</script>')
 
         private$inline_scripts <- unique(c(private$inline_scripts, func))
