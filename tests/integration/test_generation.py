@@ -10,8 +10,8 @@ library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
 app$layout(htmlDiv(list(
-    dgtc_standardMyComponent(id="standard", value="standard"),
-    dgtc_nestedMyComponent(id="nested", value="nested")
+    dgtc_standardMyComponent(id="standard", value="Standard"),
+    dgtc_nestedMyComponent(id="nested", value="Nested")
 )))
 
 app$run_server()
@@ -21,5 +21,5 @@ app$run_server()
 def test_gene001_simple_callback(dashr):
     dashr.start_server(app)
 
-    assert dash_duo.wait_for_element("#standard").text == "Standard"
-    assert dash_duo.wait_for_element("#nested").text == "Nested"
+    assert dashr.wait_for_element("#standard").text == "Standard"
+    assert dashr.wait_for_element("#nested").text == "Nested"
