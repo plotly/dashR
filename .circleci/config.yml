@@ -37,10 +37,8 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
-            pip install -e git+https://github.com/plotly/dash.git#egg=dash[dev,testing] --progress-bar off
             git clone -b pr1125-tests --depth 1 https://github.com/plotly/dash.git dash-main
-            pip uninstall dash -y
-            cd dash-main && pip install -e . --no-dependencies && cd ..
+            cd dash-main && pip install -e .[dev,testing] --progress-bar off && cd ..
             cd dash-main/\@plotly/dash-generator-test-component-nested && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
             cd dash-main/\@plotly/dash-generator-test-component-standard && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
             sudo Rscript -e 'library(dashGeneratorTestComponentNested); print(dgtc_nestedMyComponent)'
