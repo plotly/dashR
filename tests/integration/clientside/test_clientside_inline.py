@@ -30,7 +30,7 @@ app$callback(
   output('output-clientside', 'children'),
   params=list(input('input', 'value')),
   "
-  inline: function (value) {
+  function (value) {
         return 'Client says \"' + value + '\"';
   }"
 )
