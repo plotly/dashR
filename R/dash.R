@@ -781,6 +781,25 @@ Dash <- R6::R6Class(
 
       if (is.function(func)) {
         clientside_function <- NULL
+      } else if (is.character(func)) {
+        # update the scripts before generating tags, and remove exact
+        # duplicates from inline_scripts
+        fn_name <- paste0("_dashprivate_", output$id)
+
+        func <- paste0('<script>\n',
+                       'var clientside = window.dash_clientside = window.dash_clientside || {};\n',
+                       'var ns = clientside["', fn_name, '"] = clientside["', fn_name, '"] || {}\n',
+                       'ns["', output$property, '"] =\n',
+                       func,
+                       '\n;',
+                       '</script>')
+
+        private$inline_scripts <- unique(c(private$inline_scripts, func))
+
+        clientside_function <- clientsideFunction(namespace = fn_name,
+                                                  function_name = output$property)
+
+        func <- NULL
       } else {
         clientside_function <- func
         func <- NULL
@@ -1388,6 +1407,9 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
+    # the list of line scripts passed as strings via clientside callbacks
+    inline_scripts = list(),
+
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
     react_version_enabled= function() {
       version <- private$dependencies_internal$`react-prod`$version
@@ -1458,7 +1480,7 @@ Dash <- R6::R6Class(
       depsAll <- compact(c(
         private$react_deps()[private$react_versions() %in% private$react_version_enabled()],
         private$dependencies_internal[grepl(pattern = "prop-types", x = private$dependencies_internal)],
-        private$dependencies_internal[grepl(pattern = "polyfill", x = private$dependencies_internal)],        
+        private$dependencies_internal[grepl(pattern = "polyfill", x = private$dependencies_internal)],
         private$dependencies,
         private$dependencies_user,
         private$dependencies_internal[grepl(pattern = "dash-renderer", x = private$dependencies_internal)]
@@ -1566,6 +1588,7 @@ Dash <- R6::R6Class(
       scripts_tags <- paste(c(scripts_deps,
                               scripts_external,
                               scripts_assets,
+                              scripts_inline,
                               scripts_invoke_renderer),
                             collapse = "\n              ")
 
