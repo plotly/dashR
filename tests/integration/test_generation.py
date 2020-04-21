@@ -10,8 +10,8 @@ library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
 app$layout(htmlDiv(list(
-    dgtc_standardMyComponent(id="standard", value="Standard"),
-    dgtc_nestedMyComponent(id="nested", value="Nested")
+    dgtc_standardMyStandardComponent(id="standard", value="Standard"),
+    dgtc_nestedMyNestedComponent(id="nested", value="Nested")
 )))
 
 app$run_server()
