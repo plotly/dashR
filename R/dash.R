@@ -23,7 +23,7 @@
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
+#'   `name` \tab \tab Character. The name of the Dash application (placed in the title
 #'   of the HTML page). DEPRECATED; please use `index_string()` or `interpolate_index()` instead.\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
@@ -87,21 +87,18 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments,
-#'       a character string containing valid JavaScript, or a call to [clientsideFunction] including `namespace`
-#'       and `function_name` arguments for a locally served JavaScript function}
+#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments, or a call to [clientsideFunction] including `namespace` and `function_name` arguments for a locally served JavaScript function}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
 #'     argument values for R callback handlers defined in `func`. Here `func` may
-#'     either be an anonymous R function, a JavaScript function provided as a
-#'     character string, or a call to `clientsideFunction()`, which describes a
-#'     locally served JavaScript function instead. The latter two methods define
-#'     a "clientside callback", which updates components without passing data to and
+#'     either be an anonymous R function, or a call to `clientsideFunction()`, which
+#'     describes a locally served JavaScript function instead. The latter defines a
+#'     "clientside callback", which updates components without passing data to and
 #'     from the Dash backend. The latter may offer improved performance relative
-#'     to callbacks written purely in R.
+#'     to callbacks written in R.
 #'   }
 #'   \item{`title("dash")`}{
 #'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
@@ -789,9 +786,9 @@ Dash <- R6::R6Class(
         func <- paste0('<script>\n',
                        'var clientside = window.dash_clientside = window.dash_clientside || {};\n',
                        'var ns = clientside["', fn_name, '"] = clientside["', fn_name, '"] || {}\n',
-                       'ns["', output$property, '"] =\n',
+                       'ns["', output$property, '"] = {\n',
                        func,
-                       '\n;',
+                       '\n};',
                        '</script>')
 
         private$inline_scripts <- unique(c(private$inline_scripts, func))
@@ -823,13 +820,13 @@ Dash <- R6::R6Class(
       }
       private$callback_context_
     },
-    
+
     # ------------------------------------------------------------------------
     # return asset URLs
     # ------------------------------------------------------------------------
     get_asset_url = function(asset_path, prefix = self$config$requests_pathname_prefix) {
       app_root_path <- Sys.getenv("DASH_APP_PATH")
-      
+
       if (app_root_path == "" && getAppPath() != FALSE) {
         # app loaded via source(), root path is known
         app_root_path <- dirname(private$app_root_path)
@@ -838,14 +835,14 @@ Dash <- R6::R6Class(
         warning("application not started via source(), and DASH_APP_PATH environment variable is undefined. get_asset_url returns NULL since root path cannot be reliably identified.")
         return(NULL)
       }
-      
-      asset <- lapply(private$asset_map, 
+
+      asset <- lapply(private$asset_map,
                       function(x) {
                         # asset_path should be prepended with the full app root & assets path
                         # if leading slash(es) present in asset_path, remove them before
                         # assembling full asset path
                         asset_path <- file.path(app_root_path,
-                                                private$assets_folder, 
+                                                private$assets_folder,
                                                 sub(pattern="^/+",
                                                     replacement="",
                                                     asset_path))
@@ -853,37 +850,37 @@ Dash <- R6::R6Class(
                       }
       )
       asset <- unlist(asset, use.names = FALSE)
-      
+
       if (length(asset) == 0)
         stop(sprintf("the asset path '%s' is not valid; please verify that this path exists within the '%s' directory.",
                      asset_path,
                      private$assets_folder))
-      
+
       # strip multiple slashes if present, since we'll
       # introduce one when we concatenate the prefix and
       # asset path & prepend the asset name with route prefix
       return(gsub(pattern="/+",
                   replacement="/",
-                  paste(prefix, 
-                        private$assets_url_path, 
-                        asset, 
+                  paste(prefix,
+                        private$assets_url_path,
+                        asset,
                         sep="/")))
     },
-    
+
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+
     get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
     },
-    
-    
+
+
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+
     strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
@@ -894,24 +891,24 @@ Dash <- R6::R6Class(
     index_string = function(string) {
       private$custom_index <- validate_keys(string)
     },
-    
+
     # ------------------------------------------------------------------------
-    # modify the templated variables by using the `interpolate_index` method. 
+    # modify the templated variables by using the `interpolate_index` method.
     # ------------------------------------------------------------------------
     interpolate_index = function(template_index = private$template_index[[1]], ...) {
       template = template_index
       kwargs <- list(...)
-      
+
       for (name in names(kwargs)) {
         key = paste0('\\{\\%', name, '\\%\\}')
         template = sub(key, kwargs[[name]], template)
-      } 
-      
+      }
+
       invisible(validate_keys(names(kwargs)))
-      
+
       private$template_index <- template
     },
-    
+
     # ------------------------------------------------------------------------
     # specify a custom title
     # ------------------------------------------------------------------------
@@ -919,7 +916,7 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(string))
       private$name <- string
     },
-        
+
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -1407,7 +1404,7 @@ Dash <- R6::R6Class(
     # the input/output mapping passed back-and-forth between the client & server
     callback_map = list(),
 
-    # the list of line scripts passed as strings via clientside callbacks
+    # the list of inline scripts passed as strings via (clientside) callbacks
     inline_scripts = list(),
 
     # akin to https://github.com/plotly/dash-renderer/blob/master/dash_renderer/__init__.py
@@ -1579,6 +1576,9 @@ Dash <- R6::R6Class(
                                          "application/javascript",
                                          "var renderer = new DashRenderer();")
 
+      # add inline tags
+      scripts_inline <- private$inline_scripts
+
       # serving order of CSS and JS tags: package -> external -> assets
       css_tags <- paste(c(css_deps,
                           css_external,
@@ -1616,7 +1616,7 @@ Dash <- R6::R6Class(
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
-      
+
       # define the react-entry-point
       app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
       # define the dash default config key
@@ -1624,13 +1624,13 @@ Dash <- R6::R6Class(
 
       if (is.null(private$name))
         private$name <- 'dash'
-      
+
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
-        
+
         private$.index <- string_index
       }
-      
+
       else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }
