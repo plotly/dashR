@@ -23,7 +23,7 @@
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
+#'   `name` \tab \tab Character. The name of the Dash application (placed in the title
 #'   of the HTML page). DEPRECATED; please use `index_string()` or `interpolate_index()` instead.\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr

@@ -33,7 +33,7 @@ suppress_callback_exceptions = FALSE
 \section{Arguments}{
 
 \tabular{lll}{
-\code{name} \tab \tab Character. The name of the Dash application (placed in the \code{<title>}
+\code{name} \tab \tab Character. The name of the Dash application (placed in the title
 of the HTML page). DEPRECATED; please use \code{index_string()} or \code{interpolate_index()} instead.\cr
 \code{server} \tab \tab The web server used to power the application.
 Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
