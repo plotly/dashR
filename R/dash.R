@@ -23,7 +23,7 @@
 #'
 #' @section Arguments:
 #' \tabular{lll}{
-#'   `name` \tab \tab Character. The name of the Dash application (placed in the title
+#'   `name` \tab \tab Character. The name of the Dash application (placed in the `<title>`
 #'   of the HTML page). DEPRECATED; please use `index_string()` or `interpolate_index()` instead.\cr
 #'   `server` \tab \tab The web server used to power the application.
 #'   Must be a [fiery::Fire] object.\cr
@@ -87,18 +87,21 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments, or a call to [clientsideFunction] including `namespace` and `function_name` arguments for a locally served JavaScript function}
+#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments,
+#'       a character string containing valid JavaScript, or a call to [clientsideFunction] including `namespace`
+#'       and `function_name` arguments for a locally served JavaScript function}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
 #'     argument values for R callback handlers defined in `func`. Here `func` may
-#'     either be an anonymous R function, or a call to `clientsideFunction()`, which
-#'     describes a locally served JavaScript function instead. The latter defines a
-#'     "clientside callback", which updates components without passing data to and
+#'     either be an anonymous R function, a JavaScript function provided as a
+#'     character string, or a call to `clientsideFunction()`, which describes a
+#'     locally served JavaScript function instead. The latter two methods define
+#'     a "clientside callback", which updates components without passing data to and
 #'     from the Dash backend. The latter may offer improved performance relative
-#'     to callbacks written in R.
+#'     to callbacks written purely in R.
 #'   }
 #'   \item{`title("dash")`}{
 #'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
@@ -119,8 +122,8 @@
 #'   }
 #'   \item{`get_relative_path(path, requests_pathname_prefix)`}{
 #'     The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
-#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix 
-#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling 
+#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix
+#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling
 #'     in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
 #'     would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
 #'     a `/`.
@@ -132,8 +135,8 @@
 #'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
 #'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
 #'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
-#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as 
-#'     `homepage`. This is particularly useful for `dccLocation` URL routing. 
+#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as
+#'     `homepage`. This is particularly useful for `dccLocation` URL routing.
 #'     \describe{
 #'       \item{path}{Character. A path string prefixed with a leading `/` and `requests_pathname_prefix` which directs at a path or asset directory.}
 #'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
@@ -183,9 +186,9 @@
 #'     but offers the ability to change the default components of the Dash index as seen in the example below:
 #'     \preformatted{
 #'     app$interpolate_index(
-#'       template_index, 
-#'       metas = "<meta_charset='UTF-8'/>", 
-#'       renderer = renderer, 
+#'       template_index,
+#'       metas = "<meta_charset='UTF-8'/>",
+#'       renderer = renderer,
 #'       config = config)
 #'     }
 #'     \describe{
@@ -193,7 +196,7 @@
 #'     \item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
 #'     of the Dash html index. These include the same arguments as those found in the `index_string()` template.}
 #'     }
-#'  } 
+#'  }
 #'  \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
 #'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
 #'     The `run_server` method has 13 formal arguments, several of which are optional:
