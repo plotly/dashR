@@ -41,6 +41,7 @@ app$run_server()
 
 def test_rscc001_clientside(dashr):
     dashr.start_server(app)
+    time.sleep(2)
     dashr.wait_for_text_to_equal(
         '#output-clientside',
         'Client says "undefined"'
