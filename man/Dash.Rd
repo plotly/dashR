@@ -33,7 +33,7 @@ suppress_callback_exceptions = FALSE
 \section{Arguments}{
 
 \tabular{lll}{
-\code{name} \tab \tab Character. The name of the Dash application (placed in the \code{<title>}
+\code{name} \tab \tab Character. The name of the Dash application (placed in the title
 of the HTML page). DEPRECATED; please use \code{index_string()} or \code{interpolate_index()} instead.\cr
 \code{server} \tab \tab The web server used to power the application.
 Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
@@ -101,18 +101,21 @@ The \code{callback} method has three formal arguments:
 \describe{
 \item{output}{a named list including a component \code{id} and \code{property}}
 \item{params}{an unnamed list of \link{input} and \link{state} statements, each with defined \code{id} and \code{property}}
-\item{func}{any valid R function which generates \link{output} provided \link{input} and/or \link{state} arguments, or a call to \link{clientsideFunction} including \code{namespace} and \code{function_name} arguments for a locally served JavaScript function}
+\item{func}{any valid R function which generates \link{output} provided \link{input} and/or \link{state} arguments,
+a character string containing valid JavaScript, or a call to \link{clientsideFunction} including \code{namespace}
+and \code{function_name} arguments for a locally served JavaScript function}
 }
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
 trigger the callback are then described by the \link{input} (and/or \link{state})
 object(s) (which should reference layout components), which become
 argument values for R callback handlers defined in \code{func}. Here \code{func} may
-either be an anonymous R function, or a call to \code{clientsideFunction()}, which
-describes a locally served JavaScript function instead. The latter defines a
-"clientside callback", which updates components without passing data to and
+either be an anonymous R function, a JavaScript function provided as a
+character string, or a call to \code{clientsideFunction()}, which describes a
+locally served JavaScript function instead. The latter two methods define
+a "clientside callback", which updates components without passing data to and
 from the Dash backend. The latter may offer improved performance relative
-to callbacks written in R.
+to callbacks written purely in R.
 }
 \item{\code{title("dash")}}{
 The title of the app. If no title is supplied, Dash for R will use 'dash'.
@@ -130,6 +133,29 @@ For example, \code{app$get_asset_url('style.css')} should return \code{/assets/s
 but this is configurable via the \code{prefix} parameter. Note: this method will
 present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
 if the \code{DASH_APP_PATH} environment variable is undefined.
+}
+\item{\code{get_relative_path(path, requests_pathname_prefix)}}{
+The \code{get_relative_path} method simplifies the handling of URLs and pathnames for apps
+running locally and on a deployment server such as Dash Enterprise. It handles the prefix
+for requesting assets similar to the \code{get_asset_url} method, but can also be used for URL handling
+in components such as \code{dccLink} or \code{dccLocation}. For example, \code{app$get_relative_url("/page/")}
+would return \code{/app/page/} for an app running on a deployment server. The path must be prefixed with
+a \code{/}.
+\describe{
+\item{path}{Character. A path string prefixed with a leading \code{/} which directs at a path or asset directory.}
+\item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or \code{""} if run locally.}
+}
+}
+\item{\code{strip_relative_path(path, requests_pathname_prefix)}}{
+The \code{strip_relative_path} method simplifies the handling of URLs and pathnames for apps
+running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the \code{get_relative_path}
+method, by taking a \code{relative path} as an input, and returning the \code{path} stripped of the \code{requests_pathname_prefix},
+and any leading or trailing \code{/}. For example, a path string \code{/app/homepage/}, would be returned as
+\code{homepage}. This is particularly useful for \code{dccLocation} URL routing.
+\describe{
+\item{path}{Character. A path string prefixed with a leading \code{/} and \code{requests_pathname_prefix} which directs at a path or asset directory.}
+\item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or \code{""} if run locally.}
+}
 }
 \item{\code{index_string(string)}}{
 The \code{index_string} method allows the specification of a custom index by changing
@@ -194,7 +220,7 @@ The \code{run_server} method has 13 formal arguments, several of which are optio
 \item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{PORT}.}
 \item{block}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
 \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
-\item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satsified, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
+\item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
 \item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. Environment variable: \code{DASH_DEBUG}.}
 \item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_UI}.}
 \item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Requires that the Dash application is loaded using \code{source()}, so that \code{srcref} attributes are available for executed code. Environment variable: \code{DASH_HOT_RELOAD}.}

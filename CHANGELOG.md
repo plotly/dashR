@@ -1,6 +1,9 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+### Added
+- Support for inline clientside callbacks in JavaScript [#140](https://github.com/plotly/dashR/pull/140)
 
 ## [0.3.0] - 2020-02-12
 ### Added
