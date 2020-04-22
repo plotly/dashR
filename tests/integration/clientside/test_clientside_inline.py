@@ -31,7 +31,7 @@ app$callback(
   params=list(input('input', 'value')),
   "
   function (value) {
-        return 'Client says \"' + value + '\"';
+        return 'Client says \\"' + value + '\\"';
   }"
 )
 
