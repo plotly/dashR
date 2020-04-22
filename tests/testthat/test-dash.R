@@ -13,11 +13,6 @@ test_that("Can set/get layout", {
   d <- Dash$new()
   div <- htmlDiv("A div", id = "An id")
 
-  # rendered layout has a container div
-  d$layout(div)
-  l <- d$layout_get()
-  expect_identical(l$props$children[[1]], div)
-
   # dynamic layouts
   d$layout(function() { div })
   l2 <- d$layout_get()
