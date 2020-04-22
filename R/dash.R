@@ -87,18 +87,21 @@
 #'     \describe{
 #'       \item{output}{a named list including a component `id` and `property`}
 #'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments, or a call to [clientsideFunction] including `namespace` and `function_name` arguments for a locally served JavaScript function}
+#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments,
+#'       a character string containing valid JavaScript, or a call to [clientsideFunction] including `namespace`
+#'       and `function_name` arguments for a locally served JavaScript function}
 #'     }
 #'     The `output` argument defines which layout component property should
 #'     receive the results (via the [output] object). The events that
 #'     trigger the callback are then described by the [input] (and/or [state])
 #'     object(s) (which should reference layout components), which become
 #'     argument values for R callback handlers defined in `func`. Here `func` may
-#'     either be an anonymous R function, or a call to `clientsideFunction()`, which
-#'     describes a locally served JavaScript function instead. The latter defines a
-#'     "clientside callback", which updates components without passing data to and
+#'     either be an anonymous R function, a JavaScript function provided as a
+#'     character string, or a call to `clientsideFunction()`, which describes a
+#'     locally served JavaScript function instead. The latter two methods define
+#'     a "clientside callback", which updates components without passing data to and
 #'     from the Dash backend. The latter may offer improved performance relative
-#'     to callbacks written in R.
+#'     to callbacks written purely in R.
 #'   }
 #'   \item{`title("dash")`}{
 #'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
