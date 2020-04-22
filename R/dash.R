@@ -1167,18 +1167,7 @@ Dash <- R6::R6Class(
     layout_ids = NULL,
     layout_render = function() {
       # assuming private$layout is either a function or a list of components...
-      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
-
-      # accommodate functions that return a single component
-      if (is.component(layout_)) layout_ <- list(layout_)
-
-      # make sure we are working with a list of components
-      layout_ <- lapply(layout_, private$componentify)
-
-      # Put the list of components into a container div. I'm pretty sure dash
-      # requires the layout to be one component, but R folks are used to
-      # being able to supply "components" to ...
-      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
+      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_[[1]]
 
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)

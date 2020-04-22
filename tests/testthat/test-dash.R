@@ -16,7 +16,6 @@ test_that("Can set/get layout", {
   # rendered layout has a container div
   d$layout(div)
   l <- d$layout_get()
-  expect_true(dash:::is.layout(l))
   expect_identical(l$props$children[[1]], div)
 
   # dynamic layouts
