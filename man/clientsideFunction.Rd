@@ -14,6 +14,8 @@ for the function at \code{window[namespace][function_name]}.)}
 }
 \description{
 Create a callback that updates the output by calling a clientside (JavaScript) function instead of an R function.
+Note that it is also possible to specify JavaScript as a character string instead of passing \code{clientsideFunction}.
+In this case Dash will inline your JavaScript automatically, without needing to save a script inside \code{assets}.
 }
 \details{
 With this signature, Dash's front-end will call \code{window.my_clientside_library.my_function} with the current
@@ -39,5 +41,14 @@ app$callback(
   namespace = 'my_clientside_library',
   function_name = 'my_function'
   )
-)}
+)
+
+# Passing JavaScript as a character string
+app$callback(
+ output('output-clientside', 'children'),
+ params=list(input('input', 'value')),
+ "function (value) {
+       return 'Client says \\"' + value + '\\"';
+ }"
+)} 
 }
