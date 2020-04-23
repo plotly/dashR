@@ -23,8 +23,19 @@ library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
 app$layout(htmlDiv(list(
-    dgtc_standardMyStandardComponent(id="standard", value="Standard", style=list("font-family": "godfather")),
+    htmlButton(id='btn', list('Click')),
+    htmlDiv(id='container')
 )))
+
+app$callback(output(id = 'container', property = 'children'),
+    list(input(id = 'btn', property = 'n_clicks')),
+    function(n_clicks) {
+        if (is.null(unlist(n_clicks))) {
+            return(dashNoUpdate())
+        } else {
+            return(list(dgtc_standardMyStandardComponent(id="standard", value="Standard", style=list(fontFamily="godfather"))))
+        }
+    })
 
 app$run_server()
 """
@@ -42,10 +53,16 @@ def test_gene001_simple_callback(dashr):
 def test_gene002_arbitrary_resources(dashr):
     dashr.start_server(styled_app)
 
+    assert (
+        dashr.driver.execute_script("return document.fonts.check('1em godfather')")
+        is False
+    )
+
+    dashr.wait_for_element("#btn").click()
     assert dashr.wait_for_element("#standard").text == "Standard"
 
-    WebDriverWait(dash_duo.driver, 10).until(
-        lambda _: dash_duo.driver.execute_script("return document.fonts.check('1em godfather')") is True,
+    WebDriverWait(dashr.driver, 10).until(
+        lambda _: dashr.driver.execute_script("return document.fonts.check('1em godfather')") is True,
     )
 
     dashr.percy_snapshot("gene002-arbitrary-resource")
