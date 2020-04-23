@@ -41,7 +41,7 @@ def test_gene001_simple_callback(dashr):
 
 
 def test_gene002_arbitrary_resources(dashr):
-    dashr.start_server(app)
+    dashr.start_server(styled_app)
 
     assert dashr.wait_for_element("#standard").text == "Standard"
 
