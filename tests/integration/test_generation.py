@@ -1,6 +1,5 @@
 from selenium.webdriver.support.select import Select
-import time, os
-
+from selenium.webdriver.support.ui import WebDriverWait
 
 app = """
 library(dash)
@@ -44,5 +43,9 @@ def test_gene002_arbitrary_resources(dashr):
     dashr.start_server(styled_app)
 
     assert dashr.wait_for_element("#standard").text == "Standard"
+
+    WebDriverWait(dash_duo.driver, 10).until(
+        lambda _: dash_duo.driver.execute_script("return document.fonts.check('1em godfather')") is True,
+    )
 
     dashr.percy_snapshot("gene002-arbitrary-resource")
