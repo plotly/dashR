@@ -37,7 +37,7 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
-            git clone -b 481-arbitrary-extensions --depth 1 https://github.com/plotly/dash.git dash-main
+            git clone --depth 1 https://github.com/plotly/dash.git dash-main
             cd dash-main && pip install -e .[dev,testing] --progress-bar off && cd ..
             cd dash-main/\@plotly/dash-generator-test-component-nested && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
             cd dash-main/\@plotly/dash-generator-test-component-standard && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
