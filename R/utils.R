@@ -506,7 +506,7 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
       dep_path <- file.path(x$src$file, x$stylesheet)
     else if (!is.null(x$other))
       dep_path <- file.path(x$src$file, x$other)
-    
+
     # remove n>1 slashes and replace with / if present;
     # htmltools seems to permit // in pathnames, but
     # this complicates string matching unless they're
@@ -542,7 +542,7 @@ get_mimetype <- function(filename) {
   else if (filename_ext %in% c('js.map', 'map'))
     return('application/json')
   else
-    return(mime::guess_type(filename, 
+    return(mime::guess_type(filename,
                             empty = "application/octet-stream"))
 }
 

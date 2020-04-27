@@ -55,7 +55,7 @@
 #'   to serve CSS for rendered pages.\cr
 #'   `suppress_callback_exceptions` \tab \tab Logical. Whether to relay warnings about
 #'   possible layout mis-specifications when registering a callback.\cr
-#'   `show_undo_redo` \tab \tab Logical. Set to `TRUE` to enable undo and redo buttons for 
+#'   `show_undo_redo` \tab \tab Logical. Set to `TRUE` to enable undo and redo buttons for
 #'   stepping through the history of the app state.
 #'  }
 #'
@@ -358,7 +358,7 @@ Dash <- R6::R6Class(
         response$body <- to_JSON(lay, pretty = TRUE)
         response$status <- 200L
         response$type <- 'json'
-        
+
         TRUE
       })
 
@@ -565,27 +565,27 @@ Dash <- R6::R6Class(
           # if debug mode is not active
           dep_path <- system.file(dep_pkg$rpkg_path,
                                   package = dep_pkg$rpkg_name)
-          
+
           response$type <- get_mimetype(filename)
 
           if (grepl("text|javascript", response$type)) {
             response$body <- readLines(dep_path,
                                        warn = FALSE,
                                        encoding = "UTF-8")
-            
+
             if (private$compress && length(response$body) > 0) {
               response <- tryCompress(request, response)
             }
           } else {
             file_handle <- file(dep_path, "rb")
             file_size <- file.size(dep_path)
-            
+
             response$body <- readBin(dep_path,
                                      raw(),
                                      file_size)
             close(file_handle)
-          }          
-          
+          }
+
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
             response$set_header('Cache-Control',
