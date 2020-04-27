@@ -26,7 +26,8 @@ routes_pathname_prefix = NULL,
 requests_pathname_prefix = NULL,
 external_scripts = NULL,
 external_stylesheets = NULL,
-suppress_callback_exceptions = FALSE
+suppress_callback_exceptions = FALSE,
+show_undo_redo = FALSE
 )
 }
 
@@ -63,7 +64,9 @@ to serve JavaScript source for rendered pages.\cr
 \code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
 to serve CSS for rendered pages.\cr
 \code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
-possible layout mis-specifications when registering a callback.
+possible layout mis-specifications when registering a callback.\cr
+\code{show_undo_redo} \tab \tab Logical. Set to \code{TRUE} to enable undo and redo buttons for
+stepping through the history of the app state.
 }
 }
 
@@ -202,9 +205,9 @@ by assigning them to variables present in the template. This is similar to the \
 but offers the ability to change the default components of the Dash index as seen in the example below:
 \preformatted{
     app$interpolate_index(
-      template_index, 
-      metas = "<meta_charset='UTF-8'/>", 
-      renderer = renderer, 
+      template_index,
+      metas = "<meta_charset='UTF-8'/>",
+      renderer = renderer,
       config = config)
     }
 \describe{
