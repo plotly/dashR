@@ -1,10 +1,11 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [0.4.0] - 2020-05-05
 ### Added
 - Support for inline clientside callbacks in JavaScript [#140](https://github.com/plotly/dashR/pull/140)
 - Support for arbitrary file extensions for assets within component libraries [#186](https://github.com/plotly/dashR/pull/186)
+- Dash for R now provides a `show_undo_redo` parameter as in Dash for Python [#194](https://github.com/plotly/dashR/pull/194)
 
 ### Changed
 - `dash-renderer` updated to v1.4.1 [#195](https://github.com/plotly/dashR/pull/195)
