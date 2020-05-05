@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 - Support for inline clientside callbacks in JavaScript [#140](https://github.com/plotly/dashR/pull/140)
 - Support for arbitrary file extensions for assets within component libraries [#186](https://github.com/plotly/dashR/pull/186)
 
+### Changed
+- `dash-renderer` updated to v1.4.1 [#195](https://github.com/plotly/dashR/pull/195)
+
+## [0.3.1] - 2020-02-14
+### Fixed 
+- Dash for R now requires an updated version of `dashHtmlComponents` which bundles in a `LICENSE` file as text, rather than a symbolic link against `LICENSE.md`; this previously had caused issues with installation on Windows hosts. 
+
 ## [0.3.0] - 2020-02-12
 ### Added
 - Support for config-aware relative paths [#172](https://github.com/plotly/dashR/pull/172)
