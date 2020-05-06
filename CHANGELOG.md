@@ -1,6 +1,18 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2020-05-05
+### Added
+- Support for inline clientside callbacks in JavaScript [#140](https://github.com/plotly/dashR/pull/140)
+- Support for arbitrary file extensions for assets within component libraries [#186](https://github.com/plotly/dashR/pull/186)
+- Dash for R now provides a `show_undo_redo` parameter as in Dash for Python [#194](https://github.com/plotly/dashR/pull/194)
+
+### Changed
+- `dash-renderer` updated to v1.4.1 [#195](https://github.com/plotly/dashR/pull/195)
+- `dashHtmlComponents` updated to v1.0.3
+- `dashCoreComponents` updated to v1.10.0
+- `dashTable` updated to v4.7.0
+
 ## [0.3.1] - 2020-02-14
 ### Fixed
 - License file in `dashHtmlComponents` now loads properly when installing Dash for R on systems running Microsoft Windows [#150](https://github.com/plotly/dash-html-components/pull/150)
@@ -53,8 +65,8 @@ All notable changes to this project will be documented in this file.
 - Initial release
     - Support for `plot_ly` and `ggplotly` "subplots" [#84](https://github.com/plotly/dashR/pull/84)
     - Improved debugging support [#87](https://github.com/plotly/dashR/pull/87), including Dash Dev Tools and `debug` mode
-    - Provide a useful warning message when JS dependencies cannot be found [#81](https://github.com/plotly/dashR/pull/81)    
-    - Support for externalized PropTypes introduced 
+    - Provide a useful warning message when JS dependencies cannot be found [#81](https://github.com/plotly/dashR/pull/81)
+    - Support for externalized PropTypes introduced
     - Support for `callback_context` added
     - Options to set `dev_tools_ui` and `dev_tools_props_check` added
 
@@ -69,11 +81,11 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - CSS dependencies are now properly loaded [#94](https://github.com/plotly/dashR/pull/94)
-    
-    
+
+
 ## [0.0.7] - 2019-04-09
 ### Removed
-- `dependencies_set`, `dependencies_get`, and `dependencies_get_internal` methods removed from package 
+- `dependencies_set`, `dependencies_get`, and `dependencies_get_internal` methods removed from package
 
 
 ### [0.0.6] - 2019-04-08
@@ -107,9 +119,9 @@ All notable changes to this project will be documented in this file.
 
 ### [0.0.3] - 2019-03-08
 ### Added
-- `assert_valid_callbacks` to validate callback handler definitions and ordering of `input` and `state` using 
+- `assert_valid_callbacks` to validate callback handler definitions and ordering of `input` and `state` using
   new `valid_seq` function
-    
+
 ### Changed
 - Callback method and handling refactored to match current Dash for Python API [#51](https://github.com/plotly/dashR/pull/51)
 - Handler function for callbacks now passed via `func` argument to `app$callback()`
