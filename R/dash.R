@@ -891,56 +891,6 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-
-    get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
-      asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
-      return(asset)
-    },
-
-
-    # ------------------------------------------------------------------------
-    # return relative asset URLs
-    # ------------------------------------------------------------------------
-
-    strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
-      asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
-      return(asset)
-    },
-
-    # specify a custom index string
-    # ------------------------------------------------------------------------
-    index_string = function(string) {
-      private$custom_index <- validate_keys(string)
-    },
-
-    # ------------------------------------------------------------------------
-    # modify the templated variables by using the `interpolate_index` method.
-    # ------------------------------------------------------------------------
-    interpolate_index = function(template_index = private$template_index[[1]], ...) {
-      template = template_index
-      kwargs <- list(...)
-
-      for (name in names(kwargs)) {
-        key = paste0('\\{\\%', name, '\\%\\}')
-        template = sub(key, kwargs[[name]], template)
-      }
-
-      invisible(validate_keys(names(kwargs)))
-
-      private$template_index <- template
-    },
-
-    # ------------------------------------------------------------------------
-    # specify a custom title
-    # ------------------------------------------------------------------------
-    title = function(string = "dash") {
-      assertthat::assert_that(is.character(string))
-      private$name <- string
-    },
-
-    # ------------------------------------------------------------------------
-    # return relative asset URLs
-    # ------------------------------------------------------------------------
     
     get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
