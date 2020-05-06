@@ -39,6 +39,9 @@
 #'   cannot use this to prevent access to sensitive files. \cr
 #'   `serve_locally` \tab \tab Logical. Whether to serve HTML dependencies locally or
 #'   remotely (via URL).\cr
+#'   `compress` \tab \tab Logical. Whether to  try to compress files and data served by Fiery.
+#'   By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm, before falling
+#'   back to `identity`.\cr
 #'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
 #'   Each list element should have the attributes and values for one tag, eg:
 #'   `list(name = 'description', content = 'My App')`.\cr

@@ -49,6 +49,9 @@ immediate loading. Ignored files will still be served if specifically requested.
 cannot use this to prevent access to sensitive files. \cr
 \code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
+\code{compress} \tab \tab Logical. Whether to  try to compress files and data served by Fiery.
+By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm, before falling
+back to \code{identity}.\cr
 \code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
 Each list element should have the attributes and values for one tag, eg:
 \code{list(name = 'description', content = 'My App')}.\cr
