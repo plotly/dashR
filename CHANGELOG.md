@@ -14,8 +14,8 @@ All notable changes to this project will be documented in this file.
 - `dashTable` updated to v4.7.0
 
 ## [0.3.1] - 2020-02-14
-### Fixed 
-- Dash for R now requires an updated version of `dashHtmlComponents` which bundles in a `LICENSE` file as text, rather than a symbolic link against `LICENSE.md`; this previously had caused issues with installation on Windows hosts. 
+### Fixed
+- License file in `dashHtmlComponents` now loads properly when installing Dash for R on systems running Microsoft Windows [#150](https://github.com/plotly/dash-html-components/pull/150)
 
 ## [0.3.0] - 2020-02-12
 ### Added

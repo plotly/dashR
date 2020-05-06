@@ -123,6 +123,9 @@ to callbacks written purely in R.
 \item{\code{title("dash")}}{
 The title of the app. If no title is supplied, Dash for R will use 'dash'.
 }
+\item{\code{title("dash")}}{
+The title of the app. If no title is supplied, Dash for R will use 'dash'.
+}
 \item{\code{callback_context()}}{
 The \code{callback_context} method permits retrieving the inputs which triggered
 the firing of a given callback, and allows introspection of the input/state

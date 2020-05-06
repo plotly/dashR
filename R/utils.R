@@ -467,7 +467,6 @@ resolvePrefix <- function(prefix, environment_var, base_pathname) {
     prefix_env <- Sys.getenv(environment_var)
     env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
     app_name <- Sys.getenv("DASH_APP_NAME")
-
     if (prefix_env != "")
       return(prefix_env)
     else if (app_name != "")
@@ -1308,7 +1307,6 @@ get_relative_path <- function(requests_pathname, path) {
 strip_relative_path <- function(requests_pathname, path) {
   # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
   # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
-
   if (is.null(path)) {
     return(NULL)
   }
