@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - `dash-renderer` updated to v1.4.1 [#195](https://github.com/plotly/dashR/pull/195)
+- `dashHtmlComponents` updated to v1.0.3
+- `dashCoreComponents` updated to v1.10.0
+- `dashTable` updated to v4.7.0
 
 ## [0.3.1] - 2020-02-14
 ### Fixed 
