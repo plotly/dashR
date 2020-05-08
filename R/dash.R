@@ -399,7 +399,6 @@ Dash <- R6::R6Class(
       dash_update <- paste0(self$config$routes_pathname_prefix, "_dash-update-component")
       route$add_handler("post", dash_update, function(request, response, keys, ...) {
         request <- request_parse_json(request)
-
         if (!"output" %in% names(request$body)) {
           response$body <- "Couldn't find output component in request body"
           response$status <- 500L
@@ -474,7 +473,7 @@ Dash <- R6::R6Class(
 
           if (substr(request$body$output, 1, 2) == '..') {
             # omit return objects of class "no_update" from output_value
-            updatable_outputs <- "no_update" != vapply(output_value, class, character(1))
+            updatable_outputs <- vapply(output_value, function(x) !("no_update" %in% class(x)), logical(1))
             output_value <- output_value[updatable_outputs]
 
             # if multi-output callback, isolate the output IDs and properties
