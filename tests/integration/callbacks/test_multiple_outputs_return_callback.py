@@ -1,11 +1,7 @@
-from selenium.webdriver.support.select import Select
-
 app_returning_component = """
 library(dash)
 library(dashHtmlComponents)
 library(dashCoreComponents)
-library(plotly)
-library(dashTable)
 
 app <- Dash$new()       
 app$layout(
