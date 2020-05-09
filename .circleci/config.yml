@@ -24,7 +24,6 @@ jobs:
             echo "RUNNING JOB: ${CIRCLE_JOB}"
             echo "JOB PARALLELISM: ${CIRCLE_NODE_TOTAL}"
             echo "CIRCLE_REPOSITORY_URL: ${CIRCLE_REPOSITORY_URL}"
-            export PERCY_ENABLE=0
             echo $CIRCLE_JOB > circlejob.txt
             git rev-parse HEAD | tr -d '\n' > commit.txt
 
