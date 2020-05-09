@@ -64,4 +64,4 @@ def test_rsdp001_dopsa(dashr):
     dashr.wait_for_text_to_equal(
         "#output-state", "The Button has been pressed '1' times, Input 1 is 'Montreal', and Input 2 is 'Quebec'", timeout=1  # noqa:E501
     )
-    dashr.percy_snapshot("rsdp001 - dopsa for R")
+    dashr.percy_snapshot("rsdp001 - dopsa")
