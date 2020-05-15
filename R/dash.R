@@ -109,11 +109,11 @@
 #'     from the Dash backend. The latter may offer improved performance relative
 #'     to callbacks written purely in R.
 #'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
+#'   \item{`title("Dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'Dash'.
 #'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
+#'   \item{`title("Dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'Dash'.
 #'   }
 #'   \item{`callback_context()`}{
 #'     The `callback_context` method permits retrieving the inputs which triggered
@@ -293,7 +293,7 @@ Dash <- R6::R6Class(
       # save relevant args as private fields
       if (!is.null(name)) {
         warning(sprintf(
-          "The supplied application title, '%s', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
+          "The supplied application title, '%s', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'Dash' will be used instead.",
           name),
           call. = FALSE
         )
@@ -935,7 +935,7 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # specify a custom title
     # ------------------------------------------------------------------------
-    title = function(string = "dash") {
+    title = function(string = "Dash") {
       assertthat::assert_that(is.character(string))
       private$name <- string
     },
