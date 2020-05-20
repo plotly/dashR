@@ -26,7 +26,8 @@ routes_pathname_prefix = NULL,
 requests_pathname_prefix = NULL,
 external_scripts = NULL,
 external_stylesheets = NULL,
-suppress_callback_exceptions = FALSE
+suppress_callback_exceptions = FALSE,
+show_undo_redo = FALSE
 )
 }
 
@@ -48,6 +49,9 @@ immediate loading. Ignored files will still be served if specifically requested.
 cannot use this to prevent access to sensitive files. \cr
 \code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
 remotely (via URL).\cr
+\code{compress} \tab \tab Logical. Whether to  try to compress files and data served by Fiery.
+By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm, before falling
+back to \code{identity}.\cr
 \code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
 Each list element should have the attributes and values for one tag, eg:
 \code{list(name = 'description', content = 'My App')}.\cr
@@ -63,7 +67,9 @@ to serve JavaScript source for rendered pages.\cr
 \code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
 to serve CSS for rendered pages.\cr
 \code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
-possible layout mis-specifications when registering a callback.
+possible layout mis-specifications when registering a callback.\cr
+\code{show_undo_redo} \tab \tab Logical. Set to \code{TRUE} to enable undo and redo buttons for
+stepping through the history of the app state.
 }
 }
 
@@ -116,6 +122,9 @@ locally served JavaScript function instead. The latter two methods define
 a "clientside callback", which updates components without passing data to and
 from the Dash backend. The latter may offer improved performance relative
 to callbacks written purely in R.
+}
+\item{\code{title("dash")}}{
+The title of the app. If no title is supplied, Dash for R will use 'dash'.
 }
 \item{\code{title("dash")}}{
 The title of the app. If no title is supplied, Dash for R will use 'dash'.
@@ -202,9 +211,9 @@ by assigning them to variables present in the template. This is similar to the \
 but offers the ability to change the default components of the Dash index as seen in the example below:
 \preformatted{
     app$interpolate_index(
-      template_index, 
-      metas = "<meta_charset='UTF-8'/>", 
-      renderer = renderer, 
+      template_index,
+      metas = "<meta_charset='UTF-8'/>",
+      renderer = renderer,
       config = config)
     }
 \describe{
