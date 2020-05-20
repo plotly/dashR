@@ -306,9 +306,9 @@ assert_no_names <- function (x)
 # filtered out by the subsequent vapply statement
 clean_dependencies <- function(deps) {
   dep_list <- lapply(deps, function(x) {
-    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet)) | (is.null(x$package))) {
+    if (is.null(x$src$file) | (is.null(x$script) & is.null(x$stylesheet) & is.null(x$other)) | (is.null(x$package))) {
       if (is.null(x$src$href))
-        stop(sprintf("Script or CSS dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
+        stop(sprintf("Script, CSS, or other dependencies with NULL href fields must include a file path, dependency name, and R package name."), call. = FALSE)
       else
         return(NULL)
     }
@@ -458,7 +458,6 @@ resolvePrefix <- function(prefix, environment_var, base_pathname) {
     prefix_env <- Sys.getenv(environment_var)
     env_base_pathname <- Sys.getenv("DASH_URL_BASE_PATHNAME")
     app_name <- Sys.getenv("DASH_APP_NAME")
-
     if (prefix_env != "")
       return(prefix_env)
     else if (app_name != "")
@@ -495,6 +494,8 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
       dep_path <- file.path(x$src$file, x$script)
     else if (!is.null(x$stylesheet))
       dep_path <- file.path(x$src$file, x$stylesheet)
+    else if (!is.null(x$other))
+      dep_path <- file.path(x$src$file, x$other)
 
     # remove n>1 slashes and replace with / if present;
     # htmltools seems to permit // in pathnames, but
@@ -522,17 +523,17 @@ get_package_mapping <- function(script_name, url_package, dependencies) {
 }
 
 get_mimetype <- function(filename) {
-  # the tools package is available to all
-  filename_ext <- file_ext(filename)
+  filename_ext <- getFileExt(filename)
 
   if (filename_ext == 'js')
     return('application/JavaScript')
   else if (filename_ext == 'css')
     return('text/css')
-  else if (filename_ext == 'map')
+  else if (filename_ext %in% c('js.map', 'map'))
     return('application/json')
   else
-    return(NULL)
+    return(mime::guess_type(filename,
+                            empty = "application/octet-stream"))
 }
 
 generate_css_dist_html <- function(href,
@@ -1297,7 +1298,6 @@ get_relative_path <- function(requests_pathname, path) {
 strip_relative_path <- function(requests_pathname, path) {
   # Returns a relative path with the `requests_pathname_prefix` and leadings and trailing
   # slashes stripped from it. This function is particularly relevant to dccLocation pathname routing.
-
   if (is.null(path)) {
     return(NULL)
   }

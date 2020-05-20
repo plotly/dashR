@@ -50,5 +50,5 @@ app$callback(
  "function (value) {
        return 'Client says \\"' + value + '\\"';
  }"
-)} 
+)}
 }
