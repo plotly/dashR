@@ -79,7 +79,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout(...)`}{
+#'   \item{`layout(value)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
 #'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
@@ -1190,11 +1190,8 @@ Dash <- R6::R6Class(
     layout_render = function() {
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
       
-      # accommodate functions that return a single component
-      if (is.component(layout_)) layout_ <- list(layout_)
-      
       # ensure that the layout is a component, or a collection of components
-      layout_ <- private$componentify(private$layout_)
+      layout_ <- private$componentify(layout_)
       
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
@@ -1210,15 +1207,19 @@ Dash <- R6::R6Class(
           call. = FALSE
         )
       }
-      private$layout_ids <- as.character(layout_flat[idx])
-      duped <- anyDuplicated(private$layout_ids)
+      layout_ids <- as.character(layout_flat[idx])
+      duped <- anyDuplicated(layout_ids) > 0
+
       if (duped) {
+        duped_ids <- paste(layout_ids[duplicated(layout_ids)], collapse = ", ")
+        
         stop(
-          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", private$layout_ids[duped]),
+          sprintf("layout ids must be unique -- please check the following list of duplicated ids: '%s'", duped_ids),
           call. = FALSE
         )
       }
 
+      private$layout_ids <- layout_ids
       # load package-level HTML dependencies from attached pkgs
       metadataFns <- lapply(.packages(), getDashMetadata)
       metadataFns <- metadataFns[lengths(metadataFns) != 0]
