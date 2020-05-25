@@ -624,21 +624,7 @@ Dash <- R6::R6Class(
       dash_assets <- sub("//", "/", dash_assets)
 
       route$add_handler("get", dash_assets, function(request, response, keys, ...) {
-        # unfortunately, keys do not exist for wildcard headers in routr -- URL must be parsed
-        # e.g. for "http://127.0.0.1:8050/assets/stylesheet.css?m=1552591104"
-        #
-        # the following regex pattern will return "/stylesheet.css":
-        assets_pattern <- paste0("(?<=",
-                                 gsub("/",
-                                      "\\\\/",
-                                      private$assets_url_path),
-                                 ")([^?])+"
-                                 )
-
-        # now, identify vector positions for asset string matching pattern above
-        asset_match <- gregexpr(pattern = assets_pattern, request$url, perl=TRUE)
-        # use regmatches to retrieve only the substring following assets_url_path
-        asset_to_match <- unlist(regmatches(request$url, asset_match))
+        asset_to_match <- base::basename(request$url)
 
         # now that we've parsed the URL, attempt to match the subpath in the map,
         # then return the local absolute path to the asset
@@ -1353,7 +1339,7 @@ Dash <- R6::R6Class(
                                gsub("/",
                                     "\\\\/",
                                     private$assets_folder),
-                               ")([^?])+"
+                               ")(.)+"
       )
 
       # if file extension is .css, add to stylesheets
