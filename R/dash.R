@@ -624,7 +624,7 @@ Dash <- R6::R6Class(
       dash_assets <- sub("//", "/", dash_assets)
 
       route$add_handler("get", dash_assets, function(request, response, keys, ...) {
-        asset_to_match <- base::basename(request$url)
+        asset_to_match <- paste0("/", base::basename(request$url))
 
         # now that we've parsed the URL, attempt to match the subpath in the map,
         # then return the local absolute path to the asset
@@ -1368,6 +1368,7 @@ Dash <- R6::R6Class(
       } else {
         css_map <- NULL
       }
+      
 
       if (length(script_paths)) {
         # first, sort the filenames alphanumerically
