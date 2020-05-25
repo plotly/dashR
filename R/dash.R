@@ -771,8 +771,10 @@ Dash <- R6::R6Class(
     layout_get = function(render = TRUE) {
       if (render) private$layout_render() else private$layout_
     },
-    layout = function(...) {
-      private$layout_ <- if (is.function(..1)) ..1 else list(...)
+    # layout = function(...) {
+    layout = function(value) {    
+      # private$layout_ <- if (is.function(..1)) ..1 else list(...)
+      private$layout_ <- value
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
@@ -1186,9 +1188,14 @@ Dash <- R6::R6Class(
     layout_ = NULL,
     layout_ids = NULL,
     layout_render = function() {
-      # assuming private$layout is either a function or a list of components...
-      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_[[1]]
-
+      layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
+      
+      # accommodate functions that return a single component
+      if (is.component(layout_)) layout_ <- list(layout_)
+      
+      # ensure that the layout is a component, or a collection of components
+      layout_ <- private$componentify(private$layout_)
+      
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       layout_flat <- rapply(layout_, I)
@@ -1199,7 +1206,7 @@ Dash <- R6::R6Class(
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
-          "Component ids are critical for targetting callbacks in your application",
+          "Component ids are critical for targeting callbacks in your application",
           call. = FALSE
         )
       }
