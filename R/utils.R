@@ -151,16 +151,6 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # This is essentially analogous to this codeblock on the Python side:
     # https://github.com/plotly/dash/blob/1249ffbd051bfb5fdbe439612cbec7fa8fff5ab5/dash/dash.py#L207
     #
-    # Use the system file modification timestamp for the current
-    # package and add the version number of the package as a query
-    # parameter for cache busting
-    if (!is.null(dep$package)) {
-      full_path <- getDependencyPath(dep)
-      modified <- as.integer(file.mtime(full_path))
-    } else {
-      modified <- as.integer(Sys.time())
-    }
-
     # we don't want to serve the JavaScript source maps here,
     # until we are able to provide full support for debug mode,
     # as in Dash for Python
@@ -175,11 +165,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "_dash-component-suites/",
                                   dep$name,
                                   "/",
-                                  basename(dep[["script"]]),
-                                  "?v=",
-                                  dep$version,
-                                  "&m=",
-                                  modified)
+                                  basename(dep[["script"]]))
 
         html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
       }
@@ -197,16 +183,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
 
       if (!(is.null(dep$version))) {
         if(!is.null(dep$package)) {
-          sheetpath <- paste0(dep[["stylesheet"]],
-                              "?v=",
-                              dep$version)
-
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+          html <- generate_css_dist_html(href = dep[["stylesheet"]], as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
-                              dep[["stylesheet"]],
-                              "?v=",
-                              dep$version)
+                              dep[["stylesheet"]])
 
           html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
         }
@@ -561,11 +541,9 @@ generate_css_dist_html <- function(href,
   } else {
     # strip leading slash from href if present
     href <- sub("^/", "", href)
-    modified <- as.integer(file.mtime(local_path))
-    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">",
+    sprintf("<link href=\"%s%s\" rel=\"stylesheet\">",
             prefix,
-            href,
-            modified)
+            href)
   }
 }
 
@@ -585,11 +563,9 @@ generate_js_dist_html <- function(href,
   } else {
     # strip leading slash from href if present
     href <- sub("^/", "", href)
-    modified <- as.integer(file.mtime(local_path))
-    sprintf("<script src=\"%s%s?m=%s\"></script>",
+    sprintf("<script src=\"%s%s\"></script>",
             prefix,
-            href,
-            modified)
+            href)
   }
 }
 
