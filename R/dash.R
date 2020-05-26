@@ -79,7 +79,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{`layout(...)`}{
+#'   \item{`layout(value)`}{
 #'     Set the layout (i.e., user interface). The layout should be either a
 #'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
 #'     a function which returns a collection of components.
@@ -771,8 +771,10 @@ Dash <- R6::R6Class(
     layout_get = function(render = TRUE) {
       if (render) private$layout_render() else private$layout_
     },
-    layout = function(...) {
-      private$layout_ <- if (is.function(..1)) ..1 else list(...)
+    # layout = function(...) {
+    layout = function(value) {    
+      # private$layout_ <- if (is.function(..1)) ..1 else list(...)
+      private$layout_ <- value
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
@@ -1186,20 +1188,11 @@ Dash <- R6::R6Class(
     layout_ = NULL,
     layout_ids = NULL,
     layout_render = function() {
-      # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
-
-      # accommodate functions that return a single component
-      if (is.component(layout_)) layout_ <- list(layout_)
-
-      # make sure we are working with a list of components
-      layout_ <- lapply(layout_, private$componentify)
-
-      # Put the list of components into a container div. I'm pretty sure dash
-      # requires the layout to be one component, but R folks are used to
-      # being able to supply "components" to ...
-      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
-
+      
+      # ensure that the layout is a component, or a collection of components
+      layout_ <- private$componentify(layout_)
+      
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       layout_flat <- rapply(layout_, I)
@@ -1210,19 +1203,23 @@ Dash <- R6::R6Class(
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
-          "Component ids are critical for targetting callbacks in your application",
+          "Component ids are critical for targeting callbacks in your application",
           call. = FALSE
         )
       }
-      private$layout_ids <- as.character(layout_flat[idx])
-      duped <- anyDuplicated(private$layout_ids)
+      layout_ids <- as.character(layout_flat[idx])
+      duped <- anyDuplicated(layout_ids) > 0
+
       if (duped) {
+        duped_ids <- paste(layout_ids[duplicated(layout_ids)], collapse = ", ")
+        
         stop(
-          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", private$layout_ids[duped]),
+          sprintf("layout ids must be unique -- please check the following list of duplicated ids: '%s'", duped_ids),
           call. = FALSE
         )
       }
 
+      private$layout_ids <- layout_ids
       # load package-level HTML dependencies from attached pkgs
       metadataFns <- lapply(.packages(), getDashMetadata)
       metadataFns <- metadataFns[lengths(metadataFns) != 0]
@@ -1709,7 +1706,6 @@ Dash <- R6::R6Class(
 )
 
 validate_dependency <- function(layout_, dependency) {
-  if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
   if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
 
   valid_props <- component_props_given_id(layout_, dependency$id)
