@@ -38,7 +38,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 KeepSource: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
 BugReports: https://github.com/plotly/dashR/issues

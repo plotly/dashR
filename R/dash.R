@@ -80,9 +80,12 @@
 #' @section Methods:
 #' \describe{
 #'   \item{`layout(value)`}{
-#'     Set the layout (i.e., user interface). The layout should be either a
+#'     Set the layout (i.e., user interface). `value` should be either a
 #'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
-#'     a function which returns a collection of components.
+#'     a function which returns a collection of components. The collection
+#'     of components must be nested, such that any components contained within
+#'     `value` are passed solely as `children`. In all cases, `value` must
+#'     be a member of the `dash_component` class.
 #'   }
 #'   \item{`layout_get(render = TRUE)`}{
 #'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
@@ -109,11 +112,11 @@
 #'     from the Dash backend. The latter may offer improved performance relative
 #'     to callbacks written purely in R.
 #'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
+#'   \item{`title("Dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'Dash'.
 #'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
+#'   \item{`title("Dash")`}{
+#'     The title of the app. If no title is supplied, Dash for R will use 'Dash'.
 #'   }
 #'   \item{`callback_context()`}{
 #'     The `callback_context` method permits retrieving the inputs which triggered
