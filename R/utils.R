@@ -1335,7 +1335,10 @@ interpolate_str <- function(index_template, ...) {
 validate_keys <- function(string) {
   required_keys <- c("app_entry", "config", "scripts")
 
-  keys_present <- vapply(required_keys, function(x) x %in% string, logical(1))
+  if ("index_template" %in% class(string))
+    keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  else
+    keys_present <- vapply(required_keys, function(x) x %in% string, logical(1))
 
   if (!all(keys_present)) {
     stop(sprintf("Did you forget to include %s in your index string?",
