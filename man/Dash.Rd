@@ -140,7 +140,7 @@ Create and configure a Dash application.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{server}}{The web server used to power the application. Must be a \link[fiery:Fire]{fiery::Fire} object.}
+\item{\code{server}}{\link[fiery:Fire]{fiery::Fire} object. The web server used to power the application.}
 
 \item{\code{assets_folder}}{Character. A path, relative to the current working directory,
 for extra files to be used in the browser. All .js and
@@ -517,8 +517,8 @@ Modify index template variables for a Dash application.
 }
 \subsection{Details}{
 With the \code{interpolate_index} method, one can pass a custom index with template string
-variables that are already evaluated. We can directly pass arguments to the \code{template_index}
-by assigning them to variables present in the template. This is similar to the \code{index_string} method
+variables that are already evaluated. Directly passing arguments to the \code{template_index}
+has the effect of assigning them to variables present in the template. This is similar to the \code{index_string} method
 but offers the ability to change the default components of the Dash index as seen in the example below.
 }
 

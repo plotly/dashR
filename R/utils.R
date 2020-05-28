@@ -329,8 +329,8 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
                                           clientside_function=clientside_function
                                           )
   if (length(map) >= 2) {
-    ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
-    props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
+    ids <- lapply(names(map), function(x) getIdProps(x)$ids)
+    props <- lapply(names(map), function(x) getIdProps(x)$props)
 
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
 

@@ -22,7 +22,7 @@ Dash <- R6::R6Class(
 
     #' @description
     #' Create and configure a Dash application.
-    #' @param server The web server used to power the application. Must be a [fiery::Fire] object.
+    #' @param server [fiery::Fire] object. The web server used to power the application.
     #' @param assets_folder Character. A path, relative to the current working directory,
     #' for extra files to be used in the browser. All .js and
     #'  .css files will be loaded immediately unless excluded by `assets_ignore`,
