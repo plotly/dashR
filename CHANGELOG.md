@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 - Package documentation has been significantly refactored to use new features of `roxygen2` when documenting R6 classes
 - The `title` method now specifies `Dash` as the default application title instead of `dash`. [#200](https://github.com/plotly/dashR/pull/200)
 
-### Fized
+### Fixed
 - A minor bug in `validate_keys` which prevented `interpolate_index` from working as intended has been resolved
 
 ## [0.4.1] - 2020-05-08
