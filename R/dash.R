@@ -1730,22 +1730,3 @@ Dash <- R6::R6Class(
     }
   )
 )
-
-validate_dependency <- function(layout_, dependency) {
-  if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
-
-  valid_props <- component_props_given_id(layout_, dependency$id)
-
-  if (!isTRUE(dependency$property %in% valid_props)) {
-    warning(
-      sprintf(
-        "'%s' is not a valid property for the component with id '%s'. Try one of the following: '%s'",
-        dependency$property, dependency$id, paste(valid_props, collapse = "', '")
-      ),
-      call. = FALSE
-    )
-    return(FALSE)
-  }
-
-  TRUE
-}
