@@ -1,6 +1,10 @@
 # Change Log for Dash for R
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2020-05-08
+### Fixed
+- Callbacks with multiple outputs which return one or more components are now permitted; a bug previously prevented their use, fixed in [#198](https://github.com/plotly/dashR/pull/198)
+
 ## [0.4.0] - 2020-05-05
 ### Added
 - Support for inline clientside callbacks in JavaScript [#140](https://github.com/plotly/dashR/pull/140)
