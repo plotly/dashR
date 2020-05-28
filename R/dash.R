@@ -844,8 +844,7 @@ Dash <- R6::R6Class(
     #' @param string Character; the index string template, with interpolation keys included.
     index_string = function(string) {
       assertthat::assert_that(is.character(string))
-      class(string) <- c("character", "index_template")
-      private$custom_index <- validate_keys(string)
+      private$custom_index <- validate_keys(string, is_template=TRUE)
     },
     
     # ------------------------------------------------------------------------
@@ -906,7 +905,7 @@ Dash <- R6::R6Class(
         template = sub(key, kwargs[[name]], template)
       } 
       
-      invisible(validate_keys(names(kwargs)))
+      invisible(validate_keys(names(kwargs), is_template=FALSE))
       
       private$template_index <- template
     },

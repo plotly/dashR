@@ -1332,10 +1332,10 @@ interpolate_str <- function(index_template, ...) {
   return(template)
 }
 
-validate_keys <- function(string) {
+validate_keys <- function(string, is_template) {
   required_keys <- c("app_entry", "config", "scripts")
 
-  if ("index_template" %in% class(string))
+  if (is_template)
     keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
   else
     keys_present <- vapply(required_keys, function(x) x %in% string, logical(1))
