@@ -20,7 +20,8 @@ Imports:
   digest,
   base64enc,
   mime,
-  crayon
+  crayon,
+  brotli
 Suggests:
   testthat
 Collate:
