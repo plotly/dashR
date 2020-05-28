@@ -855,8 +855,8 @@ Dash <- R6::R6Class(
     #' Modify index template variables for a Dash application.
     #' @details
     #' With the `interpolate_index` method, one can pass a custom index with template string
-    #' variables that are already evaluated. We can directly pass arguments to the `template_index`
-    #' by assigning them to variables present in the template. This is similar to the `index_string` method
+    #' variables that are already evaluated. Directly passing arguments to the `template_index`
+    #' has the effect of assigning them to variables present in the template. This is similar to the `index_string` method
     #' but offers the ability to change the default components of the Dash index as seen in the example below.
     #' @param template_index Character. A formatted string with the HTML index string. Defaults to the initial template.
     #' @param ... Named list. The unnamed arguments can be passed as individual named lists corresponding to the components of the Dash HTML index. These include the same argument as those found in the `index_string()` template.
@@ -897,7 +897,8 @@ Dash <- R6::R6Class(
     #'   config = config,
     #'   scripts = "")
     interpolate_index = function(template_index = private$template_index[[1]], ...) {
-      template = template_index
+      assertthat::assert_that(is.character(template_index))
+      template <- template_index
       kwargs <- list(...)
       
       for (name in names(kwargs)) {
