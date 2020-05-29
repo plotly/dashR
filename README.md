@@ -50,6 +50,9 @@ The R package **dash** makes it easy to create reactive web applications powered
 
 ```r
 library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+
 app <- Dash$new()
 ```
 
@@ -57,8 +60,12 @@ Similar to [Dash for Python](https://github.com/plotly/dash), every Dash for R a
 
 ```r
 app$layout(
-  dccInput(id = "inputID", value = "initial value", type = "text"),
-  htmlDiv(id = "outputID")
+  htmlDiv(
+    list(
+      dccInput(id = "inputID", value = "initial value", type = "text"),
+      htmlDiv(id = "outputID")
+    )
+  )
 )
 
 app$callback(output = list(id="outputID", property="children"), 
@@ -80,15 +87,19 @@ Here the `showcase = TRUE` argument opens a browser window and automatically loa
 app <- Dash$new()
 
 app$layout(
-  dccInput(id = "graphTitle", 
-            value = "Let's Dance!", 
-            type = "text"),
-  htmlDiv(id = "outputID"),
-  dccGraph(id = "giraffe",
-            figure = list(
-              data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
-              layout = list(title = "Let's Dance!")
-            )
+  htmlDiv(
+    list(
+      dccInput(id = "graphTitle", 
+               value = "Let's Dance!", 
+               type = "text"),
+      htmlDiv(id = "outputID"),
+      dccGraph(id = "giraffe",
+               figure = list(
+                 data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
+                 layout = list(title = "Let's Dance!")
+               )
+      )
+    )
   )
 )
 
