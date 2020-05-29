@@ -1,5 +1,6 @@
 # Change Log for Dash for R
-All notable changes to this project will be documented in this file.
+All notable changes to `dash` will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.5.0 ] - 2020-05-28
 ### Added
