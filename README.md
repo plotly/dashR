@@ -1,6 +1,8 @@
 [![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/master)
 [![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/y/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/graphs/contributors)
+[![CRAN status](https://www.r-pkg.org/badges/version/dash)](https://cran.r-project.org/web/packages/dash/index.html)
+[![](https://cranlogs.r-pkg.org/badges/dash)](https://cran.r-project.org/package=dash)
 
 # Dash for R
 
@@ -14,7 +16,7 @@ https://dashr.plotly.com/installation
 
 > 🛑 Make sure you're on at least version `3.0.2` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
-**dash** and the currently released versions of all core component libraries are available on CRAN -- installing `dash` and its dependencies is as simple as
+As of 2020-06-04, **dash** and the currently released versions of all core component libraries are _available for download via CRAN!_ Installing `dash` and its dependencies is as simple as
 ```r
 install.packages("dash")
 ```
