@@ -15,15 +15,6 @@ is.event <- function(x) is.dependency(x) && inherits(x, "event")
 # components (TODO: this should be exported by dashRtranspile!)
 is.component <- function(x) inherits(x, "dash_component")
 
-# layout is really a special type of component
-is.layout <- function(x) {
-  is.component(x) && identical(x[["props"]][["id"]], layout_container_id())
-}
-
-layout_container_id <- function() {
-  "_dashR-layout-container"
-}
-
 # retrieve the arguments of a callback function that are dash inputs
 callback_inputs <- function(func) {
   compact(lapply(formals(func), function(x) {
@@ -318,8 +309,8 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
                                           clientside_function=clientside_function
                                           )
   if (length(map) >= 2) {
-    ids <- lapply(names(map), function(x) dash:::getIdProps(x)$ids)
-    props <- lapply(names(map), function(x) dash:::getIdProps(x)$props)
+    ids <- lapply(names(map), function(x) getIdProps(x)$ids)
+    props <- lapply(names(map), function(x) getIdProps(x)$props)
 
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
 
@@ -1317,10 +1308,13 @@ interpolate_str <- function(index_template, ...) {
   return(template)
 }
 
-validate_keys <- function(string) {
+validate_keys <- function(string, is_template) {
   required_keys <- c("app_entry", "config", "scripts")
 
-  keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  if (is_template)
+    keys_present <- vapply(required_keys, function(x) grepl(x, string), logical(1))
+  else
+    keys_present <- vapply(required_keys, function(x) x %in% string, logical(1))
 
   if (!all(keys_present)) {
     stop(sprintf("Did you forget to include %s in your index string?",

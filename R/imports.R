@@ -11,4 +11,5 @@
 #' @importFrom utils getFromNamespace
 #' @importFrom stats setNames
 #' @importFrom tools file_ext
+#' @importFrom brotli brotli_compress
 NULL

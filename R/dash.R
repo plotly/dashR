@@ -1,275 +1,61 @@
-#' Create and configure a Dash app object
-#'
-#' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
-#'
-#' @usage Dash
-#'
-#' @section Constructor: Dash$new(
-#'   name = NULL,
-#'   server = fiery::Fire$new(),
-#'   assets_folder = 'assets',
-#'   assets_url_path = '/assets',
-#'   eager_loading = FALSE,
-#'   assets_ignore = '',
-#'   serve_locally = TRUE,
-#'   meta_tags = NULL,
-#'   url_base_pathname = '/',
-#'   routes_pathname_prefix = NULL,
-#'   requests_pathname_prefix = NULL,
-#'   external_scripts = NULL,
-#'   external_stylesheets = NULL,
-#'   suppress_callback_exceptions = FALSE,
-#'   show_undo_redo = FALSE
-#' )
-#'
-#' @section Arguments:
-#' \tabular{lll}{
-#'   `name` \tab \tab Character. The name of the Dash application (placed in the title
-#'   of the HTML page). DEPRECATED; please use `index_string()` or `interpolate_index()` instead.\cr
-#'   `server` \tab \tab The web server used to power the application.
-#'   Must be a [fiery::Fire] object.\cr
-#'   `assets_folder` \tab \tab Character. A path, relative to the current working directory,
-#'   for extra files to be used in the browser. Default is "assets". All .js and
-#'   .css files will be loaded immediately unless excluded by `assets_ignore`,
-#'   and other files such as images will be served if requested. Default is `assets`. \cr
-#'   `assets_url_path` \tab \tab Character. Specify the URL path for asset serving. Default is `assets`. \cr
-#'   `eager_loading` \tab \tab Logical. Controls whether asynchronous resources are prefetched (if `TRUE`) or loaded on-demand (if `FALSE`). \cr
-#'   `assets_ignore` \tab \tab Character. A regular expression, to match assets to omit from
-#'   immediate loading. Ignored files will still be served if specifically requested. You
-#'   cannot use this to prevent access to sensitive files. \cr
-#'   `serve_locally` \tab \tab Logical. Whether to serve HTML dependencies locally or
-#'   remotely (via URL).\cr
-#'   `compress` \tab \tab Logical. Whether to  try to compress files and data served by Fiery.
-#'   By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm, before falling
-#'   back to `identity`.\cr
-#'   `meta_tags` \tab \tab List of lists. HTML `<meta>`tags to be added to the index page.
-#'   Each list element should have the attributes and values for one tag, eg:
-#'   `list(name = 'description', content = 'My App')`.\cr
-#'   `url_base_pathname` \tab \tab Character. A local URL prefix to use app-wide. Default is
-#'   `/`. Both `requests_pathname_prefix` and `routes_pathname_prefix` default to `url_base_pathname`.
-#'   Environment variable is `DASH_URL_BASE_PATHNAME`.\cr
-#'   `routes_pathname_prefix` \tab \tab Character. A prefix applied to the backend routes.
-#'   Environment variable is `DASH_ROUTES_PATHNAME_PREFIX`.\cr
-#'   `requests_pathname_prefix` \tab \tab Character. A prefix applied to request endpoints
-#'   made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.\cr
-#'   `external_scripts` \tab \tab List. An optional list of valid URLs from which
-#'   to serve JavaScript source for rendered pages.\cr
-#'   `external_stylesheets` \tab \tab List. An optional list of valid URLs from which
-#'   to serve CSS for rendered pages.\cr
-#'   `suppress_callback_exceptions` \tab \tab Logical. Whether to relay warnings about
-#'   possible layout mis-specifications when registering a callback.\cr
-#'   `show_undo_redo` \tab \tab Logical. Set to `TRUE` to enable undo and redo buttons for
-#'   stepping through the history of the app state.
-#'  }
-#'
-#' @section Fields:
-#' \describe{
-#'  \item{`server`}{
-#'  A cloned (and modified) version of the [fiery::Fire] object
-#'  provided to the `server` argument (various routes will be added which enable
-#'  Dash functionality).
-#'  }
-#'  \item{`config`}{
-#'  A list of configuration options passed along to dash-renderer.
-#'  Users shouldn't need to alter any of these options unless they are
-#'  constructing their own authorization front-end or otherwise need to know
-#'  where the application is making API calls.
-#'  }
-#' }
-#'
-#' @section Methods:
-#' \describe{
-#'   \item{`layout(...)`}{
-#'     Set the layout (i.e., user interface). The layout should be either a
-#'     collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
-#'     a function which returns a collection of components.
-#'   }
-#'   \item{`layout_get(render = TRUE)`}{
-#'     Retrieves the layout. If render is `TRUE`, and the layout is a function,
-#'     the result of the function (rather than the function itself) is returned.
-#'   }
-#'   \item{`callback(output, params, func)`}{
-#'     The `callback` method has three formal arguments:
-#'     \describe{
-#'       \item{output}{a named list including a component `id` and `property`}
-#'       \item{params}{an unnamed list of [input] and [state] statements, each with defined `id` and `property`}
-#'       \item{func}{any valid R function which generates [output] provided [input] and/or [state] arguments,
-#'       a character string containing valid JavaScript, or a call to [clientsideFunction] including `namespace`
-#'       and `function_name` arguments for a locally served JavaScript function}
-#'     }
-#'     The `output` argument defines which layout component property should
-#'     receive the results (via the [output] object). The events that
-#'     trigger the callback are then described by the [input] (and/or [state])
-#'     object(s) (which should reference layout components), which become
-#'     argument values for R callback handlers defined in `func`. Here `func` may
-#'     either be an anonymous R function, a JavaScript function provided as a
-#'     character string, or a call to `clientsideFunction()`, which describes a
-#'     locally served JavaScript function instead. The latter two methods define
-#'     a "clientside callback", which updates components without passing data to and
-#'     from the Dash backend. The latter may offer improved performance relative
-#'     to callbacks written purely in R.
-#'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
-#'   }
-#'   \item{`title("dash")`}{
-#'     The title of the app. If no title is supplied, Dash for R will use 'dash'.
-#'   }
-#'   \item{`callback_context()`}{
-#'     The `callback_context` method permits retrieving the inputs which triggered
-#'     the firing of a given callback, and allows introspection of the input/state
-#'     values given their names. It is only available from within a callback;
-#'     attempting to use this method outside of a callback will result in a warning.
-#'   }
-#'   \item{`get_asset_url(asset_path, prefix)`}{
-#'     The `get_asset_url` method permits retrieval of an asset's URL given its filename.
-#'     For example, `app$get_asset_url('style.css')` should return `/assets/style.css` when
-#'     `assets_folder = 'assets'`. By default, the prefix is the value of `requests_pathname_prefix`,
-#'     but this is configurable via the `prefix` parameter. Note: this method will
-#'     present a warning and return `NULL` if the Dash app was not loaded via `source()`
-#'     if the `DASH_APP_PATH` environment variable is undefined.
-#'   }
-#'   \item{`get_relative_path(path, requests_pathname_prefix)`}{
-#'     The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
-#'     running locally and on a deployment server such as Dash Enterprise. It handles the prefix
-#'     for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling
-#'     in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
-#'     would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
-#'     a `/`.
-#'     \describe{
-#'       \item{path}{Character. A path string prefixed with a leading `/` which directs at a path or asset directory.}
-#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
-#'       }
-#'   }
-#'   \item{`strip_relative_path(path, requests_pathname_prefix)`}{
-#'     The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
-#'     running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the `get_relative_path`
-#'     method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
-#'     and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as
-#'     `homepage`. This is particularly useful for `dccLocation` URL routing.
-#'     \describe{
-#'       \item{path}{Character. A path string prefixed with a leading `/` and `requests_pathname_prefix` which directs at a path or asset directory.}
-#'       \item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or `""` if run locally.}
-#'       }
-#'  }
-#'  \item{`index_string(string)`}{
-#'     The `index_string` method allows the specification of a custom index by changing
-#'     the default `HTML` template that is generated by the Dash UI. Meta tags, CSS, Javascript,
-#'     are some examples of features that can be modified.
-#'     This method will present a warning if your HTML template is missing any necessary elements
-#'     and return an error if a valid index is not defined. The following interpolation keys are
-#'     currently supported:
-#'     \describe{
-#'          \item{`{%metas%}`}{Optional - The registered meta tags.}
-#'          \item{`{%favicon%}`}{Optional - A favicon link tag if found in assets.}
-#'          \item{`{%css%}`}{Optional - Link tags to css resources.}
-#'          \item{`{%config%}`}{Required - Config generated by dash for the renderer.}
-#'          \item{`{%app_entry%}`}{Required - The container where dash react components are rendered.}
-#'          \item{`{%scripts%}`}{Required - Collected dependencies scripts tags.}
-#'          }
-#'     \describe{
-#'          \item{Example of a basic HTML index string:}{
-#'          \preformatted{
-#' "<!DOCTYPE html>
-#' <html>
-#'  <head>
-#'   \{\%meta_tags\%\}
-#'      <title>\{\{%css\%\}\}</title>
-#'      \{\%favicon\%\}
-#'      \{\%css_tags\%\}
-#'  </head>
-#'   <body>
-#'     \{\%app_entry\%\}
-#'     <footer>
-#'      \{\%config\%\}
-#'      \{\%scripts\%\}
-#'     </footer>
-#'   </body>
-#' </html>"
-#'              }
-#'          }
-#'      }
-#'  }
-#'  \item{`interpolate_index(template_index, ...)`}{
-#'     With the `interpolate_index` method, we can pass a custom index with template string
-#'     variables that are already evaluated. We can directly pass arguments to the `template_index`
-#'     by assigning them to variables present in the template. This is similar to the `index_string` method
-#'     but offers the ability to change the default components of the Dash index as seen in the example below:
-#'     \preformatted{
-#'     app$interpolate_index(
-#'       template_index,
-#'       metas = "<meta_charset='UTF-8'/>",
-#'       renderer = renderer,
-#'       config = config)
-#'     }
-#'     \describe{
-#'     \item{template_index}{Character. A formatted string with the HTML index string. Defaults to the initial template}
-#'     \item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
-#'     of the Dash html index. These include the same arguments as those found in the `index_string()` template.}
-#'     }
-#'  }
-#'  \item{`run_server(host =  Sys.getenv('HOST', "127.0.0.1"),
-#'    port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)`}{
-#'     The `run_server` method has 13 formal arguments, several of which are optional:
-#'     \describe{
-#'       \item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `HOST`.}
-#'       \item{port}{Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `PORT`.}
-#'       \item{block}{Logical. Start the server while blocking console input? Default is `TRUE`.}
-#'       \item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.}
-#'       \item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is `FALSE`.}
-#'       \item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is `FALSE` when called via `run_server`. Environment variable: `DASH_DEBUG`.}
-#'       \item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_UI`.}
-#'       \item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Requires that the Dash application is loaded using `source()`, so that `srcref` attributes are available for executed code. Environment variable: `DASH_HOT_RELOAD`.}
-#'       \item{dev_tools_hot_reload_interval}{Numeric. Interval in seconds for the client to request the reload hash. Default is `3`. Environment variable: `DASH_HOT_RELOAD_INTERVAL`.}
-#'       \item{dev_tools_hot_reload_watch_interval}{Numeric. Interval in seconds for the server to check asset and component folders for changes. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_WATCH_INTERVAL`.}
-#'       \item{dev_tools_hot_reload_max_retry}{Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_MAX_RETRY`.}
-#'       \item{dev_tools_props_check}{Logical. Validate the types and values of Dash component properties? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_PROPS_CHECK`.}
-#'       \item{dev_tools_prune_errors}{Logical. Reduce tracebacks to just user code, stripping out Fiery and Dash pieces? Only available with debugging. `TRUE` by default, set to `FALSE` to see the complete traceback. Environment variable: `DASH_PRUNE_ERRORS`.}
-#'       \item{dev_tools_silence_routes_logging}{Logical. Replace Fiery's default logger with `dashLogger` instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.}
-#'     }
-#'     Starts the Fiery server in local mode. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
-#'     Launch the application. If provided, `host`/`port` set the `host`/`port` fields of the underlying [fiery::Fire] web server. The `block`/`showcase`/`...` arguments are passed along
-#'     to the `ignite()` method of the [fiery::Fire] server.
-#'   }
-#' }
-#'
-#' @examples
-#' \dontrun{
-#' library(dashCoreComponents)
-#' library(dashHtmlComponents)
-#' library(dash)
-
-#' app <- Dash$new()
-#' app$layout(
-#'  dccInput(id = "inputID", value = "initial value", type = "text"),
-#'  htmlDiv(id = "outputID")
-#' )
-#'
-#' app$callback(output = list(id="outputID", property="children"),
-#'              params = list(input(id="inputID", property="value"),
-#'                       state(id="inputID", property="type")),
-#'   function(x, y)
-#'     sprintf("You've entered: '%s' into a '%s' input control", x, y)
-#' )
-#'
-#' app$run_server(showcase = TRUE)
-#' }
+#' R6 class representing a Dash application
 #'
 #' @export
 #' @docType class
 #' @format An [R6::R6Class] generator object
-#'
-
+#' @description
+#' A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 Dash <- R6::R6Class(
   'Dash',
   public = list(
-    # user-facing fields
+    #' @field server
+    #'  A cloned (and modified) version of the [fiery::Fire] object
+    #'  provided to the `server` argument (various routes will be added which enable
+    #'  Dash functionality).
     server = NULL,
+    #' @field config
+    #' A list of configuration options passed along to dash-renderer.
+    #' Users shouldn't need to alter any of these options unless they are
+    #' constructing their own authorization front-end or otherwise need to know
+    #' where the application is making API calls.
     config = list(),
 
-    # i.e., the Dash$new() method
-    initialize = function(name = NULL,
-                          server = fiery::Fire$new(),
+    #' @description
+    #' Create and configure a Dash application.
+    #' @param server [fiery::Fire] object. The web server used to power the application.
+    #' @param assets_folder Character. A path, relative to the current working directory,
+    #' for extra files to be used in the browser. All .js and
+    #'  .css files will be loaded immediately unless excluded by `assets_ignore`,
+    #'   and other files such as images will be served if requested. Default is `assets`.
+    #' @param assets_url_path Character. Specify the URL path for asset serving. Default is `assets`.
+    #' @param eager_loading Logical. Controls whether asynchronous resources are prefetched (if `TRUE`) or loaded on-demand (if `FALSE`).
+    #' @param assets_ignore Character. A regular expression, to match assets to omit from
+    #' immediate loading. Ignored files will still be served if specifically requested. You
+    #' cannot use this to prevent access to sensitive files.
+    #' @param serve_locally Logical. Whether to serve HTML dependencies locally or
+    #' remotely (via URL).
+    #' @param meta_tags List of lists. HTML `<meta>` tags to be added to the index page.
+    #' Each list element should have the attributes and values for one tag, eg:
+    #' `list(name = 'description', content = 'My App')`.
+    #' @param url_base_pathname Character. A local URL prefix to use app-wide. Default is
+    #' `/`. Both `requests_pathname_prefix` and `routes_pathname_prefix` default to `url_base_pathname`.
+    #' Environment variable is `DASH_URL_BASE_PATHNAME`.
+    #' @param routes_pathname_prefix Character. A prefix applied to the backend routes.
+    #' Environment variable is `DASH_ROUTES_PATHNAME_PREFIX`.
+    #' @param requests_pathname_prefix Character. A prefix applied to request endpoints
+    #' made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.
+    #' @param external_scripts List. An optional list of valid URLs from which
+    #' to serve JavaScript source for rendered pages.
+    #' @param external_stylesheets List. An optional list of valid URLs from which
+    #' to serve CSS for rendered pages.
+    #' @param compress Logical. Whether to  try to compress files and data served by Fiery.
+    #' By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm,
+    #' before falling back to `identity`.
+    #' @param suppress_callback_exceptions Logical. Whether to relay warnings about
+    #' possible layout mis-specifications when registering a callback.
+    #' @param show_undo_redo Logical. Set to `TRUE` to enable undo and redo buttons for
+    #' stepping through the history of the app state.
+    initialize = function(server = fiery::Fire$new(),
                           assets_folder = 'assets',
                           assets_url_path = '/assets',
                           eager_loading = FALSE,
@@ -290,14 +76,6 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.logical(serve_locally))
       assertthat::assert_that(is.logical(suppress_callback_exceptions))
 
-      # save relevant args as private fields
-      if (!is.null(name)) {
-        warning(sprintf(
-          "The supplied application title, '%s', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
-          name),
-          call. = FALSE
-        )
-      }
       private$serve_locally <- serve_locally
       private$eager_loading <- eager_loading
       # remove leading and trailing slash(es) if present
@@ -754,15 +532,44 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # dash layout methods
     # ------------------------------------------------------------------------
+    #' @description
+    #' Retrieves the Dash application layout.
+    #' @details 
+    #' If render is `TRUE`, and the layout is a function,
+    #' the result of the function (rather than the function itself) is returned.
+    #' @param render Logical. If the layout is a function, should the function be
+    #' executed to return the layout? If `FALSE`, the function is returned as-is.
+    #' @return List or function, depending on the value of `render` (see above). 
+    #' When returning an object of class `dash_component`, the default `print` 
+    #' method for this class will display the corresponding pretty-printed JSON
+    #' representation of the object to the console.
     layout_get = function(render = TRUE) {
       if (render) private$layout_render() else private$layout_
     },
-    layout = function(...) {
-      private$layout_ <- if (is.function(..1)) ..1 else list(...)
+
+    #' @description
+    #' Set the Dash application layout (i.e., specify its user interface).
+    #' @details
+    #' `value` should be either a
+    #' collection of Dash components (e.g., [dccSlider], [htmlDiv], etc) or
+    #' a function which returns a collection of components. The collection
+    #' of components must be nested, such that any additional components
+    #' contained within `value` are passed solely as `children` of the top-level
+    #' component. In all cases, `value` must be a member of the `dash_component`
+    #' class.
+    #' @param value An object of the `dash_component` class, which provides
+    #' a component or collection of components, specified either as a Dash
+    #' component or a function that returns a Dash component. 
+    layout = function(value) {
+      # private$layout_ <- if (is.function(..1)) ..1 else list(...)
+      private$layout_ <- value
       # render the layout, and then return the rendered layout without printing
       invisible(private$layout_render())
     },
 
+    #' @description
+    #' Update the version of React in the list of dependencies served by dash-renderer to the client.
+    #' @param version Character. The version number of React to use.
     react_version_set = function(version) {
       versions <- private$react_versions()
       idx <- versions %in% version
@@ -779,6 +586,36 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # callback registration
     # ------------------------------------------------------------------------
+    #' @description
+    #' Define a Dash callback.
+    #' @details
+    #' Describes a server or clientside callback relating the values of one or more 
+    #' `output` items to one or more `input` items which will trigger the callback
+    #' when they change, and optionally `state` items which provide additional 
+    #' information but do not trigger the callback directly.
+    #'
+    #' The `output` argument defines which layout component property should
+    #' receive the results (via the [output] object). The events that
+    #' trigger the callback are then described by the [input] (and/or [state])
+    #' object(s) (which should reference layout components), which become
+    #' argument values for R callback handlers defined in `func`.
+    #'
+    #' Here `func` may either be an anonymous R function, a JavaScript function 
+    #' provided as a character string, or a call to `clientsideFunction()`, which
+    #' describes a locally served JavaScript function instead. The latter
+    #' two methods define a "clientside callback", which updates components
+    #' without passing data to and from the Dash backend. The latter may offer
+    #' improved performance relative to callbacks written purely in R.
+    #' @param output Named list. The `output` argument provides the component `id` 
+    #' and `property` which will be updated by the callback; a callback can 
+    #' target one or more outputs (i.e. multiple outputs).
+    #' @param params Unnamed list; provides [input] and [state] statements, each
+    #' with its own defined `id` and `property`.
+    #' @param func Function; must return [output] provided [input] or [state]
+    #' arguments. `func` may be any valid R function, or a character string
+    #' containing valid JavaScript, or a call to [clientsideFunction],
+    #' including `namespace` and `function_name` arguments for a locally served
+    #' JavaScript function.
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
 
@@ -823,6 +660,20 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # request and return callback context
     # ------------------------------------------------------------------------
+    #' @description
+    #' Request and return the calling context of a Dash callback.
+    #' @details
+    #' The `callback_context` method permits retrieving the inputs which triggered
+    #' the firing of a given callback, and allows introspection of the input/state
+    #' values given their names. It is only available from within a callback;
+    #' attempting to use this method outside of a callback will result in a warning.
+    #' 
+    #' The `callback_context` method returns a list containing  three elements:
+    #' `states`, `triggered`, `inputs`. The first and last of these correspond to
+    #' the values of `states` and `inputs` for the current invocation of the
+    #' callback, and `triggered` provides a list of changed properties.
+    #' 
+    #' @return List comprising elements `states`, `triggered`, `inputs`.
     callback_context = function() {
       if (is.null(private$callback_context_)) {
         warning("callback_context is undefined; callback_context may only be accessed within a callback.")
@@ -833,6 +684,18 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # return asset URLs
     # ------------------------------------------------------------------------
+    #' @description 
+    #' Return a URL for a Dash asset.
+    #' @details 
+    #' The `get_asset_url` method permits retrieval of an asset's URL given its filename.
+    #' For example, `app$get_asset_url('style.css')` should return `/assets/style.css` when
+    #' `assets_folder = 'assets'`. By default, the prefix is the value of `requests_pathname_prefix`,
+    #' but this is configurable via the `prefix` parameter. Note: this method will
+    #' present a warning and return `NULL` if the Dash app was not loaded via `source()`
+    #' if the `DASH_APP_PATH` environment variable is undefined.
+    #' @param asset_path Character. Specifies asset filename whose URL should be returned.
+    #' @param prefix Character. Specifies pathname prefix; default is to use `requests_pathname_prefix`.
+    #' @return Character. A string representing the URL to the asset.
     get_asset_url = function(asset_path, prefix = self$config$requests_pathname_prefix) {
       app_root_path <- Sys.getenv("DASH_APP_PATH")
 
@@ -879,7 +742,22 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+    #' @description
+    #' Return relative asset paths for Dash assets.
+    #' @details
+    #' The `get_relative_path` method simplifies the handling of URLs and pathnames for apps
+    #' running locally and on a deployment server such as Dash Enterprise. It handles the prefix
+    #' for requesting assets similar to the `get_asset_url` method, but can also be used for URL handling
+    #' in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
+    #' would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
+    #' a `/`.
+    #' @param path Character. A path string prefixed with a leading `/` which directs 
+    #' at a path or asset directory.
+    #' @param requests_pathname_prefix Character. The pathname prefix for the application when
+    #' deployed. Defaults to the environment variable set by the server,
+    #' or `""` if run locally.
+    #' @return Character. A string describing a relative path to a Dash app's asset
+    #' given a `path` and `requests_pathname_prefix`.
     get_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
@@ -890,6 +768,19 @@ Dash <- R6::R6Class(
     # return relative asset URLs
     # ------------------------------------------------------------------------
     
+    #' @description
+    #' Return a Dash asset path without its prefix.
+    #' @details
+    #' The `strip_relative_path` method simplifies the handling of URLs and pathnames for apps
+    #' running locally and on a deployment server such as Dash Enterprise. It acts almost opposite to the `get_relative_path`
+    #' method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
+    #' and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as
+    #' `homepage`. This is particularly useful for `dccLocation` URL routing.
+    #' @param path Character. A path string prefixed with a leading `/` which directs 
+    #' at a path or asset directory.
+    #' @param requests_pathname_prefix Character. The pathname prefix for the app on
+    #' a deployed application. Defaults to the environment variable set by the server,
+    #' or `""` if run locally.
     strip_relative_path = function(path, requests_pathname_prefix = self$config$requests_pathname_prefix) {
       asset = strip_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
@@ -897,15 +788,102 @@ Dash <- R6::R6Class(
 
     # specify a custom index string
     # ------------------------------------------------------------------------
+    #' @description
+    #' Specify a custom index string for a Dash application.
+    #' @details
+    #' The `index_string` method allows the specification of a custom index by changing
+    #' the default `HTML` template that is generated by the Dash UI. #' Meta tags, CSS, and JavaScript are some examples of features 
+    #' that can be modified. This method will present a warning if your
+    #' HTML template is missing any necessary elements
+    #' and return an error if a valid index is not defined. The following interpolation keys are
+    #' currently supported:
+    #'     \describe{
+    #'          \item{`{%metas%}`}{Optional - The registered meta tags.}
+    #'          \item{`{%favicon%}`}{Optional - A favicon link tag if found in assets.}
+    #'          \item{`{%css%}`}{Optional - Link tags to CSS resources.}
+    #'          \item{`{%config%}`}{Required - Configuration details generated by Dash for the renderer.}
+    #'          \item{`{%app_entry%}`}{Required - The container where Dash React components are rendered.}
+    #'          \item{`{%scripts%}`}{Required - Script tags for collected dependencies.}
+    #'          }
+    #'     \describe{
+    #'          \item{Example of a basic HTML index string:}{
+    #'          \preformatted{
+    #' "<!DOCTYPE html>
+    #' <html>
+    #'  <head>
+    #'   \{\%meta_tags\%\}
+    #'      <title>\{\{%css\%\}\}</title>
+    #'      \{\%favicon\%\}
+    #'      \{\%css_tags\%\}
+    #'  </head>
+    #'   <body>
+    #'     \{\%app_entry\%\}
+    #'     <footer>
+    #'      \{\%config\%\}
+    #'      \{\%scripts\%\}
+    #'     </footer>
+    #'   </body>
+    #' </html>"
+    #'       }
+    #'    }
+    #' }
+    #' @param string Character; the index string template, with interpolation keys included.
     index_string = function(string) {
-      private$custom_index <- validate_keys(string)
+      assertthat::assert_that(is.character(string))
+      private$custom_index <- validate_keys(string, is_template=TRUE)
     },
     
     # ------------------------------------------------------------------------
     # modify the templated variables by using the `interpolate_index` method. 
     # ------------------------------------------------------------------------
+    #' @description 
+    #' Modify index template variables for a Dash application.
+    #' @details
+    #' With the `interpolate_index` method, one can pass a custom index with template string
+    #' variables that are already evaluated. Directly passing arguments to the `template_index`
+    #' has the effect of assigning them to variables present in the template. This is similar to the `index_string` method
+    #' but offers the ability to change the default components of the Dash index as seen in the example below.
+    #' @param template_index Character. A formatted string with the HTML index string. Defaults to the initial template.
+    #' @param ... Named list. The unnamed arguments can be passed as individual named lists corresponding to the components of the Dash HTML index. These include the same argument as those found in the `index_string()` template.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' sample_template <- "<!DOCTYPE html>
+    #' <html>
+    #' <head>
+    #' {%meta_tags%}
+    #' <title>Index Template Test</title>
+    #' {%favicon%}
+    #' {%css_tags%}
+    #' </head>
+    #' <body>
+    #' {%app_entry%}
+    #' <footer>
+    #' {%config%}
+    #' {%scripts%}
+    #' </footer>
+    #' </body>
+    #' </html>"
+    #' 
+
+    #' # this is the default configuration, but custom configurations
+    #' # are possible -- the structure of the "config" argument is
+    #' # a list, in which each element is a JSON key/value pair, when
+    #' # reformatted as JSON from the list:
+    #' #  e.g. {"routes_pathname_prefix":"/", "ui":false}
+    #' config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", 
+    #'                  jsonlite::toJSON(app$config, auto_unbox=TRUE))
+    #'
+    #' app$interpolate_index(
+    #'   sample_template,
+    #'   metas = "<meta_charset='UTF-8'/>",
+    #'   app_entry = "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>",
+    #'   config = config,
+    #'   scripts = "")
     interpolate_index = function(template_index = private$template_index[[1]], ...) {
-      template = template_index
+      assertthat::assert_that(is.character(template_index))
+      template <- template_index
       kwargs <- list(...)
       
       for (name in names(kwargs)) {
@@ -913,7 +891,7 @@ Dash <- R6::R6Class(
         template = sub(key, kwargs[[name]], template)
       } 
       
-      invisible(validate_keys(names(kwargs)))
+      invisible(validate_keys(names(kwargs), is_template=FALSE))
       
       private$template_index <- template
     },
@@ -921,7 +899,12 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # specify a custom title
     # ------------------------------------------------------------------------
-    title = function(string = "dash") {
+    #' @description
+    #' Set the title of the Dash app
+    #' @details
+    #' If no title is supplied, Dash for R will use 'Dash'.
+    #' @param string Character. A string representation of the name of the Dash application.
+    title = function(string = "Dash") {
       assertthat::assert_that(is.character(string))
       private$name <- string
     },
@@ -929,6 +912,51 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
+    #' @description
+    #' Start the Fiery HTTP server and run a Dash application.
+    #' @details
+    #' Starts the Fiery server in local mode and launches the Dash application. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
+    #' . If provided, `host`/`port` set the `host`/`port` fields of the underlying [fiery::Fire] web server. The `block`/`showcase`/`...` arguments are passed along
+    #' to the `ignite()` method of the [fiery::Fire] server.
+    #' @param host Character. A string specifying a valid IPv4 address for the Fiery server, or `0.0.0.0` to listen on all addresses. Default is `127.0.0.1` Environment variable: `HOST`.
+    #' @param port Integer. Specifies the port number on which the server should listen (default is `8050`). Environment variable: `PORT`.
+    #' @param block Logical. Start the server while blocking console input? Default is `TRUE`.
+    #' @param showcase Logical. Load the Dash application into the default web browser when server starts? Default is `FALSE`.
+    #' @param use_viewer Logical. Load the Dash application into RStudio's viewer pane? Requires that `host` is either `127.0.0.1` or `localhost`, and that Dash application is started within RStudio; if `use_viewer = TRUE` and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is `FALSE`.
+    #' @param debug Logical. Enable/disable all the Dash developer tools (and the within-browser user interface for the callback graph visualizer and stack traces) unless overridden by the arguments or environment variables. Default is `FALSE` when called via `run_server`. For more information, please visit \url{https://dashr.plotly.com/devtools}. Environment variable: `DASH_DEBUG`.
+    #' @param dev_tools_ui Logical. Show Dash's developer tools UI? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_UI`.
+    #' @param dev_tools_hot_reload Logical. Activate hot reloading when app, assets, and component files change? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Requires that the Dash application is loaded using `source()`, so that `srcref` attributes are available for executed code. Environment variable: `DASH_HOT_RELOAD`.
+    #' @param dev_tools_hot_reload_interval Numeric. Interval in seconds for the client to request the reload hash. Default is `3`. Environment variable: `DASH_HOT_RELOAD_INTERVAL`.
+    #' @param dev_tools_hot_reload_watch_interval Numeric. Interval in seconds for the server to check asset and component folders for changes. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_WATCH_INTERVAL`.
+    #' @param dev_tools_hot_reload_max_retry Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default `0.5`. Environment variable: `DASH_HOT_RELOAD_MAX_RETRY`.
+    #' @param dev_tools_props_check Logical. Validate the types and values of Dash component properties? Default is `TRUE` if `debug == TRUE`, `FALSE` otherwise. Environment variable: `DASH_PROPS_CHECK`.
+    #' @param dev_tools_prune_errors Logical. Reduce tracebacks such that only lines relevant to user code remain, stripping out Fiery and Dash references? Only available with debugging. `TRUE` by default, set to `FALSE` to see the complete traceback. Environment variable: `DASH_PRUNE_ERRORS`.
+    #' @param dev_tools_silence_routes_logging Logical. Replace Fiery's default logger with `dashLogger` instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.
+    #' @param ... Additional arguments to pass to the `start` handler; see the [fiery] documentation for relevant examples.
+    #' @examples 
+    #' if (interactive() && require(dash)) {
+    #'   library(dashCoreComponents)
+    #'   library(dashHtmlComponents)
+    #'   library(dash)
+    #'
+    #'   app <- Dash$new()
+    #'   app$layout(htmlDiv(
+    #'     list(
+    #'       dccInput(id = "inputID", value = "initial value", type = "text"),
+    #'       htmlDiv(id = "outputID")
+    #'     )
+    #'    )
+    #'   )
+    #'
+    #'   app$callback(output = list(id="outputID", property="children"),
+    #'                params = list(input(id="inputID", property="value"),
+    #'                         state(id="inputID", property="type")),
+    #'     function(x, y)
+    #'       sprintf("You've entered: '%s' into a '%s' input control", x, y)
+    #'   )
+    #'
+    #'   app$run_server(showcase = TRUE)
+    #' }
     run_server = function(host = Sys.getenv('HOST', "127.0.0.1"),
                           port = Sys.getenv('PORT', 8050),
                           block = TRUE,
@@ -1172,20 +1200,11 @@ Dash <- R6::R6Class(
     layout_ = NULL,
     layout_ids = NULL,
     layout_render = function() {
-      # assuming private$layout is either a function or a list of components...
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
-
-      # accommodate functions that return a single component
-      if (is.component(layout_)) layout_ <- list(layout_)
-
-      # make sure we are working with a list of components
-      layout_ <- lapply(layout_, private$componentify)
-
-      # Put the list of components into a container div. I'm pretty sure dash
-      # requires the layout to be one component, but R folks are used to
-      # being able to supply "components" to ...
-      layout_ <- dashHtmlComponents::htmlDiv(children = layout_, id = layout_container_id())
-
+      
+      # ensure that the layout is a component, or a collection of components
+      layout_ <- private$componentify(layout_)
+      
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       layout_flat <- rapply(layout_, I)
@@ -1196,19 +1215,23 @@ Dash <- R6::R6Class(
       if (!length(idx)) {
         warning(
           "No ids were found in the layout. ",
-          "Component ids are critical for targetting callbacks in your application",
+          "Component ids are critical for targeting callbacks in your application",
           call. = FALSE
         )
       }
-      private$layout_ids <- as.character(layout_flat[idx])
-      duped <- anyDuplicated(private$layout_ids)
+      layout_ids <- as.character(layout_flat[idx])
+      duped <- anyDuplicated(layout_ids) > 0
+
       if (duped) {
+        duped_ids <- paste(layout_ids[duplicated(layout_ids)], collapse = ", ")
+        
         stop(
-          sprintf("layout ids must be unique -- the following id was duplicated: '%s'", private$layout_ids[duped]),
+          sprintf("layout ids must be unique -- please check the following list of duplicated ids: '%s'", duped_ids),
           call. = FALSE
         )
       }
 
+      private$layout_ids <- layout_ids
       # load package-level HTML dependencies from attached pkgs
       metadataFns <- lapply(.packages(), getDashMetadata)
       metadataFns <- metadataFns[lengths(metadataFns) != 0]
@@ -1694,23 +1717,3 @@ Dash <- R6::R6Class(
     }
   )
 )
-
-validate_dependency <- function(layout_, dependency) {
-  if (!is.layout(layout_)) stop("`layout` must be a dash layout object", call. = FALSE)
-  if (!is.dependency(dependency)) stop("`dependency` must be a dash dependency object", call. = FALSE)
-
-  valid_props <- component_props_given_id(layout_, dependency$id)
-
-  if (!isTRUE(dependency$property %in% valid_props)) {
-    warning(
-      sprintf(
-        "'%s' is not a valid property for the component with id '%s'. Try one of the following: '%s'",
-        dependency$property, dependency$id, paste(valid_props, collapse = "', '")
-      ),
-      call. = FALSE
-    )
-    return(FALSE)
-  }
-
-  TRUE
-}

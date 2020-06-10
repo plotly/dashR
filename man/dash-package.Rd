@@ -5,7 +5,7 @@
 \title{An Interface to the Dash Ecosystem for Authoring Reactive Web Applications}
 \description{
 \if{html}{\figure{logo.png}{options: width=300 align='right'}}
-Dash is a productive framework for building web applications in R or Python.
+Dash is a productive framework for building web applications in R, Python, and Julia.
 
 Written on top of Fiery, Plotly.js, and React.js, Dash for R is ideal for building data visualization apps with highly custom user interfaces in pure R. It's particularly suited for anyone who works with data in R.
 

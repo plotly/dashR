@@ -41,12 +41,3 @@ test_that("Omitting required template keys produces warnings", {
     "Did you forget to include config in your index string?"
   )
 })
-
-test_that("Customizing title using `name` produces a warning", {
-
-  expect_warning(
-    Dash$new(name="Testing"),
-    "The supplied application title, 'Testing', should be set using the title() method, or passed via index_string() or interpolate_index(); it has been ignored, and 'dash' will be used instead.",
-    fixed=TRUE
-  )
-})

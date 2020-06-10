@@ -1,6 +1,6 @@
 Package: dash
 Title: An Interface to the Dash Ecosystem for Authoring Reactive Web Applications
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: c(person("Chris", "Parmer", role = c("aut"), email = "chris@plotly.com"), person("Ryan Patrick", "Kyle", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-5829-9867"), email = "ryan@plotly.com"), person("Carson", "Sievert", role = c("aut"), comment = c(ORCID = "0000-0002-4958-2844")), person("Hammad", "Khan", role = c("aut"), email = "hammadkhan@plotly.com"), person(family = "Plotly Technologies", role = "cph")) 
 Description: A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 Depends:
@@ -20,7 +20,8 @@ Imports:
   digest,
   base64enc,
   mime,
-  crayon
+  crayon,
+  brotli
 Suggests:
   testthat
 Collate:
@@ -38,7 +39,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 KeepSource: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/plotly/dashR
 BugReports: https://github.com/plotly/dashR/issues

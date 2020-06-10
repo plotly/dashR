@@ -3,183 +3,474 @@
 \docType{class}
 \name{Dash}
 \alias{Dash}
-\title{Create and configure a Dash app object}
-\format{An \link[R6:R6Class]{R6::R6Class} generator object}
-\usage{
-Dash
+\title{R6 class representing a Dash application}
+\format{
+An \link[R6:R6Class]{R6::R6Class} generator object
 }
 \description{
 A framework for building analytical web applications, Dash offers a pleasant and productive development experience. No JavaScript required.
 }
-\section{Constructor}{
- Dash$new(
-name = NULL,
-server = fiery::Fire$new(),
-assets_folder = 'assets',
-assets_url_path = '/assets',
-eager_loading = FALSE,
-assets_ignore = '',
-serve_locally = TRUE,
-meta_tags = NULL,
-url_base_pathname = '/',
-routes_pathname_prefix = NULL,
-requests_pathname_prefix = NULL,
-external_scripts = NULL,
-external_stylesheets = NULL,
-suppress_callback_exceptions = FALSE,
-show_undo_redo = FALSE
-)
+\examples{
+
+## ------------------------------------------------
+## Method `Dash$interpolate_index`
+## ------------------------------------------------
+
+library(dash)
+app <- Dash$new()
+
+sample_template <- "<!DOCTYPE html>
+<html>
+<head>
+{\%meta_tags\%}
+<title>Index Template Test</title>
+{\%favicon\%}
+{\%css_tags\%}
+</head>
+<body>
+{\%app_entry\%}
+<footer>
+{\%config\%}
+{\%scripts\%}
+</footer>
+</body>
+</html>"
+
+# this is the default configuration, but custom configurations
+# are possible -- the structure of the "config" argument is
+# a list, in which each element is a JSON key/value pair, when
+# reformatted as JSON from the list:
+#  e.g. {"routes_pathname_prefix":"/", "ui":false}
+config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>", 
+                 jsonlite::toJSON(app$config, auto_unbox=TRUE))
+
+app$interpolate_index(
+  sample_template,
+  metas = "<meta_charset='UTF-8'/>",
+  app_entry = "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>",
+  config = config,
+  scripts = "")
+
+## ------------------------------------------------
+## Method `Dash$run_server`
+## ------------------------------------------------
+
+if (interactive() && require(dash)) {
+  library(dashCoreComponents)
+  library(dashHtmlComponents)
+  library(dash)
+
+  app <- Dash$new()
+  app$layout(htmlDiv(
+    list(
+      dccInput(id = "inputID", value = "initial value", type = "text"),
+      htmlDiv(id = "outputID")
+    )
+   )
+  )
+
+  app$callback(output = list(id="outputID", property="children"),
+               params = list(input(id="inputID", property="value"),
+                        state(id="inputID", property="type")),
+    function(x, y)
+      sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
+  )
+
+  app$run_server(showcase = TRUE)
 }
-
-\section{Arguments}{
-
-\tabular{lll}{
-\code{name} \tab \tab Character. The name of the Dash application (placed in the title
-of the HTML page). DEPRECATED; please use \code{index_string()} or \code{interpolate_index()} instead.\cr
-\code{server} \tab \tab The web server used to power the application.
-Must be a \link[fiery:Fire]{fiery::Fire} object.\cr
-\code{assets_folder} \tab \tab Character. A path, relative to the current working directory,
-for extra files to be used in the browser. Default is "assets". All .js and
-.css files will be loaded immediately unless excluded by \code{assets_ignore},
-and other files such as images will be served if requested. Default is \code{assets}. \cr
-\code{assets_url_path} \tab \tab Character. Specify the URL path for asset serving. Default is \code{assets}. \cr
-\code{eager_loading} \tab \tab Logical. Controls whether asynchronous resources are prefetched (if \code{TRUE}) or loaded on-demand (if \code{FALSE}). \cr
-\code{assets_ignore} \tab \tab Character. A regular expression, to match assets to omit from
-immediate loading. Ignored files will still be served if specifically requested. You
-cannot use this to prevent access to sensitive files. \cr
-\code{serve_locally} \tab \tab Logical. Whether to serve HTML dependencies locally or
-remotely (via URL).\cr
-\code{compress} \tab \tab Logical. Whether to  try to compress files and data served by Fiery.
-By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm, before falling
-back to \code{identity}.\cr
-\code{meta_tags} \tab \tab List of lists. HTML \code{<meta>}tags to be added to the index page.
-Each list element should have the attributes and values for one tag, eg:
-\code{list(name = 'description', content = 'My App')}.\cr
-\code{url_base_pathname} \tab \tab Character. A local URL prefix to use app-wide. Default is
-\code{/}. Both \code{requests_pathname_prefix} and \code{routes_pathname_prefix} default to \code{url_base_pathname}.
-Environment variable is \code{DASH_URL_BASE_PATHNAME}.\cr
-\code{routes_pathname_prefix} \tab \tab Character. A prefix applied to the backend routes.
-Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.\cr
-\code{requests_pathname_prefix} \tab \tab Character. A prefix applied to request endpoints
-made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.\cr
-\code{external_scripts} \tab \tab List. An optional list of valid URLs from which
-to serve JavaScript source for rendered pages.\cr
-\code{external_stylesheets} \tab \tab List. An optional list of valid URLs from which
-to serve CSS for rendered pages.\cr
-\code{suppress_callback_exceptions} \tab \tab Logical. Whether to relay warnings about
-possible layout mis-specifications when registering a callback.\cr
-\code{show_undo_redo} \tab \tab Logical. Set to \code{TRUE} to enable undo and redo buttons for
-stepping through the history of the app state.
 }
-}
-
-\section{Fields}{
-
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{server}}{
-A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
+\item{\code{server}}{A cloned (and modified) version of the \link[fiery:Fire]{fiery::Fire} object
 provided to the \code{server} argument (various routes will be added which enable
-Dash functionality).
-}
-\item{\code{config}}{
-A list of configuration options passed along to dash-renderer.
+Dash functionality).}
+
+\item{\code{config}}{A list of configuration options passed along to dash-renderer.
 Users shouldn't need to alter any of these options unless they are
 constructing their own authorization front-end or otherwise need to know
-where the application is making API calls.
+where the application is making API calls.}
 }
+\if{html}{\out{</div>}}
 }
-}
-
 \section{Methods}{
-
-\describe{
-\item{\code{layout(...)}}{
-Set the layout (i.e., user interface). The layout should be either a
-collection of Dash components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
-a function which returns a collection of components.
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Dash$new()}}
+\item \href{#method-layout_get}{\code{Dash$layout_get()}}
+\item \href{#method-layout}{\code{Dash$layout()}}
+\item \href{#method-react_version_set}{\code{Dash$react_version_set()}}
+\item \href{#method-callback}{\code{Dash$callback()}}
+\item \href{#method-callback_context}{\code{Dash$callback_context()}}
+\item \href{#method-get_asset_url}{\code{Dash$get_asset_url()}}
+\item \href{#method-get_relative_path}{\code{Dash$get_relative_path()}}
+\item \href{#method-strip_relative_path}{\code{Dash$strip_relative_path()}}
+\item \href{#method-index_string}{\code{Dash$index_string()}}
+\item \href{#method-interpolate_index}{\code{Dash$interpolate_index()}}
+\item \href{#method-title}{\code{Dash$title()}}
+\item \href{#method-run_server}{\code{Dash$run_server()}}
+\item \href{#method-clone}{\code{Dash$clone()}}
 }
-\item{\code{layout_get(render = TRUE)}}{
-Retrieves the layout. If render is \code{TRUE}, and the layout is a function,
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Create and configure a Dash application.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$new(
+  server = fiery::Fire$new(),
+  assets_folder = "assets",
+  assets_url_path = "/assets",
+  eager_loading = FALSE,
+  assets_ignore = "",
+  serve_locally = TRUE,
+  meta_tags = NULL,
+  url_base_pathname = "/",
+  routes_pathname_prefix = NULL,
+  requests_pathname_prefix = NULL,
+  external_scripts = NULL,
+  external_stylesheets = NULL,
+  compress = TRUE,
+  suppress_callback_exceptions = FALSE,
+  show_undo_redo = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{server}}{\link[fiery:Fire]{fiery::Fire} object. The web server used to power the application.}
+
+\item{\code{assets_folder}}{Character. A path, relative to the current working directory,
+for extra files to be used in the browser. All .js and
+.css files will be loaded immediately unless excluded by \code{assets_ignore},
+and other files such as images will be served if requested. Default is \code{assets}.}
+
+\item{\code{assets_url_path}}{Character. Specify the URL path for asset serving. Default is \code{assets}.}
+
+\item{\code{eager_loading}}{Logical. Controls whether asynchronous resources are prefetched (if \code{TRUE}) or loaded on-demand (if \code{FALSE}).}
+
+\item{\code{assets_ignore}}{Character. A regular expression, to match assets to omit from
+immediate loading. Ignored files will still be served if specifically requested. You
+cannot use this to prevent access to sensitive files.}
+
+\item{\code{serve_locally}}{Logical. Whether to serve HTML dependencies locally or
+remotely (via URL).}
+
+\item{\code{meta_tags}}{List of lists. HTML \verb{<meta>} tags to be added to the index page.
+Each list element should have the attributes and values for one tag, eg:
+\code{list(name = 'description', content = 'My App')}.}
+
+\item{\code{url_base_pathname}}{Character. A local URL prefix to use app-wide. Default is
+\code{/}. Both \code{requests_pathname_prefix} and \code{routes_pathname_prefix} default to \code{url_base_pathname}.
+Environment variable is \code{DASH_URL_BASE_PATHNAME}.}
+
+\item{\code{routes_pathname_prefix}}{Character. A prefix applied to the backend routes.
+Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.}
+
+\item{\code{requests_pathname_prefix}}{Character. A prefix applied to request endpoints
+made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.}
+
+\item{\code{external_scripts}}{List. An optional list of valid URLs from which
+to serve JavaScript source for rendered pages.}
+
+\item{\code{external_stylesheets}}{List. An optional list of valid URLs from which
+to serve CSS for rendered pages.}
+
+\item{\code{compress}}{Logical. Whether to  try to compress files and data served by Fiery.
+By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm,
+before falling back to \code{identity}.}
+
+\item{\code{suppress_callback_exceptions}}{Logical. Whether to relay warnings about
+possible layout mis-specifications when registering a callback.}
+
+\item{\code{show_undo_redo}}{Logical. Set to \code{TRUE} to enable undo and redo buttons for
+stepping through the history of the app state.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-layout_get"></a>}}
+\if{latex}{\out{\hypertarget{method-layout_get}{}}}
+\subsection{Method \code{layout_get()}}{
+Retrieves the Dash application layout.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$layout_get(render = TRUE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{render}}{Logical. If the layout is a function, should the function be
+executed to return the layout? If \code{FALSE}, the function is returned as-is.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+If render is \code{TRUE}, and the layout is a function,
 the result of the function (rather than the function itself) is returned.
 }
-\item{\code{callback(output, params, func)}}{
-The \code{callback} method has three formal arguments:
-\describe{
-\item{output}{a named list including a component \code{id} and \code{property}}
-\item{params}{an unnamed list of \link{input} and \link{state} statements, each with defined \code{id} and \code{property}}
-\item{func}{any valid R function which generates \link{output} provided \link{input} and/or \link{state} arguments,
-a character string containing valid JavaScript, or a call to \link{clientsideFunction} including \code{namespace}
-and \code{function_name} arguments for a locally served JavaScript function}
+
+\subsection{Returns}{
+List or function, depending on the value of \code{render} (see above).
+When returning an object of class \code{dash_component}, the default \code{print}
+method for this class will display the corresponding pretty-printed JSON
+representation of the object to the console.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-layout"></a>}}
+\if{latex}{\out{\hypertarget{method-layout}{}}}
+\subsection{Method \code{layout()}}{
+Set the Dash application layout (i.e., specify its user interface).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$layout(value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{value}}{An object of the \code{dash_component} class, which provides
+a component or collection of components, specified either as a Dash
+component or a function that returns a Dash component.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+\code{value} should be either a
+collection of Dash components (e.g., \link{dccSlider}, \link{htmlDiv}, etc) or
+a function which returns a collection of components. The collection
+of components must be nested, such that any additional components
+contained within \code{value} are passed solely as \code{children} of the top-level
+component. In all cases, \code{value} must be a member of the \code{dash_component}
+class.
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-react_version_set"></a>}}
+\if{latex}{\out{\hypertarget{method-react_version_set}{}}}
+\subsection{Method \code{react_version_set()}}{
+Update the version of React in the list of dependencies served by dash-renderer to the client.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$react_version_set(version)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{version}}{Character. The version number of React to use.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-callback"></a>}}
+\if{latex}{\out{\hypertarget{method-callback}{}}}
+\subsection{Method \code{callback()}}{
+Define a Dash callback.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$callback(output, params, func)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{output}}{Named list. The \code{output} argument provides the component \code{id}
+and \code{property} which will be updated by the callback; a callback can
+target one or more outputs (i.e. multiple outputs).}
+
+\item{\code{params}}{Unnamed list; provides \link{input} and \link{state} statements, each
+with its own defined \code{id} and \code{property}.}
+
+\item{\code{func}}{Function; must return \link{output} provided \link{input} or \link{state}
+arguments. \code{func} may be any valid R function, or a character string
+containing valid JavaScript, or a call to \link{clientsideFunction},
+including \code{namespace} and \code{function_name} arguments for a locally served
+JavaScript function.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Describes a server or clientside callback relating the values of one or more
+\code{output} items to one or more \code{input} items which will trigger the callback
+when they change, and optionally \code{state} items which provide additional
+information but do not trigger the callback directly.
+
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
 trigger the callback are then described by the \link{input} (and/or \link{state})
 object(s) (which should reference layout components), which become
-argument values for R callback handlers defined in \code{func}. Here \code{func} may
-either be an anonymous R function, a JavaScript function provided as a
-character string, or a call to \code{clientsideFunction()}, which describes a
-locally served JavaScript function instead. The latter two methods define
-a "clientside callback", which updates components without passing data to and
-from the Dash backend. The latter may offer improved performance relative
-to callbacks written purely in R.
+argument values for R callback handlers defined in \code{func}.
+
+Here \code{func} may either be an anonymous R function, a JavaScript function
+provided as a character string, or a call to \code{clientsideFunction()}, which
+describes a locally served JavaScript function instead. The latter
+two methods define a "clientside callback", which updates components
+without passing data to and from the Dash backend. The latter may offer
+improved performance relative to callbacks written purely in R.
 }
-\item{\code{title("dash")}}{
-The title of the app. If no title is supplied, Dash for R will use 'dash'.
+
 }
-\item{\code{title("dash")}}{
-The title of the app. If no title is supplied, Dash for R will use 'dash'.
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-callback_context"></a>}}
+\if{latex}{\out{\hypertarget{method-callback_context}{}}}
+\subsection{Method \code{callback_context()}}{
+Request and return the calling context of a Dash callback.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$callback_context()}\if{html}{\out{</div>}}
 }
-\item{\code{callback_context()}}{
+
+\subsection{Details}{
 The \code{callback_context} method permits retrieving the inputs which triggered
 the firing of a given callback, and allows introspection of the input/state
 values given their names. It is only available from within a callback;
 attempting to use this method outside of a callback will result in a warning.
+
+The \code{callback_context} method returns a list containing  three elements:
+\code{states}, \code{triggered}, \code{inputs}. The first and last of these correspond to
+the values of \code{states} and \code{inputs} for the current invocation of the
+callback, and \code{triggered} provides a list of changed properties.
 }
-\item{\code{get_asset_url(asset_path, prefix)}}{
+
+\subsection{Returns}{
+List comprising elements \code{states}, \code{triggered}, \code{inputs}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_asset_url"></a>}}
+\if{latex}{\out{\hypertarget{method-get_asset_url}{}}}
+\subsection{Method \code{get_asset_url()}}{
+Return a URL for a Dash asset.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$get_asset_url(asset_path, prefix = self$config$requests_pathname_prefix)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{asset_path}}{Character. Specifies asset filename whose URL should be returned.}
+
+\item{\code{prefix}}{Character. Specifies pathname prefix; default is to use \code{requests_pathname_prefix}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
 The \code{get_asset_url} method permits retrieval of an asset's URL given its filename.
-For example, \code{app$get_asset_url('style.css')} should return \code{/assets/style.css} when
+For example, \code{app$get_asset_url('style.css')} should return \verb{/assets/style.css} when
 \code{assets_folder = 'assets'}. By default, the prefix is the value of \code{requests_pathname_prefix},
 but this is configurable via the \code{prefix} parameter. Note: this method will
 present a warning and return \code{NULL} if the Dash app was not loaded via \code{source()}
 if the \code{DASH_APP_PATH} environment variable is undefined.
 }
-\item{\code{get_relative_path(path, requests_pathname_prefix)}}{
+
+\subsection{Returns}{
+Character. A string representing the URL to the asset.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_relative_path"></a>}}
+\if{latex}{\out{\hypertarget{method-get_relative_path}{}}}
+\subsection{Method \code{get_relative_path()}}{
+Return relative asset paths for Dash assets.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$get_relative_path(
+  path,
+  requests_pathname_prefix = self$config$requests_pathname_prefix
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Character. A path string prefixed with a leading \code{/} which directs
+at a path or asset directory.}
+
+\item{\code{requests_pathname_prefix}}{Character. The pathname prefix for the application when
+deployed. Defaults to the environment variable set by the server,
+or \code{""} if run locally.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
 The \code{get_relative_path} method simplifies the handling of URLs and pathnames for apps
 running locally and on a deployment server such as Dash Enterprise. It handles the prefix
 for requesting assets similar to the \code{get_asset_url} method, but can also be used for URL handling
 in components such as \code{dccLink} or \code{dccLocation}. For example, \code{app$get_relative_url("/page/")}
-would return \code{/app/page/} for an app running on a deployment server. The path must be prefixed with
+would return \verb{/app/page/} for an app running on a deployment server. The path must be prefixed with
 a \code{/}.
+}
+
+\subsection{Returns}{
+Character. A string describing a relative path to a Dash app's asset
+given a \code{path} and \code{requests_pathname_prefix}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-strip_relative_path"></a>}}
+\if{latex}{\out{\hypertarget{method-strip_relative_path}{}}}
+\subsection{Method \code{strip_relative_path()}}{
+Return a Dash asset path without its prefix.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$strip_relative_path(
+  path,
+  requests_pathname_prefix = self$config$requests_pathname_prefix
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{path}{Character. A path string prefixed with a leading \code{/} which directs at a path or asset directory.}
-\item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or \code{""} if run locally.}
+\item{\code{path}}{Character. A path string prefixed with a leading \code{/} which directs
+at a path or asset directory.}
+
+\item{\code{requests_pathname_prefix}}{Character. The pathname prefix for the app on
+a deployed application. Defaults to the environment variable set by the server,
+or \code{""} if run locally.}
 }
+\if{html}{\out{</div>}}
 }
-\item{\code{strip_relative_path(path, requests_pathname_prefix)}}{
+\subsection{Details}{
 The \code{strip_relative_path} method simplifies the handling of URLs and pathnames for apps
-running locally and on a deployment server such as Dash Enterprise. It acts almost opposite the \code{get_relative_path}
-method, by taking a \code{relative path} as an input, and returning the \code{path} stripped of the \code{requests_pathname_prefix},
-and any leading or trailing \code{/}. For example, a path string \code{/app/homepage/}, would be returned as
+running locally and on a deployment server such as Dash Enterprise. It acts almost opposite to the \code{get_relative_path}
+method, by taking a \verb{relative path} as an input, and returning the \code{path} stripped of the \code{requests_pathname_prefix},
+and any leading or trailing \code{/}. For example, a path string \verb{/app/homepage/}, would be returned as
 \code{homepage}. This is particularly useful for \code{dccLocation} URL routing.
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-index_string"></a>}}
+\if{latex}{\out{\hypertarget{method-index_string}{}}}
+\subsection{Method \code{index_string()}}{
+Specify a custom index string for a Dash application.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$index_string(string)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{path}{Character. A path string prefixed with a leading \code{/} and \code{requests_pathname_prefix} which directs at a path or asset directory.}
-\item{requests_pathname_prefix}{Character. The pathname prefix for the app on a deployed application. Defaults to the environment variable set by the server, or \code{""} if run locally.}
+\item{\code{string}}{Character; the index string template, with interpolation keys included.}
 }
+\if{html}{\out{</div>}}
 }
-\item{\code{index_string(string)}}{
+\subsection{Details}{
 The \code{index_string} method allows the specification of a custom index by changing
-the default \code{HTML} template that is generated by the Dash UI. Meta tags, CSS, Javascript,
-are some examples of features that can be modified.
-This method will present a warning if your HTML template is missing any necessary elements
+the default \code{HTML} template that is generated by the Dash UI. #' Meta tags, CSS, and JavaScript are some examples of features
+that can be modified. This method will present a warning if your
+HTML template is missing any necessary elements
 and return an error if a valid index is not defined. The following interpolation keys are
 currently supported:
 \describe{
-\item{\code{{\%metas\%}}}{Optional - The registered meta tags.}
-\item{\code{{\%favicon\%}}}{Optional - A favicon link tag if found in assets.}
-\item{\code{{\%css\%}}}{Optional - Link tags to css resources.}
-\item{\code{{\%config\%}}}{Required - Config generated by dash for the renderer.}
-\item{\code{{\%app_entry\%}}}{Required - The container where dash react components are rendered.}
-\item{\code{{\%scripts\%}}}{Required - Collected dependencies scripts tags.}
+\item{\verb{\{\%metas\%\}}}{Optional - The registered meta tags.}
+\item{\verb{\{\%favicon\%\}}}{Optional - A favicon link tag if found in assets.}
+\item{\verb{\{\%css\%\}}}{Optional - Link tags to CSS resources.}
+\item{\verb{\{\%config\%\}}}{Required - Configuration details generated by Dash for the renderer.}
+\item{\verb{\{\%app_entry\%\}}}{Required - The container where Dash React components are rendered.}
+\item{\verb{\{\%scripts\%\}}}{Required - Script tags for collected dependencies.}
 }
 \describe{
 \item{Example of a basic HTML index string:}{
@@ -200,73 +491,212 @@ currently supported:
     </footer>
   </body>
 </html>"
-             }
+      }
 }
 }
 }
-\item{\code{interpolate_index(template_index, ...)}}{
-With the \code{interpolate_index} method, we can pass a custom index with template string
-variables that are already evaluated. We can directly pass arguments to the \code{template_index}
-by assigning them to variables present in the template. This is similar to the \code{index_string} method
-but offers the ability to change the default components of the Dash index as seen in the example below:
-\preformatted{
-    app$interpolate_index(
-      template_index,
-      metas = "<meta_charset='UTF-8'/>",
-      renderer = renderer,
-      config = config)
-    }
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-interpolate_index"></a>}}
+\if{latex}{\out{\hypertarget{method-interpolate_index}{}}}
+\subsection{Method \code{interpolate_index()}}{
+Modify index template variables for a Dash application.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$interpolate_index(template_index = private$template_index[[1]], ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{template_index}{Character. A formatted string with the HTML index string. Defaults to the initial template}
-\item{...}{Named List. The unnamed arguments can be passed as individual named lists corresponding to the components
-of the Dash html index. These include the same arguments as those found in the \code{index_string()} template.}
+\item{\code{template_index}}{Character. A formatted string with the HTML index string. Defaults to the initial template.}
+
+\item{\code{...}}{Named list. The unnamed arguments can be passed as individual named lists corresponding to the components of the Dash HTML index. These include the same argument as those found in the \code{index_string()} template.}
 }
+\if{html}{\out{</div>}}
 }
-\item{\code{run_server(host =  Sys.getenv('HOST', "127.0.0.1"), port = Sys.getenv('PORT', 8050), block = TRUE, showcase = FALSE, ...)}}{
-The \code{run_server} method has 13 formal arguments, several of which are optional:
+\subsection{Details}{
+With the \code{interpolate_index} method, one can pass a custom index with template string
+variables that are already evaluated. Directly passing arguments to the \code{template_index}
+has the effect of assigning them to variables present in the template. This is similar to the \code{index_string} method
+but offers the ability to change the default components of the Dash index as seen in the example below.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{library(dash)
+app <- Dash$new()
+
+sample_template <- "<!DOCTYPE html>
+<html>
+<head>
+{\%meta_tags\%}
+<title>Index Template Test</title>
+{\%favicon\%}
+{\%css_tags\%}
+</head>
+<body>
+{\%app_entry\%}
+<footer>
+{\%config\%}
+{\%scripts\%}
+</footer>
+</body>
+</html>"
+
+# this is the default configuration, but custom configurations
+# are possible -- the structure of the "config" argument is
+# a list, in which each element is a JSON key/value pair, when
+# reformatted as JSON from the list:
+#  e.g. {"routes_pathname_prefix":"/", "ui":false}
+config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>", 
+                 jsonlite::toJSON(app$config, auto_unbox=TRUE))
+
+app$interpolate_index(
+  sample_template,
+  metas = "<meta_charset='UTF-8'/>",
+  app_entry = "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>",
+  config = config,
+  scripts = "")
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-title"></a>}}
+\if{latex}{\out{\hypertarget{method-title}{}}}
+\subsection{Method \code{title()}}{
+Set the title of the Dash app
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$title(string = "Dash")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
 \describe{
-\item{host}{Character. A string specifying a valid IPv4 address for the Fiery server, or \code{0.0.0.0} to listen on all addresses. Default is \code{127.0.0.1} Environment variable: \code{HOST}.}
-\item{port}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{PORT}.}
-\item{block}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
-\item{showcase}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
-\item{use_viewer}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \code{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
-\item{debug}{Logical. Enable/disable all the dev tools unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. Environment variable: \code{DASH_DEBUG}.}
-\item{dev_tools_ui}{Logical. Show Dash's dev tools UI? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_UI}.}
-\item{dev_tools_hot_reload}{Logical. Activate hot reloading when app, assets, and component files change? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Requires that the Dash application is loaded using \code{source()}, so that \code{srcref} attributes are available for executed code. Environment variable: \code{DASH_HOT_RELOAD}.}
-\item{dev_tools_hot_reload_interval}{Numeric. Interval in seconds for the client to request the reload hash. Default is \code{3}. Environment variable: \code{DASH_HOT_RELOAD_INTERVAL}.}
-\item{dev_tools_hot_reload_watch_interval}{Numeric. Interval in seconds for the server to check asset and component folders for changes. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_WATCH_INTERVAL}.}
-\item{dev_tools_hot_reload_max_retry}{Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_MAX_RETRY}.}
-\item{dev_tools_props_check}{Logical. Validate the types and values of Dash component properties? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_PROPS_CHECK}.}
-\item{dev_tools_prune_errors}{Logical. Reduce tracebacks to just user code, stripping out Fiery and Dash pieces? Only available with debugging. \code{TRUE} by default, set to \code{FALSE} to see the complete traceback. Environment variable: \code{DASH_PRUNE_ERRORS}.}
-\item{dev_tools_silence_routes_logging}{Logical. Replace Fiery's default logger with \code{dashLogger} instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.}
+\item{\code{string}}{Character. A string representation of the name of the Dash application.}
 }
-Starts the Fiery server in local mode. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
-Launch the application. If provided, \code{host}/\code{port} set the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+If no title is supplied, Dash for R will use 'Dash'.
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-run_server"></a>}}
+\if{latex}{\out{\hypertarget{method-run_server}{}}}
+\subsection{Method \code{run_server()}}{
+Start the Fiery HTTP server and run a Dash application.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$run_server(
+  host = Sys.getenv("HOST", "127.0.0.1"),
+  port = Sys.getenv("PORT", 8050),
+  block = TRUE,
+  showcase = FALSE,
+  use_viewer = FALSE,
+  dev_tools_prune_errors = TRUE,
+  debug = Sys.getenv("DASH_DEBUG"),
+  dev_tools_ui = Sys.getenv("DASH_UI"),
+  dev_tools_props_check = Sys.getenv("DASH_PROPS_CHECK"),
+  dev_tools_hot_reload = Sys.getenv("DASH_HOT_RELOAD"),
+  dev_tools_hot_reload_interval = Sys.getenv("DASH_HOT_RELOAD_INTERVAL"),
+  dev_tools_hot_reload_watch_interval = Sys.getenv("DASH_HOT_RELOAD_WATCH_INTERVAL)"),
+  dev_tools_hot_reload_max_retry = Sys.getenv("DASH_HOT_RELOAD_MAX_RETRY"),
+  dev_tools_silence_routes_logging = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{host}}{Character. A string specifying a valid IPv4 address for the Fiery server, or \verb{0.0.0.0} to listen on all addresses. Default is \verb{127.0.0.1} Environment variable: \code{HOST}.}
+
+\item{\code{port}}{Integer. Specifies the port number on which the server should listen (default is \code{8050}). Environment variable: \code{PORT}.}
+
+\item{\code{block}}{Logical. Start the server while blocking console input? Default is \code{TRUE}.}
+
+\item{\code{showcase}}{Logical. Load the Dash application into the default web browser when server starts? Default is \code{FALSE}.}
+
+\item{\code{use_viewer}}{Logical. Load the Dash application into RStudio's viewer pane? Requires that \code{host} is either \verb{127.0.0.1} or \code{localhost}, and that Dash application is started within RStudio; if \code{use_viewer = TRUE} and these conditions are not satisfied, the user is warned and the app opens in the default browser instead. Default is \code{FALSE}.}
+
+\item{\code{dev_tools_prune_errors}}{Logical. Reduce tracebacks such that only lines relevant to user code remain, stripping out Fiery and Dash references? Only available with debugging. \code{TRUE} by default, set to \code{FALSE} to see the complete traceback. Environment variable: \code{DASH_PRUNE_ERRORS}.}
+
+\item{\code{debug}}{Logical. Enable/disable all the Dash developer tools (and the within-browser user interface for the callback graph visualizer and stack traces) unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. For more information, please visit \url{https://dashr.plotly.com/devtools}. Environment variable: \code{DASH_DEBUG}.}
+
+\item{\code{dev_tools_ui}}{Logical. Show Dash's developer tools UI? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_UI}.}
+
+\item{\code{dev_tools_props_check}}{Logical. Validate the types and values of Dash component properties? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_PROPS_CHECK}.}
+
+\item{\code{dev_tools_hot_reload}}{Logical. Activate hot reloading when app, assets, and component files change? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Requires that the Dash application is loaded using \code{source()}, so that \code{srcref} attributes are available for executed code. Environment variable: \code{DASH_HOT_RELOAD}.}
+
+\item{\code{dev_tools_hot_reload_interval}}{Numeric. Interval in seconds for the client to request the reload hash. Default is \code{3}. Environment variable: \code{DASH_HOT_RELOAD_INTERVAL}.}
+
+\item{\code{dev_tools_hot_reload_watch_interval}}{Numeric. Interval in seconds for the server to check asset and component folders for changes. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_WATCH_INTERVAL}.}
+
+\item{\code{dev_tools_hot_reload_max_retry}}{Integer. Maximum number of failed reload hash requests before failing and displaying a pop up. Default \code{0.5}. Environment variable: \code{DASH_HOT_RELOAD_MAX_RETRY}.}
+
+\item{\code{dev_tools_silence_routes_logging}}{Logical. Replace Fiery's default logger with \code{dashLogger} instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.}
+
+\item{\code{...}}{Additional arguments to pass to the \code{start} handler; see the \link{fiery} documentation for relevant examples.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Starts the Fiery server in local mode and launches the Dash application. If a parameter can be set by an environment variable, that is listed too. Values provided here take precedence over environment variables.
+. If provided, \code{host}/\code{port} set the \code{host}/\code{port} fields of the underlying \link[fiery:Fire]{fiery::Fire} web server. The \code{block}/\code{showcase}/\code{...} arguments are passed along
 to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 }
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{if (interactive() && require(dash)) {
+  library(dashCoreComponents)
+  library(dashHtmlComponents)
+  library(dash)
+
+  app <- Dash$new()
+  app$layout(htmlDiv(
+    list(
+      dccInput(id = "inputID", value = "initial value", type = "text"),
+      htmlDiv(id = "outputID")
+    )
+   )
+  )
+
+  app$callback(output = list(id="outputID", property="children"),
+               params = list(input(id="inputID", property="value"),
+                        state(id="inputID", property="type")),
+    function(x, y)
+      sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
+  )
+
+  app$run_server(showcase = TRUE)
 }
 }
+\if{html}{\out{</div>}}
 
-\examples{
-\dontrun{
-library(dashCoreComponents)
-library(dashHtmlComponents)
-library(dash)
-app <- Dash$new()
-app$layout(
- dccInput(id = "inputID", value = "initial value", type = "text"),
- htmlDiv(id = "outputID")
-)
-
-app$callback(output = list(id="outputID", property="children"),
-             params = list(input(id="inputID", property="value"),
-                      state(id="inputID", property="type")),
-  function(x, y)
-    sprintf("You've entered: '\%s' into a '\%s' input control", x, y)
-)
-
-app$run_server(showcase = TRUE)
 }
 
 }
-\keyword{datasets}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}
