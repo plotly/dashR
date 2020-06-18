@@ -96,7 +96,7 @@ app$layout(
       htmlDiv(id = "outputID"),
       dccGraph(id = "giraffe",
                figure = list(
-                 data = list(x = c(1,2,3), y = c(3,2,8), type = 'bar'),
+                 data = list(x = c(1,2,3), y = c(3,2,8), type = "bar"),
                  layout = list(title = "Let's Dance!")
                )
       )
@@ -126,13 +126,13 @@ app$callback(output = list(id = "giraffe", property = "figure"),
                        list(
                          x = df$x, 
                          y = df$y, 
-                         type = 'bar'
+                         type = "bar"
                        ),
                        list(
                          x = df$x, 
                          y = df$y2, 
-                         type = 'scatter',
-                         mode = 'lines+markers',
+                         type = "scatter",
+                         mode = "lines+markers",
                          line = list(width = 4)
                        )                
                      ),
