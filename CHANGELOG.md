@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.1] - 2020-06-17
 ### Fixed
-- Dash for R now depends on v1.10.1 of `dashCoreComponents`, which provides v1.54 of Plotly.js (CHANGELOG is [here](https://github.com/plotly/plotly.js/blob/master/CHANGELOG.md).
+- Dash for R now depends on v1.10.1 of `dashCoreComponents`, which provides v1.54 of Plotly.js (for more details, see [CHANGELOG.md](https://github.com/plotly/plotly.js/blob/master/CHANGELOG.md)).
 
 ## [0.6.0 ] - 2020-06-17
 ### Changed
