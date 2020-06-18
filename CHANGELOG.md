@@ -22,18 +22,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - A minor bug in `validate_keys` which prevented `interpolate_index` from working as intended has been resolved
 
-## [0.5.0 ] - 2020-05-28
-### Added
-- Dash for R now depends on the `brotli` package explicitly; previously it was loaded when importing `reqres`. [#204](https://github.com/plotly/dashR/pull/204)
-
-### Changed
-- Dash for R no longer wraps the layout in an `htmlDiv` internally, for parity with Dash for Python. Starting in v0.5.0, the `layout` method only accepts a single argument, and that argument must be a Dash component or a function that returns a Dash component. [#121](https://github.com/plotly/dashR/pull/121)
-- Package documentation has been significantly refactored to use new features of `roxygen2` when documenting R6 classes
-- The `title` method now specifies `Dash` as the default application title instead of `dash`. [#200](https://github.com/plotly/dashR/pull/200)
-
-### Fixed
-- A minor bug in `validate_keys` which prevented `interpolate_index` from working as intended has been resolved
-
 ## [0.4.1] - 2020-05-08
 ### Fixed
 - Callbacks with multiple outputs which return one or more components are now permitted; a bug previously prevented their use, fixed in [#198](https://github.com/plotly/dashR/pull/198)
