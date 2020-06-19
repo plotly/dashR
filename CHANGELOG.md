@@ -10,11 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Dash for R now depends on v1.10.1 of `dashCoreComponents`, which provides v1.54 of Plotly.js (for more details, see [CHANGELOG.md](https://github.com/plotly/plotly.js/blob/master/CHANGELOG.md)).
 
-## [0.6.0 ] - 2020-06-17
+## [0.6.0] - 2020-06-17
 ### Changed
 - Dash for R now depends on v4.8.0 of `dashTable`, which incorporates changes and bug fixes summarized in https://github.com/plotly/dash-table/pull/787, https://github.com/plotly/dash-table/pull/785, and https://github.com/plotly/dash-table/pull/793.
 
-## [0.5.0 ] - 2020-05-28
+## [0.5.0] - 2020-05-28
 ### Added
 - Dash for R now depends on the `brotli` package explicitly; previously it was loaded when importing `reqres`. [#204](https://github.com/plotly/dashR/pull/204)
 
