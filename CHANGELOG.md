@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.2] - 2020-06-19
 ### Fixed
-- Dash for R now depends on v4.8.1 of `dashTable`, which fixes a bug where headers are unaligned with columns following an update (for more details, see [#797](https://github.com/plotly/dash-table/issues/797).
+- Dash for R now depends on v4.8.1 of `dashTable`, which fixes a bug where headers are unaligned with columns following an update (for more details, see [#797](https://github.com/plotly/dash-table/issues/797)).
 
 ## [0.6.1] - 2020-06-17
 ### Fixed
