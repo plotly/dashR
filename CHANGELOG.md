@@ -3,7 +3,10 @@ All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.3] - 2020-06-25
-### Fixed
+**Changed**
+- `dash-renderer` updated to v1.5.1
+
+**Fixed**
 - Resolves a regression that prevented multiple loading states from displaying concurrently when a callback updates multiple outputs (for more details, see [#1310](https://github.com/plotly/dash/pull/1310)).
 
 ## [0.6.2] - 2020-06-19
