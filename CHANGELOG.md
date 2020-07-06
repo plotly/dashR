@@ -19,7 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.0] - 2020-06-17
 ### Changed
-- Dash for R now depends on v4.8.0 of `dashTable`, which incorporates changes and bug fixes summarized in https://github.com/plotly/dash-table/pull/787, https://github.com/plotly/dash-table/pull/785, and https://github.com/plotly/dash-table/pull/793.
+- Dash for R now depends on v4.8.0 of `dashTable`, which incorporates changes and bug fixes summarized in <https://github.com/plotly/dash-table/pull/787>, <https://github.com/plotly/dash-table/pull/785>, and <https://github.com/plotly/dash-table/pull/793>.
 
 ## [0.5.0] - 2020-05-28
 ### Added
@@ -95,7 +95,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixes for hot reloading interval handling and refreshing apps within viewer pane [#148](https://github.com/plotly/dashR/pull/148)
 - `get_asset_url` checks `getAppPath()` as well as `DASH_APP_ROOT_PATH` environment variable when invoked [#161](https://github.com/plotly/dashR/pull/161)
 
-
 ## [0.1.0] - 2019-07-10
 ### Added
 - Initial release
@@ -118,16 +117,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - CSS dependencies are now properly loaded [#94](https://github.com/plotly/dashR/pull/94)
 
-
 ## [0.0.7] - 2019-04-09
 ### Removed
 - `dependencies_set`, `dependencies_get`, and `dependencies_get_internal` methods removed from package
 
-
 ### [0.0.6] - 2019-04-08
 ### Added
 - Local asset serving implemented [#64](https://github.com/plotly/dashR/pull/64)
-
 
 ### [0.0.5] - 2019-04-01
 ### Added
@@ -135,7 +131,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - `layout_set` method renamed to `layout` for parity with Dash for Python
-
 
 ### [0.0.4] - 2019-03-14
 ### Added
@@ -152,7 +147,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Bug preventing remotely hosted JS resolved
 - Local serving of dependencies fixed when `href` attributes also present
 
-
 ### [0.0.3] - 2019-03-08
 ### Added
 - `assert_valid_callbacks` to validate callback handler definitions and ordering of `input` and `state` using
@@ -162,7 +156,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Callback method and handling refactored to match current Dash for Python API [#51](https://github.com/plotly/dashR/pull/51)
 - Handler function for callbacks now passed via `func` argument to `app$callback()`
 - `dash_renderer` updated to v0.18.0
-
 
 ### [0.0.0.9000] - 2018-07-25
 - Initial development version
