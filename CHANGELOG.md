@@ -2,6 +2,11 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.6.4] - 2020-07-14
+**Changed**
+- Removes warning message when an app is launched without any component ID's present in the layout (for more details, see [#457](https://github.com/plotly/dash-enterprise-docs/issues/457). 
+
+
 ## [0.6.3] - 2020-06-25
 **Changed**
 - `dash-renderer` updated to v1.5.1
