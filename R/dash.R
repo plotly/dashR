@@ -1226,13 +1226,7 @@ Dash <- R6::R6Class(
 
       # verify that layout ids are unique
       idx <- grep("props\\.id$", layout_nms)
-      if (!length(idx)) {
-        warning(
-          "No ids were found in the layout. ",
-          "Component ids are critical for targeting callbacks in your application",
-          call. = FALSE
-        )
-      }
+
       layout_ids <- as.character(layout_flat[idx])
       duped <- anyDuplicated(layout_ids) > 0
 
