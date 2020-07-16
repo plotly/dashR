@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.4] - 2020-07-14
 **Changed**
-- Removes warning message when an app is launched without any component ID's present in the layout (for more details, see [#457](https://github.com/plotly/dash-enterprise-docs/issues/457). 
+- Removes warning message when an app is launched without any component ID's present in the layout. When writing callbacks it iss natural to assume that an ID is necessary, and this warning may be misleading for apps without callbacks (for more details, see [#216](https://github.com/plotly/dashR/pull/216). 
 
 
 ## [0.6.3] - 2020-06-25
