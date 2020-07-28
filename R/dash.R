@@ -55,11 +55,16 @@ Dash <- R6::R6Class(
     #' possible layout mis-specifications when registering a callback.
     #' @param show_undo_redo Logical. Set to `TRUE` to enable undo and redo buttons for
     #' stepping through the history of the app state.
+    #' @param update_title Character. Defaults to `Updating...`; configures the document.title
+    #' (the text that appears in a browser tab) text when a callback is being run.
+    #' Set to NULL or '' if you don't want the document.title to change or if you
+    #' want to control the document.title through a separate component or
+    #' clientside callback.
     initialize = function(server = fiery::Fire$new(),
-                          assets_folder = 'assets',
-                          assets_url_path = '/assets',
+                          assets_folder = "assets",
+                          assets_url_path = "/assets",
                           eager_loading = FALSE,
-                          assets_ignore = '',
+                          assets_ignore = "",
                           serve_locally = TRUE,
                           meta_tags = NULL,
                           url_base_pathname = "/",
@@ -69,7 +74,8 @@ Dash <- R6::R6Class(
                           external_stylesheets = NULL,
                           compress = TRUE,
                           suppress_callback_exceptions = FALSE,
-                          show_undo_redo = FALSE) {
+                          show_undo_redo = FALSE,
+                          update_title="Updating...") {
 
       # argument type checking
       assertthat::assert_that(inherits(server, "Fire"))
@@ -96,6 +102,7 @@ Dash <- R6::R6Class(
       self$config$external_scripts <- external_scripts
       self$config$external_stylesheets <- external_stylesheets
       self$config$show_undo_redo <- show_undo_redo
+      self$config$update_title <- update_title
 
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
@@ -1663,7 +1670,7 @@ Dash <- R6::R6Class(
       config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
       if (is.null(private$name))
-        private$name <- 'dash'
+        private$name <- 'Dash'
       
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
@@ -1681,7 +1688,7 @@ Dash <- R6::R6Class(
       config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
       if (is.null(private$name))
-        private$name <- 'dash'
+        private$name <- 'Dash'
 
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")

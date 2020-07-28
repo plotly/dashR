@@ -133,7 +133,8 @@ Create and configure a Dash application.
   external_stylesheets = NULL,
   compress = TRUE,
   suppress_callback_exceptions = FALSE,
-  show_undo_redo = FALSE
+  show_undo_redo = FALSE,
+  update_title = "Updating..."
 )}\if{html}{\out{</div>}}
 }
 
@@ -187,6 +188,12 @@ possible layout mis-specifications when registering a callback.}
 
 \item{\code{show_undo_redo}}{Logical. Set to \code{TRUE} to enable undo and redo buttons for
 stepping through the history of the app state.}
+
+\item{\code{update_title}}{Character. Defaults to \code{Updating...}; configures the document.title
+(the text that appears in a browser tab) text when a callback is being run.
+Set to NULL or '' if you don't want the document.title to change or if you
+want to control the document.title through a separate component or
+clientside callback.}
 }
 \if{html}{\out{</div>}}
 }
