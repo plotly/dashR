@@ -61,10 +61,10 @@ Dash <- R6::R6Class(
     #' want to control the document.title through a separate component or
     #' clientside callback.
     initialize = function(server = fiery::Fire$new(),
-                          assets_folder = 'assets',
-                          assets_url_path = '/assets',
+                          assets_folder = "assets",
+                          assets_url_path = "/assets",
                           eager_loading = FALSE,
-                          assets_ignore = '',
+                          assets_ignore = "",
                           serve_locally = TRUE,
                           meta_tags = NULL,
                           url_base_pathname = "/",
@@ -1676,7 +1676,7 @@ Dash <- R6::R6Class(
       config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
       if (is.null(private$name))
-        private$name <- 'dash'
+        private$name <- 'Dash'
       
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
@@ -1694,7 +1694,7 @@ Dash <- R6::R6Class(
       config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
 
       if (is.null(private$name))
-        private$name <- 'dash'
+        private$name <- 'Dash'
 
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
