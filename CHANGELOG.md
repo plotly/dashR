@@ -2,11 +2,22 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.0] - 2020-07-28
+### Added
+- Dash for R now supports an `update_title` parameter, as in Dash for Python. [#218](https://github.com/plotly/dashR/pull/218)
+
+### Changed
+- `dash-renderer` updated to v1.6.0
+- Dash for R now depends on v4.9.0 of `dashTable` (provides several fixes from [#806](https://github.com/plotly/dash-table/pull/806), [#808](https://github.com/plotly/dash-table/pull/808) and [#809](https://github.com/plotly/dash-table/pull/809)) and v1.10.2 of `dashCoreComponents` (which updates Plotly.js to 1.54.7 via [#835](https://github.com/plotly/dash-core-components/pull/835)).
+
+### Removed
+- Dash for R no longer produces a warning when callbacks with no IDs are declared; see [#216](https://github.com/plotly/dashR/pull/216).
+
 ## [0.6.3] - 2020-06-25
-**Changed**
+### Changed
 - `dash-renderer` updated to v1.5.1
 
-**Fixed**
+### Fixed
 - Resolves a regression that prevented multiple loading states from displaying concurrently when a callback updates multiple outputs (for more details, see [#1310](https://github.com/plotly/dash/pull/1310)).
 
 ## [0.6.2] - 2020-06-19

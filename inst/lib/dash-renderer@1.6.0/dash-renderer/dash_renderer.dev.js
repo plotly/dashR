@@ -34803,7 +34803,7 @@ var getLayoutCallbacks = function getLayoutCallbacks(graphs, paths, layout, opti
        Exclusion of inputs happens when:
       - an input is missing
       - an input in the initial callback chain depends only on excluded inputs
-       Further execlusion might happen after callbacks return with:
+       Further exclusion might happen after callbacks return with:
       - PreventUpdate
       - no_update
   */
@@ -35507,7 +35507,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * @param {string} location e.g. "prop", "context", "child context"
  * @param {string} componentName Name of the component for error messages.
  * @param {?Function} getStack Returns the component stack.
- * @return {string} Any error messsage resulting from checking the types
+ * @return {string} Any error message resulting from checking the types
  */
 
 function checkPropTypes(typeSpecs, values, location, componentName) {
@@ -35600,8 +35600,10 @@ var DocumentTitle = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, DocumentTitle);
 
     _this = _super.call(this, props);
+    var update_title = props.config.update_title;
     _this.state = {
-      initialTitle: document.title
+      title: document.title,
+      update_title: update_title
     };
     return _this;
   }
@@ -35609,10 +35611,27 @@ var DocumentTitle = /*#__PURE__*/function (_Component) {
   _createClass(DocumentTitle, [{
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(props) {
+      if (!this.state.update_title) {
+        // Let callbacks or other components have full control over title
+        return;
+      }
+
       if (props.isLoading) {
-        document.title = 'Updating...';
+        this.setState({
+          title: document.title
+        });
+
+        if (this.state.update_title) {
+          document.title = this.state.update_title;
+        }
       } else {
-        document.title = this.state.initialTitle;
+        if (document.title === this.state.update_title) {
+          document.title = this.state.title;
+        } else {
+          this.setState({
+            title: document.title
+          });
+        }
       }
     }
   }, {
@@ -35631,11 +35650,15 @@ var DocumentTitle = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 DocumentTitle.propTypes = {
-  isLoading: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool.isRequired
+  isLoading: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.bool.isRequired,
+  config: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.shape({
+    update_title: prop_types__WEBPACK_IMPORTED_MODULE_2___default.a.string
+  })
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(function (state) {
   return {
-    isLoading: state.isLoading
+    isLoading: state.isLoading,
+    config: state.config
   };
 })(DocumentTitle));
 
@@ -38281,7 +38304,7 @@ var observer = {
       return group.slice(0, -1);
     }, Object(ramda__WEBPACK_IMPORTED_MODULE_0__["values"])(Object(ramda__WEBPACK_IMPORTED_MODULE_0__["groupBy"])(_actions_dependencies_ts__WEBPACK_IMPORTED_MODULE_3__["getUniqueIdentifier"], Object(ramda__WEBPACK_IMPORTED_MODULE_0__["concat"])(watched, requested)))));
     /*
-        3. Modify or remove callbacks that are outputing to non-existing layout `id`.
+        3. Modify or remove callbacks that are outputting to non-existing layout `id`.
     */
 
     var _pruneCallbacks = Object(_actions_dependencies_ts__WEBPACK_IMPORTED_MODULE_3__["pruneCallbacks"])(requested, paths),
@@ -38389,7 +38412,7 @@ var observer = {
       // If there is no `stored` callback for the group, no outputs were dropped -> `cb` is kept
       if (!cb.executionGroup || !pendingGroups[cb.executionGroup] || !pendingGroups[cb.executionGroup].length) {
         return false;
-      } // Get all intputs for `cb`
+      } // Get all inputs for `cb`
 
 
       var inputs = Object(ramda__WEBPACK_IMPORTED_MODULE_0__["map"])(_actions_dependencies_ts__WEBPACK_IMPORTED_MODULE_3__["combineIdAndProp"], Object(ramda__WEBPACK_IMPORTED_MODULE_0__["flatten"])(cb.getInputs(paths))); // Get all the potentially updated props for the group so far
@@ -39189,7 +39212,7 @@ var CallbackActionType;
   CallbackActionType["RemoveBlocked"] = "Callbacks.RemoveBlocked";
   CallbackActionType["RemoveExecuted"] = "Callbacks.RemoveExecuted";
   CallbackActionType["RemoveExecuting"] = "Callbacks.RemoveExecuting";
-  CallbackActionType["RemovePrioritized"] = "Callbacks.ReomvePrioritized";
+  CallbackActionType["RemovePrioritized"] = "Callbacks.RemovePrioritized";
   CallbackActionType["RemoveRequested"] = "Callbacks.RemoveRequested";
   CallbackActionType["RemoveStored"] = "Callbacks.RemoveStored";
   CallbackActionType["RemoveWatched"] = "Callbacks.RemoveWatched";
