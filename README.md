@@ -1,6 +1,5 @@
 [![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/master)
 [![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/graphs/contributors)
 [![CRAN status](https://www.r-pkg.org/badges/version-ago/dash)](https://cran.r-project.org/web/packages/dash/index.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/dash)](https://cran.r-project.org/package=dash)
 [![](https://cranlogs.r-pkg.org/badges/dash)](https://cran.r-project.org/package=dash)
@@ -9,15 +8,16 @@
 
 #### Create beautiful, analytic web applications in R.
 
-[Documentation](https://dashr.plotly.com/) | [Gallery](https://dash-gallery.plotly.host/Portal/) 
+[Documentation](https://dashr.plotly.com/) | [Gallery](https://dash-gallery.plotly.host/Portal/)
 
 ## Installation
 
-https://dashr.plotly.com/installation
+<https://dashr.plotly.com/installation>
 
 > 🛑 Make sure you're on at least version `3.0.2` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
 As of 2020-06-04, **dash** and the currently released versions of all core component libraries are _available for download via CRAN!_ Installing `dash` and its dependencies is as simple as
+
 ```r
 install.packages("dash")
 ```
@@ -45,10 +45,9 @@ That's it!
 
 ## Getting Started
 
-https://dashr.plotly.com/getting-started
+<https://dashr.plotly.com/getting-started>
 
 The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
-
 
 ```r
 library(dash)
@@ -70,9 +69,9 @@ app$layout(
   )
 )
 
-app$callback(output = list(id="outputID", property="children"), 
+app$callback(output = list(id="outputID", property="children"),
              params = list(input(id="inputID", property="value"),
-                      state(id="inputID", property="type")), 
+                      state(id="inputID", property="type")),
   function(x, y) {
     sprintf("You've entered: '%s' into a '%s' input control", x, y)
   }
@@ -91,8 +90,8 @@ app <- Dash$new()
 app$layout(
   htmlDiv(
     list(
-      dccInput(id = "graphTitle", 
-               value = "Let's Dance!", 
+      dccInput(id = "graphTitle",
+               value = "Let's Dance!",
                type = "text"),
       htmlDiv(id = "outputID"),
       dccGraph(id = "giraffe",
@@ -105,46 +104,46 @@ app$layout(
   )
 )
 
-app$callback(output = list(id = "giraffe", property = "figure"), 
-             params = list(input("graphTitle", "value")),     
+app$callback(output = list(id = "giraffe", property = "figure"),
+             params = list(input("graphTitle", "value")),
              function(newTitle) {
-                 
+
                  rand1 <- sample(1:10, 1)
-                 
+
                  rand2 <- sample(1:10, 1)
                  rand3 <- sample(1:10, 1)
                  rand4 <- sample(1:10, 1)
-                 
+
                  x <- c(1,2,3)
                  y <- c(3,6,rand1)
                  y2 <- c(rand2,rand3,rand4)
-                 
+
                  df = data.frame(x, y, y2)
-                 
+
                  list(
-                   data = 
-                     list(            
+                   data =
+                     list(
                        list(
-                         x = df$x, 
-                         y = df$y, 
+                         x = df$x,
+                         y = df$y,
                          type = "bar"
                        ),
                        list(
-                         x = df$x, 
-                         y = df$y2, 
+                         x = df$x,
+                         y = df$y2,
                          type = "scatter",
                          mode = "lines+markers",
                          line = list(width = 4)
-                       )                
+                       )
                      ),
                    layout = list(title = newTitle)
                  )
                }
 )
 
-app$callback(output = list(id = "outputID", property = "children"), 
+app$callback(output = list(id = "outputID", property = "children"),
              params = list(input("graphTitle", "value"),
-                           state("graphTitle", "type")), 
+                           state("graphTitle", "type")),
              function(x, y) {
                  sprintf("You've entered: '%s' into a '%s' input control", x, y)
              }
