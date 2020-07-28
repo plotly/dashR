@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.7.0] - 2020-07-28
 ### Added
-- Dash for R now supports an `update_title` parameter, as in Dash for Python. [#217](https://github.com/plotly/dashR/pull/217)
+- Dash for R now supports an `update_title` parameter, as in Dash for Python. [#218](https://github.com/plotly/dashR/pull/218)
 
 ### Changed
 - `dash-renderer` updated to v1.6.0
