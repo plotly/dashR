@@ -747,7 +747,7 @@ stackTraceToHTML <- function(call_stack,
 # stack will be "pruned" of error handling functions
 # for greater readability.
 getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
-  if(debug) {
+  if (debug) {
     tryCatch(withCallingHandlers(
       expr,
       error = function(e) {
@@ -813,22 +813,18 @@ getStackTrace <- function(expr, debug = FALSE, prune_errors = TRUE) {
               } else if (currentCall[[1]] == "stop") {
                 # handle case where function developer deliberately invokes a stop
                 # condition and halts function execution
-                identical(deparse(errorCall), deparse(currentCall))
-                }
-              else {
+                TRUE
+              } else {
                 FALSE
               }
-
-              }
-              )
-            )
+            }))
             # the position to stop at is one less than the difference
             # between the total number of calls and the index of the
             # call throwing the error
             stopIndex <- length(calls) - indexFromLast + 1
 
             startIndex <- match(TRUE, lapply(functionsAsList, function(fn) fn == "getStackTrace"))
-            functionsAsList <- functionsAsList[startIndex:stopIndex]
+            functionsAsList <- functionsAsList[seq(startIndex, stopIndex)]
             functionsAsList <- removeHandlers(functionsAsList)
           }
 
