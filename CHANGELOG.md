@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.7.1] - 2020-07-30
 ### Fixed
 - Fixes a minor bug in debug mode that prevented display of user-defined error messages when induced by invoking the `stop` function. [#220](https://github.com/plotly/dashR/pull/220).
+- URLs for unpkg.com for dash-renderer were outdated, and now fetch v1.6.0 also; `dash-renderer` v1.5.1 has been removed from `inst/lib`.
 
 ## [0.7.0] - 2020-07-28
 ### Added
