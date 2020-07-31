@@ -2,9 +2,7 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-
 ## [0.7.1] - 2020-07-30
-
 ### Fixed
 - A minor bug in debug mode that the user-defined error messages weren't displayed as warning messages. [#220](https://github.com/plotly/dashR/pull/220).
 
