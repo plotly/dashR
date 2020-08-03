@@ -11,14 +11,11 @@ dt_version <- read.dcf("dash-table/DESCRIPTION")[,"Version"]
 dcc_version <- read.dcf("dash-core-components/DESCRIPTION")[,"Version"]
 dhc_version <- read.dcf("dash-html-components/DESCRIPTION")[,"Version"]
 
-# capture Imports data for dashTable, dashCoreComponents, dashHtmlComponents,
-# edit the Imports section of dash's DESCRIPTION as required, update dash_desc
+# capture Imports data for dashTable, dashCoreComponents, dashHtmlComponents
 imports <- dash_desc[,"Imports"][[1]]
-imports <- gsub("((?<=dashHtmlComponents )(\\\\(.*?\\\\)))", paste0("(= ", dhc_version, ")"), imports, perl = TRUE)
-imports <- gsub("((?<=dashCoreComponents )(\\\\(.*?\\\\)))", paste0("(= ", dcc_version, ")"), imports, perl = TRUE)
-imports <- gsub("((?<=dashTable )(\\\\(.*?\\\\)))", paste0("(= ", dt_version, ")"), imports, perl = TRUE)
 
-# loosen version restriction to prevent versioning errors at release time
+# loosen version restriction to prevent versioning errors at release time,
+# edit the Imports section of dash's DESCRIPTION as required, then update dash_desc
 imports <- gsub("==", ">=", imports, perl=TRUE)
 
 dash_desc[,"Imports"][[1]] <- imports
