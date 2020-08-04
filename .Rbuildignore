@@ -5,3 +5,5 @@ Makefile
 announcement\.Rmd
 todo\.txt
 .github
+tests/integration
+tests/circleci
