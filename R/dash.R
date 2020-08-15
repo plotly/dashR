@@ -1220,10 +1220,19 @@ Dash <- R6::R6Class(
 
           # reset the timestamp so we're able to determine when the last cycle end occurred
           private$last_cycle <- as.integer(Sys.time())
+
+          # flush the context to prepare for the next request cycle
+          self$server$set_data("timing_information", list())
         })
       } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
-        }
+        } else if (hot_reload == FALSE && private$debug && self$config$ui) {
+            self$server$on("cycle-end", function(server, ...) {
+              # flush the context to prepare for the next request cycle
+              self$server$set_data("timing_information", list())
+            })
+        } 
+
       self$server$ignite(block = block, showcase = showcase, ...)
       }
     ),

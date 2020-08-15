@@ -102,6 +102,7 @@ where the application is making API calls.}
 \item \href{#method-react_version_set}{\code{Dash$react_version_set()}}
 \item \href{#method-callback}{\code{Dash$callback()}}
 \item \href{#method-callback_context}{\code{Dash$callback_context()}}
+\item \href{#method-callback_context.record_timing}{\code{Dash$callback_context.record_timing()}}
 \item \href{#method-get_asset_url}{\code{Dash$get_asset_url()}}
 \item \href{#method-get_relative_path}{\code{Dash$get_relative_path()}}
 \item \href{#method-strip_relative_path}{\code{Dash$strip_relative_path()}}
@@ -345,6 +346,33 @@ callback, and \code{triggered} provides a list of changed properties.
 \subsection{Returns}{
 List comprising elements \code{states}, \code{triggered}, \code{inputs}.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-callback_context.record_timing"></a>}}
+\if{latex}{\out{\hypertarget{method-callback_context.record_timing}{}}}
+\subsection{Method \code{callback_context.record_timing()}}{
+Records timing information for a server resource.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$callback_context.record_timing(name, duration = NULL, description = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Character. The name of the resource.}
+
+\item{\code{duration}}{Numeric. The time in seconds to report. Internally, this is
+rounded to the nearest millisecond.}
+
+\item{\code{description}}{Character. A description of the resource.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+The \code{callback_context.record_timing} method permits retrieving the
+duration required to execute a given callback.
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_asset_url"></a>}}
