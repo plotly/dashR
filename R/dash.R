@@ -378,14 +378,15 @@ Dash <- R6::R6Class(
 
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
-            response$set_header('Cache-Control',
-                                sprintf('public, max-age=%s',
-                                        31536000) # 1 year
+            response$append_header('Cache-Control',
+                                   sprintf('public, max-age=%s',
+                                   31536000) # 1 year
             )
           } else if (!private$debug && !has_fingerprint) {
             modified <- as.character(as.integer(file.mtime(dep_path)))
 
-            response$set_header('ETag', modified)
+            response$append_header('ETag',
+                                   modified)
 
             request_etag <- request$get_header('If-None-Match')
 
@@ -472,9 +473,9 @@ Dash <- R6::R6Class(
                                  file.size(asset_path))
         close(file_handle)
 
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    '31536000')
+        response$append_header('Cache-Control',
+                               sprintf('public, max-age=%s',
+                               '31536000')
                             )
         response$type <- 'image/x-icon'
         response$status <- 200L
@@ -1096,20 +1097,27 @@ Dash <- R6::R6Class(
           ))
         })
 
-        self$server$on('after-request', function(server, response, ...) {
-          dash_total <- self$server$get_data("timing-information")[["__dash_server"]]
-          dash_total[["dur"]] <- round(as.numeric(Sys.time()- dash_total[["dur"]]) * 1000)
+        self$server$on('request', function(server, request, ...) {
+          timing_information <- self$server$get_data('timing-information')
+          dash_total <- timing_information[['__dash_server']]
+          dash_total[['dur']] <- round(as.numeric(Sys.time() - dash_total[['dur']]) * 1000)
+          
+          request$response$append_header('Server-Timing', 
+                                         paste0('dash_total;dur=', dash_total[['dur']]))
 
           for (item in seq_along(timing_information)) {
-            id <- names(timing_information[item])
+            header_content <- paste0(names(timing_information[item]), ';')
 
             if (!is.null(timing_information[[item]]$desc)) {
-              response$append_header("Server-Timing", paste0(id, ";desc=", timing_information[[item]]$desc))
+              header_content <- paste0(header_content, 'desc="', timing_information[[item]]$desc, '"')
             }
 
-            if (!is.null(timing_information[[item]]$desc)) {
-              response$append_header("Server-Timing", paste0(id, ";dur=", timing_information[[item]]$dur))
+            if (!is.null(timing_information[[item]]$dur)) {
+              header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
             }
+            
+            request$response$append_header('Server-Timing', 
+                                           header_content)
           }
         })
       }
