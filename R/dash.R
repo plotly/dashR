@@ -699,7 +699,37 @@ Dash <- R6::R6Class(
       if (is.null(private$callback_context_)) {
         warning("callback_context is undefined; callback_context may only be accessed within a callback.")
       }
+
       private$callback_context_
+    },
+
+    # ------------------------------------------------------------------------
+    # request and return callback timing data
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Records timing information for a server resource.
+    #' @details
+    #' The `callback_context.record_timing` method permits retrieving the
+    #' duration required to execute a given callback.
+    #' 
+    #' @param name Character. The name of the resource.
+    #' @param duration Numeric. The time in seconds to report. Internally, this is
+    #' rounded to the nearest millisecond.
+    #' @param description Character. A description of the resource.
+    #'
+    callback_context.record_timing = function(name,
+                                              duration=NULL, 
+                                              description=NULL) {
+      timing_information <- self$server$get_data("timing-information")
+
+      if (name %in% timing_information) {
+        stop(paste0("Duplicate resource name ", name, " found."), call.=FALSE)
+      }
+
+      timing_information[[name]] <- list("dur" = round(duration * 1000), 
+                                         "desc" = description)
+
+      self$server$set_data("timing-information", timing_information)
     },
 
     # ------------------------------------------------------------------------
@@ -1055,6 +1085,34 @@ Dash <- R6::R6Class(
 
       self$config$silence_routes_logging <- dev_tools_silence_routes_logging
       self$config$props_check <- dev_tools_props_check
+
+      if (private$debug && self$config$ui) {
+        self$server$on('before-request', function(server, ...) {
+          self$server$set_data("timing_information", list(
+            "__dash_server" = list(
+              "dur" = as.numeric(Sys.time()),
+              "desc" = NULL
+            )
+          ))
+        })
+
+        self$server$on('after-request', function(server, response, ...) {
+          dash_total <- self$server$get_data("timing-information")[["__dash_server"]]
+          dash_total[["dur"]] <- round(as.numeric(Sys.time()- dash_total[["dur"]]) * 1000)
+
+          for (item in seq_along(timing_information)) {
+            id <- names(timing_information[item])
+
+            if (!is.null(timing_information[[item]]$desc)) {
+              response$append_header("Server-Timing", paste0(id, ";desc=", timing_information[[item]]$desc))
+            }
+
+            if (!is.null(timing_information[[item]]$desc)) {
+              response$append_header("Server-Timing", paste0(id, ";dur=", timing_information[[item]]$dur))
+            }
+          }
+        })
+      }
 
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
