@@ -103,12 +103,13 @@ Dash <- R6::R6Class(
       self$config$external_stylesheets <- external_stylesheets
       self$config$show_undo_redo <- show_undo_redo
       self$config$update_title <- update_title
-
+      
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
-
+      server$set_data("user-routes", list()) # placeholder for custom routes
+      
       # ensure that assets_folder is neither NULL nor character(0)
       if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
@@ -549,6 +550,68 @@ Dash <- R6::R6Class(
       # user-facing fields
       self$server <- server
     },
+
+    # ------------------------------------------------------------------------
+    # method to add custom server routes
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Connect a URL to a custom server route
+    #' @details 
+    #' `fiery`, the underlying web service framework upon which Dash for R is based,
+    #' supports custom routing through plugins. While convenient, the plugin API
+    #' providing this functionality is different from that provided by Flask, as
+    #' used by Dash for Python. This method wraps the pluggable routing of `routr`
+    #' routes in a manner that should feel slightly more idiomatic to Dash users.
+    #' @return List or function, depending on the value of `render` (see above). 
+    #' When returning an object of class `dash_component`, the default `print` 
+    #' method for this class will display the corresponding pretty-printed JSON
+    #' representation of the object to the console.
+    server_route = function(url = NULL, methods = "get", handler = NULL) {
+      if (is.null(url) || is.null(handler)) {
+        stop("The server_route method requires that a URL and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      user_routes <- self$server$get_data("user-routes")
+
+      user_routes[[url]] <- list("url" = url,
+                                 "methods" = methods,
+                                 "handler" = handler)
+
+      self$server$set_data("user-routes", user_routes)
+    },
+
+    show_routes = function() {
+      if (length(self$server$get_data("user-routes")) > 0) {
+        return(self$server$get_data("user-routes"))
+      }
+      message("No user-defined routes currently exist.")
+    },
+    
+    remove_routes = function(routes=NULL) {
+      if (length(self$server$get_data("user-routes")) > 0) {
+        if (is.null(routes)) {
+          stop("The name of a user-defined route to remove was not provided; please ensure that 'routes' is not NULL.", call.=FALSE)
+        } else {
+          user_routes <- self$server$get_data("user-routes")
+          
+          if (!(all(routes %in% names(user_routes)))) {
+            stop(paste0("The following user-defined routes were not found: ", 
+                        paste(setdiff(routes, user_routes),
+                              collapse = ", ")
+                        )
+            )
+          }
+          for (route in routes) {
+            user_routes[[route]] <- NULL
+          }
+          self$server$set_data("user-routes", user_routes)
+          message(paste0("The following user-defined routes were removed: ",
+                         paste(routes, collapse = ", ")))
+        }
+      } else 
+          message("No user-defined routes currently exist.")
+    },
+    
 
     # ------------------------------------------------------------------------
     # dash layout methods
@@ -1029,6 +1092,29 @@ Dash <- R6::R6Class(
 
       private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
 
+      # attach user-defined routes, if they exist
+      if (length(self$server$get_data("user-routes")) > 0) {
+       
+        plugin <- list(
+          on_attach = function(server) {
+            user_routes <- server$get_data("user-routes")
+            
+            router <- server$plugins$request_routr
+            route <- routr::Route$new()
+            
+            for (routing in user_routes) {
+              route$add_handler(routing$methods, routing$url, routing$handler)
+            }
+            
+            router$add_route(route, "user-routes")
+          },
+          name = "user_routes",
+          require = "request_routr"
+        )
+        
+        self$server$attach(plugin)
+      }
+      
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
