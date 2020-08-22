@@ -109,7 +109,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
       server$set_data("user-routes", list()) # placeholder for custom routes
-      
+ 
       # ensure that assets_folder is neither NULL nor character(0)
       if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
@@ -578,40 +578,7 @@ Dash <- R6::R6Class(
                                  "handler" = handler)
 
       self$server$set_data("user-routes", user_routes)
-    },
-
-    show_routes = function() {
-      if (length(self$server$get_data("user-routes")) > 0) {
-        return(self$server$get_data("user-routes"))
-      }
-      message("No user-defined routes currently exist.")
-    },
-    
-    remove_routes = function(routes=NULL) {
-      if (length(self$server$get_data("user-routes")) > 0) {
-        if (is.null(routes)) {
-          stop("The name of a user-defined route to remove was not provided; please ensure that 'routes' is not NULL.", call.=FALSE)
-        } else {
-          user_routes <- self$server$get_data("user-routes")
-          
-          if (!(all(routes %in% names(user_routes)))) {
-            stop(paste0("The following user-defined routes were not found: ", 
-                        paste(setdiff(routes, user_routes),
-                              collapse = ", ")
-                        )
-            )
-          }
-          for (route in routes) {
-            user_routes[[route]] <- NULL
-          }
-          self$server$set_data("user-routes", user_routes)
-          message(paste0("The following user-defined routes were removed: ",
-                         paste(routes, collapse = ", ")))
-        }
-      } else 
-          message("No user-defined routes currently exist.")
-    },
-    
+    },    
 
     # ------------------------------------------------------------------------
     # dash layout methods
