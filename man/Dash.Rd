@@ -19,12 +19,35 @@ A framework for building analytical web applications, Dash offers a pleasant and
 library(dash)
 app <- Dash$new()
 
-# A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
-app$server_route("/teapot", function(request, response, keys, ...) {
-  response$status <- 418L
-  response$body('may be short and stout')
+# A handler to redirect requests with `307` status code (temporary redirects); 
+# for permanent redirects (`301`), see the `redirect` method described below
+# 
+# A simple single path-to-path redirect
+app$server_route('/getting-started', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
   TRUE
 })
+
+# Example of a parameterized redirect with a wildcard for subpaths
+app$server_route('/getting-started/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+
+## ------------------------------------------------
+## Method `Dash$redirect`
+## ------------------------------------------------
+
+library(dash)
+app <- Dash$new()
+
+# example of a simple single path-to-path redirect
+app$redirect("/getting-started", "/layout")
+
+# example of a parameterized redirect using wildcards
+app$redirect("/getting-started/*", "/layout/*")
 
 ## ------------------------------------------------
 ## Method `Dash$interpolate_index`
@@ -112,6 +135,7 @@ where the application is making API calls.}
 \itemize{
 \item \href{#method-new}{\code{Dash$new()}}
 \item \href{#method-server_route}{\code{Dash$server_route()}}
+\item \href{#method-redirect}{\code{Dash$redirect()}}
 \item \href{#method-layout_get}{\code{Dash$layout_get()}}
 \item \href{#method-layout}{\code{Dash$layout()}}
 \item \href{#method-react_version_set}{\code{Dash$react_version_set()}}
@@ -231,11 +255,12 @@ be used to match any path element, rather than restricting (as by default) to
 a single path element. For example, it is possible to catch requests to multiple
 subpaths using a wildcard. For more information, see \link{Route}.}
 
-\item{\code{handler}}{Adds a handler function to the specified method and path.
+\item{\code{handler}}{Function. Adds a handler function to the specified method and path.
 For more information, see \link{Route}.}
 
 \item{\code{methods}}{Character. A string indicating the request method (in lower case,
-e.g. 'get', 'put', etc.), as used by \code{reqres}. For more information, see \link{Route}.}
+e.g. 'get', 'put', etc.), as used by \code{reqres}. The default is \code{get}.
+For more information, see \link{Route}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -245,6 +270,16 @@ supports custom routing through plugins. While convenient, the plugin API
 providing this functionality is different from that provided by Flask, as
 used by Dash for Python. This method wraps the pluggable routing of \code{routr}
 routes in a manner that should feel slightly more idiomatic to Dash users.
+\subsection{Querying User-Defined Routes:}{
+
+It is possible to retrieve the list of user-defined routes by invoking the
+\code{get_data} method. For example, if your Dash application object is \code{app}, use
+\code{app$server$get_data("user-routes")}.
+
+If you wish to erase all user-defined routes without instantiating a new Dash
+application object, one option is to clear the routes manually:
+\code{app$server$set_data("user-routes", list())}.
+}
 }
 
 \subsection{Examples}{
@@ -252,12 +287,72 @@ routes in a manner that should feel slightly more idiomatic to Dash users.
 \preformatted{library(dash)
 app <- Dash$new()
 
-# A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
-app$server_route("/teapot", function(request, response, keys, ...) {
-  response$status <- 418L
-  response$body('may be short and stout')
+# A handler to redirect requests with `307` status code (temporary redirects); 
+# for permanent redirects (`301`), see the `redirect` method described below
+# 
+# A simple single path-to-path redirect
+app$server_route('/getting-started', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
   TRUE
 })
+
+# Example of a parameterized redirect with a wildcard for subpaths
+app$server_route('/getting-started/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-redirect"></a>}}
+\if{latex}{\out{\hypertarget{method-redirect}{}}}
+\subsection{Method \code{redirect()}}{
+Redirect a Dash application URL path
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$redirect(old_path = NULL, new_path = NULL, methods = "get")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{old_path}}{Character. Represents the URL path to redirect,
+comprised of strings, parameters (strings prefixed with :), and
+wildcards (*), separated by /. Wildcards can be used to match any
+path element, rather than restricting (as by default) to a single
+path element. For example, it is possible to catch requests to multiple
+subpaths using a wildcard. For more information, see \link{Route}.}
+
+\item{\code{new_path}}{Character. Same as \code{old_path}, but represents the
+new path which the client should load instead.}
+
+\item{\code{methods}}{Character. A string indicating the request method
+(in lower case, e.g. 'get', 'put', etc.), as used by \code{reqres}. The
+default is \code{get}. For more information, see \link{Route}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This is a convenience method to simplify adding redirects
+for your Dash application which automatically return a \code{301}
+HTTP status code and direct the client to load an alternate URL.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{library(dash)
+app <- Dash$new()
+
+# example of a simple single path-to-path redirect
+app$redirect("/getting-started", "/layout")
+
+# example of a parameterized redirect using wildcards
+app$redirect("/getting-started/*", "/layout/*")
 }
 \if{html}{\out{</div>}}
 

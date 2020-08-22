@@ -552,38 +552,57 @@ Dash <- R6::R6Class(
     },
 
     # ------------------------------------------------------------------------
-    # method to add custom server routes
+    # methods to add custom server routes
     # ------------------------------------------------------------------------
     #' @description
     #' Connect a URL to a custom server route
-    #' @details 
+    #' @details
     #' `fiery`, the underlying web service framework upon which Dash for R is based,
     #' supports custom routing through plugins. While convenient, the plugin API
     #' providing this functionality is different from that provided by Flask, as
     #' used by Dash for Python. This method wraps the pluggable routing of `routr`
     #' routes in a manner that should feel slightly more idiomatic to Dash users.
+    #' ## Querying User-Defined Routes:
+    #' It is possible to retrieve the list of user-defined routes by invoking the
+    #' `get_data` method. For example, if your Dash application object is `app`, use
+    #' `app$server$get_data("user-routes")`.
+    #'
+    #' If you wish to erase all user-defined routes without instantiating a new Dash
+    #' application object, one option is to clear the routes manually:
+    #' `app$server$set_data("user-routes", list())`.
     #' @param path Character. Represents a URL path comprised of strings, parameters
     #' (strings prefixed with :), and wildcards (*), separated by /. Wildcards can
     #' be used to match any path element, rather than restricting (as by default) to
     #' a single path element. For example, it is possible to catch requests to multiple
     #' subpaths using a wildcard. For more information, see \link{Route}.
-    #' @param handler Adds a handler function to the specified method and path.
+    #' @param handler Function. Adds a handler function to the specified method and path.
     #' For more information, see \link{Route}.
-    #' @param methods Character. A string indicating the request method (in lower case, 
-    #' e.g. 'get', 'put', etc.), as used by `reqres`. For more information, see \link{Route}.    
+    #' @param methods Character. A string indicating the request method (in lower case,
+    #' e.g. 'get', 'put', etc.), as used by `reqres`. The default is `get`.
+    #' For more information, see \link{Route}.
     #' @examples
     #' library(dash)
     #' app <- Dash$new()
     #'
-    #' # A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
-    #' app$server_route("/teapot", function(request, response, keys, ...) {
-    #'   response$status <- 418L
-    #'   response$body('may be short and stout')
+    #' # A handler to redirect requests with `307` status code (temporary redirects); 
+    #' # for permanent redirects (`301`), see the `redirect` method described below
+    #' # 
+    #' # A simple single path-to-path redirect
+    #' app$server_route('/getting-started', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a parameterized redirect with a wildcard for subpaths
+    #' app$server_route('/getting-started/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
     #'   TRUE
     #' })
     server_route = function(path = NULL, handler = NULL, methods = "get") {
       if (is.null(path) || is.null(handler)) {
-        stop("The server_route method requires that a URL and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+        stop("The server_route method requires that a path and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
       }
 
       user_routes <- self$server$get_data("user-routes")
@@ -594,6 +613,52 @@ Dash <- R6::R6Class(
 
       self$server$set_data("user-routes", user_routes)
     },    
+
+    #' @description
+    #' Redirect a Dash application URL path
+    #' @details 
+    #' This is a convenience method to simplify adding redirects
+    #' for your Dash application which automatically return a `301`
+    #' HTTP status code and direct the client to load an alternate URL.
+    #' @param old_path Character. Represents the URL path to redirect,
+    #' comprised of strings, parameters (strings prefixed with :), and
+    #' wildcards (*), separated by /. Wildcards can be used to match any
+    #' path element, rather than restricting (as by default) to a single
+    #' path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param new_path Character. Same as `old_path`, but represents the
+    #' new path which the client should load instead.
+    #' @param methods Character. A string indicating the request method
+    #' (in lower case, e.g. 'get', 'put', etc.), as used by `reqres`. The
+    #' default is `get`. For more information, see \link{Route}.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # example of a simple single path-to-path redirect
+    #' app$redirect("/getting-started", "/layout")
+    #'
+    #' # example of a parameterized redirect using wildcards
+    #' app$redirect("/getting-started/*", "/layout/*")
+    redirect = function(old_path = NULL, new_path = NULL, methods = "get") {
+      if (is.null(old_path) || is.null(new_path)) {
+        stop("The redirect method requires that both an old path and a new path are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      user_routes <- self$server$get_data("user-routes")
+
+      handler <- function(request, response, keys, ...) {
+        response$status <- 301L
+        response$set_header('Location', new_path)
+        TRUE
+      }
+
+      user_routes[[old_path]] <- list("path" = old_path,
+                                      "handler" = handler,
+                                      "methods" = methods)
+
+      self$server$set_data("user-routes", user_routes)
+    },
 
     # ------------------------------------------------------------------------
     # dash layout methods
