@@ -562,20 +562,35 @@ Dash <- R6::R6Class(
     #' providing this functionality is different from that provided by Flask, as
     #' used by Dash for Python. This method wraps the pluggable routing of `routr`
     #' routes in a manner that should feel slightly more idiomatic to Dash users.
-    #' @return List or function, depending on the value of `render` (see above). 
-    #' When returning an object of class `dash_component`, the default `print` 
-    #' method for this class will display the corresponding pretty-printed JSON
-    #' representation of the object to the console.
-    server_route = function(url = NULL, methods = "get", handler = NULL) {
-      if (is.null(url) || is.null(handler)) {
+    #' @param path Character. Represents a URL path comprised of strings, parameters
+    #' (strings prefixed with :), and wildcards (*), separated by /. Wildcards can
+    #' be used to match any path element, rather than restricting (as by default) to
+    #' a single path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param handler Adds a handler function to the specified method and path.
+    #' For more information, see \link{Route}.
+    #' @param methods Character. A string indicating the request method (in lower case, 
+    #' e.g. 'get', 'put', etc.), as used by `reqres`. For more information, see \link{Route}.    
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
+    #' app$server_route("/teapot", function(request, response, keys, ...) {
+    #'   response$status <- 418L
+    #'   response$body('may be short and stout')
+    #'   TRUE
+    #' })
+    server_route = function(path = NULL, handler = NULL, methods = "get") {
+      if (is.null(path) || is.null(handler)) {
         stop("The server_route method requires that a URL and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
       }
 
       user_routes <- self$server$get_data("user-routes")
 
-      user_routes[[url]] <- list("url" = url,
-                                 "methods" = methods,
-                                 "handler" = handler)
+      user_routes[[path]] <- list("path" = path,
+                                  "handler" = handler,
+                                  "methods" = methods)
 
       self$server$set_data("user-routes", user_routes)
     },    
@@ -1065,12 +1080,22 @@ Dash <- R6::R6Class(
         plugin <- list(
           on_attach = function(server) {
             user_routes <- server$get_data("user-routes")
+
+            # adding an additional route will fail if the
+            # route already exists, so remove user-routes
+            # if present and reload; user_routes will still
+            # have all the relevant routes in place anyhow
+            if (server$plugins$request_routr$has_route("user-routes"))
+              server$plugins$request_routr$remove_route("user-routes")
             
             router <- server$plugins$request_routr
+
             route <- routr::Route$new()
             
             for (routing in user_routes) {
-              route$add_handler(routing$methods, routing$url, routing$handler)
+              route$add_handler(method=routing$methods,
+                                path=routing$path,
+                                handler=routing$handler)
             }
             
             router$add_route(route, "user-routes")
@@ -1079,7 +1104,7 @@ Dash <- R6::R6Class(
           require = "request_routr"
         )
         
-        self$server$attach(plugin)
+        self$server$attach(plugin, force = TRUE)
       }
       
       if(getAppPath() != FALSE) {

@@ -13,6 +13,20 @@ A framework for building analytical web applications, Dash offers a pleasant and
 \examples{
 
 ## ------------------------------------------------
+## Method `Dash$server_route`
+## ------------------------------------------------
+
+library(dash)
+app <- Dash$new()
+
+# A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
+app$server_route("/teapot", function(request, response, keys, ...) {
+  response$status <- 418L
+  response$body('may be short and stout')
+  TRUE
+})
+
+## ------------------------------------------------
 ## Method `Dash$interpolate_index`
 ## ------------------------------------------------
 
@@ -97,6 +111,7 @@ where the application is making API calls.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Dash$new()}}
+\item \href{#method-server_route}{\code{Dash$server_route()}}
 \item \href{#method-layout_get}{\code{Dash$layout_get()}}
 \item \href{#method-layout}{\code{Dash$layout()}}
 \item \href{#method-react_version_set}{\code{Dash$react_version_set()}}
@@ -197,6 +212,57 @@ clientside callback.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-server_route"></a>}}
+\if{latex}{\out{\hypertarget{method-server_route}{}}}
+\subsection{Method \code{server_route()}}{
+Connect a URL to a custom server route
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$server_route(path = NULL, handler = NULL, methods = "get")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Character. Represents a URL path comprised of strings, parameters
+(strings prefixed with :), and wildcards (*), separated by /. Wildcards can
+be used to match any path element, rather than restricting (as by default) to
+a single path element. For example, it is possible to catch requests to multiple
+subpaths using a wildcard. For more information, see \link{Route}.}
+
+\item{\code{handler}}{Adds a handler function to the specified method and path.
+For more information, see \link{Route}.}
+
+\item{\code{methods}}{Character. A string indicating the request method (in lower case,
+e.g. 'get', 'put', etc.), as used by \code{reqres}. For more information, see \link{Route}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+\code{fiery}, the underlying web service framework upon which Dash for R is based,
+supports custom routing through plugins. While convenient, the plugin API
+providing this functionality is different from that provided by Flask, as
+used by Dash for Python. This method wraps the pluggable routing of \code{routr}
+routes in a manner that should feel slightly more idiomatic to Dash users.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{library(dash)
+app <- Dash$new()
+
+# A handler to serve 418 errors; see https://tools.ietf.org/html/rfc7168
+app$server_route("/teapot", function(request, response, keys, ...) {
+  response$status <- 418L
+  response$body('may be short and stout')
+  TRUE
+})
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-layout_get"></a>}}
