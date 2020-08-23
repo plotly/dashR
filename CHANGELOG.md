@@ -2,6 +2,10 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Dash for R now supports for user-defined routes and redirects via the `app$server_route` and `app$redirect` methods. [#225](https://github.com/plotly/dashR/pull/225)
+
 ## [0.7.1] - 2020-07-30
 ### Fixed
 - Fixes a minor bug in debug mode that prevented display of user-defined error messages when induced by invoking the `stop` function. [#220](https://github.com/plotly/dashR/pull/220).
