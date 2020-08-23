@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Dash for R now supports for user-defined routes and redirects via the `app$server_route` and `app$redirect` methods. [#225](https://github.com/plotly/dashR/pull/225)
+- Dash for R now supports user-defined routes and redirects via the `app$server_route` and `app$redirect` methods. [#225](https://github.com/plotly/dashR/pull/225)
 
 ## [0.7.1] - 2020-07-30
 ### Fixed
