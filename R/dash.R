@@ -594,10 +594,17 @@ Dash <- R6::R6Class(
     #'   TRUE
     #' })
     #'
-    #' # Example of a parameterized redirect with a wildcard for subpaths
+    #' # Example of a redirect with a wildcard for subpaths
     #' app$server_route('/getting-started/*', function(request, response, keys, ...) {
     #'   response$status <- 307L
     #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a parameterized redirect with wildcard for subpaths
+    #' app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', paste0('/users/', keys$user_id))
     #'   TRUE
     #' })
     server_route = function(path = NULL, handler = NULL, methods = "get") {
@@ -638,7 +645,7 @@ Dash <- R6::R6Class(
     #' # example of a simple single path-to-path redirect
     #' app$redirect("/getting-started", "/layout")
     #'
-    #' # example of a parameterized redirect using wildcards
+    #' # example of a redirect using wildcards
     #' app$redirect("/getting-started/*", "/layout/*")
     redirect = function(old_path = NULL, new_path = NULL, methods = "get") {
       if (is.null(old_path) || is.null(new_path)) {
