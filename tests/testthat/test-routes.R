@@ -45,7 +45,7 @@ test_that("URLs are properly redirected with app$redirect", {
 
  expect_equal(
    response_bar$headers$Location,
-   "/"
+   "/*"
  )
 
 })
@@ -104,7 +104,7 @@ test_that("temporary redirection of URLs is possible with app$server_route", {
 
  expect_equal(
    response_qux$headers$Location,
-   "/"
+   "/*"
  )
 
 })
