@@ -29,10 +29,17 @@ app$server_route('/getting-started', function(request, response, keys, ...) {
   TRUE
 })
 
-# Example of a parameterized redirect with a wildcard for subpaths
+# Example of a redirect with a wildcard for subpaths
 app$server_route('/getting-started/*', function(request, response, keys, ...) {
   response$status <- 307L
   response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a parameterized redirect with wildcard for subpaths
+app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', paste0('/users/', keys$user_id))
   TRUE
 })
 
@@ -46,8 +53,13 @@ app <- Dash$new()
 # example of a simple single path-to-path redirect
 app$redirect("/getting-started", "/layout")
 
-# example of a parameterized redirect using wildcards
+# example of a redirect using wildcards
 app$redirect("/getting-started/*", "/layout/*")
+
+# example of a parameterized redirect using a function for new_path,
+# which requires passing in keys to take advantage of subpaths within
+# old_path that are preceded by a colon (e.g. :user_id):
+app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
 
 ## ------------------------------------------------
 ## Method `Dash$interpolate_index`
@@ -297,10 +309,17 @@ app$server_route('/getting-started', function(request, response, keys, ...) {
   TRUE
 })
 
-# Example of a parameterized redirect with a wildcard for subpaths
+# Example of a redirect with a wildcard for subpaths
 app$server_route('/getting-started/*', function(request, response, keys, ...) {
   response$status <- 307L
   response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a parameterized redirect with wildcard for subpaths
+app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', paste0('/users/', keys$user_id))
   TRUE
 })
 }
@@ -351,8 +370,13 @@ app <- Dash$new()
 # example of a simple single path-to-path redirect
 app$redirect("/getting-started", "/layout")
 
-# example of a parameterized redirect using wildcards
+# example of a redirect using wildcards
 app$redirect("/getting-started/*", "/layout/*")
+
+# example of a parameterized redirect using a function for new_path,
+# which requires passing in keys to take advantage of subpaths within
+# old_path that are preceded by a colon (e.g. :user_id):
+app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
 }
 \if{html}{\out{</div>}}
 

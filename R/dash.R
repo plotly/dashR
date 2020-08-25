@@ -647,6 +647,11 @@ Dash <- R6::R6Class(
     #'
     #' # example of a redirect using wildcards
     #' app$redirect("/getting-started/*", "/layout/*")
+    #'
+    #' # example of a parameterized redirect using a function for new_path,
+    #' # which requires passing in keys to take advantage of subpaths within
+    #' # old_path that are preceded by a colon (e.g. :user_id):
+    #' app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
     redirect = function(old_path = NULL, new_path = NULL, methods = "get") {
       if (is.null(old_path) || is.null(new_path)) {
         stop("The redirect method requires that both an old path and a new path are specified. Please ensure these arguments are non-missing.", call.=FALSE)
@@ -654,12 +659,20 @@ Dash <- R6::R6Class(
 
       user_routes <- self$server$get_data("user-routes")
 
-      handler <- function(request, response, keys, ...) {
-        response$status <- 301L
-        response$set_header('Location', new_path)
-        TRUE
+      if (is.function(new_path)) {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path(keys))
+          TRUE
+        }
       }
-
+      else {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path)
+          TRUE
+        }
+      }
       user_routes[[old_path]] <- list("path" = old_path,
                                       "handler" = handler,
                                       "methods" = methods)
