@@ -7,6 +7,7 @@ test_that("URLs are properly redirected with app$redirect", {
 
  app$redirect("/foo", "/")
  app$redirect("/bar/*", "/foo")
+ app$redirect("/users/:user_id", function(keys) paste0("/accounts/", keys$user_id))
 
  app$layout(htmlDiv(
   "Hello world!"
@@ -21,12 +22,17 @@ test_that("URLs are properly redirected with app$redirect", {
    "http://127.0.0.1:8050/bar/foo"
  )
 
+ request_fn <- fiery::fake_request(
+   "http://127.0.0.1:8050/users/johndoe"
+ )
+
  # start up Dash briefly to load the routes
  app$run_server(block=FALSE)
  app$server$stop()
 
  response_foo <- app$server$test_request(request_foo)
  response_bar <- app$server$test_request(request_bar)
+ response_fn <- app$server$test_request(request_fn)
 
  expect_equal(
    response_foo$status,
@@ -36,7 +42,7 @@ test_that("URLs are properly redirected with app$redirect", {
  expect_equal(
    response_foo$headers$Location,
    "/"
- )
+  )
 
  expect_equal(
    response_bar$status,
@@ -46,7 +52,17 @@ test_that("URLs are properly redirected with app$redirect", {
  expect_equal(
    response_bar$headers$Location,
    "/foo"
- )
+  )
+
+ expect_equal(
+   response_fn$status,
+   301L
+  )
+
+ expect_equal(
+   response_fn$headers$Location,
+   "/accounts/johndoe"
+  )
 
 })
 
