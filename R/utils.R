@@ -532,9 +532,7 @@ generate_css_dist_html <- function(href,
   } else {
     # strip leading slash from href if present
     href <- sub("^/", "", href)
-    sprintf("<link href=\"%s%s\" rel=\"stylesheet\">",
-            prefix,
-            href)
+    glue('<link href="{prefix}{href}" rel="stylesheet">')
   }
 }
 
@@ -554,9 +552,7 @@ generate_js_dist_html <- function(href,
   } else {
     # strip leading slash from href if present
     href <- sub("^/", "", href)
-    sprintf("<script src=\"%s%s\"></script>",
-            prefix,
-            href)
+    glue('<script src="{prefix}{href}" ></script>')
   }
 }
 
