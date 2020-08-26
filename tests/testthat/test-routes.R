@@ -6,7 +6,7 @@ test_that("URLs are properly redirected with app$redirect", {
  app <- Dash$new()
 
  app$redirect("/foo", "/")
- app$redirect("/bar/*", "/*")
+ app$redirect("/bar/*", "/foo")
 
  app$layout(htmlDiv(
   "Hello world!"
@@ -45,7 +45,7 @@ test_that("URLs are properly redirected with app$redirect", {
 
  expect_equal(
    response_bar$headers$Location,
-   "/*"
+   "/foo"
  )
 
 })
@@ -63,7 +63,7 @@ test_that("temporary redirection of URLs is possible with app$server_route", {
 
  app$server_route("/qux/*", function(request, response, keys, ...) {
   response$status <- 307L
-  response$set_header("Location", "/*")
+  response$set_header("Location", "/foo")
   TRUE
  })
 
@@ -104,7 +104,7 @@ test_that("temporary redirection of URLs is possible with app$server_route", {
 
  expect_equal(
    response_qux$headers$Location,
-   "/*"
+   "/foo"
  )
 
 })
