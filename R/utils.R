@@ -175,7 +175,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
         html <- generate_js_dist_html(tagdata = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
-      html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
+      html <- generate_css_dist_html(tagdata = paste(dep[["src"]][["href"]],
                                                   dep[["stylesheet"]],
                                                   sep="/"),
                                      local = FALSE)
@@ -613,9 +613,9 @@ generate_js_dist_html <- function(tagdata,
         tagdata,
         perl=TRUE)) || as_is) {
             if (is.list(tagdata))
-                glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), ' ></script>')
+                glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), '></script>')
             else
-                glue::glue('<script ', glue::glue('src="{tagdata}"'), ' ></script>')
+                glue::glue('<script ', glue::glue('src="{tagdata}"'), '></script>')
         }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
@@ -627,7 +627,7 @@ generate_js_dist_html <- function(tagdata,
       href <- tagdata
     href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    glue::glue('<script src="{prefix}{href}?m={modified}" ></script>')
+    glue::glue('<script src="{prefix}{href}?m={modified}"></script>')
   }
 }
 
