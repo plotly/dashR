@@ -45,9 +45,13 @@ Dash <- R6::R6Class(
     #' @param requests_pathname_prefix Character. A prefix applied to request endpoints
     #' made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.
     #' @param external_scripts List. An optional list of valid URLs from which
-    #' to serve JavaScript source for rendered pages.
+    #' to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
+    #' or a list with `src` (the URL) and optionally other `<script>` tag attributes such
+    #' as `integrity` and `crossorigin`.
     #' @param external_stylesheets List. An optional list of valid URLs from which
-    #' to serve CSS for rendered pages.
+    #' to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
+    #' with `href` (the URL) and optionally other `<link>` tag attributes such as 
+    #' `rel`, `integrity` and `crossorigin`.
     #' @param compress Logical. Whether to  try to compress files and data served by Fiery.
     #' By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm,
     #' before falling back to `identity`.
@@ -1578,7 +1582,7 @@ Dash <- R6::R6Class(
 
       # collect CSS assets from dependencies
       if (!(is.null(private$asset_map$css))) {
-        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$css)),
+        css_assets <- generate_css_dist_html(tagdata = paste0(private$assets_url_path, names(private$asset_map$css)),
                                              local = TRUE,
                                              local_path = private$asset_map$css,
                                              prefix = self$config$requests_pathname_prefix)
@@ -1596,7 +1600,7 @@ Dash <- R6::R6Class(
       # collect JS assets from dependencies
       #
       if (!(is.null(private$asset_map$scripts))) {
-        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$scripts)),
+        scripts_assets <- generate_js_dist_html(tagdata = paste0(private$assets_url_path, names(private$asset_map$scripts)),
                                                 local = TRUE,
                                                 local_path = private$asset_map$scripts,
                                                 prefix = self$config$requests_pathname_prefix)

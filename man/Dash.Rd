@@ -174,10 +174,14 @@ Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.}
 made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.}
 
 \item{\code{external_scripts}}{List. An optional list of valid URLs from which
-to serve JavaScript source for rendered pages.}
+to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
+or a list with \code{src} (the URL) and optionally other \verb{<script>} tag attributes such
+as \code{integrity} and \code{crossorigin}.}
 
 \item{\code{external_stylesheets}}{List. An optional list of valid URLs from which
-to serve CSS for rendered pages.}
+to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
+with \code{href} (the URL) and optionally other \verb{<link>} tag attributes such as
+\code{rel}, \code{integrity} and \code{crossorigin}.}
 
 \item{\code{compress}}{Logical. Whether to  try to compress files and data served by Fiery.
 By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm,
