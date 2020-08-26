@@ -347,8 +347,9 @@ path element, rather than restricting (as by default) to a single
 path element. For example, it is possible to catch requests to multiple
 subpaths using a wildcard. For more information, see \link{Route}.}
 
-\item{\code{new_path}}{Character. Same as \code{old_path}, but represents the
-new path which the client should load instead.}
+\item{\code{new_path}}{Character or function. Same as \code{old_path}, but represents the
+new path which the client should load instead. If a function is
+provided instead of a string, it should have \code{keys} within its formals.}
 
 \item{\code{methods}}{Character. A string indicating the request method
 (in lower case, e.g. 'get', 'put', etc.), as used by \code{reqres}. The

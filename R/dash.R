@@ -633,8 +633,9 @@ Dash <- R6::R6Class(
     #' path element, rather than restricting (as by default) to a single
     #' path element. For example, it is possible to catch requests to multiple
     #' subpaths using a wildcard. For more information, see \link{Route}.
-    #' @param new_path Character. Same as `old_path`, but represents the
-    #' new path which the client should load instead.
+    #' @param new_path Character or function. Same as `old_path`, but represents the
+    #' new path which the client should load instead. If a function is
+    #' provided instead of a string, it should have `keys` within its formals.
     #' @param methods Character. A string indicating the request method
     #' (in lower case, e.g. 'get', 'put', etc.), as used by `reqres`. The
     #' default is `get`. For more information, see \link{Route}.
