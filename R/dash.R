@@ -639,10 +639,9 @@ Dash <- R6::R6Class(
     #' JavaScript function.
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
-
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
+      print(inputs)
       if (is.function(func)) {
         clientside_function <- NULL
       } else if (is.character(func)) {

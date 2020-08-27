@@ -17,6 +17,7 @@ is.component <- function(x) inherits(x, "dash_component")
 
 # retrieve the arguments of a callback function that are dash inputs
 callback_inputs <- function(func) {
+  print(func)
   compact(lapply(formals(func), function(x) {
     # missing arguments produce an error when evaluated
     # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
