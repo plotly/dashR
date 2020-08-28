@@ -108,6 +108,9 @@ Dash <- R6::R6Class(
       self$config$show_undo_redo <- show_undo_redo
       self$config$update_title <- update_title
 
+      # ensure attributes are valid, if using a list within a list, elements are all named
+      assertValidExternals(scripts = external_scripts, stylesheets = external_stylesheets)
+
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------

@@ -542,28 +542,6 @@ generate_css_dist_html <- function(tagdata,
                                    prefix = NULL,
                                    as_is = FALSE) {
   attribs <- names(tagdata)
-  allowed_attribs <- c("as",
-                       "crossorigin",
-                       "disabled",
-                       "href",
-                       "hreflang",
-                       "importance",
-                       "integrity",
-                       "media",
-                       "referrerpolicy",
-                       "rel",
-                       "sizes",
-                       "title",
-                       "type",
-                       "methods",
-                       "prefetch",
-                       "target",
-                       "charset",
-                       "rev")
-  if (!all(attribs %in% allowed_attribs)) {
-      stop(sprintf("The following specified stylesheet attributes are invalid: ",
-                    paste0(setdiff(attribs, allowed_attribs), collapse=", ")), call. = FALSE)
-  }
   if (!(local)) {
     if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
         tagdata,
@@ -576,16 +554,19 @@ generate_css_dist_html <- function(tagdata,
     else
       stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    if (is.list(tagdata))
-      href <- tagdata$src
-    else
-      href <- tagdata    
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    glue::glue('<link href="{prefix}{href}?m={modified}" rel="stylesheet">')
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$href <- paste0(prefix, sub("^/", "", tagdata$href))
+        glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), ' rel="stylesheet">')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        glue::glue('<link ', glue::glue('href="{prefix}{tagdata}?m={modified}"'), ' rel="stylesheet">')
+    }
   }
 }
+
 
 generate_js_dist_html <- function(tagdata,
                                   local = FALSE,
@@ -593,21 +574,6 @@ generate_js_dist_html <- function(tagdata,
                                   prefix = NULL,
                                   as_is = FALSE) {
   attribs <- names(tagdata)
-  allowed_attribs <- c("async",
-                       "crossorigin",
-                       "defer",
-                       "integrity",
-                       "nomodule",
-                       "nonce",
-                       "referrerpolicy",
-                       "src",
-                       "type",
-                       "charset",
-                       "language")
-  if (!all(attribs %in% allowed_attribs)) {
-      stop(sprintf("The following specified script attributes are invalid: ",
-                    paste0(setdiff(attribs, allowed_attribs), collapse=", ")), call. = FALSE)
-  }                                      
   if (!(local)) {
     if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
         tagdata,
@@ -620,16 +586,82 @@ generate_js_dist_html <- function(tagdata,
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    if (is.list(tagdata))
-      href <- tagdata$src
-    else
-      href <- tagdata
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    glue::glue('<script src="{prefix}{href}?m={modified}"></script>')
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$src <- paste0(prefix, sub("^/", "", tagdata$src))
+        glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), '></script>')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        glue::glue('<script ', glue::glue('src="{prefix}{tagdata}?m={modified}"'), '></script>')
+    }
   }
 }
+
+assertValidExternals <- function(scripts, stylesheets) {
+    allowed_js_attribs <- c("async",
+                            "crossorigin",
+                            "defer",
+                            "integrity",
+                            "nomodule",
+                            "nonce",
+                            "referrerpolicy",
+                            "src",
+                            "type",
+                            "charset",
+                            "language")
+
+    allowed_css_attribs <- c("as",
+                             "crossorigin",
+                             "disabled",
+                             "href",
+                             "hreflang",
+                             "importance",
+                             "integrity",
+                             "media",
+                             "referrerpolicy",
+                             "rel",
+                             "sizes",
+                             "title",
+                             "type",
+                             "methods",
+                             "prefetch",
+                             "target",
+                             "charset",
+                             "rev")
+    script_attributes <- character()
+    stylesheet_attributes <- character()
+    
+    for (item in scripts) {
+      if (is.list(item)) {
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        script_attributes <- c(script_attributes, names(item))
+      }
+      else 
+        script_attributes <- c(script_attributes, character(0))
+    }
+    
+    for (item in stylesheets) {
+      if (is.list(item)) {
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        stylesheet_attributes <- c(stylesheet_attributes, names(item))
+      }
+      else 
+        stylesheet_attributes <- c(stylesheet_attributes, character(0))
+    }
+    
+    invalid_script_attributes <- setdiff(script_attributes, allowed_js_attribs)
+    invalid_stylesheet_attributes <- setdiff(stylesheet_attributes, allowed_css_attribs)
+    
+    if (length(invalid_script_attributes) > 0 || length(invalid_stylesheet_attributes) > 0) {
+      stop(sprintf("The following script or stylesheet attributes are invalid: %s.",
+           paste0(c(invalid_script_attributes, invalid_stylesheet_attributes), collapse=", ")), call. = FALSE)
+    }
+    invisible(TRUE)
+  }
 
 generate_meta_tags <- function(metas) {
   has_ie_compat <- any(vapply(metas, function(x)
