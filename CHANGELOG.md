@@ -2,6 +2,10 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Support for setting attributes on `external_scripts` and `external_stylesheets`, and validation for the parameters passed (attributes are verified, and elements that are lists themselves must be named). [#226](https://github.com/plotly/dashR/pull/226)
+
 ## [0.7.1] - 2020-07-30
 ### Fixed
 - Fixes a minor bug in debug mode that prevented display of user-defined error messages when induced by invoking the `stop` function. [#220](https://github.com/plotly/dashR/pull/220).
