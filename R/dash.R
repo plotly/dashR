@@ -658,27 +658,21 @@ Dash <- R6::R6Class(
         stop("The redirect method requires that both an old path and a new path are specified. Please ensure these arguments are non-missing.", call.=FALSE)
       }
 
-      user_routes <- self$server$get_data("user-routes")
-
       if (is.function(new_path)) {
         handler <- function(request, response, keys, ...) {
           response$status <- 301L
           response$set_header('Location', new_path(keys))
           TRUE
         }
-      }
-      else {
+      } else {
         handler <- function(request, response, keys, ...) {
           response$status <- 301L
           response$set_header('Location', new_path)
           TRUE
         }
       }
-      user_routes[[old_path]] <- list("path" = old_path,
-                                      "handler" = handler,
-                                      "methods" = methods)
-
-      self$server$set_data("user-routes", user_routes)
+    
+      self$server_route(old_path, handler)
     },
 
     # ------------------------------------------------------------------------
