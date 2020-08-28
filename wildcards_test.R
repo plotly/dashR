@@ -20,8 +20,8 @@ app$callback(
   display_dropdowns <- function(n_clicks, children){
     new_dropdown = dccDropdown(
       id=list(
-        "type" = "filter-dropdown",
-        "index" = n_clicks
+        "index" = n_clicks,
+        "type" = "filter-dropdown"
       ),
       options = lapply(1:4, function(x){
         list("label" = x, "value" = x)
@@ -48,4 +48,29 @@ app$callback(
   }
 )
 
-app$run_server(debug=TRUE, showcase = TRUE)
+app$run_server(debug=F, showcase = TRUE)
+
+
+# library(dash)
+# library(dashCoreComponents)
+# library(dashHtmlComponents)
+# 
+# app <- Dash$new()
+# 
+# app$layout(
+#   htmlDiv(
+#     list(
+#       dccInput(id='my-id', value='initial value', type='text'),
+#       htmlDiv(id='my-div')
+#     )
+#   )
+# )
+# 
+# app$callback(
+#   output=list(id='my-div', property='children'),
+#   params=list(input(id='my-id', property='value')),
+#   function(input_value) {
+#     sprintf("You've entered \"%s\"", input_value)
+#   })
+# 
+# app$run_server()

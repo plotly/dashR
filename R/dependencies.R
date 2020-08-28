@@ -16,6 +16,9 @@
 #' @export
 output <- function(id, property) {
   allowed_wildcards = list("MATCH", "ALL")
+  if (is(id, 'list')) {
+    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+  }
   structure(
     dependency(id, property),
     class = c("dash_dependency", "output")
@@ -39,7 +42,9 @@ input <- function(id, property) {
 #' @export
 state <- function(id, property) {
   allowed_wildcards = list("MATCH", "ALL", "ALLSMALLER")
-
+  if (is(id, 'list')) {
+    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+  }
   structure(
     dependency(id, property),
     class = c("dash_dependency", "state")

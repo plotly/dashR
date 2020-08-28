@@ -17,7 +17,6 @@ is.component <- function(x) inherits(x, "dash_component")
 
 # retrieve the arguments of a callback function that are dash inputs
 callback_inputs <- function(func) {
-  print(func)
   compact(lapply(formals(func), function(x) {
     # missing arguments produce an error when evaluated
     # TODO: should we only evaluate when `!identical(x, quote(expr = ))`?
@@ -331,6 +330,7 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
                                           )
   if (length(map) >= 2) {
     ids <- lapply(names(map), function(x) getIdProps(x)$ids)
+    print(ids)
     props <- lapply(names(map), function(x) getIdProps(x)$props)
 
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
@@ -339,6 +339,7 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
       stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
     }
   }
+  print(c("this is the map", map))
   return(map)
 }
 
@@ -891,6 +892,7 @@ removeHandlers <- function(fnList) {
 }
 
 setCallbackContext <- function(callback_elements) {
+  print("setCallbackContext")
   states <- lapply(callback_elements$states, function(x) {
     setNames(x$value, paste(x$id, x$property, sep="."))
   })
@@ -914,7 +916,6 @@ setCallbackContext <- function(callback_elements) {
   inputs <- sapply(callback_elements$inputs, function(x) {
     setNames(list(x$value), paste(x$id, x$property, sep="."))
   })
-
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
@@ -927,6 +928,7 @@ getDashMetadata <- function(pkgname) {
 }
 
 createCallbackId <- function(output) {
+  print("createCallbackID")
   # check if callback uses single output
   if (!any(sapply(output, is.list))) {
     id <- paste0(output, collapse=".")
@@ -941,6 +943,7 @@ createCallbackId <- function(output) {
 }
 
 getIdProps <- function(output) {
+  print("getIDProps")
   output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
   idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
   ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)

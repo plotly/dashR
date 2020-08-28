@@ -190,6 +190,7 @@ Dash <- R6::R6Class(
           response$type <- 'json'
           return(FALSE)
         }
+        print(c("this is the request body", request$body))
 
         # get the callback associated with this particular output
         callback <- private$callback_map[[request$body$output]][['func']]
@@ -227,9 +228,9 @@ Dash <- R6::R6Class(
               callback_args <- c(callback_args, list(state_element$value))
           }
         }
-
         # set the callback context associated with this invocation of the callback
-        private$callback_context_ <- setCallbackContext(request$body)
+        #browser()
+        #private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,
@@ -641,7 +642,6 @@ Dash <- R6::R6Class(
       assert_valid_callbacks(output, params, func)
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-      print(inputs)
       if (is.function(func)) {
         clientside_function <- NULL
       } else if (is.character(func)) {
