@@ -635,22 +635,40 @@ assertValidExternals <- function(scripts, stylesheets) {
     
     for (item in scripts) {
       if (is.list(item)) {
+        if (!"src" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
         if (any(names(item) == ""))
           stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
         script_attributes <- c(script_attributes, names(item))
       }
-      else 
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
         script_attributes <- c(script_attributes, character(0))
+      }
     }
-    
+
     for (item in stylesheets) {
       if (is.list(item)) {
+        if (!"href" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
         if (any(names(item) == ""))
           stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
         stylesheet_attributes <- c(stylesheet_attributes, names(item))
       }
-      else 
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
         stylesheet_attributes <- c(stylesheet_attributes, character(0))
+      }
     }
     
     invalid_script_attributes <- setdiff(script_attributes, allowed_js_attribs)
