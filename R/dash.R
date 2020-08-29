@@ -103,12 +103,13 @@ Dash <- R6::R6Class(
       self$config$external_stylesheets <- external_stylesheets
       self$config$show_undo_redo <- show_undo_redo
       self$config$update_title <- update_title
-
+      
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
-
+      server$set_data("user-routes", list()) # placeholder for custom routes
+ 
       # ensure that assets_folder is neither NULL nor character(0)
       if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
@@ -549,6 +550,130 @@ Dash <- R6::R6Class(
 
       # user-facing fields
       self$server <- server
+    },
+
+    # ------------------------------------------------------------------------
+    # methods to add custom server routes
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Connect a URL to a custom server route
+    #' @details
+    #' `fiery`, the underlying web service framework upon which Dash for R is based,
+    #' supports custom routing through plugins. While convenient, the plugin API
+    #' providing this functionality is different from that provided by Flask, as
+    #' used by Dash for Python. This method wraps the pluggable routing of `routr`
+    #' routes in a manner that should feel slightly more idiomatic to Dash users.
+    #' ## Querying User-Defined Routes:
+    #' It is possible to retrieve the list of user-defined routes by invoking the
+    #' `get_data` method. For example, if your Dash application object is `app`, use
+    #' `app$server$get_data("user-routes")`.
+    #'
+    #' If you wish to erase all user-defined routes without instantiating a new Dash
+    #' application object, one option is to clear the routes manually:
+    #' `app$server$set_data("user-routes", list())`.
+    #' @param path Character. Represents a URL path comprised of strings, parameters
+    #' (strings prefixed with :), and wildcards (*), separated by /. Wildcards can
+    #' be used to match any path element, rather than restricting (as by default) to
+    #' a single path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param handler Function. Adds a handler function to the specified method and path.
+    #' For more information, see \link{Route}.
+    #' @param methods Character. A string indicating the request method (in lower case,
+    #' e.g. 'get', 'put', etc.), as used by `reqres`. The default is `get`.
+    #' For more information, see \link{Route}.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # A handler to redirect requests with `307` status code (temporary redirects); 
+    #' # for permanent redirects (`301`), see the `redirect` method described below
+    #' # 
+    #' # A simple single path-to-path redirect
+    #' app$server_route('/getting-started', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a redirect with a wildcard for subpaths
+    #' app$server_route('/getting-started/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a parameterized redirect with wildcard for subpaths
+    #' app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', paste0('/users/', keys$user_id))
+    #'   TRUE
+    #' })
+    server_route = function(path = NULL, handler = NULL, methods = "get") {
+      if (is.null(path) || is.null(handler)) {
+        stop("The server_route method requires that a path and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      user_routes <- self$server$get_data("user-routes")
+
+      user_routes[[path]] <- list("path" = path,
+                                  "handler" = handler,
+                                  "methods" = methods)
+
+      self$server$set_data("user-routes", user_routes)
+    },    
+
+    #' @description
+    #' Redirect a Dash application URL path
+    #' @details 
+    #' This is a convenience method to simplify adding redirects
+    #' for your Dash application which automatically return a `301`
+    #' HTTP status code and direct the client to load an alternate URL.
+    #' @param old_path Character. Represents the URL path to redirect,
+    #' comprised of strings, parameters (strings prefixed with :), and
+    #' wildcards (*), separated by /. Wildcards can be used to match any
+    #' path element, rather than restricting (as by default) to a single
+    #' path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param new_path Character or function. Same as `old_path`, but represents the
+    #' new path which the client should load instead. If a function is
+    #' provided instead of a string, it should have `keys` within its formals.
+    #' @param methods Character. A string indicating the request method
+    #' (in lower case, e.g. 'get', 'put', etc.), as used by `reqres`. The
+    #' default is `get`. For more information, see \link{Route}.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # example of a simple single path-to-path redirect
+    #' app$redirect("/getting-started", "/layout")
+    #'
+    #' # example of a redirect using wildcards
+    #' app$redirect("/getting-started/*", "/layout/*")
+    #'
+    #' # example of a parameterized redirect using a function for new_path,
+    #' # which requires passing in keys to take advantage of subpaths within
+    #' # old_path that are preceded by a colon (e.g. :user_id):
+    #' app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
+    redirect = function(old_path = NULL, new_path = NULL, methods = "get") {
+      if (is.null(old_path) || is.null(new_path)) {
+        stop("The redirect method requires that both an old path and a new path are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      if (is.function(new_path)) {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path(keys))
+          TRUE
+        }
+      } else {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path)
+          TRUE
+        }
+      }
+    
+      self$server_route(old_path, handler)
     },
 
     # ------------------------------------------------------------------------
@@ -1060,6 +1185,39 @@ Dash <- R6::R6Class(
 
       private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
 
+      # attach user-defined routes, if they exist
+      if (length(self$server$get_data("user-routes")) > 0) {
+       
+        plugin <- list(
+          on_attach = function(server) {
+            user_routes <- server$get_data("user-routes")
+
+            # adding an additional route will fail if the
+            # route already exists, so remove user-routes
+            # if present and reload; user_routes will still
+            # have all the relevant routes in place anyhow
+            if (server$plugins$request_routr$has_route("user-routes"))
+              server$plugins$request_routr$remove_route("user-routes")
+            
+            router <- server$plugins$request_routr
+
+            route <- routr::Route$new()
+            
+            for (routing in user_routes) {
+              route$add_handler(method=routing$methods,
+                                path=routing$path,
+                                handler=routing$handler)
+            }
+            
+            router$add_route(route, "user-routes")
+          },
+          name = "user_routes",
+          require = "request_routr"
+        )
+        
+        self$server$attach(plugin, force = TRUE)
+      }
+      
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
