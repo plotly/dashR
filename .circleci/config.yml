@@ -30,7 +30,7 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages(c("bspm", "remotes")); library(bspm); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, force=TRUE)'
+              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages("bspm"); suppressMessages(bspm::enable()); install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, force=TRUE)'
 
       - run:
           name: ⚙️  Integration tests
