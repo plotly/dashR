@@ -7,10 +7,11 @@ jobs:
     working_directory: ~/dashr
     docker:
       - image: plotly/dashr:ci
-        resource_class: small 
         environment:
           PERCY_PARALLEL_TOTAL: '-1'
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
+
+    resource_class: small
 
     steps:
       - checkout
