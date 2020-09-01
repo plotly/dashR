@@ -7,7 +7,9 @@ app <- Dash$new()
 app$layout(htmlDiv(list(
   htmlButton("Add Filter", id="add-filter", n_clicks=0),
   htmlDiv(id="dropdown-container", children=list()),
-  htmlDiv(id="dropdown-container-output")
+  htmlDiv(id="dropdown-container-output"),
+  dccInput(id='my-id', value='initial value', type='text'),
+  htmlDiv(id='my-div')
 )))
 
 
@@ -48,29 +50,38 @@ app$callback(
   }
 )
 
+
+app$callback(
+  output=list(id='my-div', property='children'),
+  params=list(input(id='my-id', property='value')),
+  function(input_value) {
+    sprintf("You've entered \"%s\"", input_value)
+  })
+
+
 app$run_server(debug=F, showcase = TRUE)
 
 
-# library(dash)
-# library(dashCoreComponents)
-# library(dashHtmlComponents)
-# 
-# app <- Dash$new()
-# 
-# app$layout(
-#   htmlDiv(
-#     list(
-#       dccInput(id='my-id', value='initial value', type='text'),
-#       htmlDiv(id='my-div')
-#     )
-#   )
-# )
-# 
-# app$callback(
-#   output=list(id='my-div', property='children'),
-#   params=list(input(id='my-id', property='value')),
-#   function(input_value) {
-#     sprintf("You've entered \"%s\"", input_value)
-#   })
-# 
-# app$run_server()
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+
+app <- Dash$new()
+
+app$layout(
+  htmlDiv(
+    list(
+      dccInput(id='my-id', value='initial value', type='text'),
+      htmlDiv(id='my-div')
+    )
+  )
+)
+
+app$callback(
+  output=list(id='my-div', property='children'),
+  params=list(input(id='my-id', property='value')),
+  function(input_value) {
+    sprintf("You've entered \"%s\"", input_value)
+  })
+
+app$run_server()

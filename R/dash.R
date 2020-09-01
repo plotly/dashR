@@ -230,7 +230,7 @@ Dash <- R6::R6Class(
         }
         # set the callback context associated with this invocation of the callback
         #browser()
-        #private$callback_context_ <- setCallbackContext(request$body)
+        private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),
                                       debug = private$debug,

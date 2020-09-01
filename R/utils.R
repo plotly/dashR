@@ -903,23 +903,62 @@ setCallbackContext <- function(callback_elements) {
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-
-                        id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
-                        prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
-
-                        value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
-
-                        list(`prop_id` = x, `value` = value)
+                        
+                        # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
+                        if (startsWith(input_id, "{")){
+                          id_match <- vapply(callback_elements$inputs[[1]][[1]]$id, function(x) x[[1]] %in% jsonlite::fromJSON(input_id)[[1]], logical(1))[[1]]
+                        } else {
+                          id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          prop_match <- vapply(callback_elements$inputs[[1]][[1]]$property, function(x) x[[1]] %in% prop, logical(1))[[1]]
+                        } else {
+                          prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")
+                        } else {
+                          value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          return(list(`prop_id` = x, `value` = value))
+                        } else {
+                          return(list(`prop_id` = x, `value` = value))
+                        }
                       }
                       )
-
-  inputs <- sapply(callback_elements$inputs, function(x) {
-    setNames(list(x$value), paste(x$id, x$property, sep="."))
-  })
+  if (is.character(callback_elements$inputs[[1]][[1]])){
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      setNames(list(x[[1]]$value), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+    })
+  }
+  
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
 }
+
+# $states
+# list()
+# 
+# $triggered
+# $triggered$prop_id
+# [1] "my-id.value"
+# 
+# $triggered$value
+# [1] "initial value2"
+# 
+# 
+# $inputs
+# $inputs$`my-id.value`
+# [1] "initial value2"
 
 getDashMetadata <- function(pkgname) {
   fnList <- ls(getNamespace(pkgname), all.names = TRUE)
