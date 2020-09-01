@@ -98,9 +98,8 @@ test_that("stylesheets can be added with or without attributes", {
   )
 
   expect_equal(
-    script_hrefs,
-    c("<script src=\"https://unpkg.com/react@16.8.6\"></script>\n<script src=\"https://unpkg.com/react-dom@16.8.6\"></script>\n<script src=\"https://unpkg.com/prop-types@15.7.2\"></script>\n<script src=\"https://unpkg.com/@babel/polyfill@7.7.0\"></script>\n<script src=\"/_dash-component-suites/dash_html_components/dash_html_components.v1_0_3m1598593100.min.js?v=1.0.3&m=1598593100\"></script>\n<script src=\"https://unpkg.com/dash-renderer@1.6.0\"></script>",
-      "<script src=\"https://www.google-analytics.com/analytics.js\"></script>", 
+    script_hrefs[2:4],
+      c("<script src=\"https://www.google-analytics.com/analytics.js\"></script>", 
       "<script src=\"https://cdn.polyfill.io/v2/polyfill.min.js\"></script>", 
       "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.core.js\" integrity=\"sha256-Qqd/EfdABZUcAxjOkMi8eGEivtdTkh3b65xCZL4qAQA=\" crossorigin=\"anonymous\"></script>"
     )
