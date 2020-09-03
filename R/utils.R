@@ -330,7 +330,6 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
                                           )
   if (length(map) >= 2) {
     ids <- lapply(names(map), function(x) getIdProps(x)$ids)
-    print(ids)
     props <- lapply(names(map), function(x) getIdProps(x)$props)
 
     outputs_as_list <- mapply(paste, ids, props, sep=".", SIMPLIFY = FALSE)
@@ -339,7 +338,6 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
       stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
     }
   }
-  print(c("this is the map", map))
   return(map)
 }
 
@@ -906,13 +904,19 @@ setCallbackContext <- function(callback_elements) {
                         
                         # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
                         if (startsWith(input_id, "{")){
-                          id_match <- vapply(callback_elements$inputs[[1]][[1]]$id, function(x) x[[1]] %in% jsonlite::fromJSON(input_id)[[1]], logical(1))[[1]]
+                          id_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[names(x) == "id.index"] %in% jsonlite::fromJSON(input_id)[[1]])
+                          }, logical(1))[[1]]
                         } else {
                           id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
                         }
                         
                         if (startsWith(input_id, "{")){
-                          prop_match <- vapply(callback_elements$inputs[[1]][[1]]$property, function(x) x[[1]] %in% prop, logical(1))[[1]]
+                          prop_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[names(x) == "property"] %in% prop)
+                          }, logical(1))[[1]]
                         } else {
                           prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
                         }
@@ -940,6 +944,10 @@ setCallbackContext <- function(callback_elements) {
     })
   }
   
+  print(list(states=states,
+             triggered=unlist(triggered, recursive=FALSE),
+             inputs=inputs))
+  print("testing4")
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
@@ -967,7 +975,6 @@ getDashMetadata <- function(pkgname) {
 }
 
 createCallbackId <- function(output) {
-  print("createCallbackID")
   # check if callback uses single output
   if (!any(sapply(output, is.list))) {
     id <- paste0(output, collapse=".")
@@ -982,7 +989,6 @@ createCallbackId <- function(output) {
 }
 
 getIdProps <- function(output) {
-  print("getIDProps")
   output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
   idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
   ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)

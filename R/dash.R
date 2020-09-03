@@ -190,7 +190,6 @@ Dash <- R6::R6Class(
           response$type <- 'json'
           return(FALSE)
         }
-        print(c("this is the request body", request$body))
 
         # get the callback associated with this particular output
         callback <- private$callback_map[[request$body$output]][['func']]
@@ -228,8 +227,9 @@ Dash <- R6::R6Class(
               callback_args <- c(callback_args, list(state_element$value))
           }
         }
+        
         # set the callback context associated with this invocation of the callback
-        #browser()
+        browser()
         private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),
