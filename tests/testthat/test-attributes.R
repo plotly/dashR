@@ -91,15 +91,41 @@ test_that("stylesheets can be added with or without attributes", {
   tags_by_line <- lapply(strsplit(response_with_attributes$body, "\n "), function(x) trimws(x))[[1]]
   stylesheet_hrefs <- grep(stylesheet_pattern, tags_by_line, value = TRUE)
   script_hrefs <- grep(script_pattern, tags_by_line, value = TRUE)
-    
+
+  # construct the script tags as they should be generated within
+  # Dash for R this way the mod times and version numbers will
+  # always be in sync with those used by the backend
+  internal_hrefs <- vapply(dash:::.dash_js_metadata(), function(x) x$src$href, character(1))
+  dhc <- dashHtmlComponents:::.dashHtmlComponents_js_metadata()[[1]]
+  dhc_path <- dash:::getDependencyPath(dhc)
+  modtime <- as.integer(file.mtime(dhc_path))
+  filename <- basename(dash:::buildFingerprint(dhc$script, dhc$version, modtime))
+  dhc_ref <- paste0("/",
+                    "_dash-component-suites/",
+                    dhc$name,
+                    "/",
+                    filename,
+                    "?v=",
+                    dhc$version,
+                    "&m=",
+                    modtime)
+
+  all_tags <- glue::glue("<script src=\"{c(internal_hrefs[c(\"react-prod\", 
+                                                            \"react-dom-prod\",
+                                                            \"prop-types-prod\",
+                                                            \"polyfill-prod\")],
+                                           dhc_ref,
+                                           internal_hrefs[\"dash-renderer-prod\"])}\"></script>\n")
+
   expect_equal(
     stylesheet_hrefs,
     "<link href=\"https://codepen.io/chriddyp/pen/bWLwgP.css\" hreflang=\"en-us\" rel=\"stylesheet\">"
   )
 
   expect_equal(
-    script_hrefs[2:4],
-      c("<script src=\"https://www.google-analytics.com/analytics.js\"></script>", 
+    script_hrefs,
+      c(glue::glue_collapse(all_tags, sep="\n"),
+      "<script src=\"https://www.google-analytics.com/analytics.js\"></script>", 
       "<script src=\"https://cdn.polyfill.io/v2/polyfill.min.js\"></script>", 
       "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.core.js\" integrity=\"sha256-Qqd/EfdABZUcAxjOkMi8eGEivtdTkh3b65xCZL4qAQA=\" crossorigin=\"anonymous\"></script>"
     )
