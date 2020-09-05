@@ -940,14 +940,15 @@ setCallbackContext <- function(callback_elements) {
     })
   } else {
     inputs <- sapply(callback_elements$inputs, function(x) {
-      setNames(list(x[[1]]$value), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[names(inputs_vector) == "value"]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
     })
   }
   
   print(list(states=states,
              triggered=unlist(triggered, recursive=FALSE),
              inputs=inputs))
-  print("testing4")
+  print("testing5")
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))
