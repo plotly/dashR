@@ -890,7 +890,6 @@ removeHandlers <- function(fnList) {
 }
 
 setCallbackContext <- function(callback_elements) {
-  print("setCallbackContext")
   states <- lapply(callback_elements$states, function(x) {
     setNames(x$value, paste(x$id, x$property, sep="."))
   })
@@ -934,7 +933,11 @@ setCallbackContext <- function(callback_elements) {
                         }
                       }
                       )
-  if (is.character(callback_elements$inputs[[1]][[1]])){
+  if (length(callback_elements$inputs[[1]]) == 0) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (is.character(callback_elements$inputs[[1]][[1]])) {
     inputs <- sapply(callback_elements$inputs, function(x) {
       setNames(list(x$value), paste(x$id, x$property, sep="."))
     })
@@ -944,11 +947,7 @@ setCallbackContext <- function(callback_elements) {
       setNames(list(inputs_vector[names(inputs_vector) == "value"]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
     })
   }
-  
-  print(list(states=states,
-             triggered=unlist(triggered, recursive=FALSE),
-             inputs=inputs))
-  print("testing5")
+
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
               inputs=inputs))

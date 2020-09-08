@@ -213,10 +213,17 @@ Dash <- R6::R6Class(
         callback_args <- list()
 
         for (input_element in request$body$inputs) {
-          if(is.null(input_element$value))
+          if ("id.index" %in% names(unlist(input_element))) {
+            unlisted_input <- unlist(input_element)
+            values <- unname(unlisted_input[names(unlisted_input) == "value"])
+            callback_args <- c(callback_args, ifelse(length(values), list(values), list(list(NULL))))
+          }
+          else if(is.null(input_element$value)) {
             callback_args <- c(callback_args, list(list(NULL)))
-          else
+          }
+          else {
             callback_args <- c(callback_args, list(input_element$value))
+          }
         }
 
         if (length(request$body$state)) {
@@ -229,7 +236,7 @@ Dash <- R6::R6Class(
         }
         
         # set the callback context associated with this invocation of the callback
-        browser()
+        #browser()
         private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),
