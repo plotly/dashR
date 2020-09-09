@@ -890,9 +890,23 @@ removeHandlers <- function(fnList) {
 }
 
 setCallbackContext <- function(callback_elements) {
-  states <- lapply(callback_elements$states, function(x) {
-    setNames(x$value, paste(x$id, x$property, sep="."))
-  })
+  # Set state elements for this callback
+  
+  if (length(callback_elements$state[[1]]) == 0) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (is.character(callback_elements$state[[1]][[1]])) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else {
+    states <- sapply(callback_elements$state, function(x) {
+      states_vector <- unlist(x)
+      setNames(list(states_vector[names(states_vector) == "value" | names(states_vector) == "value.index"]), 
+               paste(as.character(jsonlite::toJSON(x[[1]])), x$property, sep="."))
+    })
+  }
 
   splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
 
@@ -921,7 +935,11 @@ setCallbackContext <- function(callback_elements) {
                         }
                         
                         if (startsWith(input_id, "{")){
-                          value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")
+                          if (length(callback_elements$inputs) == 1) {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                          } else {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")
+                          }
                         } else {
                           value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
                         }
@@ -932,7 +950,7 @@ setCallbackContext <- function(callback_elements) {
                           return(list(`prop_id` = x, `value` = value))
                         }
                       }
-                      )
+                    )
   if (length(callback_elements$inputs[[1]]) == 0) {
     inputs <- sapply(callback_elements$inputs, function(x) {
       setNames(list(x$value), paste(x$id, x$property, sep="."))
@@ -941,10 +959,15 @@ setCallbackContext <- function(callback_elements) {
     inputs <- sapply(callback_elements$inputs, function(x) {
       setNames(list(x$value), paste(x$id, x$property, sep="."))
     })
+  } else if (length(callback_elements$inputs[[1]]) > 1) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[names(inputs_vector) == "value" | names(inputs_vector) == "value.index"]), paste(as.character(jsonlite::toJSON(x$id)), x$property, sep="."))
+    })
   } else {
     inputs <- sapply(callback_elements$inputs, function(x) {
       inputs_vector <- unlist(x)
-      setNames(list(inputs_vector[names(inputs_vector) == "value"]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+      setNames(list(inputs_vector[names(inputs_vector) == "value" | names(inputs_vector) == "value.index"]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
     })
   }
 

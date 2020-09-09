@@ -211,12 +211,12 @@ Dash <- R6::R6Class(
         #
         # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
         callback_args <- list()
-
+        
         for (input_element in request$body$inputs) {
           if ("id.index" %in% names(unlist(input_element))) {
             unlisted_input <- unlist(input_element)
-            values <- unname(unlisted_input[names(unlisted_input) == "value"])
-            callback_args <- c(callback_args, ifelse(length(values), list(values), list(list(NULL))))
+            values <- unname(unlisted_input[names(unlisted_input) == "value" | names(unlisted_input) == "value.index"])
+            callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
           }
           else if(is.null(input_element$value)) {
             callback_args <- c(callback_args, list(list(NULL)))
@@ -228,15 +228,21 @@ Dash <- R6::R6Class(
 
         if (length(request$body$state)) {
           for (state_element in request$body$state) {
-            if(is.null(state_element$value))
+            if ("id.index" %in% names(unlist(state_element))) {
+              unlisted_state <- unlist(state_element)
+              values <- unname(unlisted_state[names(unlisted_state) == "value" | names(unlisted_state) == "value.index"])
+              callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
+            }
+            else if(is.null(state_element$value)) {
               callback_args <- c(callback_args, list(list(NULL)))
-            else
+            }
+            else {
               callback_args <- c(callback_args, list(state_element$value))
+            }
           }
         }
         
         # set the callback context associated with this invocation of the callback
-        #browser()
         private$callback_context_ <- setCallbackContext(request$body)
 
         output_value <- getStackTrace(do.call(callback, callback_args),

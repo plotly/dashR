@@ -15,7 +15,6 @@
 #' @rdname dependencies
 #' @export
 output <- function(id, property) {
-  allowed_wildcards = list("MATCH", "ALL")
   if (is(id, 'list')) {
     id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
   }
@@ -28,7 +27,6 @@ output <- function(id, property) {
 #' @rdname dependencies
 #' @export
 input <- function(id, property) {
-  allowed_wildcards = list("MATCH", "ALL", "ALLSMALLER")
   if (is(id, 'list')) {
     id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
   }
@@ -41,7 +39,6 @@ input <- function(id, property) {
 #' @rdname dependencies
 #' @export
 state <- function(id, property) {
-  allowed_wildcards = list("MATCH", "ALL", "ALLSMALLER")
   if (is(id, 'list')) {
     id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
   }
