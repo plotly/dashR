@@ -976,21 +976,6 @@ setCallbackContext <- function(callback_elements) {
               inputs=inputs))
 }
 
-# $states
-# list()
-# 
-# $triggered
-# $triggered$prop_id
-# [1] "my-id.value"
-# 
-# $triggered$value
-# [1] "initial value2"
-# 
-# 
-# $inputs
-# $inputs$`my-id.value`
-# [1] "initial value2"
-
 getDashMetadata <- function(pkgname) {
   fnList <- ls(getNamespace(pkgname), all.names = TRUE)
   metadataFn <- as.vector(fnList[grepl("^\\.dash.+_js_metadata$", fnList)])
