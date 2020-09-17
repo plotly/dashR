@@ -403,6 +403,57 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
   }
 
+  # Verify that 'input', 'state' and 'output' parameters only contain 'Wildcard' keywords if they are JSON formatted ids for pattern matching callbacks
+  valid_wildcard_inputs <- sapply(inputs, function(x) {
+    if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
+      jsonlite::validate(x$id)
+    } else {
+      return(TRUE)
+    }
+  })
+  
+  if (!all(valid_wildcard_inputs)) {
+    stop(sprintf("A callback input ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
+                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
+  }
+  
+  valid_wildcard_state <- sapply(state, function(x) {
+    if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
+      jsonlite::validate(x$id)
+    } else {
+      return(TRUE)
+    }
+  })
+  
+  if (!all(valid_wildcard_state)) {
+    stop(sprintf("A callback state ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
+                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
+  }
+  
+  if(any(sapply(output, is.list))) {
+    valid_wildcard_output <- sapply(output, function(x) {
+      if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
+        jsonlite::validate(x$id)
+      } else {
+        return(TRUE)
+      }
+    })
+  } else {
+    valid_wildcard_output <- sapply(list(output), function(x) {
+      if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
+        jsonlite::validate(x$id)
+      } else {
+        return(TRUE)
+      }
+    })
+  }
+  
+  if (!all(valid_wildcard_output)) {
+    stop(sprintf("A callback output ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
+                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
+  }
+  
+  
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
 

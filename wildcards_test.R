@@ -11,7 +11,8 @@ app$layout(htmlDiv(list(
   htmlDiv(id="dropdown-container", children=list()),
   htmlDiv(id="dropdown-container-output"),
   dccInput(id='my-id', value='initial value', type='text'),
-  htmlDiv(id='my-div')
+  htmlDiv(id='my-div'),
+  htmlA("Test", href = "/test")
 )))
 
 
@@ -114,13 +115,13 @@ app$callback(
   display_dropdown <- function(n_clicks, children){
     new_element = htmlDiv(list(
       dccDropdown(
-        id = list("type" = "dynamic-dropdown", "index" = sprintf("%s", n_clicks)),
+        id = list("index" = n_clicks, "type" = "dynamic-dropdown"),
         options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
           list("label" = x, "value" = x)
         })
       ),
       htmlDiv(
-        id = list("type" = "dynamic-output", "index" = sprintf("%s", n_clicks))
+        id = list("index" = n_clicks, "type" = "dynamic-output")
       )
     ))
     children <- c(children, list(new_element))
@@ -130,19 +131,17 @@ app$callback(
 
 
 app$callback(
-  output(list("type" = "dynamic-output", "index" = "MATCH"), "children"),
+  output(id = list("index" = "MATCH", "type" = "dynamic-output"), property= "children"),
   params = list(
-    input(list("type" = "dynamic-dropdown", "index" = "MATCH"), "value"),
-    state(list("type" = "dynamic-dropdown", "index" = "MATCH"), "id")
+    input(id=list("index" = "MATCH", "type" = "dynamic-dropdown"), property= "value"),
+    state(id=list("index" = "MATCH", "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
     print(id)
     print(value)
-    return(htmlDiv(list(
-      id, value
-    )))
+    return(htmlP(id))
   }
 )
 
-app$run_server(showcase = T, debug = F)
+app$run_server(showcase = T, debug = T)
   
