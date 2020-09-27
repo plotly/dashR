@@ -50,7 +50,7 @@ state <- function(id, property) {
 
 dependency <- function(id = NULL, property = NULL) {
   if (is.null(id)) stop("Must specify an id", call. = FALSE)
-  if (is(id, 'list')) {
+  if (is.list(id)) {
     id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
   }
   list(
