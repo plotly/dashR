@@ -15,7 +15,7 @@
 #' @rdname dependencies
 #' @export
 output <- function(id, property) {
-  if (is(id, 'list')) {
+  if (is.list(id)) {
     id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
   }
   structure(
