@@ -1,5 +1,10 @@
 # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dependencies.py
 
+# Helper functions
+setWildcardId <- function(id) {
+  return(sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']]))
+}
+
 #' Input/Output/State definitions
 #'
 #' Use in conjunction with the `callback()` method from the [dash::Dash] class
@@ -16,7 +21,7 @@
 #' @export
 output <- function(id, property) {
   if (is.list(id)) {
-    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+    id = setWildcardId(id)
   }
   structure(
     dependency(id, property),
@@ -28,7 +33,7 @@ output <- function(id, property) {
 #' @export
 input <- function(id, property) {
   if (is.list(id)) {
-    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+    id = setWildcardId(id)
   }
   structure(
     dependency(id, property),
@@ -40,7 +45,7 @@ input <- function(id, property) {
 #' @export
 state <- function(id, property) {
   if (is.list(id)) {
-    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+    id = setWildcardId(id)
   }
   structure(
     dependency(id, property),
@@ -51,7 +56,7 @@ state <- function(id, property) {
 dependency <- function(id = NULL, property = NULL) {
   if (is.null(id)) stop("Must specify an id", call. = FALSE)
   if (is.list(id)) {
-    id = sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']])
+    id = setWildcardId(id)
   }
   list(
     id = id,
