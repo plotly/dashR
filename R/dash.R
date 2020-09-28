@@ -651,6 +651,39 @@ Dash <- R6::R6Class(
     #' containing valid JavaScript, or a call to [clientsideFunction],
     #' including `namespace` and `function_name` arguments for a locally served
     #' JavaScript function.
+    #'
+    #'
+    #' For pattern-matching callbacks, the `id` field of a component is written
+    #' in JSON-like syntax which describes a dictionary object when serialized
+    #' for consumption by the Dash renderer. The fields include a `type` and
+    #' an `index`, which describe the targets of the callback.
+    #'
+    #' For example, when we write `input(id=list("index" = ALL, "type" = "filter-dropdown")`,
+    #' Dash interprets this as "match any input that has an ID list where 'type'
+    #' is 'filter-dropdown' and 'index' is anything." If any of the dropdown
+    #' `value` properties change, all of their values are returned to the callback.
+    #'
+    #' However, for readability, we recommend using keys like type, index, or id.
+    #' `type` can be used to refer to the class or set of dynamic components and
+    #' `index` or `id` could be used to refer which component you are matching
+    #' within that set. While your applicatoin may have a single set of dynamic
+    #' components, it's possible to specify multiple sets of dynamic components
+    #' in more complex apps or if you are using `MATCH`.
+    #'
+    #' Like `ALL`, `MATCH` will fire the callback when any of the component's properties
+    #' change. However, instead of passing all of the values into the callback, `MATCH`
+    #' will pass just a single value into the callback. Instead of updating a single
+    #' output, it will update the dynamic output that is "matched" with.
+    #'
+    #' `ALLSMALLER` is used to pass in the values of all of the targeted components
+    #' on the page that have an index smaller than the index corresponding to the div.
+    #' For example, `ALLSMALLER` makes it possible to filter results that are
+    #' increasingly specific as the user applies each additional selection.
+    #'
+    #' `ALLSMALLER` can only be used in `input` and `state` items, and must be used
+    #' on a key that has `MATCH` in the `output` item(s). `ALLSMALLER` it isn't always
+    #' necessary (you can usually use `ALL` and filter out the indices in your callback),
+    #' but it will make your logic simpler.
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]

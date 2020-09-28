@@ -1,6 +1,6 @@
 # akin to https://github.com/plotly/dash/blob/d2ebc837/dash/dependencies.py
 
-# Helper functions
+# Helper functions for handling dependency ids or props
 setWildcardId <- function(id) {
   return(sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']]))
 }
@@ -13,12 +13,19 @@ setWildcardId <- function(id) {
 #' The `dashNoUpdate()` function permits application developers to prevent a
 #' single output from updating the layout. It has no formal arguments.
 #' 
+#' `ALL`, `ALLSMALLER` and `MATCH` are symbols corresponding to the
+#' pattern-matching callback selectors with the same names. These allow you
+#' to write callbacks that respond to or update an arbitrary or dynamic
+#' number of components. For more information, see the `callback` section
+#' in \link{dash}.
+#'
 #' @name dependencies
 #' @param id a component id
 #' @param property the component property to use
 
 #' @rdname dependencies
 #' @export
+
 output <- function(id, property) {
   if (is.list(id)) {
     id = setWildcardId(id)
@@ -71,3 +78,15 @@ dashNoUpdate <- function() {
   class(x) <- "no_update"
   return(x)
 }
+
+#' @rdname dependencies
+#' @export
+ALL <- as.symbol("ALL")
+
+#' @rdname dependencies
+#' @export
+ALLSMALLER <- as.symbol("ALLSMALLER")
+
+#' @rdname dependencies
+#' @export
+MATCH <- as.symbol("MATCH")
