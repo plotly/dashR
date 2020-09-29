@@ -102,7 +102,8 @@ app <- Dash$new()
 
 app$layout(htmlDiv(list(
   htmlButton("Add Filter", id="dynamic-add-filter", n_clicks=0),
-  htmlDiv(id="dynamic-dropdown-container", children=list())
+  htmlDiv(id="dynamic-dropdown-container", children=list()),
+  htmlDiv(id='test-output')
 )))
 
 
@@ -121,7 +122,8 @@ app$callback(
         })
       ),
       htmlDiv(
-        id = list("index" = n_clicks, "type" = "dynamic-output")
+        id = list("index" = n_clicks, "type" = "dynamic-output"),
+        children = list(n_clicks)
       )
     ))
     children <- c(children, list(new_element))
@@ -131,15 +133,15 @@ app$callback(
 
 
 app$callback(
-  output(id = list("index" = "MATCH", "type" = "dynamic-output"), property= "children"),
+  output(id = list("index" = dash:::MATCH, "type" = "dynamic-output"), property= "children"),
   params = list(
-    input(id=list("index" = "MATCH", "type" = "dynamic-dropdown"), property= "value"),
-    state(id=list("index" = "MATCH", "type" = "dynamic-dropdown"), property= "id")
+    input(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "value"),
+    state(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
     print(id)
     print(value)
-    return(htmlP(id))
+    return(value)
   }
 )
 
