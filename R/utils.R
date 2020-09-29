@@ -290,6 +290,22 @@ assert_no_names <- function (x)
                paste(nms, collapse = "', '")), call. = FALSE)
 }
 
+assertValidWildcards <- function(dependency) {
+  if (is.symbol(dependency$id)) {
+    result <- jsonlite::validate(dependency$id)
+  } else {
+    result <- TRUE
+  }
+  if (!result) {
+    dependencyType <- class(dependency)
+    stop(sprintf("A callback %s ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID.",
+                 dependencyType[dependencyType %in% c("input", "output", "state")]),
+         call. = FALSE)
+  } else {
+    return(result)
+  }
+}
+
 # the following function attempts to prune remote CSS
 # or local CSS/JS dependencies that either should not
 # be resolved to local R package paths, or which have
@@ -405,54 +421,24 @@ assert_valid_callbacks <- function(output, params, func) {
 
   # Verify that 'input', 'state' and 'output' parameters only contain 'Wildcard' keywords if they are JSON formatted ids for pattern matching callbacks
   valid_wildcard_inputs <- sapply(inputs, function(x) {
-    if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
-      jsonlite::validate(x$id)
-    } else {
-      return(TRUE)
-    }
+    assertValidWildcards(x)
   })
   
-  if (!all(valid_wildcard_inputs)) {
-    stop(sprintf("A callback input ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
-                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
-  }
   
   valid_wildcard_state <- sapply(state, function(x) {
-    if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
-      jsonlite::validate(x$id)
-    } else {
-      return(TRUE)
-    }
+    assertValidWildcards(x)
   })
-  
-  if (!all(valid_wildcard_state)) {
-    stop(sprintf("A callback state ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
-                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
-  }
   
   if(any(sapply(output, is.list))) {
     valid_wildcard_output <- sapply(output, function(x) {
-      if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
-        jsonlite::validate(x$id)
-      } else {
-        return(TRUE)
-      }
+      assertValidWildcards(x)
     })
   } else {
     valid_wildcard_output <- sapply(list(output), function(x) {
-      if (grepl("ALL|MATCH|ALLSMALLER", x$id)) {
-        jsonlite::validate(x$id)
-      } else {
-        return(TRUE)
-      }
+      assertValidWildcards(x)
     })
   }
-  
-  if (!all(valid_wildcard_output)) {
-    stop(sprintf("A callback output ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. 
-                 Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID."), call. = FALSE)
-  }
-  
+
   
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323

@@ -2,7 +2,7 @@
 
 # Helper functions for handling dependency ids or props
 setWildcardId <- function(id) {
-  return(sprintf('{"index":["%s"],"type":"%s"}', id[['index']], id[['type']]))
+  return(sprintf('{"index":["%s"],"type":"%s"}', as.character(id[['index']]), id[['type']]))
 }
 
 #' Input/Output/State definitions
