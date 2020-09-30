@@ -981,11 +981,7 @@ setCallbackContext <- function(callback_elements) {
                           value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
                         }
                         
-                        if (startsWith(input_id, "{")){
-                          return(list(`prop_id` = x, `value` = value))
-                        } else {
-                          return(list(`prop_id` = x, `value` = value))
-                        }
+                        return(list(`prop_id` = x, `value` = value))
                       }
                     )
   if (length(callback_elements$inputs[[1]]) == 0) {

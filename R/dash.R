@@ -190,7 +190,8 @@ Dash <- R6::R6Class(
           response$type <- 'json'
           return(FALSE)
         }
-
+        browser()
+        
         # get the callback associated with this particular output
         callback <- private$callback_map[[request$body$output]][['func']]
         if (!length(callback)) stop_report("Couldn't find output component.")
