@@ -62,7 +62,7 @@ app$callback(
   })
 
 
-app$run_server(debug=F, showcase = TRUE)
+app$run_server(debug=T, showcase = TRUE)
 
 # Standard Callback Example
 
@@ -102,7 +102,7 @@ app <- Dash$new()
 
 app$layout(htmlDiv(list(
   htmlButton("Add Filter", id="dynamic-add-filter", n_clicks=0),
-  htmlDiv(id="dynamic-dropdown-container")
+  htmlDiv(id="dynamic-dropdown-container", children = list())
 )))
 
 
@@ -114,17 +114,18 @@ app$callback(
   ),
   display_dropdown <- function(n_clicks, children){
     new_element = htmlDiv(list(
-      htmlDiv(
-        id = list("index" = n_clicks, "type" = "dynamic-output"),
-        children = list(n_clicks)
-      ),
       dccDropdown(
         id = list("index" = n_clicks, "type" = "dynamic-dropdown"),
         options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
           list("label" = x, "value" = x)
         })
+      ),
+      htmlDiv(
+        id = list("index" = n_clicks, "type" = "dynamic-output"),
+        children = list()
       )
     ))
+    
     children <- c(children, list(new_element))
     return(children)
   }
@@ -138,8 +139,8 @@ app$callback(
     state(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
-    ctx <- app$callback_context()
-    print(jsonlite::toJSON(ctx, pretty = TRUE))
+    # ctx <- app$callback_context()
+    # print(jsonlite::toJSON(ctx, pretty = TRUE))
     print(id)
     print(value)
     return(htmlDiv(list(id, value)))

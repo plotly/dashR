@@ -215,8 +215,11 @@ Dash <- R6::R6Class(
         
         for (input_element in request$body$inputs) {
           if ("id.index" %in% names(unlist(input_element))) {
-            unlisted_input <- unlist(input_element)
-            values <- unname(unlisted_input[names(unlisted_input) == "value" | names(unlisted_input) == "value.index"])
+            if (!is.null(input_element$id)) input_element <- list(input_element)
+            values <- c()
+            for (wildcard_input in input_element) {
+              values <- c(values, wildcard_input$value)
+            }
             callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
           }
           else if(is.null(input_element$value)) {
@@ -230,8 +233,11 @@ Dash <- R6::R6Class(
         if (length(request$body$state)) {
           for (state_element in request$body$state) {
             if ("id.index" %in% names(unlist(state_element))) {
-              unlisted_state <- unlist(state_element)
-              values <- unname(unlisted_state[names(unlisted_state) == "value" | names(unlisted_state) == "value.index"])
+              if (!is.null(state_element$id)) state_element <- list(state_element)
+              values <- c()
+              for (wildcard_state in state_element) {
+                values <- c(values, wildcard_state$value)
+              }
               callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
             }
             else if(is.null(state_element$value)) {
