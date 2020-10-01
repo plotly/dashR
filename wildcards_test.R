@@ -28,7 +28,7 @@ app$callback(
         "index" = n_clicks,
         "type" = "filter-dropdown"
       ),
-      options = lapply(1:4, function(x){
+      options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
         list("label" = x, "value" = x)
       })
     )
@@ -102,7 +102,7 @@ app <- Dash$new()
 
 app$layout(htmlDiv(list(
   htmlButton("Add Filter", id="dynamic-add-filter", n_clicks=0),
-  htmlDiv(id="dynamic-dropdown-container", children=list())
+  htmlDiv(id="dynamic-dropdown-container")
 )))
 
 
@@ -114,15 +114,15 @@ app$callback(
   ),
   display_dropdown <- function(n_clicks, children){
     new_element = htmlDiv(list(
+      htmlDiv(
+        id = list("index" = n_clicks, "type" = "dynamic-output"),
+        children = list(n_clicks)
+      ),
       dccDropdown(
         id = list("index" = n_clicks, "type" = "dynamic-dropdown"),
         options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
           list("label" = x, "value" = x)
         })
-      ),
-      htmlDiv(
-        id = list("index" = n_clicks, "type" = "dynamic-output"),
-        children = list(n_clicks)
       )
     ))
     children <- c(children, list(new_element))

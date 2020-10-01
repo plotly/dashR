@@ -984,11 +984,7 @@ setCallbackContext <- function(callback_elements) {
                         return(list(`prop_id` = x, `value` = value))
                       }
                     )
-  if (length(callback_elements$inputs[[1]]) == 0) {
-    inputs <- sapply(callback_elements$inputs, function(x) {
-      setNames(list(x$value), paste(x$id, x$property, sep="."))
-    })
-  } else if (is.character(callback_elements$inputs[[1]][[1]])) {
+  if (length(callback_elements$inputs[[1]]) == 0 || is.character(callback_elements$inputs[[1]][[1]])) {
     inputs <- sapply(callback_elements$inputs, function(x) {
       setNames(list(x$value), paste(x$id, x$property, sep="."))
     })
