@@ -292,7 +292,7 @@ assert_no_names <- function (x)
 
 assertValidWildcards <- function(dependency) {
   if (is.symbol(dependency$id)) {
-    result <- jsonlite::validate(dependency$id)
+    result <- (jsonlite::validate(as.character(dependency$id)) && grepl("{", dependency$id))
   } else {
     result <- TRUE
   }
