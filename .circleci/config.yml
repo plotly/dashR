@@ -7,6 +7,9 @@ jobs:
     working_directory: ~/dashr
     docker:
       - image: plotly/dashr:ci
+        auth:
+          username: dashautomation
+          password: $DASH_PAT_DOCKERHUB    
         environment:
           PERCY_PARALLEL_TOTAL: '-1'
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
@@ -65,3 +68,5 @@ workflows:
   build:
     jobs:
       - "test"
+          context:
+            - dash-docker-hub
