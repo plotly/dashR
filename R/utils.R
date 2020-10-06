@@ -972,7 +972,7 @@ setCallbackContext <- function(callback_elements) {
                         }
                         
                         if (startsWith(input_id, "{")){
-                          if (length(callback_elements$inputs) == 1) {
+                          if (length(callback_elements$inputs) == 1 || !is.null(unlist(callback_elements$inputs, recursive = F)$value)) {
                             value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
                           } else {
                             value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")

@@ -190,7 +190,6 @@ Dash <- R6::R6Class(
           response$type <- 'json'
           return(FALSE)
         }
-        browser()
         
         # get the callback associated with this particular output
         callback <- private$callback_map[[request$body$output]][['func']]
@@ -303,6 +302,12 @@ Dash <- R6::R6Class(
              response = allprops,
              multi = TRUE
              )
+          } else if (is.list(request$body$outputs$id)) {
+            props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+            resp <- list(
+              response = setNames(list(props), to_JSON(request$body$outputs$id)),
+              multi = TRUE
+            )
           } else {
             resp <- list(
               response = list(
