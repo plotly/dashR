@@ -836,7 +836,9 @@ Dash <- R6::R6Class(
     #' Records timing information for a server resource.
     #' @details
     #' The `callback_context.record_timing` method permits retrieving the
-    #' duration required to execute a given callback.
+    #' duration required to execute a given callback. It may only be called
+    #' from within a callback; a warning will be thrown and the method will
+    #' otherwise return `NULL`.
     #' 
     #' @param name Character. The name of the resource.
     #' @param duration Numeric. The time in seconds to report. Internally, this is
@@ -846,6 +848,11 @@ Dash <- R6::R6Class(
     callback_context.record_timing = function(name,
                                               duration=NULL, 
                                               description=NULL) {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context.record_timing may only be accessed within a callback.")
+        return(NULL)
+      }
+
       timing_information <- self$server$get_data("timing-information")
 
       if (name %in% timing_information) {
