@@ -388,7 +388,7 @@ Dash <- R6::R6Class(
             response$status <- 200L
             response$append_header('Cache-Control',
                                    sprintf('public, max-age=%s',
-                                   31536000) # 1 year
+                                   '31536000') # 1 year
             )
           } else if (!private$debug && !has_fingerprint) {
             modified <- as.character(as.integer(file.mtime(dep_path)))
