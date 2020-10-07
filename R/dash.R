@@ -838,7 +838,7 @@ Dash <- R6::R6Class(
     #' The `callback_context.record_timing` method permits retrieving the
     #' duration required to execute a given callback. It may only be called
     #' from within a callback; a warning will be thrown and the method will
-    #' otherwise return `NULL`.
+    #' otherwise return `NULL` if invoked outside of a callback.
     #' 
     #' @param name Character. The name of the resource.
     #' @param duration Numeric. The time in seconds to report. Internally, this is
