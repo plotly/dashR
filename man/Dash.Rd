@@ -556,7 +556,9 @@ rounded to the nearest millisecond.}
 }
 \subsection{Details}{
 The \code{callback_context.record_timing} method permits retrieving the
-duration required to execute a given callback.
+duration required to execute a given callback. It may only be called
+from within a callback; a warning will be thrown and the method will
+otherwise return \code{NULL} if invoked outside of a callback.
 }
 
 }
