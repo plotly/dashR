@@ -1247,7 +1247,7 @@ Dash <- R6::R6Class(
 
       if (private$debug && self$config$ui) {
         self$server$on('before-request', function(server, ...) {
-          self$server$set_data("timing_information", list(
+          self$server$set_data("timing-information", list(
             "__dash_server" = list(
               "dur" = as.numeric(Sys.time()),
               "desc" = NULL
@@ -1262,6 +1262,9 @@ Dash <- R6::R6Class(
           
           request$response$append_header('Server-Timing', 
                                          paste0('dash_total;dur=', dash_total[['dur']]))
+
+          # ensure dash_server is not returned within the header
+          timing_information <- timing_information[names(timing_information) != "__dash_server"]
 
           for (item in seq_along(timing_information)) {
             header_content <- paste0(names(timing_information[item]), ';')
@@ -1388,14 +1391,14 @@ Dash <- R6::R6Class(
           private$last_cycle <- as.integer(Sys.time())
 
           # flush the context to prepare for the next request cycle
-          self$server$set_data("timing_information", list())
+          self$server$set_data("timing-information", list())
         })
       } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
         } else if (hot_reload == FALSE && private$debug && self$config$ui) {
             self$server$on("cycle-end", function(server, ...) {
               # flush the context to prepare for the next request cycle
-              self$server$set_data("timing_information", list())
+              self$server$set_data("timing-information", list())
             })
         } 
 
