@@ -844,21 +844,18 @@ Dash <- R6::R6Class(
     #' @param description Character. A description of the resource.
     #'
     callback_context.record_timing = function(name,
-                                              duration=NULL,
+                                              duration=NULL, 
                                               description=NULL) {
-      timing_information_ <- attributes(dynGet("request"))$timing_information
+      timing_information <- self$server$get_data("timing-information")
 
-      if (name %in% timing_information_) {
+      if (name %in% timing_information) {
         stop(paste0("Duplicate resource name ", name, " found."), call.=FALSE)
       }
 
-      timing_information_[[name]] <- list("dur" = round(duration * 1000),
-                                          "desc" = description)
+      timing_information[[name]] <- list("dur" = round(duration * 1000), 
+                                         "desc" = description)
 
-      self$server$set_data("timing-information", timing_information_)
-
-      evalq(attr(req, "timing_information") <- app$server$get_data("timing-information"),
-                                                                   envir = countEnclosingFrames("request"))
+      self$server$set_data("timing-information", timing_information)
     },
 
     # ------------------------------------------------------------------------
@@ -1249,43 +1246,37 @@ Dash <- R6::R6Class(
       self$config$props_check <- dev_tools_props_check
 
       if (private$debug && self$config$ui) {
-        self$server$on('before-request', function(server, request, ...) {
-          attr(request, "timing_information") <- list(
+        self$server$on('before-request', function(server, ...) {
+          self$server$set_data("timing_information", list(
             "__dash_server" = list(
               "dur" = as.numeric(Sys.time()),
               "desc" = NULL
             )
-          )
+          ))
         })
 
         self$server$on('request', function(server, request, ...) {
-          timing_information_ <- attr(request, "timing_information")
-          dash_total <- timing_information_[['__dash_server']]
-          dash_total[['dur']] <- round((as.numeric(Sys.time()) - dash_total[['dur']]) * 1000)
-
+          timing_information <- self$server$get_data('timing-information')
+          dash_total <- timing_information[['__dash_server']]
+          dash_total[['dur']] <- round(as.numeric(Sys.time() - dash_total[['dur']]) * 1000)
+          
           request$response$append_header('Server-Timing', 
                                          paste0('dash_total;dur=', dash_total[['dur']]))
 
-          # ensure dash_server is not returned within the header
-          timing_information_ <- timing_information_[names(timing_information_) != "__dash_server"]
+          for (item in seq_along(timing_information)) {
+            header_content <- paste0(names(timing_information[item]), ';')
 
-          for (item in seq_along(timing_information_)) {
-            header_content <- paste0(names(timing_information_[item]), ';')
-
-            if (!is.null(timing_information_[[item]]$desc)) {
-              header_content <- paste0(header_content, 'desc="', timing_information_[[item]]$desc, '"')
+            if (!is.null(timing_information[[item]]$desc)) {
+              header_content <- paste0(header_content, 'desc="', timing_information[[item]]$desc, '"')
             }
 
-            if (!is.null(timing_information_[[item]]$dur)) {
-              header_content <- paste0(header_content, ';dur=', timing_information_[[item]]$dur)
+            if (!is.null(timing_information[[item]]$dur)) {
+              header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
             }
             
             request$response$append_header('Server-Timing', 
                                            header_content)
           }
-
-          # flush the context (probably unnecessary, but to be overly safe)
-          attr(request, "timing_information") <- list()
         })
       }
 
@@ -1395,13 +1386,16 @@ Dash <- R6::R6Class(
 
           # reset the timestamp so we're able to determine when the last cycle end occurred
           private$last_cycle <- as.integer(Sys.time())
+
+          # flush the context to prepare for the next request cycle
+          self$server$set_data("timing_information", list())
         })
       } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
         } else if (hot_reload == FALSE && private$debug && self$config$ui) {
             self$server$on("cycle-end", function(server, ...) {
-              # ensure the timing-information store is flushed
-              self$server$set_data("timing-information", list())
+              # flush the context to prepare for the next request cycle
+              self$server$set_data("timing_information", list())
             })
         } 
 
