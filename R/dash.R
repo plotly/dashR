@@ -190,7 +190,7 @@ Dash <- R6::R6Class(
           response$type <- 'json'
           return(FALSE)
         }
-        
+
         # get the callback associated with this particular output
         callback <- private$callback_map[[request$body$output]][['func']]
         if (!length(callback)) stop_report("Couldn't find output component.")
@@ -211,7 +211,7 @@ Dash <- R6::R6Class(
         #
         # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
         callback_args <- list()
-        
+
         for (input_element in request$body$inputs) {
           if ("id.index" %in% names(unlist(input_element))) {
             if (!is.null(input_element$id)) input_element <- list(input_element)
@@ -247,7 +247,7 @@ Dash <- R6::R6Class(
             }
           }
         }
-        
+
         # set the callback context associated with this invocation of the callback
         private$callback_context_ <- setCallbackContext(request$body)
 
@@ -315,7 +315,7 @@ Dash <- R6::R6Class(
               )
             )
           }
-          
+
           response$body <- to_JSON(resp)
           response$status <- 200L
           response$type <- 'json'
