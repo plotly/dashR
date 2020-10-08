@@ -1272,28 +1272,26 @@ Dash <- R6::R6Class(
         self$server$on('request', function(server, request, ...) {
           timing_information <- self$server$get_data('timing-information')
           dash_total <- timing_information[['__dash_server']]
-          dash_total[['dur']] <- round(as.numeric(Sys.time() - dash_total[['dur']]) * 1000)
+          timing_information[['__dash_server']][['dur']] <- round(as.numeric(Sys.time() - dash_total[['dur']]) * 1000)
           
-          request$response$append_header('Server-Timing', 
-                                         paste0('dash_total;dur=', dash_total[['dur']]))
-
-          # ensure dash_server is not returned within the header
-          timing_information <- timing_information[names(timing_information) != "__dash_server"]
+          header_as_string <- list()
 
           for (item in seq_along(timing_information)) {
-            header_content <- paste0(names(timing_information[item]), ';')
+            header_content <- names(timing_information[item])
 
             if (!is.null(timing_information[[item]]$desc)) {
-              header_content <- paste0(header_content, 'desc="', timing_information[[item]]$desc, '"')
+              header_content <- paste0(header_content, ';desc="', timing_information[[item]]$desc, '"')
             }
 
             if (!is.null(timing_information[[item]]$dur)) {
               header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
             }
             
-            request$response$append_header('Server-Timing', 
-                                           header_content)
+             header_as_string[[item]] <- header_content
           }
+
+          request$response$append_header('Server-Timing', 
+                                         paste0(unlist(header_as_string), collapse=", "))
         })
       }
 
