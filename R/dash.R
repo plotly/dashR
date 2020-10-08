@@ -1272,7 +1272,7 @@ Dash <- R6::R6Class(
         self$server$on('request', function(server, request, ...) {
           timing_information <- self$server$get_data('timing-information')
           dash_total <- timing_information[['__dash_server']]
-          timing_information[['__dash_server']][['dur']] <- round(as.numeric(Sys.time() - dash_total[['dur']]) * 1000)
+          timing_information[['__dash_server']][['dur']] <- round((as.numeric(Sys.time()) - dash_total[['dur']]) * 1000)
           
           header_as_string <- list()
 
