@@ -386,14 +386,15 @@ Dash <- R6::R6Class(
 
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
-            response$set_header('Cache-Control',
-                                sprintf('public, max-age=%s',
-                                        31536000) # 1 year
+            response$append_header('Cache-Control',
+                                   sprintf('public, max-age=%s',
+                                   '31536000') # 1 year
             )
           } else if (!private$debug && !has_fingerprint) {
             modified <- as.character(as.integer(file.mtime(dep_path)))
 
-            response$set_header('ETag', modified)
+            response$append_header('ETag',
+                                   modified)
 
             request_etag <- request$get_header('If-None-Match')
 
@@ -480,9 +481,9 @@ Dash <- R6::R6Class(
                                  file.size(asset_path))
         close(file_handle)
 
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    '31536000')
+        response$append_header('Cache-Control',
+                               sprintf('public, max-age=%s',
+                               '31536000')
                             )
         response$type <- 'image/x-icon'
         response$status <- 200L
@@ -831,7 +832,44 @@ Dash <- R6::R6Class(
       if (is.null(private$callback_context_)) {
         warning("callback_context is undefined; callback_context may only be accessed within a callback.")
       }
+
       private$callback_context_
+    },
+
+    # ------------------------------------------------------------------------
+    # request and return callback timing data
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Records timing information for a server resource.
+    #' @details
+    #' The `callback_context.record_timing` method permits retrieving the
+    #' duration required to execute a given callback. It may only be called
+    #' from within a callback; a warning will be thrown and the method will
+    #' otherwise return `NULL` if invoked outside of a callback.
+    #' 
+    #' @param name Character. The name of the resource.
+    #' @param duration Numeric. The time in seconds to report. Internally, this is
+    #' rounded to the nearest millisecond.
+    #' @param description Character. A description of the resource.
+    #'
+    callback_context.record_timing = function(name,
+                                              duration=NULL, 
+                                              description=NULL) {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context.record_timing may only be accessed within a callback.")
+        return(NULL)
+      }
+
+      timing_information <- self$server$get_data("timing-information")
+
+      if (name %in% timing_information) {
+        stop(paste0("Duplicate resource name ", name, " found."), call.=FALSE)
+      }
+
+      timing_information[[name]] <- list("dur" = round(duration * 1000), 
+                                         "desc" = description)
+
+      self$server$set_data("timing-information", timing_information)
     },
 
     # ------------------------------------------------------------------------
@@ -1221,6 +1259,42 @@ Dash <- R6::R6Class(
       self$config$silence_routes_logging <- dev_tools_silence_routes_logging
       self$config$props_check <- dev_tools_props_check
 
+      if (private$debug && self$config$ui) {
+        self$server$on('before-request', function(server, ...) {
+          self$server$set_data("timing-information", list(
+            "__dash_server" = list(
+              "dur" = as.numeric(Sys.time()),
+              "desc" = NULL
+            )
+          ))
+        })
+
+        self$server$on('request', function(server, request, ...) {
+          timing_information <- self$server$get_data('timing-information')
+          dash_total <- timing_information[['__dash_server']]
+          timing_information[['__dash_server']][['dur']] <- round((as.numeric(Sys.time()) - dash_total[['dur']]) * 1000)
+          
+          header_as_string <- list()
+
+          for (item in seq_along(timing_information)) {
+            header_content <- names(timing_information[item])
+
+            if (!is.null(timing_information[[item]]$desc)) {
+              header_content <- paste0(header_content, ';desc="', timing_information[[item]]$desc, '"')
+            }
+
+            if (!is.null(timing_information[[item]]$dur)) {
+              header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
+            }
+            
+             header_as_string[[item]] <- header_content
+          }
+
+          request$response$append_header('Server-Timing', 
+                                         paste0(unlist(header_as_string), collapse=", "))
+        })
+      }
+
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
           # handle case where assets are not present, since we can still hot reload the app itself
@@ -1327,10 +1401,19 @@ Dash <- R6::R6Class(
 
           # reset the timestamp so we're able to determine when the last cycle end occurred
           private$last_cycle <- as.integer(Sys.time())
+
+          # flush the context to prepare for the next request cycle
+          self$server$set_data("timing-information", list())
         })
       } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
-        }
+        } else if (hot_reload == FALSE && private$debug && self$config$ui) {
+            self$server$on("cycle-end", function(server, ...) {
+              # flush the context to prepare for the next request cycle
+              self$server$set_data("timing-information", list())
+            })
+        } 
+
       self$server$ignite(block = block, showcase = showcase, ...)
       }
     ),
