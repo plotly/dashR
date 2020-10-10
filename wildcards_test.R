@@ -42,7 +42,6 @@ app$callback(
   ),
   display_output <- function(test){
     ctx <- app$callback_context()
-    print(ctx)
     return(htmlDiv(
       lapply(1:length(test), function(x){
         return(htmlDiv(sprintf("Dropdown %s = %s", x, test[[x]])))
@@ -129,10 +128,6 @@ app$callback(
     state(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
-    # ctx <- app$callback_context()
-    # print(jsonlite::toJSON(ctx, pretty = TRUE))
-    print(id)
-    print(value)
     return(htmlDiv(sprintf("Dropdown %s = %s", id$index, value)))
   }
 )
@@ -251,31 +246,101 @@ app$callback(
     input("new-item", "n_submit"),
     input("clear-done", "n_clicks"),
     state("new-item", "value"),
-    state(list("index" = dash:::ALL, "type" = "all"), "children"),
+    state(list("index" = dash:::ALL, "type" = "check"), "children"),
     state(list("index" = dash:::ALL, "type" = "done"), "value")
   ),
   edit_list <- function(add, add2, clear, new_item, items, items_done) {
     ctx <- app$callback_context()
-    triggered <- ctx$triggered$prop_id
-    adding <- triggered %in% c("add.n_clicks", "new-item.n_submit")
-    clearing = triggered %in% c("clear-done.n_clicks")
-    
-    print(items)
-    
-    new_list <- list(htmlDiv(list(
-      dccChecklist(
-        id = list("index" = add, "type" = "done"),
-        options = list(
-          list("label" = "", "value" = "done")
-        ),
-        style = list("display" = "inline"),
-        labelStyle = list("display" = "inline")
-      ),
-      htmlDiv(new_item, id = list("index" = "add", "type" = "all"), style = style_todo)
-    ), style = list("clear" = "both")))
-    return(list(new_list, ""))
+    triggered <- ifelse(is.null(ctx$triggered$prop_id), " ", ctx$triggered$prop_id)
+    adding <- grepl(triggered, "add.n_clicks|new-item.n_submit")
+    clearing = grepl(triggered, "clear-done.n_clicks")
+
+    new_spec <- list()
+    for (i in 1:length(items)) {
+      if (!is.null(items[[i]])) {
+        new_spec[[length(new_spec) + 1]] <- list(items[[i]], list())
+      }
+    }
+
+    for (i in 1:length(items_done)) {
+      if (!is.null(items_done[[i]])) {
+        new_spec[[i]][[2]] <- items_done[[i]]
+      }
+    }
+
+    if (clearing) {
+      remove_vector <- c()
+      for (i in 1:length(new_spec)) {
+        if (length(new_spec[[i]][[2]]) > 0) {
+          remove_vector <- c(remove_vector, i)
+        }
+      }
+      new_spec <- new_spec[-remove_vector]
+    }
+
+    if (adding) {
+      new_spec[[length(new_spec) + 1]] <- list(new_item, list())
+    }
+
+    new_list <- list()
+    if (!is.null(unlist(new_spec))) {
+      for (i in 1:length(new_spec)) {
+        add_list <- list(htmlDiv(list(
+          dccChecklist(
+            id = list("index" = i, "type" = "done"),
+            options = list(
+              list("label" = "", "value" = "done")
+            ),
+            value = new_spec[[i]][[2]],
+            style = list("display" = "inline"),
+            labelStyle = list("display" = "inline")
+          ),
+          htmlDiv(new_spec[[i]][[1]], id = list("index" = i, "type" = "check"), style = if (length(new_spec[[i]][[2]]) == 0) style_todo else style_done)
+        ), style = list("clear" = "both")))
+        new_list <- c(new_list, add_list)
+      }
+      return(list(new_list, ""))
+    } else {
+      return(list(list(), ""))
+    }
+  }
+)
+
+app$callback(
+  output(id = list("index" = dash:::MATCH, "type" = "check"), property = "style"),
+  params = list(
+    input(id = list("index" = dash:::MATCH, "type" = "done"), property = "value")
+  ),
+  mark_done <- function(done){
+    if (length(done[[1]] > 0)) return(style_done) else return(style_todo)
+  }
+)
+
+
+app$callback(
+  output(id = "totals", property = "children"),
+  params = list(
+    input(list("index" = dash:::ALL, "type" = "done"), property = "value"),
+    state(list("index" = dash:::ALL, "type" = "check"), property = "children")
+  ),
+  show_totals <- function(done, total) {
+    count_all = length(total)
+    count_done = length(done)
+
+    result = sprintf("%s of %s items completed", count_done, count_all)
+
+    if (count_all > 0) {
+      result = paste(result, sprintf(" - %s%%", as.integer(100 * count_done/count_all)))
+    }
+
+    if (is.null(total[[1]])) {
+      return("Add an item to the list to get started.")
+    } else {
+      return(result)
+    }
   }
 )
 
 
 app$run_server(showcase = T, debug = F, port = 8040)
+
