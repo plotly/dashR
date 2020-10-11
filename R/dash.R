@@ -215,7 +215,7 @@ Dash <- R6::R6Class(
         for (input_element in request$body$inputs) {
           if ("id.index" %in% names(unlist(input_element))) {
             if (!is.null(input_element$id)) input_element <- list(input_element)
-            values <- c()
+            values <- character(0)
             for (wildcard_input in input_element) {
               values <- c(values, wildcard_input$value)
             }
