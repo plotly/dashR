@@ -37,7 +37,7 @@ test_that("restricted pattern matching callback selectors must be formatted as a
     app$callback(
       output(id="dropdown-container-output", property="children"),
       params = list(
-        input(id=list("index" = dash:::ALL, "type" = "filter-dropdown"), property= "value")
+        input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
       ),
       display_output <- function(test){
         return(htmlDiv(
