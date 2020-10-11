@@ -179,10 +179,10 @@ app$callback(
 
 
 app$callback(
-  output(id = list("type" = "output-ex3", "index" = dash:::MATCH), property = "children"),
+  output(id = list("type" = "output-ex3", "index" = MATCH), property = "children"),
   params = list(
-    input(id = list("type" = "filter-dropdown-ex3", "index" = dash:::MATCH), property = "value"),
-    input(id = list("type" = "filter-dropdown-ex3", "index" = dash:::ALLSMALLER), property = "value")
+    input(id = list("type" = "filter-dropdown-ex3", "index" = MATCH), property = "value"),
+    input(id = list("type" = "filter-dropdown-ex3", "index" = ALLSMALLER), property = "value")
   ),
   display_output <- function(matching_value, previous_values){
     previous_values_in_reversed_order = rev(previous_values)
