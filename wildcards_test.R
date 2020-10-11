@@ -51,7 +51,7 @@ app$callback(
 )
 
 
-app$run_server(debug=T, showcase = TRUE)
+app$run_server(debug=TRUE, showcase = TRUE)
 
 # Standard Callback Example
 
