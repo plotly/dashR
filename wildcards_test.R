@@ -144,7 +144,7 @@ library(dashCoreComponents)
 library(dashHtmlComponents)
 
 
-df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = F)
+df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = FALSE)
 
 
 app <- Dash$new()
