@@ -38,7 +38,7 @@ app$callback(
 app$callback(
   output(id="dropdown-container-output", property="children"),
   params = list(
-    input(id=list("index" = dash:::ALL, "type" = "filter-dropdown"), property= "value")
+    input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
   ),
   display_output <- function(test){
     ctx <- app$callback_context()
@@ -347,4 +347,3 @@ app$callback(
 
 
 app$run_server(showcase = T, debug = F, port = 8040)
-
