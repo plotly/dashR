@@ -677,8 +677,8 @@ Dash <- R6::R6Class(
     #'
     #' However, for readability, we recommend using keys like type, index, or id.
     #' `type` can be used to refer to the class or set of dynamic components and
-    #' `index` or `id` could be used to refer which component you are matching
-    #' within that set. While your applicatoin may have a single set of dynamic
+    #' `index` or `id` could be used to refer to the component you are matching
+    #' within that set. While your application may have a single set of dynamic
     #' components, it's possible to specify multiple sets of dynamic components
     #' in more complex apps or if you are using `MATCH`.
     #'
