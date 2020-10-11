@@ -246,8 +246,8 @@ app$callback(
     input("new-item", "n_submit"),
     input("clear-done", "n_clicks"),
     state("new-item", "value"),
-    state(list("index" = dash:::ALL, "type" = "check"), "children"),
-    state(list("index" = dash:::ALL, "type" = "done"), "value")
+    state(list("index" = ALL, "type" = "check"), "children"),
+    state(list("index" = ALL, "type" = "done"), "value")
   ),
   edit_list <- function(add, add2, clear, new_item, items, items_done) {
     ctx <- app$callback_context()
@@ -311,9 +311,9 @@ app$callback(
 )
 
 app$callback(
-  output(id = list("index" = dash:::MATCH, "type" = "check"), property = "style"),
+  output(id = list("index" = MATCH, "type" = "check"), property = "style"),
   params = list(
-    input(id = list("index" = dash:::MATCH, "type" = "done"), property = "value")
+    input(id = list("index" = MATCH, "type" = "done"), property = "value")
   ),
   mark_done <- function(done){
     if (length(done[[1]] > 0)) return(style_done) else return(style_todo)
@@ -324,8 +324,8 @@ app$callback(
 app$callback(
   output(id = "totals", property = "children"),
   params = list(
-    input(list("index" = dash:::ALL, "type" = "done"), property = "value"),
-    state(list("index" = dash:::ALL, "type" = "check"), property = "children")
+    input(list("index" = ALL, "type" = "done"), property = "value"),
+    state(list("index" = ALL, "type" = "check"), property = "children")
   ),
   show_totals <- function(done, total) {
     count_all = length(total)
