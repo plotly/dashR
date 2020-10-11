@@ -56,7 +56,7 @@ app$callback(
 )
 
 
-app$run_server(debug=T)
+app$run_server(debug=TRUE)
 """
 
 allsmaller_app = """
@@ -164,4 +164,3 @@ def test_rpmc002_pattern_matching_allsmaller(dashr):
         "#test",
         "59.03 is the life expectancy of Angola and Argentina."
     )
-
