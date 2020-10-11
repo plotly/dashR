@@ -122,10 +122,10 @@ app$callback(
 
 
 app$callback(
-  output(id = list("index" = dash:::MATCH, "type" = "dynamic-output"), property= "children"),
+  output(id = list("index" = MATCH, "type" = "dynamic-output"), property= "children"),
   params = list(
-    input(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "value"),
-    state(id=list("index" = dash:::MATCH, "type" = "dynamic-dropdown"), property= "id")
+    input(id=list("index" = MATCH, "type" = "dynamic-dropdown"), property= "value"),
+    state(id=list("index" = MATCH, "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
     return(htmlDiv(sprintf("Dropdown %s = %s", id$index, value)))
