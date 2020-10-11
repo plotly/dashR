@@ -43,7 +43,7 @@ app$callback(
   display_output <- function(test){
     ctx <- app$callback_context()
     return(htmlDiv(
-      lapply(1:length(test), function(x){
+      lapply(seq_along(test), function(x){
         return(htmlDiv(sprintf("Dropdown %s = %s", x, test[[x]])))
       })
     ))
@@ -257,13 +257,13 @@ app$callback(
     
     # Create a list which we will hydrate with "items" and "items_done"
     new_spec <- list()
-    for (i in 1:length(items)) {
+    for (i in seq_along(items)) {
       if (!is.null(items[[i]])) {
         new_spec[[length(new_spec) + 1]] <- list(items[[i]], list())
       }
     }
 
-    for (i in 1:length(items_done)) {
+    for (i in seq_along(items_done)) {
       if (!is.null(items_done[[i]])) {
         new_spec[[i]][[2]] <- items_done[[i]]
       }
@@ -272,7 +272,7 @@ app$callback(
     # If clearing, we remove elements from the list which have been marked "done"
     if (clearing) {
       remove_vector <- c()
-      for (i in 1:length(new_spec)) {
+      for (i in seq_along(new_spec)) {
         if (length(new_spec[[i]][[2]]) > 0) {
           remove_vector <- c(remove_vector, i)
         }
@@ -288,7 +288,7 @@ app$callback(
     # Generate dynamic components with pattern matching IDs
     new_list <- list()
     if (!is.null(unlist(new_spec))) {
-      for (i in 1:length(new_spec)) {
+      for (i in seq_along(new_spec)) {
         add_list <- list(htmlDiv(list(
           dccChecklist(
             id = list("index" = i, "type" = "done"),
