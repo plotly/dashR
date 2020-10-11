@@ -132,7 +132,7 @@ app$callback(
   }
 )
 
-app$run_server(showcase = T, debug = T, port = 8070)
+app$run_server(showcase = TRUE, debug = TRUE)
   
 
 
