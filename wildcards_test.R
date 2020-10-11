@@ -254,7 +254,8 @@ app$callback(
     triggered <- ifelse(is.null(ctx$triggered$prop_id), " ", ctx$triggered$prop_id)
     adding <- grepl(triggered, "add.n_clicks|new-item.n_submit")
     clearing = grepl(triggered, "clear-done.n_clicks")
-
+    
+    # Create a list which we will hydrate with "items" and "items_done"
     new_spec <- list()
     for (i in 1:length(items)) {
       if (!is.null(items[[i]])) {
@@ -267,7 +268,8 @@ app$callback(
         new_spec[[i]][[2]] <- items_done[[i]]
       }
     }
-
+    
+    # If clearing, we remove elements from the list which have been marked "done"
     if (clearing) {
       remove_vector <- c()
       for (i in 1:length(new_spec)) {
@@ -277,11 +279,13 @@ app$callback(
       }
       new_spec <- new_spec[-remove_vector]
     }
-
+    
+    # Add a new item to the list
     if (adding) {
       new_spec[[length(new_spec) + 1]] <- list(new_item, list())
     }
-
+    
+    # Generate dynamic components with pattern matching IDs
     new_list <- list()
     if (!is.null(unlist(new_spec))) {
       for (i in 1:length(new_spec)) {
