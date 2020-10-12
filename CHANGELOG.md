@@ -2,6 +2,12 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- New and improved callback graph in the debug menu. Now based on Cytoscape for much more interactivity, plus callback profiling including number of calls, fine-grained time information, bytes sent and received, and more. You can even add custom timing information on the server with `callback_context.record_timing(name, duration, description)` [#224](https://github.com/plotly/dashR/pull/224)
+- Support for setting attributes on `external_scripts` and `external_stylesheets`, and validation for the parameters passed (attributes are verified, and elements that are lists themselves must be named). [#226](https://github.com/plotly/dashR/pull/226)
+- Dash for R now supports user-defined routes and redirects via the `app$server_route` and `app$redirect` methods. [#225](https://github.com/plotly/dashR/pull/225)
+
 ## [0.7.1] - 2020-07-30
 ### Fixed
 - Fixes a minor bug in debug mode that prevented display of user-defined error messages when induced by invoking the `stop` function. [#220](https://github.com/plotly/dashR/pull/220).

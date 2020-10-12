@@ -157,7 +157,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
-        html <- generate_js_dist_html(href = dep$src$href)
+        html <- generate_js_dist_html(tagdata = dep$src$href)
       } else {
         script_mtime <- file.mtime(getDependencyPath(dep))
         modtime <- as.integer(script_mtime)
@@ -172,10 +172,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "&m=",
                                   modified)
 
-        html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
+        html <- generate_js_dist_html(tagdata = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
-      html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
+      html <- generate_css_dist_html(tagdata = paste(dep[["src"]][["href"]],
                                                   dep[["stylesheet"]],
                                                   sep="/"),
                                      local = FALSE)
@@ -192,20 +192,20 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                               "?v=",
                               dep$version)
 
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+          html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
                               dep[["stylesheet"]],
                               "?v=",
                               dep$version)
 
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+          html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
         }
 
       } else {
         sheetpath <- paste0(dep[["src"]][["file"]],
                             dep[["stylesheet"]])
-        html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+        html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
       }
     }
   })
@@ -573,53 +573,150 @@ get_mimetype <- function(filename) {
                             empty = "application/octet-stream"))
 }
 
-generate_css_dist_html <- function(href,
+generate_css_dist_html <- function(tagdata,
                                    local = FALSE,
                                    local_path = NULL,
                                    prefix = NULL,
                                    as_is = FALSE) {
+  attribs <- names(tagdata)
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
-        href,
-        perl=TRUE) || as_is) {
-      sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
+    if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        tagdata,
+        perl=TRUE)) || as_is) {
+            if (is.list(tagdata))
+                glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), ' rel="stylesheet">')
+            else
+                glue::glue('<link ', glue::glue('href="{tagdata}"'), ' rel="stylesheet">')
     }
     else
       stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">",
-            prefix,
-            href,
-            modified)
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$href <- paste0(prefix, sub("^/", "", tagdata$href))
+        glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), ' rel="stylesheet">')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        glue::glue('<link ', glue::glue('href="{prefix}{tagdata}?m={modified}"'), ' rel="stylesheet">')
+    }
   }
 }
 
-generate_js_dist_html <- function(href,
+
+generate_js_dist_html <- function(tagdata,
                                   local = FALSE,
                                   local_path = NULL,
                                   prefix = NULL,
                                   as_is = FALSE) {
+  attribs <- names(tagdata)
   if (!(local)) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
-      href,
-      perl=TRUE) || as_is) {
-      sprintf("<script src=\"%s\"></script>", href)
-    }
+    if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        tagdata,
+        perl=TRUE)) || as_is) {
+            if (is.list(tagdata))
+                glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), '></script>')
+            else
+                glue::glue('<script ', glue::glue('src="{tagdata}"'), '></script>')
+        }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<script src=\"%s%s?m=%s\"></script>",
-            prefix,
-            href,
-            modified)
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$src <- paste0(prefix, sub("^/", "", tagdata$src))
+        glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), '></script>')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        glue::glue('<script ', glue::glue('src="{prefix}{tagdata}?m={modified}"'), '></script>')
+    }
   }
 }
+
+assertValidExternals <- function(scripts, stylesheets) {
+    allowed_js_attribs <- c("async",
+                            "crossorigin",
+                            "defer",
+                            "integrity",
+                            "nomodule",
+                            "nonce",
+                            "referrerpolicy",
+                            "src",
+                            "type",
+                            "charset",
+                            "language")
+
+    allowed_css_attribs <- c("as",
+                             "crossorigin",
+                             "disabled",
+                             "href",
+                             "hreflang",
+                             "importance",
+                             "integrity",
+                             "media",
+                             "referrerpolicy",
+                             "rel",
+                             "sizes",
+                             "title",
+                             "type",
+                             "methods",
+                             "prefetch",
+                             "target",
+                             "charset",
+                             "rev")
+    script_attributes <- character()
+    stylesheet_attributes <- character()
+    
+    for (item in scripts) {
+      if (is.list(item)) {
+        if (!"src" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        script_attributes <- c(script_attributes, names(item))
+      }
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
+        script_attributes <- c(script_attributes, character(0))
+      }
+    }
+
+    for (item in stylesheets) {
+      if (is.list(item)) {
+        if (!"href" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        stylesheet_attributes <- c(stylesheet_attributes, names(item))
+      }
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
+        stylesheet_attributes <- c(stylesheet_attributes, character(0))
+      }
+    }
+    
+    invalid_script_attributes <- setdiff(script_attributes, allowed_js_attribs)
+    invalid_stylesheet_attributes <- setdiff(stylesheet_attributes, allowed_css_attribs)
+    
+    if (length(invalid_script_attributes) > 0 || length(invalid_stylesheet_attributes) > 0) {
+      stop(sprintf("The following script or stylesheet attributes are invalid: %s.",
+           paste0(c(invalid_script_attributes, invalid_stylesheet_attributes), collapse=", ")), call. = FALSE)
+    }
+    invisible(TRUE)
+  }
 
 generate_meta_tags <- function(metas) {
   has_ie_compat <- any(vapply(metas, function(x)
