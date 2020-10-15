@@ -219,7 +219,7 @@ Dash <- R6::R6Class(
         #
         # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
         callback_args <- list()
-        
+
         for (input_element in request$body$inputs) {
           if (any(grepl("id.", names(unlist(input_element))))) {
             if (!is.null(input_element$id)) input_element <- list(input_element)
