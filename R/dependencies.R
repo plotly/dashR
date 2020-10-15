@@ -2,7 +2,12 @@
 
 # Helper functions for handling dependency ids or props
 setWildcardId <- function(id) {
-  return(sprintf('{"index":["%s"],"type":"%s"}', as.character(id[['index']]), id[['type']]))
+  # Sort the keys of a wildcard id
+  id <- id[order(names(id))]
+  all_selectors <- vapply(id, function(x) {is.symbol(x)}, logical(1))
+  id[all_selectors] <- as.character(id[all_selectors])
+  id[!all_selectors] <- lapply(id[!all_selectors], function(x) {jsonlite::unbox(x)})
+  return(as.character(jsonlite::toJSON(id, auto_unbox = FALSE)))
 }
 
 #' Input/Output/State definitions

@@ -219,9 +219,9 @@ Dash <- R6::R6Class(
         #
         # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Others:
         callback_args <- list()
-
+        
         for (input_element in request$body$inputs) {
-          if ("id.index" %in% names(unlist(input_element))) {
+          if (any(grepl("id.", names(unlist(input_element))))) {
             if (!is.null(input_element$id)) input_element <- list(input_element)
             values <- character(0)
             for (wildcard_input in input_element) {
@@ -239,9 +239,9 @@ Dash <- R6::R6Class(
 
         if (length(request$body$state)) {
           for (state_element in request$body$state) {
-            if ("id.index" %in% names(unlist(state_element))) {
+            if (any(grepl("id.", names(unlist(state_element))))) {
               if (!is.null(state_element$id)) state_element <- list(state_element)
-              values <- c()
+              values <- character(0)
               for (wildcard_state in state_element) {
                 values <- c(values, wildcard_state$value)
               }

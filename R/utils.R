@@ -1037,7 +1037,7 @@ setCallbackContext <- function(callback_elements) {
   } else {
     states <- sapply(callback_elements$state, function(x) {
       states_vector <- unlist(x)
-      setNames(list(states_vector[names(states_vector) == "value" | names(states_vector) == "value.index"]), 
+      setNames(list(states_vector[grepl("value|value.", names(states_vector))]), 
                paste(as.character(jsonlite::toJSON(x[[1]])), x$property, sep="."))
     })
   }
@@ -1053,7 +1053,7 @@ setCallbackContext <- function(callback_elements) {
                         if (startsWith(input_id, "{")){
                           id_match <- vapply(callback_elements$inputs, function(x) {
                             x <- unlist(x)
-                            any(x[names(x) == "id.index"] %in% jsonlite::fromJSON(input_id)[[1]])
+                            any(x[grepl("id.", names(x))] %in% jsonlite::fromJSON(input_id)[[1]])
                           }, logical(1))[[1]]
                         } else {
                           id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
@@ -1088,12 +1088,12 @@ setCallbackContext <- function(callback_elements) {
   } else if (length(callback_elements$inputs[[1]]) > 1) {
     inputs <- sapply(callback_elements$inputs, function(x) {
       inputs_vector <- unlist(x)
-      setNames(list(inputs_vector[names(inputs_vector) == "value" | names(inputs_vector) == "value.index"]), paste(as.character(jsonlite::toJSON(x$id)), x$property, sep="."))
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x$id)), x$property, sep="."))
     })
   } else {
     inputs <- sapply(callback_elements$inputs, function(x) {
       inputs_vector <- unlist(x)
-      setNames(list(inputs_vector[names(inputs_vector) == "value" | names(inputs_vector) == "value.index"]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
     })
   }
 
