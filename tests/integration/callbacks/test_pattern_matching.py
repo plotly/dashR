@@ -350,7 +350,7 @@ def test_rpmc002_pattern_matching_allsmaller(dashr):
     dashr.select_dcc_dropdown('#\\{\\"index\\"\\:2\\,\\"type\\"\\:\\"filter-dropdown-ex3\\"\\}', "Angola")
     dashr.wait_for_text_to_equal(
         "#test",
-        "59.57 is the life expectancy of Argentina and Afghanistan."
+        "59.03 is the life expectancy of Angola and Argentina."
     )
 
 
@@ -382,4 +382,4 @@ def test_rpmc004_pattern_matching_todo(dashr):
     dashr.find_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"done\\"\\}').click()
     dashr.find_element("#clear-done").click()
     dashr.find_element('#\\{\\"index\\"\\:2\\,\\"type\\"\\:\\"done\\"\\}').click()
-    dashr.wait_for_text_to_equal("#totals", "1 of 2 items completed - 50%")
+    dashr.wait_for_text_to_equal("#totals", "0 of 2 items completed - 0%")
