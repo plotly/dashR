@@ -1,5 +1,3 @@
-from selenium.webdriver.support.select import Select
-
 all_app = """
 library(dash)
 library(dashHtmlComponents)
