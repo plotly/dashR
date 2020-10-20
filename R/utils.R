@@ -541,7 +541,6 @@ generate_css_dist_html <- function(tagdata,
                                    local_path = NULL,
                                    prefix = NULL,
                                    as_is = FALSE) {
-
   attribs <- names(tagdata)
   if (!(local)) {
     if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
