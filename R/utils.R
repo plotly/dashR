@@ -290,6 +290,22 @@ assert_no_names <- function (x)
                paste(nms, collapse = "', '")), call. = FALSE)
 }
 
+assertValidWildcards <- function(dependency) {
+  if (is.symbol(dependency$id)) {
+    result <- (jsonlite::validate(as.character(dependency$id)) && grepl("{", dependency$id))
+  } else {
+    result <- TRUE
+  }
+  if (!result) {
+    dependencyType <- class(dependency)
+    stop(sprintf("A callback %s ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID.",
+                 dependencyType[dependencyType %in% c("input", "output", "state")]),
+         call. = FALSE)
+  } else {
+    return(result)
+  }
+}
+
 # the following function attempts to prune remote CSS
 # or local CSS/JS dependencies that either should not
 # be resolved to local R package paths, or which have
@@ -403,6 +419,27 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
   }
 
+  # Verify that 'input', 'state' and 'output' parameters only contain 'Wildcard' keywords if they are JSON formatted ids for pattern matching callbacks
+  valid_wildcard_inputs <- sapply(inputs, function(x) {
+    assertValidWildcards(x)
+  })
+  
+  
+  valid_wildcard_state <- sapply(state, function(x) {
+    assertValidWildcards(x)
+  })
+  
+  if(any(sapply(output, is.list))) {
+    valid_wildcard_output <- sapply(output, function(x) {
+      assertValidWildcards(x)
+    })
+  } else {
+    valid_wildcard_output <- sapply(list(output), function(x) {
+      assertValidWildcards(x)
+    })
+  }
+
+  
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
 
@@ -987,9 +1024,23 @@ removeHandlers <- function(fnList) {
 }
 
 setCallbackContext <- function(callback_elements) {
-  states <- lapply(callback_elements$states, function(x) {
-    setNames(x$value, paste(x$id, x$property, sep="."))
-  })
+  # Set state elements for this callback
+  
+  if (length(callback_elements$state[[1]]) == 0) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (is.character(callback_elements$state[[1]][[1]])) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else {
+    states <- sapply(callback_elements$state, function(x) {
+      states_vector <- unlist(x)
+      setNames(list(states_vector[grepl("value|value.", names(states_vector))]), 
+               paste(as.character(jsonlite::toJSON(x[[1]])), x$property, sep="."))
+    })
+  }
 
   splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
 
@@ -997,19 +1048,54 @@ setCallbackContext <- function(callback_elements) {
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-
-                        id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
-                        prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
-
-                        value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
-
-                        list(`prop_id` = x, `value` = value)
+                        
+                        # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
+                        if (startsWith(input_id, "{")){
+                          id_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[grepl("id.", names(x))] %in% jsonlite::fromJSON(input_id)[[1]])
+                          }, logical(1))[[1]]
+                        } else {
+                          id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          prop_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[names(x) == "property"] %in% prop)
+                          }, logical(1))[[1]]
+                        } else {
+                          prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          if (length(callback_elements$inputs) == 1 || !is.null(unlist(callback_elements$inputs, recursive = F)$value)) {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                          } else {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")
+                          }
+                        } else {
+                          value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                        }
+                        
+                        return(list(`prop_id` = x, `value` = value))
                       }
-                      )
-
-  inputs <- sapply(callback_elements$inputs, function(x) {
-    setNames(list(x$value), paste(x$id, x$property, sep="."))
-  })
+                    )
+  if (length(callback_elements$inputs[[1]]) == 0 || is.character(callback_elements$inputs[[1]][[1]])) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (length(callback_elements$inputs[[1]]) > 1) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x$id)), x$property, sep="."))
+    })
+  } else {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+    })
+  }
 
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),
