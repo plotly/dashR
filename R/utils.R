@@ -585,8 +585,10 @@ generate_css_dist_html <- function(tagdata,
         perl=TRUE)) || as_is) {
             if (is.list(tagdata))
                 glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), ' rel="stylesheet">')
-            else
-                glue::glue('<link ', glue::glue('href="{tagdata}"'), ' rel="stylesheet">')
+            else {
+                interpolated_link <- glue::glue('href="{tagdata}"')
+                glue::glue('<link ', '{interpolated_link}', ' rel="stylesheet">')
+            }
     }
     else
       stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
@@ -599,7 +601,8 @@ generate_css_dist_html <- function(tagdata,
     }
     else {
         tagdata <- sub("^/", "", tagdata)
-        glue::glue('<link ', glue::glue('href="{prefix}{tagdata}?m={modified}"'), ' rel="stylesheet">')
+        interpolated_link <- glue::glue('href="{prefix}{tagdata}?m={modified}"')
+        glue::glue('<link ', '{interpolated_link}', ' rel="stylesheet">')
     }
   }
 }
@@ -617,8 +620,10 @@ generate_js_dist_html <- function(tagdata,
         perl=TRUE)) || as_is) {
             if (is.list(tagdata))
                 glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), '></script>')
-            else
-                glue::glue('<script ', glue::glue('src="{tagdata}"'), '></script>')
+            else {
+                interpolated_link <- glue::glue('src="{tagdata}"')
+                glue::glue('<script ', '{interpolated_link}', '></script>')
+            }
         }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
@@ -631,7 +636,8 @@ generate_js_dist_html <- function(tagdata,
     }
     else {
         tagdata <- sub("^/", "", tagdata)
-        glue::glue('<script ', glue::glue('src="{prefix}{tagdata}?m={modified}"'), '></script>')
+        interpolated_link <- glue::glue('src="{prefix}{tagdata}?m={modified}"')
+        glue::glue('<script ', '{interpolated_link}', '></script>')
     }
   }
 }
