@@ -800,12 +800,12 @@ Dash <- R6::R6Class(
     #'
     #' For pattern-matching callbacks, the `id` field of a component is written
     #' in JSON-like syntax which describes a dictionary object when serialized
-    #' for consumption by the Dash renderer. The fields include a `type` and
-    #' an `index`, which describe the targets of the callback.
+    #' for consumption by the Dash renderer. The fields are arbitrary keys
+    #' , which describe the targets of the callback.
     #'
-    #' For example, when we write `input(id=list("index" = ALL, "type" = "filter-dropdown")`,
-    #' Dash interprets this as "match any input that has an ID list where 'type'
-    #' is 'filter-dropdown' and 'index' is anything." If any of the dropdown
+    #' For example, when we write `input(id=list("foo" = ALL, "bar" = "dropdown")`,
+    #' Dash interprets this as "match any input that has an ID list where 'foo'
+    #' is 'ALL' and 'bar' is anything." If any of the dropdown
     #' `value` properties change, all of their values are returned to the callback.
     #'
     #' However, for readability, we recommend using keys like type, index, or id.

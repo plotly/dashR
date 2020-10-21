@@ -25,8 +25,8 @@ app$callback(
   display_dropdowns <- function(n_clicks, children){
     new_dropdown = dccDropdown(
       id=list(
-        "index" = n_clicks,
-        "type" = "filter-dropdown"
+        "foo" = n_clicks,
+        "bar" = "filter-dropdown"
       ),
       options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
         list("label" = x, "value" = x)
@@ -41,7 +41,7 @@ app$callback(
 app$callback(
   output(id="dropdown-container-output", property="children"),
   params = list(
-    input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
+    input(id=list("foo" = ALL, "bar" = "filter-dropdown"), property= "value")
   ),
   display_output <- function(test){
     ctx <- app$callback_context()
@@ -325,13 +325,13 @@ app$run_server()
 def test_rpmc001_pattern_matching_all(dashr):
     dashr.start_server(all_app)
     dashr.find_element("#add-filter").click()
-    dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"filter-dropdown\\"\\}', "NYC")
+    dashr.select_dcc_dropdown('#\\{\\"foo\\"\\:1\\,\\"bar\\"\\:\\"filter-dropdown\\"\\}', "NYC")
     dashr.wait_for_text_to_equal(
         "#dropdown-container-output",
         "Dropdown 1 = NYC"
     )
     dashr.find_element("#add-filter").click()
-    dashr.select_dcc_dropdown('#\\{\\"index\\"\\:2\\,\\"type\\"\\:\\"filter-dropdown\\"\\}', "MTL")
+    dashr.select_dcc_dropdown('#\\{\\"foo\\"\\:2\\,\\"bar\\"\\:\\"filter-dropdown\\"\\}', "MTL")
     dashr.wait_for_text_to_equal(
         "#dropdown-container-output",
         "Dropdown 1 = NYC"
