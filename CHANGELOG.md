@@ -2,7 +2,10 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.8.0] - 2020-10-26
+### Fixed
+- Usage of `glue` has been corrected to address [#232](https://github.com/plotly/dashR/issues/232) via [#233](https://github.com/plotly/dashR/pull/233).
+
 ### Added
 - Pattern-matching IDs and callbacks. Component IDs can be lists, and callbacks can reference patterns of components, using three different wildcards: `ALL`, `MATCH`, and `ALLSMALLER`. This lets you create components on demand, and have callbacks respond to any and all of them. To help with this, `app$callback_context` gets three new entries: `outputs_list`, `inputs_list`, and `states_list`, which contain all the ids, properties, and except for the outputs, the property values from all matched components. [#228](https://github.com/plotly/dashR/pull/228)
 - New and improved callback graph in the debug menu. Now based on Cytoscape for much more interactivity, plus callback profiling including number of calls, fine-grained time information, bytes sent and received, and more. You can even add custom timing information on the server with `callback_context.record_timing(name, duration, description)` [#224](https://github.com/plotly/dashR/pull/224)
