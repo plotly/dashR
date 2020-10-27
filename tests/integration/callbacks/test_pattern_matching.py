@@ -370,5 +370,6 @@ def test_rpmc004_pattern_matching_todo(dashr):
     dashr.find_element("#add").click()
     dashr.find_element("#new-item").send_keys("Item 2")
     dashr.find_element("#add").click()
+    dashr.wait_for_element_by_css_selector('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"done\\"\\}')
     dashr.find_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"done\\"\\}').click()
     dashr.wait_for_text_to_equal("#totals", "1 of 2 items completed - 50%")
