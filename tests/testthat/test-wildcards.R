@@ -24,6 +24,5 @@ test_that("HTML `data-*` & `aria-* ` wildcards are passed along to layout approp
   expect_equal(x$props$`data-foo`, 1)
 })
 
-
 # TODO: test NULL values aren't rendered on the HTML div
 # https://github.com/plotly/dash/pull/237/files#r179251041
