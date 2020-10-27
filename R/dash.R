@@ -46,7 +46,7 @@ Dash <- R6::R6Class(
     #' made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.
     #' @param external_scripts List. An optional list of valid URLs from which
     #' to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
-    #' or a list with `src` (the URL) and optionally other `<script>` tag attributes such
+    #' or a named list with `src` (the URL) and optionally other `<script>` tag attributes such
     #' as `integrity` and `crossorigin`.
     #' @param external_stylesheets List. An optional list of valid URLs from which
     #' to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
