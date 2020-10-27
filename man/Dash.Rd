@@ -62,6 +62,64 @@ app$redirect("/getting-started/*", "/layout/*")
 app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
 
 ## ------------------------------------------------
+## Method `Dash$callback`
+## ------------------------------------------------
+
+if (interactive() && require(dash)) {
+  library(dashCoreComponents)
+  library(dashHtmlComponents)
+  library(dash)
+
+  app <- Dash$new()
+
+  app$layout(htmlDiv(list(
+    htmlButton("Add Filter", id="add-filter", n_clicks=0),
+    htmlDiv(id="dropdown-container", children=list()),
+    htmlDiv(id="dropdown-container-output")
+  )))
+
+
+  app$callback(
+    output(id="dropdown-container", property = "children"),
+    params = list(
+      input(id = "add-filter", property = "n_clicks"),
+      state(id = "dropdown-container", property = "children")
+    ),
+    display_dropdowns <- function(n_clicks, children){
+      new_dropdown = dccDropdown(
+        id=list(
+          "index" = n_clicks,
+          "type" = "filter-dropdown"
+        ),
+        options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
+          list("label" = x, "value" = x)
+        })
+      )
+      children[[n_clicks + 1]] <- new_dropdown
+      return(children)
+    }
+  )
+
+  app$callback(
+    output(id="dropdown-container-output", property="children"),
+    params = list(
+      input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
+    ),
+    display_output <- function(test){
+      ctx <- app$callback_context()
+      return(htmlDiv(
+        lapply(seq_along(test), function(x){
+          return(htmlDiv(sprintf("Dropdown \%s = \%s", x, test[[x]])))
+        })
+      ))
+    }
+  )
+
+  app$run_server()
+}
+
+
+## ------------------------------------------------
 ## Method `Dash$interpolate_index`
 ## ------------------------------------------------
 
@@ -491,18 +549,18 @@ JavaScript function.
 
 For pattern-matching callbacks, the \code{id} field of a component is written
 in JSON-like syntax which describes a dictionary object when serialized
-for consumption by the Dash renderer. The fields include a \code{type} and
-an \code{index}, which describe the targets of the callback.
+for consumption by the Dash renderer. The fields are arbitrary keys
+, which describe the targets of the callback.
 
-For example, when we write \verb{input(id=list("index" = ALL, "type" = "filter-dropdown")},
-Dash interprets this as "match any input that has an ID list where 'type'
-is 'filter-dropdown' and 'index' is anything." If any of the dropdown
+For example, when we write \verb{input(id=list("foo" = ALL, "bar" = "dropdown")},
+Dash interprets this as "match any input that has an ID list where 'foo'
+is 'ALL' and 'bar' is anything." If any of the dropdown
 \code{value} properties change, all of their values are returned to the callback.
 
 However, for readability, we recommend using keys like type, index, or id.
 \code{type} can be used to refer to the class or set of dynamic components and
-\code{index} or \code{id} could be used to refer which component you are matching
-within that set. While your applicatoin may have a single set of dynamic
+\code{index} or \code{id} could be used to refer to the component you are matching
+within that set. While your application may have a single set of dynamic
 components, it's possible to specify multiple sets of dynamic components
 in more complex apps or if you are using \code{MATCH}.
 
@@ -541,6 +599,66 @@ describes a locally served JavaScript function instead. The latter
 two methods define a "clientside callback", which updates components
 without passing data to and from the Dash backend. The latter may offer
 improved performance relative to callbacks written purely in R.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{if (interactive() && require(dash)) {
+  library(dashCoreComponents)
+  library(dashHtmlComponents)
+  library(dash)
+
+  app <- Dash$new()
+
+  app$layout(htmlDiv(list(
+    htmlButton("Add Filter", id="add-filter", n_clicks=0),
+    htmlDiv(id="dropdown-container", children=list()),
+    htmlDiv(id="dropdown-container-output")
+  )))
+
+
+  app$callback(
+    output(id="dropdown-container", property = "children"),
+    params = list(
+      input(id = "add-filter", property = "n_clicks"),
+      state(id = "dropdown-container", property = "children")
+    ),
+    display_dropdowns <- function(n_clicks, children){
+      new_dropdown = dccDropdown(
+        id=list(
+          "index" = n_clicks,
+          "type" = "filter-dropdown"
+        ),
+        options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
+          list("label" = x, "value" = x)
+        })
+      )
+      children[[n_clicks + 1]] <- new_dropdown
+      return(children)
+    }
+  )
+
+  app$callback(
+    output(id="dropdown-container-output", property="children"),
+    params = list(
+      input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
+    ),
+    display_output <- function(test){
+      ctx <- app$callback_context()
+      return(htmlDiv(
+        lapply(seq_along(test), function(x){
+          return(htmlDiv(sprintf("Dropdown \%s = \%s", x, test[[x]])))
+        })
+      ))
+    }
+  )
+
+  app$run_server()
+}
+
+}
+\if{html}{\out{</div>}}
+
 }
 
 }
