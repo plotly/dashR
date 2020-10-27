@@ -62,64 +62,6 @@ app$redirect("/getting-started/*", "/layout/*")
 app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
 
 ## ------------------------------------------------
-## Method `Dash$callback`
-## ------------------------------------------------
-
-if (interactive() && require(dash)) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
-  library(dash)
-
-  app <- Dash$new()
-
-  app$layout(htmlDiv(list(
-    htmlButton("Add Filter", id="add-filter", n_clicks=0),
-    htmlDiv(id="dropdown-container", children=list()),
-    htmlDiv(id="dropdown-container-output")
-  )))
-
-
-  app$callback(
-    output(id="dropdown-container", property = "children"),
-    params = list(
-      input(id = "add-filter", property = "n_clicks"),
-      state(id = "dropdown-container", property = "children")
-    ),
-    display_dropdowns <- function(n_clicks, children){
-      new_dropdown = dccDropdown(
-        id=list(
-          "index" = n_clicks,
-          "type" = "filter-dropdown"
-        ),
-        options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
-          list("label" = x, "value" = x)
-        })
-      )
-      children[[n_clicks + 1]] <- new_dropdown
-      return(children)
-    }
-  )
-
-  app$callback(
-    output(id="dropdown-container-output", property="children"),
-    params = list(
-      input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
-    ),
-    display_output <- function(test){
-      ctx <- app$callback_context()
-      return(htmlDiv(
-        lapply(seq_along(test), function(x){
-          return(htmlDiv(sprintf("Dropdown \%s = \%s", x, test[[x]])))
-        })
-      ))
-    }
-  )
-
-  app$run_server()
-}
-
-
-## ------------------------------------------------
 ## Method `Dash$interpolate_index`
 ## ------------------------------------------------
 
@@ -285,7 +227,7 @@ made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_P
 
 \item{\code{external_scripts}}{List. An optional list of valid URLs from which
 to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
-or a list with \code{src} (the URL) and optionally other \verb{<script>} tag attributes such
+or a named list with \code{src} (the URL) and optionally other \verb{<script>} tag attributes such
 as \code{integrity} and \code{crossorigin}.}
 
 \item{\code{external_stylesheets}}{List. An optional list of valid URLs from which
@@ -539,45 +481,16 @@ and \code{property} which will be updated by the callback; a callback can
 target one or more outputs (i.e. multiple outputs).}
 
 \item{\code{params}}{Unnamed list; provides \link{input} and \link{state} statements, each
-with its own defined \code{id} and \code{property}.}
+with its own defined \code{id} and \code{property}. For pattern-matching callbacks,
+the \code{id} field of a component is written in JSON-like syntax and provides
+fields that are arbitrary keys which describe the targets of the callback.
+See \link{selectors} for more details.}
 
 \item{\code{func}}{Function; must return \link{output} provided \link{input} or \link{state}
 arguments. \code{func} may be any valid R function, or a character string
 containing valid JavaScript, or a call to \link{clientsideFunction},
 including \code{namespace} and \code{function_name} arguments for a locally served
-JavaScript function.
-
-For pattern-matching callbacks, the \code{id} field of a component is written
-in JSON-like syntax which describes a dictionary object when serialized
-for consumption by the Dash renderer. The fields are arbitrary keys
-, which describe the targets of the callback.
-
-For example, when we write \verb{input(id=list("foo" = ALL, "bar" = "dropdown")},
-Dash interprets this as "match any input that has an ID list where 'foo'
-is 'ALL' and 'bar' is anything." If any of the dropdown
-\code{value} properties change, all of their values are returned to the callback.
-
-However, for readability, we recommend using keys like type, index, or id.
-\code{type} can be used to refer to the class or set of dynamic components and
-\code{index} or \code{id} could be used to refer to the component you are matching
-within that set. While your application may have a single set of dynamic
-components, it's possible to specify multiple sets of dynamic components
-in more complex apps or if you are using \code{MATCH}.
-
-Like \code{ALL}, \code{MATCH} will fire the callback when any of the component's properties
-change. However, instead of passing all of the values into the callback, \code{MATCH}
-will pass just a single value into the callback. Instead of updating a single
-output, it will update the dynamic output that is "matched" with.
-
-\code{ALLSMALLER} is used to pass in the values of all of the targeted components
-on the page that have an index smaller than the index corresponding to the div.
-For example, \code{ALLSMALLER} makes it possible to filter results that are
-increasingly specific as the user applies each additional selection.
-
-\code{ALLSMALLER} can only be used in \code{input} and \code{state} items, and must be used
-on a key that has \code{MATCH} in the \code{output} item(s). \code{ALLSMALLER} it isn't always
-necessary (you can usually use \code{ALL} and filter out the indices in your callback),
-but it will make your logic simpler.}
+JavaScript function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -586,6 +499,10 @@ Describes a server or clientside callback relating the values of one or more
 \code{output} items to one or more \code{input} items which will trigger the callback
 when they change, and optionally \code{state} items which provide additional
 information but do not trigger the callback directly.
+
+For detailed examples of how to use pattern-matching callbacks, see the
+entry for \link{selectors} or visit our interactive online
+documentation at \url{https://dashr.plotly.com}.
 
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
@@ -599,66 +516,6 @@ describes a locally served JavaScript function instead. The latter
 two methods define a "clientside callback", which updates components
 without passing data to and from the Dash backend. The latter may offer
 improved performance relative to callbacks written purely in R.
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{if (interactive() && require(dash)) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
-  library(dash)
-
-  app <- Dash$new()
-
-  app$layout(htmlDiv(list(
-    htmlButton("Add Filter", id="add-filter", n_clicks=0),
-    htmlDiv(id="dropdown-container", children=list()),
-    htmlDiv(id="dropdown-container-output")
-  )))
-
-
-  app$callback(
-    output(id="dropdown-container", property = "children"),
-    params = list(
-      input(id = "add-filter", property = "n_clicks"),
-      state(id = "dropdown-container", property = "children")
-    ),
-    display_dropdowns <- function(n_clicks, children){
-      new_dropdown = dccDropdown(
-        id=list(
-          "index" = n_clicks,
-          "type" = "filter-dropdown"
-        ),
-        options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
-          list("label" = x, "value" = x)
-        })
-      )
-      children[[n_clicks + 1]] <- new_dropdown
-      return(children)
-    }
-  )
-
-  app$callback(
-    output(id="dropdown-container-output", property="children"),
-    params = list(
-      input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
-    ),
-    display_output <- function(test){
-      ctx <- app$callback_context()
-      return(htmlDiv(
-        lapply(seq_along(test), function(x){
-          return(htmlDiv(sprintf("Dropdown \%s = \%s", x, test[[x]])))
-        })
-      ))
-    }
-  )
-
-  app$run_server()
-}
-
-}
-\if{html}{\out{</div>}}
-
 }
 
 }

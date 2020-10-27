@@ -774,6 +774,10 @@ Dash <- R6::R6Class(
     #' when they change, and optionally `state` items which provide additional 
     #' information but do not trigger the callback directly.
     #'
+    #' For detailed examples of how to use pattern-matching callbacks, see the
+    #' entry for \link{selectors} or visit our interactive online
+    #' documentation at \url{https://dashr.plotly.com}.
+    #'
     #' The `output` argument defines which layout component property should
     #' receive the results (via the [output] object). The events that
     #' trigger the callback are then described by the [input] (and/or [state])
@@ -787,102 +791,18 @@ Dash <- R6::R6Class(
     #' without passing data to and from the Dash backend. The latter may offer
     #' improved performance relative to callbacks written purely in R.
     #' @param output Named list. The `output` argument provides the component `id` 
-    #' and `property` which will be updated by the callback; a callback can 
+    #' and `property` which will be updated by the callback; a callback can
     #' target one or more outputs (i.e. multiple outputs).
     #' @param params Unnamed list; provides [input] and [state] statements, each
-    #' with its own defined `id` and `property`.
+    #' with its own defined `id` and `property`. For pattern-matching callbacks,
+    #' the `id` field of a component is written in JSON-like syntax and provides
+    #' fields that are arbitrary keys which describe the targets of the callback.
+    #' See \link{selectors} for more details.
     #' @param func Function; must return [output] provided [input] or [state]
     #' arguments. `func` may be any valid R function, or a character string
     #' containing valid JavaScript, or a call to [clientsideFunction],
     #' including `namespace` and `function_name` arguments for a locally served
     #' JavaScript function.
-    #'
-    #'
-    #' For pattern-matching callbacks, the `id` field of a component is written
-    #' in JSON-like syntax which describes a dictionary object when serialized
-    #' for consumption by the Dash renderer. The fields are arbitrary keys
-    #' , which describe the targets of the callback.
-    #'
-    #' For example, when we write `input(id=list("foo" = ALL, "bar" = "dropdown")`,
-    #' Dash interprets this as "match any input that has an ID list where 'foo'
-    #' is 'ALL' and 'bar' is anything." If any of the dropdown
-    #' `value` properties change, all of their values are returned to the callback.
-    #'
-    #' However, for readability, we recommend using keys like type, index, or id.
-    #' `type` can be used to refer to the class or set of dynamic components and
-    #' `index` or `id` could be used to refer to the component you are matching
-    #' within that set. While your application may have a single set of dynamic
-    #' components, it's possible to specify multiple sets of dynamic components
-    #' in more complex apps or if you are using `MATCH`.
-    #'
-    #' Like `ALL`, `MATCH` will fire the callback when any of the component's properties
-    #' change. However, instead of passing all of the values into the callback, `MATCH`
-    #' will pass just a single value into the callback. Instead of updating a single
-    #' output, it will update the dynamic output that is "matched" with.
-    #'
-    #' `ALLSMALLER` is used to pass in the values of all of the targeted components
-    #' on the page that have an index smaller than the index corresponding to the div.
-    #' For example, `ALLSMALLER` makes it possible to filter results that are
-    #' increasingly specific as the user applies each additional selection.
-    #'
-    #' `ALLSMALLER` can only be used in `input` and `state` items, and must be used
-    #' on a key that has `MATCH` in the `output` item(s). `ALLSMALLER` it isn't always
-    #' necessary (you can usually use `ALL` and filter out the indices in your callback),
-    #' but it will make your logic simpler.
-    #' @examples
-    #' if (interactive() && require(dash)) {
-    #'   library(dashCoreComponents)
-    #'   library(dashHtmlComponents)
-    #'   library(dash)
-    #'
-    #'   app <- Dash$new()
-    #'
-    #'   app$layout(htmlDiv(list(
-    #'     htmlButton("Add Filter", id="add-filter", n_clicks=0),
-    #'     htmlDiv(id="dropdown-container", children=list()),
-    #'     htmlDiv(id="dropdown-container-output")
-    #'   )))
-    #'
-    #'
-    #'   app$callback(
-    #'     output(id="dropdown-container", property = "children"),
-    #'     params = list(
-    #'       input(id = "add-filter", property = "n_clicks"),
-    #'       state(id = "dropdown-container", property = "children")
-    #'     ),
-    #'     display_dropdowns <- function(n_clicks, children){
-    #'       new_dropdown = dccDropdown(
-    #'         id=list(
-    #'           "index" = n_clicks,
-    #'           "type" = "filter-dropdown"
-    #'         ),
-    #'         options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
-    #'           list("label" = x, "value" = x)
-    #'         })
-    #'       )
-    #'       children[[n_clicks + 1]] <- new_dropdown
-    #'       return(children)
-    #'     }
-    #'   )
-    #'
-    #'   app$callback(
-    #'     output(id="dropdown-container-output", property="children"),
-    #'     params = list(
-    #'       input(id=list("index" = ALL, "type" = "filter-dropdown"), property= "value")
-    #'     ),
-    #'     display_output <- function(test){
-    #'       ctx <- app$callback_context()
-    #'       return(htmlDiv(
-    #'         lapply(seq_along(test), function(x){
-    #'           return(htmlDiv(sprintf("Dropdown %s = %s", x, test[[x]])))
-    #'         })
-    #'       ))
-    #'     }
-    #'   )
-    #'
-    #'   app$run_server()
-    #'}
-    #'
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
