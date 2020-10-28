@@ -178,8 +178,8 @@ dashNoUpdate <- function() {
 #'   app$run_server()
 #'
 #'   # Simple example illustrating use of ALLSMALLER selector
-#'   df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = FALSE)
-#'
+#'   df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
+#'                  stringsAsFactors = FALSE)
 #'
 #'   app <- Dash$new()
 #'
@@ -203,7 +203,8 @@ dashNoUpdate <- function() {
 #'           }),
 #'           value = unique(df$country)[n_clicks + 1]
 #'         ),
-#'         htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"), children = list(unique(df$country)[n_clicks + 1]))
+#'         htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"),
+#'                 children = list(unique(df$country)[n_clicks + 1]))
 #'       ))
 #'    
 #'       existing_children <- c(existing_children, list(new_children))
@@ -226,15 +227,22 @@ dashNoUpdate <- function() {
 #'
 #'       if (length(all_values) == 1) {
 #'         return(
-#'           htmlDiv(sprintf("%s is the life expectancy of %s.", avgLifeExp, matching_value))
+#'           htmlDiv(sprintf("%s is the life expectancy of %s.",
+#'                   avgLifeExp,
+#'                   matching_value))
 #'         )
 #'       } else if (length(all_values) == 2) {
 #'         return(
-#'           htmlDiv(sprintf("%s is the life expectancy of %s.", avgLifeExp, paste(all_values, collapse = " and ")))
+#'           htmlDiv(sprintf("%s is the life expectancy of %s.",
+#'                           avgLifeExp,
+#'                           paste(all_values, collapse = " and ")))
 #'         )
 #'       } else {
 #'         return(
-#'           htmlDiv(sprintf("%s is the life expectancy of %s, and %s.", avgLifeExp, paste(all_values[-length(all_values)], collapse = " , "), paste(all_values[length(all_values)])))
+#'           htmlDiv(sprintf("%s is the life expectancy of %s, and %s.",
+#'                   avgLifeExp, 
+#'                   paste(all_values[-length(all_values)], collapse = " , "),
+#'                   paste(all_values[length(all_values)])))
 #'         )
 #'       }
 #'     }
