@@ -157,7 +157,7 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
     # as in Dash for Python
     if ("script" %in% names(dep) && tools::file_ext(dep[["script"]]) != "map") {
       if (!(is_local) & !(is.null(dep$src$href))) {
-        html <- generate_js_dist_html(href = dep$src$href)
+        html <- generate_js_dist_html(tagdata = dep$src$href)
       } else {
         script_mtime <- file.mtime(getDependencyPath(dep))
         modtime <- as.integer(script_mtime)
@@ -172,10 +172,10 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                                   "&m=",
                                   modified)
 
-        html <- generate_js_dist_html(href = dep[["script"]], as_is = TRUE)
+        html <- generate_js_dist_html(tagdata = dep[["script"]], as_is = TRUE)
       }
     } else if (!(is_local) & "stylesheet" %in% names(dep) & src == "href") {
-      html <- generate_css_dist_html(href = paste(dep[["src"]][["href"]],
+      html <- generate_css_dist_html(tagdata = paste(dep[["src"]][["href"]],
                                                   dep[["stylesheet"]],
                                                   sep="/"),
                                      local = FALSE)
@@ -192,20 +192,20 @@ render_dependencies <- function(dependencies, local = TRUE, prefix=NULL) {
                               "?v=",
                               dep$version)
 
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+          html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
         } else {
           sheetpath <- paste0(dep[["src"]][["file"]],
                               dep[["stylesheet"]],
                               "?v=",
                               dep$version)
 
-          html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+          html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
         }
 
       } else {
         sheetpath <- paste0(dep[["src"]][["file"]],
                             dep[["stylesheet"]])
-        html <- generate_css_dist_html(href = sheetpath, as_is = TRUE)
+        html <- generate_css_dist_html(tagdata = sheetpath, as_is = TRUE)
       }
     }
   })
@@ -288,6 +288,22 @@ assert_no_names <- function (x)
     return(setNames(x, NULL))
   stop(sprintf("Didn't recognize the following named arguments: '%s'",
                paste(nms, collapse = "', '")), call. = FALSE)
+}
+
+assertValidWildcards <- function(dependency) {
+  if (is.symbol(dependency$id)) {
+    result <- (jsonlite::validate(as.character(dependency$id)) && grepl("{", dependency$id))
+  } else {
+    result <- TRUE
+  }
+  if (!result) {
+    dependencyType <- class(dependency)
+    stop(sprintf("A callback %s ID contains restricted pattern matching callback selectors ALL, MATCH or ALLSMALLER. Please verify that it is formatted as a pattern matching callback list ID, or choose a different component ID.",
+                 dependencyType[dependencyType %in% c("input", "output", "state")]),
+         call. = FALSE)
+  } else {
+    return(result)
+  }
 }
 
 # the following function attempts to prune remote CSS
@@ -403,6 +419,27 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("The callback method requires that one or more properly formatted inputs are passed."), call. = FALSE)
   }
 
+  # Verify that 'input', 'state' and 'output' parameters only contain 'Wildcard' keywords if they are JSON formatted ids for pattern matching callbacks
+  valid_wildcard_inputs <- sapply(inputs, function(x) {
+    assertValidWildcards(x)
+  })
+  
+  
+  valid_wildcard_state <- sapply(state, function(x) {
+    assertValidWildcards(x)
+  })
+  
+  if(any(sapply(output, is.list))) {
+    valid_wildcard_output <- sapply(output, function(x) {
+      assertValidWildcards(x)
+    })
+  } else {
+    valid_wildcard_output <- sapply(list(output), function(x) {
+      assertValidWildcards(x)
+    })
+  }
+
+  
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
 
@@ -536,53 +573,156 @@ get_mimetype <- function(filename) {
                             empty = "application/octet-stream"))
 }
 
-generate_css_dist_html <- function(href,
+generate_css_dist_html <- function(tagdata,
                                    local = FALSE,
                                    local_path = NULL,
                                    prefix = NULL,
                                    as_is = FALSE) {
+  attribs <- names(tagdata)
   if (!(local)) {
-    if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
-        href,
-        perl=TRUE) || as_is) {
-      sprintf("<link href=\"%s\" rel=\"stylesheet\">", href)
+    if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        tagdata,
+        perl=TRUE)) || as_is) {
+            if (is.list(tagdata))
+                glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), ' rel="stylesheet">')
+            else {
+                interpolated_link <- glue::glue('href="{tagdata}"')
+                glue::glue('<link ', '{interpolated_link}', ' rel="stylesheet">')
+            }
     }
     else
       stop(sprintf("Invalid URL supplied in external_stylesheets. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<link href=\"%s%s?m=%s\" rel=\"stylesheet\">",
-            prefix,
-            href,
-            modified)
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$href <- paste0(prefix, sub("^/", "", tagdata$href))
+        glue::glue('<link ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), ' rel="stylesheet">')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        interpolated_link <- glue::glue('href="{prefix}{tagdata}?m={modified}"')
+        glue::glue('<link ', '{interpolated_link}', ' rel="stylesheet">')
+    }
   }
 }
 
-generate_js_dist_html <- function(href,
+
+generate_js_dist_html <- function(tagdata,
                                   local = FALSE,
                                   local_path = NULL,
                                   prefix = NULL,
                                   as_is = FALSE) {
+  attribs <- names(tagdata)
   if (!(local)) {
-  if (grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
-      href,
-      perl=TRUE) || as_is) {
-      sprintf("<script src=\"%s\"></script>", href)
-    }
+    if (any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+        tagdata,
+        perl=TRUE)) || as_is) {
+            if (is.list(tagdata))
+                glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}"'), sep=" "), '></script>')
+            else {
+                interpolated_link <- glue::glue('src="{tagdata}"')
+                glue::glue('<script ', '{interpolated_link}', '></script>')
+            }
+        }
     else
       stop(sprintf("Invalid URL supplied. Please check the syntax used for this parameter."), call. = FALSE)
   } else {
-    # strip leading slash from href if present
-    href <- sub("^/", "", href)
     modified <- as.integer(file.mtime(local_path))
-    sprintf("<script src=\"%s%s?m=%s\"></script>",
-            prefix,
-            href,
-            modified)
+    # strip leading slash from href if present
+    if (is.list(tagdata)) {
+        tagdata$src <- paste0(prefix, sub("^/", "", tagdata$src))
+        glue::glue('<script ', glue::glue_collapse(glue::glue('{attribs}="{tagdata}?m={modified}"'), sep=" "), '></script>')
+    }
+    else {
+        tagdata <- sub("^/", "", tagdata)
+        interpolated_link <- glue::glue('src="{prefix}{tagdata}?m={modified}"')
+        glue::glue('<script ', '{interpolated_link}', '></script>')
+    }
   }
 }
+
+assertValidExternals <- function(scripts, stylesheets) {
+    allowed_js_attribs <- c("async",
+                            "crossorigin",
+                            "defer",
+                            "integrity",
+                            "nomodule",
+                            "nonce",
+                            "referrerpolicy",
+                            "src",
+                            "type",
+                            "charset",
+                            "language")
+
+    allowed_css_attribs <- c("as",
+                             "crossorigin",
+                             "disabled",
+                             "href",
+                             "hreflang",
+                             "importance",
+                             "integrity",
+                             "media",
+                             "referrerpolicy",
+                             "rel",
+                             "sizes",
+                             "title",
+                             "type",
+                             "methods",
+                             "prefetch",
+                             "target",
+                             "charset",
+                             "rev")
+    script_attributes <- character()
+    stylesheet_attributes <- character()
+    
+    for (item in scripts) {
+      if (is.list(item)) {
+        if (!"src" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        script_attributes <- c(script_attributes, names(item))
+      }
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_scripts. Please sure no 'src' entries are missing or malformed.", call. = FALSE)
+        script_attributes <- c(script_attributes, character(0))
+      }
+    }
+
+    for (item in stylesheets) {
+      if (is.list(item)) {
+        if (!"href" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))))
+          stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
+        if (any(names(item) == ""))
+          stop("Please verify that all attributes are named elements when specifying URLs for scripts and stylesheets.", call. = FALSE)
+        stylesheet_attributes <- c(stylesheet_attributes, names(item))
+      }
+      else {
+        if (!grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
+            item,
+            perl=TRUE))
+            stop("A valid URL must be included with every entry in external_stylesheets. Please sure no 'href' entries are missing or malformed.", call. = FALSE)
+        stylesheet_attributes <- c(stylesheet_attributes, character(0))
+      }
+    }
+    
+    invalid_script_attributes <- setdiff(script_attributes, allowed_js_attribs)
+    invalid_stylesheet_attributes <- setdiff(stylesheet_attributes, allowed_css_attribs)
+    
+    if (length(invalid_script_attributes) > 0 || length(invalid_stylesheet_attributes) > 0) {
+      stop(sprintf("The following script or stylesheet attributes are invalid: %s.",
+           paste0(c(invalid_script_attributes, invalid_stylesheet_attributes), collapse=", ")), call. = FALSE)
+    }
+    invisible(TRUE)
+  }
 
 generate_meta_tags <- function(metas) {
   has_ie_compat <- any(vapply(metas, function(x)
@@ -890,9 +1030,23 @@ removeHandlers <- function(fnList) {
 }
 
 setCallbackContext <- function(callback_elements) {
-  states <- lapply(callback_elements$states, function(x) {
-    setNames(x$value, paste(x$id, x$property, sep="."))
-  })
+  # Set state elements for this callback
+  
+  if (length(callback_elements$state[[1]]) == 0) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (is.character(callback_elements$state[[1]][[1]])) {
+    states <- sapply(callback_elements$state, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else {
+    states <- sapply(callback_elements$state, function(x) {
+      states_vector <- unlist(x)
+      setNames(list(states_vector[grepl("value|value.", names(states_vector))]), 
+               paste(as.character(jsonlite::toJSON(x[[1]])), x$property, sep="."))
+    })
+  }
 
   splitIdProp <- function(x) unlist(strsplit(x, split = "[.]"))
 
@@ -900,19 +1054,54 @@ setCallbackContext <- function(callback_elements) {
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-
-                        id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
-                        prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
-
-                        value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
-
-                        list(`prop_id` = x, `value` = value)
+                        
+                        # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
+                        if (startsWith(input_id, "{")){
+                          id_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[grepl("id.", names(x))] %in% jsonlite::fromJSON(input_id)[[1]])
+                          }, logical(1))[[1]]
+                        } else {
+                          id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          prop_match <- vapply(callback_elements$inputs, function(x) {
+                            x <- unlist(x)
+                            any(x[names(x) == "property"] %in% prop)
+                          }, logical(1))[[1]]
+                        } else {
+                          prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                        }
+                        
+                        if (startsWith(input_id, "{")){
+                          if (length(callback_elements$inputs) == 1 || !is.null(unlist(callback_elements$inputs, recursive = F)$value)) {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                          } else {
+                            value <- sapply(callback_elements$inputs[id_match & prop_match][[1]], `[[`, "value")
+                          }
+                        } else {
+                          value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
+                        }
+                        
+                        return(list(`prop_id` = x, `value` = value))
                       }
-                      )
-
-  inputs <- sapply(callback_elements$inputs, function(x) {
-    setNames(list(x$value), paste(x$id, x$property, sep="."))
-  })
+                    )
+  if (length(callback_elements$inputs[[1]]) == 0 || is.character(callback_elements$inputs[[1]][[1]])) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      setNames(list(x$value), paste(x$id, x$property, sep="."))
+    })
+  } else if (length(callback_elements$inputs[[1]]) > 1) {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x$id)), x$property, sep="."))
+    })
+  } else {
+    inputs <- sapply(callback_elements$inputs, function(x) {
+      inputs_vector <- unlist(x)
+      setNames(list(inputs_vector[grepl("value|value.", names(inputs_vector))]), paste(as.character(jsonlite::toJSON(x[[1]]$id)), x[[1]]$property, sep="."))
+    })
+  }
 
   return(list(states=states,
               triggered=unlist(triggered, recursive=FALSE),

@@ -13,6 +13,55 @@ A framework for building analytical web applications, Dash offers a pleasant and
 \examples{
 
 ## ------------------------------------------------
+## Method `Dash$server_route`
+## ------------------------------------------------
+
+library(dash)
+app <- Dash$new()
+
+# A handler to redirect requests with `307` status code (temporary redirects); 
+# for permanent redirects (`301`), see the `redirect` method described below
+# 
+# A simple single path-to-path redirect
+app$server_route('/getting-started', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a redirect with a wildcard for subpaths
+app$server_route('/getting-started/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a parameterized redirect with wildcard for subpaths
+app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', paste0('/users/', keys$user_id))
+  TRUE
+})
+
+## ------------------------------------------------
+## Method `Dash$redirect`
+## ------------------------------------------------
+
+library(dash)
+app <- Dash$new()
+
+# example of a simple single path-to-path redirect
+app$redirect("/getting-started", "/layout")
+
+# example of a redirect using wildcards
+app$redirect("/getting-started/*", "/layout/*")
+
+# example of a parameterized redirect using a function for new_path,
+# which requires passing in keys to take advantage of subpaths within
+# old_path that are preceded by a colon (e.g. :user_id):
+app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
+
+## ------------------------------------------------
 ## Method `Dash$interpolate_index`
 ## ------------------------------------------------
 
@@ -97,11 +146,14 @@ where the application is making API calls.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Dash$new()}}
+\item \href{#method-server_route}{\code{Dash$server_route()}}
+\item \href{#method-redirect}{\code{Dash$redirect()}}
 \item \href{#method-layout_get}{\code{Dash$layout_get()}}
 \item \href{#method-layout}{\code{Dash$layout()}}
 \item \href{#method-react_version_set}{\code{Dash$react_version_set()}}
 \item \href{#method-callback}{\code{Dash$callback()}}
 \item \href{#method-callback_context}{\code{Dash$callback_context()}}
+\item \href{#method-callback_context.record_timing}{\code{Dash$callback_context.record_timing()}}
 \item \href{#method-get_asset_url}{\code{Dash$get_asset_url()}}
 \item \href{#method-get_relative_path}{\code{Dash$get_relative_path()}}
 \item \href{#method-strip_relative_path}{\code{Dash$strip_relative_path()}}
@@ -174,10 +226,14 @@ Environment variable is \code{DASH_ROUTES_PATHNAME_PREFIX}.}
 made by Dash's front-end. Environment variable is \code{DASH_REQUESTS_PATHNAME_PREFIX}.}
 
 \item{\code{external_scripts}}{List. An optional list of valid URLs from which
-to serve JavaScript source for rendered pages.}
+to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
+or a named list with \code{src} (the URL) and optionally other \verb{<script>} tag attributes such
+as \code{integrity} and \code{crossorigin}.}
 
 \item{\code{external_stylesheets}}{List. An optional list of valid URLs from which
-to serve CSS for rendered pages.}
+to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
+with \code{href} (the URL) and optionally other \verb{<link>} tag attributes such as
+\code{rel}, \code{integrity} and \code{crossorigin}.}
 
 \item{\code{compress}}{Logical. Whether to  try to compress files and data served by Fiery.
 By default, \code{brotli} is attempted first, then \code{gzip}, then the \code{deflate} algorithm,
@@ -197,6 +253,141 @@ clientside callback.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-server_route"></a>}}
+\if{latex}{\out{\hypertarget{method-server_route}{}}}
+\subsection{Method \code{server_route()}}{
+Connect a URL to a custom server route
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$server_route(path = NULL, handler = NULL, methods = "get")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{Character. Represents a URL path comprised of strings, parameters
+(strings prefixed with :), and wildcards (*), separated by /. Wildcards can
+be used to match any path element, rather than restricting (as by default) to
+a single path element. For example, it is possible to catch requests to multiple
+subpaths using a wildcard. For more information, see \link{Route}.}
+
+\item{\code{handler}}{Function. Adds a handler function to the specified method and path.
+For more information, see \link{Route}.}
+
+\item{\code{methods}}{Character. A string indicating the request method (in lower case,
+e.g. 'get', 'put', etc.), as used by \code{reqres}. The default is \code{get}.
+For more information, see \link{Route}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+\code{fiery}, the underlying web service framework upon which Dash for R is based,
+supports custom routing through plugins. While convenient, the plugin API
+providing this functionality is different from that provided by Flask, as
+used by Dash for Python. This method wraps the pluggable routing of \code{routr}
+routes in a manner that should feel slightly more idiomatic to Dash users.
+\subsection{Querying User-Defined Routes:}{
+
+It is possible to retrieve the list of user-defined routes by invoking the
+\code{get_data} method. For example, if your Dash application object is \code{app}, use
+\code{app$server$get_data("user-routes")}.
+
+If you wish to erase all user-defined routes without instantiating a new Dash
+application object, one option is to clear the routes manually:
+\code{app$server$set_data("user-routes", list())}.
+}
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{library(dash)
+app <- Dash$new()
+
+# A handler to redirect requests with `307` status code (temporary redirects); 
+# for permanent redirects (`301`), see the `redirect` method described below
+# 
+# A simple single path-to-path redirect
+app$server_route('/getting-started', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a redirect with a wildcard for subpaths
+app$server_route('/getting-started/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', '/layout')
+  TRUE
+})
+
+# Example of a parameterized redirect with wildcard for subpaths
+app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+  response$status <- 307L
+  response$set_header('Location', paste0('/users/', keys$user_id))
+  TRUE
+})
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-redirect"></a>}}
+\if{latex}{\out{\hypertarget{method-redirect}{}}}
+\subsection{Method \code{redirect()}}{
+Redirect a Dash application URL path
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$redirect(old_path = NULL, new_path = NULL, methods = "get")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{old_path}}{Character. Represents the URL path to redirect,
+comprised of strings, parameters (strings prefixed with :), and
+wildcards (*), separated by /. Wildcards can be used to match any
+path element, rather than restricting (as by default) to a single
+path element. For example, it is possible to catch requests to multiple
+subpaths using a wildcard. For more information, see \link{Route}.}
+
+\item{\code{new_path}}{Character or function. Same as \code{old_path}, but represents the
+new path which the client should load instead. If a function is
+provided instead of a string, it should have \code{keys} within its formals.}
+
+\item{\code{methods}}{Character. A string indicating the request method
+(in lower case, e.g. 'get', 'put', etc.), as used by \code{reqres}. The
+default is \code{get}. For more information, see \link{Route}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This is a convenience method to simplify adding redirects
+for your Dash application which automatically return a \code{301}
+HTTP status code and direct the client to load an alternate URL.
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{library(dash)
+app <- Dash$new()
+
+# example of a simple single path-to-path redirect
+app$redirect("/getting-started", "/layout")
+
+# example of a redirect using wildcards
+app$redirect("/getting-started/*", "/layout/*")
+
+# example of a parameterized redirect using a function for new_path,
+# which requires passing in keys to take advantage of subpaths within
+# old_path that are preceded by a colon (e.g. :user_id):
+app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-layout_get"></a>}}
@@ -290,7 +481,10 @@ and \code{property} which will be updated by the callback; a callback can
 target one or more outputs (i.e. multiple outputs).}
 
 \item{\code{params}}{Unnamed list; provides \link{input} and \link{state} statements, each
-with its own defined \code{id} and \code{property}.}
+with its own defined \code{id} and \code{property}. For pattern-matching callbacks,
+the \code{id} field of a component is written in JSON-like syntax and provides
+fields that are arbitrary keys which describe the targets of the callback.
+See \link{selectors} for more details.}
 
 \item{\code{func}}{Function; must return \link{output} provided \link{input} or \link{state}
 arguments. \code{func} may be any valid R function, or a character string
@@ -305,6 +499,10 @@ Describes a server or clientside callback relating the values of one or more
 \code{output} items to one or more \code{input} items which will trigger the callback
 when they change, and optionally \code{state} items which provide additional
 information but do not trigger the callback directly.
+
+For detailed examples of how to use pattern-matching callbacks, see the
+entry for \link{selectors} or visit our interactive online
+documentation at \url{https://dashr.plotly.com}.
 
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
@@ -345,6 +543,35 @@ callback, and \code{triggered} provides a list of changed properties.
 \subsection{Returns}{
 List comprising elements \code{states}, \code{triggered}, \code{inputs}.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-callback_context.record_timing"></a>}}
+\if{latex}{\out{\hypertarget{method-callback_context.record_timing}{}}}
+\subsection{Method \code{callback_context.record_timing()}}{
+Records timing information for a server resource.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Dash$callback_context.record_timing(name, duration = NULL, description = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Character. The name of the resource.}
+
+\item{\code{duration}}{Numeric. The time in seconds to report. Internally, this is
+rounded to the nearest millisecond.}
+
+\item{\code{description}}{Character. A description of the resource.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+The \code{callback_context.record_timing} method permits retrieving the
+duration required to execute a given callback. It may only be called
+from within a callback; a warning will be thrown and the method will
+otherwise return \code{NULL} if invoked outside of a callback.
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_asset_url"></a>}}

@@ -12,4 +12,6 @@
 #' @importFrom stats setNames
 #' @importFrom tools file_ext
 #' @importFrom brotli brotli_compress
+#' @importFrom glue glue
+#' @importFrom glue glue_collapse
 NULL

@@ -45,9 +45,13 @@ Dash <- R6::R6Class(
     #' @param requests_pathname_prefix Character. A prefix applied to request endpoints
     #' made by Dash's front-end. Environment variable is `DASH_REQUESTS_PATHNAME_PREFIX`.
     #' @param external_scripts List. An optional list of valid URLs from which
-    #' to serve JavaScript source for rendered pages.
+    #' to serve JavaScript source for rendered pages. Each entry can be a string (the URL)
+    #' or a named list with `src` (the URL) and optionally other `<script>` tag attributes such
+    #' as `integrity` and `crossorigin`.
     #' @param external_stylesheets List. An optional list of valid URLs from which
-    #' to serve CSS for rendered pages.
+    #' to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
+    #' with `href` (the URL) and optionally other `<link>` tag attributes such as 
+    #' `rel`, `integrity` and `crossorigin`.
     #' @param compress Logical. Whether to  try to compress files and data served by Fiery.
     #' By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm,
     #' before falling back to `identity`.
@@ -104,11 +108,15 @@ Dash <- R6::R6Class(
       self$config$show_undo_redo <- show_undo_redo
       self$config$update_title <- update_title
 
+      # ensure attributes are valid, if using a list within a list, elements are all named
+      assertValidExternals(scripts = external_scripts, stylesheets = external_stylesheets)
+
       # ------------------------------------------------------------
       # Initialize a route stack and register a static resource route
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
-
+      server$set_data("user-routes", list()) # placeholder for custom routes
+ 
       # ensure that assets_folder is neither NULL nor character(0)
       if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
@@ -213,18 +221,38 @@ Dash <- R6::R6Class(
         callback_args <- list()
 
         for (input_element in request$body$inputs) {
-          if(is.null(input_element$value))
+          if (any(grepl("id.", names(unlist(input_element))))) {
+            if (!is.null(input_element$id)) input_element <- list(input_element)
+            values <- character(0)
+            for (wildcard_input in input_element) {
+              values <- c(values, wildcard_input$value)
+            }
+            callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
+          }
+          else if(is.null(input_element$value)) {
             callback_args <- c(callback_args, list(list(NULL)))
-          else
+          }
+          else {
             callback_args <- c(callback_args, list(input_element$value))
+          }
         }
 
         if (length(request$body$state)) {
           for (state_element in request$body$state) {
-            if(is.null(state_element$value))
+            if (any(grepl("id.", names(unlist(state_element))))) {
+              if (!is.null(state_element$id)) state_element <- list(state_element)
+              values <- character(0)
+              for (wildcard_state in state_element) {
+                values <- c(values, wildcard_state$value)
+              }
+              callback_args <- c(callback_args, ifelse(length(values), list(values), list(NULL)))
+            }
+            else if(is.null(state_element$value)) {
               callback_args <- c(callback_args, list(list(NULL)))
-            else
+            }
+            else {
               callback_args <- c(callback_args, list(state_element$value))
+            }
           }
         }
 
@@ -282,6 +310,12 @@ Dash <- R6::R6Class(
              response = allprops,
              multi = TRUE
              )
+          } else if (is.list(request$body$outputs$id)) {
+            props = setNames(list(output_value), gsub( "(^.+)(\\.)", "", request$body$output))
+            resp <- list(
+              response = setNames(list(props), to_JSON(request$body$outputs$id)),
+              multi = TRUE
+            )
           } else {
             resp <- list(
               response = list(
@@ -378,14 +412,15 @@ Dash <- R6::R6Class(
 
           if (!private$debug && has_fingerprint) {
             response$status <- 200L
-            response$set_header('Cache-Control',
-                                sprintf('public, max-age=%s',
-                                        31536000) # 1 year
+            response$append_header('Cache-Control',
+                                   sprintf('public, max-age=%s',
+                                   '31536000') # 1 year
             )
           } else if (!private$debug && !has_fingerprint) {
             modified <- as.character(as.integer(file.mtime(dep_path)))
 
-            response$set_header('ETag', modified)
+            response$append_header('ETag',
+                                   modified)
 
             request_etag <- request$get_header('If-None-Match')
 
@@ -472,9 +507,9 @@ Dash <- R6::R6Class(
                                  file.size(asset_path))
         close(file_handle)
 
-        response$set_header('Cache-Control',
-                            sprintf('public, max-age=%s',
-                                    '31536000')
+        response$append_header('Cache-Control',
+                               sprintf('public, max-age=%s',
+                               '31536000')
                             )
         response$type <- 'image/x-icon'
         response$status <- 200L
@@ -551,6 +586,130 @@ Dash <- R6::R6Class(
     },
 
     # ------------------------------------------------------------------------
+    # methods to add custom server routes
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Connect a URL to a custom server route
+    #' @details
+    #' `fiery`, the underlying web service framework upon which Dash for R is based,
+    #' supports custom routing through plugins. While convenient, the plugin API
+    #' providing this functionality is different from that provided by Flask, as
+    #' used by Dash for Python. This method wraps the pluggable routing of `routr`
+    #' routes in a manner that should feel slightly more idiomatic to Dash users.
+    #' ## Querying User-Defined Routes:
+    #' It is possible to retrieve the list of user-defined routes by invoking the
+    #' `get_data` method. For example, if your Dash application object is `app`, use
+    #' `app$server$get_data("user-routes")`.
+    #'
+    #' If you wish to erase all user-defined routes without instantiating a new Dash
+    #' application object, one option is to clear the routes manually:
+    #' `app$server$set_data("user-routes", list())`.
+    #' @param path Character. Represents a URL path comprised of strings, parameters
+    #' (strings prefixed with :), and wildcards (*), separated by /. Wildcards can
+    #' be used to match any path element, rather than restricting (as by default) to
+    #' a single path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param handler Function. Adds a handler function to the specified method and path.
+    #' For more information, see \link{Route}.
+    #' @param methods Character. A string indicating the request method (in lower case,
+    #' e.g. 'get', 'put', etc.), as used by `reqres`. The default is `get`.
+    #' For more information, see \link{Route}.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # A handler to redirect requests with `307` status code (temporary redirects); 
+    #' # for permanent redirects (`301`), see the `redirect` method described below
+    #' # 
+    #' # A simple single path-to-path redirect
+    #' app$server_route('/getting-started', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a redirect with a wildcard for subpaths
+    #' app$server_route('/getting-started/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', '/layout')
+    #'   TRUE
+    #' })
+    #'
+    #' # Example of a parameterized redirect with wildcard for subpaths
+    #' app$server_route('/accounts/:user_id/*', function(request, response, keys, ...) {
+    #'   response$status <- 307L
+    #'   response$set_header('Location', paste0('/users/', keys$user_id))
+    #'   TRUE
+    #' })
+    server_route = function(path = NULL, handler = NULL, methods = "get") {
+      if (is.null(path) || is.null(handler)) {
+        stop("The server_route method requires that a path and handler function are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      user_routes <- self$server$get_data("user-routes")
+
+      user_routes[[path]] <- list("path" = path,
+                                  "handler" = handler,
+                                  "methods" = methods)
+
+      self$server$set_data("user-routes", user_routes)
+    },    
+
+    #' @description
+    #' Redirect a Dash application URL path
+    #' @details 
+    #' This is a convenience method to simplify adding redirects
+    #' for your Dash application which automatically return a `301`
+    #' HTTP status code and direct the client to load an alternate URL.
+    #' @param old_path Character. Represents the URL path to redirect,
+    #' comprised of strings, parameters (strings prefixed with :), and
+    #' wildcards (*), separated by /. Wildcards can be used to match any
+    #' path element, rather than restricting (as by default) to a single
+    #' path element. For example, it is possible to catch requests to multiple
+    #' subpaths using a wildcard. For more information, see \link{Route}.
+    #' @param new_path Character or function. Same as `old_path`, but represents the
+    #' new path which the client should load instead. If a function is
+    #' provided instead of a string, it should have `keys` within its formals.
+    #' @param methods Character. A string indicating the request method
+    #' (in lower case, e.g. 'get', 'put', etc.), as used by `reqres`. The
+    #' default is `get`. For more information, see \link{Route}.
+    #' @examples
+    #' library(dash)
+    #' app <- Dash$new()
+    #'
+    #' # example of a simple single path-to-path redirect
+    #' app$redirect("/getting-started", "/layout")
+    #'
+    #' # example of a redirect using wildcards
+    #' app$redirect("/getting-started/*", "/layout/*")
+    #'
+    #' # example of a parameterized redirect using a function for new_path,
+    #' # which requires passing in keys to take advantage of subpaths within
+    #' # old_path that are preceded by a colon (e.g. :user_id):
+    #' app$redirect("/accounts/:user_id/*", function(keys) paste0("/users/", keys$user_id))
+    redirect = function(old_path = NULL, new_path = NULL, methods = "get") {
+      if (is.null(old_path) || is.null(new_path)) {
+        stop("The redirect method requires that both an old path and a new path are specified. Please ensure these arguments are non-missing.", call.=FALSE)
+      }
+
+      if (is.function(new_path)) {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path(keys))
+          TRUE
+        }
+      } else {
+        handler <- function(request, response, keys, ...) {
+          response$status <- 301L
+          response$set_header('Location', new_path)
+          TRUE
+        }
+      }
+    
+      self$server_route(old_path, handler)
+    },
+
+    # ------------------------------------------------------------------------
     # dash layout methods
     # ------------------------------------------------------------------------
     #' @description
@@ -615,6 +774,10 @@ Dash <- R6::R6Class(
     #' when they change, and optionally `state` items which provide additional 
     #' information but do not trigger the callback directly.
     #'
+    #' For detailed examples of how to use pattern-matching callbacks, see the
+    #' entry for \link{selectors} or visit our interactive online
+    #' documentation at \url{https://dashr.plotly.com}.
+    #'
     #' The `output` argument defines which layout component property should
     #' receive the results (via the [output] object). The events that
     #' trigger the callback are then described by the [input] (and/or [state])
@@ -628,10 +791,13 @@ Dash <- R6::R6Class(
     #' without passing data to and from the Dash backend. The latter may offer
     #' improved performance relative to callbacks written purely in R.
     #' @param output Named list. The `output` argument provides the component `id` 
-    #' and `property` which will be updated by the callback; a callback can 
+    #' and `property` which will be updated by the callback; a callback can
     #' target one or more outputs (i.e. multiple outputs).
     #' @param params Unnamed list; provides [input] and [state] statements, each
-    #' with its own defined `id` and `property`.
+    #' with its own defined `id` and `property`. For pattern-matching callbacks,
+    #' the `id` field of a component is written in JSON-like syntax and provides
+    #' fields that are arbitrary keys which describe the targets of the callback.
+    #' See \link{selectors} for more details.
     #' @param func Function; must return [output] provided [input] or [state]
     #' arguments. `func` may be any valid R function, or a character string
     #' containing valid JavaScript, or a call to [clientsideFunction],
@@ -639,10 +805,8 @@ Dash <- R6::R6Class(
     #' JavaScript function.
     callback = function(output, params, func) {
       assert_valid_callbacks(output, params, func)
-
       inputs <- params[vapply(params, function(x) 'input' %in% attr(x, "class"), FUN.VALUE=logical(1))]
       state <- params[vapply(params, function(x) 'state' %in% attr(x, "class"), FUN.VALUE=logical(1))]
-
       if (is.function(func)) {
         clientside_function <- NULL
       } else if (is.character(func)) {
@@ -699,7 +863,44 @@ Dash <- R6::R6Class(
       if (is.null(private$callback_context_)) {
         warning("callback_context is undefined; callback_context may only be accessed within a callback.")
       }
+
       private$callback_context_
+    },
+
+    # ------------------------------------------------------------------------
+    # request and return callback timing data
+    # ------------------------------------------------------------------------
+    #' @description
+    #' Records timing information for a server resource.
+    #' @details
+    #' The `callback_context.record_timing` method permits retrieving the
+    #' duration required to execute a given callback. It may only be called
+    #' from within a callback; a warning will be thrown and the method will
+    #' otherwise return `NULL` if invoked outside of a callback.
+    #' 
+    #' @param name Character. The name of the resource.
+    #' @param duration Numeric. The time in seconds to report. Internally, this is
+    #' rounded to the nearest millisecond.
+    #' @param description Character. A description of the resource.
+    #'
+    callback_context.record_timing = function(name,
+                                              duration=NULL, 
+                                              description=NULL) {
+      if (is.null(private$callback_context_)) {
+        warning("callback_context is undefined; callback_context.record_timing may only be accessed within a callback.")
+        return(NULL)
+      }
+
+      timing_information <- self$server$get_data("timing-information")
+
+      if (name %in% timing_information) {
+        stop(paste0("Duplicate resource name ", name, " found."), call.=FALSE)
+      }
+
+      timing_information[[name]] <- list("dur" = round(duration * 1000), 
+                                         "desc" = description)
+
+      self$server$set_data("timing-information", timing_information)
     },
 
     # ------------------------------------------------------------------------
@@ -1029,6 +1230,39 @@ Dash <- R6::R6Class(
 
       private$prune_errors <- getServerParam(dev_tools_prune_errors, "logical", TRUE)
 
+      # attach user-defined routes, if they exist
+      if (length(self$server$get_data("user-routes")) > 0) {
+       
+        plugin <- list(
+          on_attach = function(server) {
+            user_routes <- server$get_data("user-routes")
+
+            # adding an additional route will fail if the
+            # route already exists, so remove user-routes
+            # if present and reload; user_routes will still
+            # have all the relevant routes in place anyhow
+            if (server$plugins$request_routr$has_route("user-routes"))
+              server$plugins$request_routr$remove_route("user-routes")
+            
+            router <- server$plugins$request_routr
+
+            route <- routr::Route$new()
+            
+            for (routing in user_routes) {
+              route$add_handler(method=routing$methods,
+                                path=routing$path,
+                                handler=routing$handler)
+            }
+            
+            router$add_route(route, "user-routes")
+          },
+          name = "user_routes",
+          require = "request_routr"
+        )
+        
+        self$server$attach(plugin, force = TRUE)
+      }
+      
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
@@ -1055,6 +1289,42 @@ Dash <- R6::R6Class(
 
       self$config$silence_routes_logging <- dev_tools_silence_routes_logging
       self$config$props_check <- dev_tools_props_check
+
+      if (private$debug && self$config$ui) {
+        self$server$on('before-request', function(server, ...) {
+          self$server$set_data("timing-information", list(
+            "__dash_server" = list(
+              "dur" = as.numeric(Sys.time()),
+              "desc" = NULL
+            )
+          ))
+        })
+
+        self$server$on('request', function(server, request, ...) {
+          timing_information <- self$server$get_data('timing-information')
+          dash_total <- timing_information[['__dash_server']]
+          timing_information[['__dash_server']][['dur']] <- round((as.numeric(Sys.time()) - dash_total[['dur']]) * 1000)
+          
+          header_as_string <- list()
+
+          for (item in seq_along(timing_information)) {
+            header_content <- names(timing_information[item])
+
+            if (!is.null(timing_information[[item]]$desc)) {
+              header_content <- paste0(header_content, ';desc="', timing_information[[item]]$desc, '"')
+            }
+
+            if (!is.null(timing_information[[item]]$dur)) {
+              header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
+            }
+            
+             header_as_string[[item]] <- header_content
+          }
+
+          request$response$append_header('Server-Timing', 
+                                         paste0(unlist(header_as_string), collapse=", "))
+        })
+      }
 
       if (hot_reload == TRUE & !(is.null(source_dir))) {
         self$server$on('cycle-end', function(server, ...) {
@@ -1162,10 +1432,19 @@ Dash <- R6::R6Class(
 
           # reset the timestamp so we're able to determine when the last cycle end occurred
           private$last_cycle <- as.integer(Sys.time())
+
+          # flush the context to prepare for the next request cycle
+          self$server$set_data("timing-information", list())
         })
       } else if (hot_reload == TRUE & is.null(source_dir)) {
           message("\U{26A0} No source directory information available; hot reloading has been disabled.\nPlease ensure that you are loading your Dash for R application using source().\n")
-        }
+        } else if (hot_reload == FALSE && private$debug && self$config$ui) {
+            self$server$on("cycle-end", function(server, ...) {
+              # flush the context to prepare for the next request cycle
+              self$server$set_data("timing-information", list())
+            })
+        } 
+
       self$server$ignite(block = block, showcase = showcase, ...)
       }
     ),
@@ -1578,7 +1857,7 @@ Dash <- R6::R6Class(
 
       # collect CSS assets from dependencies
       if (!(is.null(private$asset_map$css))) {
-        css_assets <- generate_css_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$css)),
+        css_assets <- generate_css_dist_html(tagdata = paste0(private$assets_url_path, names(private$asset_map$css)),
                                              local = TRUE,
                                              local_path = private$asset_map$css,
                                              prefix = self$config$requests_pathname_prefix)
@@ -1596,7 +1875,7 @@ Dash <- R6::R6Class(
       # collect JS assets from dependencies
       #
       if (!(is.null(private$asset_map$scripts))) {
-        scripts_assets <- generate_js_dist_html(href = paste0(private$assets_url_path, names(private$asset_map$scripts)),
+        scripts_assets <- generate_js_dist_html(tagdata = paste0(private$assets_url_path, names(private$asset_map$scripts)),
                                                 local = TRUE,
                                                 local_path = private$asset_map$scripts,
                                                 prefix = self$config$requests_pathname_prefix)
