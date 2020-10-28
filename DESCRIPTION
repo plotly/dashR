@@ -21,7 +21,8 @@ Imports:
   base64enc,
   mime,
   crayon,
-  brotli
+  brotli,
+  glue
 Suggests:
   testthat
 Collate:
