@@ -1054,7 +1054,7 @@ setCallbackContext <- function(callback_elements) {
                       function(x) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
-                        
+
                         # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
                         if (startsWith(input_id, "{")){
                           id_match <- vapply(callback_elements$inputs, function(x) {
@@ -1062,18 +1062,22 @@ setCallbackContext <- function(callback_elements) {
                             any(x[grepl("id.", names(x))] %in% jsonlite::fromJSON(input_id)[[1]])
                           }, logical(1))[[1]]
                         } else {
-                          id_match <- vapply(callback_elements$inputs, function(x) x$id %in% input_id, logical(1))
+                          id_match <- vapply(callback_elements$inputs, function(x) {
+                            unlist(x)
+                            any(x$id %in% input_id)}, logical(1))
                         }
-                        
+
                         if (startsWith(input_id, "{")){
                           prop_match <- vapply(callback_elements$inputs, function(x) {
                             x <- unlist(x)
                             any(x[names(x) == "property"] %in% prop)
                           }, logical(1))[[1]]
                         } else {
-                          prop_match <- vapply(callback_elements$inputs, function(x) x$property %in% prop, logical(1))
+                          prop_match <- vapply(callback_elements$inputs, function(x) {
+                            unlist(x)
+                            any(x$property %in% prop)}, logical(1))
                         }
-                        
+
                         if (startsWith(input_id, "{")){
                           if (length(callback_elements$inputs) == 1 || !is.null(unlist(callback_elements$inputs, recursive = F)$value)) {
                             value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
