@@ -2,6 +2,10 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.8.1] - 2020-10-29
+### Fixed
+- Fixes a minor bug in `setCallbackContext` (described in [#236](https://github.com/plotly/dashR/issues/236)) which prevented pattern-matching callbacks from working properly if one or more `input` statements did not include a selector. [#237](https://github.com/plotly/dashR/pull/237)
+
 ## [0.8.0] - 2020-10-27
 ### Fixed
 - Usage of `glue` has been corrected to address [#232](https://github.com/plotly/dashR/issues/232) via [#233](https://github.com/plotly/dashR/pull/233).
