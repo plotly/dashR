@@ -489,3 +489,4 @@ def test_rpmc005_pattern_matching_graphs(dashr):
     dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-x\\"\\}', "year")
     dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-y\\"\\}', "pop")
     dashr.percy_snapshot("r-pmc-graphs")
+    dashr.wait_for_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-output\\"\\}')
