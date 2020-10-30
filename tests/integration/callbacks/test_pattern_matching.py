@@ -353,7 +353,8 @@ app$layout(
           )
         )
       ),
-      htmlDiv(id = "container", children=list())
+      htmlDiv(id = "container", children=list()),
+      htmlDiv(id = "output-delay")
     )
   )
 )
@@ -372,7 +373,10 @@ create_figure <- function(df, column_x, column_y, country) {
 }
 
 app$callback(
-  output(id = "container", property = "children"),
+  output = list(
+    output(id = "container", property = "children"),
+    output(id = "output-delay", property = "children")
+  ),
   params = list(
     input(id = "add-chart", property = "n_clicks"),
     state(id = "country", property = "value"),
@@ -408,6 +412,7 @@ app$callback(
     )
 
     children <- c(children, list(new_element))
+    return(list(children, n_clicks))
   }
 )
 
@@ -484,7 +489,9 @@ def test_rpmc004_pattern_matching_todo(dashr):
 def test_rpmc005_pattern_matching_graphs(dashr):
     dashr.start_server(graphs_app)
     dashr.select_dcc_dropdown("#country", "Cameroon")
+    dashr.wait_for_text_to_equal("#output-delay", "0")
     dashr.find_element("#add-chart").click()
+    dashr.wait_for_text_to_equal("#output-delay", "1")
     dashr.find_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-output\\"\\}')
     dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-x\\"\\}', "year")
     dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-y\\"\\}', "pop")
