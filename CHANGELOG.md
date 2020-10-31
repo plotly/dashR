@@ -2,9 +2,16 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.8.1] - 2020-10-29
+## [0.9.0] - 2020-10-31
+
 ### Fixed
 - Fixes a minor bug in `setCallbackContext` (described in [#236](https://github.com/plotly/dashR/issues/236)) which prevented pattern-matching callbacks from working properly if one or more `input` statements did not include a selector. [#237](https://github.com/plotly/dashR/pull/237)
+
+### Changed
+
+- Dash for R now depends on v1.1.1 of `dashHtmlComponents`
+- Dash for R now depends on v1.13.0 of `dashCoreComponents`
+- Dash for R now depends on v4.11.0 of `dashTable`
 
 ## [0.8.0] - 2020-10-27
 ### Fixed
