@@ -318,6 +318,120 @@ app$run_server()
 """
 
 
+graphs_app = """
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(plotly)
+
+df <- read.csv(
+  file = "https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",
+  stringsAsFactor=FALSE,
+  check.names=FALSE
+)
+
+app <- Dash$new()
+
+app$layout(
+  htmlDiv(
+    list(
+      htmlDiv(
+        list(
+          dccDropdown(options = lapply(unique(df[,"country"]), function(x) {
+            list(label = x, value = x)
+          }),
+          value = "Canada",
+          id = "country",
+          style = list(display = "inline-block",
+                       width = 200)
+          ),
+          htmlButton(
+            "add Chart",
+            id = "add-chart",
+            n_clicks = 0,
+            style = list(display = "inline-block")
+          )
+        )
+      ),
+      htmlDiv(id = "container", children=list()),
+      htmlDiv(id = "output-delay")
+    )
+  )
+)
+
+create_figure <- function(df, column_x, column_y, country) {
+  df <- df[which(df[, "country"] == country),]
+  if (column_x == "year") {
+    fig <- plot_ly(df, x = df[,column_x], y = df[,column_y], name = column_x, type = "scatter", mode = "lines")
+  } else {
+    fig <- plot_ly(df, x = df[,column_x], y = df[,column_y], name = column_x, type = "scatter", mode = "markers")
+  }
+  fig <- plotly::layout(fig, plot_bgcolor="lightblue", xaxis = list(title=""),
+                        yaxis = list(title=""), title=list(text=paste(country, column_y, "vs", column_x),
+                                                           xanchor="right", margin_l=10, margin_r=0, margin_b=30))
+  return(fig)
+}
+
+app$callback(
+  output = list(
+    output(id = "container", property = "children"),
+    output(id = "output-delay", property = "children")
+  ),
+  params = list(
+    input(id = "add-chart", property = "n_clicks"),
+    state(id = "country", property = "value"),
+    state(id = "container", property = "children")
+  ),
+  function(n_clicks, country, children) {
+    default_column_x <- "year"
+    default_column_y <- "gdpPercap"
+
+    new_element <- htmlDiv(
+      style = list(width = "23%", display = "inline-block", outline = "thin lightgrey solid", padding = 10),
+      children = list(
+        dccGraph(
+          id = list(type = "dynamic-output", index = n_clicks),
+          style = list(height = 300),
+          figure = create_figure(df, default_column_x, default_column_y, country)
+        ),
+        dccDropdown(
+          id = list(type = "dynamic-dropdown-x", index = n_clicks),
+          options = lapply(colnames(df), function(x) {
+            list(label = x, value = x)
+          }),
+          value = default_column_x
+        ),
+        dccDropdown(
+          id = list(type = "dynamic-dropdown-y", index = n_clicks),
+          options = lapply(colnames(df), function(x) {
+            list(label = x, value = x)
+          }),
+          value = default_column_y
+        )
+      )
+    )
+
+    children <- c(children, list(new_element))
+    return(list(children, n_clicks))
+  }
+)
+
+app$callback(
+  output(id = list("index" = MATCH, "type" = "dynamic-output"), property = "figure"),
+  params = list(
+    input(id = list("index" = MATCH, "type" = "dynamic-dropdown-x"), property = "value"),
+    input(id = list("index" = MATCH, "type" = "dynamic-dropdown-y"), property = "value"),
+    input(id = "country", property = "value")
+  ),
+  function(column_x, column_y, country) {
+    return(create_figure(df, column_x, column_y, country))
+  }
+)
+
+app$run_server()
+"""
+
+
 def test_rpmc001_pattern_matching_all(dashr):
     dashr.start_server(all_app)
     dashr.find_element("#add-filter").click()
@@ -370,3 +484,16 @@ def test_rpmc004_pattern_matching_todo(dashr):
     dashr.find_element("#add").click()
     dashr.find_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"done\\"\\}').click()
     assert dashr.wait_for_text_to_equal("#totals", "1 of 1 items completed - 100%")
+
+
+def test_rpmc005_pattern_matching_graphs(dashr):
+    dashr.start_server(graphs_app)
+    dashr.select_dcc_dropdown("#country", "Cameroon")
+    dashr.wait_for_text_to_equal("#output-delay", "0")
+    dashr.find_element("#add-chart").click()
+    dashr.wait_for_text_to_equal("#output-delay", "1")
+    dashr.find_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-output\\"\\}')
+    dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-x\\"\\}', "year")
+    dashr.select_dcc_dropdown('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-dropdown-y\\"\\}', "pop")
+    dashr.percy_snapshot("r-pmc-graphs")
+    dashr.wait_for_element('#\\{\\"index\\"\\:1\\,\\"type\\"\\:\\"dynamic-output\\"\\}')
