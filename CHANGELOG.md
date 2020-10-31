@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Dash for R now depends on v1.1.1 of `dashHtmlComponents`
 - Dash for R now depends on v1.13.0 of `dashCoreComponents`
 - Dash for R now depends on v4.11.0 of `dashTable`
+- `dash-renderer` version is now v1.8.3
 
 ## [0.8.0] - 2020-10-27
 ### Fixed
