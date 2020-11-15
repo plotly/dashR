@@ -1893,7 +1893,7 @@ Dash <- R6::R6Class(
       if ("/favicon.ico" %in% names(private$asset_map$other)) {
         favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
       } else {
-        favicon <- '<link rel="icon" type="image/x-icon" href="/_favicon.ico?v=1.14.0">'
+        favicon <- ""
       }
 
       # set script tag to invoke a new dash_renderer
@@ -1957,24 +1957,6 @@ Dash <- R6::R6Class(
         private$.index <- string_index
       }
       
-      else if (length(private$template_index) == 1) {
-        private$.index <- private$template_index
-      }
-
-      # define the react-entry-point
-      app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
-      # define the dash default config key
-      config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
-
-      if (is.null(private$name))
-        private$name <- 'Dash'
-
-      if (!is.null(private$custom_index)) {
-        string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
-
-        private$.index <- string_index
-      }
-
       else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }
