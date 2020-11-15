@@ -1893,7 +1893,7 @@ Dash <- R6::R6Class(
       if ("/favicon.ico" %in% names(private$asset_map$other)) {
         favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
       } else {
-        favicon <- ""
+        favicon <- '<link rel="icon" type="image/x-icon" href="/_favicon.ico?v=1.14.0">'
       }
 
       # set script tag to invoke a new dash_renderer
