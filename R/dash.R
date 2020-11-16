@@ -1895,7 +1895,8 @@ Dash <- R6::R6Class(
       # create tag for favicon, if present
       # other_files_map[names(other_files_map) %in% "/favicon.ico"]
       if ("/favicon.ico" %in% names(private$asset_map$other)) {
-        favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
+        favicon_url <- sprintf('\"%s_favicon.ico\"', self$config$requests_pathname_prefix)
+        favicon <- sprintf("<link href=%s rel=\"icon\" type=\"image/x-icon\">", favicon_url)
       } else {
         favicon_url <- sprintf('\"%s_favicon.ico\"', self$config$requests_pathname_prefix)
         favicon <- sprintf("<link href=%s rel=\"icon\" type=\"image/x-icon\">", favicon_url)
