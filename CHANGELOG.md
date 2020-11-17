@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.9.1] - 2020-11-16
 ### Fixed
-- Fixed a `favicon` response console error issue by adding a default favicon for Dash apps. [#240](https://github.com/plotly/dashr/pull/240)
+- A regression which prevented favicons from displaying properly has been resolved, and a default Dash favicon is now supplied when none is provided in the `assets` directory. [#240](https://github.com/plotly/dashr/pull/240)
 
 ## [0.9.0] - 2020-10-31
 ### Fixed
