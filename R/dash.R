@@ -116,7 +116,7 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
       server$set_data("user-routes", list()) # placeholder for custom routes
- 
+
       # ensure that assets_folder is neither NULL nor character(0)
       if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
@@ -494,12 +494,16 @@ Dash <- R6::R6Class(
         }
         TRUE
       })
-
       dash_favicon <- paste0(self$config$routes_pathname_prefix, "_favicon.ico")
 
       route$add_handler("get", dash_favicon, function(request, response, keys, ...) {
         asset_path <- get_asset_path(private$asset_map,
                                      "/favicon.ico")
+
+        # If custom favicon is not present, get the path for the default Dash favicon
+        if (is.na(names(asset_path))) {
+          asset_path <- system.file("extdata", "favicon.ico", package = "dash")
+        }
 
         file_handle <- file(asset_path, "rb")
         response$body <- readBin(file_handle,
@@ -1891,9 +1895,11 @@ Dash <- R6::R6Class(
       # create tag for favicon, if present
       # other_files_map[names(other_files_map) %in% "/favicon.ico"]
       if ("/favicon.ico" %in% names(private$asset_map$other)) {
-        favicon <- sprintf("<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">")
+        favicon_url <- sprintf('\"%s_favicon.ico\"', self$config$requests_pathname_prefix)
+        favicon <- sprintf("<link href=%s rel=\"icon\" type=\"image/x-icon\">", favicon_url)
       } else {
-        favicon <- ""
+        favicon_url <- sprintf('\"%s_favicon.ico\"', self$config$requests_pathname_prefix)
+        favicon <- sprintf("<link href=%s rel=\"icon\" type=\"image/x-icon\">", favicon_url)
       }
 
       # set script tag to invoke a new dash_renderer
@@ -1901,7 +1907,6 @@ Dash <- R6::R6Class(
                                          "_dash-renderer",
                                          "application/javascript",
                                          "var renderer = new DashRenderer();")
-
       # add inline tags
       scripts_inline <- private$inline_scripts
 
@@ -1957,24 +1962,6 @@ Dash <- R6::R6Class(
         private$.index <- string_index
       }
       
-      else if (length(private$template_index) == 1) {
-        private$.index <- private$template_index
-      }
-
-      # define the react-entry-point
-      app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
-      # define the dash default config key
-      config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", to_JSON(self$config))
-
-      if (is.null(private$name))
-        private$name <- 'Dash'
-
-      if (!is.null(private$custom_index)) {
-        string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
-
-        private$.index <- string_index
-      }
-
       else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }
