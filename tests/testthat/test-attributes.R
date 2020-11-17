@@ -296,6 +296,6 @@ test_that("default favicon resource is supplied when none is present in assets",
 
   expect_equal(
     favicon_hrefs,
-    "<link href=\"/_fanvicon.ico\" rel=\"icon\" type=\"image/x-icon\">"
+    "<link href=\"/_favicon.ico\" rel=\"icon\" type=\"image/x-icon\">"
   )
 })
