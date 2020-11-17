@@ -295,7 +295,7 @@ test_that("default favicon resource is supplied when none is present in assets",
   favicon_hrefs <- grep(favicon_pattern, tags_by_line, value = TRUE)
 
   expect_equal(
-    stylesheet_hrefs,
+    favicon_hrefs,
     "<link href=\"/_fanvicon.ico\" rel=\"icon\" type=\"image/x-icon\">"
   )
 })
