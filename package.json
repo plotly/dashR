@@ -1,0 +1,23 @@
+{
+  "name": "dashr",
+  "version": "0.9.0",
+  "description": "An Interface to the Dash Ecosystem for Authoring Reactive Web Applications",
+  "main": "gulpfile.js",
+  "directories": {
+    "man": "man",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plotly/dashr.git"
+  },
+  "author": "Chris Parmer <chris@plotly.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plotly/dashr/issues"
+  },
+  "homepage": "https://github.com/plotly/dashr#readme"
+}
