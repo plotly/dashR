@@ -8,7 +8,8 @@
     "test": "tests"
   },
   "scripts": {
-    "unify": "gulp unify"
+    "unify": "gulp unify",
+    "clean": "gulp clean"
   },
   "repository": {
     "type": "git",
@@ -19,10 +20,12 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-footer": "^2.0.2",
-    "gulp-rename": "^2.0.0",
+    "gulp-print": "^5.0.2",
+    "gulp-replace": "^1.0.0",
     "del": "^5.1.0",
-    "mkdirp": "^0.5.4"
-    },
+    "mkdirp": "^0.5.4",
+    "fs-extra": "^9.0.1"
+  },
   "bugs": {
     "url": "https://github.com/plotly/dashr/issues"
   },
