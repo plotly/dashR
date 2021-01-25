@@ -133,9 +133,9 @@ function replaceComponentImports() {
 function replaceDescriptionImports() {
   return src('./DESCRIPTION')
     .pipe(print())
-    .pipe(replace(/dashHtmlComponents \(== 1.1.1\),/, '#dashHtmlComponents (== 1.1.1),'))
-    .pipe(replace(/dashCoreComponents \(== 1.13.0\),/, '#dashCoreComponents (== 1.13.0),'))
-    .pipe(replace(/dashTable \(== 4.11.0\),/, '#dashTable (== 4.11.0),'))
+    .pipe(replace(/  dashHtmlComponents \(== 1.1.1\),/, ''))
+    .pipe(replace(/  dashCoreComponents \(== 1.13.0\),/, ''))
+    .pipe(replace(/  dashTable \(== 4.11.0\),/, ''))
     .pipe(replace(/Collate:/, '#Collate:'))
     .pipe(dest('.'));
 }
@@ -164,9 +164,7 @@ function cleanNamespace() {
 function cleanDescriptionImports() {
   return src('./DESCRIPTION')
     .pipe(print())
-    .pipe(replace(/#dashHtmlComponents \(== 1.1.1\),/, 'dashHtmlComponents (== 1.1.1),'))
-    .pipe(replace(/#dashCoreComponents \(== 1.13.0\),/, 'dashCoreComponents (== 1.13.0),'))
-    .pipe(replace(/#dashTable \(== 4.11.0\),/, 'dashTable (== 4.11.0),'))
+    .pipe(replace(/Imports:/, 'Imports:\n  dashHtmlComponents (== 1.1.1),\n  dashCoreComponents (== 1.13.0),\n  dashTable (== 4.11.0),\n'))
     .pipe(replace(/#Collate:/, 'Collate:'))
     .pipe(dest('.'));
 }
