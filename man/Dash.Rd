@@ -383,9 +383,9 @@ where the application is making API calls.}
 library(dash)
 app <- Dash$new()
 
-# A handler to redirect requests with `307` status code (temporary redirects); 
+# A handler to redirect requests with `307` status code (temporary redirects);
 # for permanent redirects (`301`), see the `redirect` method described below
-# 
+#
 # A simple single path-to-path redirect
 app$server_route('/getting-started', function(request, response, keys, ...) {
   response$status <- 307L
@@ -444,7 +444,7 @@ sample_template <- "<!DOCTYPE html>
 # a list, in which each element is a JSON key/value pair, when
 # reformatted as JSON from the list:
 #  e.g. {"routes_pathname_prefix":"/", "ui":false}
-config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>", 
+config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>",
                  jsonlite::toJSON(app$config, auto_unbox=TRUE))
 
 app$interpolate_index(
