@@ -133,9 +133,9 @@ function replaceComponentImports() {
 function replaceDescriptionImports() {
   return src('./DESCRIPTION')
     .pipe(print())
-    .pipe(replace(/  dashHtmlComponents \(== 1.1.1\),\n/, ''))
-    .pipe(replace(/  dashCoreComponents \(== 1.13.0\),\n/, ''))
-    .pipe(replace(/  dashTable \(== 4.11.0\),\n/, ''))
+    .pipe(replace(/  dashHtmlComponents \(== \d+.\d+.\d+\),\n/, ''))
+    .pipe(replace(/  dashCoreComponents \(== \d+.\d+.\d+\),\n/, ''))
+    .pipe(replace(/  dashTable \(== \d+.\d+.\d+\),\n/, ''))
     .pipe(replace(/Collate:/, '#Collate:'))
     .pipe(dest('.'));
 }
