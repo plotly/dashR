@@ -124,8 +124,8 @@ function appendTableInternal() {
 function replaceComponentImports() {
   return src('./NAMESPACE')
     .pipe(print())
-    .pipe(replace(/import\(dashCoreComponents\)/, '#import(dashCoreComponents)'))
-    .pipe(replace(/import\(dashHtmlComponents\)/, '#import(dashHtmlComponents)'))
+    .pipe(replace(/import\(dashCoreComponents\)\n/, '#import(dashCoreComponents)'))
+    .pipe(replace(/import\(dashHtmlComponents\)\n/, '#import(dashHtmlComponents)'))
     .pipe(dest('.'));
 }
 
