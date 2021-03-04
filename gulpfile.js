@@ -150,15 +150,13 @@ function replacePackageDependency() {
     .pipe(dest('R/'));
 }
 
-// Clean unification changes from NAMESPACE.
-function cleanNamespace() {
-  return src('./NAMESPACE')
-    .pipe(print())
-    .pipe(replace(/#import\(dashCoreComponents\)/, 'import(dashCoreComponents)'))
-    .pipe(replace(/#import\(dashHtmlComponents\)/, 'import(dashHtmlComponents)'))
-    .pipe(replace(/# dashCoreComponents exports.*/s, ''))
+// Remove require(dash) from all examples.
+function removeRequireDash() {
+  return src('./**/*')
+    .pipe(replace(/&& require\(dash\)/g, ''))
     .pipe(dest('.'));
 }
+
 
 // Clean unification changes from DESCRIPTION.
 function cleanDescriptionImports() {
@@ -210,7 +208,8 @@ exports.unify = series(
   appendHtmlInternal,
   appendTableInternal,
   replacePackageDependency,
-  replaceDescriptionImports
+  replaceDescriptionImports,
+  removeRequireDash
 );
 
 exports.clean = series(
