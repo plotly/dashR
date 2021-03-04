@@ -2,6 +2,10 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2021-03-04
+### Changed
+- Unify the core Dash packages (dash, dashCoreComponents, dashHtmlComponents, dashTable) for streamlined maintenance and accessibility. The namespaces of these packages will be combined under the `dash` namespace, and all artifacts from the ancillary dash packages will be included with Dash for R. [#243](https://github.com/plotly/dashr/pull/243)
+
 ## [0.9.1] - 2020-11-16
 ### Fixed
 - A regression which prevented favicons from displaying properly has been resolved, and a default Dash favicon is now supplied when none is provided in the `assets` directory. [#240](https://github.com/plotly/dashr/pull/240)

@@ -7,7 +7,13 @@
 \alias{ALLSMALLER}
 \alias{MATCH}
 \title{Pattern-Matching Callback Selectors}
-\format{An object of class \code{name} of length 1.}
+\format{
+An object of class \code{name} of length 1.
+
+An object of class \code{name} of length 1.
+
+An object of class \code{name} of length 1.
+}
 \usage{
 ALL
 
@@ -31,7 +37,7 @@ in JSON-like syntax. The resulting \code{id} is then transformed into a dictiona
 object when serialized for use by the Dash renderer within the web browser.
 The fields are arbitrary keys, which describe the targets of the callback.
 
-For example, when we write \code{input(id=list("foo" = ALL, "bar" = "dropdown")},
+For example, when we write \verb{input(id=list("foo" = ALL, "bar" = "dropdown")},
 Dash interprets this as "match any input that has an ID list where 'foo'
 is 'ALL' and 'bar' is anything." If any of the dropdown
 \code{value} properties change, all of their values are returned to the callback.
@@ -59,7 +65,7 @@ necessary (you can usually use \code{ALL} and filter out the indices in your cal
 but it will make your logic simpler.
 }
 \examples{
-if (interactive() && require(dash)) {
+if (interactive() ) {
   library(dashCoreComponents)
   library(dashHtmlComponents)
   library(dash)

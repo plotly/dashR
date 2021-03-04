@@ -1,6 +1,6 @@
 {
   "name": "dashr",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "An Interface to the Dash Ecosystem for Authoring Reactive Web Applications",
   "main": "gulpfile.js",
   "directories": {

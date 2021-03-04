@@ -22,7 +22,7 @@ dashNoUpdate()
 \item{property}{the component property to use}
 }
 \description{
-Use in conjunction with the \code{callback()} method from the \link[dash:Dash]{dash::Dash} class
+Use in conjunction with the \code{callback()} method from the \link{Dash} class
 to define the update logic in your application.
 }
 \details{

@@ -120,14 +120,6 @@ function appendTableInternal() {
     .pipe(dest('R/', { overwrite: true }));
 }
 
-// Remove component package imports from NAMESPACE.
-function replaceComponentImports() {
-  return src('./NAMESPACE')
-    .pipe(print())
-    .pipe(replace(/import\(dashCoreComponents\)\n/, '#import(dashCoreComponents)'))
-    .pipe(replace(/import\(dashHtmlComponents\)\n/, '#import(dashHtmlComponents)'))
-    .pipe(dest('.'));
-}
 
 // Remove component package imports and collate from DESCRIPTION.
 function replaceDescriptionImports() {
@@ -203,7 +195,6 @@ exports.unify = series(
   appendCoreNamespace,
   appendHtmlNamespace,
   appendTableNamespace,
-  replaceComponentImports,
   appendCoreInternal,
   appendHtmlInternal,
   appendTableInternal,
@@ -213,7 +204,6 @@ exports.unify = series(
 );
 
 exports.clean = series(
-  cleanNamespace,
   cleanInternal,
   cleanR,
   cleanDescriptionImports

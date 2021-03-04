@@ -1159,7 +1159,7 @@ Dash <- R6::R6Class(
     #' @param dev_tools_silence_routes_logging Logical. Replace Fiery's default logger with `dashLogger` instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.
     #' @param ... Additional arguments to pass to the `start` handler; see the [fiery] documentation for relevant examples.
     #' @examples
-    #' if (interactive() && require(dash)) {
+    #' if (interactive() ) {
     #'   library(dashCoreComponents)
     #'   library(dashHtmlComponents)
     #'   library(dash)

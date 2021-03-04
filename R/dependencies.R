@@ -124,7 +124,7 @@ dashNoUpdate <- function() {
 #' @rdname selectors
 #' @export
 #' @examples
-#' if (interactive() && require(dash)) {
+#' if (interactive() ) {
 #'   library(dashCoreComponents)
 #'   library(dashHtmlComponents)
 #'   library(dash)

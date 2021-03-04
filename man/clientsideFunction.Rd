@@ -20,7 +20,7 @@ In this case Dash will inline your JavaScript automatically, without needing to 
 \details{
 With this signature, Dash's front-end will call \code{window.my_clientside_library.my_function} with the current
 values of the \code{value} properties of the components \code{my-input} and \code{another-input} whenever those values change.
-Include a JavaScript file by including it your \code{assets/} folder. The file can be named anything but you'll need to
+Include a JavaScript file by including it your \verb{assets/} folder. The file can be named anything but you'll need to
 assign the function's namespace to the \code{window}. For example, this file might look like:
 \preformatted{window.my_clientside_library = \{
 my_function: function(input_value_1, input_value_2) \{
@@ -48,7 +48,7 @@ app$callback(
  output('output-clientside', 'children'),
  params=list(input('input', 'value')),
  "function (value) {
-       return 'Client says \\"' + value + '\\"';
+       return 'Client says \"' + value + '\"';
  }"
 )}
 }
