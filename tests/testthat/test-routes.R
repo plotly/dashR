@@ -1,8 +1,6 @@
 context("routes")
 
 test_that("URLs are properly redirected with app$redirect", {
- library(dashHtmlComponents)
-
  app <- Dash$new()
 
  app$redirect("/foo", "/")
@@ -67,8 +65,6 @@ test_that("URLs are properly redirected with app$redirect", {
 })
 
 test_that("temporary redirection of URLs is possible with app$server_route", {
- library(dashHtmlComponents)
-
  app <- Dash$new()
 
  app$server_route("/baz", function(request, response, keys, ...) {

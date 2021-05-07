@@ -14,8 +14,6 @@ def click_redo(self):
 
 app = ''' 
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 app <- Dash$new(show_undo_redo=TRUE)
 
 app$layout(htmlDiv(list(dccInput(id="a"), htmlDiv(id="b"))))

@@ -1,6 +1,5 @@
 named_app = """ 
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new()
 
 app$title("Testing")
@@ -11,7 +10,6 @@ app$run_server()
 
 app_with_template = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new()
 
 string <-

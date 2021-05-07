@@ -3,8 +3,6 @@ import time, os
 
 app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
 
 app <- Dash$new()
 

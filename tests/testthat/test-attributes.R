@@ -1,7 +1,6 @@
 context("attributes")
 
 test_that("stylesheets can be added with or without attributes", {
-  library(dashHtmlComponents)
   stylesheet_pattern <- '^.*<link href="(https.*)">.*$'
   script_pattern <- '^.*<script src="(https.*)">.*$'
 
@@ -96,7 +95,7 @@ test_that("stylesheets can be added with or without attributes", {
   # Dash for R this way the mod times and version numbers will
   # always be in sync with those used by the backend
   internal_hrefs <- vapply(dash:::.dash_js_metadata(), function(x) x$src$href, character(1))
-  dhc <- dashHtmlComponents:::.dashHtmlComponents_js_metadata()[[1]]
+  dhc <- dash:::.dashHtmlComponents_js_metadata()[[1]]
   dhc_path <- dash:::getDependencyPath(dhc)
   modtime <- as.integer(file.mtime(dhc_path))
   filename <- basename(dash:::buildFingerprint(dhc$script, dhc$version, modtime))
@@ -134,8 +133,6 @@ test_that("stylesheets can be added with or without attributes", {
 })
 
 test_that("invalid attributes trigger an error", {
-  library(dashHtmlComponents)
-
   external_stylesheets <- list(
                             list(
                               href="https://codepen.io/chriddyp/pen/bWLwgP.css",
@@ -161,8 +158,6 @@ test_that("invalid attributes trigger an error", {
 })
 
 test_that("not passing named attributes triggers an error", {
-  library(dashHtmlComponents)
-
   external_stylesheets <- list(
                             list(
                               href="https://codepen.io/chriddyp/pen/bWLwgP.css",
@@ -178,7 +173,6 @@ test_that("not passing named attributes triggers an error", {
 })
 
 test_that("stylesheet can be passed as a simple list", {
-  library(dashHtmlComponents)
   stylesheet_pattern <- '^.*<link href="(https.*)">.*$'
   script_pattern <- '^.*<script src="(https.*)">.*$'
 
@@ -209,8 +203,6 @@ test_that("stylesheet can be passed as a simple list", {
 })
 
 test_that("not passing named attributes triggers an error", {
-  library(dashHtmlComponents)
-
   external_stylesheets = list(
                             list(
                               href="https://codepen.io/chriddyp/pen/bWLwgP.css",
@@ -225,7 +217,6 @@ test_that("not passing named attributes triggers an error", {
 })
 
 test_that("passing a list with no href/src fails", {
-  library(dashHtmlComponents)
   stylesheet_pattern <- '^.*<link href="(https.*)">.*$'
   script_pattern <- '^.*<script src="(https.*)">.*$'
 
@@ -271,7 +262,6 @@ test_that("passing a list with no href/src fails", {
 })
 
 test_that("default favicon resource is supplied when none is present in assets", {
-  library(dashHtmlComponents)
   favicon_pattern <- '^.*<link href=".*/_favicon.*">.*$'
 
   app <- Dash$new()

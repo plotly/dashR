@@ -3,7 +3,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 app = """
 library(dash)
-library(dashHtmlComponents)
 library(dashGeneratorTestComponentNested)
 library(dashGeneratorTestComponentStandard)
 
@@ -18,7 +17,6 @@ app$run_server()
 
 styled_app = """
 library(dash)
-library(dashHtmlComponents)
 library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
