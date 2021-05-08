@@ -95,25 +95,76 @@ test_that("stylesheets can be added with or without attributes", {
   # Dash for R this way the mod times and version numbers will
   # always be in sync with those used by the backend
   internal_hrefs <- vapply(dash:::.dash_js_metadata(), function(x) x$src$href, character(1))
-  dhc <- dash:::.dashHtmlComponents_js_metadata()[[1]]
-  dhc_path <- dash:::getDependencyPath(dhc)
-  modtime <- as.integer(file.mtime(dhc_path))
-  filename <- basename(dash:::buildFingerprint(dhc$script, dhc$version, modtime))
+
+  dcc <- dash:::.dashCoreComponents_js_metadata()
+  dhc <- dash:::.dashHtmlComponents_js_metadata()
+  dt <- dash:::.dashTable_js_metadata()
+
+  dcc_min <- dcc[which(sapply(dcc, "[[", "script") == "dash_core_components.min.js")][[1]]
+  dcc_shared <- dcc[which(sapply(dcc, "[[", "script") == "dash_core_components-shared.js")][[1]]
+  dhc_min <- dhc[which(sapply(dhc, "[[", "script") == "dash_html_components.min.js")][[1]]
+  dt_bundle <- dt[which(sapply(dt, "[[", "script") == "bundle.js")][[1]]
+
+  dcc_min_path <- dash:::getDependencyPath(dcc_min)
+  dcc_min_modtime <- as.integer(file.mtime(dcc_min_path))
+  dcc_min_filename <- basename(dash:::buildFingerprint(dcc_min$script, dcc_min$version, dcc_min_modtime))
+  
+  dcc_shared_path <- dash:::getDependencyPath(dcc_shared)
+  dcc_shared_modtime <- as.integer(file.mtime(dcc_shared_path))
+  dcc_shared_filename <- basename(dash:::buildFingerprint(dcc_shared$script, dcc_shared$version, dcc_shared_modtime))
+  
+  dhc_min_path <- dash:::getDependencyPath(dhc_min)
+  dhc_min_modtime <- as.integer(file.mtime(dhc_min_path))
+  dhc_min_filename <- basename(dash:::buildFingerprint(dhc_min$script, dhc_min$version, dhc_min_modtime))
+  
+  dt_bundle_path <- dash:::getDependencyPath(dt_bundle)
+  dt_bundle_modtime <- as.integer(file.mtime(dt_bundle_path))
+  dt_bundle_filename <- basename(dash:::buildFingerprint(dt_bundle$script, dt_bundle$version, dt_bundle_modtime))
+  
+  dcc_min_ref <- paste0("/",
+                    "_dash-component-suites/",
+                    dcc_min$name,
+                    "/",
+                    dcc_min_filename,
+                    "?v=",
+                    dcc_min$version,
+                    "&m=",
+                    dcc_min_modtime)
+  dcc_shared_ref <- paste0("/",
+                        "_dash-component-suites/",
+                        dcc_shared$name,
+                        "/",
+                        dcc_shared_filename,
+                        "?v=",
+                        dcc_shared$version,
+                        "&m=",
+                        dcc_shared_modtime)
   dhc_ref <- paste0("/",
                     "_dash-component-suites/",
-                    dhc$name,
+                    dhc_min$name,
                     "/",
-                    filename,
+                    dhc_min_filename,
                     "?v=",
-                    dhc$version,
+                    dhc_min$version,
                     "&m=",
-                    modtime)
-
+                    dhc_min_modtime)
+  dt_ref <- paste0("/",
+                    "_dash-component-suites/",
+                    dt_bundle$name,
+                    "/",
+                    dt_bundle_filename,
+                    "?v=",
+                    dt_bundle$version,
+                    "&m=",
+                    dt_bundle_modtime)
   all_tags <- glue::glue("<script src=\"{c(internal_hrefs[c(\"react-prod\",
                                                             \"react-dom-prod\",
                                                             \"prop-types-prod\",
                                                             \"polyfill-prod\")],
+                                           dcc_min_ref,
+                                           dcc_shared_ref,
                                            dhc_ref,
+                                           dt_ref,
                                            internal_hrefs[\"dash-renderer-prod\"])}\"></script>\n")
 
   expect_equal(
