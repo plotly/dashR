@@ -191,17 +191,18 @@ exports.unify = series(
     copyCoreRDirectory,
     copyHtmlRDirectory,
     copyTableRDirectory
-  ),
+  )
+);
+
+
+exports.updateNamespace = series(
   appendCoreNamespace,
   appendHtmlNamespace,
   appendTableNamespace,
   appendCoreInternal,
   appendHtmlInternal,
-  appendTableInternal,
-  replacePackageDependency,
-  replaceDescriptionImports,
-  removeRequireDash
-);
+  appendTableInternal
+)
 
 exports.clean = series(
   cleanInternal,
