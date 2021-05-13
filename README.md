@@ -27,7 +27,7 @@ Users who wish to install (stable) development versions of the package as well a
 ```r
 install.packages(c("fiery", "routr", "reqres", "htmltools", "base64enc", "plotly", "mime", "crayon", "devtools"))
 
-# installs dashHtmlComponents, dashCoreComponents, and dashTable
+# installs dash, which includes dashHtmlComponents, dashCoreComponents, and dashTable
 # and will update the component libraries when a new package is released
 devtools::install_github("plotly/dashR", ref="dev", upgrade = TRUE)
 ```
@@ -36,9 +36,6 @@ Then, to load the packages in R:
 
 ```r
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
-library(dashTable)
 ```
 
 That's it!
@@ -51,8 +48,6 @@ The R package **dash** makes it easy to create reactive web applications powered
 
 ```r
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 
 app <- Dash$new()
 ```
