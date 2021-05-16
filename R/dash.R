@@ -1160,8 +1160,6 @@ Dash <- R6::R6Class(
     #' @param ... Additional arguments to pass to the `start` handler; see the [fiery] documentation for relevant examples.
     #' @examples
     #' if (interactive() ) {
-    #'   library(dashCoreComponents)
-    #'   library(dashHtmlComponents)
     #'   library(dash)
     #'
     #'   app <- Dash$new()

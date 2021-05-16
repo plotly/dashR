@@ -120,13 +120,11 @@ dashNoUpdate <- function() {
 #' on a key that has `MATCH` in the `output` item(s). `ALLSMALLER` it isn't always
 #' necessary (you can usually use `ALL` and filter out the indices in your callback),
 #' but it will make your logic simpler.
-#' @name selectors 
+#' @name selectors
 #' @rdname selectors
 #' @export
 #' @examples
 #' if (interactive() ) {
-#'   library(dashCoreComponents)
-#'   library(dashHtmlComponents)
 #'   library(dash)
 #'
 #'   # Simple example illustrating use of ALL selector
@@ -178,6 +176,8 @@ dashNoUpdate <- function() {
 #'   app$run_server()
 #'
 #'   # Simple example illustrating use of ALLSMALLER selector
+#'   library(dash)
+#'
 #'   df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
 #'                  stringsAsFactors = FALSE)
 #'
@@ -206,7 +206,7 @@ dashNoUpdate <- function() {
 #'         htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"),
 #'                 children = list(unique(df$country)[n_clicks + 1]))
 #'       ))
-#'    
+#'
 #'       existing_children <- c(existing_children, list(new_children))
 #'     }
 #'   )
@@ -240,7 +240,7 @@ dashNoUpdate <- function() {
 #'       } else {
 #'         return(
 #'           htmlDiv(sprintf("%s is the life expectancy of %s, and %s.",
-#'                   avgLifeExp, 
+#'                   avgLifeExp,
 #'                   paste(all_values[-length(all_values)], collapse = " , "),
 #'                   paste(all_values[length(all_values)])))
 #'         )
@@ -251,6 +251,8 @@ dashNoUpdate <- function() {
 #'   app$run_server()
 #'
 #'   # Simple example illustrating use of MATCH selector
+#'   library(dash)
+#'
 #'   app <- Dash$new()
 #'
 #'   app$layout(htmlDiv(list(
