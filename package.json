@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "format": "eslint *.js && npx prettier --config .prettierrc --write gulpfile.js",
+    "format": "npx prettier --config .prettierrc --write gulpfile.js && eslint *.js",
     "unify": "gulp unify",
     "update": "gulp update"
   },
