@@ -105,8 +105,6 @@ app$interpolate_index(
 ## ------------------------------------------------
 
 if (interactive() ) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
   library(dash)
 
   app <- Dash$new()
@@ -888,8 +886,6 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{if (interactive() ) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
   library(dash)
 
   app <- Dash$new()
