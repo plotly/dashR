@@ -3,7 +3,9 @@
 .RData
 .DS_Store
 
-gulp-assets/
+dash-core-components/
+dash-html-components/
+dash-table/
 node_modules/
 python/
 todo.txt
