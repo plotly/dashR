@@ -3,6 +3,7 @@
 .RData
 .DS_Store
 
+gulp-assets/
 node_modules/
 python/
 todo.txt
