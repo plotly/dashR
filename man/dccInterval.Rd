@@ -10,8 +10,8 @@ A component that repeatedly increments a counter `n_intervals` with a fixed time
 }
 
 \usage{
-dccInterval(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL,
-max_intervals=NULL)
+dccInterval(id=NULL, disabled=NULL, interval=NULL, max_intervals=NULL,
+n_intervals=NULL)
 }
 
 \arguments{
@@ -19,25 +19,23 @@ max_intervals=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{interval}{Numeric. This component will increment the counter `n_intervals` every
-`interval` milliseconds}
-
 \item{disabled}{Logical. If True, the counter will no longer update}
 
-\item{n_intervals}{Numeric. Number of times the interval has passed}
+\item{interval}{Numeric. This component will increment the counter `n_intervals` every
+`interval` milliseconds}
 
 \item{max_intervals}{Numeric. Number of times the interval will be fired.
 If -1, then the interval has no limit (the default)
 and if 0 then the interval stops running.}
+
+\item{n_intervals}{Numeric. Number of times the interval has passed}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashHtmlComponents)
-    library(dashCoreComponents)
     library(plotly)
 
     app <- Dash$new()

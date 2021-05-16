@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dccLink <- function(children=NULL, id=NULL, href=NULL, refresh=NULL, className=NULL, style=NULL, title=NULL, target=NULL, loading_state=NULL) {
+dccLink <- function(children=NULL, id=NULL, className=NULL, href=NULL, loading_state=NULL, refresh=NULL, style=NULL, target=NULL, title=NULL) {
     
-    props <- list(children=children, id=id, href=href, refresh=refresh, className=className, style=style, title=title, target=target, loading_state=loading_state)
+    props <- list(children=children, id=id, className=className, href=href, loading_state=loading_state, refresh=refresh, style=style, target=target, title=title)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dccLink <- function(children=NULL, id=NULL, href=NULL, refresh=NULL, className=N
         props = props,
         type = 'Link',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'href', 'refresh', 'className', 'style', 'title', 'target', 'loading_state'),
+        propNames = c('children', 'id', 'className', 'href', 'loading_state', 'refresh', 'style', 'target', 'title'),
         package = 'dashCoreComponents'
         )
 

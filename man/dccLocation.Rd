@@ -10,8 +10,8 @@ Update and track the current window.location object through the window.history s
 }
 
 \usage{
-dccLocation(id=NULL, pathname=NULL, search=NULL, hash=NULL, href=NULL,
-refresh=NULL)
+dccLocation(id=NULL, hash=NULL, href=NULL, pathname=NULL, refresh=NULL,
+search=NULL)
 }
 
 \arguments{
@@ -19,24 +19,22 @@ refresh=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{pathname}{Character. pathname in window.location - e.g., "/my/full/pathname"}
-
-\item{search}{Character. search in window.location - e.g., "?myargument=1"}
-
 \item{hash}{Character. hash in window.location - e.g., "#myhash"}
 
 \item{href}{Character. href in window.location - e.g., "/my/full/pathname?myargument=1#myhash"}
 
+\item{pathname}{Character. pathname in window.location - e.g., "/my/full/pathname"}
+
 \item{refresh}{Logical. Refresh the page when the location is updated?}
+
+\item{search}{Character. search in window.location - e.g., "?myargument=1"}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashCoreComponents)
-    library(dashHtmlComponents)
 
     app <- Dash$new()
 

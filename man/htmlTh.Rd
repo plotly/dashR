@@ -10,13 +10,13 @@ Th is a wrapper for the <th> HTML5 element. For detailed attribute info see: htt
 }
 
 \usage{
-htmlTh(children=NULL, id=NULL, n_clicks=NULL,
-n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL,
-headers=NULL, rowSpan=NULL, scope=NULL, accessKey=NULL,
-className=NULL, contentEditable=NULL, contextMenu=NULL,
-dir=NULL, draggable=NULL, hidden=NULL, lang=NULL,
-spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL,
-loading_state=NULL, ...)
+htmlTh(children=NULL, id=NULL, accessKey=NULL, className=NULL,
+colSpan=NULL, contentEditable=NULL, contextMenu=NULL,
+dir=NULL, draggable=NULL, headers=NULL, hidden=NULL,
+key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL,
+n_clicks_timestamp=NULL, role=NULL, rowSpan=NULL,
+scope=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL,
+title=NULL, ...)
 }
 
 \arguments{
@@ -26,30 +26,11 @@ loading_state=NULL, ...)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
-\item{role}{Character. The ARIA role attribute}
-
-\item{colSpan}{Character | numeric. The colspan attribute defines the number of columns a cell should span.}
-
-\item{headers}{Character. IDs of the <th> elements which applies to this element.}
-
-\item{rowSpan}{Character | numeric. Defines the number of rows a table cell should span over.}
-
-\item{scope}{Character. Defines the cells that the header test (defined in the th element) relates to.}
-
 \item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
 \item{className}{Character. Often used with CSS to style elements with common properties.}
+
+\item{colSpan}{Character | numeric. The colspan attribute defines the number of columns a cell should span.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
@@ -59,9 +40,34 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
+\item{headers}{Character. IDs of the <th> elements which applies to this element.}
+
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
 \item{lang}{Character. Defines the language used in the element.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
+
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{role}{Character. The ARIA role attribute}
+
+\item{rowSpan}{Character | numeric. Defines the number of rows a table cell should span over.}
+
+\item{scope}{Character. Defines the cells that the header test (defined in the th element) relates to.}
 
 \item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
 
@@ -71,23 +77,16 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
-
-\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
+\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
 
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
   library(dash)
-  library(dashHtmlComponents)
 
   app <- Dash$new()
 

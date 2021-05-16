@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlLink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, crossOrigin=NULL, href=NULL, hrefLang=NULL, integrity=NULL, media=NULL, rel=NULL, sizes=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlLink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, hidden=NULL, href=NULL, hrefLang=NULL, integrity=NULL, key=NULL, lang=NULL, loading_state=NULL, media=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, rel=NULL, role=NULL, sizes=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, crossOrigin=crossOrigin, href=href, hrefLang=hrefLang, integrity=integrity, media=media, rel=rel, sizes=sizes, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, crossOrigin=crossOrigin, dir=dir, draggable=draggable, hidden=hidden, href=href, hrefLang=hrefLang, integrity=integrity, key=key, lang=lang, loading_state=loading_state, media=media, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, rel=rel, role=role, sizes=sizes, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlLink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
         props = props,
         type = 'Link',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'crossOrigin', 'href', 'hrefLang', 'integrity', 'media', 'rel', 'sizes', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'crossOrigin', 'dir', 'draggable', 'hidden', 'href', 'hrefLang', 'integrity', 'key', 'lang', 'loading_state', 'media', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'rel', 'role', 'sizes', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

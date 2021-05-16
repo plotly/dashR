@@ -10,13 +10,13 @@ Source is a wrapper for the <source> HTML5 element. For detailed attribute info 
 }
 
 \usage{
-htmlSource(children=NULL, id=NULL, n_clicks=NULL,
-n_clicks_timestamp=NULL, key=NULL, role=NULL, media=NULL,
-sizes=NULL, src=NULL, srcSet=NULL, type=NULL,
-accessKey=NULL, className=NULL, contentEditable=NULL,
-contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL,
-lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL,
-title=NULL, loading_state=NULL, ...)
+htmlSource(children=NULL, id=NULL, accessKey=NULL, className=NULL,
+contentEditable=NULL, contextMenu=NULL, dir=NULL,
+draggable=NULL, hidden=NULL, key=NULL, lang=NULL,
+loading_state=NULL, media=NULL, n_clicks=NULL,
+n_clicks_timestamp=NULL, role=NULL, sizes=NULL,
+spellCheck=NULL, src=NULL, srcSet=NULL, style=NULL,
+tabIndex=NULL, title=NULL, type=NULL, ...)
 }
 
 \arguments{
@@ -25,29 +25,6 @@ title=NULL, loading_state=NULL, ...)
 \item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
-
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
-\item{role}{Character. The ARIA role attribute}
-
-\item{media}{Character. Specifies a hint of the media for which the linked resource was designed.}
-
-\item{sizes}{Character. }
-
-\item{src}{Character. The URL of the embeddable content.}
-
-\item{srcSet}{Character. One or more responsive image candidates.}
-
-\item{type}{Character. Defines the type of the element.}
 
 \item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
@@ -63,15 +40,11 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
 \item{lang}{Character. Defines the language used in the element.}
-
-\item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
-
-\item{style}{Named list. Defines CSS styles which will override styles previously set.}
-
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
-
-\item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
@@ -79,8 +52,35 @@ those elements have the following types:
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
+\item{media}{Character. Specifies a hint of the media for which the linked resource was designed.}
 
-\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
+
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{role}{Character. The ARIA role attribute}
+
+\item{sizes}{Character. }
+
+\item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
+
+\item{src}{Character. The URL of the embeddable content.}
+
+\item{srcSet}{Character. One or more responsive image candidates.}
+
+\item{style}{Named list. Defines CSS styles which will override styles previously set.}
+
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+
+\item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
+
+\item{type}{Character. Defines the type of the element.}
+
+
+\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
 
 }
 
@@ -90,9 +90,8 @@ those elements have the following types:
 # The URL below has been chunked to comply with CRAN
 # requirements; the use of file.path is optional and not required
 # for this component.
-if (interactive() ) {
+if (interactive()) {
   library(dash)
-  library(dashHtmlComponents)
 
   app <- Dash$new()
 
@@ -115,6 +114,6 @@ if (interactive() ) {
     )
   )
 
-  app$run_server()              
+  app$run_server()
 }
 }

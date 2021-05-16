@@ -10,13 +10,12 @@ Fieldset is a wrapper for the <fieldset> HTML5 element. For detailed attribute i
 }
 
 \usage{
-htmlFieldset(children=NULL, id=NULL, n_clicks=NULL,
-n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL,
-form=NULL, name=NULL, accessKey=NULL, className=NULL,
+htmlFieldset(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 contentEditable=NULL, contextMenu=NULL, dir=NULL,
-draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL,
-style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
-...)
+disabled=NULL, draggable=NULL, form=NULL, hidden=NULL,
+key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL,
+n_clicks_timestamp=NULL, name=NULL, role=NULL,
+spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...)
 }
 
 \arguments{
@@ -25,25 +24,6 @@ style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
 \item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
-
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
-\item{role}{Character. The ARIA role attribute}
-
-\item{disabled}{A value equal to: 'disabled', 'disabled' | logical. Indicates whether the user can interact with the element.}
-
-\item{form}{Character. Indicates the form that is the owner of the element.}
-
-\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
 
 \item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
@@ -55,11 +35,36 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
 
+\item{disabled}{A value equal to: 'disabled', 'disabled' | logical. Indicates whether the user can interact with the element.}
+
 \item{draggable}{Character. Defines whether the element can be dragged.}
+
+\item{form}{Character. Indicates the form that is the owner of the element.}
 
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
 \item{lang}{Character. Defines the language used in the element.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
+
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
+
+\item{role}{Character. The ARIA role attribute}
 
 \item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
 
@@ -69,24 +74,17 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
-
-\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
+\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
 
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
   library(dash)
-  library(dashHtmlComponents)
-  library(dashCoreComponents)
+                library(dashCoreComponents)
 
   app <- Dash$new()
 

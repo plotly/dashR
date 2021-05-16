@@ -10,12 +10,12 @@ A Dash component that lets you render pages with tabs - the Tabs component's chi
 }
 
 \usage{
-dccTabs(children=NULL, id=NULL, value=NULL, className=NULL,
-content_className=NULL, parent_className=NULL, style=NULL,
-parent_style=NULL, content_style=NULL, vertical=NULL,
-mobile_breakpoint=NULL, colors=NULL, loading_state=NULL,
-persistence=NULL, persisted_props=NULL,
-persistence_type=NULL)
+dccTabs(children=NULL, id=NULL, className=NULL, colors=NULL,
+content_className=NULL, content_style=NULL,
+loading_state=NULL, mobile_breakpoint=NULL,
+parent_className=NULL, parent_style=NULL,
+persisted_props=NULL, persistence=NULL,
+persistence_type=NULL, style=NULL, value=NULL, vertical=NULL)
 }
 
 \arguments{
@@ -25,23 +25,7 @@ persistence_type=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{value}{Character. The value of the currently selected Tab}
-
 \item{className}{Character. Appends a class to the Tabs container holding the individual Tab components.}
-
-\item{content_className}{Character. Appends a class to the Tab content container holding the children of the Tab that is selected.}
-
-\item{parent_className}{Character. Appends a class to the top-level parent container holding both the Tabs container and the content container.}
-
-\item{style}{Named list. Appends (inline) styles to the Tabs container holding the individual Tab components.}
-
-\item{parent_style}{Named list. Appends (inline) styles to the top-level parent container holding both the Tabs container and the content container.}
-
-\item{content_style}{Named list. Appends (inline) styles to the tab content container holding the children of the Tab that is selected.}
-
-\item{vertical}{Logical. Renders the tabs vertically (on the side)}
-
-\item{mobile_breakpoint}{Numeric. Breakpoint at which tabs are rendered full width (can be 0 if you don't want full width tabs on mobile)}
 
 \item{colors}{Lists containing elements 'border', 'primary', 'background'.
 those elements have the following types:
@@ -54,11 +38,25 @@ colors: {
    background: '#f9f9f9'
  }}
 
+\item{content_className}{Character. Appends a class to the Tab content container holding the children of the Tab that is selected.}
+
+\item{content_style}{Named list. Appends (inline) styles to the tab content container holding the children of the Tab that is selected.}
+
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
   - is_loading (logical; optional): determines if the component is loading or not
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{mobile_breakpoint}{Numeric. Breakpoint at which tabs are rendered full width (can be 0 if you don't want full width tabs on mobile)}
+
+\item{parent_className}{Character. Appends a class to the top-level parent container holding both the Tabs container and the content container.}
+
+\item{parent_style}{Named list. Appends (inline) styles to the top-level parent container holding both the Tabs container and the content container.}
+
+\item{persisted_props}{List of a value equal to: 'value's. Properties whose user interactions will persist after refreshing the
+component or the page. Since only `value` is allowed this prop can
+normally be ignored.}
 
 \item{persistence}{Logical | character | numeric. Used to allow user interactions in this component to be persisted when
 the component - or the page - is refreshed. If `persisted` is truthy and
@@ -67,23 +65,23 @@ changed while using the app will keep that change, as long as
 the new `value` also matches what was given originally.
 Used in conjunction with `persistence_type`.}
 
-\item{persisted_props}{List of a value equal to: 'value's. Properties whose user interactions will persist after refreshing the
-component or the page. Since only `value` is allowed this prop can
-normally be ignored.}
-
 \item{persistence_type}{A value equal to: 'local', 'session', 'memory'. Where persisted user changes will be stored:
 memory: only kept in memory, reset on page refresh.
 local: window.localStorage, data is kept after the browser quit.
 session: window.sessionStorage, data is cleared once the browser quit.}
+
+\item{style}{Named list. Appends (inline) styles to the Tabs container holding the individual Tab components.}
+
+\item{value}{Character. The value of the currently selected Tab}
+
+\item{vertical}{Logical. Renders the tabs vertically (on the side)}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashCoreComponents)
-    library(dashHtmlComponents)
 
     app <- Dash$new()
 

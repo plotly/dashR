@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlTrack <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, default=NULL, kind=NULL, label=NULL, src=NULL, srcLang=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlTrack <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, default=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, kind=NULL, label=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, src=NULL, srcLang=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, default=default, kind=kind, label=label, src=src, srcLang=srcLang, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, default=default, dir=dir, draggable=draggable, hidden=hidden, key=key, kind=kind, label=label, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, src=src, srcLang=srcLang, style=style, tabIndex=tabIndex, title=title, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlTrack <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
         props = props,
         type = 'Track',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'default', 'kind', 'label', 'src', 'srcLang', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'default', 'dir', 'draggable', 'hidden', 'key', 'kind', 'label', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'src', 'srcLang', 'style', 'tabIndex', 'title', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

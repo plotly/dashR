@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dccLocation <- function(id=NULL, pathname=NULL, search=NULL, hash=NULL, href=NULL, refresh=NULL) {
+dccLocation <- function(id=NULL, hash=NULL, href=NULL, pathname=NULL, refresh=NULL, search=NULL) {
     
-    props <- list(id=id, pathname=pathname, search=search, hash=hash, href=href, refresh=refresh)
+    props <- list(id=id, hash=hash, href=href, pathname=pathname, refresh=refresh, search=search)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dccLocation <- function(id=NULL, pathname=NULL, search=NULL, hash=NULL, href=NUL
         props = props,
         type = 'Location',
         namespace = 'dash_core_components',
-        propNames = c('id', 'pathname', 'search', 'hash', 'href', 'refresh'),
+        propNames = c('id', 'hash', 'href', 'pathname', 'refresh', 'search'),
         package = 'dashCoreComponents'
         )
 

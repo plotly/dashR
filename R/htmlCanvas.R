@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlCanvas <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, height=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlCanvas <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, width=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, height=height, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, width=width, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlCanvas <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
         props = props,
         type = 'Canvas',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'height', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'width', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

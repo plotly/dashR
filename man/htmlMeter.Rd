@@ -10,14 +10,13 @@ Meter is a wrapper for the <meter> HTML5 element. For detailed attribute info se
 }
 
 \usage{
-htmlMeter(children=NULL, id=NULL, n_clicks=NULL,
-n_clicks_timestamp=NULL, key=NULL, role=NULL, form=NULL,
-high=NULL, low=NULL, max=NULL, min=NULL, optimum=NULL,
-value=NULL, accessKey=NULL, className=NULL,
+htmlMeter(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 contentEditable=NULL, contextMenu=NULL, dir=NULL,
-draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL,
-style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
-...)
+draggable=NULL, form=NULL, hidden=NULL, high=NULL, key=NULL,
+lang=NULL, loading_state=NULL, low=NULL, max=NULL, min=NULL,
+n_clicks=NULL, n_clicks_timestamp=NULL, optimum=NULL,
+role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL,
+title=NULL, value=NULL, ...)
 }
 
 \arguments{
@@ -26,33 +25,6 @@ style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
 \item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
-
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
-\item{role}{Character. The ARIA role attribute}
-
-\item{form}{Character. Indicates the form that is the owner of the element.}
-
-\item{high}{Character. Indicates the lower bound of the upper range.}
-
-\item{low}{Character. Indicates the upper bound of the lower range.}
-
-\item{max}{Character | numeric. Indicates the maximum value allowed.}
-
-\item{min}{Character | numeric. Indicates the minimum value allowed.}
-
-\item{optimum}{Character. Indicates the optimal numeric value.}
-
-\item{value}{Character. Defines a default value which will be displayed in the element on page load.}
 
 \item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
@@ -66,9 +38,40 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
+\item{form}{Character. Indicates the form that is the owner of the element.}
+
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
+\item{high}{Character. Indicates the lower bound of the upper range.}
+
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
 \item{lang}{Character. Defines the language used in the element.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{low}{Character. Indicates the upper bound of the lower range.}
+
+\item{max}{Character | numeric. Indicates the maximum value allowed.}
+
+\item{min}{Character | numeric. Indicates the minimum value allowed.}
+
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
+
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{optimum}{Character. Indicates the optimal numeric value.}
+
+\item{role}{Character. The ARIA role attribute}
 
 \item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
 
@@ -78,23 +81,18 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+\item{value}{Character. Defines a default value which will be displayed in the element on page load.}
 
 
-\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
+\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
 
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
   library(dash)
-  library(dashHtmlComponents)
 
   app <- Dash$new()
 

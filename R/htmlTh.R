@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlTh <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL, headers=NULL, rowSpan=NULL, scope=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlTh <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSpan=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, headers=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, rowSpan=NULL, scope=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, colSpan=colSpan, headers=headers, rowSpan=rowSpan, scope=scope, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, className=className, colSpan=colSpan, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, headers=headers, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, rowSpan=rowSpan, scope=scope, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlTh <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
         props = props,
         type = 'Th',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'colSpan', 'headers', 'rowSpan', 'scope', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'className', 'colSpan', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'headers', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'rowSpan', 'scope', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

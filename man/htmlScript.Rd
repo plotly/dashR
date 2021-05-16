@@ -6,18 +6,18 @@
 \title{Script component}
 
 \description{
-Script is a wrapper for the <script> HTML5 element. For detailed attribute info see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
+Script is a wrapper for the <script> HTML5 element.  CAUTION: <script> is included for completeness, but you cannot execute JavaScript code by providing it to a <script> element. Use a clientside callback for this purpose instead.  For detailed attribute info see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
 }
 
 \usage{
-htmlScript(children=NULL, id=NULL, n_clicks=NULL,
-n_clicks_timestamp=NULL, key=NULL, role=NULL, async=NULL,
-charSet=NULL, crossOrigin=NULL, defer=NULL, integrity=NULL,
-src=NULL, type=NULL, accessKey=NULL, className=NULL,
-contentEditable=NULL, contextMenu=NULL, dir=NULL,
-draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL,
-style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
-...)
+htmlScript(children=NULL, id=NULL, accessKey=NULL, async=NULL,
+charSet=NULL, className=NULL, contentEditable=NULL,
+contextMenu=NULL, crossOrigin=NULL, defer=NULL, dir=NULL,
+draggable=NULL, hidden=NULL, integrity=NULL, key=NULL,
+lang=NULL, loading_state=NULL, n_clicks=NULL,
+n_clicks_timestamp=NULL, referrerPolicy=NULL, role=NULL,
+spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL,
+title=NULL, type=NULL, ...)
 }
 
 \arguments{
@@ -27,34 +27,11 @@ style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL,
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
-\item{role}{Character. The ARIA role attribute}
+\item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
 \item{async}{A value equal to: 'async', 'async' | logical. Executes the script asynchronously.}
 
 \item{charSet}{Character. Declares the character encoding of the page or script.}
-
-\item{crossOrigin}{Character. How the element handles cross-origin requests}
-
-\item{defer}{A value equal to: 'defer', 'defer' | logical. Indicates that the script should be executed after the page has been parsed.}
-
-\item{integrity}{Character. Specifies a Subresource Integrity value that allows browsers to verify what they fetch.}
-
-\item{src}{Character. The URL of the embeddable content.}
-
-\item{type}{Character. Defines the type of the element.}
-
-\item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
 \item{className}{Character. Often used with CSS to style elements with common properties.}
 
@@ -62,21 +39,23 @@ See https://reactjs.org/docs/lists-and-keys.html for more info}
 
 \item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
 
+\item{crossOrigin}{Character. How the element handles cross-origin requests}
+
+\item{defer}{A value equal to: 'defer', 'defer' | logical. Indicates that the script should be executed after the page has been parsed.}
+
 \item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
+\item{integrity}{Character. Specifies a Subresource Integrity value that allows browsers to verify what they fetch.}
+
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
 \item{lang}{Character. Defines the language used in the element.}
-
-\item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
-
-\item{style}{Named list. Defines CSS styles which will override styles previously set.}
-
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
-
-\item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
@@ -84,8 +63,31 @@ those elements have the following types:
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
 
-\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{referrerPolicy}{Character. Specifies which referrer is sent when fetching the resource.}
+
+\item{role}{Character. The ARIA role attribute}
+
+\item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
+
+\item{src}{Character. The URL of the embeddable content.}
+
+\item{style}{Named list. Defines CSS styles which will override styles previously set.}
+
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+
+\item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
+
+\item{type}{Character. Defines the type of the element.}
+
+
+\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
 
 }
 

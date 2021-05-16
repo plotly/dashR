@@ -10,10 +10,10 @@ Part of dcc.Tabs - this is the child Tab component used to render a tabbed page.
 }
 
 \usage{
-dccTab(children=NULL, id=NULL, label=NULL, value=NULL,
-disabled=NULL, disabled_style=NULL, disabled_className=NULL,
-className=NULL, selected_className=NULL, style=NULL,
-selected_style=NULL, loading_state=NULL)
+dccTab(children=NULL, id=NULL, className=NULL, disabled=NULL,
+disabled_className=NULL, disabled_style=NULL, label=NULL,
+loading_state=NULL, selected_className=NULL,
+selected_style=NULL, style=NULL, value=NULL)
 }
 
 \arguments{
@@ -23,38 +23,36 @@ selected_style=NULL, loading_state=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{label}{Character. The tab's label}
-
-\item{value}{Character. Value for determining which Tab is currently selected}
+\item{className}{Character. Appends a class to the Tab component.}
 
 \item{disabled}{Logical. Determines if tab is disabled or not - defaults to false}
 
-\item{disabled_style}{Named list. Overrides the default (inline) styles when disabled}
-
 \item{disabled_className}{Character. Appends a class to the Tab component when it is disabled.}
 
-\item{className}{Character. Appends a class to the Tab component.}
+\item{disabled_style}{Named list. Overrides the default (inline) styles when disabled}
 
-\item{selected_className}{Character. Appends a class to the Tab component when it is selected.}
-
-\item{style}{Named list. Overrides the default (inline) styles for the Tab component.}
-
-\item{selected_style}{Named list. Overrides the default (inline) styles for the Tab component when it is selected.}
+\item{label}{Character. The tab's label}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
   - is_loading (logical; optional): determines if the component is loading or not
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{selected_className}{Character. Appends a class to the Tab component when it is selected.}
+
+\item{selected_style}{Named list. Overrides the default (inline) styles for the Tab component when it is selected.}
+
+\item{style}{Named list. Overrides the default (inline) styles for the Tab component.}
+
+\item{value}{Character. Value for determining which Tab is currently selected}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashCoreComponents)
-    library(dashHtmlComponents)
 
     app <- Dash$new()
 

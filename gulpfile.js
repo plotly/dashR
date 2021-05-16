@@ -45,7 +45,7 @@ function copyTableInstDirectory() {
             path.resolve(__dirname, 'gulp-assets/dash-table/inst')
         )
     ) {
-        return src('gulp-assets/dash-table/**/*')
+        return src('gulp-assets/dash-table/inst/**/*')
             .pipe(print())
             .pipe(dest('inst/'));
     } else {

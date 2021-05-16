@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dccInterval <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL, max_intervals=NULL) {
+dccInterval <- function(id=NULL, disabled=NULL, interval=NULL, max_intervals=NULL, n_intervals=NULL) {
     
-    props <- list(id=id, interval=interval, disabled=disabled, n_intervals=n_intervals, max_intervals=max_intervals)
+    props <- list(id=id, disabled=disabled, interval=interval, max_intervals=max_intervals, n_intervals=n_intervals)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dccInterval <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL,
         props = props,
         type = 'Interval',
         namespace = 'dash_core_components',
-        propNames = c('id', 'interval', 'disabled', 'n_intervals', 'max_intervals'),
+        propNames = c('id', 'disabled', 'interval', 'max_intervals', 'n_intervals'),
         package = 'dashCoreComponents'
         )
 

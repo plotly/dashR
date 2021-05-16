@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlOption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, label=NULL, selected=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlOption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, hidden=NULL, key=NULL, label=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, selected=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, disabled=disabled, label=label, selected=selected, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, hidden=hidden, key=key, label=label, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, selected=selected, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlOption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
         props = props,
         type = 'Option',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'disabled', 'label', 'selected', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'hidden', 'key', 'label', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'selected', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

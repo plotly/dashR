@@ -10,8 +10,8 @@ Easily keep data on the client side with this component. The data is not inserte
 }
 
 \usage{
-dccStore(id=NULL, storage_type=NULL, data=NULL, clear_data=NULL,
-modified_timestamp=NULL)
+dccStore(id=NULL, clear_data=NULL, data=NULL,
+modified_timestamp=NULL, storage_type=NULL)
 }
 
 \arguments{
@@ -19,25 +19,23 @@ modified_timestamp=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
+\item{clear_data}{Logical. Set to true to remove the data contained in `data_key`.}
+
+\item{data}{Named list | unnamed list | numeric | character | logical. The stored data for the id.}
+
+\item{modified_timestamp}{Numeric. The last time the storage was modified.}
+
 \item{storage_type}{A value equal to: 'local', 'session', 'memory'. The type of the web storage.
 
 memory: only kept in memory, reset on page refresh.
 local: window.localStorage, data is kept after the browser quit.
 session: window.sessionStorage, data is cleared once the browser quit.}
-
-\item{data}{Named list | unnamed list | numeric | character | logical. The stored data for the id.}
-
-\item{clear_data}{Logical. Set to true to remove the data contained in `data_key`.}
-
-\item{modified_timestamp}{Numeric. The last time the storage was modified.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
-    library(dashCoreComponents)
-    library(dashHtmlComponents)
+if (interactive()) {
     library(dash)
 
     app <- Dash$new()

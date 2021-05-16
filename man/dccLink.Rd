@@ -10,9 +10,9 @@ Link allows you to create a clickable link within a multi-page app.  For links w
 }
 
 \usage{
-dccLink(children=NULL, id=NULL, href=NULL, refresh=NULL,
-className=NULL, style=NULL, title=NULL, target=NULL,
-loading_state=NULL)
+dccLink(children=NULL, id=NULL, className=NULL, href=NULL,
+loading_state=NULL, refresh=NULL, style=NULL, target=NULL,
+title=NULL)
 }
 
 \arguments{
@@ -22,33 +22,31 @@ loading_state=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{href}{Character. The URL of a linked resource.}
-
-\item{refresh}{Logical. Controls whether or not the page will refresh when the link is clicked}
-
 \item{className}{Character. Often used with CSS to style elements with common properties.}
 
-\item{style}{Named list. Defines CSS styles which will override styles previously set.}
-
-\item{title}{Character. Adds the title attribute to your link, which can contain supplementary
-information.}
-
-\item{target}{Character. Specifies where to open the link reference.}
+\item{href}{Character. The URL of a linked resource.}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
   - is_loading (logical; optional): determines if the component is loading or not
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
+\item{refresh}{Logical. Controls whether or not the page will refresh when the link is clicked}
+
+\item{style}{Named list. Defines CSS styles which will override styles previously set.}
+
+\item{target}{Character. Specifies where to open the link reference.}
+
+\item{title}{Character. Adds the title attribute to your link, which can contain supplementary
+information.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashCoreComponents)
-    library(dashHtmlComponents)
 
     app <- Dash$new()
 

@@ -1,10 +1,10 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-htmlVideo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoPlay=NULL, controls=NULL, crossOrigin=NULL, height=NULL, loop=NULL, muted=NULL, poster=NULL, preload=NULL, src=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
+htmlVideo <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, controls=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, loop=NULL, muted=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, poster=NULL, preload=NULL, role=NULL, spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL, title=NULL, width=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
 
-    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoPlay=autoPlay, controls=controls, crossOrigin=crossOrigin, height=height, loop=loop, muted=muted, poster=poster, preload=preload, src=src, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
+    props <- list(children=children, id=id, accessKey=accessKey, autoPlay=autoPlay, className=className, contentEditable=contentEditable, contextMenu=contextMenu, controls=controls, crossOrigin=crossOrigin, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, loop=loop, muted=muted, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, poster=poster, preload=preload, role=role, spellCheck=spellCheck, src=src, style=style, tabIndex=tabIndex, title=title, width=width, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -12,7 +12,7 @@ htmlVideo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
         props = props,
         type = 'Video',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoPlay', 'controls', 'crossOrigin', 'height', 'loop', 'muted', 'poster', 'preload', 'src', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
+        propNames = c('children', 'id', 'accessKey', 'autoPlay', 'className', 'contentEditable', 'contextMenu', 'controls', 'crossOrigin', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'loop', 'muted', 'n_clicks', 'n_clicks_timestamp', 'poster', 'preload', 'role', 'spellCheck', 'src', 'style', 'tabIndex', 'title', 'width', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

@@ -50,10 +50,8 @@ those elements have the following types:
 \value{named list of JSON elements corresponding to React.js properties and their values}
 
 \examples{
-if (interactive() ) {
+if (interactive()) {
     library(dash)
-    library(dashHtmlComponents)
-    library(dashCoreComponents)
 
     app <- Dash$new()
 
@@ -69,7 +67,6 @@ if (interactive() ) {
           dccMarkdown(children = "
           ```r
           library(dash)
-          library(dashHtmlComponents)
 
           app <- Dash$new()
           app$layout(htmlDiv('Dash app code wrapped within an app'))
