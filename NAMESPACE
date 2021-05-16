@@ -32,6 +32,7 @@ importFrom(routr,ressource_route)
 importFrom(stats,setNames)
 importFrom(tools,file_ext)
 importFrom(utils,getFromNamespace)
+
 # dashCoreComponents exports appended by `npm unify` command: do not edit by hand
 
 export(dccChecklist)
@@ -58,6 +59,8 @@ export(dccTab)
 export(dccTabs)
 export(dccTextarea)
 export(dccUpload)
+
+
 # dashHtmlComponents exports appended by `npm unify` command: do not edit by hand
 
 export(htmlA)
@@ -191,6 +194,8 @@ export(htmlVar)
 export(htmlVideo)
 export(htmlWbr)
 export(htmlXmp)
+
+
 # dashTable exports appended by `npm unify` command: do not edit by hand
 
 export(dashDataTable)

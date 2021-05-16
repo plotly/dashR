@@ -7,6 +7,7 @@ const fs = require('fs-extra');
 const replace = require('gulp-replace');
 const path = require('path');
 const log = require('fancy-log');
+const rename = require('gulp-rename')
 
 //TODO: Add job to git clone and build the component packages to retrieve build artifacts.
 
@@ -143,14 +144,15 @@ function appendCoreNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
-    namespace.unshift('# dashCoreComponents exports appended by `npm unify` command: do not edit by hand\n')
+    namespace.unshift('# dashCoreComponents exports appended by `npm unify` command: do not edit by hand')
     namespace = namespace.join('\n');
     return src('gulp-assets/NAMESPACE.template')
         .pipe(print())
         .pipe(
-            replace("{dcc_exports}", namespace)
+            replace('{dcc_exports}', namespace)
         )
-        .pipe(dest('./NAMESPACE', {overwrite: true}));
+        .pipe(rename('NAMESPACE'))
+        .pipe(dest('./', {overwrite: true}));
 }
 
 function appendHtmlNamespace() {
@@ -159,14 +161,14 @@ function appendHtmlNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
-    namespace.unshift('# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand\n')
+    namespace.unshift('# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand')
     namespace = namespace.join('\n');
     return src('./NAMESPACE')
         .pipe(print())
         .pipe(
-            replace("{html_exports}", namespace)
+            replace('{html_exports}', namespace)
         )
-        .pipe(dest('./NAMESPACE', {overwrite: true}));
+        .pipe(dest('./', {overwrite: true}));
 }
 
 function appendTableNamespace() {
@@ -175,14 +177,14 @@ function appendTableNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
-    namespace.unshift('# dashTable exports appended by `npm unify` command: do not edit by hand\n')
+    namespace.unshift('# dashTable exports appended by `npm unify` command: do not edit by hand')
     namespace = namespace.join('\n');
     return src('./NAMESPACE')
         .pipe(print())
         .pipe(
-            replace("{table_exports}", namespace)
+            replace('{table_exports}', namespace)
         )
-        .pipe(dest('./NAMESPACE', {overwrite: true}));
+        .pipe(dest('./', {overwrite: true}));
 }
 
 // Append the internal.R for each of the component packages to the DashR internal.R.
@@ -190,27 +192,28 @@ function appendCoreInternal() {
     return src('gulp-assets/internal.template')
         .pipe(print())
         .pipe(
-            replace("{dcc_deps}", fs.readFileSync('gulp-assets/dash-core-components/R/internal.R'))
+            replace('{dcc_deps}', fs.readFileSync('gulp-assets/dash-core-components/R/internal.R'))
         )
-        .pipe(dest('R/internal.R', {overwrite: true}));
+        .pipe(rename('internal.R'))
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 function appendHtmlInternal() {
     return src('R/internal.R')
         .pipe(print())
         .pipe(
-            replace("{html_deps}", fs.readFileSync('gulp-assets/dash-html-components/R/internal.R'))
+            replace('{html_deps}', fs.readFileSync('gulp-assets/dash-html-components/R/internal.R'))
         )
-        .pipe(dest('R/internal.R', {overwrite: true}));
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 function appendTableInternal() {
     return src('R/internal.R')
         .pipe(print())
         .pipe(
-            replace("{table_deps}", fs.readFileSync('gulp-assets/dash-table/R/internal.R'))
+            replace('{table_deps}', fs.readFileSync('gulp-assets/dash-table/R/internal.R'))
         )
-        .pipe(dest('R/internal.R', {overwrite: true}));
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 
@@ -224,7 +227,7 @@ exports.unify = series(
     parallel(copyCoreRDirectory, copyHtmlRDirectory, copyTableRDirectory)
 );
 
-exports.updateNamespace = series(
+exports.update = series(
     appendCoreNamespace,
     appendHtmlNamespace,
     appendTableNamespace,

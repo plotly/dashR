@@ -78,7 +78,6 @@ which button was changed most recently.}
 \examples{
 if (interactive()) {
   library(dash)
-                library(dashCoreComponents)
 
   app <- Dash$new()
 
