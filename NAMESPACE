@@ -199,4 +199,5 @@ export(htmlXmp)
 # dashTable exports appended by `npm unify` command: do not edit by hand
 
 export(dashDataTable)
+
 export(df_to_list)

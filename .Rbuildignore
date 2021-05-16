@@ -7,3 +7,5 @@ todo\.txt
 .github
 tests/integration
 tests/circleci
+gulp-assets
+node_modules

@@ -22,14 +22,6 @@ Imports:
   glue
 Suggests:
   testthat
-Collate:
-  'utils.R'
-  'dependencies.R'
-  'dash-package.R'
-  'dash.R'
-  'imports.R'
-  'print.R'
-  'internal.R'
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

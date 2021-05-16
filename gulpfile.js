@@ -177,6 +177,7 @@ function appendTableNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
+    namespace.push('export(df_to_list)')
     namespace.unshift('# dashTable exports appended by `npm unify` command: do not edit by hand')
     namespace = namespace.join('\n');
     return src('./NAMESPACE')
@@ -217,6 +218,17 @@ function appendTableInternal() {
 }
 
 
+// Point dependency sourcing to Dash package.
+function replacePackageDependency() {
+  return src('R/internal.R')
+    .pipe(print())
+    .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
+    .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
+    .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
+    .pipe(dest('R/'));
+}
+
+
 exports.unify = series(
     parallel(
         copyCoreInstDirectory,
@@ -233,5 +245,6 @@ exports.update = series(
     appendTableNamespace,
     appendCoreInternal,
     appendHtmlInternal,
-    appendTableInternal
+    appendTableInternal,
+    replacePackageDependency
 );
