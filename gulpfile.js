@@ -10,7 +10,7 @@ const log = require('fancy-log');
 
 //TODO: Add job to git clone and build the component packages to retrieve build artifacts.
 
-// Copy the inst directories for each of the component packages.
+// Update the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
     if (
         fs.existsSync(
@@ -53,7 +53,7 @@ function copyTableInstDirectory() {
     }
 }
 
-// Copy the man directories for each of the component packages.
+// Update the man directories for each of the component packages.
 function copyCoreManDirectory() {
     if (
       fs.existsSync(
@@ -90,7 +90,7 @@ function copyTableManDirectory() {
   }
 }
 
-// Copy the R directories for each of the component packages.
+// Update the R directories for each of the component packages.
 function copyCoreRDirectory() {
     if (fs.existsSync(
       path.relative(__dirname, 'gulp-assets/dash-core-components/R')
@@ -143,16 +143,14 @@ function appendCoreNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
+    namespace.unshift('# dashCoreComponents exports appended by `npm unify` command: do not edit by hand\n')
     namespace = namespace.join('\n');
-    return src('./NAMESPACE')
+    return src('gulp-assets/NAMESPACE.template')
         .pipe(print())
         .pipe(
-            footer(
-                '# dashCoreComponents exports appended by `npm unify` command: do not edit by hand\n'
-            )
+            replace("{dcc_exports}", namespace)
         )
-        .pipe(footer(namespace))
-        .pipe(dest('.', {overwrite: true}));
+        .pipe(dest('./NAMESPACE', {overwrite: true}));
 }
 
 function appendHtmlNamespace() {
@@ -161,16 +159,14 @@ function appendHtmlNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
+    namespace.unshift('# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand\n')
     namespace = namespace.join('\n');
     return src('./NAMESPACE')
         .pipe(print())
         .pipe(
-            footer(
-                '# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand\n'
-            )
+            replace("{html_exports}", namespace)
         )
-        .pipe(footer(namespace))
-        .pipe(dest('.', {overwrite: true}));
+        .pipe(dest('./NAMESPACE', {overwrite: true}));
 }
 
 function appendTableNamespace() {
@@ -179,57 +175,42 @@ function appendTableNamespace() {
         .toString()
         .split('\n');
     namespace.shift();
+    namespace.unshift('# dashTable exports appended by `npm unify` command: do not edit by hand\n')
     namespace = namespace.join('\n');
     return src('./NAMESPACE')
         .pipe(print())
         .pipe(
-            footer(
-                '# dashTable exports appended by `npm unify` command: do not edit by hand\n'
-            )
+            replace("{table_exports}", namespace)
         )
-        .pipe(footer(namespace))
-        .pipe(dest('.', {overwrite: true}));
+        .pipe(dest('./NAMESPACE', {overwrite: true}));
 }
 
 // Append the internal.R for each of the component packages to the DashR internal.R.
 function appendCoreInternal() {
-    return src('R/internal.R')
+    return src('gulp-assets/internal.template')
         .pipe(print())
         .pipe(
-            footer(
-                '# dashCoreComponents metadata appended by `npm unify` command\n'
-            )
+            replace("{dcc_deps}", fs.readFileSync('gulp-assets/dash-core-components/R/internal.R'))
         )
-        .pipe(
-            footer(
-                fs.readFileSync('gulp-assets/dash-core-components/R/internal.R')
-            )
-        )
-        .pipe(dest('R/', {overwrite: true}));
+        .pipe(dest('R/internal.R', {overwrite: true}));
 }
 
 function appendHtmlInternal() {
     return src('R/internal.R')
         .pipe(print())
         .pipe(
-            footer(
-                '# dashHtmlComponents metadata appended by `npm unify` command\n'
-            )
+            replace("{html_deps}", fs.readFileSync('gulp-assets/dash-html-components/R/internal.R'))
         )
-        .pipe(
-            footer(
-                fs.readFileSync('gulp-assets/dash-html-components/R/internal.R')
-            )
-        )
-        .pipe(dest('R/', {overwrite: true}));
+        .pipe(dest('R/internal.R', {overwrite: true}));
 }
 
 function appendTableInternal() {
     return src('R/internal.R')
         .pipe(print())
-        .pipe(footer('# dashTable metadata appended by `npm unify` command\n'))
-        .pipe(footer(fs.readFileSync('gulp-assets/dash-table/R/internal.R')))
-        .pipe(dest('R/', {overwrite: true}));
+        .pipe(
+            replace("{table_deps}", fs.readFileSync('gulp-assets/dash-table/R/internal.R'))
+        )
+        .pipe(dest('R/internal.R', {overwrite: true}));
 }
 
 
@@ -251,5 +232,3 @@ exports.updateNamespace = series(
     appendHtmlInternal,
     appendTableInternal
 );
-
-exports.test = series(copyCoreInstDirectory);
