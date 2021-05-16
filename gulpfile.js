@@ -4,208 +4,252 @@ const mkdirp = require('mkdirp');
 const footer = require('gulp-footer');
 const print = require('gulp-print').default;
 const fs = require('fs-extra');
-const replace = require('gulp-replace')
+const replace = require('gulp-replace');
+const path = require('path');
+const log = require('fancy-log');
+
+//TODO: Add job to git clone and build the component packages to retrieve build artifacts.
 
 // Copy the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
-  return src('gulp-assets/dash-core-components/inst/**/*')
-    .pipe(print())
-    .pipe(dest('inst/'));
+    if (
+        fs.existsSync(
+            path.resolve(__dirname, 'gulp-assets/dash-core-components/inst')
+        )
+    ) {
+        return src('gulp-assets/dash-core-components/inst/**/*')
+            .pipe(print())
+            .pipe(dest('inst/'));
+    } else {
+        return log('Unable to find dash-core-components inst directory.');
+    }
 }
 
 function copyHtmlInstDirectory() {
-  return src('gulp-assets/dash-html-components/inst/**/*')
-    .pipe(print())
-    .pipe(dest('inst/'));
+  if (
+    fs.existsSync(
+        path.resolve(__dirname, 'gulp-assets/dash-html-components/inst')
+    )
+    ) {
+        return src('gulp-assets/dash-html-components/inst/**/*')
+            .pipe(print())
+            .pipe(dest('inst/'));
+    } else {
+        return log('Unable to find dash-html-components inst directory.');
+    }
 }
 
 function copyTableInstDirectory() {
-  return src('gulp-assets/dash-table/inst/**/*')
-    .pipe(print())
-    .pipe(dest('inst/'));
+  if (
+        fs.existsSync(
+            path.resolve(__dirname, 'gulp-assets/dash-table/inst')
+        )
+    ) {
+        return src('gulp-assets/dash-table/**/*')
+            .pipe(print())
+            .pipe(dest('inst/'));
+    } else {
+        return log('Unable to find dash-table `inst` directory.');
+    }
 }
 
 // Copy the man directories for each of the component packages.
 function copyCoreManDirectory() {
-  return src('gulp-assets/dash-core-components/man/**/*')
-    .pipe(dest('man/'));
+    if (
+      fs.existsSync(
+        path.relative(__dirname, 'gulp-assets/dash-core-components/man')
+      )
+    ) {
+      return src(['gulp-assets/dash-core-components/man/**/*', '!gulp-assets/dash-core-components/man/*-package.Rd']).pipe(dest('man/'));
+    } else {
+      return log('Unable to find dash-core-components `man` directory.')
+    }
 }
 
 function copyHtmlManDirectory() {
-  return src('gulp-assets/dash-html-components/man/**/*')
-    .pipe(dest('man/'));
+  if (
+    fs.existsSync(
+      path.relative(__dirname, 'gulp-assets/dash-html-components/man')
+    )
+  ) {
+    return src(['gulp-assets/dash-html-components/man/**/*', '!gulp-assets/dash-html-components/man/*-package.Rd']).pipe(dest('man/'));
+  } else {
+    return log('Unable to find dash-html-components `man` directory.')
+  }
 }
 
 function copyTableManDirectory() {
-  return src('gulp-assets/dash-table/man/**/*')
-    .pipe(dest('man/'));
+  if (
+    fs.existsSync(
+      path.relative(__dirname, 'gulp-assets/dash-table/man')
+    )
+  ) {
+    return src(['gulp-assets/dash-table/man/**/*', '!gulp-assets/dash-table/man/*-package.Rd']).pipe(dest('man/'));
+  } else {
+    return log('Unable to find dash-table `man` directory.')
+  }
 }
 
 // Copy the R directories for each of the component packages.
 function copyCoreRDirectory() {
-  return src(['gulp-assets/dash-core-components/R/**/*', '!gulp-assets/dash-core-components/R/internal.R'])
-    .pipe(print())
-    .pipe(dest('R/'));
+    if (fs.existsSync(
+      path.relative(__dirname, 'gulp-assets/dash-core-components/R')
+    )) {
+      return src([
+        'gulp-assets/dash-core-components/R/**/*',
+        '!gulp-assets/dash-core-components/R/internal.R',
+    ])
+        .pipe(print())
+        .pipe(dest('R/'));
+    } else {
+      return log('Unable to find dash-core-components `R` directory.')
+    }
 }
 
 function copyHtmlRDirectory() {
-  return src(['gulp-assets/dash-html-components/R/**/*', '!gulp-assets/dash-html-components/R/internal.R'])
-    .pipe(print())
-    .pipe(dest('R/'));
+  if (fs.existsSync(
+    path.relative(__dirname, 'gulp-assets/dash-html-components/R')
+  )) {
+    return src([
+      'gulp-assets/dash-html-components/R/**/*',
+      '!gulp-assets/dash-html-components/R/internal.R',
+  ])
+      .pipe(print())
+      .pipe(dest('R/'));
+  } else {
+    return log('Unable to find dash-html-components `R` directory.')
+  }
 }
 
 function copyTableRDirectory() {
-  return src(['gulp-assets/dash-table/R/**/*', '!gulp-assets/dash-table/R/internal.R'])
-    .pipe(print())
-    .pipe(dest('R/'));
+  if (fs.existsSync(
+    path.relative(__dirname, 'gulp-assets/dash-table/R')
+  )) {
+    return src([
+      'gulp-assets/dash-table/R/**/*',
+      '!gulp-assets/dash-table/R/internal.R',
+  ])
+      .pipe(print())
+      .pipe(dest('R/'));
+  } else {
+    return log('Unable to find dash-core-components `R` directory.')
+  }
 }
 
 // Append the NAMESPACE for each of the component packages to the DashR NAMESPACE.
 function appendCoreNamespace() {
-  var namespace = fs.readFileSync('gulp-assets/dash-core-components/NAMESPACE').toString().split('\n');
-  namespace.shift();
-  namespace = namespace.join('\n')
-  return src('./NAMESPACE')
-    .pipe(print())
-    .pipe(footer("# dashCoreComponents exports appended by `npm unify` command: do not edit by hand\n"))
-    .pipe(footer(namespace))
-    .pipe(dest('.', { overwrite: true }));
+    var namespace = fs
+        .readFileSync('gulp-assets/dash-core-components/NAMESPACE')
+        .toString()
+        .split('\n');
+    namespace.shift();
+    namespace = namespace.join('\n');
+    return src('./NAMESPACE')
+        .pipe(print())
+        .pipe(
+            footer(
+                '# dashCoreComponents exports appended by `npm unify` command: do not edit by hand\n'
+            )
+        )
+        .pipe(footer(namespace))
+        .pipe(dest('.', {overwrite: true}));
 }
 
 function appendHtmlNamespace() {
-  var namespace = fs.readFileSync('gulp-assets/dash-html-components/NAMESPACE').toString().split('\n');
-  namespace.shift();
-  namespace = namespace.join('\n')
-  return src('./NAMESPACE')
-    .pipe(print())
-    .pipe(footer("# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand\n"))
-    .pipe(footer(namespace))
-    .pipe(dest('.', { overwrite: true }));
+    var namespace = fs
+        .readFileSync('gulp-assets/dash-html-components/NAMESPACE')
+        .toString()
+        .split('\n');
+    namespace.shift();
+    namespace = namespace.join('\n');
+    return src('./NAMESPACE')
+        .pipe(print())
+        .pipe(
+            footer(
+                '# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand\n'
+            )
+        )
+        .pipe(footer(namespace))
+        .pipe(dest('.', {overwrite: true}));
 }
 
 function appendTableNamespace() {
-  var namespace = fs.readFileSync('gulp-assets/dash-table/NAMESPACE').toString().split('\n');
-  namespace.shift();
-  namespace = namespace.join('\n')
-  return src('./NAMESPACE')
-    .pipe(print())
-    .pipe(footer("# dashTable exports appended by `npm unify` command: do not edit by hand\n"))
-    .pipe(footer(namespace))
-    .pipe(dest('.', { overwrite: true }));
+    var namespace = fs
+        .readFileSync('gulp-assets/dash-table/NAMESPACE')
+        .toString()
+        .split('\n');
+    namespace.shift();
+    namespace = namespace.join('\n');
+    return src('./NAMESPACE')
+        .pipe(print())
+        .pipe(
+            footer(
+                '# dashTable exports appended by `npm unify` command: do not edit by hand\n'
+            )
+        )
+        .pipe(footer(namespace))
+        .pipe(dest('.', {overwrite: true}));
 }
-
 
 // Append the internal.R for each of the component packages to the DashR internal.R.
 function appendCoreInternal() {
-  return src('R/internal.R')
-    .pipe(print())
-    .pipe(footer("# dashCoreComponents metadata appended by `npm unify` command\n"))
-    .pipe(footer(fs.readFileSync('gulp-assets/dash-core-components/R/internal.R')))
-    .pipe(dest('R/', { overwrite : true }));
+    return src('R/internal.R')
+        .pipe(print())
+        .pipe(
+            footer(
+                '# dashCoreComponents metadata appended by `npm unify` command\n'
+            )
+        )
+        .pipe(
+            footer(
+                fs.readFileSync('gulp-assets/dash-core-components/R/internal.R')
+            )
+        )
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 function appendHtmlInternal() {
-  return src('R/internal.R')
-    .pipe(print())
-    .pipe(footer("# dashHtmlComponents metadata appended by `npm unify` command\n"))
-    .pipe(footer(fs.readFileSync('gulp-assets/dash-html-components/R/internal.R')))
-    .pipe(dest('R/', { overwrite: true }));
+    return src('R/internal.R')
+        .pipe(print())
+        .pipe(
+            footer(
+                '# dashHtmlComponents metadata appended by `npm unify` command\n'
+            )
+        )
+        .pipe(
+            footer(
+                fs.readFileSync('gulp-assets/dash-html-components/R/internal.R')
+            )
+        )
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 function appendTableInternal() {
-  return src('R/internal.R')
-    .pipe(print())
-    .pipe(footer("# dashTable metadata appended by `npm unify` command\n"))
-    .pipe(footer(fs.readFileSync('gulp-assets/dash-table/R/internal.R')))
-    .pipe(dest('R/', { overwrite: true }));
-}
-
-
-// Remove component package imports and collate from DESCRIPTION.
-function replaceDescriptionImports() {
-  return src('./DESCRIPTION')
-    .pipe(print())
-    .pipe(replace(/  dashHtmlComponents \(== \d+.\d+.\d+\),\n/, ''))
-    .pipe(replace(/  dashCoreComponents \(== \d+.\d+.\d+\),\n/, ''))
-    .pipe(replace(/  dashTable \(== \d+.\d+.\d+\),\n/, ''))
-    .pipe(replace(/Collate:/, '#Collate:'))
-    .pipe(dest('.'));
-}
-
-// Point dependency sourcing to Dash package.
-function replacePackageDependency() {
-  return src('R/internal.R')
-    .pipe(print())
-    .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
-    .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
-    .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
-    .pipe(dest('R/'));
-}
-
-// Remove require(dash) from all examples.
-function removeRequireDash() {
-  return src('./**/*')
-    .pipe(replace(/&& require\(dash\)/g, ''))
-    .pipe(dest('.'));
-}
-
-
-// Clean unification changes from DESCRIPTION.
-function cleanDescriptionImports() {
-  return src('./DESCRIPTION')
-    .pipe(print())
-    .pipe(replace(/Imports:/, 'Imports:\n  dashHtmlComponents (== 1.1.1),\n  dashCoreComponents (== 1.13.0),\n  dashTable (== 4.11.0),'))
-    .pipe(replace(/#Collate:/, 'Collate:'))
-    .pipe(dest('.'));
-}
-
-// Clean unification changes from internal.R.
-function cleanInternal() {
-  return src('R/internal.R')
-    .pipe(print())
-    .pipe(replace(/# dashCoreComponents metadata.*/s, ''))
-    .pipe(dest('R/'));
-}
-
-// Clean component function files from R directory.
-function cleanR() {
-  return del([
-    'R/(dcc|html|dashDataTable)*.R',
-    'man/(dcc|html|dashCoreComponents|dashHtmlComponents|dashDataTable|dashTable)*.Rd'
-  ]);
+    return src('R/internal.R')
+        .pipe(print())
+        .pipe(footer('# dashTable metadata appended by `npm unify` command\n'))
+        .pipe(footer(fs.readFileSync('gulp-assets/dash-table/R/internal.R')))
+        .pipe(dest('R/', {overwrite: true}));
 }
 
 
 exports.unify = series(
-  parallel(
-    copyCoreInstDirectory,
-    copyHtmlInstDirectory,
-    copyTableInstDirectory
-  ),
-  parallel(
-    copyCoreManDirectory,
-    copyHtmlManDirectory,
-    copyTableManDirectory
-  ),
-  parallel(
-    copyCoreRDirectory,
-    copyHtmlRDirectory,
-    copyTableRDirectory
-  )
+    parallel(
+        copyCoreInstDirectory,
+        copyHtmlInstDirectory,
+        copyTableInstDirectory
+    ),
+    parallel(copyCoreManDirectory, copyHtmlManDirectory, copyTableManDirectory),
+    parallel(copyCoreRDirectory, copyHtmlRDirectory, copyTableRDirectory)
 );
-
 
 exports.updateNamespace = series(
-  appendCoreNamespace,
-  appendHtmlNamespace,
-  appendTableNamespace,
-  appendCoreInternal,
-  appendHtmlInternal,
-  appendTableInternal
-)
-
-exports.clean = series(
-  cleanInternal,
-  cleanR,
-  cleanDescriptionImports
+    appendCoreNamespace,
+    appendHtmlNamespace,
+    appendTableNamespace,
+    appendCoreInternal,
+    appendHtmlInternal,
+    appendTableInternal
 );
+
+exports.test = series(copyCoreInstDirectory);
