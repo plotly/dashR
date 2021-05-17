@@ -59,7 +59,7 @@ function copyHtmlInstDirectory() {
 
 function copyTableInstDirectory() {
     if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-table/inst'))) {
-        return src('gulp-assets/dash-table/inst/**/*')
+        return src(['gulp-assets/dash-table/inst/**/*', '!gulp-assets/dash-table/inst/deps/index.html'])
             .pipe(print())
             .pipe(dest('inst/'));
     }
