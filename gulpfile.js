@@ -1,14 +1,34 @@
 const {dest, parallel, series, src} = require('gulp');
-// const del = require('del');
-// const mkdirp = require('mkdirp');
 const print = require('gulp-print').default;
 const fs = require('fs-extra');
 const replace = require('gulp-replace');
 const path = require('path');
 const log = require('fancy-log');
 const rename = require('gulp-rename');
+const shell = require('shelljs');
 
-// TODO: Add job to git clone and build the component packages to retrieve build artifacts.
+// Task to git clone and build the component packages to retrieve build artifacts.
+const retrieveAssets = async () => {
+    const assetsPath = path.resolve(__dirname, 'gulp-assets');
+    const packages = [
+        'dash-core-components',
+        'dash-html-components',
+        'dash-table',
+    ];
+    for (const element of packages) {
+        shell.cd(assetsPath);
+        shell.exec(`git clone https://github.com/plotly/${element}`);
+        shell.cd(path.resolve(assetsPath, element));
+        shell.exec('npm i && npm run build');
+    }
+};
+
+// Task to clean build artifacts from gulp-assets
+const cleanAssets = async () => {
+    const assetsPath = path.resolve(__dirname, 'gulp-assets');
+    shell.cd(assetsPath);
+    shell.exec('rm -rfv dash-core-components dash-html-components dash-table');
+};
 
 // Update the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
@@ -21,8 +41,7 @@ function copyCoreInstDirectory() {
             .pipe(print())
             .pipe(dest('inst/'));
     }
-        return log('Unable to find dash-core-components inst directory.');
-
+    return log('Unable to find dash-core-components inst directory.');
 }
 
 function copyHtmlInstDirectory() {
@@ -35,8 +54,7 @@ function copyHtmlInstDirectory() {
             .pipe(print())
             .pipe(dest('inst/'));
     }
-        return log('Unable to find dash-html-components inst directory.');
-
+    return log('Unable to find dash-html-components inst directory.');
 }
 
 function copyTableInstDirectory() {
@@ -45,8 +63,7 @@ function copyTableInstDirectory() {
             .pipe(print())
             .pipe(dest('inst/'));
     }
-        return log('Unable to find dash-table `inst` directory.');
-
+    return log('Unable to find dash-table `inst` directory.');
 }
 
 // Update the man directories for each of the component packages.
@@ -61,8 +78,7 @@ function copyCoreManDirectory() {
             '!gulp-assets/dash-core-components/man/*-package.Rd',
         ]).pipe(dest('man/'));
     }
-        return log('Unable to find dash-core-components `man` directory.');
-
+    return log('Unable to find dash-core-components `man` directory.');
 }
 
 function copyHtmlManDirectory() {
@@ -76,8 +92,7 @@ function copyHtmlManDirectory() {
             '!gulp-assets/dash-html-components/man/*-package.Rd',
         ]).pipe(dest('man/'));
     }
-        return log('Unable to find dash-html-components `man` directory.');
-
+    return log('Unable to find dash-html-components `man` directory.');
 }
 
 function copyTableManDirectory() {
@@ -87,8 +102,7 @@ function copyTableManDirectory() {
             '!gulp-assets/dash-table/man/*-package.Rd',
         ]).pipe(dest('man/'));
     }
-        return log('Unable to find dash-table `man` directory.');
-
+    return log('Unable to find dash-table `man` directory.');
 }
 
 // Update the R directories for each of the component packages.
@@ -105,8 +119,7 @@ function copyCoreRDirectory() {
             .pipe(print())
             .pipe(dest('R/'));
     }
-        return log('Unable to find dash-core-components `R` directory.');
-
+    return log('Unable to find dash-core-components `R` directory.');
 }
 
 function copyHtmlRDirectory() {
@@ -122,8 +135,7 @@ function copyHtmlRDirectory() {
             .pipe(print())
             .pipe(dest('R/'));
     }
-        return log('Unable to find dash-html-components `R` directory.');
-
+    return log('Unable to find dash-html-components `R` directory.');
 }
 
 function copyTableRDirectory() {
@@ -135,8 +147,7 @@ function copyTableRDirectory() {
             .pipe(print())
             .pipe(dest('R/'));
     }
-        return log('Unable to find dash-core-components `R` directory.');
-
+    return log('Unable to find dash-core-components `R` directory.');
 }
 
 // Append the NAMESPACE for each of the component packages to the DashR NAMESPACE.
@@ -257,3 +268,7 @@ exports.update = series(
     appendTableInternal,
     replacePackageDependency
 );
+
+exports.clone = series(retrieveAssets);
+
+exports.clean = series(cleanAssets);
