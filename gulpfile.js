@@ -17,7 +17,7 @@ const retrieveAssets = async () => {
     ];
     for (const element of packages) {
         shell.cd(assetsPath);
-        shell.exec(`git clone https://github.com/plotly/${element}`);
+        shell.exec(`git clone --depth=1 https://github.com/plotly/${element}`);
         shell.cd(path.resolve(assetsPath, element));
         try {
             shell.exec('npm i && npm run build');
