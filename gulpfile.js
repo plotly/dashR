@@ -19,7 +19,12 @@ const retrieveAssets = async () => {
         shell.cd(assetsPath);
         shell.exec(`git clone https://github.com/plotly/${element}`);
         shell.cd(path.resolve(assetsPath, element));
-        shell.exec('npm i && npm run build');
+        try {
+            shell.exec('npm i && npm run build');
+        } catch (err) {
+            print(`Encountered the following error: ${err.message} \n
+            Make sure you have dash-generate-components in your Python environment.`);
+        }
     }
 };
 
@@ -59,7 +64,10 @@ function copyHtmlInstDirectory() {
 
 function copyTableInstDirectory() {
     if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-table/inst'))) {
-        return src(['gulp-assets/dash-table/inst/**/*', '!gulp-assets/dash-table/inst/deps/index.html'])
+        return src([
+            'gulp-assets/dash-table/inst/**/*',
+            '!gulp-assets/dash-table/inst/deps/index.html',
+        ])
             .pipe(print())
             .pipe(dest('inst/'));
     }
