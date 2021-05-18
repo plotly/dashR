@@ -5,8 +5,6 @@ import time, os
 app = os.path.join(os.path.dirname(__file__), "hard_reload/app.R")
 changed_app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 app <- Dash$new()
 
 app$layout(htmlDiv(list(

@@ -3,8 +3,6 @@ import requests
 
 app = """
  library(dash)
- library(dashHtmlComponents)
- library(dashCoreComponents)
 
  app <- Dash$new()
 

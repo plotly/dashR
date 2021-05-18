@@ -1,7 +1,5 @@
 all_app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 
 app <- Dash$new()
 
@@ -55,9 +53,6 @@ app$run_server()
 
 allsmaller_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
-
 
 df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = FALSE)
 
@@ -130,9 +125,6 @@ app$run_server()
 
 match_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
-
 
 app <- Dash$new()
 
@@ -184,8 +176,6 @@ app$run_server()
 
 todo_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
 
 app <- Dash$new()
 
@@ -320,8 +310,6 @@ app$run_server()
 
 graphs_app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 library(plotly)
 
 df <- read.csv(

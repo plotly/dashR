@@ -4,7 +4,6 @@ import time, os
 
 app = """
 library(dash)
-library(dashHtmlComponents)
 
 app <- Dash$new(meta_tags = list(list(name = "description", content = "some content")))
 
@@ -31,7 +30,6 @@ def test_rstm001_test_meta(dashr):
 
 app2 = """ 
 library(dash)
-library(dashHtmlComponents)
 
 app <- Dash$new(meta_tags = list(list(charset = "ISO-8859-1"), 
                                  list(name = "keywords", content = "dash,pleasant,productive"), 

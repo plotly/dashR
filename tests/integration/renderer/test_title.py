@@ -2,7 +2,6 @@ import pdb
 
 app_test_updating = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new()
 
 app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
@@ -25,7 +24,6 @@ app$run_server()
 
 app_test_no_update_title1 = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new(update_title=NULL)
 
 app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
@@ -41,7 +39,6 @@ app$run_server()
 
 app_test_no_update_title2 = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new(update_title="")
 
 app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
@@ -57,7 +54,6 @@ app$run_server()
 
 app_clientside_title1 = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new(update_title=NULL)
 
 app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
@@ -83,7 +79,6 @@ app$run_server()
 
 app_clientside_title2 = """
 library(dash)
-library(dashHtmlComponents)
 app <- Dash$new(update_title="")
 
 app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),

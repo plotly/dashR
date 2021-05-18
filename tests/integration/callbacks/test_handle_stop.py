@@ -2,8 +2,6 @@ from selenium.webdriver.support.select import Select
 
 app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 
 app <- Dash$new()
 

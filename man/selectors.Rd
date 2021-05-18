@@ -65,9 +65,7 @@ necessary (you can usually use \code{ALL} and filter out the indices in your cal
 but it will make your logic simpler.
 }
 \examples{
-if (interactive() && require(dash)) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
+if (interactive() ) {
   library(dash)
 
   # Simple example illustrating use of ALL selector
@@ -119,6 +117,8 @@ if (interactive() && require(dash)) {
   app$run_server()
 
   # Simple example illustrating use of ALLSMALLER selector
+  library(dash)
+
   df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
                  stringsAsFactors = FALSE)
 
@@ -147,7 +147,7 @@ if (interactive() && require(dash)) {
         htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"),
                 children = list(unique(df$country)[n_clicks + 1]))
       ))
-   
+
       existing_children <- c(existing_children, list(new_children))
     }
   )
@@ -181,7 +181,7 @@ if (interactive() && require(dash)) {
       } else {
         return(
           htmlDiv(sprintf("\%s is the life expectancy of \%s, and \%s.",
-                  avgLifeExp, 
+                  avgLifeExp,
                   paste(all_values[-length(all_values)], collapse = " , "),
                   paste(all_values[length(all_values)])))
         )
@@ -192,6 +192,8 @@ if (interactive() && require(dash)) {
   app$run_server()
 
   # Simple example illustrating use of MATCH selector
+  library(dash)
+
   app <- Dash$new()
 
   app$layout(htmlDiv(list(
