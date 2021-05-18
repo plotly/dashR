@@ -500,8 +500,8 @@ Dash <- R6::R6Class(
                                      "/favicon.ico")
 
         # If custom favicon is not present, get the path for the default Dash favicon
-        if (is.na(names(asset_path))) {
-          asset_path <- system.file("extdata", "favicon.ico", package = "dash")
+        if (is.na(names(asset_path)) || is.null(asset_path)) {
+          asset_path <- setNames(system.file("extdata", "favicon.ico", package = "dash"), c("/favicon.ico"))
         }
 
         file_handle <- file(asset_path, "rb")
