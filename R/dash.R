@@ -1446,6 +1446,11 @@ Dash <- R6::R6Class(
             })
         }
 
+      attached_packages = .packages()
+      if (any(c("dashCoreComponents", "dashHtmlComponents", "dashTable") %in% attached_packages)) {
+        message("\U{26A0} Note: As of version 1.0, the following packages are deprecated and should no longer be installed or loaded when using Dash for R: `dashHtmlComponents`, `dashCoreComponents`, `dashTable`. These components are now bundled within the `dash` package.")
+      }
+
       self$server$ignite(block = block, showcase = showcase, ...)
       }
     ),
