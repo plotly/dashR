@@ -50,7 +50,7 @@ Dash <- R6::R6Class(
     #' as `integrity` and `crossorigin`.
     #' @param external_stylesheets List. An optional list of valid URLs from which
     #' to serve CSS for rendered pages. Each entry can be a string (the URL) or a list
-    #' with `href` (the URL) and optionally other `<link>` tag attributes such as 
+    #' with `href` (the URL) and optionally other `<link>` tag attributes such as
     #' `rel`, `integrity` and `crossorigin`.
     #' @param compress Logical. Whether to  try to compress files and data served by Fiery.
     #' By default, `brotli` is attempted first, then `gzip`, then the `deflate` algorithm,
@@ -116,9 +116,9 @@ Dash <- R6::R6Class(
       # ------------------------------------------------------------
       router <- routr::RouteStack$new()
       server$set_data("user-routes", list()) # placeholder for custom routes
- 
+
       # ensure that assets_folder is neither NULL nor character(0)
-      if (!(is.null(private$assets_folder)) & length(private$assets_folder) != 0) {
+      if (!(is.null(private$assets_folder)) && length(private$assets_folder) != 0) {
         if (!(dir.exists(private$assets_folder)) && gsub("/+", "", assets_folder) != "assets") {
           warning(sprintf(
             "The supplied assets folder, '%s', could not be found in the project directory.",
@@ -618,9 +618,9 @@ Dash <- R6::R6Class(
     #' library(dash)
     #' app <- Dash$new()
     #'
-    #' # A handler to redirect requests with `307` status code (temporary redirects); 
+    #' # A handler to redirect requests with `307` status code (temporary redirects);
     #' # for permanent redirects (`301`), see the `redirect` method described below
-    #' # 
+    #' #
     #' # A simple single path-to-path redirect
     #' app$server_route('/getting-started', function(request, response, keys, ...) {
     #'   response$status <- 307L
@@ -653,11 +653,11 @@ Dash <- R6::R6Class(
                                   "methods" = methods)
 
       self$server$set_data("user-routes", user_routes)
-    },    
+    },
 
     #' @description
     #' Redirect a Dash application URL path
-    #' @details 
+    #' @details
     #' This is a convenience method to simplify adding redirects
     #' for your Dash application which automatically return a `301`
     #' HTTP status code and direct the client to load an alternate URL.
@@ -705,7 +705,7 @@ Dash <- R6::R6Class(
           TRUE
         }
       }
-    
+
       self$server_route(old_path, handler)
     },
 
@@ -714,13 +714,13 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     #' @description
     #' Retrieves the Dash application layout.
-    #' @details 
+    #' @details
     #' If render is `TRUE`, and the layout is a function,
     #' the result of the function (rather than the function itself) is returned.
     #' @param render Logical. If the layout is a function, should the function be
     #' executed to return the layout? If `FALSE`, the function is returned as-is.
-    #' @return List or function, depending on the value of `render` (see above). 
-    #' When returning an object of class `dash_component`, the default `print` 
+    #' @return List or function, depending on the value of `render` (see above).
+    #' When returning an object of class `dash_component`, the default `print`
     #' method for this class will display the corresponding pretty-printed JSON
     #' representation of the object to the console.
     layout_get = function(render = TRUE) {
@@ -739,7 +739,7 @@ Dash <- R6::R6Class(
     #' class.
     #' @param value An object of the `dash_component` class, which provides
     #' a component or collection of components, specified either as a Dash
-    #' component or a function that returns a Dash component. 
+    #' component or a function that returns a Dash component.
     layout = function(value) {
       # private$layout_ <- if (is.function(..1)) ..1 else list(...)
       private$layout_ <- value
@@ -769,9 +769,9 @@ Dash <- R6::R6Class(
     #' @description
     #' Define a Dash callback.
     #' @details
-    #' Describes a server or clientside callback relating the values of one or more 
+    #' Describes a server or clientside callback relating the values of one or more
     #' `output` items to one or more `input` items which will trigger the callback
-    #' when they change, and optionally `state` items which provide additional 
+    #' when they change, and optionally `state` items which provide additional
     #' information but do not trigger the callback directly.
     #'
     #' For detailed examples of how to use pattern-matching callbacks, see the
@@ -784,13 +784,13 @@ Dash <- R6::R6Class(
     #' object(s) (which should reference layout components), which become
     #' argument values for R callback handlers defined in `func`.
     #'
-    #' Here `func` may either be an anonymous R function, a JavaScript function 
+    #' Here `func` may either be an anonymous R function, a JavaScript function
     #' provided as a character string, or a call to `clientsideFunction()`, which
     #' describes a locally served JavaScript function instead. The latter
     #' two methods define a "clientside callback", which updates components
     #' without passing data to and from the Dash backend. The latter may offer
     #' improved performance relative to callbacks written purely in R.
-    #' @param output Named list. The `output` argument provides the component `id` 
+    #' @param output Named list. The `output` argument provides the component `id`
     #' and `property` which will be updated by the callback; a callback can
     #' target one or more outputs (i.e. multiple outputs).
     #' @param params Unnamed list; provides [input] and [state] statements, each
@@ -852,12 +852,12 @@ Dash <- R6::R6Class(
     #' the firing of a given callback, and allows introspection of the input/state
     #' values given their names. It is only available from within a callback;
     #' attempting to use this method outside of a callback will result in a warning.
-    #' 
+    #'
     #' The `callback_context` method returns a list containing  three elements:
     #' `states`, `triggered`, `inputs`. The first and last of these correspond to
     #' the values of `states` and `inputs` for the current invocation of the
     #' callback, and `triggered` provides a list of changed properties.
-    #' 
+    #'
     #' @return List comprising elements `states`, `triggered`, `inputs`.
     callback_context = function() {
       if (is.null(private$callback_context_)) {
@@ -877,14 +877,14 @@ Dash <- R6::R6Class(
     #' duration required to execute a given callback. It may only be called
     #' from within a callback; a warning will be thrown and the method will
     #' otherwise return `NULL` if invoked outside of a callback.
-    #' 
+    #'
     #' @param name Character. The name of the resource.
     #' @param duration Numeric. The time in seconds to report. Internally, this is
     #' rounded to the nearest millisecond.
     #' @param description Character. A description of the resource.
     #'
     callback_context.record_timing = function(name,
-                                              duration=NULL, 
+                                              duration=NULL,
                                               description=NULL) {
       if (is.null(private$callback_context_)) {
         warning("callback_context is undefined; callback_context.record_timing may only be accessed within a callback.")
@@ -897,7 +897,7 @@ Dash <- R6::R6Class(
         stop(paste0("Duplicate resource name ", name, " found."), call.=FALSE)
       }
 
-      timing_information[[name]] <- list("dur" = round(duration * 1000), 
+      timing_information[[name]] <- list("dur" = round(duration * 1000),
                                          "desc" = description)
 
       self$server$set_data("timing-information", timing_information)
@@ -906,9 +906,9 @@ Dash <- R6::R6Class(
     # ------------------------------------------------------------------------
     # return asset URLs
     # ------------------------------------------------------------------------
-    #' @description 
+    #' @description
     #' Return a URL for a Dash asset.
-    #' @details 
+    #' @details
     #' The `get_asset_url` method permits retrieval of an asset's URL given its filename.
     #' For example, `app$get_asset_url('style.css')` should return `/assets/style.css` when
     #' `assets_folder = 'assets'`. By default, the prefix is the value of `requests_pathname_prefix`,
@@ -973,7 +973,7 @@ Dash <- R6::R6Class(
     #' in components such as `dccLink` or `dccLocation`. For example, `app$get_relative_url("/page/")`
     #' would return `/app/page/` for an app running on a deployment server. The path must be prefixed with
     #' a `/`.
-    #' @param path Character. A path string prefixed with a leading `/` which directs 
+    #' @param path Character. A path string prefixed with a leading `/` which directs
     #' at a path or asset directory.
     #' @param requests_pathname_prefix Character. The pathname prefix for the application when
     #' deployed. Defaults to the environment variable set by the server,
@@ -984,12 +984,12 @@ Dash <- R6::R6Class(
       asset = get_relative_path(requests_pathname = requests_pathname_prefix, path = path)
       return(asset)
     },
-    
-    
+
+
     # ------------------------------------------------------------------------
     # return relative asset URLs
     # ------------------------------------------------------------------------
-    
+
     #' @description
     #' Return a Dash asset path without its prefix.
     #' @details
@@ -998,7 +998,7 @@ Dash <- R6::R6Class(
     #' method, by taking a `relative path` as an input, and returning the `path` stripped of the `requests_pathname_prefix`,
     #' and any leading or trailing `/`. For example, a path string `/app/homepage/`, would be returned as
     #' `homepage`. This is particularly useful for `dccLocation` URL routing.
-    #' @param path Character. A path string prefixed with a leading `/` which directs 
+    #' @param path Character. A path string prefixed with a leading `/` which directs
     #' at a path or asset directory.
     #' @param requests_pathname_prefix Character. The pathname prefix for the app on
     #' a deployed application. Defaults to the environment variable set by the server,
@@ -1014,7 +1014,7 @@ Dash <- R6::R6Class(
     #' Specify a custom index string for a Dash application.
     #' @details
     #' The `index_string` method allows the specification of a custom index by changing
-    #' the default `HTML` template that is generated by the Dash UI. #' Meta tags, CSS, and JavaScript are some examples of features 
+    #' the default `HTML` template that is generated by the Dash UI. #' Meta tags, CSS, and JavaScript are some examples of features
     #' that can be modified. This method will present a warning if your
     #' HTML template is missing any necessary elements
     #' and return an error if a valid index is not defined. The following interpolation keys are
@@ -1054,11 +1054,11 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(string))
       private$custom_index <- validate_keys(string, is_template=TRUE)
     },
-    
+
     # ------------------------------------------------------------------------
-    # modify the templated variables by using the `interpolate_index` method. 
+    # modify the templated variables by using the `interpolate_index` method.
     # ------------------------------------------------------------------------
-    #' @description 
+    #' @description
     #' Modify index template variables for a Dash application.
     #' @details
     #' With the `interpolate_index` method, one can pass a custom index with template string
@@ -1087,14 +1087,14 @@ Dash <- R6::R6Class(
     #' </footer>
     #' </body>
     #' </html>"
-    #' 
+    #'
 
     #' # this is the default configuration, but custom configurations
     #' # are possible -- the structure of the "config" argument is
     #' # a list, in which each element is a JSON key/value pair, when
     #' # reformatted as JSON from the list:
     #' #  e.g. {"routes_pathname_prefix":"/", "ui":false}
-    #' config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>", 
+    #' config <- sprintf("<script id='_dash-config' type='application/json'> %s </script>",
     #'                  jsonlite::toJSON(app$config, auto_unbox=TRUE))
     #'
     #' app$interpolate_index(
@@ -1107,17 +1107,17 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(template_index))
       template <- template_index
       kwargs <- list(...)
-      
+
       for (name in names(kwargs)) {
         key = paste0('\\{\\%', name, '\\%\\}')
         template = sub(key, kwargs[[name]], template)
-      } 
-      
+      }
+
       invisible(validate_keys(names(kwargs), is_template=FALSE))
-      
+
       private$template_index <- template
     },
-    
+
     # ------------------------------------------------------------------------
     # specify a custom title
     # ------------------------------------------------------------------------
@@ -1130,7 +1130,7 @@ Dash <- R6::R6Class(
       assertthat::assert_that(is.character(string))
       private$name <- string
     },
-        
+
     # ------------------------------------------------------------------------
     # convenient fiery wrappers
     # ------------------------------------------------------------------------
@@ -1155,7 +1155,7 @@ Dash <- R6::R6Class(
     #' @param dev_tools_prune_errors Logical. Reduce tracebacks such that only lines relevant to user code remain, stripping out Fiery and Dash references? Only available with debugging. `TRUE` by default, set to `FALSE` to see the complete traceback. Environment variable: `DASH_PRUNE_ERRORS`.
     #' @param dev_tools_silence_routes_logging Logical. Replace Fiery's default logger with `dashLogger` instead (will remove all routes logging)? Enabled with debugging by default because hot reload hash checks generate a lot of requests.
     #' @param ... Additional arguments to pass to the `start` handler; see the [fiery] documentation for relevant examples.
-    #' @examples 
+    #' @examples
     #' if (interactive() && require(dash)) {
     #'   library(dashCoreComponents)
     #'   library(dashHtmlComponents)
@@ -1232,7 +1232,7 @@ Dash <- R6::R6Class(
 
       # attach user-defined routes, if they exist
       if (length(self$server$get_data("user-routes")) > 0) {
-       
+
         plugin <- list(
           on_attach = function(server) {
             user_routes <- server$get_data("user-routes")
@@ -1243,26 +1243,26 @@ Dash <- R6::R6Class(
             # have all the relevant routes in place anyhow
             if (server$plugins$request_routr$has_route("user-routes"))
               server$plugins$request_routr$remove_route("user-routes")
-            
+
             router <- server$plugins$request_routr
 
             route <- routr::Route$new()
-            
+
             for (routing in user_routes) {
               route$add_handler(method=routing$methods,
                                 path=routing$path,
                                 handler=routing$handler)
             }
-            
+
             router$add_route(route, "user-routes")
           },
           name = "user_routes",
           require = "request_routr"
         )
-        
+
         self$server$attach(plugin, force = TRUE)
       }
-      
+
       if(getAppPath() != FALSE) {
         source_dir <- dirname(getAppPath())
         private$app_root_modtime <- modtimeFromPath(source_dir, recursive = TRUE, asset_path = private$assets_folder)
@@ -1304,7 +1304,7 @@ Dash <- R6::R6Class(
           timing_information <- self$server$get_data('timing-information')
           dash_total <- timing_information[['__dash_server']]
           timing_information[['__dash_server']][['dur']] <- round((as.numeric(Sys.time()) - dash_total[['dur']]) * 1000)
-          
+
           header_as_string <- list()
 
           for (item in seq_along(timing_information)) {
@@ -1317,11 +1317,11 @@ Dash <- R6::R6Class(
             if (!is.null(timing_information[[item]]$dur)) {
               header_content <- paste0(header_content, ';dur=', timing_information[[item]]$dur)
             }
-            
+
              header_as_string[[item]] <- header_content
           }
 
-          request$response$append_header('Server-Timing', 
+          request$response$append_header('Server-Timing',
                                          paste0(unlist(header_as_string), collapse=", "))
         })
       }
@@ -1443,7 +1443,7 @@ Dash <- R6::R6Class(
               # flush the context to prepare for the next request cycle
               self$server$set_data("timing-information", list())
             })
-        } 
+        }
 
       self$server$ignite(block = block, showcase = showcase, ...)
       }
@@ -1501,10 +1501,10 @@ Dash <- R6::R6Class(
     layout_ids = NULL,
     layout_render = function() {
       layout_ <- if (is.function(private$layout_)) private$layout_() else private$layout_
-      
+
       # ensure that the layout is a component, or a collection of components
       layout_ <- private$componentify(layout_)
-      
+
       # store the layout as a (flattened) vector form since we query the
       # vector names several times to verify ID naming (among other things)
       layout_flat <- rapply(layout_, I)
@@ -1518,7 +1518,7 @@ Dash <- R6::R6Class(
 
       if (duped) {
         duped_ids <- paste(layout_ids[duplicated(layout_ids)], collapse = ", ")
-        
+
         stop(
           sprintf("layout ids must be unique -- please check the following list of duplicated ids: '%s'", duped_ids),
           call. = FALSE
@@ -1942,7 +1942,7 @@ Dash <- R6::R6Class(
 
       # insert meta tags if present
       meta_tags <- all_tags[["meta_tags"]]
-      
+
       # define the react-entry-point
       app_entry <- "<div id='react-entry-point'><div class='_dash-loading'>Loading...</div></div>"
       # define the dash default config key
@@ -1950,13 +1950,13 @@ Dash <- R6::R6Class(
 
       if (is.null(private$name))
         private$name <- 'Dash'
-      
+
       if (!is.null(private$custom_index)) {
         string_index <- glue::glue(private$custom_index, .open = "{%", .close = "%}")
-        
+
         private$.index <- string_index
       }
-      
+
       else if (length(private$template_index) == 1) {
         private$.index <- private$template_index
       }
