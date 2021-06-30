@@ -42,9 +42,13 @@ function copyCoreInstDirectory() {
             path.resolve(__dirname, 'gulp-assets/dash-core-components/inst')
         )
     ) {
-        return src('gulp-assets/dash-core-components/inst/**/*')
+        return src([
+            'gulp-assets/dash-core-components/inst/**/*',
+            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js',
+            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js.map',
+        ])
             .pipe(print())
-            .pipe(dest('inst/'));
+            .pipe(dest('inst/', {overwrite: true}));
     }
     return log('Unable to find dash-core-components inst directory.');
 }
@@ -57,7 +61,7 @@ function copyHtmlInstDirectory() {
     ) {
         return src('gulp-assets/dash-html-components/inst/**/*')
             .pipe(print())
-            .pipe(dest('inst/'));
+            .pipe(dest('inst/', {overwrite: true}));
     }
     return log('Unable to find dash-html-components inst directory.');
 }
@@ -69,7 +73,7 @@ function copyTableInstDirectory() {
             '!gulp-assets/dash-table/inst/deps/index.html',
         ])
             .pipe(print())
-            .pipe(dest('inst/'));
+            .pipe(dest('inst/', {overwrite: true}));
     }
     return log('Unable to find dash-table `inst` directory.');
 }
@@ -84,7 +88,7 @@ function copyCoreManDirectory() {
         return src([
             'gulp-assets/dash-core-components/man/**/*',
             '!gulp-assets/dash-core-components/man/*-package.Rd',
-        ]).pipe(dest('man/'));
+        ]).pipe(dest('man/', {overwrite: true}));
     }
     return log('Unable to find dash-core-components `man` directory.');
 }
@@ -98,7 +102,7 @@ function copyHtmlManDirectory() {
         return src([
             'gulp-assets/dash-html-components/man/**/*',
             '!gulp-assets/dash-html-components/man/*-package.Rd',
-        ]).pipe(dest('man/'));
+        ]).pipe(dest('man/', {overwrite: true}));
     }
     return log('Unable to find dash-html-components `man` directory.');
 }
@@ -108,7 +112,7 @@ function copyTableManDirectory() {
         return src([
             'gulp-assets/dash-table/man/**/*',
             '!gulp-assets/dash-table/man/*-package.Rd',
-        ]).pipe(dest('man/'));
+        ]).pipe(dest('man/', {overwrite: true}));
     }
     return log('Unable to find dash-table `man` directory.');
 }
@@ -125,7 +129,7 @@ function copyCoreRDirectory() {
             '!gulp-assets/dash-core-components/R/internal.R',
         ])
             .pipe(print())
-            .pipe(dest('R/'));
+            .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-core-components `R` directory.');
 }
@@ -141,7 +145,7 @@ function copyHtmlRDirectory() {
             '!gulp-assets/dash-html-components/R/internal.R',
         ])
             .pipe(print())
-            .pipe(dest('R/'));
+            .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-html-components `R` directory.');
 }
@@ -153,7 +157,7 @@ function copyTableRDirectory() {
             '!gulp-assets/dash-table/R/internal.R',
         ])
             .pipe(print())
-            .pipe(dest('R/'));
+            .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-core-components `R` directory.');
 }
