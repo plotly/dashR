@@ -307,3 +307,16 @@ ALLSMALLER <- as.symbol("ALLSMALLER")
 #' @rdname selectors
 #' @export
 MATCH <- as.symbol("MATCH")
+
+
+# Dash 2 Helper Functions
+
+#' @export
+add_meta <- function(app, meta) {
+  assert_dash(app)
+  if (!is.list(meta[[1]])) {
+    meta <- list(meta)
+  }
+  app$.__enclos_env__$private$meta_tags <- c(app$.__enclos_env__$private$meta_tags, meta)
+  invisible(app)
+}
