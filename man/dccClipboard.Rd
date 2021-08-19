@@ -10,14 +10,16 @@ The Clipboard component copies text to the clipboard
 }
 
 \usage{
-dccClipboard(id=NULL, className=NULL, loading_state=NULL, n_clicks=NULL,
-style=NULL, target_id=NULL, text=NULL, title=NULL)
+dccClipboard(id=NULL, className=NULL, content=NULL, loading_state=NULL,
+n_clicks=NULL, style=NULL, target_id=NULL, title=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID used to identify this component.}
 
 \item{className}{Character. The class  name of the icon element}
+
+\item{content}{Character. The text to  be copied to the clipboard if the `target_id` is None.}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
@@ -32,8 +34,6 @@ those elements have the following types:
 \item{target_id}{Character | named list. The id of target component containing text to copy to the clipboard.
 The inner text of the `children` prop will be copied to the clipboard.  If none, then the text from the
  `value` prop will be copied.}
-
-\item{text}{Character. The text to  be copied to the clipboard if the `target_id` is None.}
 
 \item{title}{Character. The text shown as a tooltip when hovering over the copy icon.}
 }
