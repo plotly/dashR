@@ -19,7 +19,8 @@ Imports:
   mime,
   crayon,
   brotli,
-  glue
+  glue,
+  magrittr
 Suggests:
   testthat
 License: MIT + file LICENSE
