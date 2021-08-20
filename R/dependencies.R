@@ -309,7 +309,90 @@ ALLSMALLER <- as.symbol("ALLSMALLER")
 MATCH <- as.symbol("MATCH")
 
 
-# Dash 2 Helper Functions
+# Dash 2 Syntax Functions
+
+#' Create a Dash application
+#'
+#' This is a convenience function that returns a [`dash::Dash`] R6 object.
+#' For advanced usage, you can use the object as an R6 object directly instead
+#' of the functions provided by the `{dash2}` package.
+#'
+#' @param title _(character)_ The browser window title.
+#' @param update_title _(character)_ The browser window title while a callback
+#' is being processed. Set to `NULL` or `”"` if you don't want Dash to
+#' automatically update the window title.
+#' @param assets_folder _(character)_ Path (relative to the current working
+#' directory) containing extra files to be served by the browser. All files
+#' with ".js" or ".css" extensions will automatically be included on the page,
+#' unless excluded with `assets_ignore`. Any other files, such as images, will
+#' only be served if explicitly requested.
+#' @param assets_url_path _(character)_ URL path for serving assets. For
+#' example, a value of "www" means that any request path that begins with
+#' "/www" will be mapped to the `assets_folder`. If your assets are hosted
+#' online, you can provide a CDN URL, such as "http://your-assets-website".
+#' @param assets_ignore _(character)_ Regular expression for ".js" and ".css"
+#' files that should not be automatically included. Ignored files will still
+#' be served if explicitly requested. Note that you cannot use this to
+#' prevent access to sensitive files since ignored files are accessible
+#' by users.
+#' @param eager_loading _(logical)_ Whether asynchronous resources are
+#' prefetched (`TRUE`) or loaded on-demand (`FALSE`).
+#' @param serve_locally _(logical)_ Whether to serve HTML dependencies locally
+#' or remotely (via URL).
+#' @param pathname_url_base _(character)_ Local URL prefix to use app-wide.
+#' @param pathname_routes_prefix _(character)_ Prefix applied to the backend
+#' routes. Defaults to `pathname_url_base`.
+#' @param pathname_requests_prefix _(character)_ Prefix applied to request
+#' endpoints made by Dash's front-end. Defaults to `pathname_url_base`.
+#' @param compress _(logical)_ Whether to try to compress files and data. If
+#' `TRUE`, then `brotli` compression is attempted first, then `gzip`, then the
+#' `deflate` algorithm, before falling back to identity.
+#' @param suppress_callback_exceptions _(logical)_ Whether to relay warnings
+#' about possible layout mis-specifications when registering a callback.
+#' @param show_undo_redo _(logical)_ If `TRUE`, the app will have undo and redo
+#' buttons for stepping through the history of the app state.
+#' @seealso [`run_app()`]
+#' @export
+dash_app <- function(title = NULL,
+                     update_title = "Updating...",
+                     assets_folder = "assets",
+                     assets_url_path = "/assets",
+                     assets_ignore = NULL,
+                     eager_loading = FALSE,
+                     serve_locally = TRUE,
+                     pathname_url_base = "/",
+                     pathname_routes_prefix = NULL,
+                     pathname_requests_prefix = NULL,
+                     compress = TRUE,
+                     suppress_callback_exceptions = FALSE,
+                     show_undo_redo = FALSE) {
+
+  if (is.null(assets_ignore)) {
+    assets_ignore <- ""
+  }
+
+  app <- dash::Dash$new(
+    assets_folder = assets_folder,
+    assets_url_path = assets_url_path,
+    assets_ignore = assets_ignore,
+    eager_loading = eager_loading,
+    serve_locally = serve_locally,
+    url_base_pathname = pathname_url_base,
+    routes_pathname_prefix = pathname_routes_prefix,
+    requests_pathname_prefix = pathname_requests_prefix,
+    compress = compress,
+    suppress_callback_exceptions = suppress_callback_exceptions,
+    show_undo_redo = show_undo_redo,
+    update_title = update_title
+  )
+
+  if (!is.null(title)) {
+    app$title(title)
+  }
+
+  invisible(app)
+}
+
 
 #' Add `<meta>` tags to a Dash app
 #'
