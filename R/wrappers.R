@@ -1,4 +1,4 @@
-# Dash 2 Syntax Functions (adapted from https://github.com/daattali/dash2)
+# Dash 1.0 Layout Wrapper Functions (adapted from https://github.com/daattali/dash2)
 
 #' Create a Dash application
 #'
