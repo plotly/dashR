@@ -1537,7 +1537,7 @@ validate_keys <- function(string, is_template) {
   }
 }
 
-# Dash2 Helper Functions
+# Dash Layout Helper Functions
 
 #' Is the given object a Dash app?
 #' @param x Any object.

@@ -4,11 +4,11 @@
 #'
 #' This is a convenience function that returns a [`dash::Dash`] R6 object.
 #' For advanced usage, you can use the object as an R6 object directly instead
-#' of the functions provided by the `{dash2}` package.
+#' of the functions provided by the `{dash}` package.
 #'
 #' @param title _(character)_ The browser window title.
 #' @param update_title _(character)_ The browser window title while a callback
-#' is being processed. Set to `NULL` or `”"` if you don't want Dash to
+#' is being processed. Set to `NULL` or `""` if you don't want Dash to
 #' automatically update the window title.
 #' @param assets_folder _(character)_ Path (relative to the current working
 #' directory) containing extra files to be served by the browser. All files
@@ -230,7 +230,7 @@ set_layout <- function(app, ...) {
 
   tags <- list(...)
   if (length(tags) > 0 && !is.null(names(tags))) {
-    stop("dash2: layout cannot have any named parameters")
+    stop("Dash: layout cannot have any named parameters")
   }
   if (length(tags) == 1) {
     if (is.function(tags[[1]])) {
