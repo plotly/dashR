@@ -1,15 +1,13 @@
 version: 2
 
 jobs:
-
-
   "test": &test-template
     working_directory: ~/dashr
     docker:
       - image: plotly/dashr:ci
         auth:
           username: dashautomation
-          password: $DASH_PAT_DOCKERHUB    
+          password: $DASH_PAT_DOCKERHUB
         environment:
           PERCY_PARALLEL_TOTAL: '-1'
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'True'
@@ -33,18 +31,22 @@ jobs:
       - run:
           name: 🚧 install R dependencies
           command: |
-              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, force=TRUE)'
+              sudo Rscript -e 'commit_hash <- readChar("commit.txt", file.info("commit.txt")$size); message("Preparing to install plotly/dashR ", commit_hash, " ..."); install.packages("remotes"); remotes::install_github("plotly/dashR", upgrade=TRUE, ref=commit_hash, dependencies=TRUE, force=TRUE)'
 
       - run:
           name: ⚙️  Integration tests
           command: |
+            curl --proto '=https' --tlsv1.2 -sSf -o rust-init.sh https://sh.rustup.rs
+            chmod ugo+x rust-init.sh
+            ./rust-init.sh -y
             python -m venv venv
             . venv/bin/activate
             git clone --depth 1 https://github.com/plotly/dash.git dash-main
+            export PATH=$PATH:/home/circleci/.local/bin/:/home/circleci/.cargo/bin
+            export RUSTC_BOOTSTRAP=1
             cd dash-main && pip install -e .[dev,testing] --progress-bar off && cd ..
             cd dash-main/\@plotly/dash-generator-test-component-nested && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
             cd dash-main/\@plotly/dash-generator-test-component-standard && npm ci && npm run build && sudo R CMD INSTALL . && cd ../../..
-            export PATH=$PATH:/home/circleci/.local/bin/
             pytest --nopercyfinalize --junitxml=test-reports/dashr.xml tests/integration/
       - store_artifacts:
           path: test-reports

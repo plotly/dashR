@@ -2,9 +2,12 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.0] - 2021-03-04
+## [1.0.0] - UNRELEASED
+### Added
+- Dash wrapper functions are included, which simplify the layout syntax for writing Dash apps. This includes the ability to pipe in the `app` object to layout and meta functions, as well as tags which simplify `html` component arguments and children. [#265](https://github.com/plotly/dashR/pull/265)
+
 ### Changed
-- Unify the core Dash packages (dash, dashCoreComponents, dashHtmlComponents, dashTable) for streamlined maintenance and accessibility. The namespaces of these packages will be combined under the `dash` namespace, and all artifacts from the ancillary dash packages will be included with Dash for R. [#243](https://github.com/plotly/dashr/pull/243)
+- Unified the core Dash packages (dash, dashCoreComponents, dashHtmlComponents, dashTable) for streamlined maintenance and accessibility. The namespaces of these packages will be combined under the `dash` namespace, and all artifacts from the ancillary dash packages will be included with Dash for R. [#243](https://github.com/plotly/dashr/pull/243)
 
 ### Fixed
 - Minor fix for favicon issue continued from [#240](https://github.com/plotly/dashr/pull/240) (for more details, see [#243](https://github.com/plotly/dashR/pull/243#issuecomment-842813526)).

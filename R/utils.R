@@ -423,12 +423,12 @@ assert_valid_callbacks <- function(output, params, func) {
   valid_wildcard_inputs <- sapply(inputs, function(x) {
     assertValidWildcards(x)
   })
-  
-  
+
+
   valid_wildcard_state <- sapply(state, function(x) {
     assertValidWildcards(x)
   })
-  
+
   if(any(sapply(output, is.list))) {
     valid_wildcard_output <- sapply(output, function(x) {
       assertValidWildcards(x)
@@ -439,7 +439,7 @@ assert_valid_callbacks <- function(output, params, func) {
     })
   }
 
-  
+
   # Check that outputs are not inputs
   # https://github.com/plotly/dash/issues/323
 
@@ -675,7 +675,7 @@ assertValidExternals <- function(scripts, stylesheets) {
                              "rev")
     script_attributes <- character()
     stylesheet_attributes <- character()
-    
+
     for (item in scripts) {
       if (is.list(item)) {
         if (!"src" %in% names(item) || !(any(grepl("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$",
@@ -713,10 +713,10 @@ assertValidExternals <- function(scripts, stylesheets) {
         stylesheet_attributes <- c(stylesheet_attributes, character(0))
       }
     }
-    
+
     invalid_script_attributes <- setdiff(script_attributes, allowed_js_attribs)
     invalid_stylesheet_attributes <- setdiff(stylesheet_attributes, allowed_css_attribs)
-    
+
     if (length(invalid_script_attributes) > 0 || length(invalid_stylesheet_attributes) > 0) {
       stop(sprintf("The following script or stylesheet attributes are invalid: %s.",
            paste0(c(invalid_script_attributes, invalid_stylesheet_attributes), collapse=", ")), call. = FALSE)
@@ -1031,7 +1031,7 @@ removeHandlers <- function(fnList) {
 
 setCallbackContext <- function(callback_elements) {
   # Set state elements for this callback
-  
+
   if (length(callback_elements$state[[1]]) == 0) {
     states <- sapply(callback_elements$state, function(x) {
       setNames(list(x$value), paste(x$id, x$property, sep="."))
@@ -1043,7 +1043,7 @@ setCallbackContext <- function(callback_elements) {
   } else {
     states <- sapply(callback_elements$state, function(x) {
       states_vector <- unlist(x)
-      setNames(list(states_vector[grepl("value|value.", names(states_vector))]), 
+      setNames(list(states_vector[grepl("value|value.", names(states_vector))]),
                paste(as.character(jsonlite::toJSON(x[[1]])), x$property, sep="."))
     })
   }
@@ -1055,7 +1055,7 @@ setCallbackContext <- function(callback_elements) {
                         input_id <- splitIdProp(x)[1]
                         prop <- splitIdProp(x)[2]
 
-                        # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered. 
+                        # The following conditionals check whether the callback is a pattern-matching callback and if it has been triggered.
                         if (startsWith(input_id, "{")){
                           id_match <- vapply(callback_elements$inputs, function(x) {
                             x <- unlist(x)
@@ -1087,7 +1087,7 @@ setCallbackContext <- function(callback_elements) {
                         } else {
                           value <- sapply(callback_elements$inputs[id_match & prop_match], `[[`, "value")
                         }
-                        
+
                         return(list(`prop_id` = x, `value` = value))
                       }
                     )
@@ -1535,4 +1535,39 @@ validate_keys <- function(string, is_template) {
   } else {
     return(string)
   }
+}
+
+# Dash Layout Helper Functions
+
+#' Is the given object a Dash app?
+#' @param x Any object.
+is_dash_app <- function(x) {
+  inherits(x, "Dash")
+}
+
+assert_dash <- function(x) {
+  if (!is_dash_app(x)) {
+    stop("You must provide a Dash app object (created with `dash::Dash$new()` or `dash::dash_app()`)", call. = FALSE)
+  }
+  invisible(TRUE)
+}
+
+componentify <- function(x) {
+  if (asNamespace("dash")$is.component(x)) {
+    x
+  } else if (inherits(x, "shiny.tag") || inherits(x, "shiny.tag.list")) {
+    stop("dash: layout cannot include Shiny tags (you might have loaded the {shiny} package after loading {dash})", call. = FALSE)
+  } else if (is.list(x)) {
+    dash::htmlDiv(children = lapply(x, componentify))
+  } else if (length(x) == 1) {
+    dash::htmlSpan(children = x)
+  } else if (is.null(x)) {
+    return(NULL)
+  } else {
+    stop("dash: layout must be a dash component or list of dash components", call. = FALSE)
+  }
+}
+
+remove_empty <- function(x) {
+  Filter(Negate(is.null), x)
 }
