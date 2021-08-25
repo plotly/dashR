@@ -29,7 +29,7 @@ app$callback(
 app$run_server()
 '''
 
-dash2_app = '''
+dash_simplified_app = '''
 library(dash)
 
 app <- dash_app("My app")
@@ -110,11 +110,11 @@ def test_rstr001r_undo_redo(dashr):
     )
 
 
-def test_rstr002r_render_dash2_layout(dashr):
-    dashr.start_server(dash2_app)
+def test_rstr002r_render_dash_simplified_layout(dashr):
+    dashr.start_server(dash_simplified_app)
     dashr.wait_for_element_by_id("test-button", timeout=2)
     dashr.find_element("#test-button").click()
     dashr.wait_for_text_to_equal("#test-div", "Hello Dash2")
-    dashr.percy_snapshot(name="dash2-layout")
+    dashr.percy_snapshot(name="dash-simplified-layout")
 
     assert dashr.find_element("meta[name='description']").get_attribute("content") == "My App"

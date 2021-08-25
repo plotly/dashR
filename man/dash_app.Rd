@@ -71,7 +71,7 @@ buttons for stepping through the history of the app state.}
 \description{
 This is a convenience function that returns a \code{\link{Dash}} R6 object.
 For advanced usage, you can use the object as an R6 object directly instead
-of the functions provided by the \code{{dash2}} package.
+of the functions provided by the \code{{dash}} package.
 }
 \seealso{
 \code{\link[=run_app]{run_app()}}
