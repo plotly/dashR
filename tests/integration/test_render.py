@@ -116,3 +116,5 @@ def test_rstr002r_render_dash2_layout(dashr):
     dashr.find_element("#test-button").click()
     dashr.wait_for_text_to_equal("#test-div", "Hello Dash2")
     dashr.percy_snapshot(name="dash2-layout")
+
+    assert dashr.find_element("meta[name='description']").get_attribute("content") == "My App"
