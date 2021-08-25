@@ -1561,6 +1561,8 @@ componentify <- function(x) {
     dash::htmlDiv(children = lapply(x, componentify))
   } else if (length(x) == 1) {
     dash::htmlSpan(children = x)
+  } else if (is.null(x)) {
+    return(NULL)
   } else {
     stop("dash2: layout must be a dash component or list of dash components", call. = FALSE)
   }

@@ -21,8 +21,10 @@ Set the layout of a Dash app
 app <- dash_app()
 
 app \%>\% set_layout("hello", "Dash")
-app \%>\% set_layout(htmlDiv("hello"), "Dash")
-app \%>\% set_layout(list(htmlDiv("hello"), "Dash"))
-app \%>\% set_layout(htmlDiv(children = list(htmlDiv("hello"), "Dash")))
+app \%>\% set_layout(div("hello"), "Dash")
+app \%>\% set_layout(list(div("hello"), "Dash"))
+app \%>\% set_layout("Conditional UI using an if statement: ",
+                   if (TRUE) "rendered",
+                   if (FALSE) "not rendered")
 app \%>\% set_layout(function() { htmlDiv(children = list(htmlDiv("hello"), "Dash")) })
 }
