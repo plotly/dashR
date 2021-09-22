@@ -107,6 +107,7 @@ Dash <- R6::R6Class(
       self$config$external_stylesheets <- external_stylesheets
       self$config$show_undo_redo <- show_undo_redo
       self$config$update_title <- update_title
+      self$config$suppress_callback_exceptions <- suppress_callback_exceptions
 
       # ensure attributes are valid, if using a list within a list, elements are all named
       assertValidExternals(scripts = external_scripts, stylesheets = external_stylesheets)
