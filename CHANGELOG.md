@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Minor fix for favicon issue continued from [#240](https://github.com/plotly/dashr/pull/240) (for more details, see [#243](https://github.com/plotly/dashR/pull/243#issuecomment-842813526)).
+- Minor fix to enable `suppress_callback_exceptions` configuration option when creating a Dash app. [#268](https://github.com/plotly/dashr/pull/268)
+
 
 ## [0.9.1] - 2020-11-16
 ### Fixed
