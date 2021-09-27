@@ -223,7 +223,7 @@ add_script <- function(app, script) {
 #' app %>% set_layout("Conditional UI using an if statement: ",
 #'                    if (TRUE) "rendered",
 #'                    if (FALSE) "not rendered")
-#' app %>% set_layout(function() { htmlDiv(children = list(htmlDiv("hello"), "Dash")) })
+#' app %>% set_layout(function() { div("Current time: ", Sys.time()) })
 #' @export
 set_layout <- function(app, ...) {
   assert_dash(app)
@@ -265,4 +265,11 @@ run_app <- function(app,
     utils::browseURL(url)
   }
   app$run_server(host = host, port = port)
+}
+
+#' Run a Dash app when explicitly printed to the console
+#' @export
+#' @keywords internal
+print.Dash <- function(x, ...) {
+  run_app(x)
 }
