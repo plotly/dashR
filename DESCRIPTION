@@ -20,7 +20,10 @@ Imports:
   crayon,
   brotli,
   glue,
-  magrittr
+  magrittr,
+  methods,
+  rlang,
+  utils
 Suggests:
   testthat
 License: MIT + file LICENSE
