@@ -1,3 +1,5 @@
+context("tags")
+
 test_that("Tag basics", {
   expect_identical(div("a", "b"), dash::htmlDiv(list("a", "b")))
   expect_identical(div("a", "b", 5), dash::htmlDiv(list("a", "b", 5)))
