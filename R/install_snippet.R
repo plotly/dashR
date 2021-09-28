@@ -42,7 +42,7 @@ install_snippet <- function() {
 
     # Try to get template, if template is not found skip it
     #
-    pckgSnippetsFilesPath <- system.file("rstudio", pckgSnippetsFiles[i], package = "dash2")
+    pckgSnippetsFilesPath <- system.file("rstudio", pckgSnippetsFiles[i], package = "dash")
     if (pckgSnippetsFilesPath == "") {
       next()
     }
