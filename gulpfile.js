@@ -19,14 +19,19 @@ const retrieveAssets = async () => {
     shell.cd(assetsPath);
     shell.exec('git clone --depth=1 https://github.com/plotly/dash');
     shell.cd(path.resolve(assetsPath, 'dash'));
-    shell.exec('npm i && npm run build')
-    shell.exec('pip install -r requires-dev.txt && pip install black && pip install -e .')
-    shell.mv(path.resolve(assetsPath, 'dash', 'components', '*'), path.resolve(assetsPath))
-    shell.cd(assetsPath)
+    shell.exec('npm i && npm run build');
+    shell.exec(
+        'pip install -r requires-dev.txt && pip install black && pip install -e .'
+    );
+    shell.mv(
+        path.resolve(assetsPath, 'dash', 'components', '*'),
+        path.resolve(assetsPath)
+    );
+    shell.cd(assetsPath);
 
     for (const element of packages) {
-        shell.cd(path.resolve(assetsPath, element))
-        shell.exec('npm run build')
+        shell.cd(path.resolve(assetsPath, element));
+        shell.exec('npm run build');
     }
 };
 
@@ -34,7 +39,9 @@ const retrieveAssets = async () => {
 const cleanAssets = async () => {
     const assetsPath = path.resolve(__dirname, 'gulp-assets');
     shell.cd(assetsPath);
-    shell.exec('rm -rfv dash-core-components dash-html-components dash-table dash');
+    shell.exec(
+        'rm -rfv dash-core-components dash-html-components dash-table dash'
+    );
 };
 
 // Update the inst directories for each of the component packages.

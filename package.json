@@ -8,11 +8,12 @@
     "test": "tests"
   },
   "scripts": {
-    "clean": "gulp clean",
-    "format": "npx prettier --config .prettierrc --write gulpfile.js && eslint *.js",
-    "get-assets": "gulp clone",
-    "unify": "gulp unify",
-    "update": "gulp update"
+    "private::update.clean": "gulp clean",
+    "private::update.get-assets": "gulp clone",
+    "private::update.unify": "gulp unify",
+    "private::update.update-internals": "gulp update",
+    "update": "run-s private::update.*",
+    "format": "npx prettier --config .prettierrc --write gulpfile.js && eslint *.js"
   },
   "repository": {
     "type": "git",
