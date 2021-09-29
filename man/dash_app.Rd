@@ -24,7 +24,7 @@ dash_app(
 \item{title}{\emph{(character)} The browser window title.}
 
 \item{update_title}{\emph{(character)} The browser window title while a callback
-is being processed. Set to \code{NULL} or \verb{”"} if you don't want Dash to
+is being processed. Set to \code{NULL} or \code{""} if you don't want Dash to
 automatically update the window title.}
 
 \item{assets_folder}{\emph{(character)} Path (relative to the current working

@@ -1558,6 +1558,7 @@ componentify <- function(x) {
   } else if (inherits(x, "shiny.tag") || inherits(x, "shiny.tag.list")) {
     stop("dash: layout cannot include Shiny tags (you might have loaded the {shiny} package after loading {dash})", call. = FALSE)
   } else if (is.list(x)) {
+    x <- remove_empty(x)
     dash::htmlDiv(children = lapply(x, componentify))
   } else if (length(x) == 1) {
     dash::htmlSpan(children = x)

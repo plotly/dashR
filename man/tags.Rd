@@ -14,41 +14,44 @@
 \alias{strong}
 \alias{br}
 \alias{button}
+\alias{a}
+\alias{img}
 \alias{dash_tag}
 \title{Create HTML tags}
 \usage{
 html
 
-h1(..., n_clicks = NULL)
+h1(...)
 
-h2(..., n_clicks = NULL)
+h2(...)
 
-h3(..., n_clicks = NULL)
+h3(...)
 
-h4(..., n_clicks = NULL)
+h4(...)
 
-div(..., n_clicks = NULL)
+div(...)
 
-span(..., n_clicks = NULL)
+span(...)
 
-p(..., n_clicks = NULL)
+p(...)
 
-strong(..., n_clicks = NULL)
+strong(...)
 
-br(..., n_clicks = NULL)
+br(...)
 
-button(..., n_clicks = NULL)
+button(...)
 
-dash_tag(tag_name, content = list(), n_clicks = NULL)
+a(...)
+
+img(...)
+
+dash_tag(tag_name, content = list())
 }
 \arguments{
 \item{...}{Any named arguments become tag attributes, and any unnamed
 arguments become children. A named argument with a value of \code{NULL} will
 be removed, and a named argument with a value of \code{NA} will be rendered
 as a boolean argument. See 'Special attributes' below for more information.}
-
-\item{n_clicks}{(Numeric) An integer that represents the number of times
-that this element has been clicked on. For advanced users only.}
 
 \item{tag_name}{The name of the HTML tag.}
 
@@ -68,6 +71,10 @@ There are a few HTML attributes that are treated in a special way:
 \item The \code{style} attribute is not provided as a string. Instead, it's provided
 as a named list, where the name and value of each element correspond to the
 CSS property and value. Each CSS property should be written in camelCase.
+\item A special property \code{n_clicks} is automatically added to every HTML tag.
+This property represents the number of times that this element has been
+clicked on. If not explicitly initialized to a certain integer, its default
+value is \code{NULL} initially.
 }
 }
 

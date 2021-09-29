@@ -9,8 +9,6 @@
 #' arguments become children. A named argument with a value of `NULL` will
 #' be removed, and a named argument with a value of `NA` will be rendered
 #' as a boolean argument. See 'Special attributes' below for more information.
-#' @param n_clicks (Numeric) An integer that represents the number of times
-#' that this element has been clicked on. For advanced users only.
 #' @param tag_name The name of the HTML tag.
 #' @param content List of attributes and children.
 #'
@@ -21,6 +19,10 @@
 #' - The `style` attribute is not provided as a string. Instead, it's provided
 #' as a named list, where the name and value of each element correspond to the
 #' CSS property and value. Each CSS property should be written in camelCase.
+#' - A special property `n_clicks` is automatically added to every HTML tag.
+#' This property represents the number of times that this element has been
+#' clicked on. If not explicitly initialized to a certain integer, its default
+#' value is `NULL` initially.
 #'
 #' @examples
 #' app <- dash_app()
@@ -50,9 +52,9 @@ NULL
 #' @export
 html <- lapply(all_tags, function(tag_name) {
   rlang::new_function(
-    args = alist(... = , n_clicks = NULL),
+    args = alist(... = ),
     body = rlang::expr({
-      dash_tag(!!tag_name, list(...), n_clicks = n_clicks)
+      dash_tag(!!tag_name, list(...))
     }),
     env = asNamespace("dash")
   )
@@ -100,11 +102,26 @@ button <- html$button
 
 #' @rdname tags
 #' @export
-dash_tag <- function(tag_name, content = list(), n_clicks = NULL) {
+a <- html$a
+
+#' @rdname tags
+#' @export
+img <- html$img
+
+#' @rdname tags
+#' @export
+dash_tag <- function(tag_name, content = list()) {
   content_names <- rlang::names2(content)
   content_named_idx <- nzchar(content_names)
   attributes <- remove_empty(content[content_named_idx])
   children <- unname(content[!content_named_idx])
+
+  # Try to match the exact level of nesting of children as original {dash}
+  if (length(children) == 0) {
+    children <- NULL
+  } else if (length(children) == 1) {
+    children <- children[[1]]
+  }
 
   # Support boolean attributes
   attributes[is.na(attributes)] <- names(attributes[is.na(attributes)])
@@ -112,7 +129,6 @@ dash_tag <- function(tag_name, content = list(), n_clicks = NULL) {
 
   tag_params <- attributes
   tag_params[["children"]] <- children
-  tag_params[["n_clicks"]] <- n_clicks
 
   dash_html_fx <- paste0("html", toupper(substring(tag_name, 1, 1)), substring(tag_name, 2))
   if (tag_name %in% c("map", "object")) {
