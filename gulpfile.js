@@ -35,15 +35,6 @@ const retrieveAssets = async () => {
     }
 };
 
-// Task to clean build artifacts from gulp-assets
-const cleanAssets = async () => {
-    const assetsPath = path.resolve(__dirname, 'gulp-assets');
-    shell.cd(assetsPath);
-    shell.exec(
-        'rm -rfv dash-core-components dash-html-components dash-table dash'
-    );
-};
-
 // Update the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
     if (
@@ -52,12 +43,12 @@ function copyCoreInstDirectory() {
         )
     ) {
         return src([
-            'gulp-assets/dash-core-components/inst/**/*',
+            'gulp-assets/dash-core-components/inst/deps/**/*',
             '!gulp-assets/dash-core-components/inst/deps/async-highlight.js',
             '!gulp-assets/dash-core-components/inst/deps/async-highlight.js.map',
         ])
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/dcc', {overwrite: true}));
     }
     return log('Unable to find dash-core-components inst directory.');
 }
@@ -68,9 +59,9 @@ function copyHtmlInstDirectory() {
             path.resolve(__dirname, 'gulp-assets/dash-html-components/inst')
         )
     ) {
-        return src('gulp-assets/dash-html-components/inst/**/*')
+        return src('gulp-assets/dash-html-components/inst/deps/**/*')
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/html', {overwrite: true}));
     }
     return log('Unable to find dash-html-components inst directory.');
 }
@@ -78,11 +69,11 @@ function copyHtmlInstDirectory() {
 function copyTableInstDirectory() {
     if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-table/inst'))) {
         return src([
-            'gulp-assets/dash-table/inst/**/*',
+            'gulp-assets/dash-table/inst/deps/**/*',
             '!gulp-assets/dash-table/inst/deps/index.html',
         ])
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/dash_table', {overwrite: true}));
     }
     return log('Unable to find dash-table `inst` directory.');
 }
@@ -269,6 +260,15 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
         .pipe(dest('R/'));
 }
+
+// Task to clean build artifacts from gulp-assets
+const cleanAssets = async () => {
+    const assetsPath = path.resolve(__dirname, 'gulp-assets');
+    shell.cd(assetsPath);
+    shell.exec(
+        'rm -rfv dash-core-components dash-html-components dash-table dash'
+    );
+};
 
 exports.unify = series(
     parallel(
