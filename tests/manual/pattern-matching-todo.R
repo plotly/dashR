@@ -1,7 +1,4 @@
-# {dash2} rewrite of the TO-DO app from https://dashr.plotly.com/pattern-matching-callbacks
-
-library(dash2)
-library(dashCoreComponents)
+library(dash)
 
 app <- dash_app()
 

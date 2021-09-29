@@ -1,5 +1,4 @@
-library(dash2)
-library(dashCoreComponents)
+library(dash)
 
 df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = FALSE)
 

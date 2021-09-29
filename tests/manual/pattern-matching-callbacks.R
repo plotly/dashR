@@ -1,7 +1,4 @@
-# {dash2} rewrite of the app from https://dashr.plotly.com/pattern-matching-callbacks
-
-library(dash2)
-library(dashCoreComponents)
+library(dash)
 
 dash_app() %>%
   set_layout(
