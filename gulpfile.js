@@ -257,8 +257,10 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
         .pipe(replace(/name = "dcc\//g, 'name = "'))
-        .pipe(replace(/name = "html\//g, 'name = "'))
-        .pipe(replace(/name = "dash_table\//g, 'name = "'))
+        .pipe(replace(/`dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
+        .pipe(replace(/`dcc\/dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
+        .pipe(replace(/`html\/dash_html_components.+name\s=\s.+",$/gm, '`dash_html_components` = structure(list(name = "dash_html_components",'))
+        .pipe(replace(/`dash_table.+name\s=\s.+",$/gm, '`dash_table` = structure(list(name = "dash_table",'))
         .pipe(dest('R/'));
 }
 
@@ -292,5 +294,7 @@ exports.update = series(
 );
 
 exports.clone = series(retrieveAssets);
+
+exports.test = series(replacePackageDependency)
 
 exports.clean = series(cleanAssets);

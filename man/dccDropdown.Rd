@@ -40,10 +40,10 @@ those elements have the following types:
 
 \item{optionHeight}{Numeric. height of each option. Can be increased when label lengths would wrap around}
 
-\item{options}{List of lists containing elements 'label', 'value', 'disabled', 'title'.
+\item{options}{List of character | numeric | logicals | named list | list of lists containing elements 'label', 'value', 'disabled', 'title'.
 those elements have the following types:
-  - label (character | numeric; required): the dropdown's label
-  - value (character | numeric; required): the value of the dropdown. this value
+  - label (character | numeric; required): the option's label
+  - value (character | numeric | logical; required): the value of the option. this value
 corresponds to the items specified in the
 `value` property.
   - disabled (logical; optional): if true, this option is disabled and cannot be selected.
@@ -76,7 +76,7 @@ session: window.sessionStorage, data is cleared once the browser quit.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{value}{Character | numeric | list of character | numerics. The value of the input. If `multi` is false (the default)
+\item{value}{Character | numeric | logical | list of character | numeric | logicals. The value of the input. If `multi` is false (the default)
 then value is just a string that corresponds to the values
 provided in the `options` property. If `multi` is true, then
 multiple values can be selected at once, and `value` is an

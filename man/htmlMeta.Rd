@@ -32,17 +32,17 @@ components in an app.}
 
 \item{className}{Character. Often used with CSS to style elements with common properties.}
 
-\item{content}{Character. A value associated with http-equiv or name depending on the context.}
+\item{content}{Character. A value associated with http-equiv or        name depending on the context.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
 
 \item{httpEquiv}{Character. Defines a pragma directive.}
 
@@ -65,7 +65,7 @@ that this element has been clicked on.}
 at which n_clicks changed. This can be used to tell
 which button was changed most recently.}
 
-\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
+\item{name}{Character. Name of the element. For example used by the server to identify the        fields in form submits.}
 
 \item{role}{Character. The ARIA role attribute}
 
@@ -73,7 +73,7 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 

@@ -32,19 +32,19 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
 
 \item{data}{Character. Specifies the URL of the resource.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
 \item{form}{Character. Indicates the form that is the owner of the element.}
 
-\item{height}{Character | numeric. Specifies the height of elements listed here. For all other elements, use the CSS height property.        Note: In some instances, such as <div>, this is a legacy attribute, in which case the CSS height property should be used instead.}
+\item{height}{Character | numeric. Specifies the height of elements listed here. For all other elements,          use the CSS height property.                                      Note: In some instances, such as            <div>, this is a legacy attribute, in            which case the CSS height property should            be used instead.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
@@ -65,7 +65,7 @@ that this element has been clicked on.}
 at which n_clicks changed. This can be used to tell
 which button was changed most recently.}
 
-\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
+\item{name}{Character. Name of the element. For example used by the server to identify the        fields in form submits.}
 
 \item{role}{Character. The ARIA role attribute}
 
@@ -73,7 +73,7 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
@@ -81,7 +81,7 @@ which button was changed most recently.}
 
 \item{useMap}{Character. }
 
-\item{width}{Character | numeric. For the elements listed here, this establishes the element's width.        Note: For all other instances, such as <div>, this is a legacy attribute, in which case the CSS width property should be used instead.}
+\item{width}{Character | numeric. For the elements listed here, this establishes the element's width.                              Note: For all other instances, such as            <div>, this is a legacy attribute, in            which case the CSS width property should be            used instead.}
 
 
 \item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}

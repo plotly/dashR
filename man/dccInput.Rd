@@ -44,7 +44,7 @@ If it's false, it will sent the value back on every change.}
 disabled is an HTML boolean attribute - it is enabled by a boolean or
 'disabled'. Alternative capitalizations `DISABLED`}
 
-\item{inputMode}{A value equal to: "verbatim", "latin", "latin-name", "latin-prose", "full-width-latin", "kana", "katakana", "numeric", "tel", "email", "url". Provides a hint to the browser as to the type of data that might be
+\item{inputMode}{A value equal to: 'verbatim', 'latin', 'latin-name', 'latin-prose', 'full-width-latin', 'kana', 'katakana', 'numeric', 'tel', 'email', 'url'. Provides a hint to the browser as to the type of data that might be
 entered by the user while editing the element or its contents.}
 
 \item{list}{Character. Identifies a list of pre-defined options to suggest to the user.
@@ -124,7 +124,7 @@ are also acccepted.}
 
 \item{style}{Named list. The input's inline styles}
 
-\item{type}{A value equal to: "text", 'number', 'password', 'email', 'range', 'search', 'tel', 'url', 'hidden'. The type of control to render.}
+\item{type}{A value equal to: 'text', 'number', 'password', 'email', 'range', 'search', 'tel', 'url', 'hidden'. The type of control to render.}
 
 \item{value}{Character | numeric. The value of the input}
 }

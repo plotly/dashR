@@ -32,13 +32,13 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
@@ -52,7 +52,7 @@ those elements have the following types:
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
-\item{media}{Character. Specifies a hint of the media for which the linked resource was designed.}
+\item{media}{Character. Specifies a hint of the media for which the linked resource was        designed.}
 
 \item{n_clicks}{Numeric. An integer that represents the number of times
 that this element has been clicked on.}
@@ -73,7 +73,7 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
