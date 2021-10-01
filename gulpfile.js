@@ -43,9 +43,7 @@ function copyCoreInstDirectory() {
         )
     ) {
         return src([
-            'gulp-assets/dash-core-components/inst/deps/**/*',
-            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js',
-            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js.map',
+            'gulp-assets/dash-core-components/inst/deps/**/*'
         ])
             .pipe(print())
             .pipe(dest('inst/deps/dcc', {overwrite: true}));
@@ -258,6 +256,9 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
+        .pipe(replace(/name = "dcc\//g, 'name = "'))
+        .pipe(replace(/name = "html\//g, 'name = "'))
+        .pipe(replace(/name = "dash_table\//g, 'name = "'))
         .pipe(dest('R/'));
 }
 
