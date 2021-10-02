@@ -108,19 +108,19 @@ test_that("stylesheets can be added with or without attributes", {
   dcc_min_path <- dash:::getDependencyPath(dcc_min)
   dcc_min_modtime <- as.integer(file.mtime(dcc_min_path))
   dcc_min_filename <- basename(dash:::buildFingerprint(dcc_min$script, dcc_min$version, dcc_min_modtime))
-  
+
   dcc_shared_path <- dash:::getDependencyPath(dcc_shared)
   dcc_shared_modtime <- as.integer(file.mtime(dcc_shared_path))
   dcc_shared_filename <- basename(dash:::buildFingerprint(dcc_shared$script, dcc_shared$version, dcc_shared_modtime))
-  
+
   dhc_min_path <- dash:::getDependencyPath(dhc_min)
   dhc_min_modtime <- as.integer(file.mtime(dhc_min_path))
   dhc_min_filename <- basename(dash:::buildFingerprint(dhc_min$script, dhc_min$version, dhc_min_modtime))
-  
+
   dt_bundle_path <- dash:::getDependencyPath(dt_bundle)
   dt_bundle_modtime <- as.integer(file.mtime(dt_bundle_path))
   dt_bundle_filename <- basename(dash:::buildFingerprint(dt_bundle$script, dt_bundle$version, dt_bundle_modtime))
-  
+
   dcc_min_ref <- paste0("/",
                     "_dash-component-suites/",
                     dcc_min$name,
