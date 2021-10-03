@@ -100,10 +100,10 @@ test_that("stylesheets can be added with or without attributes", {
   dhc <- dash:::.dashHtmlComponents_js_metadata()
   dt <- dash:::.dashTable_js_metadata()
 
-  dcc_min <- dcc[which(sapply(dcc, "[[", "script") == "dash_core_components.min.js")][[1]]
-  dcc_shared <- dcc[which(sapply(dcc, "[[", "script") == "dash_core_components-shared.js")][[1]]
-  dhc_min <- dhc[which(sapply(dhc, "[[", "script") == "dash_html_components.min.js")][[1]]
-  dt_bundle <- dt[which(sapply(dt, "[[", "script") == "bundle.js")][[1]]
+  dcc_min <- dcc[which(sapply(dcc, "[[", "script") == "dcc/dash_core_components.js")][[1]]
+  dcc_shared <- dcc[which(sapply(dcc, "[[", "script") == "dcc/dash_core_components-shared.js")][[1]]
+  dhc_min <- dhc[which(sapply(dhc, "[[", "script") == "html/dash_html_components.min.js")][[1]]
+  dt_bundle <- dt[which(sapply(dt, "[[", "script") == "dash_table/bundle.js")][[1]]
 
   dcc_min_path <- dash:::getDependencyPath(dcc_min)
   dcc_min_modtime <- as.integer(file.mtime(dcc_min_path))
