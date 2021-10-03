@@ -31,13 +31,13 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
 
 \item{href}{Character. The URL of a linked resource.}
 
@@ -66,9 +66,9 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
 
-\item{target}{Character. Specifies where to open the linked document (in the case of an <a> element) or where to display the response received (in the case of a <form> element)}
+\item{target}{Character. Specifies where to open the linked document (in the case of an        <a> element) or where to display the response received        (in the case of a <form> element)}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 

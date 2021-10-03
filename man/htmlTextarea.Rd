@@ -31,7 +31,7 @@ components in an app.}
 
 \item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
 
-\item{autoComplete}{Character. Indicates whether controls in this form can by default have their values automatically completed by the browser.}
+\item{autoComplete}{Character. Indicates whether controls in this form can by default have their values        automatically completed by the browser.}
 
 \item{autoFocus}{A value equal to: 'autofocus', 'autofocus', 'autofocus' | logical. The element should be automatically focused after the page loaded.}
 
@@ -41,9 +41,9 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
 
 \item{disabled}{A value equal to: 'disabled', 'disabled' | logical. Indicates whether the user can interact with the element.}
 
@@ -51,9 +51,9 @@ components in an app.}
 
 \item{form}{Character. Indicates the form that is the owner of the element.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
 
-\item{inputMode}{Character. Provides a hint as to the type of data that might be entered by the user while editing the element or its contents. The attribute can be used with form controls (such as the value of textarea elements), or in elements in an editing host (e.g., using contenteditable attribute).}
+\item{inputMode}{Character. Provides a hint as to the type of data that might be entered by the user        while editing the element or its contents. The attribute can be used        with form controls (such as the value of        textarea elements), or in elements in an editing host        (e.g., using contenteditable attribute).}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
@@ -78,7 +78,7 @@ that this element has been clicked on.}
 at which n_clicks changed. This can be used to tell
 which button was changed most recently.}
 
-\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
+\item{name}{Character. Name of the element. For example used by the server to identify the        fields in form submits.}
 
 \item{placeholder}{Character. Provides a hint to the user of what can be entered in the field.}
 
@@ -94,7 +94,7 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 

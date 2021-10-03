@@ -248,7 +248,7 @@ Example:
     {"selector": ".dash-spreadsheet", "rule": 'font-family: "monospace"'}
 ]}
 
-\item{data}{List of named lists. The contents of the table.
+\item{data}{List of list with named elements and values of type character | numeric | logicals. The contents of the table.
 The keys of each item in data should match the column IDs.
 Each item can also have an 'id' key, whose value is its row ID. If there
 is a column with ID='id' this will display the row ID, otherwise it is
@@ -509,11 +509,14 @@ those elements have the following types:
 This prop is derived from the [d3.formatLocale](https://github.com/d3/d3-format#formatLocale) data structure specification.
 When left unspecified, each individual nested prop will default to a pre-determined value.}
 
-\item{markdown_options}{Lists containing elements 'link_target'.
+\item{markdown_options}{Lists containing elements 'link_target', 'html'.
 those elements have the following types:
-  - link_target (character | a value equal to: '_blank', '_parent', '_self', '_top'; required): (default: '_blank').  the link's behavior (_blank opens the link in a
+  - link_target (character | a value equal to: '_blank', '_parent', '_self', '_top'; optional): (default: '_blank').  the link's behavior (_blank opens the link in a
 new tab, _parent opens the link in the parent frame, _self opens the link in the
-current tab, and _top opens the link in the top frame) or a string. The `markdown_options` property allows customization of the markdown cells behavior.}
+current tab, and _top opens the link in the top frame) or a string
+  - html (logical; optional): (default: false)  if true, html may be used in markdown cells
+be careful enabling html if the content being rendered can come
+from an untrusted user, as this may create an xss vulnerability.. The `markdown_options` property allows customization of the markdown cells behavior.}
 
 \item{merge_duplicate_headers}{Logical. If True, then column headers that have neighbors with duplicate names
 will be merged into a single cell.

@@ -31,7 +31,7 @@ add_callback <- function(app, outputs, params, callback) {
       num_inputs <- length(callback_params) - num_states
       for (i in seq_len(num_states)) {
         idx <- num_inputs + i
-        callback_params <- append(callback_params, callback_params[[idx]], state_idx[i] - 1)
+        callback_params <- append(callback_params, list(callback_params[[idx]]), state_idx[i] - 1)
         callback_params <- callback_params[-(idx + 1)]
       }
     }
@@ -97,11 +97,16 @@ flatten <- function(x) {
 #   g = input("g", "value")
 # )
 # str(params_to_keys(as.list(LETTERS[1:7]), test))
+# str(params_to_keys(c(as.list(LETTERS[1:6]), list(NULL)), test))
 params_to_keys <- function(params, keys) {
   params_to_key_helper <- function(keys) {
     for (item_idx in seq_along(keys)) {
       if (inherits(keys[[item_idx]], "dash_dependency")) {
-        keys[[item_idx]] <- params[[1]]
+        if (is.null(params[[1]])) {
+          keys[item_idx] <- list(NULL)
+        } else {
+          keys[[item_idx]] <- params[[1]]
+        }
         params <<- params[-1]
       } else {
         keys[[item_idx]] <- params_to_key_helper(keys[[item_idx]])

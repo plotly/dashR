@@ -10,7 +10,7 @@ Checklist is a component that encapsulates several checkboxes. The values and la
 }
 
 \usage{
-dccChecklist(id=NULL, className=NULL, inputClassName=NULL,
+dccChecklist(id=NULL, className=NULL, inline=NULL, inputClassName=NULL,
 inputStyle=NULL, labelClassName=NULL, labelStyle=NULL,
 loading_state=NULL, options=NULL, persisted_props=NULL,
 persistence=NULL, persistence_type=NULL, style=NULL,
@@ -23,6 +23,10 @@ in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
 \item{className}{Character. The class of the container (div)}
+
+\item{inline}{Logical. Indicates whether labelStyle should be inline or not
+True: Automatically set { 'display': 'inline-block' } to labelStyle
+False: No additional styles are passed into labelStyle.}
 
 \item{inputClassName}{Character. The class of the <input> checkbox element}
 
@@ -40,13 +44,16 @@ those elements have the following types:
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
-\item{options}{List of lists containing elements 'label', 'value', 'disabled'.
+\item{options}{List of character | numeric | logicals | named list | list of lists containing elements 'label', 'value', 'disabled', 'title'.
 those elements have the following types:
-  - label (character | numeric; required): the checkbox's label
-  - value (character | numeric; required): the value of the checkbox. this value
+  - label (character | numeric | logical; required): the option's label
+  - value (character | numeric | logical; required): the value of the option. this value
 corresponds to the items specified in the
 `value` property.
-  - disabled (logical; optional): if true, this checkbox is disabled and can't be clicked on.s. An array of options}
+  - disabled (logical; optional): if true, this option is disabled and cannot be selected.
+  - title (character; optional): the html 'title' attribute for the option. allows for
+information on hover. for more information on this attribute,
+see https://developer.mozilla.org/en-us/docs/web/html/global_attributes/titles. An array of options}
 
 \item{persisted_props}{List of a value equal to: 'value's. Properties whose user interactions will persist after refreshing the
 component or the page. Since only `value` is allowed this prop can
@@ -66,7 +73,7 @@ session: window.sessionStorage, data is cleared once the browser quit.}
 
 \item{style}{Named list. The style of the container (div)}
 
-\item{value}{List of character | numerics. The currently selected value}
+\item{value}{List of character | numeric | logicals. The currently selected value}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

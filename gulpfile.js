@@ -15,24 +15,24 @@ const retrieveAssets = async () => {
         'dash-html-components',
         'dash-table',
     ];
-    for (const element of packages) {
-        shell.cd(assetsPath);
-        shell.exec(`git clone --depth=1 https://github.com/plotly/${element}`);
-        shell.cd(path.resolve(assetsPath, element));
-        try {
-            shell.exec('npm i && npm run build');
-        } catch (err) {
-            print(`Encountered the following error: ${err.message} \n
-            Make sure you have dash-generate-components in your Python environment.`);
-        }
-    }
-};
 
-// Task to clean build artifacts from gulp-assets
-const cleanAssets = async () => {
-    const assetsPath = path.resolve(__dirname, 'gulp-assets');
     shell.cd(assetsPath);
-    shell.exec('rm -rfv dash-core-components dash-html-components dash-table');
+    shell.exec('git clone --depth=1 https://github.com/plotly/dash');
+    shell.cd(path.resolve(assetsPath, 'dash'));
+    shell.exec('npm i && npm run build');
+    shell.exec(
+        'pip install -r requires-dev.txt && pip install black && pip install -e .'
+    );
+    shell.mv(
+        path.resolve(assetsPath, 'dash', 'components', '*'),
+        path.resolve(assetsPath)
+    );
+    shell.cd(assetsPath);
+
+    for (const element of packages) {
+        shell.cd(path.resolve(assetsPath, element));
+        shell.exec('npm run build');
+    }
 };
 
 // Update the inst directories for each of the component packages.
@@ -43,12 +43,10 @@ function copyCoreInstDirectory() {
         )
     ) {
         return src([
-            'gulp-assets/dash-core-components/inst/**/*',
-            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js',
-            '!gulp-assets/dash-core-components/inst/deps/async-highlight.js.map',
+            'gulp-assets/dash-core-components/inst/deps/**/*'
         ])
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/dcc', {overwrite: true}));
     }
     return log('Unable to find dash-core-components inst directory.');
 }
@@ -59,9 +57,9 @@ function copyHtmlInstDirectory() {
             path.resolve(__dirname, 'gulp-assets/dash-html-components/inst')
         )
     ) {
-        return src('gulp-assets/dash-html-components/inst/**/*')
+        return src('gulp-assets/dash-html-components/inst/deps/**/*')
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/html', {overwrite: true}));
     }
     return log('Unable to find dash-html-components inst directory.');
 }
@@ -69,11 +67,11 @@ function copyHtmlInstDirectory() {
 function copyTableInstDirectory() {
     if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-table/inst'))) {
         return src([
-            'gulp-assets/dash-table/inst/**/*',
+            'gulp-assets/dash-table/inst/deps/**/*',
             '!gulp-assets/dash-table/inst/deps/index.html',
         ])
             .pipe(print())
-            .pipe(dest('inst/', {overwrite: true}));
+            .pipe(dest('inst/deps/dash_table', {overwrite: true}));
     }
     return log('Unable to find dash-table `inst` directory.');
 }
@@ -258,8 +256,22 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
+        .pipe(replace(/name = "dcc\//g, 'name = "'))
+        .pipe(replace(/`dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
+        .pipe(replace(/`dcc\/dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
+        .pipe(replace(/`html\/dash_html_components.+name\s=\s.+",$/gm, '`dash_html_components` = structure(list(name = "dash_html_components",'))
+        .pipe(replace(/`dash_table.+name\s=\s.+",$/gm, '`dash_table` = structure(list(name = "dash_table",'))
         .pipe(dest('R/'));
 }
+
+// Task to clean build artifacts from gulp-assets
+const cleanAssets = async () => {
+    const assetsPath = path.resolve(__dirname, 'gulp-assets');
+    shell.cd(assetsPath);
+    shell.exec(
+        'rm -rfv dash-core-components dash-html-components dash-table dash'
+    );
+};
 
 exports.unify = series(
     parallel(
@@ -282,5 +294,7 @@ exports.update = series(
 );
 
 exports.clone = series(retrieveAssets);
+
+exports.test = series(replacePackageDependency)
 
 exports.clean = series(cleanAssets);
