@@ -25,7 +25,8 @@ Imports:
   rlang,
   utils
 Suggests:
-  testthat
+  testthat,
+  rstudioapi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

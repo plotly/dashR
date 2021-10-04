@@ -5,7 +5,11 @@ Makefile
 announcement\.Rmd
 todo\.txt
 .github
+.eslintrc
+.prettierrc
+build/.dockerignore
 tests/integration
 tests/circleci
+.circleci
 gulp-assets
 node_modules
