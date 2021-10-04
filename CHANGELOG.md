@@ -2,7 +2,7 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.0] - UNRELEASED
+## [1.0.0] - 2021-10-04
 ### Added
 - Dash layout wrapper functions are included, which simplify the layout syntax for writing Dash apps. This includes the ability to pipe in the `app` object to layout and meta functions, as well as tags which simplify `html` component arguments and children. [#265](https://github.com/plotly/dashR/pull/265)
 
