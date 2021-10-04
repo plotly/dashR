@@ -60,6 +60,7 @@ importFrom(routr,ressource_route)
 importFrom(stats,setNames)
 importFrom(tools,file_ext)
 importFrom(utils,getFromNamespace)
+importFrom(utils,tail)
 
 # dashCoreComponents exports appended by `npm unify` command: do not edit by hand
 

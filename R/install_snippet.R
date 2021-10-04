@@ -4,6 +4,7 @@
 #' app.
 #'
 #' @return boolean Whether or not the snippet was installed
+#' @importFrom utils tail
 #' @export
 install_snippet <- function() {
   # Modified code from https://stackoverflow.com/a/62223103/3943160 (user 'dario')

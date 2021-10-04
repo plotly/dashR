@@ -1,6 +1,19 @@
 #' Add a callback to a Dash app
 #'
 #' @param app A dash application created with [`dash_app()`].
+#' @param outputs Unnamed list. The `output` argument provides the component `id`
+#' and `property` which will be updated by the callback; a callback can
+#' target one or more outputs (i.e. multiple outputs).
+#' @param params Unnamed list; provides [input] and [state] statements, each
+#' with its own defined `id` and `property`. For pattern-matching callbacks,
+#' the `id` field of a component is written in JSON-like syntax and provides
+#' fields that are arbitrary keys which describe the targets of the callback.
+#' See \link{selectors} for more details.
+#' @param callback Function; must return [output] provided [input] or [state]
+#' arguments. `callback` may be any valid R function, or a character string
+#' containing valid JavaScript, or a call to [clientsideFunction],
+#' including `namespace` and `function_name` arguments for a locally served
+#' JavaScript function.
 #' @export
 add_callback <- function(app, outputs, params, callback) {
   if (inherits(params, "dash_dependency")) {
