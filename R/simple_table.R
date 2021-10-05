@@ -4,29 +4,31 @@
 #' @param colnames _(logical)_ Whether or not to show the column names (a header row)
 #' @param rownames _(logical)_ Whether or not to show the row names
 #' @examples
-#' app <- dash_app() %>%
-#'   set_layout(
-#'     dash::dccChecklist(
-#'       id = "table_params",
-#'       labelStyle = list(display = "block"),
-#'       options = list(
-#'         list(label = "Header", value = "colnames"),
-#'         list(label = "Row names", value = "rownames")
+#' if (interactive()) {
+#'     app <- dash_app() %>%
+#'       set_layout(
+#'         dash::dccChecklist(
+#'           id = "table_params",
+#'           labelStyle = list(display = "block"),
+#'           options = list(
+#'             list(label = "Header", value = "colnames"),
+#'             list(label = "Row names", value = "rownames")
+#'           )
+#'         ),
+#'         br(),
+#'         div(id = "table")
 #'       )
-#'     ),
-#'     br(),
-#'     div(id = "table")
-#'   )
 #'
-#' app %>% add_callback(
-#'   output(id = 'table', property = 'children'),
-#'   input(id = 'table_params', property = 'value'),
-#'   function(val) {
-#'     simple_table(mtcars, colnames = "colnames" %in% val, rownames = "rownames" %in% val)
-#'   }
-#' )
+#'     app %>% add_callback(
+#'       output(id = 'table', property = 'children'),
+#'       input(id = 'table_params', property = 'value'),
+#'       function(val) {
+#'         simple_table(mtcars, colnames = "colnames" %in% val, rownames = "rownames" %in% val)
+#'       }
+#'     )
 #'
-#' app %>% run_app()
+#'     app %>% run_app()
+#' }
 #' @export
 simple_table <- function(data, colnames = TRUE, rownames = FALSE) {
   if (!is.data.frame(data)) {

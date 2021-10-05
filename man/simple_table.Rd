@@ -17,27 +17,29 @@ simple_table(data, colnames = TRUE, rownames = FALSE)
 Simple HTML table
 }
 \examples{
-app <- dash_app() \%>\%
-  set_layout(
-    dash::dccChecklist(
-      id = "table_params",
-      labelStyle = list(display = "block"),
-      options = list(
-        list(label = "Header", value = "colnames"),
-        list(label = "Row names", value = "rownames")
+if (interactive()) {
+    app <- dash_app() \%>\%
+      set_layout(
+        dash::dccChecklist(
+          id = "table_params",
+          labelStyle = list(display = "block"),
+          options = list(
+            list(label = "Header", value = "colnames"),
+            list(label = "Row names", value = "rownames")
+          )
+        ),
+        br(),
+        div(id = "table")
       )
-    ),
-    br(),
-    div(id = "table")
-  )
 
-app \%>\% add_callback(
-  output(id = 'table', property = 'children'),
-  input(id = 'table_params', property = 'value'),
-  function(val) {
-    simple_table(mtcars, colnames = "colnames" \%in\% val, rownames = "rownames" \%in\% val)
-  }
-)
+    app \%>\% add_callback(
+      output(id = 'table', property = 'children'),
+      input(id = 'table_params', property = 'value'),
+      function(val) {
+        simple_table(mtcars, colnames = "colnames" \%in\% val, rownames = "rownames" \%in\% val)
+      }
+    )
 
-app \%>\% run_app()
+    app \%>\% run_app()
+}
 }

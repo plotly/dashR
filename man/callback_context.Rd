@@ -19,26 +19,28 @@ update simultaneously, such as a value and a timestamp or event counter.
 instead of through the function arguments.
 }
 \examples{
-dash_app() \%>\%
-  set_layout(
-    button('Button 1', id='btn1'),
-    button('Button 2', id='btn2'),
-    button('Button 3', id='btn3'),
-    div(id='container')
-  ) \%>\%
-  add_callback(
-    output("container", "children"),
-    list(
-      input("btn1", "n_clicks"),
-      input("btn2", "n_clicks"),
-      input("btn3", "n_clicks")
-    ),
-    function(btn1, btn2, btn3) {
-      ctx <- callback_context()
-      prevent_update(is.null(ctx))
-      sprintf("Triggered: \%s, btn1: \%s, btn2: \%s, btn3: \%s",
-              ctx$triggered$prop_id, btn1, btn2, btn3)
-    }
-  ) \%>\%
-  run_app()
+if (interactive()) {
+    dash_app() \%>\%
+      set_layout(
+        button('Button 1', id='btn1'),
+        button('Button 2', id='btn2'),
+        button('Button 3', id='btn3'),
+        div(id='container')
+      ) \%>\%
+      add_callback(
+        output("container", "children"),
+        list(
+          input("btn1", "n_clicks"),
+          input("btn2", "n_clicks"),
+          input("btn3", "n_clicks")
+        ),
+        function(btn1, btn2, btn3) {
+          ctx <- callback_context()
+          prevent_update(is.null(ctx))
+          sprintf("Triggered: \%s, btn1: \%s, btn2: \%s, btn3: \%s",
+                  ctx$triggered$prop_id, btn1, btn2, btn3)
+        }
+      ) \%>\%
+      run_app()
+  }
 }

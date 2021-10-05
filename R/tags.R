@@ -25,26 +25,27 @@
 #' value is `NULL` initially.
 #'
 #' @examples
-#' app <- dash_app()
-#' app %>% set_layout(
-#'   html$div(
-#'     h1(
-#'       "title",
-#'       style = list(
-#'         "color" = "red",
-#'         "backgroundColor" = "blue"
+#' if (interactive()) {
+#'     app <- dash_app()
+#'     app %>% set_layout(
+#'       html$div(
+#'         h1(
+#'           "title",
+#'           style = list(
+#'             "color" = "red",
+#'             "backgroundColor" = "blue"
+#'           )
+#'         ),
+#'         "some text",
+#'         button(
+#'           "can't click me",
+#'           disabled = NA,
+#'           className = "mybtn"
+#'         )
 #'       )
-#'     ),
-#'     "some text",
-#'     button(
-#'       "can't click me",
-#'       disabled = NA,
-#'       className = "mybtn"
 #'     )
-#'   )
-#' )
-#' app %>% run_app()
-#'
+#'     app %>% run_app()
+#'}
 NULL
 
 #' @rdname tags
