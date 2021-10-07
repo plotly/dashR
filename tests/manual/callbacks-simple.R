@@ -2,7 +2,7 @@ library(dash)
 
 dash_app() %>%
   set_layout(
-    dash::dccInput(id = "text", "sample"),
+    dccInput(id = "text", "sample"),
     div("CAPS: ", span(id = "out1")),
     div("small: ", span(id = "out2"))
   ) %>%

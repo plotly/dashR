@@ -2,7 +2,7 @@
 
 #' Create a Dash application
 #'
-#' This is a convenience function that returns a [`dash::Dash`] R6 object.
+#' This is a convenience function that returns a [`Dash`] R6 object.
 #' For advanced usage, you can use the object as an R6 object directly instead
 #' of the functions provided by the `{dash}` package.
 #'
@@ -60,7 +60,7 @@ dash_app <- function(title = NULL,
     assets_ignore <- ""
   }
 
-  app <- dash::Dash$new(
+  app <- Dash$new(
     assets_folder = assets_folder,
     assets_url_path = assets_url_path,
     assets_ignore = assets_ignore,

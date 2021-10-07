@@ -41,14 +41,14 @@ test_that("Layout errors", {
 test_that("Layout basics", {
    expect_identical(
       set_get_layout_new(div("one"), h2("two")),
-      set_get_layout_old(dash::htmlDiv(list(
-         dash::htmlDiv("one"), dash::htmlH2("two")
+      set_get_layout_old(htmlDiv(list(
+         htmlDiv("one"), htmlH2("two")
       )))
    )
    expect_identical(set_get_layout_new("one", "two"), set_get_layout_new(list("one", "two")))
    expect_identical(
       set_get_layout_new(function() div("one", "two")),
-      set_get_layout_old(function() dash::htmlDiv(list("one", "two")))
+      set_get_layout_old(function() htmlDiv(list("one", "two")))
    )
 })
 
@@ -75,15 +75,15 @@ test_that("No need to place everything in containers and lists", {
    expect_error(set_get_layout_old("test"))
    expect_identical(
       set_get_layout_new(div("one", "two")),
-      set_get_layout_old(dash::htmlDiv(list("one", "two")))
+      set_get_layout_old(htmlDiv(list("one", "two")))
    )
-   expect_identical(set_get_layout_new("test"), set_get_layout_old(dash::htmlSpan("test")))
+   expect_identical(set_get_layout_new("test"), set_get_layout_old(htmlSpan("test")))
    expect_identical(
       set_get_layout_new("one", 5, TRUE),
-      set_get_layout_old(dash::htmlDiv(list(
-         dash::htmlSpan("one"),
-         dash::htmlSpan(5),
-         dash::htmlSpan(TRUE)
+      set_get_layout_old(htmlDiv(list(
+         htmlSpan("one"),
+         htmlSpan(5),
+         htmlSpan(TRUE)
       )))
    )
 })
@@ -101,7 +101,7 @@ test_that("Function as layout works", {
    app2 <- Dash$new()
    set.seed(1000)
    runif(1)
-   app2$layout(dash::htmlDiv(runif(1)))
+   app2$layout(htmlDiv(runif(1)))
    app2_layout <- app2$layout_get()
    expect_identical(app1_layout1, app2_layout)
 
@@ -114,7 +114,7 @@ test_that("Function as layout works", {
    expect_false(identical(app1_fx_layout1, app1_fx_layout2))
    app2_fx <- Dash$new()
    set.seed(1000)
-   app2_fx$layout(function() dash::htmlDiv(runif(1)))
+   app2_fx$layout(function() htmlDiv(runif(1)))
    app2_fx_layout1 <- app2_fx$layout_get()
    app2_fx_layout2 <- app2_fx$layout_get()
    expect_identical(app1_fx_layout1, app2_fx_layout1)
@@ -124,19 +124,19 @@ test_that("Function as layout works", {
 test_that("Sample apps layout are identical with the compact syntax", {
    expect_identical(
       set_get_layout_old(
-         dash::htmlDiv(list(
-            dash::htmlDiv('Dash To-Do List'),
-            dash::dccInput(id = 'new-item'),
-            dash::htmlButton("Add", id = "add"),
-            dash::htmlButton("Clear Done", id = "clear-done"),
-            dash::htmlDiv(id = "list-container"),
-            dash::htmlDiv(id = "totals")
+         htmlDiv(list(
+            htmlDiv('Dash To-Do List'),
+            dccInput(id = 'new-item'),
+            htmlButton("Add", id = "add"),
+            htmlButton("Clear Done", id = "clear-done"),
+            htmlDiv(id = "list-container"),
+            htmlDiv(id = "totals")
          ))
       ),
 
       set_get_layout_new(
          div('Dash To-Do List'),
-         dash::dccInput(id = 'new-item'),
+         dccInput(id = 'new-item'),
          button("Add", id = "add"),
          button("Clear Done", id = "clear-done"),
          div(id = "list-container"),
@@ -146,11 +146,11 @@ test_that("Sample apps layout are identical with the compact syntax", {
 
    expect_identical(
       set_get_layout_old(
-         dash::htmlDiv(
+         htmlDiv(
             list(
-               dash::htmlH1('Hello Dash'),
-               dash::htmlDiv(children = "Dash: A web application framework for R."),
-               dash::dccGraph(
+               htmlH1('Hello Dash'),
+               htmlDiv(children = "Dash: A web application framework for R."),
+               dccGraph(
                   figure=list(
                      data=list(
                         list(
@@ -176,7 +176,7 @@ test_that("Sample apps layout are identical with the compact syntax", {
       set_get_layout_new(
          h1('Hello Dash'),
          div("Dash: A web application framework for R."),
-         dash::dccGraph(
+         dccGraph(
             figure=list(
                data=list(
                   list(

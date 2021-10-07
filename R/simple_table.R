@@ -7,7 +7,7 @@
 #' if (interactive()) {
 #'     app <- dash_app() %>%
 #'       set_layout(
-#'         dash::dccChecklist(
+#'         dccChecklist(
 #'           id = "table_params",
 #'           labelStyle = list(display = "block"),
 #'           options = list(

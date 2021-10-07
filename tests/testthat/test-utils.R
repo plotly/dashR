@@ -29,8 +29,8 @@ test_that("componentify basics", {
     div("foo")
   )
   expect_identical(
-    componentify(dash::dccInput("foo", "bar")),
-    dash::dccInput("foo", "bar")
+    componentify(dccInput("foo", "bar")),
+    dccInput("foo", "bar")
   )
 })
 
@@ -59,10 +59,10 @@ test_that("componentify list", {
     div(span("foo"), span("bar"))
   )
   expect_identical(
-    componentify(list("foo", dash::dccInput("foo", "bar"), 10, div("bar"))),
+    componentify(list("foo", dccInput("foo", "bar"), 10, div("bar"))),
     div(
       span("foo"),
-      dash::dccInput("foo", "bar"),
+      dccInput("foo", "bar"),
       span(10),
       div("bar")
     )

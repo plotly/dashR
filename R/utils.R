@@ -1547,7 +1547,7 @@ is_dash_app <- function(x) {
 
 assert_dash <- function(x) {
   if (!is_dash_app(x)) {
-    stop("You must provide a Dash app object (created with `dash::Dash$new()` or `dash::dash_app()`)", call. = FALSE)
+    stop("You must provide a Dash app object (created with `Dash$new()` or `dash_app()`)", call. = FALSE)
   }
   invisible(TRUE)
 }
@@ -1559,9 +1559,9 @@ componentify <- function(x) {
     stop("dash: layout cannot include Shiny tags (you might have loaded the {shiny} package after loading {dash})", call. = FALSE)
   } else if (is.list(x)) {
     x <- remove_empty(x)
-    dash::htmlDiv(children = lapply(x, componentify))
+    htmlDiv(children = lapply(x, componentify))
   } else if (length(x) == 1) {
-    dash::htmlSpan(children = x)
+    htmlSpan(children = x)
   } else if (is.null(x)) {
     return(NULL)
   } else {

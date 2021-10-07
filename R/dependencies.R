@@ -12,7 +12,7 @@ setWildcardId <- function(id) {
 
 #' Input/Output/State definitions
 #'
-#' Use in conjunction with the `callback()` method from the [dash::Dash] class
+#' Use in conjunction with the `callback()` method from the [Dash] class
 #' to define the update logic in your application.
 #'
 #' The `dashNoUpdate()` function permits application developers to prevent a
