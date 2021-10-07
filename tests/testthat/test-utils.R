@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("remove_empty", {
   expect_error(remove_empty())
   expect_null(remove_empty(NULL))

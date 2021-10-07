@@ -1,5 +1,3 @@
-context("attributes")
-
 test_that("stylesheets can be added with or without attributes", {
   stylesheet_pattern <- '^.*<link href="(https.*)">.*$'
   script_pattern <- '^.*<script src="(https.*)">.*$'

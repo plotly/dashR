@@ -1,5 +1,3 @@
-context("routes")
-
 test_that("URLs are properly redirected with app$redirect", {
  app <- Dash$new()
 

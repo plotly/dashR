@@ -1,5 +1,3 @@
-context("callback")
-
 test_that("Callback outputs can be provided with or without output function", {
 
   app <- Dash$new()
@@ -14,7 +12,7 @@ test_that("Callback outputs can be provided with or without output function", {
       )
     )
   )
-  
+
   expect_silent(
     app$callback(output(id = 'output-state', property = 'children'),
                  list(input(id = 'submit-button', property = 'n_clicks'),
@@ -24,7 +22,7 @@ test_that("Callback outputs can be provided with or without output function", {
                    sprintf("The Button has been pressed \"%s\" times, Input 1 is \"%s\", and Input 2 is \"%s\"", n_clicks, input1, input2)
                  })
   )
-  
+
   expect_silent(
     app$callback(output=list(id = 'output-state', property = 'children'),
                  list(input(id = 'submit-button', property = 'n_clicks'),
@@ -37,9 +35,9 @@ test_that("Callback outputs can be provided with or without output function", {
 })
 
 test_that("Repeating outputs across callbacks yields an error", {
-  
+
   app <- Dash$new()
-  
+
   app$layout(
     htmlDiv(
       list(
@@ -54,7 +52,7 @@ test_that("Repeating outputs across callbacks yields an error", {
       )
     )
   )
-  
+
   app$callback(list(output(id = 'output-state', property = 'children'),
                     output(id = 'output-two', property = 'children')),
                list(input(id = 'submit-button', property = 'n_clicks'),
@@ -63,7 +61,7 @@ test_that("Repeating outputs across callbacks yields an error", {
                function(n_clicks, input1, input2) {
                  sprintf("The Button has been pressed \"%s\" times, Input 1 is \"%s\", and Input 2 is \"%s\"", n_clicks, input1, input2)
                })
-    
+
   expect_error(
     app$callback(list(output(id = 'output-state', property = 'children'),
                       output(id = 'output-three', property = 'children')),

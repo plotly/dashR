@@ -1,5 +1,3 @@
-context("components")
-
 test_that("Components work recursively (components can be children of components)", {
 
   # div inside a div
@@ -75,7 +73,7 @@ test_that("wildcard attributes work with children", {
 
 # test_that("Can translate arbitrary HTML string", {
 #   skip_if_not_installed("dashDangerouslySetInnerHtml")
-# 
+#
 #   html <- "<div> 1 </div>"
 #   expect_is(
 #     dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html)),

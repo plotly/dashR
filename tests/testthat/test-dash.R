@@ -1,5 +1,3 @@
-context("dash-api")
-
 test_that("Can access fiery server within a dash app", {
 
   d <- Dash$new()

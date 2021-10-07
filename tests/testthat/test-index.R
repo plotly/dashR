@@ -1,5 +1,3 @@
-context("customindex")
-
 test_that("Omitting required template keys produces warnings", {
   string <-
     "<!DOCTYPE html>
@@ -18,24 +16,24 @@ test_that("Omitting required template keys produces warnings", {
   </footer>
   </body>
   </html>"
-  
+
   app <- Dash$new()
-  
+
   expect_error(
     app$index_string(gsub("\\{\\%config\\%\\}|\\{\\%scripts\\%\\}|\\{\\%app_entry\\%\\}", "", string)),
     "Did you forget to include app_entry, config, scripts in your index string?"
   )
-  
+
   expect_error(
     app$index_string(gsub("\\{\\%scripts\\%\\}", "", string)),
     "Did you forget to include scripts in your index string?"
   )
-  
+
   expect_error(
     app$index_string(gsub("\\{\\%app_entry\\%\\}", "", string)),
     "Did you forget to include app_entry in your index string?"
   )
-  
+
   expect_error(
     app$index_string(gsub("\\{\\%config\\%\\}", "", string)),
     "Did you forget to include config in your index string?"

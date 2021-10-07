@@ -1,5 +1,3 @@
-context("wildcards")
-
 test_that("HTML `data-*` & `aria-* ` wildcards work", {
   x <- htmlDiv(`data-foo` = 1)
   expect_equal(x$props$`data-foo`, 1)
