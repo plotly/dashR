@@ -1,10 +1,11 @@
 const {dest, parallel, series, src} = require('gulp');
 const print = require('gulp-print').default;
-const fs = require('fs-extra');
 const replace = require('gulp-replace');
+const rename = require('gulp-rename');
+const concat = require("gulp-concat")
+const fs = require('fs-extra');
 const path = require('path');
 const log = require('fancy-log');
-const rename = require('gulp-rename');
 const shell = require('shelljs');
 
 // Task to git clone and build the component packages to retrieve build artifacts.
@@ -127,6 +128,7 @@ function copyCoreRDirectory() {
             '!gulp-assets/dash-core-components/R/internal.R',
         ])
             .pipe(print())
+            .pipe(concat('dashCoreComponents.R'))
             .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-core-components `R` directory.');
@@ -143,6 +145,7 @@ function copyHtmlRDirectory() {
             '!gulp-assets/dash-html-components/R/internal.R',
         ])
             .pipe(print())
+            .pipe(concat('dashHtmlComponents.R'))
             .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-html-components `R` directory.');
@@ -155,60 +158,10 @@ function copyTableRDirectory() {
             '!gulp-assets/dash-table/R/internal.R',
         ])
             .pipe(print())
+            .pipe(concat('dashTable.R'))
             .pipe(dest('R/', {overwrite: true}));
     }
-    return log('Unable to find dash-core-components `R` directory.');
-}
-
-// Append the NAMESPACE for each of the component packages to the DashR NAMESPACE.
-function appendCoreNamespace() {
-    var namespace = fs
-        .readFileSync('gulp-assets/dash-core-components/NAMESPACE')
-        .toString()
-        .split('\n');
-    namespace.shift();
-    namespace.unshift(
-        '# dashCoreComponents exports appended by `npm unify` command: do not edit by hand'
-    );
-    namespace = namespace.join('\n');
-    return src('gulp-assets/NAMESPACE.template')
-        .pipe(print())
-        .pipe(replace('{dcc_exports}', namespace))
-        .pipe(rename('NAMESPACE'))
-        .pipe(dest('./', {overwrite: true}));
-}
-
-function appendHtmlNamespace() {
-    var namespace = fs
-        .readFileSync('gulp-assets/dash-html-components/NAMESPACE')
-        .toString()
-        .split('\n');
-    namespace.shift();
-    namespace.unshift(
-        '# dashHtmlComponents exports appended by `npm unify` command: do not edit by hand'
-    );
-    namespace = namespace.join('\n');
-    return src('./NAMESPACE')
-        .pipe(print())
-        .pipe(replace('{html_exports}', namespace))
-        .pipe(dest('./', {overwrite: true}));
-}
-
-function appendTableNamespace() {
-    var namespace = fs
-        .readFileSync('gulp-assets/dash-table/NAMESPACE')
-        .toString()
-        .split('\n');
-    namespace.shift();
-    namespace.push('export(df_to_list)');
-    namespace.unshift(
-        '# dashTable exports appended by `npm unify` command: do not edit by hand'
-    );
-    namespace = namespace.join('\n');
-    return src('./NAMESPACE')
-        .pipe(print())
-        .pipe(replace('{table_exports}', namespace))
-        .pipe(dest('./', {overwrite: true}));
+    return log('Unable to find dash-table `R` directory.');
 }
 
 // Append the internal.R for each of the component packages to the DashR internal.R.
@@ -284,9 +237,6 @@ exports.unify = series(
 );
 
 exports.update = series(
-    appendCoreNamespace,
-    appendHtmlNamespace,
-    appendTableNamespace,
     appendCoreInternal,
     appendHtmlInternal,
     appendTableInternal,
