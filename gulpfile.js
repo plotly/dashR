@@ -2,7 +2,7 @@ const {dest, parallel, series, src} = require('gulp');
 const print = require('gulp-print').default;
 const replace = require('gulp-replace');
 const rename = require('gulp-rename');
-const concat = require("gulp-concat")
+const concat = require('gulp-concat');
 const fs = require('fs-extra');
 const path = require('path');
 const log = require('fancy-log');
@@ -43,9 +43,7 @@ function copyCoreInstDirectory() {
             path.resolve(__dirname, 'gulp-assets/dash-core-components/inst')
         )
     ) {
-        return src([
-            'gulp-assets/dash-core-components/inst/deps/**/*'
-        ])
+        return src(['gulp-assets/dash-core-components/inst/deps/**/*'])
             .pipe(print())
             .pipe(dest('inst/deps/dcc', {overwrite: true}));
     }
@@ -210,10 +208,30 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
         .pipe(replace(/name = "dcc\//g, 'name = "'))
-        .pipe(replace(/`dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
-        .pipe(replace(/`dcc\/dash_core_components.+name\s=\s.+",$/gm, '`dash_core_components` = structure(list(name = "dash_core_components",'))
-        .pipe(replace(/`html\/dash_html_components.+name\s=\s.+",$/gm, '`dash_html_components` = structure(list(name = "dash_html_components",'))
-        .pipe(replace(/`dash_table.+name\s=\s.+",$/gm, '`dash_table` = structure(list(name = "dash_table",'))
+        .pipe(
+            replace(
+                /`dash_core_components.+name\s=\s.+",$/gm,
+                '`dash_core_components` = structure(list(name = "dash_core_components",'
+            )
+        )
+        .pipe(
+            replace(
+                /`dcc\/dash_core_components.+name\s=\s.+",$/gm,
+                '`dash_core_components` = structure(list(name = "dash_core_components",'
+            )
+        )
+        .pipe(
+            replace(
+                /`html\/dash_html_components.+name\s=\s.+",$/gm,
+                '`dash_html_components` = structure(list(name = "dash_html_components",'
+            )
+        )
+        .pipe(
+            replace(
+                /`dash_table.+name\s=\s.+",$/gm,
+                '`dash_table` = structure(list(name = "dash_table",'
+            )
+        )
         .pipe(dest('R/'));
 }
 
@@ -224,6 +242,11 @@ const cleanAssets = async () => {
     shell.exec(
         'rm -rfv dash-core-components dash-html-components dash-table dash'
     );
+};
+
+// Document package
+const document = async () => {
+    shell.exec('Rscript -e "devtools::document()"');
 };
 
 exports.unify = series(
@@ -240,11 +263,12 @@ exports.update = series(
     appendCoreInternal,
     appendHtmlInternal,
     appendTableInternal,
-    replacePackageDependency
+    replacePackageDependency,
+    document
 );
 
 exports.clone = series(retrieveAssets);
 
-exports.test = series(replacePackageDependency)
+exports.test = series(replacePackageDependency);
 
 exports.clean = series(cleanAssets);
