@@ -365,6 +365,10 @@ assert_valid_callbacks <- function(output, params, func) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
 
+  invalid_outputs <- vapply(output, function(x) {
+    !any(c('output', 'state') %in% attr(x, "class"))
+  }, FUN.VALUE=logical(1))
+
   # Verify that no outputs are duplicated
   if (length(output) != length(unique(output))) {
     stop(sprintf("One or more callback outputs have been duplicated; please confirm that all outputs are unique."), call. = FALSE)
@@ -375,10 +379,11 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
   }
 
-  # Verify that 'input' parameters always precede 'state', if present
-  if (!(valid_seq(params))) {
-    stop(sprintf("Strict ordering of callback handler parameters is required. Please ensure that input parameters precede all state parameters."), call. = FALSE)
+   # Verify that output contains no elements that are not either members of 'output' or 'state' classes
+  if (any(invalid_outputs)) {
+    stop(sprintf("Callback outputs must be outputs or states. Please verify formatting of callback outputs."), call. = FALSE)
   }
+
 
   # Assert that the component ID as passed is a string.
   # This function inspects the output object to see if its ID
