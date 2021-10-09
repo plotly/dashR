@@ -36,9 +36,9 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
 
 \item{disabled}{A value equal to: 'disabled', 'disabled' | logical. Indicates whether the user can interact with the element.}
 
@@ -46,17 +46,17 @@ components in an app.}
 
 \item{form}{Character. Indicates the form that is the owner of the element.}
 
-\item{formAction}{Character. Indicates the action of the element, overriding the action defined in        the <form>.}
+\item{formAction}{Character. Indicates the action of the element, overriding the action defined in the <form>.}
 
-\item{formEncType}{Character. If the button/input is a submit button (type="submit"),        this attribute sets the encoding type to use during form submission. If        this attribute is specified, it overrides the        enctype attribute of the button's        form owner.}
+\item{formEncType}{Character. If the button/input is a submit button (type="submit"), this attribute sets the encoding type to use during form submission. If this attribute is specified, it overrides the enctype attribute of the button's form owner.}
 
-\item{formMethod}{Character. If the button/input is a submit button (type="submit"),        this attribute sets the submission method to use during form submission        (GET, POST, etc.). If this attribute is        specified, it overrides the method attribute of the        button's form owner.}
+\item{formMethod}{Character. If the button/input is a submit button (type="submit"), this attribute sets the submission method to use during form submission (GET, POST, etc.). If this attribute is specified, it overrides the method attribute of the button's form owner.}
 
-\item{formNoValidate}{A value equal to: 'formnovalidate', 'formnovalidate', 'formnovalidate' | logical. If the button/input is a submit button (type="submit"),        this boolean attribute specifies that the form is not to be validated        when it is submitted. If this attribute is specified, it overrides the        novalidate attribute of the button's        form owner.}
+\item{formNoValidate}{A value equal to: 'formnovalidate', 'formnovalidate', 'formnovalidate' | logical. If the button/input is a submit button (type="submit"), this boolean attribute specifies that the form is not to be validated when it is submitted. If this attribute is specified, it overrides the novalidate attribute of the button's form owner.}
 
-\item{formTarget}{Character. If the button/input is a submit button (type="submit"),        this attribute specifies the browsing context (for example, tab, window,        or inline frame) in which to display the response that is received after        submitting the form. If this attribute is specified, it overrides the        target attribute of the button's        form owner.}
+\item{formTarget}{Character. If the button/input is a submit button (type="submit"), this attribute specifies the browsing context (for example, tab, window, or inline frame) in which to display the response that is received after submitting the form. If this attribute is specified, it overrides the target attribute of the button's form owner.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
@@ -77,7 +77,7 @@ that this element has been clicked on.}
 at which n_clicks changed. This can be used to tell
 which button was changed most recently.}
 
-\item{name}{Character. Name of the element. For example used by the server to identify the        fields in form submits.}
+\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
 
 \item{role}{Character. The ARIA role attribute}
 
@@ -85,13 +85,13 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
 \item{type}{Character. Defines the type of the element.}
 
-\item{value}{Character. Defines a default value which will be displayed in the element on page        load.}
+\item{value}{Character. Defines a default value which will be displayed in the element on page load.}
 
 
 \item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}

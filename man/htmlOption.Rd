@@ -32,15 +32,15 @@ components in an app.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
-\item{contextMenu}{Character. Defines the ID of a <menu> element which will        serve as the element's context menu.}
+\item{contextMenu}{Character. Defines the ID of a <menu> element which will serve as the element's context menu.}
 
-\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or        rtl (Right-To-Left)}
+\item{dir}{Character. Defines the text direction. Allowed values are ltr (Left-To-Right) or rtl (Right-To-Left)}
 
 \item{disabled}{A value equal to: 'disabled', 'disabled' | logical. Indicates whether the user can interact with the element.}
 
 \item{draggable}{Character. Defines whether the element can be dragged.}
 
-\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g.        script elements, active.}
+\item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
@@ -71,11 +71,11 @@ which button was changed most recently.}
 
 \item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
-\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified        instead.}
+\item{tabIndex}{Character. Overrides the browser's default tab order and follows the one specified instead.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
-\item{value}{Character. Defines a default value which will be displayed in the element on page        load.}
+\item{value}{Character. Defines a default value which will be displayed in the element on page load.}
 
 
 \item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
