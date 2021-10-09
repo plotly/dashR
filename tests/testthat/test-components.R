@@ -2,8 +2,8 @@ test_that("Components work recursively (components can be children of components
 
   # div inside a div
   x <- htmlDiv(id = "one", htmlDiv(id = "two"))
-  expect_true(dash:::is.component(x))
-  expect_true(dash:::is.component(x[[1]]$children))
+  expect_true(is.component(x))
+  expect_true(is.component(x[[1]]$children))
 
   # slider inside a div
   x <- htmlDiv(
@@ -15,8 +15,8 @@ test_that("Components work recursively (components can be children of components
     )
   )
 
-  expect_true(dash:::is.component(x))
-  expect_true(dash:::is.component(x[[1]]$children))
+  expect_true(is.component(x))
+  expect_true(is.component(x[[1]]$children))
   slider <- x$props
   expect_true(slider$children$props[["id"]] == "h")
   expect_true(slider$children$props[["min"]] == 1)
@@ -32,7 +32,7 @@ test_that("Component constructors behave as intended", {
   # (3) namespace: is this a core/html component?
 
   expect_component_names <- function(component) {
-    diff <- dash:::setdiffsym(names(component), c("props", "type", "namespace", "propNames", "package"))
+    diff <- setdiffsym(names(component), c("props", "type", "namespace", "propNames", "package"))
     expect_length(diff, 0)
   }
 

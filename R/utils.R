@@ -365,9 +365,9 @@ assert_valid_callbacks <- function(output, params, func) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
 
-  if (!is.list(output[[1]])){output <- list(output)}
-  invalid_outputs <- vapply(output, function(x) {
-    !any(c('output', 'state') %in% attr(x, "class"))
+  if (!is.list(output[[1]])){listed_output <- list(output)}
+  invalid_outputs <- vapply(listed_output, function(x) {
+    !any(c('output') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
 
   # Verify that no outputs are duplicated
@@ -380,9 +380,9 @@ assert_valid_callbacks <- function(output, params, func) {
     stop(sprintf("Callback parameters must be inputs or states. Please verify formatting of callback parameters."), call. = FALSE)
   }
 
-   # Verify that output contains no elements that are not either members of 'output' or 'state' classes
+   # Verify that output contains no elements that are not a member of the 'output' class.
   if (any(invalid_outputs)) {
-    stop(sprintf("Callback outputs must be outputs or states. Please verify formatting of callback outputs."), call. = FALSE)
+    stop(sprintf("Callback outputs must be output function calls. Please verify formatting of callback outputs."), call. = FALSE)
   }
 
 
