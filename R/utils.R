@@ -365,7 +365,7 @@ assert_valid_callbacks <- function(output, params, func) {
     !any(c('input', 'state') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
 
-  if (!is.list(output[[1]])){listed_output <- list(output)}
+  if (!is.list(output[[1]])) listed_output <- list(output) else listed_output <- output
   invalid_outputs <- vapply(listed_output, function(x) {
     !any(c('output') %in% attr(x, "class"))
   }, FUN.VALUE=logical(1))
