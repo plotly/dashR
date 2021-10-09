@@ -16,7 +16,7 @@ app = """
    )
  )
 
- app$callback(output = list(id="emptyDiv", property="children"),
+ app$callback(output(id="emptyDiv", property="children"),
               params = list(input(id="messageDiv", property="children")),
      function(y) {
        app$callback_context.record_timing("pancakes", 1.23)
@@ -42,7 +42,7 @@ def test_rsci001_test_callback_instrumentation(dashr_server):
     )
     # eg 'Server-Timing': '__dash_server;dur=505, pancakes;dur=1230'
     assert "Server-Timing" in response.headers
-    
+
     st = response.headers["Server-Timing"]
     times = {k: int(float(v)) for k, v in [p.split(";dur=") for p in st.split(", ")]}
     assert "pancakes" in times
