@@ -24,7 +24,7 @@ test_that("Callback outputs can be provided with or without output function", {
   )
 
   expect_silent(
-    app$callback(output=list(id = 'output-state', property = 'children'),
+    app$callback(output(id = 'output-state', property = 'children'),
                  list(input(id = 'submit-button', property = 'n_clicks'),
                       state(id = 'input-1-state', property = 'value'),
                       state(id = 'input-2-state', property = 'value')),
