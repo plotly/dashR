@@ -10,7 +10,7 @@ app$layout(
   htmlDiv(list(
     dccDropdown(options = list(
       list(label = "Red", value = "#FF0000"),
-      list(label = "Green", value = "#00FF00"),      
+      list(label = "Green", value = "#00FF00"),
       list(label = "Blue", value = "#0000FF"),
       list(label = "Do nothing", value = "nothing")
     ),
@@ -26,7 +26,7 @@ app$layout(
   )
 )
 
-app$callback(output=list(id='message-box2', property='children'),
+app$callback(output(id='message-box2', property='children'),
              params=list(
                input(id='multi-selector', property='n_clicks')),
              function(n_clicks)
@@ -41,17 +41,17 @@ app$callback(output=list(id='message-box2', property='children'),
                  # return a vector to ensure that the check for
                  # class(x) == "no_update" isn't made for objects
                  # where length(x) > 1
-                 return(c("Multiple color values: ", 
-                          "#FF0000, ", 
-                          "#00FF00, ", 
-                          "#0000FF ", 
+                 return(c("Multiple color values: ",
+                          "#FF0000, ",
+                          "#00FF00, ",
+                          "#0000FF ",
                           "returned!")
                         )
                }
              }
 )
 
-app$callback(output=list(id='message-box', property='children'),
+app$callback(output(id='message-box', property='children'),
              params=list(
                input(id='color-selector', property='value')),
              function(color)
