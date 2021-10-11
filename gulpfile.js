@@ -15,14 +15,16 @@ const retrieveAssets = async () => {
         'dash-core-components',
         'dash-html-components',
         'dash-table',
+        'dash-bootstrap-components'
     ];
 
     shell.cd(assetsPath);
-    shell.exec('git clone --depth=1 https://github.com/plotly/dash');
+    shell.exec('git clone https://github.com/plotly/dash');
+    shell.exec('git clone https://github.com/facultyai/dash-bootstrap-components && cd dash-bootstrap-components && pip install -r dev-requirements.txt && cd ../')
     shell.cd(path.resolve(assetsPath, 'dash'));
-    shell.exec('npm i && npm run build');
+    shell.exec('git checkout update-r-generation && npm i && npm run build');
     shell.exec(
-        'pip install -r requires-dev.txt && pip install black && pip install -e .'
+        'pip install -r requires-dev.txt -r requires-ci.txt && pip install -e .'
     );
     shell.mv(
         path.resolve(assetsPath, 'dash', 'components', '*'),
@@ -35,6 +37,7 @@ const retrieveAssets = async () => {
         shell.exec('npm run build');
     }
 };
+
 
 // Update the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
@@ -75,7 +78,18 @@ function copyTableInstDirectory() {
     return log('Unable to find dash-table `inst` directory.');
 }
 
-// Update the man directories for each of the component packages.
+function copyBootstrapInstDirectory() {
+    if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-bootstrap-components/inst'))) {
+        return src([
+            'gulp-assets/dash-bootstrap-components/inst/deps/**/*',
+        ])
+            .pipe(print())
+            .pipe(dest('inst/deps', {overwrite: true}));
+    }
+    return log('Unable to find dash-bootstrap-components `inst` directory.');
+}
+
+// // Update the man directories for each of the component packages.
 function copyCoreManDirectory() {
     if (
         fs.existsSync(
@@ -162,6 +176,23 @@ function copyTableRDirectory() {
     return log('Unable to find dash-table `R` directory.');
 }
 
+function copyBootstrapRDirectory() {
+    if (
+        fs.existsSync(
+            path.relative(__dirname, 'gulp-assets/dash-bootstrap-components/R')
+        )
+    ) {
+        return src([
+            'gulp-assets/dash-bootstrap-components/R/**/*',
+            '!gulp-assets/dash-bootstrap-components/R/internal.R',
+        ])
+            .pipe(print())
+            .pipe(concat('dashBootstrapComponents.R'))
+            .pipe(dest('R/', {overwrite: true}));
+    }
+    return log('Unable to find dash-bootstrap-components `R` directory.');
+}
+
 // Append the internal.R for each of the component packages to the DashR internal.R.
 function appendCoreInternal() {
     return src('gulp-assets/internal.template')
@@ -200,6 +231,18 @@ function appendTableInternal() {
         .pipe(dest('R/', {overwrite: true}));
 }
 
+function appendBootstrapInternal() {
+    return src('R/internal.R')
+        .pipe(print())
+        .pipe(
+            replace(
+                '{dbc_deps}',
+                fs.readFileSync('gulp-assets/dash-bootstrap-components/R/internal.R')
+            )
+        )
+        .pipe(dest('R/', {overwrite: true}));
+}
+
 // Point dependency sourcing to Dash package.
 function replacePackageDependency() {
     return src('R/internal.R')
@@ -207,6 +250,7 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
+        .pipe(replace(/package = "dashBootstrapComponents"/g, 'package = "dash"'))
         .pipe(replace(/name = "dcc\//g, 'name = "'))
         .pipe(
             replace(
@@ -232,6 +276,12 @@ function replacePackageDependency() {
                 '`dash_table` = structure(list(name = "dash_table",'
             )
         )
+        .pipe(
+            replace(
+                /`html\/dash_bootstrap_components.+name\s=\s.+",$/gm,
+                '`dash_bootstrap_components` = structure(list(name = "dash_bootstrap_components",'
+            )
+        )
         .pipe(dest('R/'));
 }
 
@@ -240,7 +290,7 @@ const cleanAssets = async () => {
     const assetsPath = path.resolve(__dirname, 'gulp-assets');
     shell.cd(assetsPath);
     shell.exec(
-        'rm -rfv dash-core-components dash-html-components dash-table dash'
+        'rm -rfv dash-core-components dash-html-components dash-table dash-bootstrap-components dash'
     );
 };
 
@@ -253,16 +303,18 @@ exports.unify = series(
     parallel(
         copyCoreInstDirectory,
         copyHtmlInstDirectory,
-        copyTableInstDirectory
+        copyTableInstDirectory,
+        copyBootstrapInstDirectory
     ),
-    parallel(copyCoreManDirectory, copyHtmlManDirectory, copyTableManDirectory),
-    parallel(copyCoreRDirectory, copyHtmlRDirectory, copyTableRDirectory)
+    // parallel(copyCoreManDirectory, copyHtmlManDirectory, copyTableManDirectory),
+    parallel(copyCoreRDirectory, copyHtmlRDirectory, copyTableRDirectory, copyBootstrapRDirectory)
 );
 
 exports.update = series(
     appendCoreInternal,
     appendHtmlInternal,
     appendTableInternal,
+    appendBootstrapInternal,
     replacePackageDependency,
     document
 );
