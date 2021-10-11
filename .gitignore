@@ -7,6 +7,7 @@ gulp-assets/dash-core-components/
 gulp-assets/dash-html-components/
 gulp-assets/dash-bootstrap-components/
 gulp-assets/dash-table/
+gulp-assets/dash/
 node_modules/
 python/
 __pycache__/
