@@ -211,7 +211,7 @@ function copyBootstrapRDirectory() {
         ])
             .pipe(print())
             .pipe(concat('dashBootstrapComponents.R'))
-            .pipe(replace(/#'\s@export'/g, '"# @export"'))
+            .pipe(replace(/#'\s@export'/g, "#' @export"))
             .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-bootstrap-components `R` directory.');

@@ -1278,7 +1278,7 @@ dbcTooltip <- function(children=NULL, id=NULL, className=NULL, class_name=NULL, 
     structure(component, class = c('dash_component', 'list'))
 }
 
-"# @export"
+#' @export
 dbcIcons <- list(
   BOOTSTRAP = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css",
   FONT_AWESOME = "https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -1289,7 +1289,7 @@ dbcIcons <- list(
   return(paste(BOOTSWATCH_BASE, suffix, sep=""))
 }
 
-"# @export"
+#' @export
 dbcThemes <- list(
   BOOTSTRAP = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
   GRID = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap-grid.min.css",
