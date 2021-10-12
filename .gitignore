@@ -3,9 +3,11 @@
 .RData
 .DS_Store
 
-dash-core-components/
-dash-html-components/
-dash-table/
+gulp-assets/dash-core-components/
+gulp-assets/dash-html-components/
+gulp-assets/dash-bootstrap-components/
+gulp-assets/dash-table/
+gulp-assets/dash/
 node_modules/
 python/
 __pycache__/

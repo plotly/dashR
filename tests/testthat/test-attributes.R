@@ -97,11 +97,13 @@ test_that("stylesheets can be added with or without attributes", {
   dcc <- .dashCoreComponents_js_metadata()
   dhc <- .dashHtmlComponents_js_metadata()
   dt <- .dashTable_js_metadata()
+  dbc <- .dashBootstrapComponents_js_metadata()
 
   dcc_min <- dcc[which(sapply(dcc, "[[", "script") == "dcc/dash_core_components.js")][[1]]
   dcc_shared <- dcc[which(sapply(dcc, "[[", "script") == "dcc/dash_core_components-shared.js")][[1]]
   dhc_min <- dhc[which(sapply(dhc, "[[", "script") == "html/dash_html_components.min.js")][[1]]
   dt_bundle <- dt[which(sapply(dt, "[[", "script") == "dash_table/bundle.js")][[1]]
+  dbc_min <- dbc[which(sapply(dbc, "[[", "script") == "_components/dash_bootstrap_components.min.js")][[1]]
 
   dcc_min_path <- getDependencyPath(dcc_min)
   dcc_min_modtime <- as.integer(file.mtime(dcc_min_path))
@@ -118,6 +120,10 @@ test_that("stylesheets can be added with or without attributes", {
   dt_bundle_path <- getDependencyPath(dt_bundle)
   dt_bundle_modtime <- as.integer(file.mtime(dt_bundle_path))
   dt_bundle_filename <- basename(buildFingerprint(dt_bundle$script, dt_bundle$version, dt_bundle_modtime))
+
+  dbc_min_path <- getDependencyPath(dbc_min)
+  dbc_min_modtime <- as.integer(file.mtime(dbc_min_path))
+  dbc_min_filename <- basename(buildFingerprint(dbc_min$script, dbc_min$version, dbc_min_modtime))
 
   dcc_min_ref <- paste0("/",
                     "_dash-component-suites/",
@@ -155,10 +161,20 @@ test_that("stylesheets can be added with or without attributes", {
                     dt_bundle$version,
                     "&m=",
                     dt_bundle_modtime)
+  dbc_ref <- paste0("/",
+                    "_dash-component-suites/",
+                    dbc_min$name,
+                    "/",
+                    dbc_min_filename,
+                    "?v=",
+                    dbc_min$version,
+                    "&m=",
+                    dbc_min_modtime)
   all_tags <- glue::glue("<script src=\"{c(internal_hrefs[c(\"react-prod\",
                                                             \"react-dom-prod\",
                                                             \"prop-types-prod\",
                                                             \"polyfill-prod\")],
+                                           dbc_ref,
                                            dcc_min_ref,
                                            dcc_shared_ref,
                                            dhc_ref,
