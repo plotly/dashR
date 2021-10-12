@@ -24,5 +24,5 @@ dash_app() %>%
 
 def test_rdbc001_bootstrap_theme(dashr):
     dashr.start_server(app_with_theme)
-    dashr.wait_for_element_by_id("#dbcInput", timeout=4)
+    dashr.wait_for_element_by_id("#dbc-input", timeout=4)
     dashr.percy_snapshot("rdbc001 - bootstrap components")
