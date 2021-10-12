@@ -15,12 +15,14 @@ const retrieveAssets = async () => {
         'dash-core-components',
         'dash-html-components',
         'dash-table',
-        'dash-bootstrap-components'
+        'dash-bootstrap-components',
     ];
 
     shell.cd(assetsPath);
     shell.exec('git clone https://github.com/plotly/dash');
-    shell.exec('git clone https://github.com/facultyai/dash-bootstrap-components && cd dash-bootstrap-components && pip install -r dev-requirements.txt && cd ../')
+    shell.exec(
+        'git clone https://github.com/facultyai/dash-bootstrap-components && cd dash-bootstrap-components && npm i && pip install -r requirements-dev.txt && cd ../'
+    );
     shell.cd(path.resolve(assetsPath, 'dash'));
     shell.exec('git checkout update-r-generation && npm i && npm run build');
     shell.exec(
@@ -37,7 +39,6 @@ const retrieveAssets = async () => {
         shell.exec('npm run build');
     }
 };
-
 
 // Update the inst directories for each of the component packages.
 function copyCoreInstDirectory() {
@@ -79,10 +80,15 @@ function copyTableInstDirectory() {
 }
 
 function copyBootstrapInstDirectory() {
-    if (fs.existsSync(path.resolve(__dirname, 'gulp-assets/dash-bootstrap-components/inst'))) {
-        return src([
-            'gulp-assets/dash-bootstrap-components/inst/deps/**/*',
-        ])
+    if (
+        fs.existsSync(
+            path.resolve(
+                __dirname,
+                'gulp-assets/dash-bootstrap-components/inst'
+            )
+        )
+    ) {
+        return src(['gulp-assets/dash-bootstrap-components/inst/deps/**/*'])
             .pipe(print())
             .pipe(dest('inst/deps', {overwrite: true}));
     }
@@ -126,6 +132,23 @@ function copyTableManDirectory() {
         ]).pipe(dest('man/', {overwrite: true}));
     }
     return log('Unable to find dash-table `man` directory.');
+}
+
+function copyBootstrapManDirectory() {
+    if (
+        fs.existsSync(
+            path.relative(
+                __dirname,
+                'gulp-assets/dash-bootstrap-components/man'
+            )
+        )
+    ) {
+        return src([
+            'gulp-assets/dash-bootstrap-components/man/**/*',
+            '!gulp-assets/dash-bootstrap-components/man/*-package.Rd',
+        ]).pipe(dest('man/', {overwrite: true}));
+    }
+    return log('Unable to find dash-bootstrap-components `man` directory.');
 }
 
 // Update the R directories for each of the component packages.
@@ -188,6 +211,7 @@ function copyBootstrapRDirectory() {
         ])
             .pipe(print())
             .pipe(concat('dashBootstrapComponents.R'))
+            .pipe(replace(/#'\s@export'/g, '"# @export"'))
             .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-bootstrap-components `R` directory.');
@@ -237,7 +261,9 @@ function appendBootstrapInternal() {
         .pipe(
             replace(
                 '{dbc_deps}',
-                fs.readFileSync('gulp-assets/dash-bootstrap-components/R/internal.R')
+                fs.readFileSync(
+                    'gulp-assets/dash-bootstrap-components/R/internal.R'
+                )
             )
         )
         .pipe(dest('R/', {overwrite: true}));
@@ -250,7 +276,9 @@ function replacePackageDependency() {
         .pipe(replace(/package = "dashCoreComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashHtmlComponents"/g, 'package = "dash"'))
         .pipe(replace(/package = "dashTable"/g, 'package = "dash"'))
-        .pipe(replace(/package = "dashBootstrapComponents"/g, 'package = "dash"'))
+        .pipe(
+            replace(/package = "dashBootstrapComponents"/g, 'package = "dash"')
+        )
         .pipe(replace(/name = "dcc\//g, 'name = "'))
         .pipe(
             replace(
@@ -306,8 +334,18 @@ exports.unify = series(
         copyTableInstDirectory,
         copyBootstrapInstDirectory
     ),
-    // parallel(copyCoreManDirectory, copyHtmlManDirectory, copyTableManDirectory),
-    parallel(copyCoreRDirectory, copyHtmlRDirectory, copyTableRDirectory, copyBootstrapRDirectory)
+    parallel(
+        copyCoreManDirectory,
+        copyHtmlManDirectory,
+        copyTableManDirectory,
+        copyBootstrapManDirectory
+    ),
+    parallel(
+        copyCoreRDirectory,
+        copyHtmlRDirectory,
+        copyTableRDirectory,
+        copyBootstrapRDirectory
+    )
 );
 
 exports.update = series(
