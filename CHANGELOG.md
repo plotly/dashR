@@ -2,7 +2,7 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.0.0] - 2021-10-04
+## [0.9.1] - 2021-10-13
 ### Added
 - Dash layout wrapper functions are included, which simplify the layout syntax for writing Dash apps. This includes the ability to pipe in the `app` object to layout and meta functions, as well as tags which simplify `html` component arguments and children. [#265](https://github.com/plotly/dashR/pull/265)
 
@@ -15,9 +15,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Minor fix for favicon issue continued from [#240](https://github.com/plotly/dashr/pull/240) (for more details, see [#243](https://github.com/plotly/dashR/pull/243#issuecomment-842813526)).
 - Minor fix to enable `suppress_callback_exceptions` configuration option when creating a Dash app. [#268](https://github.com/plotly/dashr/pull/268)
 
-
-## [0.9.1] - 2020-11-16
-### Fixed
 - A regression which prevented favicons from displaying properly has been resolved, and a default Dash favicon is now supplied when none is provided in the `assets` directory. [#240](https://github.com/plotly/dashr/pull/240)
 
 ## [0.9.0] - 2020-10-31
