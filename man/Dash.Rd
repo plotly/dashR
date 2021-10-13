@@ -19,9 +19,9 @@ A framework for building analytical web applications, Dash offers a pleasant and
 library(dash)
 app <- Dash$new()
 
-# A handler to redirect requests with `307` status code (temporary redirects); 
+# A handler to redirect requests with `307` status code (temporary redirects);
 # for permanent redirects (`301`), see the `redirect` method described below
-# 
+#
 # A simple single path-to-path redirect
 app$server_route('/getting-started', function(request, response, keys, ...) {
   response$status <- 307L
@@ -90,7 +90,7 @@ sample_template <- "<!DOCTYPE html>
 # a list, in which each element is a JSON key/value pair, when
 # reformatted as JSON from the list:
 #  e.g. {"routes_pathname_prefix":"/", "ui":false}
-config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>", 
+config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>",
                  jsonlite::toJSON(app$config, auto_unbox=TRUE))
 
 app$interpolate_index(
@@ -104,9 +104,7 @@ app$interpolate_index(
 ## Method `Dash$run_server`
 ## ------------------------------------------------
 
-if (interactive() && require(dash)) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
+if (interactive() ) {
   library(dash)
 
   app <- Dash$new()
@@ -304,9 +302,9 @@ application object, one option is to clear the routes manually:
 \preformatted{library(dash)
 app <- Dash$new()
 
-# A handler to redirect requests with `307` status code (temporary redirects); 
+# A handler to redirect requests with `307` status code (temporary redirects);
 # for permanent redirects (`301`), see the `redirect` method described below
-# 
+#
 # A simple single path-to-path redirect
 app$server_route('/getting-started', function(request, response, keys, ...) {
   response$status <- 307L
@@ -783,7 +781,7 @@ sample_template <- "<!DOCTYPE html>
 # a list, in which each element is a JSON key/value pair, when
 # reformatted as JSON from the list:
 #  e.g. {"routes_pathname_prefix":"/", "ui":false}
-config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>", 
+config <- sprintf("<script id='_dash-config' type='application/json'> \%s </script>",
                  jsonlite::toJSON(app$config, auto_unbox=TRUE))
 
 app$interpolate_index(
@@ -887,9 +885,7 @@ to the \code{ignite()} method of the \link[fiery:Fire]{fiery::Fire} server.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{if (interactive() && require(dash)) {
-  library(dashCoreComponents)
-  library(dashHtmlComponents)
+\preformatted{if (interactive() ) {
   library(dash)
 
   app <- Dash$new()

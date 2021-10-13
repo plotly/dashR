@@ -1,7 +1,5 @@
 app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
 
 app <- Dash$new()
 

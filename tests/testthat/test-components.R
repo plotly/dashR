@@ -1,15 +1,13 @@
-context("components")
-
 test_that("Components work recursively (components can be children of components)", {
 
   # div inside a div
-  x <- dashHtmlComponents::htmlDiv(id = "one", htmlDiv(id = "two"))
-  expect_true(dash:::is.component(x))
-  expect_true(dash:::is.component(x[[1]]$children))
+  x <- htmlDiv(id = "one", htmlDiv(id = "two"))
+  expect_true(is.component(x))
+  expect_true(is.component(x[[1]]$children))
 
   # slider inside a div
   x <- htmlDiv(
-    dashCoreComponents::dccSlider(
+    dccSlider(
       id = "h",
       min = 1,
       max = 100,
@@ -17,8 +15,8 @@ test_that("Components work recursively (components can be children of components
     )
   )
 
-  expect_true(dash:::is.component(x))
-  expect_true(dash:::is.component(x[[1]]$children))
+  expect_true(is.component(x))
+  expect_true(is.component(x[[1]]$children))
   slider <- x$props
   expect_true(slider$children$props[["id"]] == "h")
   expect_true(slider$children$props[["min"]] == 1)
@@ -34,12 +32,12 @@ test_that("Component constructors behave as intended", {
   # (3) namespace: is this a core/html component?
 
   expect_component_names <- function(component) {
-    diff <- dash:::setdiffsym(names(component), c("props", "type", "namespace", "propNames", "package"))
+    diff <- setdiffsym(names(component), c("props", "type", "namespace", "propNames", "package"))
     expect_length(diff, 0)
   }
 
-  expect_component_names(dashHtmlComponents::htmlA())
-  expect_component_names(dashCoreComponents::dccDropdown())
+  expect_component_names(htmlA())
+  expect_component_names(dccDropdown())
 
   expect_equal(
     htmlH2("A header")$props$children[[1]], "A header"
@@ -63,15 +61,6 @@ test_that("Giving nonsense arguments to components yields error", {
   )
 })
 
-# test_that("Can identify whether a component contains a component of a given type", {
-#   g <- dashCoreComponents::dccGraph()
-#   s <- dashCoreComponents::dccSlider()
-#   expect_true(dash:::component_contains_type(g, "dashCoreComponents", "Graph"))
-#   expect_false(dash:::component_contains_type(g, "dash", "Graph"))
-#   expect_false(dash:::component_contains_type(s, "dashCoreComponents", "Graph"))
-#   expect_true(dash:::component_contains_type(htmlDiv(children=list(s, htmlDiv(g))), "dashCoreComponents", "Graph"))
-# })
-
 test_that("wildcard attributes work with children", {
   s1 <- htmlSpan("hmm", className = "value-output", `data-icon` = "fa-pencil")
   s2 <- htmlSpan(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
@@ -84,7 +73,7 @@ test_that("wildcard attributes work with children", {
 
 # test_that("Can translate arbitrary HTML string", {
 #   skip_if_not_installed("dashDangerouslySetInnerHtml")
-# 
+#
 #   html <- "<div> 1 </div>"
 #   expect_is(
 #     dashDangerouslySetInnerHtml::DangerouslySetInnerHTML(HTML(html)),

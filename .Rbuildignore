@@ -2,8 +2,22 @@
 ^\.Rproj\.user$
 
 Makefile
+CHANGELOG.md
 announcement\.Rmd
 todo\.txt
+gulpfile.js
+package-lock.json
+package.json
+
+
 .github
+.eslintrc
+.prettierrc
+.circleci
+.pytest_cache
+build/.dockerignore
 tests/integration
 tests/circleci
+gulp-assets
+node_modules
+scripts

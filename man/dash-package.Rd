@@ -27,7 +27,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Ryan Patrick Kyle \email{ryan@plotly.com}
+\strong{Maintainer}: Hammad Khan \email{hammadkhan@plotly.com}
 
 Authors:
 \itemize{

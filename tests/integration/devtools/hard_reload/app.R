@@ -1,7 +1,5 @@
 
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 app <- Dash$new()
 
 app$layout(htmlDiv(list(

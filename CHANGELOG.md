@@ -2,8 +2,25 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.9.0] - 2020-10-31
+## [1.0.0] - 2021-10-04
+### Added
+- Dash layout wrapper functions are included, which simplify the layout syntax for writing Dash apps. This includes the ability to pipe in the `app` object to layout and meta functions, as well as tags which simplify `html` component arguments and children. [#265](https://github.com/plotly/dashR/pull/265)
 
+- Added simplified and flexible callbacks with the `add_callback` helper function. Included in this change are multiple additional helper functions to simplify Dash app configuration and tag usage. [#270](https://github.com/plotly/dashR/pull/270)
+
+### Changed
+- Unified the core Dash packages (dash, dashCoreComponents, dashHtmlComponents, dashTable) for streamlined maintenance and accessibility. The namespaces of these packages will be combined under the `dash` namespace, and all artifacts from the ancillary dash packages will be included with Dash for R. [#243](https://github.com/plotly/dashr/pull/243)
+
+### Fixed
+- Minor fix for favicon issue continued from [#240](https://github.com/plotly/dashr/pull/240) (for more details, see [#243](https://github.com/plotly/dashR/pull/243#issuecomment-842813526)).
+- Minor fix to enable `suppress_callback_exceptions` configuration option when creating a Dash app. [#268](https://github.com/plotly/dashr/pull/268)
+
+
+## [0.9.1] - 2020-11-16
+### Fixed
+- A regression which prevented favicons from displaying properly has been resolved, and a default Dash favicon is now supplied when none is provided in the `assets` directory. [#240](https://github.com/plotly/dashr/pull/240)
+
+## [0.9.0] - 2020-10-31
 ### Fixed
 - Fixes a minor bug in `setCallbackContext` (described in [#236](https://github.com/plotly/dashR/issues/236)) which prevented pattern-matching callbacks from working properly if one or more `input` statements did not include a selector. [#237](https://github.com/plotly/dashR/pull/237)
 

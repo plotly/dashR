@@ -1,7 +1,5 @@
 all_app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 
 app <- Dash$new()
 
@@ -55,9 +53,6 @@ app$run_server()
 
 allsmaller_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
-
 
 df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv', stringsAsFactors = FALSE)
 
@@ -87,7 +82,7 @@ app$callback(
       ),
       htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"), children = list(unique(df$country)[n_clicks + 1]))
     ))
-    
+
     existing_children <- c(existing_children, list(new_children))
   }
 )
@@ -103,10 +98,10 @@ app$callback(
     previous_values_in_reversed_order = rev(previous_values)
     all_values = c(matching_value, previous_values_in_reversed_order)
     all_values = unlist(all_values)
-    
+
     dff = df[df$country %in% all_values,]
     avgLifeExp = round(mean(dff$lifeExp), digits = 2)
-    
+
     if (length(all_values) == 1) {
       return(
         htmlDiv(sprintf("%s is the life expectancy of %s.", avgLifeExp, matching_value))
@@ -118,7 +113,7 @@ app$callback(
       )
     } else {
       return(
-        htmlDiv(sprintf("%s is the life expectancy of %s, and %s.", avgLifeExp, paste(all_values[-length(all_values)], 
+        htmlDiv(sprintf("%s is the life expectancy of %s, and %s.", avgLifeExp, paste(all_values[-length(all_values)],
         collapse = " , "), paste(all_values[length(all_values)])))
       )
     }
@@ -130,9 +125,6 @@ app$run_server()
 
 match_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
-
 
 app <- Dash$new()
 
@@ -184,8 +176,6 @@ app$run_server()
 
 todo_app = """
 library(dash)
-library(dashCoreComponents)
-library(dashHtmlComponents)
 
 app <- Dash$new()
 
@@ -320,8 +310,6 @@ app$run_server()
 
 graphs_app = """
 library(dash)
-library(dashHtmlComponents)
-library(dashCoreComponents)
 library(plotly)
 
 df <- read.csv(
