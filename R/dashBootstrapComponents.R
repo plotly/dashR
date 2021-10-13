@@ -2,7 +2,7 @@
 
 #' @export
 dbcAccordion <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, flush=NULL, active_item=NULL, start_collapsed=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, flush=flush, active_item=active_item, start_collapsed=start_collapsed, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -22,7 +22,7 @@ dbcAccordion <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcAccordionItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, title=NULL, item_id=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, title=title, item_id=item_id, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -42,7 +42,7 @@ dbcAccordionItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL
 
 #' @export
 dbcAlert <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, color=NULL, is_open=NULL, fade=NULL, dismissable=NULL, duration=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, color=color, is_open=is_open, fade=fade, dismissable=dismissable, duration=duration, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -62,7 +62,7 @@ dbcAlert <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcBadge <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, color=NULL, text_color=NULL, pill=NULL, href=NULL, tag=NULL, loading_state=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, target=NULL, title=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, color=color, text_color=text_color, pill=pill, href=href, tag=tag, loading_state=loading_state, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, target=target, title=title)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -82,7 +82,7 @@ dbcBadge <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcBreadcrumb <- function(id=NULL, items=NULL, style=NULL, item_style=NULL, class_name=NULL, className=NULL, item_class_name=NULL, itemClassName=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(id=id, items=items, style=style, item_style=item_style, class_name=class_name, className=className, item_class_name=item_class_name, itemClassName=itemClassName, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -102,7 +102,7 @@ dbcBreadcrumb <- function(id=NULL, items=NULL, style=NULL, item_style=NULL, clas
 
 #' @export
 dbcButton <- function(children=NULL, id=NULL, class_name=NULL, className=NULL, style=NULL, key=NULL, href=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, active=NULL, color=NULL, disabled=NULL, size=NULL, title=NULL, outline=NULL, loading_state=NULL, target=NULL, type=NULL, download=NULL, name=NULL, value=NULL) {
-    
+
     props <- list(children=children, id=id, class_name=class_name, className=className, style=style, key=key, href=href, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, active=active, color=color, disabled=disabled, size=size, title=title, outline=outline, loading_state=loading_state, target=target, type=type, download=download, name=name, value=value)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -122,7 +122,7 @@ dbcButton <- function(children=NULL, id=NULL, class_name=NULL, className=NULL, s
 
 #' @export
 dbcButtonGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, vertical=NULL, size=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, vertical=vertical, size=size, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -142,7 +142,7 @@ dbcButtonGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, 
 
 #' @export
 dbcCard <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, color=NULL, body=NULL, outline=NULL, inverse=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, color=color, body=body, outline=outline, inverse=inverse, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -162,7 +162,7 @@ dbcCard <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNa
 
 #' @export
 dbcCardBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -182,7 +182,7 @@ dbcCardBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cla
 
 #' @export
 dbcCardFooter <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -202,7 +202,7 @@ dbcCardFooter <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, c
 
 #' @export
 dbcCardGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -222,7 +222,7 @@ dbcCardGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcCardHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -242,7 +242,7 @@ dbcCardHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, c
 
 #' @export
 dbcCardImg <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, top=NULL, bottom=NULL, src=NULL, alt=NULL, title=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, top=top, bottom=bottom, src=src, alt=alt, title=title, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -262,7 +262,7 @@ dbcCardImg <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, clas
 
 #' @export
 dbcCardImgOverlay <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -282,7 +282,7 @@ dbcCardImgOverlay <- function(children=NULL, id=NULL, style=NULL, class_name=NUL
 
 #' @export
 dbcCardLink <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, href=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL, target=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, href=href, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state, target=target)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -302,7 +302,7 @@ dbcCardLink <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cla
 
 #' @export
 dbcCarousel <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, items=NULL, active_index=NULL, controls=NULL, indicators=NULL, ride=NULL, slide=NULL, variant=NULL, interval=NULL, loading_state=NULL) {
-    
+
     props <- list(id=id, style=style, class_name=class_name, className=className, items=items, active_index=active_index, controls=controls, indicators=indicators, ride=ride, slide=slide, variant=variant, interval=interval, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -322,7 +322,7 @@ dbcCarousel <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, it
 
 #' @export
 dbcCheckbox <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, input_style=NULL, inputStyle=NULL, input_class_name=NULL, inputClassName=NULL, label=NULL, label_id=NULL, label_style=NULL, labelStyle=NULL, label_class_name=NULL, labelClassName=NULL, name=NULL, disabled=NULL, value=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(id=id, class_name=class_name, className=className, style=style, input_style=input_style, inputStyle=inputStyle, input_class_name=input_class_name, inputClassName=inputClassName, label=label, label_id=label_id, label_style=label_style, labelStyle=labelStyle, label_class_name=label_class_name, labelClassName=labelClassName, name=name, disabled=disabled, value=value, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -342,7 +342,7 @@ dbcCheckbox <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, in
 
 #' @export
 dbcChecklist <- function(id=NULL, options=NULL, value=NULL, class_name=NULL, className=NULL, style=NULL, key=NULL, input_style=NULL, inputStyle=NULL, input_checked_style=NULL, inputCheckedStyle=NULL, input_class_name=NULL, inputClassName=NULL, input_checked_class_name=NULL, inputCheckedClassName=NULL, label_style=NULL, labelStyle=NULL, label_checked_style=NULL, labelCheckedStyle=NULL, label_class_name=NULL, labelClassName=NULL, label_checked_class_name=NULL, labelCheckedClassName=NULL, inline=NULL, switch=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, name=NULL) {
-    
+
     props <- list(id=id, options=options, value=value, class_name=class_name, className=className, style=style, key=key, input_style=input_style, inputStyle=inputStyle, input_checked_style=input_checked_style, inputCheckedStyle=inputCheckedStyle, input_class_name=input_class_name, inputClassName=inputClassName, input_checked_class_name=input_checked_class_name, inputCheckedClassName=inputCheckedClassName, label_style=label_style, labelStyle=labelStyle, label_checked_style=label_checked_style, labelCheckedStyle=labelCheckedStyle, label_class_name=label_class_name, labelClassName=labelClassName, label_checked_class_name=label_checked_class_name, labelCheckedClassName=labelCheckedClassName, inline=inline, switch=switch, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, name=name)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -362,7 +362,7 @@ dbcChecklist <- function(id=NULL, options=NULL, value=NULL, class_name=NULL, cla
 
 #' @export
 dbcCol <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, width=NULL, xs=NULL, sm=NULL, md=NULL, lg=NULL, xl=NULL, xxl=NULL, align=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, width=width, xs=xs, sm=sm, md=md, lg=lg, xl=xl, xxl=xxl, align=align, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -382,7 +382,7 @@ dbcCol <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNam
 
 #' @export
 dbcCollapse <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, is_open=NULL, navbar=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, is_open=is_open, navbar=navbar, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -402,7 +402,7 @@ dbcCollapse <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cla
 
 #' @export
 dbcContainer <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, fluid=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, fluid=fluid, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -422,7 +422,7 @@ dbcContainer <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcDropdownMenu <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, label=NULL, direction=NULL, align_end=NULL, right=NULL, in_navbar=NULL, addon_type=NULL, disabled=NULL, nav=NULL, caret=NULL, color=NULL, menu_variant=NULL, toggle_style=NULL, toggle_class_name=NULL, toggleClassName=NULL, size=NULL, loading_state=NULL, group=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, label=label, direction=direction, align_end=align_end, right=right, in_navbar=in_navbar, addon_type=addon_type, disabled=disabled, nav=nav, caret=caret, color=color, menu_variant=menu_variant, toggle_style=toggle_style, toggle_class_name=toggle_class_name, toggleClassName=toggleClassName, size=size, loading_state=loading_state, group=group)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -442,7 +442,7 @@ dbcDropdownMenu <- function(children=NULL, id=NULL, style=NULL, class_name=NULL,
 
 #' @export
 dbcDropdownMenuItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, active=NULL, disabled=NULL, divider=NULL, header=NULL, href=NULL, toggle=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL, target=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, active=active, disabled=disabled, divider=divider, header=header, href=href, toggle=toggle, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state, target=target)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -462,7 +462,7 @@ dbcDropdownMenuItem <- function(children=NULL, id=NULL, style=NULL, class_name=N
 
 #' @export
 dbcFade <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, is_in=NULL, timeout=NULL, appear=NULL, enter=NULL, exit=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, is_in=is_in, timeout=timeout, appear=appear, enter=enter, exit=exit, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -482,7 +482,7 @@ dbcFade <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNa
 
 #' @export
 dbcForm <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, action=NULL, method=NULL, n_submit=NULL, n_submit_timestamp=NULL, prevent_default_on_submit=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, action=action, method=method, n_submit=n_submit, n_submit_timestamp=n_submit_timestamp, prevent_default_on_submit=prevent_default_on_submit, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -502,7 +502,7 @@ dbcForm <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNa
 
 #' @export
 dbcFormFeedback <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, type=NULL, tooltip=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, type=type, tooltip=tooltip, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -522,7 +522,7 @@ dbcFormFeedback <- function(children=NULL, id=NULL, style=NULL, class_name=NULL,
 
 #' @export
 dbcFormFloating <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, html_for=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, html_for=html_for, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -542,7 +542,7 @@ dbcFormFloating <- function(children=NULL, id=NULL, style=NULL, class_name=NULL,
 
 #' @export
 dbcFormText <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, color=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, color=color, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -562,7 +562,7 @@ dbcFormText <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cla
 
 #' @export
 dbcInput <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, type=NULL, value=NULL, disabled=NULL, autocomplete=NULL, autoComplete=NULL, autofocus=NULL, autoFocus=NULL, inputmode=NULL, inputMode=NULL, list=NULL, max=NULL, maxlength=NULL, maxLength=NULL, min=NULL, minlength=NULL, minLength=NULL, step=NULL, html_size=NULL, size=NULL, valid=NULL, invalid=NULL, required=NULL, plaintext=NULL, placeholder=NULL, name=NULL, pattern=NULL, n_submit=NULL, n_submit_timestamp=NULL, n_blur=NULL, n_blur_timestamp=NULL, debounce=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, tabindex=NULL, tabIndex=NULL) {
-    
+
     props <- list(id=id, style=style, class_name=class_name, className=className, key=key, type=type, value=value, disabled=disabled, autocomplete=autocomplete, autoComplete=autoComplete, autofocus=autofocus, autoFocus=autoFocus, inputmode=inputmode, inputMode=inputMode, list=list, max=max, maxlength=maxlength, maxLength=maxLength, min=min, minlength=minlength, minLength=minLength, step=step, html_size=html_size, size=size, valid=valid, invalid=invalid, required=required, plaintext=plaintext, placeholder=placeholder, name=name, pattern=pattern, n_submit=n_submit, n_submit_timestamp=n_submit_timestamp, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, debounce=debounce, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, tabindex=tabindex, tabIndex=tabIndex)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -582,7 +582,7 @@ dbcInput <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, key=N
 
 #' @export
 dbcInputGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, size=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, size=size, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -602,7 +602,7 @@ dbcInputGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, c
 
 #' @export
 dbcInputGroupText <- function(children=NULL, id=NULL, style=NULL, key=NULL, class_name=NULL, className=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, key=key, class_name=class_name, className=className, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -622,7 +622,7 @@ dbcInputGroupText <- function(children=NULL, id=NULL, style=NULL, key=NULL, clas
 
 #' @export
 dbcLabel <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, hidden=NULL, size=NULL, html_for=NULL, check=NULL, width=NULL, xs=NULL, sm=NULL, md=NULL, lg=NULL, xl=NULL, align=NULL, color=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, hidden=hidden, size=size, html_for=html_for, check=check, width=width, xs=xs, sm=sm, md=md, lg=lg, xl=xl, align=align, color=color, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -642,7 +642,7 @@ dbcLabel <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcListGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, flush=NULL, loading_state=NULL, horizontal=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, flush=flush, loading_state=loading_state, horizontal=horizontal)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -662,7 +662,7 @@ dbcListGroup <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcListGroupItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, active=NULL, disabled=NULL, color=NULL, action=NULL, href=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL, target=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, active=active, disabled=disabled, color=color, action=action, href=href, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state, target=target)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -682,7 +682,7 @@ dbcListGroupItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL
 
 #' @export
 dbcModal <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, tag=NULL, is_open=NULL, centered=NULL, scrollable=NULL, autofocus=NULL, autoFocus=NULL, size=NULL, role=NULL, labelledby=NULL, labelledBy=NULL, keyboard=NULL, backdrop=NULL, modal_class_name=NULL, modalClassName=NULL, backdrop_class_name=NULL, backdropClassName=NULL, content_class_name=NULL, contentClassName=NULL, fade=NULL, fullscreen=NULL, zindex=NULL, zIndex=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, tag=tag, is_open=is_open, centered=centered, scrollable=scrollable, autofocus=autofocus, autoFocus=autoFocus, size=size, role=role, labelledby=labelledby, labelledBy=labelledBy, keyboard=keyboard, backdrop=backdrop, modal_class_name=modal_class_name, modalClassName=modalClassName, backdrop_class_name=backdrop_class_name, backdropClassName=backdropClassName, content_class_name=content_class_name, contentClassName=contentClassName, fade=fade, fullscreen=fullscreen, zindex=zindex, zIndex=zIndex)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -702,7 +702,7 @@ dbcModal <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcModalBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -722,7 +722,7 @@ dbcModalBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcModalFooter <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -742,7 +742,7 @@ dbcModalFooter <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, 
 
 #' @export
 dbcModalHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, close_button=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, close_button=close_button, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -762,7 +762,7 @@ dbcModalHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, 
 
 #' @export
 dbcModalTitle <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -782,7 +782,7 @@ dbcModalTitle <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, c
 
 #' @export
 dbcNav <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, pills=NULL, card=NULL, fill=NULL, justified=NULL, vertical=NULL, horizontal=NULL, navbar=NULL, navbar_scroll=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, pills=pills, card=card, fill=fill, justified=justified, vertical=vertical, horizontal=horizontal, navbar=navbar, navbar_scroll=navbar_scroll, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -802,7 +802,7 @@ dbcNav <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNam
 
 #' @export
 dbcNavItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -822,7 +822,7 @@ dbcNavItem <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, clas
 
 #' @export
 dbcNavLink <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, href=NULL, active=NULL, disabled=NULL, external_link=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL, target=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, href=href, active=active, disabled=disabled, external_link=external_link, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state, target=target)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -842,7 +842,7 @@ dbcNavLink <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, clas
 
 #' @export
 dbcNavbar <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, light=NULL, dark=NULL, fixed=NULL, sticky=NULL, color=NULL, role=NULL, tag=NULL, expand=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, light=light, dark=dark, fixed=fixed, sticky=sticky, color=color, role=role, tag=tag, expand=expand, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -862,7 +862,7 @@ dbcNavbar <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, class
 
 #' @export
 dbcNavbarBrand <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, external_link=NULL, href=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, external_link=external_link, href=href, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -882,7 +882,7 @@ dbcNavbarBrand <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, 
 
 #' @export
 dbcNavbarSimple <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, brand=NULL, brand_href=NULL, brand_style=NULL, brand_external_link=NULL, fluid=NULL, links_left=NULL, light=NULL, dark=NULL, fixed=NULL, sticky=NULL, color=NULL, expand=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, brand=brand, brand_href=brand_href, brand_style=brand_style, brand_external_link=brand_external_link, fluid=fluid, links_left=links_left, light=light, dark=dark, fixed=fixed, sticky=sticky, color=color, expand=expand, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -902,7 +902,7 @@ dbcNavbarSimple <- function(children=NULL, id=NULL, style=NULL, class_name=NULL,
 
 #' @export
 dbcNavbarToggler <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, type=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, type=type, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -922,7 +922,7 @@ dbcNavbarToggler <- function(children=NULL, id=NULL, style=NULL, class_name=NULL
 
 #' @export
 dbcOffcanvas <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, labelledby=NULL, labelledBy=NULL, backdrop=NULL, backdrop_class_name=NULL, backdropClassName=NULL, keyboard=NULL, is_open=NULL, placement=NULL, scrollable=NULL, autofocus=NULL, autoFocus=NULL, title=NULL, close_button=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, labelledby=labelledby, labelledBy=labelledBy, backdrop=backdrop, backdrop_class_name=backdrop_class_name, backdropClassName=backdropClassName, keyboard=keyboard, is_open=is_open, placement=placement, scrollable=scrollable, autofocus=autofocus, autoFocus=autoFocus, title=title, close_button=close_button, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -942,7 +942,7 @@ dbcOffcanvas <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cl
 
 #' @export
 dbcPagination <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, size=NULL, min_value=NULL, max_value=NULL, step=NULL, active_page=NULL, fully_expanded=NULL, previous_next=NULL, first_last=NULL, loading_state=NULL) {
-    
+
     props <- list(id=id, class_name=class_name, className=className, style=style, size=size, min_value=min_value, max_value=max_value, step=step, active_page=active_page, fully_expanded=fully_expanded, previous_next=previous_next, first_last=first_last, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -962,7 +962,7 @@ dbcPagination <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, 
 
 #' @export
 dbcPopover <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, placement=NULL, target=NULL, trigger=NULL, is_open=NULL, hide_arrow=NULL, inner_class_name=NULL, innerClassName=NULL, delay=NULL, offset=NULL, flip=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, placement=placement, target=target, trigger=trigger, is_open=is_open, hide_arrow=hide_arrow, inner_class_name=inner_class_name, innerClassName=innerClassName, delay=delay, offset=offset, flip=flip, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -982,7 +982,7 @@ dbcPopover <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, clas
 
 #' @export
 dbcPopoverBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1002,7 +1002,7 @@ dbcPopoverBody <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, 
 
 #' @export
 dbcPopoverHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, tag=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, tag=tag, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1022,7 +1022,7 @@ dbcPopoverHeader <- function(children=NULL, id=NULL, style=NULL, class_name=NULL
 
 #' @export
 dbcProgress <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, bar=NULL, min=NULL, max=NULL, value=NULL, label=NULL, hide_label=NULL, animated=NULL, striped=NULL, color=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, bar=bar, min=min, max=max, value=value, label=label, hide_label=hide_label, animated=animated, striped=striped, color=color, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1042,7 +1042,7 @@ dbcProgress <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, cla
 
 #' @export
 dbcRadioButton <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, input_style=NULL, inputStyle=NULL, input_class_name=NULL, inputClassName=NULL, label=NULL, label_id=NULL, label_style=NULL, labelStyle=NULL, label_class_name=NULL, labelClassName=NULL, name=NULL, value=NULL, disabled=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(id=id, class_name=class_name, className=className, style=style, input_style=input_style, inputStyle=inputStyle, input_class_name=input_class_name, inputClassName=inputClassName, label=label, label_id=label_id, label_style=label_style, labelStyle=labelStyle, label_class_name=label_class_name, labelClassName=labelClassName, name=name, value=value, disabled=disabled, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1062,7 +1062,7 @@ dbcRadioButton <- function(id=NULL, class_name=NULL, className=NULL, style=NULL,
 
 #' @export
 dbcRadioItems <- function(id=NULL, key=NULL, options=NULL, value=NULL, style=NULL, class_name=NULL, className=NULL, input_style=NULL, inputStyle=NULL, input_checked_style=NULL, inputCheckedStyle=NULL, input_class_name=NULL, inputClassName=NULL, input_checked_class_name=NULL, inputCheckedClassName=NULL, label_style=NULL, labelStyle=NULL, label_checked_style=NULL, labelCheckedStyle=NULL, label_class_name=NULL, labelClassName=NULL, label_checked_class_name=NULL, labelCheckedClassName=NULL, inline=NULL, switch=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, name=NULL) {
-    
+
     props <- list(id=id, key=key, options=options, value=value, style=style, class_name=class_name, className=className, input_style=input_style, inputStyle=inputStyle, input_checked_style=input_checked_style, inputCheckedStyle=inputCheckedStyle, input_class_name=input_class_name, inputClassName=inputClassName, input_checked_class_name=input_checked_class_name, inputCheckedClassName=inputCheckedClassName, label_style=label_style, labelStyle=labelStyle, label_checked_style=label_checked_style, labelCheckedStyle=labelCheckedStyle, label_class_name=label_class_name, labelClassName=labelClassName, label_checked_class_name=label_checked_class_name, labelCheckedClassName=labelCheckedClassName, inline=inline, switch=switch, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, name=name)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1082,7 +1082,7 @@ dbcRadioItems <- function(id=NULL, key=NULL, options=NULL, value=NULL, style=NUL
 
 #' @export
 dbcRow <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, align=NULL, justify=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, align=align, justify=justify, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1102,7 +1102,7 @@ dbcRow <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNam
 
 #' @export
 dbcSelect <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, placeholder=NULL, value=NULL, options=NULL, disabled=NULL, required=NULL, valid=NULL, invalid=NULL, size=NULL, html_size=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, name=NULL) {
-    
+
     props <- list(id=id, style=style, class_name=class_name, className=className, key=key, placeholder=placeholder, value=value, options=options, disabled=disabled, required=required, valid=valid, invalid=invalid, size=size, html_size=html_size, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, name=name)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1122,7 +1122,7 @@ dbcSelect <- function(id=NULL, style=NULL, class_name=NULL, className=NULL, key=
 
 #' @export
 dbcSpinner <- function(children=NULL, id=NULL, fullscreen_style=NULL, spinner_style=NULL, fullscreen_class_name=NULL, fullscreenClassName=NULL, spinner_class_name=NULL, spinnerClassName=NULL, color=NULL, type=NULL, size=NULL, fullscreen=NULL, delay_hide=NULL, delay_show=NULL, show_initially=NULL) {
-    
+
     props <- list(children=children, id=id, fullscreen_style=fullscreen_style, spinner_style=spinner_style, fullscreen_class_name=fullscreen_class_name, fullscreenClassName=fullscreenClassName, spinner_class_name=spinner_class_name, spinnerClassName=spinnerClassName, color=color, type=type, size=size, fullscreen=fullscreen, delay_hide=delay_hide, delay_show=delay_show, show_initially=show_initially)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1142,7 +1142,7 @@ dbcSpinner <- function(children=NULL, id=NULL, fullscreen_style=NULL, spinner_st
 
 #' @export
 dbcSwitch <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, input_style=NULL, inputStyle=NULL, input_class_name=NULL, inputClassName=NULL, label=NULL, label_id=NULL, label_style=NULL, labelStyle=NULL, label_class_name=NULL, labelClassName=NULL, name=NULL, value=NULL, disabled=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(id=id, class_name=class_name, className=className, style=style, input_style=input_style, inputStyle=inputStyle, input_class_name=input_class_name, inputClassName=inputClassName, label=label, label_id=label_id, label_style=label_style, labelStyle=labelStyle, label_class_name=label_class_name, labelClassName=labelClassName, name=name, value=value, disabled=disabled, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1162,7 +1162,7 @@ dbcSwitch <- function(id=NULL, class_name=NULL, className=NULL, style=NULL, inpu
 
 #' @export
 dbcTab <- function(children=NULL, id=NULL, style=NULL, tab_style=NULL, active_tab_style=NULL, label_style=NULL, active_label_style=NULL, class_name=NULL, className=NULL, tab_class_name=NULL, tabClassName=NULL, active_tab_class_name=NULL, activeTabClassName=NULL, label_class_name=NULL, labelClassName=NULL, active_label_class_name=NULL, activeLabelClassName=NULL, key=NULL, label=NULL, tab_id=NULL, disabled=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, tab_style=tab_style, active_tab_style=active_tab_style, label_style=label_style, active_label_style=active_label_style, class_name=class_name, className=className, tab_class_name=tab_class_name, tabClassName=tabClassName, active_tab_class_name=active_tab_class_name, activeTabClassName=activeTabClassName, label_class_name=label_class_name, labelClassName=labelClassName, active_label_class_name=active_label_class_name, activeLabelClassName=activeLabelClassName, key=key, label=label, tab_id=tab_id, disabled=disabled, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1182,7 +1182,7 @@ dbcTab <- function(children=NULL, id=NULL, style=NULL, tab_style=NULL, active_ta
 
 #' @export
 dbcTable <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, size=NULL, bordered=NULL, borderless=NULL, striped=NULL, color=NULL, dark=NULL, hover=NULL, responsive=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, size=size, bordered=bordered, borderless=borderless, striped=striped, color=color, dark=dark, hover=hover, responsive=responsive, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1202,7 +1202,7 @@ dbcTable <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcTabs <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, active_tab=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, active_tab=active_tab, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1222,7 +1222,7 @@ dbcTabs <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classNa
 
 #' @export
 dbcTextarea <- function(id=NULL, key=NULL, value=NULL, autofocus=NULL, autoFocus=NULL, cols=NULL, disabled=NULL, form=NULL, maxlength=NULL, maxLength=NULL, minlength=NULL, minLength=NULL, name=NULL, placeholder=NULL, readonly=NULL, readOnly=NULL, required=NULL, rows=NULL, wrap=NULL, accesskey=NULL, accessKey=NULL, class_name=NULL, className=NULL, contenteditable=NULL, contentEditable=NULL, contextmenu=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellcheck=NULL, spellCheck=NULL, style=NULL, tabindex=NULL, tabIndex=NULL, title=NULL, size=NULL, valid=NULL, invalid=NULL, n_blur=NULL, n_blur_timestamp=NULL, n_submit=NULL, n_submit_timestamp=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, debounce=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
-    
+
     props <- list(id=id, key=key, value=value, autofocus=autofocus, autoFocus=autoFocus, cols=cols, disabled=disabled, form=form, maxlength=maxlength, maxLength=maxLength, minlength=minlength, minLength=minLength, name=name, placeholder=placeholder, readonly=readonly, readOnly=readOnly, required=required, rows=rows, wrap=wrap, accesskey=accesskey, accessKey=accessKey, class_name=class_name, className=className, contenteditable=contenteditable, contentEditable=contentEditable, contextmenu=contextmenu, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellcheck=spellcheck, spellCheck=spellCheck, style=style, tabindex=tabindex, tabIndex=tabIndex, title=title, size=size, valid=valid, invalid=invalid, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, n_submit=n_submit, n_submit_timestamp=n_submit_timestamp, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, debounce=debounce, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1242,7 +1242,7 @@ dbcTextarea <- function(id=NULL, key=NULL, value=NULL, autofocus=NULL, autoFocus
 
 #' @export
 dbcToast <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, header_style=NULL, header_class_name=NULL, headerClassName=NULL, body_style=NULL, body_class_name=NULL, bodyClassName=NULL, tag=NULL, is_open=NULL, key=NULL, header=NULL, dismissable=NULL, duration=NULL, n_dismiss=NULL, n_dismiss_timestamp=NULL, icon=NULL, color=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, header_style=header_style, header_class_name=header_class_name, headerClassName=headerClassName, body_style=body_style, body_class_name=body_class_name, bodyClassName=bodyClassName, tag=tag, is_open=is_open, key=key, header=header, dismissable=dismissable, duration=duration, n_dismiss=n_dismiss, n_dismiss_timestamp=n_dismiss_timestamp, icon=icon, color=color, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1262,7 +1262,7 @@ dbcToast <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, classN
 
 #' @export
 dbcTooltip <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, className=NULL, key=NULL, target=NULL, placement=NULL, flip=NULL, delay=NULL, loading_state=NULL) {
-    
+
     props <- list(children=children, id=id, style=style, class_name=class_name, className=className, key=key, target=target, placement=placement, flip=flip, delay=delay, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
@@ -1278,6 +1278,9 @@ dbcTooltip <- function(children=NULL, id=NULL, style=NULL, class_name=NULL, clas
     structure(component, class = c('dash_component', 'list'))
 }
 
+#' dbcIcons
+#' @description
+#' A list of contextually colored icon styles that can be added to Dash Bootstrap Components.
 #' @export
 dbcIcons <- list(
   BOOTSTRAP = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css",
@@ -1289,6 +1292,9 @@ dbcIcons <- list(
   return(paste(BOOTSWATCH_BASE, suffix, sep=""))
 }
 
+#' dbcThemes
+#' @description
+#' Externally hosted themes that can be passed to the Dash app with `app %>% add_stylesheet()`.
 #' @export
 dbcThemes <- list(
   BOOTSTRAP = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",

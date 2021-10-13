@@ -19,7 +19,8 @@ if (interactive()) {
 
     app \%>\% set_layout(
       button('Click here', id = 'btn'),
-      p('The number of times the button was clicked does not update when the number is divisible by 5'),
+      p('The number of times the button was clicked does not
+       update when the number is divisible by 5'),
       div(id = 'body-div')
     )
     app \%>\% add_callback(
