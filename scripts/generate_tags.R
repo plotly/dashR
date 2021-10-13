@@ -1,5 +1,5 @@
-all_html_fxs <- ls("package:dash")[startsWith(ls("package:dash"), "html")]
-all_html_fxs <- grep("^html", all_html_fxs, value = TRUE)
+all_html_fxs <- ls(asNamespace("dash"))[startsWith(ls(asNamespace("dash")), "html")]
+all_html_fxs <- grep("^html(.)+", all_html_fxs, value = TRUE)
 html_tags <- tolower(substring(all_html_fxs, 5))
 
 # Tags that {dash} appends "El" to their names
