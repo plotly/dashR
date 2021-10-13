@@ -136,5 +136,5 @@ dash_tag <- function(tag_name, content = list()) {
     dash_html_fx <- paste0(dash_html_fx, "El")
   }
 
-  do.call(getExportedValue("dash", dash_html_fx), tag_params)
+  do.call(get(dash_html_fx, envir = asNamespace("dash"), inherits = FALSE), tag_params)
 }
