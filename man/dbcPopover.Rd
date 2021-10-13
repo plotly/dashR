@@ -10,11 +10,11 @@ Popover creates a toggleable overlay that can be used to provide additional info
 }
 
 \usage{
-dbcPopover(children=NULL, id=NULL, className=NULL, class_name=NULL,
-delay=NULL, flip=NULL, hide_arrow=NULL, innerClassName=NULL,
-inner_class_name=NULL, is_open=NULL, key=NULL,
-loading_state=NULL, offset=NULL, placement=NULL, style=NULL,
-target=NULL, trigger=NULL)
+dbcPopover(children=NULL, id=NULL, style=NULL, class_name=NULL,
+className=NULL, key=NULL, placement=NULL, target=NULL,
+trigger=NULL, is_open=NULL, hide_arrow=NULL,
+inner_class_name=NULL, innerClassName=NULL, delay=NULL,
+offset=NULL, flip=NULL, loading_state=NULL)
 }
 
 \arguments{
@@ -24,45 +24,19 @@ target=NULL, trigger=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{className}{Character. **DEPRECATED** Use `class_name` instead.
-
-Often used with CSS to style elements with common properties.}
+\item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
 \item{class_name}{Character. Often used with CSS to style elements with common properties.}
 
-\item{delay}{Lists containing elements 'show', 'hide'.
-those elements have the following types:
-  - show (numeric; optional)
-  - hide (numeric; optional) | numeric. Optionally override show/hide delays}
+\item{className}{Character. **DEPRECATED** Use `class_name` instead.
 
-\item{flip}{Logical. Whether to flip the direction of the popover if too close to the container
-edge, default True.}
-
-\item{hide_arrow}{Logical. Hide popover arrow.}
-
-\item{innerClassName}{Character. **DEPRECATED** Use `inner_class_name` instead
-
-CSS class to apply to the popover.}
-
-\item{inner_class_name}{Character. CSS class to apply to the popover.}
-
-\item{is_open}{Logical. Whether the Popover is open or not.}
+Often used with CSS to style elements with common properties.}
 
 \item{key}{Character. A unique identifier for the component, used to improve
 performance by React.js while rendering components
 See https://reactjs.org/docs/lists-and-keys.html for more info}
 
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
-
-\item{offset}{Character | numeric. Offset of the popover relative to its target}
-
 \item{placement}{A value equal to: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'right', 'right-start', 'right-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end'. Specify popover placement.}
-
-\item{style}{Named list. Defines CSS styles which will override styles previously set.}
 
 \item{target}{Character | named list. ID of the component to attach the popover to.}
 
@@ -76,6 +50,32 @@ cursor.
 - "focus": toggles the popover when the target receives focus
 - "legacy": toggles the popover when the target is clicked, but will also
 dismiss the popover when the user clicks outside of the popover.}
+
+\item{is_open}{Logical. Whether the Popover is open or not.}
+
+\item{hide_arrow}{Logical. Hide popover arrow.}
+
+\item{inner_class_name}{Character. CSS class to apply to the popover.}
+
+\item{innerClassName}{Character. **DEPRECATED** Use `inner_class_name` instead
+
+CSS class to apply to the popover.}
+
+\item{delay}{Lists containing elements 'show', 'hide'.
+those elements have the following types:
+  - show (numeric; optional)
+  - hide (numeric; optional) | numeric. Optionally override show/hide delays}
+
+\item{offset}{Character | numeric. Offset of the popover relative to its target}
+
+\item{flip}{Logical. Whether to flip the direction of the popover if too close to the container
+edge, default True.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

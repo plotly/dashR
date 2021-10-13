@@ -19,12 +19,12 @@ const retrieveAssets = async () => {
     ];
 
     shell.cd(assetsPath);
-    shell.exec('git clone https://github.com/plotly/dash');
+    shell.exec('git clone --single-branch --branch fix-prop-order https://github.com/plotly/dash');
     shell.exec(
         'git clone https://github.com/facultyai/dash-bootstrap-components && cd dash-bootstrap-components && npm i && pip install -r requirements-dev.txt && cd ../'
     );
     shell.cd(path.resolve(assetsPath, 'dash'));
-    shell.exec('git checkout update-r-generation && npm i && npm run build');
+    shell.exec('npm i && npm run build');
     shell.exec(
         'pip install -r requires-dev.txt -r requires-ci.txt && pip install -e .'
     );

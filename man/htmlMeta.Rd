@@ -10,13 +10,13 @@ Meta is a wrapper for the <meta> HTML5 element.  CAUTION: <meta> is included for
 }
 
 \usage{
-htmlMeta(children=NULL, id=NULL, accessKey=NULL, charSet=NULL,
-className=NULL, content=NULL, contentEditable=NULL,
-contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL,
-httpEquiv=NULL, key=NULL, lang=NULL, loading_state=NULL,
-n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL,
-role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL,
-title=NULL, ...)
+htmlMeta(children=NULL, id=NULL, n_clicks=NULL,
+n_clicks_timestamp=NULL, key=NULL, role=NULL, charSet=NULL,
+content=NULL, httpEquiv=NULL, name=NULL, accessKey=NULL,
+className=NULL, contentEditable=NULL, contextMenu=NULL,
+dir=NULL, draggable=NULL, hidden=NULL, lang=NULL,
+spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL,
+loading_state=NULL, ...)
 }
 
 \arguments{
@@ -26,13 +26,30 @@ title=NULL, ...)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
+\item{n_clicks}{Numeric. An integer that represents the number of times
+that this element has been clicked on.}
+
+\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
+at which n_clicks changed. This can be used to tell
+which button was changed most recently.}
+
+\item{key}{Character. A unique identifier for the component, used to improve
+performance by React.js while rendering components
+See https://reactjs.org/docs/lists-and-keys.html for more info}
+
+\item{role}{Character. The ARIA role attribute}
 
 \item{charSet}{Character. Declares the character encoding of the page or script.}
 
-\item{className}{Character. Often used with CSS to style elements with common properties.}
-
 \item{content}{Character. A value associated with http-equiv or name depending on the context.}
+
+\item{httpEquiv}{Character. Defines a pragma directive.}
+
+\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
+
+\item{accessKey}{Character. Keyboard shortcut to activate or add focus to the element.}
+
+\item{className}{Character. Often used with CSS to style elements with common properties.}
 
 \item{contentEditable}{Character. Indicates whether the element's content is editable.}
 
@@ -44,30 +61,7 @@ components in an app.}
 
 \item{hidden}{A value equal to: 'hidden', 'hidden' | logical. Prevents rendering of given element, while keeping child elements, e.g. script elements, active.}
 
-\item{httpEquiv}{Character. Defines a pragma directive.}
-
-\item{key}{Character. A unique identifier for the component, used to improve
-performance by React.js while rendering components
-See https://reactjs.org/docs/lists-and-keys.html for more info}
-
 \item{lang}{Character. Defines the language used in the element.}
-
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
-
-\item{n_clicks}{Numeric. An integer that represents the number of times
-that this element has been clicked on.}
-
-\item{n_clicks_timestamp}{Numeric. An integer that represents the time (in ms since 1970)
-at which n_clicks changed. This can be used to tell
-which button was changed most recently.}
-
-\item{name}{Character. Name of the element. For example used by the server to identify the fields in form submits.}
-
-\item{role}{Character. The ARIA role attribute}
 
 \item{spellCheck}{Character. Indicates whether spell checking is allowed for the element.}
 
@@ -77,8 +71,14 @@ which button was changed most recently.}
 
 \item{title}{Character. Text to be displayed in a tooltip when hovering over the element.}
 
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
-\item{...}{wildcards allowed have the form: `'aria-*', 'data-*'`}
+
+\item{...}{wildcards allowed have the form: `'data-*', 'aria-*'`}
 
 }
 

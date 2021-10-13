@@ -10,28 +10,28 @@ Logout button to submit a form post request to the `logout_url` prop. Usage is i
 }
 
 \usage{
-dccLogoutButton(id=NULL, className=NULL, label=NULL, loading_state=NULL,
-logout_url=NULL, method=NULL, style=NULL)
+dccLogoutButton(id=NULL, label=NULL, logout_url=NULL, style=NULL,
+method=NULL, className=NULL, loading_state=NULL)
 }
 
 \arguments{
 \item{id}{Character. Id of the button.}
 
-\item{className}{Character. CSS class for the button.}
-
 \item{label}{Character. Text of the button}
+
+\item{logout_url}{Character. Url to submit a post logout request.}
+
+\item{style}{Named list. Style of the button}
+
+\item{method}{Character. Http method to submit the logout form.}
+
+\item{className}{Character. CSS class for the button.}
 
 \item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
 those elements have the following types:
   - is_loading (logical; optional): determines if the component is loading or not
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
-
-\item{logout_url}{Character. Url to submit a post logout request.}
-
-\item{method}{Character. Http method to submit the logout form.}
-
-\item{style}{Named list. Style of the button}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

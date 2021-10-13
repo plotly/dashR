@@ -10,8 +10,8 @@ A component to build up the children of the accordion.
 }
 
 \usage{
-dbcAccordionItem(children=NULL, id=NULL, className=NULL, class_name=NULL,
-item_id=NULL, loading_state=NULL, style=NULL, title=NULL)
+dbcAccordionItem(children=NULL, id=NULL, style=NULL, class_name=NULL,
+className=NULL, title=NULL, item_id=NULL, loading_state=NULL)
 }
 
 \arguments{
@@ -21,11 +21,15 @@ item_id=NULL, loading_state=NULL, style=NULL, title=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
+\item{style}{Named list. Defines CSS styles which will override styles previously set.}
+
+\item{class_name}{Character. Often used with CSS to style elements with common properties.}
+
 \item{className}{Character. **DEPRECATED** Use `class_name` instead.
 
 Often used with CSS to style elements with common properties.}
 
-\item{class_name}{Character. Often used with CSS to style elements with common properties.}
+\item{title}{Character. The title on display in the collapsed accordion item.}
 
 \item{item_id}{Character. Optional identifier for item used for determining which item is visible
 if not specified, and AccordionItem is being used inside Accordion component, the itemId
@@ -37,10 +41,6 @@ those elements have the following types:
   - is_loading (logical; optional): determines if the component is loading or not
   - prop_name (character; optional): holds which property is loading
   - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
-
-\item{style}{Named list. Defines CSS styles which will override styles previously set.}
-
-\item{title}{Character. The title on display in the collapsed accordion item.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

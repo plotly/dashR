@@ -10,10 +10,10 @@ Component for creating Bootstrap carousel.  This component is a slideshow for cy
 }
 
 \usage{
-dbcCarousel(id=NULL, active_index=NULL, className=NULL, class_name=NULL,
-controls=NULL, indicators=NULL, interval=NULL, items=NULL,
-loading_state=NULL, ride=NULL, slide=NULL, style=NULL,
-variant=NULL)
+dbcCarousel(id=NULL, style=NULL, class_name=NULL, className=NULL,
+items=NULL, active_index=NULL, controls=NULL,
+indicators=NULL, ride=NULL, slide=NULL, variant=NULL,
+interval=NULL, loading_state=NULL)
 }
 
 \arguments{
@@ -21,20 +21,13 @@ variant=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{active_index}{Numeric. The current visible slide number}
+\item{style}{Named list. Defines CSS styles of the carousel container. Will override styles previously set.}
+
+\item{class_name}{Character. Defines the className of the carousel container. Often used with CSS to style elements with common properties.}
 
 \item{className}{Character. **DEPRECATED** Use `class_name` instead.
 
 efines the className of the carousel container. Often used with CSS to style elements with common properties.}
-
-\item{class_name}{Character. Defines the className of the carousel container. Often used with CSS to style elements with common properties.}
-
-\item{controls}{Logical. Show the Carousel previous and next arrows for changing the current slide}
-
-\item{indicators}{Logical. Show a set of slide position indicators}
-
-\item{interval}{Numeric. the interval at which the carousel automatically cycles (default: 5000)
-If set to None, carousel will not Autoplay (i.e. will not automatically cycle).}
 
 \item{items}{List of lists containing elements 'key', 'src', 'alt', 'img_class_name', 'imgclassname', 'img_style', 'header', 'caption', 'caption_class_name', 'captionclassname'.
 those elements have the following types:
@@ -54,20 +47,27 @@ the classname for the image.  the default is 'd-block w-100'
 
 the class name for the header and caption containers. The items to display on the slides in the carousel}
 
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+\item{active_index}{Numeric. The current visible slide number}
+
+\item{controls}{Logical. Show the Carousel previous and next arrows for changing the current slide}
+
+\item{indicators}{Logical. Show a set of slide position indicators}
 
 \item{ride}{A value equal to: 'carousel'. Autoplays the carousel after the user manually cycles the first item. If "carousel", autoplays the carousel on load.}
 
 \item{slide}{Logical. controls whether the slide animation on the Carousel works or not}
 
-\item{style}{Named list. Defines CSS styles of the carousel container. Will override styles previously set.}
-
 \item{variant}{A value equal to: 'dark'. Add `variant="dark"` to the Carousel for darker controls, indicators, and
 captions.}
+
+\item{interval}{Numeric. the interval at which the carousel automatically cycles (default: 5000)
+If set to None, carousel will not Autoplay (i.e. will not automatically cycle).}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

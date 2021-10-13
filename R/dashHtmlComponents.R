@@ -1,11 +1,11 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlA <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, download=NULL, draggable=NULL, hidden=NULL, href=NULL, hrefLang=NULL, key=NULL, lang=NULL, loading_state=NULL, media=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, rel=NULL, role=NULL, shape=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, target=NULL, title=NULL, ...) {
+htmlA <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, download=NULL, href=NULL, hrefLang=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, shape=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, download=download, draggable=draggable, hidden=hidden, href=href, hrefLang=hrefLang, key=key, lang=lang, loading_state=loading_state, media=media, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, rel=rel, role=role, shape=shape, spellCheck=spellCheck, style=style, tabIndex=tabIndex, target=target, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, download=download, href=href, hrefLang=hrefLang, media=media, referrerPolicy=referrerPolicy, rel=rel, shape=shape, target=target, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -13,7 +13,7 @@ htmlA <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'A',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'download', 'draggable', 'hidden', 'href', 'hrefLang', 'key', 'lang', 'loading_state', 'media', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'rel', 'role', 'shape', 'spellCheck', 'style', 'tabIndex', 'target', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'download', 'href', 'hrefLang', 'media', 'referrerPolicy', 'rel', 'shape', 'target', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -23,11 +23,11 @@ htmlA <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlAbbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlAbbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -35,7 +35,7 @@ htmlAbbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Abbr',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -45,11 +45,11 @@ htmlAbbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlAcronym <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlAcronym <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -57,7 +57,7 @@ htmlAcronym <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Acronym',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -67,11 +67,11 @@ htmlAcronym <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlAddress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlAddress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -79,7 +79,7 @@ htmlAddress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Address',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -89,11 +89,11 @@ htmlAddress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlArea <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, coords=NULL, dir=NULL, download=NULL, draggable=NULL, hidden=NULL, href=NULL, hrefLang=NULL, key=NULL, lang=NULL, loading_state=NULL, media=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, rel=NULL, role=NULL, shape=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, target=NULL, title=NULL, ...) {
+htmlArea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, alt=NULL, coords=NULL, download=NULL, href=NULL, hrefLang=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, shape=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, alt=alt, className=className, contentEditable=contentEditable, contextMenu=contextMenu, coords=coords, dir=dir, download=download, draggable=draggable, hidden=hidden, href=href, hrefLang=hrefLang, key=key, lang=lang, loading_state=loading_state, media=media, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, rel=rel, role=role, shape=shape, spellCheck=spellCheck, style=style, tabIndex=tabIndex, target=target, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, alt=alt, coords=coords, download=download, href=href, hrefLang=hrefLang, media=media, referrerPolicy=referrerPolicy, rel=rel, shape=shape, target=target, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -101,7 +101,7 @@ htmlArea <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className
         props = props,
         type = 'Area',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'alt', 'className', 'contentEditable', 'contextMenu', 'coords', 'dir', 'download', 'draggable', 'hidden', 'href', 'hrefLang', 'key', 'lang', 'loading_state', 'media', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'rel', 'role', 'shape', 'spellCheck', 'style', 'tabIndex', 'target', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'alt', 'coords', 'download', 'href', 'hrefLang', 'media', 'referrerPolicy', 'rel', 'shape', 'target', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -111,11 +111,11 @@ htmlArea <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlArticle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlArticle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -123,7 +123,7 @@ htmlArticle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Article',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -133,11 +133,11 @@ htmlArticle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlAside <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlAside <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -145,7 +145,7 @@ htmlAside <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Aside',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -155,11 +155,11 @@ htmlAside <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlAudio <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, controls=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, loop=NULL, muted=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, preload=NULL, role=NULL, spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlAudio <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoPlay=NULL, controls=NULL, crossOrigin=NULL, loop=NULL, muted=NULL, preload=NULL, src=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoPlay=autoPlay, className=className, contentEditable=contentEditable, contextMenu=contextMenu, controls=controls, crossOrigin=crossOrigin, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, loop=loop, muted=muted, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, preload=preload, role=role, spellCheck=spellCheck, src=src, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoPlay=autoPlay, controls=controls, crossOrigin=crossOrigin, loop=loop, muted=muted, preload=preload, src=src, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -167,7 +167,7 @@ htmlAudio <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, cla
         props = props,
         type = 'Audio',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoPlay', 'className', 'contentEditable', 'contextMenu', 'controls', 'crossOrigin', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'loop', 'muted', 'n_clicks', 'n_clicks_timestamp', 'preload', 'role', 'spellCheck', 'src', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoPlay', 'controls', 'crossOrigin', 'loop', 'muted', 'preload', 'src', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -177,11 +177,11 @@ htmlAudio <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, cla
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlB <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlB <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -189,7 +189,7 @@ htmlB <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'B',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -199,11 +199,11 @@ htmlB <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBase <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, href=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, target=NULL, title=NULL, ...) {
+htmlBase <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, href=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, href=href, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, target=target, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, href=href, target=target, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -211,7 +211,7 @@ htmlBase <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Base',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'href', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'target', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'href', 'target', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -221,11 +221,11 @@ htmlBase <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBasefont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBasefont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -233,7 +233,7 @@ htmlBasefont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Basefont',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -243,11 +243,11 @@ htmlBasefont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBdi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBdi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -255,7 +255,7 @@ htmlBdi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Bdi',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -265,11 +265,11 @@ htmlBdi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBdo <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBdo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -277,7 +277,7 @@ htmlBdo <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Bdo',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -287,11 +287,11 @@ htmlBdo <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBig <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBig <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -299,7 +299,7 @@ htmlBig <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Big',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -309,11 +309,11 @@ htmlBig <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBlink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBlink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -321,7 +321,7 @@ htmlBlink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Blink',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -331,11 +331,11 @@ htmlBlink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBlockquote <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBlockquote <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, cite=cite, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, cite=cite, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -343,7 +343,7 @@ htmlBlockquote <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, cl
         props = props,
         type = 'Blockquote',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'cite', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'cite', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -353,11 +353,11 @@ htmlBlockquote <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, cl
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlBr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlBr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -365,7 +365,7 @@ htmlBr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Br',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -375,11 +375,11 @@ htmlBr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlButton <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, formAction=NULL, formEncType=NULL, formMethod=NULL, formNoValidate=NULL, formTarget=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, value=NULL, ...) {
+htmlButton <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoFocus=NULL, disabled=NULL, form=NULL, formAction=NULL, formEncType=NULL, formMethod=NULL, formNoValidate=NULL, formTarget=NULL, name=NULL, type=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoFocus=autoFocus, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, formAction=formAction, formEncType=formEncType, formMethod=formMethod, formNoValidate=formNoValidate, formTarget=formTarget, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, type=type, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoFocus=autoFocus, disabled=disabled, form=form, formAction=formAction, formEncType=formEncType, formMethod=formMethod, formNoValidate=formNoValidate, formTarget=formTarget, name=name, type=type, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -387,7 +387,7 @@ htmlButton <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, c
         props = props,
         type = 'Button',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoFocus', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'formAction', 'formEncType', 'formMethod', 'formNoValidate', 'formTarget', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'type', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoFocus', 'disabled', 'form', 'formAction', 'formEncType', 'formMethod', 'formNoValidate', 'formTarget', 'name', 'type', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -397,11 +397,11 @@ htmlButton <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCanvas <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, width=NULL, ...) {
+htmlCanvas <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, height=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, height=height, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -409,7 +409,7 @@ htmlCanvas <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Canvas',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'height', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -419,11 +419,11 @@ htmlCanvas <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlCaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -431,7 +431,7 @@ htmlCaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Caption',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -441,11 +441,11 @@ htmlCaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCenter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlCenter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -453,7 +453,7 @@ htmlCenter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Center',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -463,11 +463,11 @@ htmlCenter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCite <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlCite <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -475,7 +475,7 @@ htmlCite <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Cite',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -485,11 +485,11 @@ htmlCite <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCode <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlCode <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -497,7 +497,7 @@ htmlCode <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Code',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -507,11 +507,11 @@ htmlCode <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlCol <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, span=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlCol <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, span=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, span=span, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, span=span, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -519,7 +519,7 @@ htmlCol <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Col',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'span', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'span', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -529,11 +529,11 @@ htmlCol <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlColgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, span=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlColgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, span=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, span=span, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, span=span, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -541,7 +541,7 @@ htmlColgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Colgroup',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'span', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'span', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -551,11 +551,11 @@ htmlColgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlContent <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlContent <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -563,7 +563,7 @@ htmlContent <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Content',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -573,11 +573,11 @@ htmlContent <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlData <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlData <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -585,7 +585,7 @@ htmlData <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Data',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -595,11 +595,11 @@ htmlData <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDatalist <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDatalist <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -607,7 +607,7 @@ htmlDatalist <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Datalist',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -617,11 +617,11 @@ htmlDatalist <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -629,7 +629,7 @@ htmlDd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Dd',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -639,11 +639,11 @@ htmlDd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDel <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dateTime=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, cite=cite, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dateTime=dateTime, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, cite=cite, dateTime=dateTime, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -651,7 +651,7 @@ htmlDel <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className
         props = props,
         type = 'Del',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'cite', 'className', 'contentEditable', 'contextMenu', 'dateTime', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'cite', 'dateTime', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -661,11 +661,11 @@ htmlDel <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDetails <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, open=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDetails <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, open=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, open=open, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, open=open, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -673,7 +673,7 @@ htmlDetails <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Details',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'open', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'open', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -683,11 +683,11 @@ htmlDetails <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDfn <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDfn <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -695,7 +695,7 @@ htmlDfn <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Dfn',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -705,11 +705,11 @@ htmlDfn <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDialog <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, open=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDialog <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, open=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, open=open, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, open=open, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -717,7 +717,7 @@ htmlDialog <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Dialog',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'open', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'open', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -727,11 +727,11 @@ htmlDialog <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDiv <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDiv <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -739,7 +739,7 @@ htmlDiv <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Div',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -749,11 +749,11 @@ htmlDiv <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -761,7 +761,7 @@ htmlDl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Dl',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -771,11 +771,11 @@ htmlDl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlDt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlDt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -783,7 +783,7 @@ htmlDt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Dt',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -793,11 +793,11 @@ htmlDt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlEm <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlEm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -805,7 +805,7 @@ htmlEm <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Em',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -815,11 +815,11 @@ htmlEm <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlEmbed <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, width=NULL, ...) {
+htmlEmbed <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, height=NULL, src=NULL, type=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, src=src, style=style, tabIndex=tabIndex, title=title, type=type, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, height=height, src=src, type=type, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -827,7 +827,7 @@ htmlEmbed <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Embed',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'src', 'style', 'tabIndex', 'title', 'type', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'height', 'src', 'type', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -837,11 +837,11 @@ htmlEmbed <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFieldset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFieldset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, form=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, disabled=disabled, form=form, name=name, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -849,7 +849,7 @@ htmlFieldset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Fieldset',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'disabled', 'form', 'name', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -859,11 +859,11 @@ htmlFieldset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFigcaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFigcaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -871,7 +871,7 @@ htmlFigcaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NUL
         props = props,
         type = 'Figcaption',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -881,11 +881,11 @@ htmlFigcaption <- function(children=NULL, id=NULL, accessKey=NULL, className=NUL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFigure <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFigure <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -893,7 +893,7 @@ htmlFigure <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Figure',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -903,11 +903,11 @@ htmlFigure <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -915,7 +915,7 @@ htmlFont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Font',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -925,11 +925,11 @@ htmlFont <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFooter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFooter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -937,7 +937,7 @@ htmlFooter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Footer',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -947,11 +947,11 @@ htmlFooter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlForm <- function(children=NULL, id=NULL, accept=NULL, acceptCharset=NULL, accessKey=NULL, action=NULL, autoComplete=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, encType=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, method=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, noValidate=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, target=NULL, title=NULL, ...) {
+htmlForm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accept=NULL, acceptCharset=NULL, action=NULL, autoComplete=NULL, encType=NULL, method=NULL, name=NULL, noValidate=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accept=accept, acceptCharset=acceptCharset, accessKey=accessKey, action=action, autoComplete=autoComplete, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, encType=encType, hidden=hidden, key=key, lang=lang, loading_state=loading_state, method=method, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, noValidate=noValidate, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, target=target, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accept=accept, acceptCharset=acceptCharset, action=action, autoComplete=autoComplete, encType=encType, method=method, name=name, noValidate=noValidate, target=target, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -959,7 +959,7 @@ htmlForm <- function(children=NULL, id=NULL, accept=NULL, acceptCharset=NULL, ac
         props = props,
         type = 'Form',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accept', 'acceptCharset', 'accessKey', 'action', 'autoComplete', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'encType', 'hidden', 'key', 'lang', 'loading_state', 'method', 'n_clicks', 'n_clicks_timestamp', 'name', 'noValidate', 'role', 'spellCheck', 'style', 'tabIndex', 'target', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accept', 'acceptCharset', 'action', 'autoComplete', 'encType', 'method', 'name', 'noValidate', 'target', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -969,11 +969,11 @@ htmlForm <- function(children=NULL, id=NULL, accept=NULL, acceptCharset=NULL, ac
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFrame <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFrame <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -981,7 +981,7 @@ htmlFrame <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Frame',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -991,11 +991,11 @@ htmlFrame <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlFrameset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlFrameset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1003,7 +1003,7 @@ htmlFrameset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Frameset',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1013,11 +1013,11 @@ htmlFrameset <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH1 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH1 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1025,7 +1025,7 @@ htmlH1 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H1',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1035,11 +1035,11 @@ htmlH1 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH2 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH2 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1047,7 +1047,7 @@ htmlH2 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H2',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1057,11 +1057,11 @@ htmlH2 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH3 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH3 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1069,7 +1069,7 @@ htmlH3 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H3',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1079,11 +1079,11 @@ htmlH3 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH4 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH4 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1091,7 +1091,7 @@ htmlH4 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H4',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1101,11 +1101,11 @@ htmlH4 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH5 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH5 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1113,7 +1113,7 @@ htmlH5 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H5',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1123,11 +1123,11 @@ htmlH5 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlH6 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlH6 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1135,7 +1135,7 @@ htmlH6 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'H6',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1145,11 +1145,11 @@ htmlH6 <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlHeader <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlHeader <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1157,7 +1157,7 @@ htmlHeader <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Header',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1167,11 +1167,11 @@ htmlHeader <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlHgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlHgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1179,7 +1179,7 @@ htmlHgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Hgroup',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1189,11 +1189,11 @@ htmlHgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlHr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlHr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1201,7 +1201,7 @@ htmlHr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Hr',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1211,11 +1211,11 @@ htmlHr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlI <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlI <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1223,7 +1223,7 @@ htmlI <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'I',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1233,11 +1233,11 @@ htmlI <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlIframe <- function(children=NULL, id=NULL, accessKey=NULL, allow=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, referrerPolicy=NULL, role=NULL, sandbox=NULL, spellCheck=NULL, src=NULL, srcDoc=NULL, style=NULL, tabIndex=NULL, title=NULL, width=NULL, ...) {
+htmlIframe <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, allow=NULL, height=NULL, name=NULL, referrerPolicy=NULL, sandbox=NULL, src=NULL, srcDoc=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, allow=allow, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, referrerPolicy=referrerPolicy, role=role, sandbox=sandbox, spellCheck=spellCheck, src=src, srcDoc=srcDoc, style=style, tabIndex=tabIndex, title=title, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, allow=allow, height=height, name=name, referrerPolicy=referrerPolicy, sandbox=sandbox, src=src, srcDoc=srcDoc, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1245,7 +1245,7 @@ htmlIframe <- function(children=NULL, id=NULL, accessKey=NULL, allow=NULL, class
         props = props,
         type = 'Iframe',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'allow', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'referrerPolicy', 'role', 'sandbox', 'spellCheck', 'src', 'srcDoc', 'style', 'tabIndex', 'title', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'allow', 'height', 'name', 'referrerPolicy', 'sandbox', 'src', 'srcDoc', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1255,11 +1255,11 @@ htmlIframe <- function(children=NULL, id=NULL, accessKey=NULL, allow=NULL, class
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlImg <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, role=NULL, sizes=NULL, spellCheck=NULL, src=NULL, srcSet=NULL, style=NULL, tabIndex=NULL, title=NULL, useMap=NULL, width=NULL, ...) {
+htmlImg <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, alt=NULL, crossOrigin=NULL, height=NULL, referrerPolicy=NULL, sizes=NULL, src=NULL, srcSet=NULL, useMap=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, alt=alt, className=className, contentEditable=contentEditable, contextMenu=contextMenu, crossOrigin=crossOrigin, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, role=role, sizes=sizes, spellCheck=spellCheck, src=src, srcSet=srcSet, style=style, tabIndex=tabIndex, title=title, useMap=useMap, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, alt=alt, crossOrigin=crossOrigin, height=height, referrerPolicy=referrerPolicy, sizes=sizes, src=src, srcSet=srcSet, useMap=useMap, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1267,7 +1267,7 @@ htmlImg <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className=
         props = props,
         type = 'Img',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'alt', 'className', 'contentEditable', 'contextMenu', 'crossOrigin', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'role', 'sizes', 'spellCheck', 'src', 'srcSet', 'style', 'tabIndex', 'title', 'useMap', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'alt', 'crossOrigin', 'height', 'referrerPolicy', 'sizes', 'src', 'srcSet', 'useMap', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1277,11 +1277,11 @@ htmlImg <- function(children=NULL, id=NULL, accessKey=NULL, alt=NULL, className=
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlIns <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dateTime=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlIns <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, cite=cite, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dateTime=dateTime, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, cite=cite, dateTime=dateTime, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1289,7 +1289,7 @@ htmlIns <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className
         props = props,
         type = 'Ins',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'cite', 'className', 'contentEditable', 'contextMenu', 'dateTime', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'cite', 'dateTime', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1299,11 +1299,11 @@ htmlIns <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlKbd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlKbd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1311,7 +1311,7 @@ htmlKbd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Kbd',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1321,11 +1321,11 @@ htmlKbd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlKeygen <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, challenge=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, hidden=NULL, key=NULL, keyType=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlKeygen <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoFocus=NULL, challenge=NULL, disabled=NULL, form=NULL, keyType=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoFocus=autoFocus, challenge=challenge, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, hidden=hidden, key=key, keyType=keyType, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoFocus=autoFocus, challenge=challenge, disabled=disabled, form=form, keyType=keyType, name=name, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1333,7 +1333,7 @@ htmlKeygen <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, c
         props = props,
         type = 'Keygen',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoFocus', 'challenge', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'hidden', 'key', 'keyType', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoFocus', 'challenge', 'disabled', 'form', 'keyType', 'name', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1343,11 +1343,11 @@ htmlKeygen <- function(children=NULL, id=NULL, accessKey=NULL, autoFocus=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlLabel <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, form=NULL, hidden=NULL, htmlFor=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlLabel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, htmlFor=NULL, form=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, form=form, hidden=hidden, htmlFor=htmlFor, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, htmlFor=htmlFor, form=form, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1355,7 +1355,7 @@ htmlLabel <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Label',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'form', 'hidden', 'htmlFor', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'htmlFor', 'form', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1365,11 +1365,11 @@ htmlLabel <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlLegend <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlLegend <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1377,7 +1377,7 @@ htmlLegend <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Legend',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1387,11 +1387,11 @@ htmlLegend <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlLi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlLi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1399,7 +1399,7 @@ htmlLi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Li',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1409,11 +1409,11 @@ htmlLi <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlLink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, hidden=NULL, href=NULL, hrefLang=NULL, integrity=NULL, key=NULL, lang=NULL, loading_state=NULL, media=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, rel=NULL, role=NULL, sizes=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, ...) {
+htmlLink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, crossOrigin=NULL, href=NULL, hrefLang=NULL, integrity=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, sizes=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, crossOrigin=crossOrigin, dir=dir, draggable=draggable, hidden=hidden, href=href, hrefLang=hrefLang, integrity=integrity, key=key, lang=lang, loading_state=loading_state, media=media, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, rel=rel, role=role, sizes=sizes, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, type=type, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, crossOrigin=crossOrigin, href=href, hrefLang=hrefLang, integrity=integrity, media=media, referrerPolicy=referrerPolicy, rel=rel, sizes=sizes, type=type, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1421,7 +1421,7 @@ htmlLink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Link',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'crossOrigin', 'dir', 'draggable', 'hidden', 'href', 'hrefLang', 'integrity', 'key', 'lang', 'loading_state', 'media', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'rel', 'role', 'sizes', 'spellCheck', 'style', 'tabIndex', 'title', 'type', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'crossOrigin', 'href', 'hrefLang', 'integrity', 'media', 'referrerPolicy', 'rel', 'sizes', 'type', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1431,11 +1431,11 @@ htmlLink <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMain <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlMain <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1443,7 +1443,7 @@ htmlMain <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Main',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1453,11 +1453,11 @@ htmlMain <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMapEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlMapEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, name=name, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1465,7 +1465,7 @@ htmlMapEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'MapEl',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'name', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1475,11 +1475,11 @@ htmlMapEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMark <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlMark <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1487,7 +1487,7 @@ htmlMark <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Mark',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1497,11 +1497,11 @@ htmlMark <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMarquee <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, loop=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlMarquee <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, loop=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, loop=loop, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, loop=loop, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1509,7 +1509,7 @@ htmlMarquee <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Marquee',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'loop', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'loop', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1519,11 +1519,11 @@ htmlMarquee <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMeta <- function(children=NULL, id=NULL, accessKey=NULL, charSet=NULL, className=NULL, content=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, httpEquiv=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlMeta <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, charSet=NULL, content=NULL, httpEquiv=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, charSet=charSet, className=className, content=content, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, httpEquiv=httpEquiv, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, charSet=charSet, content=content, httpEquiv=httpEquiv, name=name, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1531,7 +1531,7 @@ htmlMeta <- function(children=NULL, id=NULL, accessKey=NULL, charSet=NULL, class
         props = props,
         type = 'Meta',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'charSet', 'className', 'content', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'httpEquiv', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'charSet', 'content', 'httpEquiv', 'name', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1541,11 +1541,11 @@ htmlMeta <- function(children=NULL, id=NULL, accessKey=NULL, charSet=NULL, class
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlMeter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, form=NULL, hidden=NULL, high=NULL, key=NULL, lang=NULL, loading_state=NULL, low=NULL, max=NULL, min=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, optimum=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlMeter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, form=NULL, high=NULL, low=NULL, max=NULL, min=NULL, optimum=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, form=form, hidden=hidden, high=high, key=key, lang=lang, loading_state=loading_state, low=low, max=max, min=min, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, optimum=optimum, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, form=form, high=high, low=low, max=max, min=min, optimum=optimum, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1553,7 +1553,7 @@ htmlMeter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Meter',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'form', 'hidden', 'high', 'key', 'lang', 'loading_state', 'low', 'max', 'min', 'n_clicks', 'n_clicks_timestamp', 'optimum', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'form', 'high', 'low', 'max', 'min', 'optimum', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1563,11 +1563,11 @@ htmlMeter <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlNav <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlNav <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1575,7 +1575,7 @@ htmlNav <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Nav',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1585,11 +1585,11 @@ htmlNav <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlNobr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlNobr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1597,7 +1597,7 @@ htmlNobr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Nobr',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1607,11 +1607,11 @@ htmlNobr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlNoscript <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlNoscript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1619,7 +1619,7 @@ htmlNoscript <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Noscript',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1629,11 +1629,11 @@ htmlNoscript <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlObjectEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, data=NULL, dir=NULL, draggable=NULL, form=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, useMap=NULL, width=NULL, ...) {
+htmlObjectEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, data=NULL, form=NULL, height=NULL, name=NULL, type=NULL, useMap=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, data=data, dir=dir, draggable=draggable, form=form, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, type=type, useMap=useMap, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, data=data, form=form, height=height, name=name, type=type, useMap=useMap, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1641,7 +1641,7 @@ htmlObjectEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'ObjectEl',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'data', 'dir', 'draggable', 'form', 'height', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'type', 'useMap', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'data', 'form', 'height', 'name', 'type', 'useMap', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1651,11 +1651,11 @@ htmlObjectEl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlOl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, reversed=NULL, role=NULL, spellCheck=NULL, start=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlOl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, reversed=NULL, start=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, reversed=reversed, role=role, spellCheck=spellCheck, start=start, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, reversed=reversed, start=start, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1663,7 +1663,7 @@ htmlOl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Ol',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'reversed', 'role', 'spellCheck', 'start', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'reversed', 'start', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1673,11 +1673,11 @@ htmlOl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlOptgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, hidden=NULL, key=NULL, label=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlOptgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, label=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, hidden=hidden, key=key, label=label, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, disabled=disabled, label=label, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1685,7 +1685,7 @@ htmlOptgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Optgroup',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'hidden', 'key', 'label', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'disabled', 'label', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1695,11 +1695,11 @@ htmlOptgroup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlOption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, hidden=NULL, key=NULL, label=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, selected=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlOption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, label=NULL, selected=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, hidden=hidden, key=key, label=label, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, selected=selected, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, disabled=disabled, label=label, selected=selected, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1707,7 +1707,7 @@ htmlOption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Option',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'hidden', 'key', 'label', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'selected', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'disabled', 'label', 'selected', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1717,11 +1717,11 @@ htmlOption <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlOutput <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, form=NULL, hidden=NULL, htmlFor=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlOutput <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, htmlFor=NULL, form=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, form=form, hidden=hidden, htmlFor=htmlFor, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, htmlFor=htmlFor, form=form, name=name, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1729,7 +1729,7 @@ htmlOutput <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Output',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'form', 'hidden', 'htmlFor', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'htmlFor', 'form', 'name', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1739,11 +1739,11 @@ htmlOutput <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlP <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlP <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1751,7 +1751,7 @@ htmlP <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'P',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1761,11 +1761,11 @@ htmlP <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlParam <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlParam <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, name=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, name=name, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1773,7 +1773,7 @@ htmlParam <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Param',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'name', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'name', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1783,11 +1783,11 @@ htmlParam <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlPicture <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlPicture <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1795,7 +1795,7 @@ htmlPicture <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Picture',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1805,11 +1805,11 @@ htmlPicture <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlPlaintext <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlPlaintext <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1817,7 +1817,7 @@ htmlPlaintext <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL
         props = props,
         type = 'Plaintext',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1827,11 +1827,11 @@ htmlPlaintext <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlPre <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlPre <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1839,7 +1839,7 @@ htmlPre <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Pre',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1849,11 +1849,11 @@ htmlPre <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlProgress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, form=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, max=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, ...) {
+htmlProgress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, form=NULL, max=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, form=form, hidden=hidden, key=key, lang=lang, loading_state=loading_state, max=max, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, form=form, max=max, value=value, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1861,7 +1861,7 @@ htmlProgress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Progress',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'form', 'hidden', 'key', 'lang', 'loading_state', 'max', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', 'value', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'form', 'max', 'value', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1871,11 +1871,11 @@ htmlProgress <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlQ <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlQ <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, cite=cite, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, cite=cite, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1883,7 +1883,7 @@ htmlQ <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=N
         props = props,
         type = 'Q',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'cite', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'cite', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1893,11 +1893,11 @@ htmlQ <- function(children=NULL, id=NULL, accessKey=NULL, cite=NULL, className=N
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlRb <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlRb <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1905,7 +1905,7 @@ htmlRb <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Rb',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1915,11 +1915,11 @@ htmlRb <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlRp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlRp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1927,7 +1927,7 @@ htmlRp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Rp',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1937,11 +1937,11 @@ htmlRp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlRt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlRt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1949,7 +1949,7 @@ htmlRt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Rt',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1959,11 +1959,11 @@ htmlRt <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlRtc <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlRtc <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1971,7 +1971,7 @@ htmlRtc <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Rtc',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -1981,11 +1981,11 @@ htmlRtc <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlRuby <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlRuby <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -1993,7 +1993,7 @@ htmlRuby <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Ruby',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2003,11 +2003,11 @@ htmlRuby <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlS <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlS <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2015,7 +2015,7 @@ htmlS <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'S',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2025,11 +2025,11 @@ htmlS <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSamp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSamp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2037,7 +2037,7 @@ htmlSamp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Samp',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2047,11 +2047,11 @@ htmlSamp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlScript <- function(children=NULL, id=NULL, accessKey=NULL, async=NULL, charSet=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, crossOrigin=NULL, defer=NULL, dir=NULL, draggable=NULL, hidden=NULL, integrity=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, referrerPolicy=NULL, role=NULL, spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, ...) {
+htmlScript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, async=NULL, charSet=NULL, crossOrigin=NULL, defer=NULL, integrity=NULL, referrerPolicy=NULL, src=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, async=async, charSet=charSet, className=className, contentEditable=contentEditable, contextMenu=contextMenu, crossOrigin=crossOrigin, defer=defer, dir=dir, draggable=draggable, hidden=hidden, integrity=integrity, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, referrerPolicy=referrerPolicy, role=role, spellCheck=spellCheck, src=src, style=style, tabIndex=tabIndex, title=title, type=type, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, async=async, charSet=charSet, crossOrigin=crossOrigin, defer=defer, integrity=integrity, referrerPolicy=referrerPolicy, src=src, type=type, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2059,7 +2059,7 @@ htmlScript <- function(children=NULL, id=NULL, accessKey=NULL, async=NULL, charS
         props = props,
         type = 'Script',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'async', 'charSet', 'className', 'contentEditable', 'contextMenu', 'crossOrigin', 'defer', 'dir', 'draggable', 'hidden', 'integrity', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'referrerPolicy', 'role', 'spellCheck', 'src', 'style', 'tabIndex', 'title', 'type', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'async', 'charSet', 'crossOrigin', 'defer', 'integrity', 'referrerPolicy', 'src', 'type', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2069,11 +2069,11 @@ htmlScript <- function(children=NULL, id=NULL, accessKey=NULL, async=NULL, charS
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSection <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSection <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2081,7 +2081,7 @@ htmlSection <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Section',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2091,11 +2091,11 @@ htmlSection <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSelect <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NULL, autoFocus=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, multiple=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, required=NULL, role=NULL, size=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSelect <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoComplete=NULL, autoFocus=NULL, disabled=NULL, form=NULL, multiple=NULL, name=NULL, required=NULL, size=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoComplete=autoComplete, autoFocus=autoFocus, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, hidden=hidden, key=key, lang=lang, loading_state=loading_state, multiple=multiple, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, required=required, role=role, size=size, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoComplete=autoComplete, autoFocus=autoFocus, disabled=disabled, form=form, multiple=multiple, name=name, required=required, size=size, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2103,7 +2103,7 @@ htmlSelect <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NULL
         props = props,
         type = 'Select',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoComplete', 'autoFocus', 'className', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'hidden', 'key', 'lang', 'loading_state', 'multiple', 'n_clicks', 'n_clicks_timestamp', 'name', 'required', 'role', 'size', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoComplete', 'autoFocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2113,11 +2113,11 @@ htmlSelect <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NULL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlShadow <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlShadow <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2125,7 +2125,7 @@ htmlShadow <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Shadow',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2135,11 +2135,11 @@ htmlShadow <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSlot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSlot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2147,7 +2147,7 @@ htmlSlot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Slot',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2157,11 +2157,11 @@ htmlSlot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSmall <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSmall <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2169,7 +2169,7 @@ htmlSmall <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Small',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2179,11 +2179,11 @@ htmlSmall <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSource <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, media=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, sizes=NULL, spellCheck=NULL, src=NULL, srcSet=NULL, style=NULL, tabIndex=NULL, title=NULL, type=NULL, ...) {
+htmlSource <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, media=NULL, sizes=NULL, src=NULL, srcSet=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, media=media, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, sizes=sizes, spellCheck=spellCheck, src=src, srcSet=srcSet, style=style, tabIndex=tabIndex, title=title, type=type, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, media=media, sizes=sizes, src=src, srcSet=srcSet, type=type, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2191,7 +2191,7 @@ htmlSource <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Source',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'media', 'n_clicks', 'n_clicks_timestamp', 'role', 'sizes', 'spellCheck', 'src', 'srcSet', 'style', 'tabIndex', 'title', 'type', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'media', 'sizes', 'src', 'srcSet', 'type', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2201,11 +2201,11 @@ htmlSource <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSpacer <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSpacer <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2213,7 +2213,7 @@ htmlSpacer <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Spacer',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2223,11 +2223,11 @@ htmlSpacer <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSpan <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSpan <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2235,7 +2235,7 @@ htmlSpan <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Span',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2245,11 +2245,11 @@ htmlSpan <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlStrike <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlStrike <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2257,7 +2257,7 @@ htmlStrike <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Strike',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2267,11 +2267,11 @@ htmlStrike <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlStrong <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlStrong <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2279,7 +2279,7 @@ htmlStrong <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
         props = props,
         type = 'Strong',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2289,11 +2289,11 @@ htmlStrong <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, c
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSub <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSub <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2301,7 +2301,7 @@ htmlSub <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Sub',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2311,11 +2311,11 @@ htmlSub <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSummary <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSummary <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2323,7 +2323,7 @@ htmlSummary <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
         props = props,
         type = 'Summary',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2333,11 +2333,11 @@ htmlSummary <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlSup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlSup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2345,7 +2345,7 @@ htmlSup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Sup',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2355,11 +2355,11 @@ htmlSup <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTable <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, summary=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTable <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, summary=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, summary=summary, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, summary=summary, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2367,7 +2367,7 @@ htmlTable <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Table',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'summary', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'summary', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2377,11 +2377,11 @@ htmlTable <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTbody <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTbody <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2389,7 +2389,7 @@ htmlTbody <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Tbody',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2399,11 +2399,11 @@ htmlTbody <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSpan=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, headers=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, rowSpan=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL, headers=NULL, rowSpan=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, colSpan=colSpan, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, headers=headers, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, rowSpan=rowSpan, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, colSpan=colSpan, headers=headers, rowSpan=rowSpan, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2411,7 +2411,7 @@ htmlTd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSp
         props = props,
         type = 'Td',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'colSpan', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'headers', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'rowSpan', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'colSpan', 'headers', 'rowSpan', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2421,11 +2421,11 @@ htmlTd <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSp
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTemplate <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTemplate <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2433,7 +2433,7 @@ htmlTemplate <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
         props = props,
         type = 'Template',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2443,11 +2443,11 @@ htmlTemplate <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTextarea <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NULL, autoFocus=NULL, className=NULL, cols=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, hidden=NULL, inputMode=NULL, key=NULL, lang=NULL, loading_state=NULL, maxLength=NULL, minLength=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, placeholder=NULL, readOnly=NULL, required=NULL, role=NULL, rows=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, wrap=NULL, ...) {
+htmlTextarea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoComplete=NULL, autoFocus=NULL, cols=NULL, disabled=NULL, form=NULL, inputMode=NULL, maxLength=NULL, minLength=NULL, name=NULL, placeholder=NULL, readOnly=NULL, required=NULL, rows=NULL, wrap=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoComplete=autoComplete, autoFocus=autoFocus, className=className, cols=cols, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, hidden=hidden, inputMode=inputMode, key=key, lang=lang, loading_state=loading_state, maxLength=maxLength, minLength=minLength, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, placeholder=placeholder, readOnly=readOnly, required=required, role=role, rows=rows, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, wrap=wrap, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoComplete=autoComplete, autoFocus=autoFocus, cols=cols, disabled=disabled, form=form, inputMode=inputMode, maxLength=maxLength, minLength=minLength, name=name, placeholder=placeholder, readOnly=readOnly, required=required, rows=rows, wrap=wrap, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2455,7 +2455,7 @@ htmlTextarea <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NU
         props = props,
         type = 'Textarea',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoComplete', 'autoFocus', 'className', 'cols', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'hidden', 'inputMode', 'key', 'lang', 'loading_state', 'maxLength', 'minLength', 'n_clicks', 'n_clicks_timestamp', 'name', 'placeholder', 'readOnly', 'required', 'role', 'rows', 'spellCheck', 'style', 'tabIndex', 'title', 'wrap', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoComplete', 'autoFocus', 'cols', 'disabled', 'form', 'inputMode', 'maxLength', 'minLength', 'name', 'placeholder', 'readOnly', 'required', 'rows', 'wrap', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2465,11 +2465,11 @@ htmlTextarea <- function(children=NULL, id=NULL, accessKey=NULL, autoComplete=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTfoot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTfoot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2477,7 +2477,7 @@ htmlTfoot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Tfoot',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2487,11 +2487,11 @@ htmlTfoot <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTh <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSpan=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, headers=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, rowSpan=NULL, scope=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTh <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL, headers=NULL, rowSpan=NULL, scope=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, colSpan=colSpan, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, headers=headers, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, rowSpan=rowSpan, scope=scope, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, colSpan=colSpan, headers=headers, rowSpan=rowSpan, scope=scope, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2499,7 +2499,7 @@ htmlTh <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSp
         props = props,
         type = 'Th',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'colSpan', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'headers', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'rowSpan', 'scope', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'colSpan', 'headers', 'rowSpan', 'scope', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2509,11 +2509,11 @@ htmlTh <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, colSp
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlThead <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlThead <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2521,7 +2521,7 @@ htmlThead <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Thead',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2531,11 +2531,11 @@ htmlThead <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTime <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dateTime=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTime <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dateTime=dateTime, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, dateTime=dateTime, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2543,7 +2543,7 @@ htmlTime <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
         props = props,
         type = 'Time',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dateTime', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'dateTime', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2553,11 +2553,11 @@ htmlTime <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, con
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTitle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTitle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2565,7 +2565,7 @@ htmlTitle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Title',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2575,11 +2575,11 @@ htmlTitle <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2587,7 +2587,7 @@ htmlTr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Tr',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2597,11 +2597,11 @@ htmlTr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlTrack <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, default=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, kind=NULL, label=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, src=NULL, srcLang=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlTrack <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, default=NULL, kind=NULL, label=NULL, src=NULL, srcLang=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, default=default, dir=dir, draggable=draggable, hidden=hidden, key=key, kind=kind, label=label, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, src=src, srcLang=srcLang, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, default=default, kind=kind, label=label, src=src, srcLang=srcLang, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2609,7 +2609,7 @@ htmlTrack <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
         props = props,
         type = 'Track',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'default', 'dir', 'draggable', 'hidden', 'key', 'kind', 'label', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'src', 'srcLang', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'default', 'kind', 'label', 'src', 'srcLang', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2619,11 +2619,11 @@ htmlTrack <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, co
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlU <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlU <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2631,7 +2631,7 @@ htmlU <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
         props = props,
         type = 'U',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2641,11 +2641,11 @@ htmlU <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conten
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlUl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlUl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2653,7 +2653,7 @@ htmlUl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
         props = props,
         type = 'Ul',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2663,11 +2663,11 @@ htmlUl <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, conte
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlVar <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlVar <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2675,7 +2675,7 @@ htmlVar <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Var',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2685,11 +2685,11 @@ htmlVar <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlVideo <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, controls=NULL, crossOrigin=NULL, dir=NULL, draggable=NULL, height=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, loop=NULL, muted=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, poster=NULL, preload=NULL, role=NULL, spellCheck=NULL, src=NULL, style=NULL, tabIndex=NULL, title=NULL, width=NULL, ...) {
+htmlVideo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoPlay=NULL, controls=NULL, crossOrigin=NULL, height=NULL, loop=NULL, muted=NULL, poster=NULL, preload=NULL, src=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, autoPlay=autoPlay, className=className, contentEditable=contentEditable, contextMenu=contextMenu, controls=controls, crossOrigin=crossOrigin, dir=dir, draggable=draggable, height=height, hidden=hidden, key=key, lang=lang, loading_state=loading_state, loop=loop, muted=muted, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, poster=poster, preload=preload, role=role, spellCheck=spellCheck, src=src, style=style, tabIndex=tabIndex, title=title, width=width, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, autoPlay=autoPlay, controls=controls, crossOrigin=crossOrigin, height=height, loop=loop, muted=muted, poster=poster, preload=preload, src=src, width=width, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2697,7 +2697,7 @@ htmlVideo <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, cla
         props = props,
         type = 'Video',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'autoPlay', 'className', 'contentEditable', 'contextMenu', 'controls', 'crossOrigin', 'dir', 'draggable', 'height', 'hidden', 'key', 'lang', 'loading_state', 'loop', 'muted', 'n_clicks', 'n_clicks_timestamp', 'poster', 'preload', 'role', 'spellCheck', 'src', 'style', 'tabIndex', 'title', 'width', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'autoPlay', 'controls', 'crossOrigin', 'height', 'loop', 'muted', 'poster', 'preload', 'src', 'width', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2707,11 +2707,11 @@ htmlVideo <- function(children=NULL, id=NULL, accessKey=NULL, autoPlay=NULL, cla
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlWbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlWbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2719,7 +2719,7 @@ htmlWbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Wbr',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 
@@ -2729,11 +2729,11 @@ htmlWbr <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-htmlXmp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, key=NULL, lang=NULL, loading_state=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, role=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, ...) {
+htmlXmp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
-    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('aria', 'data'), ...))
+    wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
 
-    props <- list(children=children, id=id, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, key=key, lang=lang, loading_state=loading_state, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, role=role, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, ...)
+    props <- list(children=children, id=id, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, key=key, role=role, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, loading_state=loading_state, ...)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -2741,7 +2741,7 @@ htmlXmp <- function(children=NULL, id=NULL, accessKey=NULL, className=NULL, cont
         props = props,
         type = 'Xmp',
         namespace = 'dash_html_components',
-        propNames = c('children', 'id', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'key', 'lang', 'loading_state', 'n_clicks', 'n_clicks_timestamp', 'role', 'spellCheck', 'style', 'tabIndex', 'title', wildcard_names),
+        propNames = c('children', 'id', 'n_clicks', 'n_clicks_timestamp', 'key', 'role', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'loading_state', wildcard_names),
         package = 'dashHtmlComponents'
         )
 

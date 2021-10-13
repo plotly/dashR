@@ -1,9 +1,9 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccChecklist <- function(id=NULL, className=NULL, inline=NULL, inputClassName=NULL, inputStyle=NULL, labelClassName=NULL, labelStyle=NULL, loading_state=NULL, options=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, style=NULL, value=NULL) {
+dccChecklist <- function(id=NULL, options=NULL, value=NULL, className=NULL, style=NULL, inputStyle=NULL, inputClassName=NULL, labelStyle=NULL, labelClassName=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, inline=NULL) {
     
-    props <- list(id=id, className=className, inline=inline, inputClassName=inputClassName, inputStyle=inputStyle, labelClassName=labelClassName, labelStyle=labelStyle, loading_state=loading_state, options=options, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, style=style, value=value)
+    props <- list(id=id, options=options, value=value, className=className, style=style, inputStyle=inputStyle, inputClassName=inputClassName, labelStyle=labelStyle, labelClassName=labelClassName, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, inline=inline)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -11,7 +11,7 @@ dccChecklist <- function(id=NULL, className=NULL, inline=NULL, inputClassName=NU
         props = props,
         type = 'Checklist',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'inline', 'inputClassName', 'inputStyle', 'labelClassName', 'labelStyle', 'loading_state', 'options', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value'),
+        propNames = c('id', 'options', 'value', 'className', 'style', 'inputStyle', 'inputClassName', 'labelStyle', 'labelClassName', 'loading_state', 'persistence', 'persisted_props', 'persistence_type', 'inline'),
         package = 'dashCoreComponents'
         )
 
@@ -21,9 +21,9 @@ dccChecklist <- function(id=NULL, className=NULL, inline=NULL, inputClassName=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccClipboard <- function(id=NULL, className=NULL, content=NULL, loading_state=NULL, n_clicks=NULL, style=NULL, target_id=NULL, title=NULL) {
+dccClipboard <- function(id=NULL, target_id=NULL, content=NULL, n_clicks=NULL, title=NULL, style=NULL, className=NULL, loading_state=NULL) {
     
-    props <- list(id=id, className=className, content=content, loading_state=loading_state, n_clicks=n_clicks, style=style, target_id=target_id, title=title)
+    props <- list(id=id, target_id=target_id, content=content, n_clicks=n_clicks, title=title, style=style, className=className, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -31,7 +31,7 @@ dccClipboard <- function(id=NULL, className=NULL, content=NULL, loading_state=NU
         props = props,
         type = 'Clipboard',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'content', 'loading_state', 'n_clicks', 'style', 'target_id', 'title'),
+        propNames = c('id', 'target_id', 'content', 'n_clicks', 'title', 'style', 'className', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -41,9 +41,9 @@ dccClipboard <- function(id=NULL, className=NULL, content=NULL, loading_state=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccConfirmDialog <- function(id=NULL, cancel_n_clicks=NULL, cancel_n_clicks_timestamp=NULL, displayed=NULL, message=NULL, submit_n_clicks=NULL, submit_n_clicks_timestamp=NULL) {
+dccConfirmDialog <- function(id=NULL, message=NULL, submit_n_clicks=NULL, submit_n_clicks_timestamp=NULL, cancel_n_clicks=NULL, cancel_n_clicks_timestamp=NULL, displayed=NULL) {
     
-    props <- list(id=id, cancel_n_clicks=cancel_n_clicks, cancel_n_clicks_timestamp=cancel_n_clicks_timestamp, displayed=displayed, message=message, submit_n_clicks=submit_n_clicks, submit_n_clicks_timestamp=submit_n_clicks_timestamp)
+    props <- list(id=id, message=message, submit_n_clicks=submit_n_clicks, submit_n_clicks_timestamp=submit_n_clicks_timestamp, cancel_n_clicks=cancel_n_clicks, cancel_n_clicks_timestamp=cancel_n_clicks_timestamp, displayed=displayed)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -51,7 +51,7 @@ dccConfirmDialog <- function(id=NULL, cancel_n_clicks=NULL, cancel_n_clicks_time
         props = props,
         type = 'ConfirmDialog',
         namespace = 'dash_core_components',
-        propNames = c('id', 'cancel_n_clicks', 'cancel_n_clicks_timestamp', 'displayed', 'message', 'submit_n_clicks', 'submit_n_clicks_timestamp'),
+        propNames = c('id', 'message', 'submit_n_clicks', 'submit_n_clicks_timestamp', 'cancel_n_clicks', 'cancel_n_clicks_timestamp', 'displayed'),
         package = 'dashCoreComponents'
         )
 
@@ -61,9 +61,9 @@ dccConfirmDialog <- function(id=NULL, cancel_n_clicks=NULL, cancel_n_clicks_time
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccConfirmDialogProvider <- function(children=NULL, id=NULL, cancel_n_clicks=NULL, cancel_n_clicks_timestamp=NULL, displayed=NULL, loading_state=NULL, message=NULL, submit_n_clicks=NULL, submit_n_clicks_timestamp=NULL) {
+dccConfirmDialogProvider <- function(children=NULL, id=NULL, message=NULL, submit_n_clicks=NULL, submit_n_clicks_timestamp=NULL, cancel_n_clicks=NULL, cancel_n_clicks_timestamp=NULL, displayed=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, cancel_n_clicks=cancel_n_clicks, cancel_n_clicks_timestamp=cancel_n_clicks_timestamp, displayed=displayed, loading_state=loading_state, message=message, submit_n_clicks=submit_n_clicks, submit_n_clicks_timestamp=submit_n_clicks_timestamp)
+    props <- list(children=children, id=id, message=message, submit_n_clicks=submit_n_clicks, submit_n_clicks_timestamp=submit_n_clicks_timestamp, cancel_n_clicks=cancel_n_clicks, cancel_n_clicks_timestamp=cancel_n_clicks_timestamp, displayed=displayed, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -71,7 +71,7 @@ dccConfirmDialogProvider <- function(children=NULL, id=NULL, cancel_n_clicks=NUL
         props = props,
         type = 'ConfirmDialogProvider',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'cancel_n_clicks', 'cancel_n_clicks_timestamp', 'displayed', 'loading_state', 'message', 'submit_n_clicks', 'submit_n_clicks_timestamp'),
+        propNames = c('children', 'id', 'message', 'submit_n_clicks', 'submit_n_clicks_timestamp', 'cancel_n_clicks', 'cancel_n_clicks_timestamp', 'displayed', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -81,9 +81,9 @@ dccConfirmDialogProvider <- function(children=NULL, id=NULL, cancel_n_clicks=NUL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccDatePickerRange <- function(id=NULL, calendar_orientation=NULL, className=NULL, clearable=NULL, day_size=NULL, disabled=NULL, disabled_days=NULL, display_format=NULL, end_date=NULL, end_date_id=NULL, end_date_placeholder_text=NULL, first_day_of_week=NULL, initial_visible_month=NULL, is_RTL=NULL, loading_state=NULL, max_date_allowed=NULL, min_date_allowed=NULL, minimum_nights=NULL, month_format=NULL, number_of_months_shown=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, reopen_calendar_on_clear=NULL, show_outside_days=NULL, start_date=NULL, start_date_id=NULL, start_date_placeholder_text=NULL, stay_open_on_select=NULL, style=NULL, updatemode=NULL, with_full_screen_portal=NULL, with_portal=NULL) {
+dccDatePickerRange <- function(id=NULL, start_date=NULL, start_date_id=NULL, end_date_id=NULL, end_date=NULL, min_date_allowed=NULL, max_date_allowed=NULL, disabled_days=NULL, initial_visible_month=NULL, start_date_placeholder_text=NULL, end_date_placeholder_text=NULL, day_size=NULL, calendar_orientation=NULL, is_RTL=NULL, reopen_calendar_on_clear=NULL, number_of_months_shown=NULL, with_portal=NULL, with_full_screen_portal=NULL, first_day_of_week=NULL, minimum_nights=NULL, stay_open_on_select=NULL, show_outside_days=NULL, month_format=NULL, display_format=NULL, disabled=NULL, clearable=NULL, style=NULL, className=NULL, updatemode=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, calendar_orientation=calendar_orientation, className=className, clearable=clearable, day_size=day_size, disabled=disabled, disabled_days=disabled_days, display_format=display_format, end_date=end_date, end_date_id=end_date_id, end_date_placeholder_text=end_date_placeholder_text, first_day_of_week=first_day_of_week, initial_visible_month=initial_visible_month, is_RTL=is_RTL, loading_state=loading_state, max_date_allowed=max_date_allowed, min_date_allowed=min_date_allowed, minimum_nights=minimum_nights, month_format=month_format, number_of_months_shown=number_of_months_shown, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, reopen_calendar_on_clear=reopen_calendar_on_clear, show_outside_days=show_outside_days, start_date=start_date, start_date_id=start_date_id, start_date_placeholder_text=start_date_placeholder_text, stay_open_on_select=stay_open_on_select, style=style, updatemode=updatemode, with_full_screen_portal=with_full_screen_portal, with_portal=with_portal)
+    props <- list(id=id, start_date=start_date, start_date_id=start_date_id, end_date_id=end_date_id, end_date=end_date, min_date_allowed=min_date_allowed, max_date_allowed=max_date_allowed, disabled_days=disabled_days, initial_visible_month=initial_visible_month, start_date_placeholder_text=start_date_placeholder_text, end_date_placeholder_text=end_date_placeholder_text, day_size=day_size, calendar_orientation=calendar_orientation, is_RTL=is_RTL, reopen_calendar_on_clear=reopen_calendar_on_clear, number_of_months_shown=number_of_months_shown, with_portal=with_portal, with_full_screen_portal=with_full_screen_portal, first_day_of_week=first_day_of_week, minimum_nights=minimum_nights, stay_open_on_select=stay_open_on_select, show_outside_days=show_outside_days, month_format=month_format, display_format=display_format, disabled=disabled, clearable=clearable, style=style, className=className, updatemode=updatemode, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -91,7 +91,7 @@ dccDatePickerRange <- function(id=NULL, calendar_orientation=NULL, className=NUL
         props = props,
         type = 'DatePickerRange',
         namespace = 'dash_core_components',
-        propNames = c('id', 'calendar_orientation', 'className', 'clearable', 'day_size', 'disabled', 'disabled_days', 'display_format', 'end_date', 'end_date_id', 'end_date_placeholder_text', 'first_day_of_week', 'initial_visible_month', 'is_RTL', 'loading_state', 'max_date_allowed', 'min_date_allowed', 'minimum_nights', 'month_format', 'number_of_months_shown', 'persisted_props', 'persistence', 'persistence_type', 'reopen_calendar_on_clear', 'show_outside_days', 'start_date', 'start_date_id', 'start_date_placeholder_text', 'stay_open_on_select', 'style', 'updatemode', 'with_full_screen_portal', 'with_portal'),
+        propNames = c('id', 'start_date', 'start_date_id', 'end_date_id', 'end_date', 'min_date_allowed', 'max_date_allowed', 'disabled_days', 'initial_visible_month', 'start_date_placeholder_text', 'end_date_placeholder_text', 'day_size', 'calendar_orientation', 'is_RTL', 'reopen_calendar_on_clear', 'number_of_months_shown', 'with_portal', 'with_full_screen_portal', 'first_day_of_week', 'minimum_nights', 'stay_open_on_select', 'show_outside_days', 'month_format', 'display_format', 'disabled', 'clearable', 'style', 'className', 'updatemode', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -101,9 +101,9 @@ dccDatePickerRange <- function(id=NULL, calendar_orientation=NULL, className=NUL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccDatePickerSingle <- function(id=NULL, calendar_orientation=NULL, className=NULL, clearable=NULL, date=NULL, day_size=NULL, disabled=NULL, disabled_days=NULL, display_format=NULL, first_day_of_week=NULL, initial_visible_month=NULL, is_RTL=NULL, loading_state=NULL, max_date_allowed=NULL, min_date_allowed=NULL, month_format=NULL, number_of_months_shown=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, placeholder=NULL, reopen_calendar_on_clear=NULL, show_outside_days=NULL, stay_open_on_select=NULL, style=NULL, with_full_screen_portal=NULL, with_portal=NULL) {
+dccDatePickerSingle <- function(id=NULL, date=NULL, min_date_allowed=NULL, max_date_allowed=NULL, disabled_days=NULL, initial_visible_month=NULL, day_size=NULL, calendar_orientation=NULL, is_RTL=NULL, placeholder=NULL, reopen_calendar_on_clear=NULL, number_of_months_shown=NULL, with_portal=NULL, with_full_screen_portal=NULL, first_day_of_week=NULL, stay_open_on_select=NULL, show_outside_days=NULL, month_format=NULL, display_format=NULL, disabled=NULL, clearable=NULL, style=NULL, className=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, calendar_orientation=calendar_orientation, className=className, clearable=clearable, date=date, day_size=day_size, disabled=disabled, disabled_days=disabled_days, display_format=display_format, first_day_of_week=first_day_of_week, initial_visible_month=initial_visible_month, is_RTL=is_RTL, loading_state=loading_state, max_date_allowed=max_date_allowed, min_date_allowed=min_date_allowed, month_format=month_format, number_of_months_shown=number_of_months_shown, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, placeholder=placeholder, reopen_calendar_on_clear=reopen_calendar_on_clear, show_outside_days=show_outside_days, stay_open_on_select=stay_open_on_select, style=style, with_full_screen_portal=with_full_screen_portal, with_portal=with_portal)
+    props <- list(id=id, date=date, min_date_allowed=min_date_allowed, max_date_allowed=max_date_allowed, disabled_days=disabled_days, initial_visible_month=initial_visible_month, day_size=day_size, calendar_orientation=calendar_orientation, is_RTL=is_RTL, placeholder=placeholder, reopen_calendar_on_clear=reopen_calendar_on_clear, number_of_months_shown=number_of_months_shown, with_portal=with_portal, with_full_screen_portal=with_full_screen_portal, first_day_of_week=first_day_of_week, stay_open_on_select=stay_open_on_select, show_outside_days=show_outside_days, month_format=month_format, display_format=display_format, disabled=disabled, clearable=clearable, style=style, className=className, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -111,7 +111,7 @@ dccDatePickerSingle <- function(id=NULL, calendar_orientation=NULL, className=NU
         props = props,
         type = 'DatePickerSingle',
         namespace = 'dash_core_components',
-        propNames = c('id', 'calendar_orientation', 'className', 'clearable', 'date', 'day_size', 'disabled', 'disabled_days', 'display_format', 'first_day_of_week', 'initial_visible_month', 'is_RTL', 'loading_state', 'max_date_allowed', 'min_date_allowed', 'month_format', 'number_of_months_shown', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'reopen_calendar_on_clear', 'show_outside_days', 'stay_open_on_select', 'style', 'with_full_screen_portal', 'with_portal'),
+        propNames = c('id', 'date', 'min_date_allowed', 'max_date_allowed', 'disabled_days', 'initial_visible_month', 'day_size', 'calendar_orientation', 'is_RTL', 'placeholder', 'reopen_calendar_on_clear', 'number_of_months_shown', 'with_portal', 'with_full_screen_portal', 'first_day_of_week', 'stay_open_on_select', 'show_outside_days', 'month_format', 'display_format', 'disabled', 'clearable', 'style', 'className', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -121,9 +121,9 @@ dccDatePickerSingle <- function(id=NULL, calendar_orientation=NULL, className=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccDownload <- function(id=NULL, base64=NULL, data=NULL, type=NULL) {
+dccDownload <- function(id=NULL, data=NULL, base64=NULL, type=NULL) {
     
-    props <- list(id=id, base64=base64, data=data, type=type)
+    props <- list(id=id, data=data, base64=base64, type=type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -131,7 +131,7 @@ dccDownload <- function(id=NULL, base64=NULL, data=NULL, type=NULL) {
         props = props,
         type = 'Download',
         namespace = 'dash_core_components',
-        propNames = c('id', 'base64', 'data', 'type'),
+        propNames = c('id', 'data', 'base64', 'type'),
         package = 'dashCoreComponents'
         )
 
@@ -141,9 +141,9 @@ dccDownload <- function(id=NULL, base64=NULL, data=NULL, type=NULL) {
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccDropdown <- function(id=NULL, className=NULL, clearable=NULL, disabled=NULL, loading_state=NULL, multi=NULL, optionHeight=NULL, options=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, placeholder=NULL, search_value=NULL, searchable=NULL, style=NULL, value=NULL) {
+dccDropdown <- function(id=NULL, options=NULL, value=NULL, optionHeight=NULL, className=NULL, clearable=NULL, disabled=NULL, multi=NULL, placeholder=NULL, searchable=NULL, search_value=NULL, style=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, className=className, clearable=clearable, disabled=disabled, loading_state=loading_state, multi=multi, optionHeight=optionHeight, options=options, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, placeholder=placeholder, search_value=search_value, searchable=searchable, style=style, value=value)
+    props <- list(id=id, options=options, value=value, optionHeight=optionHeight, className=className, clearable=clearable, disabled=disabled, multi=multi, placeholder=placeholder, searchable=searchable, search_value=search_value, style=style, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -151,7 +151,7 @@ dccDropdown <- function(id=NULL, className=NULL, clearable=NULL, disabled=NULL, 
         props = props,
         type = 'Dropdown',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'clearable', 'disabled', 'loading_state', 'multi', 'optionHeight', 'options', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'search_value', 'searchable', 'style', 'value'),
+        propNames = c('id', 'options', 'value', 'optionHeight', 'className', 'clearable', 'disabled', 'multi', 'placeholder', 'searchable', 'search_value', 'style', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -161,9 +161,9 @@ dccDropdown <- function(id=NULL, className=NULL, clearable=NULL, disabled=NULL, 
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccGraph <- function(id=NULL, animate=NULL, animation_options=NULL, className=NULL, clear_on_unhover=NULL, clickAnnotationData=NULL, clickData=NULL, config=NULL, extendData=NULL, figure=NULL, hoverData=NULL, loading_state=NULL, prependData=NULL, relayoutData=NULL, responsive=NULL, restyleData=NULL, selectedData=NULL, style=NULL) {
+dccGraph <- function(id=NULL, responsive=NULL, clickData=NULL, clickAnnotationData=NULL, hoverData=NULL, clear_on_unhover=NULL, selectedData=NULL, relayoutData=NULL, extendData=NULL, prependData=NULL, restyleData=NULL, figure=NULL, style=NULL, className=NULL, animate=NULL, animation_options=NULL, config=NULL, loading_state=NULL) {
     
-    props <- list(id=id, animate=animate, animation_options=animation_options, className=className, clear_on_unhover=clear_on_unhover, clickAnnotationData=clickAnnotationData, clickData=clickData, config=config, extendData=extendData, figure=figure, hoverData=hoverData, loading_state=loading_state, prependData=prependData, relayoutData=relayoutData, responsive=responsive, restyleData=restyleData, selectedData=selectedData, style=style)
+    props <- list(id=id, responsive=responsive, clickData=clickData, clickAnnotationData=clickAnnotationData, hoverData=hoverData, clear_on_unhover=clear_on_unhover, selectedData=selectedData, relayoutData=relayoutData, extendData=extendData, prependData=prependData, restyleData=restyleData, figure=figure, style=style, className=className, animate=animate, animation_options=animation_options, config=config, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -171,7 +171,7 @@ dccGraph <- function(id=NULL, animate=NULL, animation_options=NULL, className=NU
         props = props,
         type = 'Graph',
         namespace = 'dash_core_components',
-        propNames = c('id', 'animate', 'animation_options', 'className', 'clear_on_unhover', 'clickAnnotationData', 'clickData', 'config', 'extendData', 'figure', 'hoverData', 'loading_state', 'prependData', 'relayoutData', 'responsive', 'restyleData', 'selectedData', 'style'),
+        propNames = c('id', 'responsive', 'clickData', 'clickAnnotationData', 'hoverData', 'clear_on_unhover', 'selectedData', 'relayoutData', 'extendData', 'prependData', 'restyleData', 'figure', 'style', 'className', 'animate', 'animation_options', 'config', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -181,9 +181,9 @@ dccGraph <- function(id=NULL, animate=NULL, animation_options=NULL, className=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccInput <- function(id=NULL, autoComplete=NULL, autoFocus=NULL, className=NULL, debounce=NULL, disabled=NULL, inputMode=NULL, list=NULL, loading_state=NULL, max=NULL, maxLength=NULL, min=NULL, minLength=NULL, multiple=NULL, n_blur=NULL, n_blur_timestamp=NULL, n_submit=NULL, n_submit_timestamp=NULL, name=NULL, pattern=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, placeholder=NULL, readOnly=NULL, required=NULL, selectionDirection=NULL, selectionEnd=NULL, selectionStart=NULL, size=NULL, spellCheck=NULL, step=NULL, style=NULL, type=NULL, value=NULL) {
+dccInput <- function(id=NULL, value=NULL, style=NULL, className=NULL, debounce=NULL, type=NULL, autoComplete=NULL, autoFocus=NULL, disabled=NULL, inputMode=NULL, list=NULL, max=NULL, maxLength=NULL, min=NULL, minLength=NULL, multiple=NULL, name=NULL, pattern=NULL, placeholder=NULL, readOnly=NULL, required=NULL, selectionDirection=NULL, selectionEnd=NULL, selectionStart=NULL, size=NULL, spellCheck=NULL, step=NULL, n_submit=NULL, n_submit_timestamp=NULL, n_blur=NULL, n_blur_timestamp=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, autoComplete=autoComplete, autoFocus=autoFocus, className=className, debounce=debounce, disabled=disabled, inputMode=inputMode, list=list, loading_state=loading_state, max=max, maxLength=maxLength, min=min, minLength=minLength, multiple=multiple, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, n_submit=n_submit, n_submit_timestamp=n_submit_timestamp, name=name, pattern=pattern, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, placeholder=placeholder, readOnly=readOnly, required=required, selectionDirection=selectionDirection, selectionEnd=selectionEnd, selectionStart=selectionStart, size=size, spellCheck=spellCheck, step=step, style=style, type=type, value=value)
+    props <- list(id=id, value=value, style=style, className=className, debounce=debounce, type=type, autoComplete=autoComplete, autoFocus=autoFocus, disabled=disabled, inputMode=inputMode, list=list, max=max, maxLength=maxLength, min=min, minLength=minLength, multiple=multiple, name=name, pattern=pattern, placeholder=placeholder, readOnly=readOnly, required=required, selectionDirection=selectionDirection, selectionEnd=selectionEnd, selectionStart=selectionStart, size=size, spellCheck=spellCheck, step=step, n_submit=n_submit, n_submit_timestamp=n_submit_timestamp, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -191,7 +191,7 @@ dccInput <- function(id=NULL, autoComplete=NULL, autoFocus=NULL, className=NULL,
         props = props,
         type = 'Input',
         namespace = 'dash_core_components',
-        propNames = c('id', 'autoComplete', 'autoFocus', 'className', 'debounce', 'disabled', 'inputMode', 'list', 'loading_state', 'max', 'maxLength', 'min', 'minLength', 'multiple', 'n_blur', 'n_blur_timestamp', 'n_submit', 'n_submit_timestamp', 'name', 'pattern', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'required', 'selectionDirection', 'selectionEnd', 'selectionStart', 'size', 'spellCheck', 'step', 'style', 'type', 'value'),
+        propNames = c('id', 'value', 'style', 'className', 'debounce', 'type', 'autoComplete', 'autoFocus', 'disabled', 'inputMode', 'list', 'max', 'maxLength', 'min', 'minLength', 'multiple', 'name', 'pattern', 'placeholder', 'readOnly', 'required', 'selectionDirection', 'selectionEnd', 'selectionStart', 'size', 'spellCheck', 'step', 'n_submit', 'n_submit_timestamp', 'n_blur', 'n_blur_timestamp', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -201,9 +201,9 @@ dccInput <- function(id=NULL, autoComplete=NULL, autoFocus=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccInterval <- function(id=NULL, disabled=NULL, interval=NULL, max_intervals=NULL, n_intervals=NULL) {
+dccInterval <- function(id=NULL, interval=NULL, disabled=NULL, n_intervals=NULL, max_intervals=NULL) {
     
-    props <- list(id=id, disabled=disabled, interval=interval, max_intervals=max_intervals, n_intervals=n_intervals)
+    props <- list(id=id, interval=interval, disabled=disabled, n_intervals=n_intervals, max_intervals=max_intervals)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -211,7 +211,7 @@ dccInterval <- function(id=NULL, disabled=NULL, interval=NULL, max_intervals=NUL
         props = props,
         type = 'Interval',
         namespace = 'dash_core_components',
-        propNames = c('id', 'disabled', 'interval', 'max_intervals', 'n_intervals'),
+        propNames = c('id', 'interval', 'disabled', 'n_intervals', 'max_intervals'),
         package = 'dashCoreComponents'
         )
 
@@ -221,9 +221,9 @@ dccInterval <- function(id=NULL, disabled=NULL, interval=NULL, max_intervals=NUL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccLink <- function(children=NULL, id=NULL, className=NULL, href=NULL, loading_state=NULL, refresh=NULL, style=NULL, target=NULL, title=NULL) {
+dccLink <- function(children=NULL, id=NULL, href=NULL, refresh=NULL, className=NULL, style=NULL, title=NULL, target=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, className=className, href=href, loading_state=loading_state, refresh=refresh, style=style, target=target, title=title)
+    props <- list(children=children, id=id, href=href, refresh=refresh, className=className, style=style, title=title, target=target, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -231,7 +231,7 @@ dccLink <- function(children=NULL, id=NULL, className=NULL, href=NULL, loading_s
         props = props,
         type = 'Link',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'className', 'href', 'loading_state', 'refresh', 'style', 'target', 'title'),
+        propNames = c('children', 'id', 'href', 'refresh', 'className', 'style', 'title', 'target', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -241,9 +241,9 @@ dccLink <- function(children=NULL, id=NULL, className=NULL, href=NULL, loading_s
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccLoading <- function(children=NULL, id=NULL, className=NULL, color=NULL, debug=NULL, fullscreen=NULL, loading_state=NULL, parent_className=NULL, parent_style=NULL, style=NULL, type=NULL) {
+dccLoading <- function(children=NULL, id=NULL, type=NULL, fullscreen=NULL, debug=NULL, className=NULL, parent_className=NULL, style=NULL, parent_style=NULL, color=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, className=className, color=color, debug=debug, fullscreen=fullscreen, loading_state=loading_state, parent_className=parent_className, parent_style=parent_style, style=style, type=type)
+    props <- list(children=children, id=id, type=type, fullscreen=fullscreen, debug=debug, className=className, parent_className=parent_className, style=style, parent_style=parent_style, color=color, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -251,7 +251,7 @@ dccLoading <- function(children=NULL, id=NULL, className=NULL, color=NULL, debug
         props = props,
         type = 'Loading',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'className', 'color', 'debug', 'fullscreen', 'loading_state', 'parent_className', 'parent_style', 'style', 'type'),
+        propNames = c('children', 'id', 'type', 'fullscreen', 'debug', 'className', 'parent_className', 'style', 'parent_style', 'color', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -261,9 +261,9 @@ dccLoading <- function(children=NULL, id=NULL, className=NULL, color=NULL, debug
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccLocation <- function(id=NULL, hash=NULL, href=NULL, pathname=NULL, refresh=NULL, search=NULL) {
+dccLocation <- function(id=NULL, pathname=NULL, search=NULL, hash=NULL, href=NULL, refresh=NULL) {
     
-    props <- list(id=id, hash=hash, href=href, pathname=pathname, refresh=refresh, search=search)
+    props <- list(id=id, pathname=pathname, search=search, hash=hash, href=href, refresh=refresh)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -271,7 +271,7 @@ dccLocation <- function(id=NULL, hash=NULL, href=NULL, pathname=NULL, refresh=NU
         props = props,
         type = 'Location',
         namespace = 'dash_core_components',
-        propNames = c('id', 'hash', 'href', 'pathname', 'refresh', 'search'),
+        propNames = c('id', 'pathname', 'search', 'hash', 'href', 'refresh'),
         package = 'dashCoreComponents'
         )
 
@@ -281,9 +281,9 @@ dccLocation <- function(id=NULL, hash=NULL, href=NULL, pathname=NULL, refresh=NU
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccLogoutButton <- function(id=NULL, className=NULL, label=NULL, loading_state=NULL, logout_url=NULL, method=NULL, style=NULL) {
+dccLogoutButton <- function(id=NULL, label=NULL, logout_url=NULL, style=NULL, method=NULL, className=NULL, loading_state=NULL) {
     
-    props <- list(id=id, className=className, label=label, loading_state=loading_state, logout_url=logout_url, method=method, style=style)
+    props <- list(id=id, label=label, logout_url=logout_url, style=style, method=method, className=className, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -291,7 +291,7 @@ dccLogoutButton <- function(id=NULL, className=NULL, label=NULL, loading_state=N
         props = props,
         type = 'LogoutButton',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'label', 'loading_state', 'logout_url', 'method', 'style'),
+        propNames = c('id', 'label', 'logout_url', 'style', 'method', 'className', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -321,9 +321,9 @@ dccMarkdown <- function(children=NULL, id=NULL, className=NULL, dangerously_allo
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccRadioItems <- function(id=NULL, className=NULL, inline=NULL, inputClassName=NULL, inputStyle=NULL, labelClassName=NULL, labelStyle=NULL, loading_state=NULL, options=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, style=NULL, value=NULL) {
+dccRadioItems <- function(id=NULL, options=NULL, value=NULL, style=NULL, className=NULL, inputStyle=NULL, inputClassName=NULL, labelStyle=NULL, labelClassName=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL, inline=NULL) {
     
-    props <- list(id=id, className=className, inline=inline, inputClassName=inputClassName, inputStyle=inputStyle, labelClassName=labelClassName, labelStyle=labelStyle, loading_state=loading_state, options=options, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, style=style, value=value)
+    props <- list(id=id, options=options, value=value, style=style, className=className, inputStyle=inputStyle, inputClassName=inputClassName, labelStyle=labelStyle, labelClassName=labelClassName, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type, inline=inline)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -331,7 +331,7 @@ dccRadioItems <- function(id=NULL, className=NULL, inline=NULL, inputClassName=N
         props = props,
         type = 'RadioItems',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'inline', 'inputClassName', 'inputStyle', 'labelClassName', 'labelStyle', 'loading_state', 'options', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value'),
+        propNames = c('id', 'options', 'value', 'style', 'className', 'inputStyle', 'inputClassName', 'labelStyle', 'labelClassName', 'loading_state', 'persistence', 'persisted_props', 'persistence_type', 'inline'),
         package = 'dashCoreComponents'
         )
 
@@ -341,9 +341,9 @@ dccRadioItems <- function(id=NULL, className=NULL, inline=NULL, inputClassName=N
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccRangeSlider <- function(id=NULL, allowCross=NULL, className=NULL, count=NULL, disabled=NULL, dots=NULL, drag_value=NULL, included=NULL, loading_state=NULL, marks=NULL, max=NULL, min=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, pushable=NULL, step=NULL, tooltip=NULL, updatemode=NULL, value=NULL, vertical=NULL, verticalHeight=NULL) {
+dccRangeSlider <- function(id=NULL, min=NULL, max=NULL, step=NULL, marks=NULL, value=NULL, drag_value=NULL, allowCross=NULL, className=NULL, count=NULL, disabled=NULL, dots=NULL, included=NULL, pushable=NULL, tooltip=NULL, vertical=NULL, verticalHeight=NULL, updatemode=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, allowCross=allowCross, className=className, count=count, disabled=disabled, dots=dots, drag_value=drag_value, included=included, loading_state=loading_state, marks=marks, max=max, min=min, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, pushable=pushable, step=step, tooltip=tooltip, updatemode=updatemode, value=value, vertical=vertical, verticalHeight=verticalHeight)
+    props <- list(id=id, min=min, max=max, step=step, marks=marks, value=value, drag_value=drag_value, allowCross=allowCross, className=className, count=count, disabled=disabled, dots=dots, included=included, pushable=pushable, tooltip=tooltip, vertical=vertical, verticalHeight=verticalHeight, updatemode=updatemode, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -351,7 +351,7 @@ dccRangeSlider <- function(id=NULL, allowCross=NULL, className=NULL, count=NULL,
         props = props,
         type = 'RangeSlider',
         namespace = 'dash_core_components',
-        propNames = c('id', 'allowCross', 'className', 'count', 'disabled', 'dots', 'drag_value', 'included', 'loading_state', 'marks', 'max', 'min', 'persisted_props', 'persistence', 'persistence_type', 'pushable', 'step', 'tooltip', 'updatemode', 'value', 'vertical', 'verticalHeight'),
+        propNames = c('id', 'min', 'max', 'step', 'marks', 'value', 'drag_value', 'allowCross', 'className', 'count', 'disabled', 'dots', 'included', 'pushable', 'tooltip', 'vertical', 'verticalHeight', 'updatemode', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -361,9 +361,9 @@ dccRangeSlider <- function(id=NULL, allowCross=NULL, className=NULL, count=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccSlider <- function(id=NULL, className=NULL, disabled=NULL, dots=NULL, drag_value=NULL, included=NULL, loading_state=NULL, marks=NULL, max=NULL, min=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, step=NULL, tooltip=NULL, updatemode=NULL, value=NULL, vertical=NULL, verticalHeight=NULL) {
+dccSlider <- function(id=NULL, min=NULL, max=NULL, step=NULL, marks=NULL, value=NULL, drag_value=NULL, className=NULL, disabled=NULL, dots=NULL, included=NULL, tooltip=NULL, vertical=NULL, verticalHeight=NULL, updatemode=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, className=className, disabled=disabled, dots=dots, drag_value=drag_value, included=included, loading_state=loading_state, marks=marks, max=max, min=min, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, step=step, tooltip=tooltip, updatemode=updatemode, value=value, vertical=vertical, verticalHeight=verticalHeight)
+    props <- list(id=id, min=min, max=max, step=step, marks=marks, value=value, drag_value=drag_value, className=className, disabled=disabled, dots=dots, included=included, tooltip=tooltip, vertical=vertical, verticalHeight=verticalHeight, updatemode=updatemode, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -371,7 +371,7 @@ dccSlider <- function(id=NULL, className=NULL, disabled=NULL, dots=NULL, drag_va
         props = props,
         type = 'Slider',
         namespace = 'dash_core_components',
-        propNames = c('id', 'className', 'disabled', 'dots', 'drag_value', 'included', 'loading_state', 'marks', 'max', 'min', 'persisted_props', 'persistence', 'persistence_type', 'step', 'tooltip', 'updatemode', 'value', 'vertical', 'verticalHeight'),
+        propNames = c('id', 'min', 'max', 'step', 'marks', 'value', 'drag_value', 'className', 'disabled', 'dots', 'included', 'tooltip', 'vertical', 'verticalHeight', 'updatemode', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -381,9 +381,9 @@ dccSlider <- function(id=NULL, className=NULL, disabled=NULL, dots=NULL, drag_va
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccStore <- function(id=NULL, clear_data=NULL, data=NULL, modified_timestamp=NULL, storage_type=NULL) {
+dccStore <- function(id=NULL, storage_type=NULL, data=NULL, clear_data=NULL, modified_timestamp=NULL) {
     
-    props <- list(id=id, clear_data=clear_data, data=data, modified_timestamp=modified_timestamp, storage_type=storage_type)
+    props <- list(id=id, storage_type=storage_type, data=data, clear_data=clear_data, modified_timestamp=modified_timestamp)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -391,7 +391,7 @@ dccStore <- function(id=NULL, clear_data=NULL, data=NULL, modified_timestamp=NUL
         props = props,
         type = 'Store',
         namespace = 'dash_core_components',
-        propNames = c('id', 'clear_data', 'data', 'modified_timestamp', 'storage_type'),
+        propNames = c('id', 'storage_type', 'data', 'clear_data', 'modified_timestamp'),
         package = 'dashCoreComponents'
         )
 
@@ -401,9 +401,9 @@ dccStore <- function(id=NULL, clear_data=NULL, data=NULL, modified_timestamp=NUL
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccTab <- function(children=NULL, id=NULL, className=NULL, disabled=NULL, disabled_className=NULL, disabled_style=NULL, label=NULL, loading_state=NULL, selected_className=NULL, selected_style=NULL, style=NULL, value=NULL) {
+dccTab <- function(children=NULL, id=NULL, label=NULL, value=NULL, disabled=NULL, disabled_style=NULL, disabled_className=NULL, className=NULL, selected_className=NULL, style=NULL, selected_style=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, className=className, disabled=disabled, disabled_className=disabled_className, disabled_style=disabled_style, label=label, loading_state=loading_state, selected_className=selected_className, selected_style=selected_style, style=style, value=value)
+    props <- list(children=children, id=id, label=label, value=value, disabled=disabled, disabled_style=disabled_style, disabled_className=disabled_className, className=className, selected_className=selected_className, style=style, selected_style=selected_style, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -411,7 +411,7 @@ dccTab <- function(children=NULL, id=NULL, className=NULL, disabled=NULL, disabl
         props = props,
         type = 'Tab',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'className', 'disabled', 'disabled_className', 'disabled_style', 'label', 'loading_state', 'selected_className', 'selected_style', 'style', 'value'),
+        propNames = c('children', 'id', 'label', 'value', 'disabled', 'disabled_style', 'disabled_className', 'className', 'selected_className', 'style', 'selected_style', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -421,9 +421,9 @@ dccTab <- function(children=NULL, id=NULL, className=NULL, disabled=NULL, disabl
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccTabs <- function(children=NULL, id=NULL, className=NULL, colors=NULL, content_className=NULL, content_style=NULL, loading_state=NULL, mobile_breakpoint=NULL, parent_className=NULL, parent_style=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, style=NULL, value=NULL, vertical=NULL) {
+dccTabs <- function(children=NULL, id=NULL, value=NULL, className=NULL, content_className=NULL, parent_className=NULL, style=NULL, parent_style=NULL, content_style=NULL, vertical=NULL, mobile_breakpoint=NULL, colors=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(children=children, id=id, className=className, colors=colors, content_className=content_className, content_style=content_style, loading_state=loading_state, mobile_breakpoint=mobile_breakpoint, parent_className=parent_className, parent_style=parent_style, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, style=style, value=value, vertical=vertical)
+    props <- list(children=children, id=id, value=value, className=className, content_className=content_className, parent_className=parent_className, style=style, parent_style=parent_style, content_style=content_style, vertical=vertical, mobile_breakpoint=mobile_breakpoint, colors=colors, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -431,7 +431,7 @@ dccTabs <- function(children=NULL, id=NULL, className=NULL, colors=NULL, content
         props = props,
         type = 'Tabs',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'className', 'colors', 'content_className', 'content_style', 'loading_state', 'mobile_breakpoint', 'parent_className', 'parent_style', 'persisted_props', 'persistence', 'persistence_type', 'style', 'value', 'vertical'),
+        propNames = c('children', 'id', 'value', 'className', 'content_className', 'parent_className', 'style', 'parent_style', 'content_style', 'vertical', 'mobile_breakpoint', 'colors', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -441,9 +441,9 @@ dccTabs <- function(children=NULL, id=NULL, className=NULL, colors=NULL, content
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccTextarea <- function(id=NULL, accessKey=NULL, autoFocus=NULL, className=NULL, cols=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, disabled=NULL, draggable=NULL, form=NULL, hidden=NULL, lang=NULL, loading_state=NULL, maxLength=NULL, minLength=NULL, n_blur=NULL, n_blur_timestamp=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, name=NULL, persisted_props=NULL, persistence=NULL, persistence_type=NULL, placeholder=NULL, readOnly=NULL, required=NULL, rows=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, value=NULL, wrap=NULL) {
+dccTextarea <- function(id=NULL, value=NULL, autoFocus=NULL, cols=NULL, disabled=NULL, form=NULL, maxLength=NULL, minLength=NULL, name=NULL, placeholder=NULL, readOnly=NULL, required=NULL, rows=NULL, wrap=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, n_blur=NULL, n_blur_timestamp=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, loading_state=NULL, persistence=NULL, persisted_props=NULL, persistence_type=NULL) {
     
-    props <- list(id=id, accessKey=accessKey, autoFocus=autoFocus, className=className, cols=cols, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, disabled=disabled, draggable=draggable, form=form, hidden=hidden, lang=lang, loading_state=loading_state, maxLength=maxLength, minLength=minLength, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, name=name, persisted_props=persisted_props, persistence=persistence, persistence_type=persistence_type, placeholder=placeholder, readOnly=readOnly, required=required, rows=rows, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, value=value, wrap=wrap)
+    props <- list(id=id, value=value, autoFocus=autoFocus, cols=cols, disabled=disabled, form=form, maxLength=maxLength, minLength=minLength, name=name, placeholder=placeholder, readOnly=readOnly, required=required, rows=rows, wrap=wrap, accessKey=accessKey, className=className, contentEditable=contentEditable, contextMenu=contextMenu, dir=dir, draggable=draggable, hidden=hidden, lang=lang, spellCheck=spellCheck, style=style, tabIndex=tabIndex, title=title, n_blur=n_blur, n_blur_timestamp=n_blur_timestamp, n_clicks=n_clicks, n_clicks_timestamp=n_clicks_timestamp, loading_state=loading_state, persistence=persistence, persisted_props=persisted_props, persistence_type=persistence_type)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -451,7 +451,7 @@ dccTextarea <- function(id=NULL, accessKey=NULL, autoFocus=NULL, className=NULL,
         props = props,
         type = 'Textarea',
         namespace = 'dash_core_components',
-        propNames = c('id', 'accessKey', 'autoFocus', 'className', 'cols', 'contentEditable', 'contextMenu', 'dir', 'disabled', 'draggable', 'form', 'hidden', 'lang', 'loading_state', 'maxLength', 'minLength', 'n_blur', 'n_blur_timestamp', 'n_clicks', 'n_clicks_timestamp', 'name', 'persisted_props', 'persistence', 'persistence_type', 'placeholder', 'readOnly', 'required', 'rows', 'spellCheck', 'style', 'tabIndex', 'title', 'value', 'wrap'),
+        propNames = c('id', 'value', 'autoFocus', 'cols', 'disabled', 'form', 'maxLength', 'minLength', 'name', 'placeholder', 'readOnly', 'required', 'rows', 'wrap', 'accessKey', 'className', 'contentEditable', 'contextMenu', 'dir', 'draggable', 'hidden', 'lang', 'spellCheck', 'style', 'tabIndex', 'title', 'n_blur', 'n_blur_timestamp', 'n_clicks', 'n_clicks_timestamp', 'loading_state', 'persistence', 'persisted_props', 'persistence_type'),
         package = 'dashCoreComponents'
         )
 
@@ -461,9 +461,9 @@ dccTextarea <- function(id=NULL, accessKey=NULL, autoFocus=NULL, className=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccTooltip <- function(children=NULL, id=NULL, background_color=NULL, bbox=NULL, border_color=NULL, className=NULL, direction=NULL, loading_state=NULL, loading_text=NULL, show=NULL, style=NULL, targetable=NULL, zindex=NULL) {
+dccTooltip <- function(children=NULL, id=NULL, className=NULL, style=NULL, bbox=NULL, show=NULL, direction=NULL, border_color=NULL, background_color=NULL, loading_text=NULL, zindex=NULL, targetable=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, background_color=background_color, bbox=bbox, border_color=border_color, className=className, direction=direction, loading_state=loading_state, loading_text=loading_text, show=show, style=style, targetable=targetable, zindex=zindex)
+    props <- list(children=children, id=id, className=className, style=style, bbox=bbox, show=show, direction=direction, border_color=border_color, background_color=background_color, loading_text=loading_text, zindex=zindex, targetable=targetable, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -471,7 +471,7 @@ dccTooltip <- function(children=NULL, id=NULL, background_color=NULL, bbox=NULL,
         props = props,
         type = 'Tooltip',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'background_color', 'bbox', 'border_color', 'className', 'direction', 'loading_state', 'loading_text', 'show', 'style', 'targetable', 'zindex'),
+        propNames = c('children', 'id', 'className', 'style', 'bbox', 'show', 'direction', 'border_color', 'background_color', 'loading_text', 'zindex', 'targetable', 'loading_state'),
         package = 'dashCoreComponents'
         )
 
@@ -481,9 +481,9 @@ dccTooltip <- function(children=NULL, id=NULL, background_color=NULL, bbox=NULL,
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-dccUpload <- function(children=NULL, id=NULL, accept=NULL, className=NULL, className_active=NULL, className_disabled=NULL, className_reject=NULL, contents=NULL, disable_click=NULL, disabled=NULL, filename=NULL, last_modified=NULL, loading_state=NULL, max_size=NULL, min_size=NULL, multiple=NULL, style=NULL, style_active=NULL, style_disabled=NULL, style_reject=NULL) {
+dccUpload <- function(children=NULL, id=NULL, contents=NULL, filename=NULL, last_modified=NULL, accept=NULL, disabled=NULL, disable_click=NULL, max_size=NULL, min_size=NULL, multiple=NULL, className=NULL, className_active=NULL, className_reject=NULL, className_disabled=NULL, style=NULL, style_active=NULL, style_reject=NULL, style_disabled=NULL, loading_state=NULL) {
     
-    props <- list(children=children, id=id, accept=accept, className=className, className_active=className_active, className_disabled=className_disabled, className_reject=className_reject, contents=contents, disable_click=disable_click, disabled=disabled, filename=filename, last_modified=last_modified, loading_state=loading_state, max_size=max_size, min_size=min_size, multiple=multiple, style=style, style_active=style_active, style_disabled=style_disabled, style_reject=style_reject)
+    props <- list(children=children, id=id, contents=contents, filename=filename, last_modified=last_modified, accept=accept, disabled=disabled, disable_click=disable_click, max_size=max_size, min_size=min_size, multiple=multiple, className=className, className_active=className_active, className_reject=className_reject, className_disabled=className_disabled, style=style, style_active=style_active, style_reject=style_reject, style_disabled=style_disabled, loading_state=loading_state)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -491,7 +491,7 @@ dccUpload <- function(children=NULL, id=NULL, accept=NULL, className=NULL, class
         props = props,
         type = 'Upload',
         namespace = 'dash_core_components',
-        propNames = c('children', 'id', 'accept', 'className', 'className_active', 'className_disabled', 'className_reject', 'contents', 'disable_click', 'disabled', 'filename', 'last_modified', 'loading_state', 'max_size', 'min_size', 'multiple', 'style', 'style_active', 'style_disabled', 'style_reject'),
+        propNames = c('children', 'id', 'contents', 'filename', 'last_modified', 'accept', 'disabled', 'disable_click', 'max_size', 'min_size', 'multiple', 'className', 'className_active', 'className_reject', 'className_disabled', 'style', 'style_active', 'style_reject', 'style_disabled', 'loading_state'),
         package = 'dashCoreComponents'
         )
 

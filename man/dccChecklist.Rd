@@ -10,39 +10,17 @@ Checklist is a component that encapsulates several checkboxes. The values and la
 }
 
 \usage{
-dccChecklist(id=NULL, className=NULL, inline=NULL, inputClassName=NULL,
-inputStyle=NULL, labelClassName=NULL, labelStyle=NULL,
-loading_state=NULL, options=NULL, persisted_props=NULL,
-persistence=NULL, persistence_type=NULL, style=NULL,
-value=NULL)
+dccChecklist(id=NULL, options=NULL, value=NULL, className=NULL,
+style=NULL, inputStyle=NULL, inputClassName=NULL,
+labelStyle=NULL, labelClassName=NULL, loading_state=NULL,
+persistence=NULL, persisted_props=NULL,
+persistence_type=NULL, inline=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
-
-\item{className}{Character. The class of the container (div)}
-
-\item{inline}{Logical. Indicates whether labelStyle should be inline or not
-True: Automatically set { 'display': 'inline-block' } to labelStyle
-False: No additional styles are passed into labelStyle.}
-
-\item{inputClassName}{Character. The class of the <input> checkbox element}
-
-\item{inputStyle}{Named list. The style of the <input> checkbox element}
-
-\item{labelClassName}{Character. The class of the <label> that wraps the checkbox input
- and the option's label}
-
-\item{labelStyle}{Named list. The style of the <label> that wraps the checkbox input
- and the option's label}
-
-\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
-those elements have the following types:
-  - is_loading (logical; optional): determines if the component is loading or not
-  - prop_name (character; optional): holds which property is loading
-  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{options}{List of character | numeric | logicals | named list | list of lists containing elements 'label', 'value', 'disabled', 'title'.
 those elements have the following types:
@@ -55,9 +33,27 @@ corresponds to the items specified in the
 information on hover. for more information on this attribute,
 see https://developer.mozilla.org/en-us/docs/web/html/global_attributes/titles. An array of options}
 
-\item{persisted_props}{List of a value equal to: 'value's. Properties whose user interactions will persist after refreshing the
-component or the page. Since only `value` is allowed this prop can
-normally be ignored.}
+\item{value}{List of character | numeric | logicals. The currently selected value}
+
+\item{className}{Character. The class of the container (div)}
+
+\item{style}{Named list. The style of the container (div)}
+
+\item{inputStyle}{Named list. The style of the <input> checkbox element}
+
+\item{inputClassName}{Character. The class of the <input> checkbox element}
+
+\item{labelStyle}{Named list. The style of the <label> that wraps the checkbox input
+ and the option's label}
+
+\item{labelClassName}{Character. The class of the <label> that wraps the checkbox input
+ and the option's label}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{persistence}{Logical | character | numeric. Used to allow user interactions in this component to be persisted when
 the component - or the page - is refreshed. If `persisted` is truthy and
@@ -66,14 +62,18 @@ changed while using the app will keep that change, as long as
 the new `value` also matches what was given originally.
 Used in conjunction with `persistence_type`.}
 
+\item{persisted_props}{List of a value equal to: 'value's. Properties whose user interactions will persist after refreshing the
+component or the page. Since only `value` is allowed this prop can
+normally be ignored.}
+
 \item{persistence_type}{A value equal to: 'local', 'session', 'memory'. Where persisted user changes will be stored:
 memory: only kept in memory, reset on page refresh.
 local: window.localStorage, data is kept after the browser quit.
 session: window.sessionStorage, data is cleared once the browser quit.}
 
-\item{style}{Named list. The style of the container (div)}
-
-\item{value}{List of character | numeric | logicals. The currently selected value}
+\item{inline}{Logical. Indicates whether labelStyle should be inline or not
+True: Automatically set { 'display': 'inline-block' } to labelStyle
+False: No additional styles are passed into labelStyle.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}
