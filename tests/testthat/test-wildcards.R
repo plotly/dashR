@@ -7,7 +7,7 @@ test_that("HTML `data-*` & `aria-* ` wildcards work", {
   expect_equal(x$props$`aria-bar`, "b")
   expect_true("aria-bar" %in% x$propNames)
 
-  x <- html$div(`data-foo` = NA, `aria-bar` = 1:10)
+  x <- dash:::htmlDiv(`data-foo` = NA, `aria-bar` = 1:10)
   expect_equal(x$props$`data-foo`, NA)
   expect_equal(x$props$`aria-bar`, 1:10)
   expect_true("data-foo" %in% x$propNames)

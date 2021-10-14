@@ -13,10 +13,10 @@ test_that("Tag basics", {
 })
 
 test_that("No children", {
-  expect_identical(div(), html$div())
-  expect_identical(div(list()), html$div(children = list()))
+  expect_identical(div(), dash:::htmlDiv())
+  expect_identical(div(list()), dash:::htmlDiv(children = list()))
   expect_false(identical(div(), div(list())))
-  expect_identical(div(id = "test"), html$div(id = "test"))
+  expect_identical(div(id = "test"), dash:::htmlDiv(id = "test"))
 })
 
 test_that("Illegal attributes", {

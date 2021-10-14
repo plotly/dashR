@@ -63,7 +63,7 @@ test_that("Giving nonsense arguments to components yields error", {
 
 test_that("wildcard attributes work with children", {
   s1 <- html$span("hmm", className = "value-output", `data-icon` = "fa-pencil")
-  s2 <- html$span(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
+  s2 <- html$span(list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
 
   expect_equal(s1$props$children, "hmm")
   expect_equal(s1$props$`data-icon`, "fa-pencil")

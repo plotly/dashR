@@ -14,7 +14,7 @@ test_that("app$layout() only accepts components, or functions that return compon
 
  expect_error(
    app$layout(html$a(id = "a"), html$a(id = "a")),
-   'unused argument (htmlA(id = "a"))',
+   'unused argument (html$a(id = "a"))',
   fixed = TRUE)
 
 })
@@ -144,10 +144,10 @@ test_that("Sample apps layout are identical with the compact syntax", {
 
    expect_identical(
       set_get_layout_old(
-         html$div(
+         dash:::htmlDiv(
             list(
-               html$h1('Hello Dash'),
-               html$div(children = "Dash: A web application framework for R."),
+               dash:::htmlH1('Hello Dash'),
+               dash:::htmlDiv(children = "Dash: A web application framework for R."),
                dccGraph(
                   figure=list(
                      data=list(
