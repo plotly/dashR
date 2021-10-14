@@ -374,9 +374,7 @@ app$callback(
     default_column_x <- "year"
     default_column_y <- "gdpPercap"
 
-    new_element <- html$div(
-      style = list(width = "23%", display = "inline-block", outline = "thin lightgrey solid", padding = 10),
-      children = list(
+    new_element <- html$div(list(
         dccGraph(
           id = list(type = "dynamic-output", index = n_clicks),
           style = list(height = 300),
@@ -396,7 +394,8 @@ app$callback(
           }),
           value = default_column_y
         )
-      )
+      ),
+      style = list(width = "23%", display = "inline-block", outline = "thin lightgrey solid", padding = 10)
     )
 
     children <- c(children, list(new_element))

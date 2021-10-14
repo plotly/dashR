@@ -2,7 +2,7 @@ app = """
 library(dash)
 app <- Dash$new()
 
-app$layout(html$div(list(html$div(id='container',children='Hello Dash for R testing'))))
+app$layout(html$div(list(html$div(id='container', 'Hello Dash for R testing'))))
 app$run_server()
 """
 

@@ -5,7 +5,7 @@ app <- Dash$new()
 app$layout(
   html$div(list(
     html$h1('Multi-outputs with callback returning component'),
-    html$div(children = 'Click button to render or remove component here', id = 'inner-container'),
+    html$div("Click button to render or remove component here", id='inner-container'),
     html$button('Render/Unrender', id='submit-val', n_clicks=0),
     html$div(children = 'Button clicked 0 times.', id = 'clicks-count')
     ),
@@ -56,4 +56,3 @@ def test_rsnu002_multiple_outputs(dashr):
          "Button clicked 2 times."
     )
     assert dashr.find_element("#string-container").text == "String in container"
-
