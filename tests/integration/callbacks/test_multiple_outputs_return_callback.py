@@ -3,11 +3,11 @@ library(dash)
 
 app <- Dash$new()
 app$layout(
-  html$Div(list(
-    html$H1('Multi-outputs with callback returning component'),
-    html$Div(children = 'Click button to render or remove component here', id = 'inner-container'),
-    html$Button('Render/Unrender', id='submit-val', n_clicks=0),
-    html$Div(children = 'Button clicked 0 times.', id = 'clicks-count')
+  html$div(list(
+    html$h1('Multi-outputs with callback returning component'),
+    html$div(children = 'Click button to render or remove component here', id = 'inner-container'),
+    html$button('Render/Unrender', id='submit-val', n_clicks=0),
+    html$div(children = 'Button clicked 0 times.', id = 'clicks-count')
     ),
     id = 'container'
   )
@@ -22,7 +22,7 @@ params=list(
 ),
 function(value) {
   click_total <- as.numeric(value)
-  result <- html$Div('String in container', id = 'string-container')
+  result <- html$div('String in container', id = 'string-container')
 
   if (click_total == 0) {
     return(dashNoUpdate())

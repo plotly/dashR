@@ -20,7 +20,7 @@ test_that("stylesheets can be added with or without attributes", {
                   )
           )
 
-  app$layout(html$Div(
+  app$layout(html$div(
     "Hello world!"
   )
   )
@@ -70,7 +70,7 @@ test_that("stylesheets can be added with or without attributes", {
                   )
           )
 
-  app$layout(html$Div(
+  app$layout(html$div(
     "Hello world!"
   )
   )
@@ -243,7 +243,7 @@ test_that("stylesheet can be passed as a simple list", {
 
   app <- Dash$new(external_stylesheets = list("https://codepen.io/chriddyp/pen/bWLwgP.css"))
 
-  app$layout(html$Div(
+  app$layout(html$div(
     "Hello world!"
   )
   )
@@ -331,7 +331,7 @@ test_that("default favicon resource is supplied when none is present in assets",
 
   app <- Dash$new()
 
-  app$layout(html$Div(
+  app$layout(html$div(
     "Hello world!"
   )
   )

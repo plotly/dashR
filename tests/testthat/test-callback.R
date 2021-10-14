@@ -3,12 +3,12 @@ test_that("Callback outputs can be provided with or without output function", {
   app <- Dash$new()
 
   app$layout(
-    html$Div(
+    html$div(
       list(
         dccInput(id='input-1-state', type='text', value='Montreal'),
         dccInput(id='input-2-state', type='text', value='Canada'),
-        html$Button(id='submit-button', n_clicks=0, children='Submit'),
-        html$Div(id='output-state')
+        html$button(id='submit-button', n_clicks=0, children='Submit'),
+        html$div(id='output-state')
       )
     )
   )
@@ -39,16 +39,16 @@ test_that("Repeating outputs across callbacks yields an error", {
   app <- Dash$new()
 
   app$layout(
-    html$Div(
+    html$div(
       list(
         dccInput(id='input-1-state', type='text', value='Montreal'),
         dccInput(id='input-2-state', type='text', value='Canada'),
-        html$Button(id='submit-button', n_clicks=0, children='Submit'),
+        html$button(id='submit-button', n_clicks=0, children='Submit'),
         dccInput(id='input-3-state', type='text', value='Quebec'),
         dccInput(id='input-4-state', type='text', value='Canada'),
-        html$Button(id='submit-button2', n_clicks=0, children='Submit'),
-        html$Div(id='output-state'),
-        html$Div(id='output-two')
+        html$button(id='submit-button2', n_clicks=0, children='Submit'),
+        html$div(id='output-state'),
+        html$div(id='output-two')
       )
     )
   )

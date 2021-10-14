@@ -6,10 +6,10 @@ library(dash)
 
 app <- Dash$new()
 
-app$layout(html$Div(list(
+app$layout(html$div(list(
     dccInput(id='input'),
-    html$Div(id='output-clientside'),
-    html$Div(id='output-serverside')
+    html$div(id='output-clientside'),
+    html$div(id='output-serverside')
     )
     )
 )

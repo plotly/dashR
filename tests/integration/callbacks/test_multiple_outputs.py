@@ -6,9 +6,9 @@ library(plotly)
 
 app <- Dash$new()
 app$layout(
-  html$Div(list(
-    html$Div(list(
-      html$H1('Multi output example'),
+  html$div(list(
+    html$div(list(
+      html$h1('Multi output example'),
       dccDropdown(id='data-dropdown',
                   options = list(
                     list(label = 'Movies',
@@ -23,8 +23,8 @@ app$layout(
       backgroundColor = '#ff998a'
     )
     ),
-    html$Div(list(
-      html$H2('Make a selection from the dropdown menu.',
+    html$div(list(
+      html$h2('Make a selection from the dropdown menu.',
              id = 'text-box'),
       dccRadioItems(id='radio-partial',
                     options = list(

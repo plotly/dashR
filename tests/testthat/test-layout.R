@@ -3,7 +3,7 @@ test_that("layout IDs must be unique", {
  app <- Dash$new()
 
  expect_error(
-   app$layout(html$Div(list(html$A(id = "a"), html$A(id = "a"), html$P(id="b"), html$P(id="c"), html$A(id="c")))),
+   app$layout(html$div(list(html$a(id = "a"), html$a(id = "a"), html$p(id="b"), html$p(id="c"), html$a(id="c")))),
    "layout ids must be unique -- please check the following list of duplicated ids: 'a, c'"
   )
 
@@ -13,7 +13,7 @@ test_that("app$layout() only accepts components, or functions that return compon
  app <- Dash$new()
 
  expect_error(
-   app$layout(html$A(id = "a"), html$A(id = "a")),
+   app$layout(html$a(id = "a"), html$a(id = "a")),
    'unused argument (htmlA(id = "a"))',
   fixed = TRUE)
 
@@ -39,14 +39,14 @@ test_that("Layout errors", {
 test_that("Layout basics", {
    expect_identical(
       set_get_layout_new(div("one"), h2("two")),
-      set_get_layout_old(html$Div(list(
-         html$Div("one"), html$H2("two")
+      set_get_layout_old(html$div(list(
+         html$div("one"), html$h2("two")
       )))
    )
    expect_identical(set_get_layout_new("one", "two"), set_get_layout_new(list("one", "two")))
    expect_identical(
       set_get_layout_new(function() div("one", "two")),
-      set_get_layout_old(function() html$Div(list("one", "two")))
+      set_get_layout_old(function() html$div(list("one", "two")))
    )
 })
 
@@ -73,15 +73,15 @@ test_that("No need to place everything in containers and lists", {
    expect_error(set_get_layout_old("test"))
    expect_identical(
       set_get_layout_new(div("one", "two")),
-      set_get_layout_old(html$Div(list("one", "two")))
+      set_get_layout_old(html$div(list("one", "two")))
    )
-   expect_identical(set_get_layout_new("test"), set_get_layout_old(html$Span("test")))
+   expect_identical(set_get_layout_new("test"), set_get_layout_old(html$span("test")))
    expect_identical(
       set_get_layout_new("one", 5, TRUE),
-      set_get_layout_old(html$Div(list(
-         html$Span("one"),
-         html$Span(5),
-         html$Span(TRUE)
+      set_get_layout_old(html$div(list(
+         html$span("one"),
+         html$span(5),
+         html$span(TRUE)
       )))
    )
 })
@@ -99,7 +99,7 @@ test_that("Function as layout works", {
    app2 <- Dash$new()
    set.seed(1000)
    runif(1)
-   app2$layout(html$Div(runif(1)))
+   app2$layout(html$div(runif(1)))
    app2_layout <- app2$layout_get()
    expect_identical(app1_layout1, app2_layout)
 
@@ -112,7 +112,7 @@ test_that("Function as layout works", {
    expect_false(identical(app1_fx_layout1, app1_fx_layout2))
    app2_fx <- Dash$new()
    set.seed(1000)
-   app2_fx$layout(function() html$Div(runif(1)))
+   app2_fx$layout(function() html$div(runif(1)))
    app2_fx_layout1 <- app2_fx$layout_get()
    app2_fx_layout2 <- app2_fx$layout_get()
    expect_identical(app1_fx_layout1, app2_fx_layout1)
@@ -122,13 +122,13 @@ test_that("Function as layout works", {
 test_that("Sample apps layout are identical with the compact syntax", {
    expect_identical(
       set_get_layout_old(
-         html$Div(list(
-            html$Div('Dash To-Do List'),
+         html$div(list(
+            html$div('Dash To-Do List'),
             dccInput(id = 'new-item'),
-            html$Button("Add", id = "add"),
-            html$Button("Clear Done", id = "clear-done"),
-            html$Div(id = "list-container"),
-            html$Div(id = "totals")
+            html$button("Add", id = "add"),
+            html$button("Clear Done", id = "clear-done"),
+            html$div(id = "list-container"),
+            html$div(id = "totals")
          ))
       ),
 
@@ -144,10 +144,10 @@ test_that("Sample apps layout are identical with the compact syntax", {
 
    expect_identical(
       set_get_layout_old(
-         html$Div(
+         html$div(
             list(
-               html$H1('Hello Dash'),
-               html$Div(children = "Dash: A web application framework for R."),
+               html$h1('Hello Dash'),
+               html$div(children = "Dash: A web application framework for R."),
                dccGraph(
                   figure=list(
                      data=list(

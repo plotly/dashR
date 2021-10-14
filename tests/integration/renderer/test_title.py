@@ -4,11 +4,11 @@ app_test_updating = """
 library(dash)
 app <- Dash$new()
 
-app$layout(html$Div(list(html$H3("Press button see document title updating"),
-  html$Div(id="output", children="Awaiting output"),
-  html$Button("Update", id="button", n_clicks=0),
-  html$Button("Update Page", id="page", n_clicks=0),
-  html$Div(id="dummy"))
+app$layout(html$div(list(html$h3("Press button see document title updating"),
+  html$div(id="output", children="Awaiting output"),
+  html$button("Update", id="button", n_clicks=0),
+  html$button("Update Page", id="page", n_clicks=0),
+  html$div(id="dummy"))
   )
 )
 
@@ -26,11 +26,11 @@ app_test_no_update_title1 = """
 library(dash)
 app <- Dash$new(update_title=NULL)
 
-app$layout(html$Div(list(html$H3("Press button see document title updating"),
-  html$Div(id="output", children="Awaiting output"),
-  html$Button("Update", id="button", n_clicks=0),
-  html$Button("Update Page", id="page", n_clicks=0),
-  html$Div(id="dummy"))
+app$layout(html$div(list(html$h3("Press button see document title updating"),
+  html$div(id="output", children="Awaiting output"),
+  html$button("Update", id="button", n_clicks=0),
+  html$button("Update Page", id="page", n_clicks=0),
+  html$div(id="dummy"))
   )
 )
 
@@ -41,11 +41,11 @@ app_test_no_update_title2 = """
 library(dash)
 app <- Dash$new(update_title="")
 
-app$layout(html$Div(list(html$H3("Press button see document title updating"),
-  html$Div(id="output", children="Awaiting output"),
-  html$Button("Update", id="button", n_clicks=0),
-  html$Button("Update Page", id="page", n_clicks=0),
-  html$Div(id="dummy"))
+app$layout(html$div(list(html$h3("Press button see document title updating"),
+  html$div(id="output", children="Awaiting output"),
+  html$button("Update", id="button", n_clicks=0),
+  html$button("Update Page", id="page", n_clicks=0),
+  html$div(id="dummy"))
   )
 )
 
@@ -56,11 +56,11 @@ app_clientside_title1 = """
 library(dash)
 app <- Dash$new(update_title=NULL)
 
-app$layout(html$Div(list(html$H3("Press button see document title updating"),
-  html$Div(id="output", children="Awaiting output"),
-  html$Button("Update", id="button", n_clicks=0),
-  html$Button("Update Page", id="page", n_clicks=0),
-  html$Div(id="dummy"))
+app$layout(html$div(list(html$h3("Press button see document title updating"),
+  html$div(id="output", children="Awaiting output"),
+  html$button("Update", id="button", n_clicks=0),
+  html$button("Update Page", id="page", n_clicks=0),
+  html$div(id="dummy"))
   )
 )
 
@@ -81,11 +81,11 @@ app_clientside_title2 = """
 library(dash)
 app <- Dash$new(update_title="")
 
-app$layout(html$Div(list(html$H3("Press button see document title updating"),
-  html$Div(id="output", children="Awaiting output"),
-  html$Button("Update", id="button", n_clicks=0),
-  html$Button("Update Page", id="page", n_clicks=0),
-  html$Div(id="dummy"))
+app$layout(html$div(list(html$h3("Press button see document title updating"),
+  html$div(id="output", children="Awaiting output"),
+  html$button("Update", id="button", n_clicks=0),
+  html$button("Update Page", id="page", n_clicks=0),
+  html$div(id="dummy"))
   )
 )
 

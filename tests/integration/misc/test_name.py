@@ -4,7 +4,7 @@ app <- Dash$new()
 
 app$title("Testing")
 
-app$layout(html$Div(list(html$Div(id='container',children='Hello Dash for R testing'))))
+app$layout(html$div(list(html$div(id='container',children='Hello Dash for R testing'))))
 app$run_server()
 """
 
@@ -32,7 +32,7 @@ string <-
 
 app$index_string(string)
 
-app$layout(html$Div(list(html$Div(id='container',children='Hello Dash for R testing'))))
+app$layout(html$div(list(html$div(id='container',children='Hello Dash for R testing'))))
 app$run_server()
 """
 

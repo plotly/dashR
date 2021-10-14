@@ -8,7 +8,7 @@ library(dash)
 app <- Dash$new(meta_tags = list(list(name = "description", content = "some content")))
 
 app$layout(
-  html$Div(children = "Hello world!",
+  html$div(children = "Hello world!",
           id = "hello-div"
   )
 )
@@ -36,7 +36,7 @@ app <- Dash$new(meta_tags = list(list(charset = "ISO-8859-1"),
                                  list(`http-equiv` = 'content-type', content = 'text/html$')))
 
 app$layout(
-  html$Div(children = "Hello world!",
+  html$div(children = "Hello world!",
           id = "hello-div"
   )
 )

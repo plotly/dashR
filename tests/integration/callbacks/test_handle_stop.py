@@ -6,7 +6,7 @@ library(dash)
 app <- Dash$new()
 
 app$layout(
-  html$Div(
+  html$div(
     list(
       dccDropdown(options = list(
         list(label = "Red", value = "#FF0000"),
@@ -14,7 +14,7 @@ app$layout(
       ),
       id = "input-choice",
       value = "error"),
-      html$Div(id="div-choice")
+      html$div(id="div-choice")
     )
   )
 )
