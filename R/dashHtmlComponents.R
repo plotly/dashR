@@ -1,6 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlA <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, download=NULL, href=NULL, hrefLang=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, shape=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -22,7 +22,7 @@ htmlA <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlAbbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -44,7 +44,7 @@ htmlAbbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlAcronym <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -66,7 +66,7 @@ htmlAcronym <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlAddress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -88,7 +88,7 @@ htmlAddress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlArea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, alt=NULL, coords=NULL, download=NULL, href=NULL, hrefLang=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, shape=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -110,7 +110,7 @@ htmlArea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlArticle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -132,7 +132,7 @@ htmlArticle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlAside <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -154,7 +154,7 @@ htmlAside <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlAudio <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoPlay=NULL, controls=NULL, crossOrigin=NULL, loop=NULL, muted=NULL, preload=NULL, src=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -176,7 +176,7 @@ htmlAudio <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlB <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -198,7 +198,7 @@ htmlB <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBase <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, href=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -220,7 +220,7 @@ htmlBase <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBasefont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -242,7 +242,7 @@ htmlBasefont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBdi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -264,7 +264,7 @@ htmlBdi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBdo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -286,7 +286,7 @@ htmlBdo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBig <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -308,7 +308,7 @@ htmlBig <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBlink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -330,7 +330,7 @@ htmlBlink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBlockquote <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -352,7 +352,7 @@ htmlBlockquote <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_times
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlBr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -374,7 +374,7 @@ htmlBr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlButton <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoFocus=NULL, disabled=NULL, form=NULL, formAction=NULL, formEncType=NULL, formMethod=NULL, formNoValidate=NULL, formTarget=NULL, name=NULL, type=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -396,7 +396,7 @@ htmlButton <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCanvas <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, height=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -418,7 +418,7 @@ htmlCanvas <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -440,7 +440,7 @@ htmlCaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCenter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -462,7 +462,7 @@ htmlCenter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCite <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -484,7 +484,7 @@ htmlCite <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCode <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -506,7 +506,7 @@ htmlCode <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlCol <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, span=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -528,7 +528,7 @@ htmlCol <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlColgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, span=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -550,7 +550,7 @@ htmlColgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlContent <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -572,7 +572,7 @@ htmlContent <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlData <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -594,7 +594,7 @@ htmlData <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDatalist <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -616,7 +616,7 @@ htmlDatalist <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -638,7 +638,7 @@ htmlDd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -660,7 +660,7 @@ htmlDel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDetails <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, open=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -682,7 +682,7 @@ htmlDetails <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDfn <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -704,7 +704,7 @@ htmlDfn <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDialog <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, open=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -726,7 +726,7 @@ htmlDialog <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDiv <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -748,7 +748,7 @@ htmlDiv <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -770,7 +770,7 @@ htmlDl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlDt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -792,7 +792,7 @@ htmlDt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlEm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -814,7 +814,7 @@ htmlEm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlEmbed <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, height=NULL, src=NULL, type=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -836,7 +836,7 @@ htmlEmbed <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFieldset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, form=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -858,7 +858,7 @@ htmlFieldset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFigcaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -880,7 +880,7 @@ htmlFigcaption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_times
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFigure <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -902,7 +902,7 @@ htmlFigure <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -924,7 +924,7 @@ htmlFont <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFooter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -946,7 +946,7 @@ htmlFooter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlForm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accept=NULL, acceptCharset=NULL, action=NULL, autoComplete=NULL, encType=NULL, method=NULL, name=NULL, noValidate=NULL, target=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -968,7 +968,7 @@ htmlForm <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFrame <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -990,7 +990,7 @@ htmlFrame <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlFrameset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1012,7 +1012,7 @@ htmlFrameset <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH1 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1034,7 +1034,7 @@ htmlH1 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH2 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1056,7 +1056,7 @@ htmlH2 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH3 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1078,7 +1078,7 @@ htmlH3 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH4 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1100,7 +1100,7 @@ htmlH4 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH5 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1122,7 +1122,7 @@ htmlH5 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlH6 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1144,7 +1144,7 @@ htmlH6 <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlHeader <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1166,7 +1166,7 @@ htmlHeader <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlHgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1188,7 +1188,7 @@ htmlHgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlHr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1210,7 +1210,7 @@ htmlHr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlI <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1232,7 +1232,7 @@ htmlI <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlIframe <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, allow=NULL, height=NULL, name=NULL, referrerPolicy=NULL, sandbox=NULL, src=NULL, srcDoc=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1254,7 +1254,7 @@ htmlIframe <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlImg <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, alt=NULL, crossOrigin=NULL, height=NULL, referrerPolicy=NULL, sizes=NULL, src=NULL, srcSet=NULL, useMap=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1276,7 +1276,7 @@ htmlImg <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlIns <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1298,7 +1298,7 @@ htmlIns <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlKbd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1320,7 +1320,7 @@ htmlKbd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlKeygen <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoFocus=NULL, challenge=NULL, disabled=NULL, form=NULL, keyType=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1342,7 +1342,7 @@ htmlKeygen <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlLabel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, htmlFor=NULL, form=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1364,7 +1364,7 @@ htmlLabel <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlLegend <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1386,7 +1386,7 @@ htmlLegend <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlLi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1408,7 +1408,7 @@ htmlLi <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlLink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, crossOrigin=NULL, href=NULL, hrefLang=NULL, integrity=NULL, media=NULL, referrerPolicy=NULL, rel=NULL, sizes=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1430,7 +1430,7 @@ htmlLink <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMain <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1452,7 +1452,7 @@ htmlMain <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMapEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1474,7 +1474,7 @@ htmlMapEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMark <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1496,7 +1496,7 @@ htmlMark <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMarquee <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, loop=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1518,7 +1518,7 @@ htmlMarquee <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMeta <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, charSet=NULL, content=NULL, httpEquiv=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1540,7 +1540,7 @@ htmlMeta <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlMeter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, form=NULL, high=NULL, low=NULL, max=NULL, min=NULL, optimum=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1562,7 +1562,7 @@ htmlMeter <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlNav <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1584,7 +1584,7 @@ htmlNav <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlNobr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1606,7 +1606,7 @@ htmlNobr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlNoscript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1628,7 +1628,7 @@ htmlNoscript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlObjectEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, data=NULL, form=NULL, height=NULL, name=NULL, type=NULL, useMap=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1650,7 +1650,7 @@ htmlObjectEl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlOl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, reversed=NULL, start=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1672,7 +1672,7 @@ htmlOl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlOptgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, label=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1694,7 +1694,7 @@ htmlOptgroup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlOption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, disabled=NULL, label=NULL, selected=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1716,7 +1716,7 @@ htmlOption <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlOutput <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, htmlFor=NULL, form=NULL, name=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1738,7 +1738,7 @@ htmlOutput <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlP <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1760,7 +1760,7 @@ htmlP <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlParam <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, name=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1782,7 +1782,7 @@ htmlParam <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlPicture <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1804,7 +1804,7 @@ htmlPicture <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlPlaintext <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1826,7 +1826,7 @@ htmlPlaintext <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timest
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlPre <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1848,7 +1848,7 @@ htmlPre <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlProgress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, form=NULL, max=NULL, value=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1870,7 +1870,7 @@ htmlProgress <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlQ <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, cite=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1892,7 +1892,7 @@ htmlQ <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlRb <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1914,7 +1914,7 @@ htmlRb <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlRp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1936,7 +1936,7 @@ htmlRp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlRt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1958,7 +1958,7 @@ htmlRt <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlRtc <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -1980,7 +1980,7 @@ htmlRtc <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlRuby <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2002,7 +2002,7 @@ htmlRuby <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlS <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2024,7 +2024,7 @@ htmlS <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSamp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2046,7 +2046,7 @@ htmlSamp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlScript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, async=NULL, charSet=NULL, crossOrigin=NULL, defer=NULL, integrity=NULL, referrerPolicy=NULL, src=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2068,7 +2068,7 @@ htmlScript <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSection <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2090,7 +2090,7 @@ htmlSection <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSelect <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoComplete=NULL, autoFocus=NULL, disabled=NULL, form=NULL, multiple=NULL, name=NULL, required=NULL, size=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2112,7 +2112,7 @@ htmlSelect <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlShadow <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2134,7 +2134,7 @@ htmlShadow <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSlot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2156,7 +2156,7 @@ htmlSlot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSmall <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2178,7 +2178,7 @@ htmlSmall <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSource <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, media=NULL, sizes=NULL, src=NULL, srcSet=NULL, type=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2200,7 +2200,7 @@ htmlSource <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSpacer <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2222,7 +2222,7 @@ htmlSpacer <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSpan <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2244,7 +2244,7 @@ htmlSpan <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlStrike <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2266,7 +2266,7 @@ htmlStrike <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlStrong <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2288,7 +2288,7 @@ htmlStrong <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSub <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2310,7 +2310,7 @@ htmlSub <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSummary <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2332,7 +2332,7 @@ htmlSummary <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestam
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlSup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2354,7 +2354,7 @@ htmlSup <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTable <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, summary=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2376,7 +2376,7 @@ htmlTable <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTbody <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2398,7 +2398,7 @@ htmlTbody <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL, headers=NULL, rowSpan=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2420,7 +2420,7 @@ htmlTd <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTemplate <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2442,7 +2442,7 @@ htmlTemplate <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTextarea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoComplete=NULL, autoFocus=NULL, cols=NULL, disabled=NULL, form=NULL, inputMode=NULL, maxLength=NULL, minLength=NULL, name=NULL, placeholder=NULL, readOnly=NULL, required=NULL, rows=NULL, wrap=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2464,7 +2464,7 @@ htmlTextarea <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timesta
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTfoot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2486,7 +2486,7 @@ htmlTfoot <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTh <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, colSpan=NULL, headers=NULL, rowSpan=NULL, scope=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2508,7 +2508,7 @@ htmlTh <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlThead <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2530,7 +2530,7 @@ htmlThead <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTime <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, dateTime=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2552,7 +2552,7 @@ htmlTime <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=N
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTitle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2574,7 +2574,7 @@ htmlTitle <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2596,7 +2596,7 @@ htmlTr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlTrack <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, default=NULL, kind=NULL, label=NULL, src=NULL, srcLang=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2618,7 +2618,7 @@ htmlTrack <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlU <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2640,7 +2640,7 @@ htmlU <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlUl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2662,7 +2662,7 @@ htmlUl <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NUL
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlVar <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2684,7 +2684,7 @@ htmlVar <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlVideo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, autoPlay=NULL, controls=NULL, crossOrigin=NULL, height=NULL, loop=NULL, muted=NULL, poster=NULL, preload=NULL, src=NULL, width=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2706,7 +2706,7 @@ htmlVideo <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlWbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))
@@ -2728,7 +2728,7 @@ htmlWbr <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NU
 
 # AUTO GENERATED FILE - DO NOT EDIT
 
-#' @export
+
 htmlXmp <- function(children=NULL, id=NULL, n_clicks=NULL, n_clicks_timestamp=NULL, key=NULL, role=NULL, accessKey=NULL, className=NULL, contentEditable=NULL, contextMenu=NULL, dir=NULL, draggable=NULL, hidden=NULL, lang=NULL, spellCheck=NULL, style=NULL, tabIndex=NULL, title=NULL, loading_state=NULL, ...) {
     
     wildcard_names = names(dash_assert_valid_wildcards(attrib = list('data', 'aria'), ...))

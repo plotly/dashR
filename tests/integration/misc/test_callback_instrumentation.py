@@ -6,12 +6,12 @@ app = """
 
  app <- Dash$new()
 
- app$layout(htmlDiv(
+ app$layout(html$div(
    list(
-        htmlDiv(children = "Hello world!",
+        html$div(children = "Hello world!",
            id = "messageDiv"
         ),
-        htmlDiv(id = "emptyDiv")
+        html$div(id = "emptyDiv")
     )
    )
  )

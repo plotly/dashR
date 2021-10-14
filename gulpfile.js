@@ -181,6 +181,7 @@ function copyHtmlRDirectory() {
         ])
             .pipe(print())
             .pipe(concat('dashHtmlComponents.R'))
+            .pipe(replace(/#'\s@export/g, ""))
             .pipe(dest('R/', {overwrite: true}));
     }
     return log('Unable to find dash-html-components `R` directory.');
@@ -324,6 +325,7 @@ const cleanAssets = async () => {
 
 // Document package
 const document = async () => {
+    shell.exec('Rscript scripts/generate_tags.R')
     shell.exec('Rscript -e "devtools::document()"');
 };
 

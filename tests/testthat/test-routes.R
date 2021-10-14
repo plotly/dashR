@@ -5,7 +5,7 @@ test_that("URLs are properly redirected with app$redirect", {
  app$redirect("/bar/*", "/foo")
  app$redirect("/users/:user_id", function(keys) paste0("/accounts/", keys$user_id))
 
- app$layout(htmlDiv(
+ app$layout(html$div(
   "Hello world!"
   )
  )
@@ -77,7 +77,7 @@ test_that("temporary redirection of URLs is possible with app$server_route", {
   TRUE
  })
 
- app$layout(htmlDiv(
+ app$layout(html$div(
   "Hello world!"
   )
  )

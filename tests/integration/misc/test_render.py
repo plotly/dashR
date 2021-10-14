@@ -16,7 +16,7 @@ app = '''
 library(dash)
 app <- Dash$new(show_undo_redo=TRUE)
 
-app$layout(htmlDiv(list(dccInput(id="a"), htmlDiv(id="b"))))
+app$layout(html$div(list(dccInput(id="a"), html$div(id="b"))))
 
 app$callback(
   output("b", "children"),
