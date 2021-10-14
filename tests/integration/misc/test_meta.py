@@ -8,7 +8,7 @@ library(dash)
 app <- Dash$new(meta_tags = list(list(name = "description", content = "some content")))
 
 app$layout(
-  htmlDiv(children = "Hello world!",
+  html$Div(children = "Hello world!",
           id = "hello-div"
   )
 )
@@ -28,15 +28,15 @@ def test_rstm001_test_meta(dashr):
     assert dashr.find_element("meta[http-equiv='X-UA-Compatible']").get_attribute("content") == "IE=edge"
 
 
-app2 = """ 
+app2 = """
 library(dash)
 
-app <- Dash$new(meta_tags = list(list(charset = "ISO-8859-1"), 
-                                 list(name = "keywords", content = "dash,pleasant,productive"), 
-                                 list(`http-equiv` = 'content-type', content = 'text/html')))
+app <- Dash$new(meta_tags = list(list(charset = "ISO-8859-1"),
+                                 list(name = "keywords", content = "dash,pleasant,productive"),
+                                 list(`http-equiv` = 'content-type', content = 'text/html$')))
 
 app$layout(
-  htmlDiv(children = "Hello world!",
+  html$Div(children = "Hello world!",
           id = "hello-div"
   )
 )
@@ -53,4 +53,4 @@ def test_rstm002_test_meta(dashr):
     )
     assert dashr.find_element("meta[charset='ISO-8859-1']")
     assert dashr.find_element("meta[name='keywords']").get_attribute("content") == "dash,pleasant,productive"
-    assert dashr.find_element("meta[http-equiv='content-type']").get_attribute("content") == "text/html"
+    assert dashr.find_element("meta[http-equiv='content-type']").get_attribute("content") == "text/html$"

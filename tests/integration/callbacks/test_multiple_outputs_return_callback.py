@@ -1,13 +1,13 @@
 app_returning_component = """
 library(dash)
 
-app <- Dash$new()       
+app <- Dash$new()
 app$layout(
-  htmlDiv(list(
-    htmlH1('Multi-outputs with callback returning component'),
-    htmlDiv(children = 'Click button to render or remove component here', id = 'inner-container'),
-    htmlButton('Render/Unrender', id='submit-val', n_clicks=0),
-    htmlDiv(children = 'Button clicked 0 times.', id = 'clicks-count')
+  html$Div(list(
+    html$H1('Multi-outputs with callback returning component'),
+    html$Div(children = 'Click button to render or remove component here', id = 'inner-container'),
+    html$Button('Render/Unrender', id='submit-val', n_clicks=0),
+    html$Div(children = 'Button clicked 0 times.', id = 'clicks-count')
     ),
     id = 'container'
   )
@@ -22,14 +22,14 @@ params=list(
 ),
 function(value) {
   click_total <- as.numeric(value)
-  result <- htmlDiv('String in container', id = 'string-container')
+  result <- html$Div('String in container', id = 'string-container')
 
   if (click_total == 0) {
     return(dashNoUpdate())
   } else if (click_total %% 2 == 1) {
     result <- 'String, no container'
   }
- 
+
   return(list(sprintf('Button clicked %s times.', click_total),
               result))
 }
@@ -43,7 +43,7 @@ def test_rsnu002_multiple_outputs(dashr):
     dashr.wait_for_text_to_equal(
         "#inner-container",
         "Click button to render or remove component here"
-    )   
+    )
     dashr.find_element("#submit-val").click()
     dashr.wait_for_text_to_equal(
          "#clicks-count",
@@ -54,6 +54,6 @@ def test_rsnu002_multiple_outputs(dashr):
     dashr.wait_for_text_to_equal(
          "#clicks-count",
          "Button clicked 2 times."
-    )     
+    )
     assert dashr.find_element("#string-container").text == "String in container"
 

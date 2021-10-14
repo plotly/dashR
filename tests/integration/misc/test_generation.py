@@ -7,7 +7,7 @@ library(dashGeneratorTestComponentNested)
 library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
-app$layout(htmlDiv(list(
+app$layout(html$Div(list(
     dgtc_standardMyStandardComponent(id="standard", value="Standard"),
     dgtc_nestedMyNestedComponent(id="nested", value="Nested")
 )))
@@ -20,9 +20,9 @@ library(dash)
 library(dashGeneratorTestComponentStandard)
 
 app <- Dash$new()
-app$layout(htmlDiv(list(
-    htmlButton(id='btn', list('Click')),
-    htmlDiv(id='container')
+app$layout(html$Div(list(
+    html$Button(id='btn', list('Click')),
+    html$Div(id='container')
 )))
 
 app$callback(output(id = 'container', property = 'children'),

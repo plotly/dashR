@@ -4,11 +4,11 @@ app_test_updating = """
 library(dash)
 app <- Dash$new()
 
-app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
-  htmlDiv(id="output", children="Awaiting output"),
-  htmlButton("Update", id="button", n_clicks=0),
-  htmlButton("Update Page", id="page", n_clicks=0),
-  htmlDiv(id="dummy"))
+app$layout(html$Div(list(html$H3("Press button see document title updating"),
+  html$Div(id="output", children="Awaiting output"),
+  html$Button("Update", id="button", n_clicks=0),
+  html$Button("Update Page", id="page", n_clicks=0),
+  html$Div(id="dummy"))
   )
 )
 
@@ -16,7 +16,7 @@ app$callback(output(id = 'output', property = 'children'),
              list(input(id = 'page', property = 'n_clicks')),
              function(n) {
                   Sys.sleep(5)
-                  return(paste0("Page ", n)) 
+                  return(paste0("Page ", n))
                })
 
 app$run_server()
@@ -26,11 +26,11 @@ app_test_no_update_title1 = """
 library(dash)
 app <- Dash$new(update_title=NULL)
 
-app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
-  htmlDiv(id="output", children="Awaiting output"),
-  htmlButton("Update", id="button", n_clicks=0),
-  htmlButton("Update Page", id="page", n_clicks=0),
-  htmlDiv(id="dummy"))
+app$layout(html$Div(list(html$H3("Press button see document title updating"),
+  html$Div(id="output", children="Awaiting output"),
+  html$Button("Update", id="button", n_clicks=0),
+  html$Button("Update Page", id="page", n_clicks=0),
+  html$Div(id="dummy"))
   )
 )
 
@@ -41,11 +41,11 @@ app_test_no_update_title2 = """
 library(dash)
 app <- Dash$new(update_title="")
 
-app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
-  htmlDiv(id="output", children="Awaiting output"),
-  htmlButton("Update", id="button", n_clicks=0),
-  htmlButton("Update Page", id="page", n_clicks=0),
-  htmlDiv(id="dummy"))
+app$layout(html$Div(list(html$H3("Press button see document title updating"),
+  html$Div(id="output", children="Awaiting output"),
+  html$Button("Update", id="button", n_clicks=0),
+  html$Button("Update Page", id="page", n_clicks=0),
+  html$Div(id="dummy"))
   )
 )
 
@@ -56,11 +56,11 @@ app_clientside_title1 = """
 library(dash)
 app <- Dash$new(update_title=NULL)
 
-app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
-  htmlDiv(id="output", children="Awaiting output"),
-  htmlButton("Update", id="button", n_clicks=0),
-  htmlButton("Update Page", id="page", n_clicks=0),
-  htmlDiv(id="dummy"))
+app$layout(html$Div(list(html$H3("Press button see document title updating"),
+  html$Div(id="output", children="Awaiting output"),
+  html$Button("Update", id="button", n_clicks=0),
+  html$Button("Update Page", id="page", n_clicks=0),
+  html$Div(id="dummy"))
   )
 )
 
@@ -81,11 +81,11 @@ app_clientside_title2 = """
 library(dash)
 app <- Dash$new(update_title="")
 
-app$layout(htmlDiv(list(htmlH3("Press button see document title updating"),
-  htmlDiv(id="output", children="Awaiting output"), 
-  htmlButton("Update", id="button", n_clicks=0),
-  htmlButton("Update Page", id="page", n_clicks=0),
-  htmlDiv(id="dummy"))
+app$layout(html$Div(list(html$H3("Press button see document title updating"),
+  html$Div(id="output", children="Awaiting output"),
+  html$Button("Update", id="button", n_clicks=0),
+  html$Button("Update Page", id="page", n_clicks=0),
+  html$Div(id="dummy"))
   )
 )
 
@@ -123,7 +123,7 @@ def test_rstt004_update_title(dashr):
     assert dashr.driver.title == "Page 1"
 
 def test_rstt005_update_title(dashr):
-    dashr.start_server(app_clientside_title2)    
+    dashr.start_server(app_clientside_title2)
     dashr.find_element("#page").click()
     dashr.wait_for_text_to_equal("#dummy", "Page 1")
     assert dashr.driver.title == "Page 1"

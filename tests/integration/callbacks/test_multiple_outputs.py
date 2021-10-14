@@ -4,11 +4,11 @@ app = """
 library(dash)
 library(plotly)
 
-app <- Dash$new()       
+app <- Dash$new()
 app$layout(
-  htmlDiv(list(
-    htmlDiv(list(
-      htmlH1('Multi output example'),
+  html$Div(list(
+    html$Div(list(
+      html$H1('Multi output example'),
       dccDropdown(id='data-dropdown',
                   options = list(
                     list(label = 'Movies',
@@ -23,8 +23,8 @@ app$layout(
       backgroundColor = '#ff998a'
     )
     ),
-    htmlDiv(list(
-      htmlH2('Make a selection from the dropdown menu.',
+    html$Div(list(
+      html$H2('Make a selection from the dropdown menu.',
              id = 'text-box'),
       dccRadioItems(id='radio-partial',
                     options = list(
@@ -51,7 +51,7 @@ function(value, choice) {
   if (is.null(value)) {
     return(dashNoUpdate())
   }
-  
+
   if (choice == "all" && value == "series") {
     style <- list(
       backgroundColor = '#ff998a'
@@ -64,7 +64,7 @@ function(value, choice) {
     return(list(sprintf("You have chosen %s.", value),
                 dashNoUpdate()))
   }
-  
+
   return(list(sprintf("You have chosen %s.", value),
               style))
 }

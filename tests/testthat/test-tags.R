@@ -1,22 +1,22 @@
 test_that("Tag basics", {
-  expect_identical(div("a", "b"), htmlDiv(list("a", "b")))
-  expect_identical(div("a", "b", 5), htmlDiv(list("a", "b", 5)))
-  expect_identical(div("a", "b", 5, id = "test"), htmlDiv(list("a", "b", 5), id = "test"))
+  expect_identical(div("a", "b"), html$Div(list("a", "b")))
+  expect_identical(div("a", "b", 5), html$Div(list("a", "b", 5)))
+  expect_identical(div("a", "b", 5, id = "test"), html$Div(list("a", "b", 5), id = "test"))
   expect_identical(
     span("a", 5, id = "test", "b", className = "foo"),
-    htmlSpan(list("a", 5, "b"), id = "test", className = "foo")
+    html$Span(list("a", 5, "b"), id = "test", className = "foo")
   )
   expect_identical(
     div(span("test"), dccInput("input")),
-    htmlDiv(list(htmlSpan("test"), dccInput("input")))
+    html$Div(list(html$Span("test"), dccInput("input")))
   )
 })
 
 test_that("No children", {
-  expect_identical(div(), htmlDiv())
-  expect_identical(div(list()), htmlDiv(children = list()))
+  expect_identical(div(), html$Div())
+  expect_identical(div(list()), html$Div(children = list()))
   expect_false(identical(div(), div(list())))
-  expect_identical(div(id = "test"), htmlDiv(id = "test"))
+  expect_identical(div(id = "test"), html$Div(id = "test"))
 })
 
 test_that("Illegal attributes", {
@@ -26,9 +26,9 @@ test_that("Illegal attributes", {
 })
 
 test_that("Single child is not a list", {
-  expect_identical(div("a"), htmlDiv("a"))
+  expect_identical(div("a"), html$Div("a"))
   expect_false(identical(div("a"), div(list("a"))))
-  expect_identical(div(list("a", "b")), htmlDiv(list("a", "b")))
+  expect_identical(div(list("a", "b")), html$Div(list("a", "b")))
 })
 
 test_that("Boolean and NULL attributes", {

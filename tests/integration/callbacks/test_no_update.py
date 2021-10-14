@@ -7,7 +7,7 @@ library(dash)
 app <- Dash$new()
 
 app$layout(
-  htmlDiv(list(
+  html$Div(list(
     dccDropdown(options = list(
       list(label = "Red", value = "#FF0000"),
       list(label = "Green", value = "#00FF00"),
@@ -15,12 +15,12 @@ app$layout(
       list(label = "Do nothing", value = "nothing")
     ),
     id = "color-selector"),
-    htmlButton(children = "Select all the colors!",
+    html$Button(children = "Select all the colors!",
                id = "multi-selector"
                ),
-    htmlDiv(id='message-box',
+    html$Div(id='message-box',
             children='Please select a color choice from the dropdown menu.'),
-    htmlDiv(id='message-box2',
+    html$Div(id='message-box2',
             children=' ')
   )
   )

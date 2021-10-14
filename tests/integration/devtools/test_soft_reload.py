@@ -13,10 +13,10 @@ app = """
 library(dash)
 app <- Dash$new()
 
-app$layout(htmlDiv(list(
-htmlH3("Hot reload"),
+app$layout(html$Div(list(
+html$H3("Hot reload"),
 dccInput(id='input'),
-htmlDiv(id='output-serverside')
+html$Div(id='output-serverside')
 ),
 id="hot-reload-content"
 )

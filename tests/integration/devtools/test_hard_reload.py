@@ -7,10 +7,10 @@ changed_app = """
 library(dash)
 app <- Dash$new()
 
-app$layout(htmlDiv(list(
-htmlH3("Test hard reloading (when modifying any non-CSS resources)"),
+app$layout(html$Div(list(
+html$H3("Test hard reloading (when modifying any non-CSS resources)"),
 dccInput(id='input'),
-htmlDiv(id='output-serverside')
+html$Div(id='output-serverside')
 ),
 id="hot-reload-content"
 )

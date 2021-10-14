@@ -6,11 +6,11 @@ library(dash)
 app <- Dash$new()
 
 app$layout(
-  htmlDiv(
+  html$Div(
     list(
       dccInput(id='input-1-state', type='text', value='Montreal'),
       dccInput(id='input-2-state', type='text', value='Canada'),
-      htmlButton(id='submit-button', n_clicks=0, children='Submit'),
+      html$Button(id='submit-button', n_clicks=0, children='Submit'),
       dccChecklist(id='count-inputs',
                    options=list(
                      list(label = 'Update state', value = 'states'),
@@ -18,8 +18,8 @@ app$layout(
                    ),
                    value=list('states', 'clicks')
                    ),
-      htmlDiv(id='output-state'),
-      htmlDiv(id='output-clicks')
+      html$Div(id='output-state'),
+      html$Div(id='output-clicks')
     )
   )
 )

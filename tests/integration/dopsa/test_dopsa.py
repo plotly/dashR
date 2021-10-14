@@ -4,12 +4,12 @@ library(dash)
 app <- Dash$new()
 
 app$layout(
-  htmlDiv(
+  html$Div(
     list(
       dccInput(id='input-1-state', type='text', value='Montreal'),
       dccInput(id='input-2-state', type='text', value='Canada'),
-      htmlButton(id='submit-button', n_clicks=0, children='Submit'),
-      htmlDiv(id='output-state'),
+      html$Button(id='submit-button', n_clicks=0, children='Submit'),
+      html$Div(id='output-state'),
       dccGraph(id='graph',
         figure=list(
           data=list(

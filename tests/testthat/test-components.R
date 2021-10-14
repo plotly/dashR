@@ -1,12 +1,12 @@
 test_that("Components work recursively (components can be children of components)", {
 
   # div inside a div
-  x <- htmlDiv(id = "one", htmlDiv(id = "two"))
+  x <- html$Div(id = "one", html$Div(id = "two"))
   expect_true(is.component(x))
   expect_true(is.component(x[[1]]$children))
 
   # slider inside a div
-  x <- htmlDiv(
+  x <- html$Div(
     dccSlider(
       id = "h",
       min = 1,
@@ -36,16 +36,16 @@ test_that("Component constructors behave as intended", {
     expect_length(diff, 0)
   }
 
-  expect_component_names(htmlA())
+  expect_component_names(html$A())
   expect_component_names(dccDropdown())
 
   expect_equal(
-    htmlH2("A header")$props$children[[1]], "A header"
+    html$H2("A header")$props$children[[1]], "A header"
   )
 
   # test akin to this one https://github.com/plotly/dash-renderer/blob/851d717b/tests/test_render.py#L25-L38
-  vals <- list("Basic string", 3.14, NULL, htmlDiv("Just a test"))
-  prop_vals <- htmlH2(vals)$props
+  vals <- list("Basic string", 3.14, NULL, html$Div("Just a test"))
+  prop_vals <- html$H2(vals)$props
   expect_identical(prop_vals$children[[1]], vals[[1]])
 
   # TODO: test the rendered DOM!
@@ -55,15 +55,15 @@ test_that("Component constructors behave as intended", {
 
 test_that("Giving nonsense arguments to components yields error", {
   expect_error(
-    htmlA(nonsense = "string", gibberish = "string"),
+    html$A(nonsense = "string", gibberish = "string"),
     "The following props are not valid in this component: 'nonsense, gibberish'",
     fixed = TRUE
   )
 })
 
 test_that("wildcard attributes work with children", {
-  s1 <- htmlSpan("hmm", className = "value-output", `data-icon` = "fa-pencil")
-  s2 <- htmlSpan(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
+  s1 <- html$Span("hmm", className = "value-output", `data-icon` = "fa-pencil")
+  s2 <- html$Span(children = list("hmm"), className = "value-output", `data-icon` = "fa-pencil")
 
   expect_equal(s1$props$children, "hmm")
   expect_equal(s1$props$`data-icon`, "fa-pencil")
