@@ -3,10 +3,10 @@ library(dash)
 
 app <- Dash$new()
 
-app$layout(htmlDiv(list(
-  htmlButton("Add Filter", id="add-filter", n_clicks=0),
-  htmlDiv(id="dropdown-container", children=list()),
-  htmlDiv(id="dropdown-container-output")
+app$layout(html$div(list(
+  html$button("Add Filter", id="add-filter", n_clicks=0),
+  html$div(id="dropdown-container", children=list()),
+  html$div(id="dropdown-container-output")
 )))
 
 
@@ -39,9 +39,9 @@ app$callback(
   ),
   display_output <- function(test){
     ctx <- app$callback_context()
-    return(htmlDiv(
+    return(html$div(
       lapply(1:length(test), function(x){
-        return(htmlDiv(sprintf("Dropdown %s = %s", x, test[[x]])))
+        return(html$div(sprintf("Dropdown %s = %s", x, test[[x]])))
       })
     ))
   }
@@ -59,9 +59,9 @@ df <- read.csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmind
 
 app <- Dash$new()
 
-app$layout(htmlDiv(list(
-  htmlButton("Add Filter", id = "add-filter-ex3", n_clicks = 0),
-  htmlDiv(id = "container-ex3", children = list())
+app$layout(html$div(list(
+  html$button("Add Filter", id = "add-filter-ex3", n_clicks = 0),
+  html$div(id = "container-ex3", children = list())
 )))
 
 
@@ -72,7 +72,7 @@ app$callback(
     state('container-ex3', 'children')
   ),
   display_dropdowns <- function(n_clicks, existing_children){
-    new_children <- htmlDiv(list(
+    new_children <- html$div(list(
       dccDropdown(
         id = list("index" = n_clicks, "type" = "filter-dropdown-ex3"),
         options = lapply(unique(df$country), function(x){
@@ -80,7 +80,7 @@ app$callback(
         }),
         value = unique(df$country)[n_clicks + 1]
       ),
-      htmlDiv(id = list("index" = n_clicks, "type" = "output-ex3"), children = list(unique(df$country)[n_clicks + 1]))
+      html$div(id = list("index" = n_clicks, "type" = "output-ex3"), children = list(unique(df$country)[n_clicks + 1]))
     ))
 
     existing_children <- c(existing_children, list(new_children))
@@ -104,16 +104,16 @@ app$callback(
 
     if (length(all_values) == 1) {
       return(
-        htmlDiv(sprintf("%s is the life expectancy of %s.", avgLifeExp, matching_value))
+        html$div(sprintf("%s is the life expectancy of %s.", avgLifeExp, matching_value))
       )
     } else if (length(all_values) == 2) {
       return(
-        htmlDiv(sprintf("%s is the life expectancy of %s.", avgLifeExp, paste(all_values, collapse = " and ")),
+        html$div(sprintf("%s is the life expectancy of %s.", avgLifeExp, paste(all_values, collapse = " and ")),
          id="test")
       )
     } else {
       return(
-        htmlDiv(sprintf("%s is the life expectancy of %s, and %s.", avgLifeExp, paste(all_values[-length(all_values)],
+        html$div(sprintf("%s is the life expectancy of %s, and %s.", avgLifeExp, paste(all_values[-length(all_values)],
         collapse = " , "), paste(all_values[length(all_values)])))
       )
     }
@@ -128,9 +128,9 @@ library(dash)
 
 app <- Dash$new()
 
-app$layout(htmlDiv(list(
-  htmlButton("Add Filter", id="dynamic-add-filter", n_clicks=0),
-  htmlDiv(id="dynamic-dropdown-container", children = list())
+app$layout(html$div(list(
+  html$button("Add Filter", id="dynamic-add-filter", n_clicks=0),
+  html$div(id="dynamic-dropdown-container", children = list())
 )))
 
 
@@ -141,14 +141,14 @@ app$callback(
     state("dynamic-dropdown-container", "children")
   ),
   display_dropdown <- function(n_clicks, children){
-    new_element = htmlDiv(list(
+    new_element = html$div(list(
       dccDropdown(
         id = list("index" = n_clicks, "type" = "dynamic-dropdown"),
         options = lapply(c("NYC", "MTL", "LA", "TOKYO"), function(x){
           list("label" = x, "value" = x)
         })
       ),
-      htmlDiv(
+      html$div(
         id = list("index" = n_clicks, "type" = "dynamic-output"),
         children = list()
       )
@@ -167,7 +167,7 @@ app$callback(
     state(id=list("index" = MATCH, "type" = "dynamic-dropdown"), property= "id")
   ),
   display_output <- function(value, id){
-    return(htmlDiv(sprintf("Dropdown %s = %s", id$index, value)))
+    return(html$div(sprintf("Dropdown %s = %s", id$index, value)))
   }
 )
 
@@ -180,13 +180,13 @@ library(dash)
 app <- Dash$new()
 
 
-app$layout(htmlDiv(list(
-  htmlDiv('Dash To-Do List'),
+app$layout(html$div(list(
+  html$div('Dash To-Do List'),
   dccInput(id = 'new-item'),
-  htmlButton("Add", id = "add"),
-  htmlButton("Clear Done", id = "clear-done"),
-  htmlDiv(id = "list-container"),
-  htmlDiv(id = "totals")
+  html$button("Add", id = "add"),
+  html$button("Clear Done", id = "clear-done"),
+  html$div(id = "list-container"),
+  html$div(id = "totals")
 )))
 
 
@@ -247,7 +247,7 @@ app$callback(
     new_list <- list()
     if (!is.null(unlist(new_spec))) {
       for (i in seq_along(new_spec)) {
-        add_list <- list(htmlDiv(list(
+        add_list <- list(html$div(list(
           dccChecklist(
             id = list("index" = i, "type" = "done"),
             options = list(
@@ -257,7 +257,7 @@ app$callback(
             style = list("display" = "inline"),
             labelStyle = list("display" = "inline")
           ),
-          htmlDiv(new_spec[[i]][[1]], id = list("index" = i, "type" = "check"), style = if (length(new_spec[[i]][[2]]) == 0) style_todo else style_done)
+          html$div(new_spec[[i]][[1]], id = list("index" = i, "type" = "check"), style = if (length(new_spec[[i]][[2]]) == 0) style_todo else style_done)
         ), style = list("clear" = "both")))
         new_list <- c(new_list, add_list)
       }
@@ -321,9 +321,9 @@ df <- read.csv(
 app <- Dash$new()
 
 app$layout(
-  htmlDiv(
+  html$div(
     list(
-      htmlDiv(
+      html$div(
         list(
           dccDropdown(options = lapply(unique(df[,"country"]), function(x) {
             list(label = x, value = x)
@@ -333,7 +333,7 @@ app$layout(
           style = list(display = "inline-block",
                        width = 200)
           ),
-          htmlButton(
+          html$button(
             "add Chart",
             id = "add-chart",
             n_clicks = 0,
@@ -341,8 +341,8 @@ app$layout(
           )
         )
       ),
-      htmlDiv(id = "container", children=list()),
-      htmlDiv(id = "output-delay")
+      html$div(id = "container", children=list()),
+      html$div(id = "output-delay")
     )
   )
 )
@@ -374,9 +374,7 @@ app$callback(
     default_column_x <- "year"
     default_column_y <- "gdpPercap"
 
-    new_element <- htmlDiv(
-      style = list(width = "23%", display = "inline-block", outline = "thin lightgrey solid", padding = 10),
-      children = list(
+    new_element <- html$div(list(
         dccGraph(
           id = list(type = "dynamic-output", index = n_clicks),
           style = list(height = 300),
@@ -396,7 +394,8 @@ app$callback(
           }),
           value = default_column_y
         )
-      )
+      ),
+      style = list(width = "23%", display = "inline-block", outline = "thin lightgrey solid", padding = 10)
     )
 
     children <- c(children, list(new_element))
