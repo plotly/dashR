@@ -500,7 +500,7 @@ information but do not trigger the callback directly.
 
 For detailed examples of how to use pattern-matching callbacks, see the
 entry for \link{selectors} or visit our interactive online
-documentation at \url{https://dashr.plotly.com}.
+documentation at \url{https://dash.plotly.com/r/}.
 
 The \code{output} argument defines which layout component property should
 receive the results (via the \link{output} object). The events that
@@ -857,7 +857,7 @@ Start the Fiery HTTP server and run a Dash application.
 
 \item{\code{dev_tools_prune_errors}}{Logical. Reduce tracebacks such that only lines relevant to user code remain, stripping out Fiery and Dash references? Only available with debugging. \code{TRUE} by default, set to \code{FALSE} to see the complete traceback. Environment variable: \code{DASH_PRUNE_ERRORS}.}
 
-\item{\code{debug}}{Logical. Enable/disable all the Dash developer tools (and the within-browser user interface for the callback graph visualizer and stack traces) unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. For more information, please visit \url{https://dashr.plotly.com/devtools}. Environment variable: \code{DASH_DEBUG}.}
+\item{\code{debug}}{Logical. Enable/disable all the Dash developer tools (and the within-browser user interface for the callback graph visualizer and stack traces) unless overridden by the arguments or environment variables. Default is \code{FALSE} when called via \code{run_server}. For more information, please visit \url{https://dash.plotly.com/r/devtools}. Environment variable: \code{DASH_DEBUG}.}
 
 \item{\code{dev_tools_ui}}{Logical. Show Dash's developer tools UI? Default is \code{TRUE} if \code{debug == TRUE}, \code{FALSE} otherwise. Environment variable: \code{DASH_UI}.}
 
