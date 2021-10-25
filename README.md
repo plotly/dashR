@@ -1,18 +1,18 @@
 [![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/master)
 [![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
-[![CRAN status](https://www.r-pkg.org/badges/version-ago/dash)](https://cran.r-project.org/web/packages/dash/index.html)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/dash)](https://cran.r-project.org/package=dash)
-[![](https://cranlogs.r-pkg.org/badges/dash)](https://cran.r-project.org/package=dash)
+[![CRAN status](https://www.r-pkg.org/badges/version-ago/dash)](https://CRAN.R-project.org/package=dash)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/dash)](https://CRAN.R-project.org/package=dash)
+[![](https://cranlogs.r-pkg.org/badges/dash)](https://CRAN.R-project.org/package=dash)
 
 # Dash for R
 
 #### Create beautiful, analytic web applications in R.
 
-[Documentation](https://dashr.plotly.com/) | [Gallery](https://dash-gallery.plotly.host/Portal/)
+[Documentation](https://dash.plotly.com/r/) | [Gallery](https://dash.gallery/Portal/)
 
 ## Installation
 
-<https://dashr.plotly.com/installation>
+<https://dash.plotly.com/r/installation>
 
 > 🛑 Make sure you're on at least version `3.0.2` of R. You can see what version of R you have by entering `version` in the R CLI. [CRAN](https://cran.r-project.org/bin/) is the easiest place to download the latest R version.
 
@@ -42,9 +42,9 @@ That's it!
 
 ## Getting Started
 
-<https://dashr.plotly.com/getting-started>
+<https://dash.plotly.com/r/layout>
 
-The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://cran.r-project.org/web/packages/R6/index.html) class, named `Dash`, which may be initialized via the `new()` method.
+The R package **dash** makes it easy to create reactive web applications powered by R. It provides an [R6](https://CRAN.R-project.org/package=R6) class, named `Dash`, which may be initialized via the `new()` method.
 
 ```r
 library(dash)
@@ -55,24 +55,28 @@ app <- Dash$new()
 Similar to [Dash for Python](https://github.com/plotly/dash) and [Dash for Julia](https://github.com/plotly/Dash.jl), every Dash for R application needs a layout (i.e., user interface) and a collection of callback functions which define the updating logic to perform when input value(s) change. Take, for instance, this basic example of formatting a string:
 
 ```r
-app$layout(
-  htmlDiv(
+library(dash)
+
+dash_app() %>%
+  set_layout(
+    dccInput(id = "text", "sample"),
+    div("CAPS: ", span(id = "out1")),
+    div("small: ", span(id = "out2"))
+  ) %>%
+  add_callback(
     list(
-      dccInput(id = "inputID", value = "initial value", type = "text"),
-      htmlDiv(id = "outputID")
-    )
-  )
-)
-
-app$callback(output = list(id="outputID", property="children"),
-             params = list(input(id="inputID", property="value"),
-                      state(id="inputID", property="type")),
-  function(x, y) {
-    sprintf("You've entered: '%s' into a '%s' input control", x, y)
-  }
-)
-
-app$run_server(showcase = TRUE)
+      output("out1", "children"),
+      output("out2", "children")
+    ),
+    input("text", "value"),
+    function(text) {
+      list(
+        toupper(text),
+        tolower(text)
+      )
+    }
+  ) %>%
+  run_app()
 ```
 
 Here the `showcase = TRUE` argument opens a browser window and automatically loads the Dash app for you.
@@ -80,71 +84,38 @@ Here the `showcase = TRUE` argument opens a browser window and automatically loa
 ## Hello world example using `dccGraph`
 
 ```r
-app <- Dash$new()
+library(dash)
 
-app$layout(
-  htmlDiv(
-    list(
-      dccInput(id = "graphTitle",
-               value = "Let's Dance!",
-               type = "text"),
-      htmlDiv(id = "outputID"),
-      dccGraph(id = "giraffe",
-               figure = list(
-                 data = list(x = c(1,2,3), y = c(3,2,8), type = "bar"),
-                 layout = list(title = "Let's Dance!")
-               )
-      )
+# Create a Dash app
+app <- dash_app()
+
+# Set the layout of the app
+app %>% set_layout(
+  h1('Hello Dash'),
+  div("Dash: A web application framework for your data."),
+  dccGraph(
+    figure = list(
+      data = list(
+        list(
+          x = list(1, 2, 3),
+          y = list(4, 1, 2),
+          type = 'bar',
+          name = 'SF'
+        ),
+        list(
+          x = list(1, 2, 3),
+          y = list(2, 4, 5),
+          type = 'bar',
+          name = 'Montr\U{00E9}al'
+        )
+      ),
+      layout = list(title = 'Dash Data Visualization')
     )
   )
 )
 
-app$callback(output = list(id = "giraffe", property = "figure"),
-             params = list(input("graphTitle", "value")),
-             function(newTitle) {
-
-                 rand1 <- sample(1:10, 1)
-
-                 rand2 <- sample(1:10, 1)
-                 rand3 <- sample(1:10, 1)
-                 rand4 <- sample(1:10, 1)
-
-                 x <- c(1,2,3)
-                 y <- c(3,6,rand1)
-                 y2 <- c(rand2,rand3,rand4)
-
-                 df = data.frame(x, y, y2)
-
-                 list(
-                   data =
-                     list(
-                       list(
-                         x = df$x,
-                         y = df$y,
-                         type = "bar"
-                       ),
-                       list(
-                         x = df$x,
-                         y = df$y2,
-                         type = "scatter",
-                         mode = "lines+markers",
-                         line = list(width = 4)
-                       )
-                     ),
-                   layout = list(title = newTitle)
-                 )
-               }
-)
-
-app$callback(output = list(id = "outputID", property = "children"),
-             params = list(input("graphTitle", "value"),
-                           state("graphTitle", "type")),
-             function(x, y) {
-                 sprintf("You've entered: '%s' into a '%s' input control", x, y)
-             }
-)
-
-app$run_server(showcase = TRUE)
+# Run the app
+app %>% run_app()
 ```
 
 ---
