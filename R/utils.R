@@ -341,7 +341,13 @@ insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_f
   output_id <- createCallbackId(output)
 
   if (output_id %in% names(map)) {
-    stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
+    stop(
+      sprintf(
+        "One or more of the following outputs are duplicated across callbacks: %s. Please ensure that all ID and property combinations are unique.",
+        output_id
+      ),
+      call. = FALSE
+    )
   }
 
   map[[output_id]] <- list(
