@@ -338,7 +338,7 @@ clean_dependencies <- function(deps) {
 }
 
 insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_function) {
-  output_id <- createCallbackId((output))
+  output_id <- createCallbackId(output)
 
   if (output_id %in% names(map)) {
     stop(sprintf("One or more outputs are duplicated across callbacks. Please ensure that all ID and property combinations are unique."), call. = FALSE)
