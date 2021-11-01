@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Unified the core Dash packages (dash, dashCoreComponents, dashHtmlComponents, dashTable) for streamlined maintenance and accessibility. The namespaces of these packages will be combined under the `dash` namespace, and all artifacts from the ancillary dash packages will be included with Dash for R. [#243](https://github.com/plotly/dashr/pull/243)
+- Removed source-mapping from the `master` branch on Github and CRAN release of Dash R. Source-mapping is still available in the `dev` branch for contributors. [#282](https://github.com/plotly/dashR/pull/282)
 
 ### Fixed
 - Minor fix for favicon issue continued from [#240](https://github.com/plotly/dashr/pull/240) (for more details, see [#243](https://github.com/plotly/dashR/pull/243#issuecomment-842813526)).
