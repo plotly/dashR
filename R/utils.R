@@ -338,12 +338,26 @@ clean_dependencies <- function(deps) {
 }
 
 insertIntoCallbackMap <- function(map, inputs, output, state, func, clientside_function) {
-  map[[createCallbackId(output)]] <- list(inputs=inputs,
-                                          output=output,
-                                          state=state,
-                                          func=func,
-                                          clientside_function=clientside_function
-                                          )
+  output_id <- createCallbackId(output)
+
+  if (output_id %in% names(map)) {
+    stop(
+      sprintf(
+        "One or more of the following outputs are duplicated across callbacks: %s. Please ensure that all ID and property combinations are unique.",
+        output_id
+      ),
+      call. = FALSE
+    )
+  }
+
+  map[[output_id]] <- list(
+    inputs = inputs,
+    output = output,
+    state = state,
+    func = func,
+    clientside_function = clientside_function
+  )
+
   if (length(map) >= 2) {
     ids <- lapply(names(map), function(x) getIdProps(x)$ids)
     props <- lapply(names(map), function(x) getIdProps(x)$props)
@@ -1139,7 +1153,7 @@ createCallbackId <- function(output) {
 }
 
 getIdProps <- function(output) {
-  output_ids <- strsplit(substr(output, 3, nchar(output)-2), '...', fixed=TRUE)
+  output_ids <- strsplit(gsub("^\\.{2}|\\.{2}$", "", output), '...', fixed=TRUE)
   idprops <- lapply(output_ids, strsplit, '.', fixed=TRUE)
   ids <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 1)
   props <- vapply(unlist(idprops, recursive=FALSE), '[', character(1), 2)

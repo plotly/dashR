@@ -8,7 +8,8 @@ test_that("Callback outputs can be provided with or without output function", {
         dccInput(id='input-1-state', type='text', value='Montreal'),
         dccInput(id='input-2-state', type='text', value='Canada'),
         html$button(id='submit-button', n_clicks=0, children='Submit'),
-        html$div(id='output-state')
+        html$div(id='output-state'),
+        html$div(id='output-state2')
       )
     )
   )
@@ -24,7 +25,7 @@ test_that("Callback outputs can be provided with or without output function", {
   )
 
   expect_silent(
-    app$callback(output(id = 'output-state', property = 'children'),
+    app$callback(output(id = 'output-state2', property = 'children'),
                  list(input(id = 'submit-button', property = 'n_clicks'),
                       state(id = 'input-1-state', property = 'value'),
                       state(id = 'input-2-state', property = 'value')),
