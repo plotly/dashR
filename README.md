@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dashR/tree/master)
+[![CircleCI](https://circleci.com/gh/plotly/dashR/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/plotly/dashR?branch=master)
 [![GitHub](https://img.shields.io/github/license/plotly/dashR.svg?color=dark-green)](https://github.com/plotly/dashR/blob/master/LICENSE)
 [![CRAN status](https://www.r-pkg.org/badges/version-ago/dash)](https://CRAN.R-project.org/package=dash)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/dash)](https://CRAN.R-project.org/package=dash)
