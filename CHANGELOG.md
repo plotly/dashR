@@ -2,6 +2,15 @@
 All notable changes to `dash` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.3] - 2021-11-17
+
+- Minor release to update and match the semantic versioning spec with the CRAN release of DashR. 
+
+## [0.9.2] - 2021-10-31
+
+### Changed
+- Removed source-mapping from the `master` branch on Github and CRAN release of Dash R. Source-mapping is still available in the `dev` branch for contributors. [#282](https://github.com/plotly/dashR/pull/282)
+
 ## [0.9.1] - 2021-10-13
 ### Added
 - Dash layout wrapper functions are included, which simplify the layout syntax for writing Dash apps. This includes the ability to pipe in the `app` object to layout and meta functions, as well as tags which simplify `html` component arguments and children. [#265](https://github.com/plotly/dashR/pull/265)
