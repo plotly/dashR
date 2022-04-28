@@ -21,3 +21,4 @@ tests/circleci
 gulp-assets
 node_modules
 scripts
+^LICENSE\.md$
