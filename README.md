@@ -6,6 +6,12 @@
 
 # Dash for R
 
+<div align="center">
+  <a href="https://dash.plotly.com/project-maintenance">
+    <img src="https://dash.plotly.com/assets/images/maintained-by-community.png" width="600px" alt="Maintained by the Plotly Community">
+  </a>
+</div>
+
 #### Create beautiful, analytic web applications in R.
 
 [Documentation](https://dash.plotly.com/r/) | [Gallery](https://dash.gallery/Portal/)
